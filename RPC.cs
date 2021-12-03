@@ -39,7 +39,6 @@ namespace TownOfHost {
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;
-            main.currentWinner = CustomWinner.Jester;
             PlayerControl Jester = null;
             PlayerControl Imp = null;
             List<PlayerControl> otherImpostors = new List<PlayerControl>();
@@ -58,6 +57,7 @@ namespace TownOfHost {
                 Imp.RpcSetPet(Jester.Data.Outfits[PlayerOutfitType.Default].PetId);
                 Imp.RpcSetName(Jester.Data.Outfits[PlayerOutfitType.Default].PlayerName + "\r\nJester wins");
             }
+            main.currentWinner = CustomWinner.Jester;
         }
     }
 }

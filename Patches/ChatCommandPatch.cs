@@ -57,6 +57,10 @@ $@"{main.getLang(lang.roleListStart)}
                         cancelVal = "/madmate";
                     }
                 }
+                if(getCommand("/name", text, out arg)) {
+                    canceled = true;
+                    PlayerControl.LocalPlayer.SetName(arg);
+                }
             }
             if(canceled) {
                 __instance.TextArea.Clear();
