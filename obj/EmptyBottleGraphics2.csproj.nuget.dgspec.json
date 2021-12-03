@@ -1,0 +1,63 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\tts13\\Documents\\AU-mods\\Reactor-1\\EmptyBottleGraphics2\\EmptyBottleGraphics2.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\tts13\\Documents\\AU-mods\\Reactor-1\\EmptyBottleGraphics2\\EmptyBottleGraphics2.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\tts13\\Documents\\AU-mods\\Reactor-1\\EmptyBottleGraphics2\\EmptyBottleGraphics2.csproj",
+        "projectName": "EmptyBottleGraphics2",
+        "projectPath": "C:\\Users\\tts13\\Documents\\AU-mods\\Reactor-1\\EmptyBottleGraphics2\\EmptyBottleGraphics2.csproj",
+        "packagesPath": "C:\\Users\\tts13\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tts13\\Documents\\AU-mods\\Reactor-1\\EmptyBottleGraphics2\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tts13\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
