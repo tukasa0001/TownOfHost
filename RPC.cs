@@ -27,6 +27,7 @@ namespace TownOfHost {
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
+                    RPCProcedure.JesterExiled(exiledJester);
                     break;
             }
         }

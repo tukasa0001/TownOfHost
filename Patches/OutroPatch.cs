@@ -31,8 +31,8 @@ namespace TownOfHost {
                 }
             }
             if(main.currentWinner == CustomWinner.Jester && main.JesterEnabled) {
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach(var p in PlayerControl.AllPlayerControls) {
-                    TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                     if(p.PlayerId == main.ExiledJesterID)
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
