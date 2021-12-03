@@ -13,6 +13,7 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch {
         public static void Postfix(HudManager __instance) {
+            var TaskTextPrefix = "";
             //壁抜け
             if(Input.GetKeyDown(KeyCode.LeftControl)) {
                 if(AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
@@ -26,11 +27,20 @@ namespace TownOfHost {
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }
-            //デバッグ用テキスト
-            if(Input.GetKeyDown(KeyCode.U) && Input.GetKey(KeyCode.LeftShift)) {
-                __instance.Dialogue.enabled = true;
-                
-                __instance.Dialogue.Show("何も設定されていません");
+            //Madmateのベントボタンの画像変更
+            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.MadmateEnabled) {
+                TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Madmate) + "</color>\r\n" +
+                "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
+                __instance.AbilityButton.graphic.sprite = __instance.ImpostorVentButton.graphic.sprite;
+            }
+            //Jesterのバイタルボタンのテキストを変更
+            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.JesterEnabled) {
+                TaskTextPrefix = "<color=#d161a4>" + main.getLang(lang.Jester) + "</color>\r\n" +
+                "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
+                __instance.AbilityButton.graphic.enabled = false;
+            }
+            if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
+                __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
         }
     }

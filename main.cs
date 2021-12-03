@@ -21,6 +21,7 @@ namespace TownOfHost
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
+        public static ConfigEntry<string> Japanese {get; private set;}
         public static ConfigEntry<string> Jester {get; private set;}
         public static ConfigEntry<string> Madmate {get; private set;}
         public static ConfigEntry<string> RoleEnabled {get; private set;}
@@ -76,6 +77,7 @@ namespace TownOfHost
         }
         public override void Load()
         {
+            Japanese = Config.Bind("Info", "Japanese", "日本語");
             Jester = Config.Bind("Lang", "JesterName", "Jester");
             Madmate = Config.Bind("Lang", "MadmateName", "Madmate");
             RoleEnabled = Config.Bind("Lang", "RoleEnabled", "%1$ is Enabled.");

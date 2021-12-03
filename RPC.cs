@@ -36,6 +36,7 @@ namespace TownOfHost {
         public static void SyncCustomSettings(bool jester, bool madmate) {
             main.JesterEnabled = jester;
             main.MadmateEnabled = madmate;
+            main.currentWinner = CustomWinner.Default;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;
