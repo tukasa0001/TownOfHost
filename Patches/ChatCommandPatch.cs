@@ -57,9 +57,11 @@ $@"{main.getLang(lang.roleListStart)}
                         cancelVal = "/madmate";
                     }
                 }
-                if(getCommand("/name", text, out arg)) {
+                if(getCommand("/endgame", text, out arg)) {
                     canceled = true;
-                    PlayerControl.LocalPlayer.RpcSetName(arg);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPCProcedure.EndGame();
                 }
             }
             if(canceled) {

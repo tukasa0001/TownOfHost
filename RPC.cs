@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 namespace TownOfHost {
     enum CustomRPC {
         SyncCustomSettings = 80,
-        JesterExiled
+        JesterExiled,
+        EndGame
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
@@ -30,6 +31,9 @@ namespace TownOfHost {
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
                     RPCProcedure.JesterExiled(exiledJester);
+                    break;
+                case (byte)CustomRPC.EndGame:
+                    RPCProcedure.EndGame();
                     break;
             }
         }
@@ -67,6 +71,13 @@ namespace TownOfHost {
                     Thread.Sleep(500);
                     main.JesterWinTrigger = true;
                 });
+            }
+        }
+        public static void EndGame() {
+            main.currentWinner = CustomWinner.Draw;
+            if(AmongUsClient.Instance.AmHost){
+                ShipStatus.Instance.enabled = false;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
     }
