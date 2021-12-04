@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.1";
+        public const string PluginVersion = "1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
