@@ -67,6 +67,7 @@ namespace TownOfHost
         public static bool JesterEnabled;
         public static bool MadmateEnabled;
         public static byte ExiledJesterID;
+        public static bool JesterWinTrigger;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -91,6 +92,7 @@ namespace TownOfHost
             MadmateInfo = Config.Bind("Lang", "MadmateInfo", "Help Impostors To Win");
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
+            JesterWinTrigger = false;
             JesterEnabled = false;
             MadmateEnabled = false;
             langTexts.Add(Jester.Value);

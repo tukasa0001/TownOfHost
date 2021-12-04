@@ -59,7 +59,7 @@ $@"{main.getLang(lang.roleListStart)}
                 }
                 if(getCommand("/name", text, out arg)) {
                     canceled = true;
-                    PlayerControl.LocalPlayer.SetName(arg);
+                    PlayerControl.LocalPlayer.RpcSetName(arg);
                 }
             }
             if(canceled) {

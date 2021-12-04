@@ -32,12 +32,13 @@ namespace TownOfHost {
                 TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
                 __instance.AbilityButton.graphic.sprite = __instance.ImpostorVentButton.graphic.sprite;
+                __instance.AbilityButton.graphic.color = __instance.ImpostorVentButton.graphic.color;
             }
             //Jesterのバイタルボタンのテキストを変更
             if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.JesterEnabled) {
                 TaskTextPrefix = "<color=#d161a4>" + main.getLang(lang.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
-                __instance.AbilityButton.graphic.enabled = false;
+                __instance.AbilityButton.ToggleVisible(false);
             }
             if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

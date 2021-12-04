@@ -9,6 +9,8 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 using Hazel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TownOfHost {
     enum CustomRPC {
@@ -37,9 +39,11 @@ namespace TownOfHost {
             main.JesterEnabled = jester;
             main.MadmateEnabled = madmate;
             main.currentWinner = CustomWinner.Default;
+            main.JesterWinTrigger = false;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;
+            main.currentWinner = CustomWinner.Jester;
             PlayerControl Jester = null;
             PlayerControl Imp = null;
             List<PlayerControl> otherImpostors = new List<PlayerControl>();
@@ -58,7 +62,12 @@ namespace TownOfHost {
                 Imp.RpcSetPet(Jester.Data.Outfits[PlayerOutfitType.Default].PetId);
                 Imp.RpcSetName(Jester.Data.Outfits[PlayerOutfitType.Default].PlayerName + "\r\nJester wins");
             }
-            main.currentWinner = CustomWinner.Jester;
+            if(AmongUsClient.Instance.AmHost){
+                Task task = Task.Run(() => {
+                    Thread.Sleep(500);
+                    main.JesterWinTrigger = true;
+                });
+            }
         }
     }
 }

@@ -108,7 +108,7 @@ namespace TownOfHost {
         }
 
         private static bool CheckAndEndGameForJester(ShipStatus __instance) {
-            if (main.currentWinner == CustomWinner.Jester) {
+            if (main.currentWinner == CustomWinner.Jester && main.JesterWinTrigger) {
                 __instance.enabled = false;
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
                 return true;

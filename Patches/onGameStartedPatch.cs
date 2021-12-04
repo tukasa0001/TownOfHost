@@ -15,6 +15,7 @@ namespace TownOfHost {
     class changeRoleSettings {
         public static void Postfix(AmongUsClient __instance) {
             main.currentWinner = CustomWinner.Default;
+            main.JesterWinTrigger = false;
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
