@@ -37,11 +37,9 @@ namespace TownOfHost {
                 GameData.Instance.RpcSetTasks(playerControl.PlayerId, new byte[0]);
             }
             if(Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost) {
-                PlayerControl.LocalPlayer.RpcSendChat("/killgame");
-                if(Input.GetKey(KeyCode.LeftControl)) {
-                    ShipStatus.Instance.enabled = false;
-                    ShipStatus.RpcEndGame(GameOverReason.HumansByVote, false);
-                }
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.EndGame();
             }
             if(Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
