@@ -116,6 +116,8 @@ namespace TownOfHost
             langTexts.Add(OFF.Value);
             langTexts.Add(JesterInfo.Value);
             langTexts.Add(MadmateInfo.Value);
+            langTexts.Add(Bait.Value);
+            langTexts.Add(BaitInfo.Value);
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             Harmony.PatchAll();
         }
