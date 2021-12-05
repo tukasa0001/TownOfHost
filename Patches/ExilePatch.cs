@@ -26,7 +26,7 @@ namespace TownOfHost {
             }
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled) {
-            if(main.JesterEnabled && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost) {
+            if(main.currentScientist == ScientistRole.Jester && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost) {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
                 writer.Write(exiled.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);

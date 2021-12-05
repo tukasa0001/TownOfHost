@@ -19,11 +19,11 @@ namespace TownOfHost {
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if(main.JesterEnabled) {
+                if(main.currentScientist == ScientistRole.Jester) {
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }
-                if(main.MadmateEnabled) {
+                if(main.currentEngineer == EngineerRole.Madmate) {
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }

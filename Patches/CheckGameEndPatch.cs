@@ -20,6 +20,7 @@ namespace TownOfHost {
             if (DestroyableSingleton<TutorialManager>.InstanceExists) // InstanceExists | Don't check Custom Criteria when in Tutorial
                 return true;
             var statistics = new PlayerStatistics(__instance);
+            if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTaskWin(__instance)) return false;
             if(main.IsHideAndSeek) {
                 if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
@@ -28,7 +29,6 @@ namespace TownOfHost {
                 if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                 if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
             }
-            if (CheckAndEndGameForJester(__instance)) return false;
             return false;
         }
 

@@ -24,9 +24,9 @@ namespace TownOfHost {
             byte packetID = callId;
             switch(packetID) {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    bool jester = reader.ReadBoolean();
-                    bool madmate = reader.ReadBoolean();
-                    RPCProcedure.SyncCustomSettings(jester,madmate);
+                    byte scientist = reader.ReadByte();
+                    byte engineer = reader.ReadByte();
+                    RPCProcedure.SyncCustomSettings(scientist,engineer);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -39,9 +39,9 @@ namespace TownOfHost {
         }
     }
     class RPCProcedure {
-        public static void SyncCustomSettings(bool jester, bool madmate) {
-            main.JesterEnabled = jester;
-            main.MadmateEnabled = madmate;
+        public static void SyncCustomSettings(byte scientist, byte engineer) {
+            main.currentScientist = (ScientistRole)scientist;
+            main.currentEngineer = (EngineerRole)engineer;
             main.currentWinner = CustomWinner.Default;
             main.JesterWinTrigger = false;
         }
@@ -50,15 +50,15 @@ namespace TownOfHost {
             main.currentWinner = CustomWinner.Jester;
             PlayerControl Jester = null;
             PlayerControl Imp = null;
-            List<PlayerControl> otherImpostors = new List<PlayerControl>();
+            List<PlayerControl> Impostors = new List<PlayerControl>();
             foreach(var p in PlayerControl.AllPlayerControls) {
                 if(p.PlayerId == jesterID) Jester = p;
                 if(p.Data.Role.IsImpostor) {
                     if(Imp == null) Imp = p;
-                    else otherImpostors.Add(p);
+                    Impostors.Add(p);
                 }
             }
-            if(AmongUsClient.Instance.AmHost){
+            if(AmongUsClient.Instance.AmHost && false){
                 Imp.RpcSetColor((byte)Jester.Data.Outfits[PlayerOutfitType.Default].ColorId);
                 Imp.RpcSetHat(Jester.Data.Outfits[PlayerOutfitType.Default].HatId);
                 Imp.RpcSetVisor(Jester.Data.Outfits[PlayerOutfitType.Default].VisorId);
@@ -69,6 +69,10 @@ namespace TownOfHost {
             if(AmongUsClient.Instance.AmHost){
                 Task task = Task.Run(() => {
                     Thread.Sleep(500);
+                    foreach(var imp in Impostors) {
+                        imp.RpcSetRole(RoleTypes.GuardianAngel);
+                    }
+                    //Thread.Sleep(500);
                     main.JesterWinTrigger = true;
                 });
             }

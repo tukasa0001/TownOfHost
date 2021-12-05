@@ -54,26 +54,26 @@ namespace TownOfHost
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isJester(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Scientist && JesterEnabled)
+            if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
             return false;
         }
         public static bool isMadmate(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Engineer && MadmateEnabled)
+            if(target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Madmate)
                 return true;
             return false;
         }
         //Enabled Role
-        public static bool JesterEnabled;
-        public static bool MadmateEnabled;
+        public static ScientistRole currentScientist;
+        public static EngineerRole currentEngineer;
         public static byte ExiledJesterID;
         public static bool JesterWinTrigger;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC() {
             if(!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            writer.Write(JesterEnabled);
-            writer.Write(MadmateEnabled);
+            writer.Write((byte)currentScientist);
+            writer.Write((byte)currentEngineer);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public override void Load()
@@ -93,8 +93,8 @@ namespace TownOfHost
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
             JesterWinTrigger = false;
-            JesterEnabled = false;
-            MadmateEnabled = false;
+            currentScientist = ScientistRole.Default;
+            currentEngineer = EngineerRole.Default;
             langTexts.Add(Jester.Value);
             langTexts.Add(Madmate.Value);
             langTexts.Add(RoleEnabled.Value);
@@ -129,5 +129,14 @@ namespace TownOfHost
         Draw = 0,
         Default,
         Jester
+    }
+    public enum ScientistRole {
+        Default = 0,
+        Jester = 1,
+        Bait = 2
+    }
+    public enum EngineerRole {
+        Default = 0,
+        Madmate = 1
     }
 }

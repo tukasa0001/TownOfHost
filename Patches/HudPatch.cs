@@ -28,12 +28,12 @@ namespace TownOfHost {
                 }
             }
             //Madmateのベントボタンの画像変更
-            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.MadmateEnabled) {
+            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) {
                 TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
             }
             //Jesterのバイタルボタンのテキストを変更
-            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.JesterEnabled) {
+            if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) {
                 TaskTextPrefix = "<color=#d161a4>" + main.getLang(lang.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
             }

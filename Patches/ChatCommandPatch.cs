@@ -22,19 +22,19 @@ namespace TownOfHost {
                 canceled = true;
                 __instance.AddChat(PlayerControl.LocalPlayer,
 $@"{main.getLang(lang.roleListStart)}
-{main.getLang(lang.Jester)}: {getOnOff(main.JesterEnabled)}
-{main.getLang(lang.Madmate)}: {getOnOff(main.MadmateEnabled)}"
+{main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRole.Jester)}
+{main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRole.Madmate)}"
                 );
             }
             if(AmongUsClient.Instance.AmHost) {
                 if(getCommand("/jester", text, out arg)) {
                     canceled = true;
                     if(arg == "on"){
-                        main.JesterEnabled = true;
+                        main.currentScientist = ScientistRole.Jester;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Jester));
                         main.SyncCustomSettingsRPC();
                     } else if(arg == "off") {
-                        main.JesterEnabled = false; 
+                        main.currentScientist = ScientistRole.Default;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Jester));
                         main.SyncCustomSettingsRPC();
                     } else {
@@ -45,11 +45,11 @@ $@"{main.getLang(lang.roleListStart)}
                 if(getCommand("/madmate", text, out arg)) {
                     canceled = true;
                     if(arg == "on"){
-                        main.MadmateEnabled = true;
+                        main.currentEngineer = EngineerRole.Madmate; 
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Madmate));
                         main.SyncCustomSettingsRPC();
                     } else if(arg == "off") {
-                        main.MadmateEnabled = false; 
+                        main.currentEngineer = EngineerRole.Default; 
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Madmate));
                         main.SyncCustomSettingsRPC();
                     } else {

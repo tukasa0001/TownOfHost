@@ -21,22 +21,22 @@ namespace TownOfHost {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.Data.Role.Role == RoleTypes.Crewmate) winner.Add(p); //Crewmate
                     if(p.Data.Role.Role == RoleTypes.GuardianAngel) winner.Add(p); //GuardianAngel
-                    if(p.Data.Role.Role == RoleTypes.Engineer && !main.MadmateEnabled) winner.Add(p); //非MadmateのEngineer
-                    if(p.Data.Role.Role == RoleTypes.Scientist && !main.JesterEnabled) winner.Add(p); //非JesterのScientist
+                    if(p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer != EngineerRole.Madmate) winner.Add(p); //非MadmateのEngineer
+                    if(p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist != ScientistRole.Jester) winner.Add(p); //非JesterのScientist
                 }
             }
             if(TempData.DidImpostorsWin(endGameResult.GameOverReason)) {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.Data.Role.Role == RoleTypes.Impostor) winner.Add(p); //Impostor
                     if(p.Data.Role.Role == RoleTypes.Shapeshifter) winner.Add(p); //ShapeShifter
-                    if(p.Data.Role.Role == RoleTypes.Engineer && main.MadmateEnabled) winner.Add(p); // MadmateのEngineer
+                    if(p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) winner.Add(p); // MadmateのEngineer
                 }
             }
             foreach(var p in winner) {
                 TempData.winners.Add(new WinningPlayerData(p.Data));
             }
             //単独勝利
-            if(main.currentWinner == CustomWinner.Jester && main.JesterEnabled) { //Jester単独勝利
+            if(main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRole.Jester) { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.PlayerId == main.ExiledJesterID)
