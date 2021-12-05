@@ -19,7 +19,7 @@ namespace TownOfHost {
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if(main.currentScientist == ScientistRole.Jester) {
+                if(main.currentScientist != ScientistRole.Jester) {
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }

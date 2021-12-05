@@ -49,6 +49,15 @@ namespace TownOfHost {
                 __instance.RoleText.text = "狂人";
                 __instance.RoleBlurbText.text = "インポスターを助けて勝利しよう";
             }
+            if(main.isBait(PlayerControl.LocalPlayer)) {
+                __instance.TeamTitle.text = main.getLang(lang.Bait);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.BaitInfo);
+                __instance.TeamTitle.color = Color.cyan;
+                __instance.BackgroundBar.material.color = Color.yellow;
+                __instance.RoleText.text = "狂人";
+                __instance.RoleBlurbText.text = "インポスターを助けて勝利しよう";
+            }
         }
     }
 }

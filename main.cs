@@ -33,6 +33,8 @@ namespace TownOfHost
         public static ConfigEntry<string> OFF {get; private set;}
         public static ConfigEntry<string> JesterInfo {get; private set;}
         public static ConfigEntry<string> MadmateInfo {get; private set;}
+        public static ConfigEntry<string> Bait {get; private set;}
+        public static ConfigEntry<string> BaitInfo {get; private set;}
         //Lang-arrangement
         private static List<string> langTexts = new List<string>();
         //Lang-Get
@@ -63,6 +65,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+
+        public static bool isBait(PlayerControl target) {
+            if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
+                return true;
+            return false;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
@@ -90,6 +98,8 @@ namespace TownOfHost
             OFF = Config.Bind("Lang", "OFF", "OFF");
             JesterInfo = Config.Bind("Lang", "JesterInfo", "Get Voted Out To Win");
             MadmateInfo = Config.Bind("Lang", "MadmateInfo", "Help Impostors To Win");
+            Bait = Config.Bind("Lang", "BaitName", "Bait");
+            BaitInfo = Config.Bind("Lang", "BaitInfo", "Bait Your Enemies");
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
             JesterWinTrigger = false;
@@ -122,7 +132,9 @@ namespace TownOfHost
         ON,
         OFF,
         JesterInfo,
-        MadmateInfo
+        MadmateInfo,
+        Bait,
+        BaitInfo
     }
     //WinData
     public enum CustomWinner {
