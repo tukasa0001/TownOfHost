@@ -40,7 +40,7 @@ namespace TownOfHost
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang) {
-            if(langTexts.Count < (int)lang) return "<404>";
+            if(langTexts.Count < (int)lang) return "<404:\"" + lang.ToString() + "\">";
             return langTexts[(int)lang];
         }
         //Other Configs
