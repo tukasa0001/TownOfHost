@@ -79,6 +79,20 @@ $@"{main.getLang(lang.roleListStart)}
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.EndGame();
                 }
+                if(getCommand("/dis", text, out arg)) {
+                    canceled = true;
+                    if(arg == "crewmate") {
+                        ShipStatus.Instance.enabled = false;
+                        ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                    } else
+                    if(arg == "impostor") {
+                        ShipStatus.Instance.enabled = false;
+                        ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                    } else {
+                        __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
+                        cancelVal = "/dis";
+                    }
+                }
             }
             if(canceled) {
                 __instance.TextArea.Clear();
