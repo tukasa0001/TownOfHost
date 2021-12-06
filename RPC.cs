@@ -68,11 +68,11 @@ namespace TownOfHost {
             }
             if(AmongUsClient.Instance.AmHost){
                 Task task = Task.Run(() => {
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                     foreach(var imp in Impostors) {
                         imp.RpcSetRole(RoleTypes.GuardianAngel);
                     }
-                    //Thread.Sleep(500);
+                    Thread.Sleep(100);
                     main.JesterWinTrigger = true;
                 });
             }

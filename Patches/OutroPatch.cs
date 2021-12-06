@@ -32,6 +32,12 @@ namespace TownOfHost {
                     if(p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) winner.Add(p); // MadmateのEngineer
                 }
             }
+            if(endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
+            endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect) {
+                foreach(var p in PlayerControl.AllPlayerControls) {
+                    winner.Add(p);
+                }
+            }
             foreach(var p in winner) {
                 TempData.winners.Add(new WinningPlayerData(p.Data));
             }
