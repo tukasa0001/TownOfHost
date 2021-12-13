@@ -21,6 +21,7 @@ namespace TownOfHost {
                 return true;
             var statistics = new PlayerStatistics(__instance);
             if (CheckAndEndGameForJester(__instance)) return false;
+            if (CheckAndEndGameForTerrorist(__instance)) return false;
             if(main.currentWinner == CustomWinner.Default) {
                 if (CheckAndEndGameForTaskWin(__instance)) return false;
                 if(main.IsHideAndSeek) {
@@ -110,7 +111,15 @@ namespace TownOfHost {
         }
 
         private static bool CheckAndEndGameForJester(ShipStatus __instance) {
-            if (main.currentWinner == CustomWinner.Jester && main.JesterWinTrigger) {
+            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger) {
+                __instance.enabled = false;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForTerrorist(ShipStatus __instance) {
+            if (main.currentWinner == CustomWinner.Terrorist && main.CustomWinTrigger) {
                 __instance.enabled = false;
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
                 return true;

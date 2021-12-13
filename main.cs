@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.0";
+        public const string PluginVersion = "1.2";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
@@ -35,6 +35,8 @@ namespace TownOfHost
         public static ConfigEntry<string> MadmateInfo {get; private set;}
         public static ConfigEntry<string> Bait {get; private set;}
         public static ConfigEntry<string> BaitInfo {get; private set;}
+        public static ConfigEntry<string> Terrorist {get; private set;}
+        public static ConfigEntry<string> TerroristInfo {get; private set;}
         //Lang-arrangement
         private static List<string> langTexts = new List<string>();
         //Lang-Get
@@ -72,11 +74,17 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isTerrorist(PlayerControl target) {
+            if(target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Terrorist)
+                return true;
+            return false;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
         public static byte ExiledJesterID;
-        public static bool JesterWinTrigger;
+        public static byte WonTerroristID;
+        public static bool CustomWinTrigger;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -84,6 +92,19 @@ namespace TownOfHost
             writer.Write((byte)currentScientist);
             writer.Write((byte)currentEngineer);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            var isAllConpleted = true;
+            foreach(var task in Terrorist.Tasks) {
+                if(!task.Complete) isAllConpleted = false;
+            }
+            if(isAllConpleted) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
+                writer.Write(Terrorist.PlayerId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPCProcedure.TerroristWin(Terrorist.PlayerId);
+            }
         }
         public override void Load()
         {
@@ -101,9 +122,11 @@ namespace TownOfHost
             MadmateInfo = Config.Bind("Lang", "MadmateInfo", "Help Impostors To Win");
             Bait = Config.Bind("Lang", "BaitName", "Bait");
             BaitInfo = Config.Bind("Lang", "BaitInfo", "Bait Your Enemies");
+            Terrorist = Config.Bind("Lang", "TerroristName", "Terrorist");
+            TerroristInfo = Config.Bind("Lang", "TerroristInfo", "Finish your tasks, then die");
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
-            JesterWinTrigger = false;
+            CustomWinTrigger = false;
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
             langTexts.Add(Jester.Value);
@@ -119,6 +142,8 @@ namespace TownOfHost
             langTexts.Add(MadmateInfo.Value);
             langTexts.Add(Bait.Value);
             langTexts.Add(BaitInfo.Value);
+            langTexts.Add(Terrorist.Value);
+            langTexts.Add(TerroristInfo.Value);
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             Harmony.PatchAll();
         }
@@ -137,21 +162,25 @@ namespace TownOfHost
         JesterInfo,
         MadmateInfo,
         Bait,
-        BaitInfo
+        BaitInfo,
+        Terrorist,
+        TerroristInfo
     }
     //WinData
     public enum CustomWinner {
         Draw = 0,
         Default,
-        Jester
+        Jester,
+        Terrorist
     }
     public enum ScientistRole {
         Default = 0,
-        Jester = 1,
-        Bait = 2
+        Jester,
+        Bait
     }
     public enum EngineerRole {
         Default = 0,
-        Madmate = 1
+        Madmate,
+        Terrorist
     }
 }

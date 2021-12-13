@@ -32,6 +32,9 @@ namespace TownOfHost {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.JesterExiled(exiled.PlayerId);
             }
+            if(main.currentEngineer == EngineerRole.Terrorist && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost) {
+                main.CheckTerroristWin(exiled);
+            }
         }
     }
 }

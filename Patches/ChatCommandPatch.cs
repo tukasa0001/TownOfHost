@@ -24,7 +24,8 @@ namespace TownOfHost {
 $@"{main.getLang(lang.roleListStart)}
 {main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRole.Jester)}
 {main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRole.Madmate)}
-{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRole.Bait)}"
+{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRole.Bait)}
+{main.getLang(lang.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRole.Terrorist)}"
                 );
             }
             if(AmongUsClient.Instance.AmHost) {
@@ -71,6 +72,21 @@ $@"{main.getLang(lang.roleListStart)}
                     } else {
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                         cancelVal = "/bait";
+                    }
+                }
+                if(getCommand("/terrorist", text, out arg)) {
+                    canceled = true;
+                    if(arg == "on"){
+                        main.currentEngineer = EngineerRole.Terrorist;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Terrorist));
+                        main.SyncCustomSettingsRPC();
+                    } else if(arg == "off") {
+                        main.currentEngineer = EngineerRole.Default;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Terrorist));
+                        main.SyncCustomSettingsRPC();
+                    } else {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
+                        cancelVal = "/terrorist";
                     }
                 }
                 if(getCommand("/endgame", text, out arg)) {

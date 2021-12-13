@@ -15,15 +15,15 @@ namespace TownOfHost {
     class changeRoleSettings {
         public static void Postfix(AmongUsClient __instance) {
             main.currentWinner = CustomWinner.Default;
-            main.JesterWinTrigger = false;
+            main.CustomWinTrigger = false;
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if(main.currentScientist != ScientistRole.Jester) {
+                if(main.currentScientist != ScientistRole.Default) {
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }
-                if(main.currentEngineer == EngineerRole.Madmate) {
+                if(main.currentEngineer != EngineerRole.Default) {
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }

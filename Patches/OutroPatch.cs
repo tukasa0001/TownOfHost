@@ -21,8 +21,9 @@ namespace TownOfHost {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.Data.Role.Role == RoleTypes.Crewmate) winner.Add(p); //Crewmate
                     if(p.Data.Role.Role == RoleTypes.GuardianAngel) winner.Add(p); //GuardianAngel
-                    if(p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer != EngineerRole.Madmate) winner.Add(p); //非MadmateのEngineer
-                    if(p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist != ScientistRole.Jester) winner.Add(p); //非JesterのScientist
+                    if(p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Default) winner.Add(p); //Engineer
+                    if(p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Default) winner.Add(p); //Scientist
+                    if(p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait) winner.Add(p); //bait
                 }
             }
             if(TempData.DidImpostorsWin(endGameResult.GameOverReason)) {
@@ -33,7 +34,8 @@ namespace TownOfHost {
                 }
             }
             if(endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
-            endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect) {
+            endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect ||
+            main.currentWinner == CustomWinner.Draw) {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     winner.Add(p);
                 }
@@ -49,6 +51,13 @@ namespace TownOfHost {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
+            if(main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRole.Terrorist) { //Jester単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach(var p in PlayerControl.AllPlayerControls) {
+                    if(p.PlayerId == main.WonTerroristID)
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
@@ -57,6 +66,10 @@ namespace TownOfHost {
             //特殊勝利
             if(main.currentWinner == CustomWinner.Jester) {
                 __instance.BackgroundBar.material.color = main.JesterColor();
+            }
+            if(main.currentWinner == CustomWinner.Terrorist) {
+                __instance.Foreground.material.color = Color.red;
+                __instance.BackgroundBar.material.color = Color.green;
             }
             //引き分け処理
             if(main.currentWinner == CustomWinner.Draw) {

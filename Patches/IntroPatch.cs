@@ -55,8 +55,17 @@ namespace TownOfHost {
                 __instance.ImpostorText.text = main.getLang(lang.BaitInfo);
                 __instance.TeamTitle.color = Color.cyan;
                 __instance.BackgroundBar.material.color = Color.yellow;
-                __instance.RoleText.text = "狂人";
-                __instance.RoleBlurbText.text = "インポスターを助けて勝利しよう";
+                __instance.RoleText.text = "ベイト";
+                __instance.RoleBlurbText.text = "おとりになってインポスターを暴け";
+            }
+            if(main.isTerrorist(PlayerControl.LocalPlayer)) {
+                __instance.TeamTitle.text = main.getLang(lang.Terrorist);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.TerroristInfo);
+                __instance.TeamTitle.color = Color.green;
+                __instance.BackgroundBar.material.color = Color.green;
+                __instance.RoleText.text = "テロリスト";
+                __instance.RoleBlurbText.text = "タスクを終えて、そして死んで勝利しよう";
             }
         }
     }

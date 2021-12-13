@@ -27,15 +27,25 @@ namespace TownOfHost {
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }
-            //Madmateのベントボタンの画像変更
+            //Madmate
             if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) {
                 TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
             }
-            //Jesterのバイタルボタンのテキストを変更
+            //Jester
             if(PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) {
                 TaskTextPrefix = "<color=#d161a4>" + main.getLang(lang.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
+            }
+            //Bait
+            if(main.isBait(PlayerControl.LocalPlayer)) {
+                TaskTextPrefix = "<color=#00bfff>" + main.getLang(lang.Bait) + "</color>\r\n" +
+                "<color=#00bfff>" + main.getLang(lang.BaitInfo) + "</color>\r\n";
+            }
+            //Terrorist
+            if(main.isTerrorist(PlayerControl.LocalPlayer)) {
+                TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Terrorist) + "</color>\r\n" +
+                "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
             if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

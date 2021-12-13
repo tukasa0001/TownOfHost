@@ -16,6 +16,7 @@ namespace TownOfHost {
     enum CustomRPC {
         SyncCustomSettings = 80,
         JesterExiled,
+        TerroristWin,
         EndGame
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
@@ -32,6 +33,10 @@ namespace TownOfHost {
                     byte exiledJester = reader.ReadByte();
                     RPCProcedure.JesterExiled(exiledJester);
                     break;
+                case (byte)CustomRPC.TerroristWin:
+                    byte wonTerrorist = reader.ReadByte();
+                    RPCProcedure.TerroristWin(wonTerrorist);
+                    break;
                 case (byte)CustomRPC.EndGame:
                     RPCProcedure.EndGame();
                     break;
@@ -43,7 +48,7 @@ namespace TownOfHost {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentWinner = CustomWinner.Default;
-            main.JesterWinTrigger = false;
+            main.CustomWinTrigger = false;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;
@@ -73,7 +78,29 @@ namespace TownOfHost {
                         imp.RpcSetRole(RoleTypes.GuardianAngel);
                     }
                     Thread.Sleep(100);
-                    main.JesterWinTrigger = true;
+                    main.CustomWinTrigger = true;
+                });
+            }
+        }
+        public static void TerroristWin(byte terroristID) {
+            main.WonTerroristID = terroristID;
+            main.currentWinner = CustomWinner.Terrorist;
+            PlayerControl Terrorist = null;
+            List<PlayerControl> Impostors = new List<PlayerControl>();
+            foreach(var p in PlayerControl.AllPlayerControls) {
+                if(p.PlayerId == terroristID) Terrorist = p;
+                if(p.Data.Role.IsImpostor) {
+                    Impostors.Add(p);
+                }
+            }
+            if(AmongUsClient.Instance.AmHost){
+                Task task = Task.Run(() => {
+                    Thread.Sleep(200);
+                    foreach(var imp in Impostors) {
+                        imp.RpcSetRole(RoleTypes.GuardianAngel);
+                    }
+                    Thread.Sleep(100);
+                    main.CustomWinTrigger = true;
                 });
             }
         }
