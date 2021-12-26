@@ -89,6 +89,19 @@ $@"{main.getLang(lang.roleListStart)}
                         cancelVal = "/terrorist";
                     }
                 }
+                if(getCommand("/hideandseek", text, out arg)) {
+                    canceled = true;
+                    if(arg == "on"){
+                        main.IsHideAndSeek = true;
+                        __instance.AddChat(PlayerControl.LocalPlayer,"HideAndSeekが有効化されました");
+                    } else if(arg == "off") {
+                        main.IsHideAndSeek = false;
+                        __instance.AddChat(PlayerControl.LocalPlayer,"HideAndSeekが無効化されました");
+                    } else {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
+                        cancelVal = "/hideandseek";
+                    }
+                }
                 if(getCommand("/endgame", text, out arg)) {
                     canceled = true;
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
