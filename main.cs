@@ -38,12 +38,28 @@ namespace TownOfHost
         public static ConfigEntry<string> Terrorist {get; private set;}
         public static ConfigEntry<string> TerroristInfo {get; private set;}
         //Lang-arrangement
-        private static List<string> langTexts = new List<string>();
+        private static Dictionary<lang, ConfigEntry<string>> langTexts = new Dictionary<lang, ConfigEntry<string>>(){
+            {lang.Jester, Jester},
+            {lang.Madmate, Madmate},
+            {lang.roleEnabled, RoleEnabled},
+            {lang.roleDisabled, RoleDisabled},
+            {lang.commandError, CommandError},
+            {lang.InvalidArgs, InvalidArgs},
+            {lang.roleListStart, roleListStart},
+            {lang.ON, ON},
+            {lang.OFF, OFF},
+            {lang.JesterInfo, JesterInfo},
+            {lang.MadmateInfo, MadmateInfo},
+            {lang.Bait, Bait},
+            {lang.BaitInfo, BaitInfo},
+            {lang.Terrorist, Terrorist},
+            {lang.TerroristInfo, TerroristInfo}
+        };
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang) {
-            if(langTexts.Count < (int)lang) return "<404:\"" + lang.ToString() + "\">";
-            return langTexts[(int)lang];
+            var isSuccess = langTexts.TryGetValue(lang, out var entry);
+            return isSuccess ? entry.Value : "<Not Found:" + lang.ToString() + ">";
         }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor {get; private set;}
@@ -129,21 +145,6 @@ namespace TownOfHost
             CustomWinTrigger = false;
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
-            langTexts.Add(Jester.Value);
-            langTexts.Add(Madmate.Value);
-            langTexts.Add(RoleEnabled.Value);
-            langTexts.Add(RoleDisabled.Value);
-            langTexts.Add(CommandError.Value);
-            langTexts.Add(InvalidArgs.Value);
-            langTexts.Add(roleListStart.Value);
-            langTexts.Add(ON.Value);
-            langTexts.Add(OFF.Value);
-            langTexts.Add(JesterInfo.Value);
-            langTexts.Add(MadmateInfo.Value);
-            langTexts.Add(Bait.Value);
-            langTexts.Add(BaitInfo.Value);
-            langTexts.Add(Terrorist.Value);
-            langTexts.Add(TerroristInfo.Value);
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             Harmony.PatchAll();
         }

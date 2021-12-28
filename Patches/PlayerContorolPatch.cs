@@ -14,8 +14,10 @@ using System.Threading;
 
 namespace TownOfHost {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
-    class PlayerControlPatch {
+    class MurderPlayerPatch {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]PlayerControl target) {
+            if(!target.Data.IsDead)
+                return;
             //When Bait is killed
             if(target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost) {
                 Thread.Sleep(150);
@@ -25,6 +27,13 @@ namespace TownOfHost {
             if(main.isTerrorist(target)) {
                 main.CheckTerroristWin(target.Data);
             }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
+    class CheckMurderPatch {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]PlayerControl target) {
+            __instance.RpcMurderPlayer(target);
+            return false;
         }
     }
 }
