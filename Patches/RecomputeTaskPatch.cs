@@ -22,6 +22,7 @@ namespace TownOfHost {
                 if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
                 if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
                 if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+                if(p.IsDead && main.IsHideAndSeek) hasTasks = false;
                 if(hasTasks) {
                     foreach(var task in p.Tasks) {
                         __instance.TotalTasks++;

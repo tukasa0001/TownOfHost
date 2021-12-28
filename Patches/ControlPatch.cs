@@ -42,7 +42,7 @@ namespace TownOfHost {
                 main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
                 CustomOptionController.currentPage = OptionPages.basepage;
                 CustomOptionController.currentCursor = 0;
-            } 
+            }
         }
     }
 }

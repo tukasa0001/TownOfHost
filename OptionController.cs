@@ -14,12 +14,14 @@ namespace TownOfHost {
         public static Dictionary<OptionPages, PageObject> PageObjects = new Dictionary<OptionPages, PageObject>(){
             {OptionPages.basepage, new PageObject(
                 "Town Of Host Options",
+                false,
                 () => {},
                 new List<OptionPages>(){OptionPages.roles, OptionPages.modes},
                 OptionPages.basepage
             )},
                 {OptionPages.roles, new PageObject(
                     "Role Options",
+                    false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
                         OptionPages.Madmate,
@@ -32,40 +34,53 @@ namespace TownOfHost {
                 )},
                     {OptionPages.Madmate, new PageObject(
                         "<color=#ff0000>Madmate</color>: $MadmateEnabled",
+                        true,
                         () => {main.ToggleRole(EngineerRole.Madmate);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Sidekick, new PageObject(
                         "<color=#ff0000>Sidekick</color>: $SidekickEnabled",
+                        true,
                         () => {main.ToggleRole(ShapeshifterRole.Sidekick);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Jester, new PageObject(
                         "<color=#d161a4>Jester</color>: $JesterEnabled",
+                        true,
                         () => {main.ToggleRole(ScientistRole.Jester);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Terrorist, new PageObject(
                         "<color=#00ff00>Terrorist</color>: $TerroristEnabled",
+                        true,
                         () => {main.ToggleRole(EngineerRole.Terrorist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Bait, new PageObject(
                         "<color=#00bfff>Bait</color>: $BaitEnabled",
+                        true,
                         () => {main.ToggleRole(ScientistRole.Bait);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                 {OptionPages.modes, new PageObject(
                     "Mode Options",
+                    false,
                     () => {SetPage(OptionPages.modes);},
-                    new List<OptionPages>(){},
+                    new List<OptionPages>(){OptionPages.HideAndSeek},
                     OptionPages.basepage
-                )}
+                )},
+                    {OptionPages.HideAndSeek, new PageObject(
+                        "HideAndSeek: $HideAndSeekEnabled",
+                        true,
+                        () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
         };
         public static OptionPages currentPage = OptionPages.basepage;
         public static int currentCursor = 0;
@@ -111,17 +126,20 @@ namespace TownOfHost {
             text = text.Replace("$BaitEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Bait));
             text = text.Replace("$TerroristEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Terrorist));
             text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.currentShapeshifter == ShapeshifterRole.Sidekick));
+            text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
 
             return text;
         }
     }
     class PageObject {
         public string name;
+        public bool isHostOnly;
         public Action onEnter;
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
-        public PageObject(string name, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
             this.name = name;
+            this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
@@ -135,6 +153,7 @@ namespace TownOfHost {
                 Bait,
                 Terrorist,
                 Sidekick,
-            modes
+            modes,
+                HideAndSeek,
     }
 }
