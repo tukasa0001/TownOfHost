@@ -27,7 +27,8 @@ namespace TownOfHost {
                 case (byte)CustomRPC.SyncCustomSettings:
                     byte scientist = reader.ReadByte();
                     byte engineer = reader.ReadByte();
-                    RPCProcedure.SyncCustomSettings(scientist,engineer);
+                    byte shapeshifter = reader.ReadByte();
+                    RPCProcedure.SyncCustomSettings(scientist,engineer,shapeshifter);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -44,9 +45,10 @@ namespace TownOfHost {
         }
     }
     class RPCProcedure {
-        public static void SyncCustomSettings(byte scientist, byte engineer) {
+        public static void SyncCustomSettings(byte scientist, byte engineer, byte shapeshifter) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
+            main.currentShapeshifter = (ShapeshifterRole)shapeshifter;
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
         }

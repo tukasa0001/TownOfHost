@@ -89,6 +89,21 @@ $@"{main.getLang(lang.roleListStart)}
                         cancelVal = "/terrorist";
                     }
                 }
+                if(getCommand("/sidekick", text, out arg)) {
+                    canceled = true;
+                    if(arg == "on"){
+                        main.currentShapeshifter = ShapeshifterRole.Sidekick;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Sidekick));
+                        main.SyncCustomSettingsRPC();
+                    } else if(arg == "off") {
+                        main.currentShapeshifter = ShapeshifterRole.Default;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Sidekick));
+                        main.SyncCustomSettingsRPC();
+                    } else {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
+                        cancelVal = "/sidekick";
+                    }
+                }
                 if(getCommand("/hideandseek", text, out arg)) {
                     canceled = true;
                     if(arg == "on"){

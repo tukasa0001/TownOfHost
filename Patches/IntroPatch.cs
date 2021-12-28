@@ -65,8 +65,27 @@ namespace TownOfHost {
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
                 __instance.RoleText.text = "テロリスト";
-                __instance.RoleBlurbText.text = "タスクを終えて、そして死んで勝利しよう";
+                __instance.RoleBlurbText.text = "タスクを終えて、そして死んで勝利しろ";
             }
+            if(main.isSidekick(PlayerControl.LocalPlayer)) {
+                __instance.TeamTitle.text = main.getLang(lang.Sidekick);
+                __instance.TeamTitle.fontSize -= 0.5f;
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.Sidekick);
+                __instance.TeamTitle.color = Palette.ImpostorRed;
+                __instance.BackgroundBar.material.color = Color.gray;
+                __instance.RoleText.text = "相棒";
+                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ";
+            }
+        }
+    }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
+    class BeginImpostorPatch {
+        public static void Prefix(IntroCutscene __instance, ref  Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam) {
+            BeginCrewmatePatch.Prefix(__instance, ref yourTeam);
+        }
+        public static void Postfix(IntroCutscene __instance, ref  Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam) {
+            BeginCrewmatePatch.Postfix(__instance, ref yourTeam);
         }
     }
 }

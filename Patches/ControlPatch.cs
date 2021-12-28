@@ -27,6 +27,22 @@ namespace TownOfHost {
             if(Input.GetKeyDown(KeyCode.Y)) {
                 main.SyncCustomSettingsRPC();
             }
+
+            if(main.OptionControllerIsEnable) {
+                if(Input.GetKeyDown(KeyCode.UpArrow)) CustomOptionController.Up();
+                if(Input.GetKeyDown(KeyCode.DownArrow)) CustomOptionController.Down();
+                if(Input.GetKeyDown(KeyCode.RightArrow)) {
+                    CustomOptionController.Enter();
+                }
+                if(Input.GetKeyDown(KeyCode.LeftArrow)) {
+                    CustomOptionController.Return();
+                }
+            }
+            if(Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined) {
+                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
+                CustomOptionController.currentPage = OptionPages.basepage;
+                CustomOptionController.currentCursor = 0;
+            } 
         }
     }
 }

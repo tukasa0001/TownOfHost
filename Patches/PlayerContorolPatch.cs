@@ -32,6 +32,15 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]PlayerControl target) {
+            if(!AmongUsClient.Instance.AmHost) return false;
+            if(main.isSidekick(__instance)) {
+                var ImpostorCount = 0;
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.Data.Role.Role == RoleTypes.Impostor) ImpostorCount++;
+                }
+                if(ImpostorCount > 0) return false;
+            }
+
             __instance.RpcMurderPlayer(target);
             return false;
         }

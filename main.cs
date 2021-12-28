@@ -37,34 +37,21 @@ namespace TownOfHost
         public static ConfigEntry<string> BaitInfo {get; private set;}
         public static ConfigEntry<string> Terrorist {get; private set;}
         public static ConfigEntry<string> TerroristInfo {get; private set;}
+        public static ConfigEntry<string> Sidekick {get; private set;}
+        public static ConfigEntry<string> SidekickInfo {get; private set;}
         //Lang-arrangement
-        private static Dictionary<lang, ConfigEntry<string>> langTexts = new Dictionary<lang, ConfigEntry<string>>(){
-            {lang.Jester, Jester},
-            {lang.Madmate, Madmate},
-            {lang.roleEnabled, RoleEnabled},
-            {lang.roleDisabled, RoleDisabled},
-            {lang.commandError, CommandError},
-            {lang.InvalidArgs, InvalidArgs},
-            {lang.roleListStart, roleListStart},
-            {lang.ON, ON},
-            {lang.OFF, OFF},
-            {lang.JesterInfo, JesterInfo},
-            {lang.MadmateInfo, MadmateInfo},
-            {lang.Bait, Bait},
-            {lang.BaitInfo, BaitInfo},
-            {lang.Terrorist, Terrorist},
-            {lang.TerroristInfo, TerroristInfo}
-        };
+        private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang) {
-            var isSuccess = langTexts.TryGetValue(lang, out var entry);
-            return isSuccess ? entry.Value : "<Not Found:" + lang.ToString() + ">";
+            var isSuccess = langTexts.TryGetValue(lang, out var text    );
+            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
+        public static bool OptionControllerIsEnable;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor() {
             if(TeruteruColor.Value)
@@ -95,9 +82,24 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isSidekick(PlayerControl target) {
+            if(target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRole.Sidekick)
+                return true;
+            return false;
+        }
+        public static void ToggleRole(ScientistRole role) {
+            currentScientist = role == currentScientist ? ScientistRole.Default : role;
+        }
+        public static void ToggleRole(EngineerRole role) {
+            currentEngineer = role == currentEngineer ? EngineerRole.Default : role;
+        }
+        public static void ToggleRole(ShapeshifterRole role) {
+            currentShapeshifter = role == currentShapeshifter ? ShapeshifterRole.Default : role;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
+        public static ShapeshifterRole currentShapeshifter;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -107,6 +109,7 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             writer.Write((byte)currentScientist);
             writer.Write((byte)currentEngineer);
+            writer.Write((byte)currentShapeshifter);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
@@ -140,12 +143,40 @@ namespace TownOfHost
             BaitInfo = Config.Bind("Lang", "BaitInfo", "Bait Your Enemies");
             Terrorist = Config.Bind("Lang", "TerroristName", "Terrorist");
             TerroristInfo = Config.Bind("Lang", "TerroristInfo", "Finish your tasks, then die");
+            Sidekick = Config.Bind("Lang", "SidekickName", "Sidekick");
+            SidekickInfo = Config.Bind("Lang", "SidekickInfo", "Help Impostors to win");
+
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
             CustomWinTrigger = false;
+            OptionControllerIsEnable = false;
+
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
+            currentShapeshifter = ShapeshifterRole.Default;
+
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
+
+            langTexts = new Dictionary<lang, string>(){
+                {lang.Jester, Jester.Value},
+                {lang.Madmate, Madmate.Value},
+                {lang.roleEnabled, RoleEnabled.Value},
+                {lang.roleDisabled, RoleDisabled.Value},
+                {lang.commandError, CommandError.Value},
+                {lang.InvalidArgs, InvalidArgs.Value},
+                {lang.roleListStart, roleListStart.Value},
+                {lang.ON, ON.Value},
+                {lang.OFF, OFF.Value},
+                {lang.JesterInfo, JesterInfo.Value},
+                {lang.MadmateInfo, MadmateInfo.Value},
+                {lang.Bait, Bait.Value},
+                {lang.BaitInfo, BaitInfo.Value},
+                {lang.Terrorist, Terrorist.Value},
+                {lang.TerroristInfo, TerroristInfo.Value},
+                {lang.Sidekick, Sidekick.Value},
+                {lang.SidekickInfo, SidekickInfo.Value}
+            };
+
             Harmony.PatchAll();
         }
     }
@@ -165,7 +196,9 @@ namespace TownOfHost
         Bait,
         BaitInfo,
         Terrorist,
-        TerroristInfo
+        TerroristInfo,
+        Sidekick,
+        SidekickInfo
     }
     //WinData
     public enum CustomWinner {
@@ -183,5 +216,9 @@ namespace TownOfHost
         Default = 0,
         Madmate,
         Terrorist
+    }
+    public enum ShapeshifterRole {
+        Default = 0,
+        Sidekick
     }
 }

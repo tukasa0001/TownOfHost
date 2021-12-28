@@ -50,6 +50,9 @@ namespace TownOfHost {
             if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
+            if(main.OptionControllerIsEnable) {
+                __instance.GameSettings.text = CustomOptionController.GetOptionText();
+            }
         }
     }
 }

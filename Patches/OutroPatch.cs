@@ -36,6 +36,7 @@ namespace TownOfHost {
             if(endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
             endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect ||
             main.currentWinner == CustomWinner.Draw) {
+                winner = new List<PlayerControl>();
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     winner.Add(p);
                 }
@@ -43,6 +44,7 @@ namespace TownOfHost {
             foreach(var p in winner) {
                 TempData.winners.Add(new WinningPlayerData(p.Data));
             }
+            
             //単独勝利
             if(main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRole.Jester) { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
