@@ -92,11 +92,11 @@ $@"{main.getLang(lang.roleListStart)}
                 if(getCommand("/sidekick", text, out arg)) {
                     canceled = true;
                     if(arg == "on"){
-                        main.SidekickEnabled = true;
+                        main.currentShapeshifter = ShapeshifterRoles.Sidekick;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Sidekick));
                         main.SyncCustomSettingsRPC();
                     } else if(arg == "off") {
-                        main.SidekickEnabled = false;
+                        main.currentShapeshifter = ShapeshifterRoles.Sidekick;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Sidekick));
                         main.SyncCustomSettingsRPC();
                     } else {

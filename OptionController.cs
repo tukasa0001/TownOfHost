@@ -42,7 +42,7 @@ namespace TownOfHost {
                     {OptionPages.Sidekick, new PageObject(
                         "<color=#ff0000>Sidekick</color>: $SidekickEnabled",
                         true,
-                        () => {main.SidekickEnabled = !main.SidekickEnabled;},
+                        () => {main.ToggleRole(ShapeshifterRoles.Sidekick);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -134,7 +134,7 @@ namespace TownOfHost {
             text = text.Replace("$MadmateEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Madmate));
             text = text.Replace("$BaitEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Bait));
             text = text.Replace("$TerroristEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Terrorist));
-            text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.SidekickEnabled));
+            text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick));
             text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
             text = text.Replace("$NoGameEndEnabled", ChatCommands.getOnOff(main.NoGameEnd));
 

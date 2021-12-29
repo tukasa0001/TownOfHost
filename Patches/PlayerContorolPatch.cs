@@ -41,6 +41,24 @@ namespace TownOfHost {
                 }
                 if(ImpostorCount > 0) return false;
             }
+            if(false) { //キルキャンセル&自爆処理
+                //キルクール二倍
+                var cooldown = PlayerControl.GameOptions.KillCooldown;
+                PlayerControl.GameOptions.KillCooldown = cooldown * 2;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+
+                //キルクールリセット
+                __instance.RpcProtectPlayer(__instance, 0);
+                __instance.RpcMurderPlayer(__instance);
+
+                //キルクール元に戻す
+                PlayerControl.GameOptions.KillCooldown = cooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+
+                //キル
+                target.RpcMurderPlayer(target);
+                return false;
+            }
 
             __instance.RpcMurderPlayer(target);
             return false;

@@ -84,7 +84,7 @@ namespace TownOfHost
             return false;
         }
         public static bool isSidekick(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Shapeshifter && SidekickEnabled)
+            if(target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
                 return true;
             return false;
         }
@@ -102,7 +102,6 @@ namespace TownOfHost
         public static EngineerRole currentEngineer;
         public static ImpostorRoles currentImpostor;
         public static ShapeshifterRoles currentShapeshifter;
-        public static bool SidekickEnabled;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -228,6 +227,7 @@ namespace TownOfHost
         Default = 0
     }
     public enum ShapeshifterRoles {
-        Default = 0
+        Default = 0,
+        Sidekick
     }
 }
