@@ -36,13 +36,21 @@ namespace TownOfHost {
             if(main.isSidekick(__instance)) {
                 var ImpostorCount = 0;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.Data.Role.Role == RoleTypes.Impostor) ImpostorCount++;
+                    if(pc.Data.Role.Role == RoleTypes.Impostor &&
+                       !pc.Data.IsDead) ImpostorCount++;
                 }
                 if(ImpostorCount > 0) return false;
             }
 
             __instance.RpcMurderPlayer(target);
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
+    class ReportDeadBodyPatch {
+        public static bool Prefix(PlayerControl __instance) {
+            if(main.IsHideAndSeek) return false;
+            return true;
         }
     }
 }

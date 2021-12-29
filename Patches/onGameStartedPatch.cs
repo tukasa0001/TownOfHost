@@ -16,6 +16,7 @@ namespace TownOfHost {
         public static void Postfix(AmongUsClient __instance) {
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.OptionControllerIsEnable = false;
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;

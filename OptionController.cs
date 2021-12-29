@@ -42,7 +42,7 @@ namespace TownOfHost {
                     {OptionPages.Sidekick, new PageObject(
                         "<color=#ff0000>Sidekick</color>: $SidekickEnabled",
                         true,
-                        () => {main.ToggleRole(ShapeshifterRole.Sidekick);},
+                        () => {main.SidekickEnabled = !main.SidekickEnabled;},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -71,7 +71,7 @@ namespace TownOfHost {
                     "Mode Options",
                     false,
                     () => {SetPage(OptionPages.modes);},
-                    new List<OptionPages>(){OptionPages.HideAndSeek},
+                    new List<OptionPages>(){OptionPages.HideAndSeek, OptionPages.NoGameEnd},
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
@@ -81,6 +81,13 @@ namespace TownOfHost {
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
+                    {OptionPages.NoGameEnd, new PageObject(
+                        "NoGameEnd: $NoGameEndEnabled",
+                        true,
+                        () => {main.NoGameEnd = !main.NoGameEnd;},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )}
         };
         public static OptionPages currentPage = OptionPages.basepage;
         public static int currentCursor = 0;
@@ -101,6 +108,8 @@ namespace TownOfHost {
         public static void Enter() {
             var currentPageObj = PageObjects[currentPage];
             var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
+
+            if(selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onEnter();
             main.SyncCustomSettingsRPC();
         }
@@ -125,8 +134,9 @@ namespace TownOfHost {
             text = text.Replace("$MadmateEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Madmate));
             text = text.Replace("$BaitEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Bait));
             text = text.Replace("$TerroristEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Terrorist));
-            text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.currentShapeshifter == ShapeshifterRole.Sidekick));
+            text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.SidekickEnabled));
             text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
+            text = text.Replace("$NoGameEndEnabled", ChatCommands.getOnOff(main.NoGameEnd));
 
             return text;
         }
@@ -155,5 +165,6 @@ namespace TownOfHost {
                 Sidekick,
             modes,
                 HideAndSeek,
+                NoGameEnd
     }
 }

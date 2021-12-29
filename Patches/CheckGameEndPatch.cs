@@ -20,6 +20,8 @@ namespace TownOfHost {
             if (DestroyableSingleton<TutorialManager>.InstanceExists) // InstanceExists | Don't check Custom Criteria when in Tutorial
                 return true;
             var statistics = new PlayerStatistics(__instance);
+            if(main.NoGameEnd) return false;
+            
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
             if(main.currentWinner == CustomWinner.Default) {

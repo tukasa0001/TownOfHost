@@ -24,8 +24,12 @@ namespace TownOfHost {
             if(Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
             }
-            if(Input.GetKeyDown(KeyCode.Y)) {
+            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost) {
                 main.SyncCustomSettingsRPC();
+            }
+            if(Input.GetKeyDown(KeyCode.H) && AmongUsClient.Instance.AmHost) {
+                PlayerControl.GameOptions.RoleOptions.ShapeshifterDuration = 0.1f;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
 
             if(main.OptionControllerIsEnable) {

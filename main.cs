@@ -51,6 +51,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> TeruteruColor {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
+        public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor() {
@@ -83,7 +84,7 @@ namespace TownOfHost
             return false;
         }
         public static bool isSidekick(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRole.Sidekick)
+            if(target.Data.Role.Role == RoleTypes.Shapeshifter && SidekickEnabled)
                 return true;
             return false;
         }
@@ -93,13 +94,15 @@ namespace TownOfHost
         public static void ToggleRole(EngineerRole role) {
             currentEngineer = role == currentEngineer ? EngineerRole.Default : role;
         }
-        public static void ToggleRole(ShapeshifterRole role) {
-            currentShapeshifter = role == currentShapeshifter ? ShapeshifterRole.Default : role;
+        public static void ToggleRole(ShapeshifterRoles role) {
+            currentShapeshifter = role == currentShapeshifter ? ShapeshifterRoles.Default : role;
         }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
-        public static ShapeshifterRole currentShapeshifter;
+        public static ImpostorRoles currentImpostor;
+        public static ShapeshifterRoles currentShapeshifter;
+        public static bool SidekickEnabled;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -110,6 +113,8 @@ namespace TownOfHost
             writer.Write((byte)currentScientist);
             writer.Write((byte)currentEngineer);
             writer.Write((byte)currentShapeshifter);
+            writer.Write(IsHideAndSeek);
+            writer.Write(NoGameEnd);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
@@ -148,12 +153,14 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
+            NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
 
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
-            currentShapeshifter = ShapeshifterRole.Default;
+            currentImpostor = ImpostorRoles.Default;
+            currentShapeshifter = ShapeshifterRoles.Default;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
 
@@ -217,8 +224,10 @@ namespace TownOfHost
         Madmate,
         Terrorist
     }
-    public enum ShapeshifterRole {
-        Default = 0,
-        Sidekick
+    public enum ImpostorRoles {
+        Default = 0
+    }
+    public enum ShapeshifterRoles {
+        Default = 0
     }
 }

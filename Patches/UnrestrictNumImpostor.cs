@@ -16,45 +16,43 @@ using Il2CppSystem;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TownOfHost {//https://github.com/NuclearPowered/Reactor/blob/master/Reactor.Debugger/Patches.cs
+namespace TownOfHost {//参考：https://github.com/NuclearPowered/Reactor/blob/master/Reactor.Debugger/Patches.cs
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
-    public static class UpdatePatch
-    {
-        public static void Prefix(GameStartManager __instance)
-        {
+    public static class GameStartManagerUpdatePatch {
+        public static void Prefix(GameStartManager __instance) {
             __instance.MinPlayers = 1;
         }
     }
 
-    [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
-    public static class AmBannedPatch
-    {
-        public static void Postfix(out bool __result)
-        {
-            __result = false;
-        }
-    }
-
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
-    public static class GameSettingMenuPatch
-    {
-        public static void Prefix(GameSettingMenu __instance)
-        {
+    public static class GameSettingMenuPatch {
+        public static void Prefix(GameSettingMenu __instance) {
             // Unlocks map/impostor amount changing in online (for testing on your custom servers)
+            // オンラインモードで部屋を立て直さなくてもマップを変更できるように変更
             __instance.HideForOnline = new Il2CppReferenceArray<Transform>(0);
         }
     }
 
     [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
     [HarmonyPriority(Priority.First)]
-    public static class GameOptionsMenuPatch
-    {
-        public static void Postfix(GameOptionsMenu __instance)
-        {
-            __instance.Children
-                .Single(o => o.Title == StringNames.GameNumImpostors)
-                .Cast<NumberOption>()
-                .ValidRange = new FloatRange(0, byte.MaxValue);
+    public static class GameOptionsMenuPatch {
+        public static void Postfix(GameOptionsMenu __instance) {
+            foreach(var ob in __instance.Children) {
+                if(ob.Title == StringNames.GameNumImpostors) {
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 15);
+                }
+                if(ob.Title == StringNames.GamePlayerSpeed) {
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(-50, 50);
+                }
+                if(ob.Title == StringNames.GameShortTasks ||
+                ob.Title == StringNames.GameLongTasks ||
+                ob.Title == StringNames.GameCommonTasks) {
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
+                }
+                if(ob.Title == StringNames.GameKillCooldown) {
+                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
