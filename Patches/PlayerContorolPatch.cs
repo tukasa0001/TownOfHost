@@ -19,7 +19,8 @@ namespace TownOfHost {
             if(!target.Data.IsDead)
                 return;
             //When Bait is killed
-            if(target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost) {
+            if(target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost
+            && __instance.PlayerId != target.PlayerId) {
                 Thread.Sleep(150);
                 __instance.CmdReportDeadBody(target.Data);
             } else
@@ -81,6 +82,11 @@ namespace TownOfHost {
                     if(main.BitPlayers[__instance.PlayerId].Item2 >= 10) {
                         __instance.RpcMurderPlayer(__instance);
                         main.PlaySoundRPC(main.BitPlayers[__instance.PlayerId].Item1,Sounds.KillSound);
+                        if(main.isBait(__instance)) {
+                            foreach(var vampire in PlayerControl.AllPlayerControls) {
+                                vampire.CmdReportDeadBody(__instance.Data);
+                            }
+                        }
                         main.BitPlayers.Remove(__instance.PlayerId);
                     } else {
                         main.BitPlayers[__instance.PlayerId] = 

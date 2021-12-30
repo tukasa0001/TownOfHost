@@ -41,9 +41,6 @@ namespace TownOfHost {//参考：https://github.com/NuclearPowered/Reactor/blob/
                 if(ob.Title == StringNames.GameNumImpostors) {
                     ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 15);
                 }
-                if(ob.Title == StringNames.GamePlayerSpeed) {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(-50, 50);
-                }
                 if(ob.Title == StringNames.GameShortTasks ||
                 ob.Title == StringNames.GameLongTasks ||
                 ob.Title == StringNames.GameCommonTasks) {
