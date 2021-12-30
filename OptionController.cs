@@ -48,7 +48,7 @@ namespace TownOfHost {
                         OptionPages.roles
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        "<color=#ff0000>Vampire</color>: $VampireEnabled",
+                        "<color=#a757a8>Vampire</color>: $VampireEnabled",
                         true,
                         () => {main.ToggleRole(ImpostorRoles.Vampire);},
                         new List<OptionPages>(){},

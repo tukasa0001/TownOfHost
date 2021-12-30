@@ -38,7 +38,7 @@ namespace TownOfHost {
                 __instance.TeamTitle.color = main.JesterColor();
                 __instance.BackgroundBar.material.color = main.JesterColor();
                 __instance.RoleText.text = "てるてる";
-                __instance.RoleBlurbText.text = "投票で追放されて勝利しよう";
+                __instance.RoleBlurbText.text = "投票で追放されて勝利しろ";
             }
             if(main.isMadmate(PlayerControl.LocalPlayer)) {
                 __instance.TeamTitle.text = main.getLang(lang.Madmate);
@@ -47,7 +47,7 @@ namespace TownOfHost {
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 __instance.RoleText.text = "狂人";
-                __instance.RoleBlurbText.text = "インポスターを助けて勝利しよう";
+                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ";
             }
             if(main.isBait(PlayerControl.LocalPlayer)) {
                 __instance.TeamTitle.text = main.getLang(lang.Bait);
@@ -71,11 +71,21 @@ namespace TownOfHost {
                 __instance.TeamTitle.text = main.getLang(lang.Sidekick);
                 __instance.TeamTitle.fontSize -= 0.5f;
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.Sidekick);
+                __instance.ImpostorText.text = main.getLang(lang.SidekickInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Color.gray;
+                __instance.BackgroundBar.material.color = Color.red;
                 __instance.RoleText.text = "相棒";
                 __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ";
+            }
+            if(main.isVampire(PlayerControl.LocalPlayer)) {
+                __instance.TeamTitle.text = main.getLang(lang.Vampire);
+                __instance.TeamTitle.fontSize -= 0.5f;
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.VampireInfo);
+                __instance.TeamTitle.color = Palette.ImpostorRed;
+                __instance.BackgroundBar.material.color = main.VampireColor;
+                __instance.RoleText.text = "吸血鬼";
+                __instance.RoleBlurbText.text = "クルーを全員噛み殺せ";
             }
         }
     }
