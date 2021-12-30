@@ -31,6 +31,11 @@ namespace TownOfHost {
                 PlayerControl.GameOptions.RoleOptions.ShapeshifterDuration = 0.1f;
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
+            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                foreach(var p in PlayerControl.AllPlayerControls) {
+                    p.SetRole(RoleTypes.Scientist);
+                }
+            }
 
             if(main.OptionControllerIsEnable) {
                 if(Input.GetKeyDown(KeyCode.UpArrow)) CustomOptionController.Up();

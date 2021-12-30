@@ -79,6 +79,10 @@ namespace TownOfHost {
                 __instance.WinText.text = "廃村";
                 __instance.WinText.color = Color.white;
             }
+            if(main.isFixedCooldown && AmongUsClient.Instance.AmHost) {
+                PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            }
         }
     }
 }

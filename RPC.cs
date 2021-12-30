@@ -17,7 +17,11 @@ namespace TownOfHost {
         SyncCustomSettings = 80,
         JesterExiled,
         TerroristWin,
-        EndGame
+        EndGame,
+        PlaySound
+    }
+    public enum Sounds {
+        KillSound
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
@@ -27,10 +31,11 @@ namespace TownOfHost {
                 case (byte)CustomRPC.SyncCustomSettings:
                     byte scientist = reader.ReadByte();
                     byte engineer = reader.ReadByte();
+                    byte impostor = reader.ReadByte();
                     byte shapeshifter = reader.ReadByte();
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
-                    RPCProcedure.SyncCustomSettings(scientist,engineer,shapeshifter,IsHideAndSeek,NoGameEnd);
+                    RPCProcedure.SyncCustomSettings(scientist,engineer,impostor,shapeshifter,IsHideAndSeek,NoGameEnd);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -43,13 +48,19 @@ namespace TownOfHost {
                 case (byte)CustomRPC.EndGame:
                     RPCProcedure.EndGame();
                     break;
+                case (byte)CustomRPC.PlaySound:
+                    byte playerID = reader.ReadByte();
+                    Sounds sound = (Sounds)reader.ReadByte();
+                    RPCProcedure.PlaySound(playerID, sound);
+                    break;
             }
         }
     }
     class RPCProcedure {
-        public static void SyncCustomSettings(byte scientist, byte engineer, byte shapeshifter, bool isHideAndSeek, bool NoGameEnd) {
+        public static void SyncCustomSettings(byte scientist, byte engineer,byte impostor , byte shapeshifter, bool isHideAndSeek, bool NoGameEnd) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
+            main.currentImpostor = (ImpostorRoles)impostor;
             main.currentShapeshifter = (ShapeshifterRoles)shapeshifter;
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
@@ -116,6 +127,15 @@ namespace TownOfHost {
             if(AmongUsClient.Instance.AmHost){
                 ShipStatus.Instance.enabled = false;
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            }
+        }
+        public static void PlaySound(byte playerID, Sounds sound) {
+            if(PlayerControl.LocalPlayer.PlayerId == playerID) {
+                switch(sound) {
+                    case Sounds.KillSound:
+                        SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                        break;
+                }
             }
         }
     }

@@ -17,6 +17,7 @@ namespace TownOfHost {
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
+            main.BitPlayers = new Dictionary<byte, (byte,float)>();
             if(__instance.AmHost) {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
@@ -27,6 +28,10 @@ namespace TownOfHost {
                 if(main.currentEngineer != EngineerRole.Default) {
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
+                }
+                if(main.isFixedCooldown) {
+                    main.BeforeFixCooldown = opt.KillCooldown;
+                    opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
             }

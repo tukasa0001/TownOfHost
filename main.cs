@@ -39,6 +39,8 @@ namespace TownOfHost
         public static ConfigEntry<string> TerroristInfo {get; private set;}
         public static ConfigEntry<string> Sidekick {get; private set;}
         public static ConfigEntry<string> SidekickInfo {get; private set;}
+        public static ConfigEntry<string> Vampire {get; private set;}
+        public static ConfigEntry<string> VampireInfo {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
@@ -62,6 +64,8 @@ namespace TownOfHost
         }
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
+        public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
+        public static float BeforeFixCooldown = -1f;
         public static bool isJester(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
@@ -88,6 +92,11 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isVampire(PlayerControl target) {
+            if(target.Data.Role.Role == RoleTypes.Impostor && currentImpostor == ImpostorRoles.Vampire)
+                return true;
+            return false;
+        }
         public static void ToggleRole(ScientistRole role) {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
@@ -97,11 +106,15 @@ namespace TownOfHost
         public static void ToggleRole(ShapeshifterRoles role) {
             currentShapeshifter = role == currentShapeshifter ? ShapeshifterRoles.Default : role;
         }
+        public static void ToggleRole(ImpostorRoles role) {
+            currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
         public static ImpostorRoles currentImpostor;
         public static ShapeshifterRoles currentShapeshifter;
+        public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -111,9 +124,18 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             writer.Write((byte)currentScientist);
             writer.Write((byte)currentEngineer);
+            writer.Write((byte)currentImpostor);
             writer.Write((byte)currentShapeshifter);
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
+            if(AmongUsClient.Instance.AmHost)
+                RPCProcedure.PlaySound(PlayerID,sound);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
+            writer.Write(PlayerID);
+            writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
@@ -148,13 +170,16 @@ namespace TownOfHost
             Terrorist = Config.Bind("Lang", "TerroristName", "Terrorist");
             TerroristInfo = Config.Bind("Lang", "TerroristInfo", "Finish your tasks, then die");
             Sidekick = Config.Bind("Lang", "SidekickName", "Sidekick");
-            SidekickInfo = Config.Bind("Lang", "SidekickInfo", "Help Impostors to win");
+            SidekickInfo = Config.Bind("Lang", "SidekickInfo", "You are Sidekick");
+            Vampire = Config.Bind("Lang", "VampireName", "Vampire");
+            VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill the crewmates with your bites");
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
+            BitPlayers = new Dictionary<byte, (byte, float)>();
 
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
@@ -180,7 +205,9 @@ namespace TownOfHost
                 {lang.Terrorist, Terrorist.Value},
                 {lang.TerroristInfo, TerroristInfo.Value},
                 {lang.Sidekick, Sidekick.Value},
-                {lang.SidekickInfo, SidekickInfo.Value}
+                {lang.SidekickInfo, SidekickInfo.Value},
+                {lang.Vampire, Vampire.Value},
+                {lang.VampireInfo, VampireInfo.Value}
             };
 
             Harmony.PatchAll();
@@ -204,7 +231,9 @@ namespace TownOfHost
         Terrorist,
         TerroristInfo,
         Sidekick,
-        SidekickInfo
+        SidekickInfo,
+        Vampire,
+        VampireInfo
     }
     //WinData
     public enum CustomWinner {
@@ -224,7 +253,8 @@ namespace TownOfHost
         Terrorist
     }
     public enum ImpostorRoles {
-        Default = 0
+        Default = 0,
+        Vampire
     }
     public enum ShapeshifterRoles {
         Default = 0,

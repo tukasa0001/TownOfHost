@@ -24,8 +24,9 @@ namespace TownOfHost {
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
-                        OptionPages.Madmate,
                         OptionPages.Sidekick,
+                        OptionPages.Vampire,
+                        OptionPages.Madmate,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
                         OptionPages.Bait
@@ -43,6 +44,13 @@ namespace TownOfHost {
                         "<color=#ff0000>Sidekick</color>: $SidekickEnabled",
                         true,
                         () => {main.ToggleRole(ShapeshifterRoles.Sidekick);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
+                    {OptionPages.Vampire, new PageObject(
+                        "<color=#ff0000>Vampire</color>: $VampireEnabled",
+                        true,
+                        () => {main.ToggleRole(ImpostorRoles.Vampire);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -135,6 +143,7 @@ namespace TownOfHost {
             text = text.Replace("$BaitEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Bait));
             text = text.Replace("$TerroristEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Terrorist));
             text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick));
+            text = text.Replace("$VampireEnabled", ChatCommands.getOnOff(main.currentImpostor == ImpostorRoles.Vampire));
             text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
             text = text.Replace("$NoGameEndEnabled", ChatCommands.getOnOff(main.NoGameEnd));
 
@@ -163,6 +172,7 @@ namespace TownOfHost {
                 Bait,
                 Terrorist,
                 Sidekick,
+                Vampire,
             modes,
                 HideAndSeek,
                 NoGameEnd
