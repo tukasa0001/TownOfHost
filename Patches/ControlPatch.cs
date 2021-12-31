@@ -33,7 +33,12 @@ namespace TownOfHost {
             }
             if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 foreach(var p in PlayerControl.AllPlayerControls) {
-                    p.SetRole(RoleTypes.Scientist);
+                    p.RpcSetRole(RoleTypes.Scientist);
+                }
+            }
+            if(Input.GetKeyDown(KeyCode.M)) {
+                if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                    MeetingHud.Instance.RpcClose();
                 }
             }
 

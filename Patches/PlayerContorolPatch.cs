@@ -42,9 +42,9 @@ namespace TownOfHost {
                 }
                 if(ImpostorCount > 0) return false;
             }
-            if(main.isVampire(__instance)) { //キルキャンセル&自爆処理
-                __instance.RpcProtectPlayer(__instance, 0);
-                __instance.RpcMurderPlayer(__instance);
+            if(main.isVampire(__instance) && !main.isBait(target)) { //キルキャンセル&自爆処理
+                __instance.RpcProtectPlayer(target, 0);
+                __instance.RpcMurderPlayer(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
@@ -64,8 +64,9 @@ namespace TownOfHost {
             if(AmongUsClient.Instance.AmHost) {
                 foreach(var bp in main.BitPlayers) {
                     foreach(var pc in PlayerControl.AllPlayerControls) {
-                        if(bp.Key == pc.PlayerId)
+                        if(bp.Key == pc.PlayerId) {
                             pc.RpcMurderPlayer(pc);
+                        }
                     }
                     main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                 }
@@ -81,13 +82,9 @@ namespace TownOfHost {
                 if(main.BitPlayers.ContainsKey(__instance.PlayerId)) {
                     if(main.BitPlayers[__instance.PlayerId].Item2 >= 10) {
                         __instance.RpcMurderPlayer(__instance);
-                        main.PlaySoundRPC(main.BitPlayers[__instance.PlayerId].Item1,Sounds.KillSound);
-                        if(main.isBait(__instance)) {
-                            foreach(var vampire in PlayerControl.AllPlayerControls) {
-                                vampire.CmdReportDeadBody(__instance.Data);
-                            }
-                        }
+                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
                         main.BitPlayers.Remove(__instance.PlayerId);
+                        main.PlaySoundRPC(vampireID,Sounds.KillSound);
                     } else {
                         main.BitPlayers[__instance.PlayerId] = 
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);

@@ -112,14 +112,11 @@ namespace TownOfHost {
                 }
             }
             if(AmongUsClient.Instance.AmHost){
-                Task task = Task.Run(() => {
-                    Thread.Sleep(200);
-                    foreach(var imp in Impostors) {
-                        imp.RpcSetRole(RoleTypes.GuardianAngel);
-                    }
-                    Thread.Sleep(100);
-                    main.CustomWinTrigger = true;
-                });
+                foreach(var imp in Impostors) {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                Thread.Sleep(100);
+                main.CustomWinTrigger = true;
             }
         }
         public static void EndGame() {

@@ -53,7 +53,7 @@ namespace TownOfHost {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            if(main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRole.Terrorist) { //Jester単独勝利
+            if(main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRole.Terrorist) { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.PlayerId == main.WonTerroristID)
