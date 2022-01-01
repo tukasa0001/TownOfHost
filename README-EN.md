@@ -91,6 +91,6 @@ Bait cannot use their vital.
 
 Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
 Jester and Madmate：https://au.libhalt.net<br>
-Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod#trickster<br>
+Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter：https://twitter.com/XenonBottle
