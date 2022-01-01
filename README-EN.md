@@ -39,64 +39,59 @@ When a Jester voted out, Only Jester who voted out wins. Other Players will lose
 If a Jester is killed or the game ends without vote out them, they will lose.<br>
 Jesters cannot use their vital.<br>
 
-### Terrorist/テロリスト
+### Terrorist
 
 Team：Solo<br>
 Replace：Engineer<br>
 Needed to win：Finish your tasks, then die<br>
 
-Terroristは第三陣営ですが、タスクを持っています。<br>
-タスクをすべて完了させてから何らかの要因で死亡すると単独勝利となります。<br>
-死因はキル・投票のどちらでも単独勝利となります。<br>
-タスクを完了させないまま死んだり、タスクを完了させても死なないまま試合が終わると敗北となります。<br>
-Terroristのタスクはクルーのタスク数にカウントされず、Terrorist以外のすべてのクルーがタスクを終わらせるとクルーのタスク勝利となります。<br>
-また、ベントが使えます<br>
+Terrorists aren't fellow Crewmates and Impostor, but they has tasks.<br>
+If they die after finish their tasks, only they wins.
+But if they die before finish their tasks, or they didn't die, they will lose.
+They can use vents.
 
-### Sidekick/相棒
+### Sidekick
 
 Team：Impostor<br>
 Replace：Shapeshifter<br>
 
-Sidekickはインポスターとして判定され、ベントとサボタージュに加え変身もできます。<br>
-しかし、初期状態でキルはできません。<br>
-Sidekickではないインポスターが全滅したとき、すべてのSidekickのキル能力が解禁されます。<br>
-キル能力解禁後のSidekickも変身が可能です。<br>
+Sidekick is an Impostor and They can use vent and sabotage.
+But they cannot kill.
+When all other Impostors are died, they become able to kill.
 
-### Vampire/吸血鬼
+### Vampire
 
 Team：Impostor<br>
 Replace：Impostor<br>
 
-Vampireは、遅延キルが可能なインポスターです。<br>
-キルを発動してから10秒後にキル対象がテレポートなしで死にます。<br>
-しかし、対象がBaitだった場合はVampireの能力が発動せず、普通にキルしてしまいます。<br>
-キル発動からキルまでの間に会議が発生した場合、会議発生の瞬間に対象が死にます。<br>
-対象が死んだとき、Vampire自身がmodを導入している場合のみVampireにのみ聞こえるキルの効果音が鳴ります。<br>
-対象がタスクを終えたTerroristだった場合、実際に対象が死んでからTerroristが勝利します。<br>
+The Vampire is an Impostor who can bite other player.
+Bitten players die after 10 seconds without teleport.
+But if they bite Bait, they do a normal kills.
+If meeting is started before bitten player die, they die immediately.
 
-### Madmate/狂人
+### Madmate
 
 Team：Impostor<br>
 Replace：Engineer<br>
 
-Madmateはタスクを持たず、キルもサボタージュもできませんが、インポスターの味方をする役職です。<br>
+Madmate doesn't have any tasks and cannot kill and sabotage, but they are fellow Impostors.
 しかし、ベントへの出入りと移動が可能です。<br>
-また、Madmateはインポスターを知らず、インポスターもMadmateを知らないため、インポスターが間違えてMadmateをキルしてしまう場合もあります。<br>
+Madmates can vent.
+Madmate doesn't know Impostors, and Impostors also doesn't know Madmate.
 
-### Bait/ベイト
+### Bait
 
 Team：Crewmate<br>
 Replace：Scientist<br>
 
-Baitは通常のクルーと同様にタスクを持ち、勝利条件も同じです。<br>
-しかし、Baitがキルされたとき、Baitをキルしたインポスターに強制的にセルフレポートをさせることができます。<br>
-バイタルを見ることはできません。<br>
+Bait has tasks, and they are fellow of Crewmate.
+When bait is killed, the Impostor who killed them is forced self report.
+Bait cannot use their vital.
 
-## 参考など
+## Credits 
 
-Baitの役職とmodの作り方の参考：https://github.com/Eisbison/TheOtherRoles<br>
-Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
+Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
+Jester and Madmate：https://au.libhalt.net<br>
+Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod#trickster<br>
 
-
-
-作者のTwitter：https://twitter.com/XenonBottle
+Twitter：https://twitter.com/XenonBottle
