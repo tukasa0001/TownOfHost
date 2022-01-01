@@ -22,12 +22,12 @@ namespace TownOfHost {
         }
         public static void Postfix(IntroCutscene __instance, ref  Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam) {
             if(Input.GetKey(KeyCode.LeftShift)) {
-                __instance.TeamTitle.text = "チーム";
+                __instance.TeamTitle.text = "Town Of Host";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "チームの説明";
-                __instance.TeamTitle.color = Color.magenta;
-                __instance.BackgroundBar.material.color = Color.green;
-                __instance.Foreground.material.color = Palette.ImpostorRed;
+                __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" + 
+                "\r\nOut Now on Github";
+                __instance.TeamTitle.color = Color.cyan;
+                __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                 __instance.RoleText.text = "役職名";
                 __instance.RoleBlurbText.text = "役職の説明";
             }

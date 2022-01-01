@@ -90,7 +90,7 @@ namespace TownOfHost {
                         OptionPages.roles
                     )},
                     {OptionPages.NoGameEnd, new PageObject(
-                        "NoGameEnd: $NoGameEndEnabled",
+                        "NoGameEnd<DEBUG>: $NoGameEndEnabled",
                         true,
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},

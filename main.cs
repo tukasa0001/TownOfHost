@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.2.9";
+        public const string PluginVersion = "1.3";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
@@ -173,7 +173,7 @@ namespace TownOfHost
             Sidekick = Config.Bind("Lang", "SidekickName", "Sidekick");
             SidekickInfo = Config.Bind("Lang", "SidekickInfo", "You are Sidekick");
             Vampire = Config.Bind("Lang", "VampireName", "Vampire");
-            VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill the crewmates with your bites");
+            VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill all crewmates with your bites");
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
