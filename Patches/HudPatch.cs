@@ -47,6 +47,7 @@ namespace TownOfHost {
                 TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Terrorist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
+            //Sidekick
             if(main.isSidekick(PlayerControl.LocalPlayer)) {
                 var ImpostorCount = 0;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
@@ -60,6 +61,11 @@ namespace TownOfHost {
                     TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Sidekick) + "</color>\r\n" +
                     "<color=#ff0000>" + "Other Impostors are dead,\r\nso Kill everyone!" + "</color>\r\n";
                 }
+            }
+            //Vampire
+            if(main.isTerrorist(PlayerControl.LocalPlayer)) {
+                TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Vampire) + "</color>\r\n" +
+                "<color=#00ff00>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
             if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

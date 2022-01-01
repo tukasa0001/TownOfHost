@@ -32,9 +32,7 @@ namespace TownOfHost {
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
             if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                foreach(var p in PlayerControl.AllPlayerControls) {
-                    p.RpcSetRole(RoleTypes.Scientist);
-                }
+                PlayerControl.LocalPlayer.RpcSetColor(99);
             }
             if(Input.GetKeyDown(KeyCode.M)) {
                 if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) {

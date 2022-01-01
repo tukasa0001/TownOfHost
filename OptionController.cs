@@ -83,7 +83,7 @@ namespace TownOfHost {
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
-                        "HideAndSeek: $HideAndSeekEnabled",
+                        "HideAndSeek<BETA>: $HideAndSeekEnabled",
                         true,
                         () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
                         new List<OptionPages>(){},
