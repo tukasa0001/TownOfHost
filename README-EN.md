@@ -1,33 +1,33 @@
 # Town Of Host
+![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 
-
-<< Translating now... >>
-このREADMEは英語版です。
+\[Translating now...\]<br>
+このREADMEは英語版です。<br>
 ! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !
 
 ## About this mod
 
-This mod is not affiliated with Among Us or Innersloth, so don't ask about this mod for Innersloth.
+This mod is not affiliated with Among Us or Innersloth, so don't ask about this mod for Innersloth.<br>
 
 ## Features
 
-Only host has to install this mod to play with this mod, so other player doesn't have to install it. Probably, players on any devices can play this mod.
-このmodはホスト(部屋主)のクライアントに導入するだけで動作し、他のクライアントのmodの導入/未導入及び端末の種類に関係なく動作します。また、カスタムサーバーを利用したmodと違い、URLやファイル編集などによるサーバー追加も不要なため、ホスト以外のプレイヤーはただTown Of Hostを導入したホストの部屋に参加するだけで追加役職を楽しめます。
+Only host has to install this mod to play with this mod, so other player doesn't have to install it. Probably, players on any devices can play this mod.<br>
+このmodはホスト(部屋主)のクライアントに導入するだけで動作し、他のクライアントのmodの導入/未導入及び端末の種類に関係なく動作します。また、カスタムサーバーを利用したmodと違い、URLやファイル編集などによるサーバー追加も不要なため、ホスト以外のプレイヤーはただTown Of Hostを導入したホストの部屋に参加するだけで追加役職を楽しめます。<br>
 
-しかし、弊害として公式追加役職の科学者・エンジニアを置き換える仕組みで役職追加を行っているため、以下の制限が発生することにご注意ください。
+しかし、弊害として公式追加役職の科学者・エンジニアを置き換える仕組みで役職追加を行っているため、以下の制限が発生することにご注意ください。<br>
 
-- 置き換え先役職が同じ追加役職・置き換え先となっている役職は同時に導入することができない。
-- 置き換え先が異なる役職や科学者・エンジニア以外の追加役職は同時に導入することができる。
-- ホストが途中で抜けるなどしてホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。
-- 特殊役職を使った場合、その特殊役職の設定を書き換える。(例：ベントクールダウン0・科学者のバイタル使用不可など)
+- 置き換え先役職が同じ追加役職・置き換え先となっている役職は同時に導入することができない。<br>
+- 置き換え先が異なる役職や科学者・エンジニア以外の追加役職は同時に導入することができる。<br>
+- ホストが途中で抜けるなどしてホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。<br>
+- 特殊役職を使った場合、その特殊役職の設定を書き換える。(例：ベントクールダウン0・科学者のバイタル使用不可など)<br>
 
-なお、ホスト以外のプレイヤーが入れた状態でプレイすると、以下のような表示の変化が行われます。
+なお、ホスト以外のプレイヤーが入れた状態でプレイすると、以下のような表示の変化が行われます。<br>
 
 - 特殊役職独自の開始画面
 - インポスター勝利時に勝者にMadmateを追加
 - Jester/Terrorist勝利時に勝者が正常に勝者として表示される
 
-なお、modを導入していないプレイヤーが特殊役職を得た場合、科学者・エンジニアとしか表示されないので、試合開始前に役職の開設をするようお願いします。
+なお、modを導入していないプレイヤーが特殊役職を得た場合、科学者・エンジニアとしか表示されないので、試合開始前に役職の開設をするようお願いします。<br>
 
 ## 設定変更画面
 注：コマンドによる設定変更は残っていますが、今後サポートされることはなく、コマンド追加の予定もありません。<br>
