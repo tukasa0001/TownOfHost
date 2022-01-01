@@ -27,13 +27,6 @@ namespace TownOfHost {
             if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost) {
                 main.SyncCustomSettingsRPC();
             }
-            if(Input.GetKeyDown(KeyCode.H) && AmongUsClient.Instance.AmHost) {
-                PlayerControl.GameOptions.RoleOptions.ShapeshifterDuration = 0.1f;
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
-            }
-            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                PlayerControl.LocalPlayer.RpcSetColor(99);
-            }
             if(Input.GetKeyDown(KeyCode.M)) {
                 if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                     MeetingHud.Instance.RpcClose();
