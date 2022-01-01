@@ -38,9 +38,6 @@ namespace TownOfHost {//参考：https://github.com/NuclearPowered/Reactor/blob/
     public static class GameOptionsMenuPatch {
         public static void Postfix(GameOptionsMenu __instance) {
             foreach(var ob in __instance.Children) {
-                if(ob.Title == StringNames.GameNumImpostors) {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 15);
-                }
                 if(ob.Title == StringNames.GameShortTasks ||
                 ob.Title == StringNames.GameLongTasks ||
                 ob.Title == StringNames.GameCommonTasks) {
