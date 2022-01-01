@@ -1,7 +1,6 @@
 # Town Of Host
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 
-\[Translating now...\]<br>
 このREADMEは英語版です。<br>
 ! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !
 
