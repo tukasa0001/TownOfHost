@@ -119,7 +119,6 @@ Baitは通常のクルーと同様にタスクを持ち、勝利条件も同じ�
 
 Baitの役職とmodの作り方の参考：https://github.com/Eisbison/TheOtherRoles<br>
 Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
-
-
+Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod
 
 作者のTwitter：https://twitter.com/XenonBottle
