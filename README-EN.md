@@ -12,54 +12,38 @@ This mod is not affiliated with Among Us or Innersloth, so don't ask about this 
 ## Features
 
 Only host has to install this mod to play with this mod, so other player doesn't have to install it. Probably, players on any devices can play this mod.<br>
-このmodはホスト(部屋主)のクライアントに導入するだけで動作し、他のクライアントのmodの導入/未導入及び端末の種類に関係なく動作します。また、カスタムサーバーを利用したmodと違い、URLやファイル編集などによるサーバー追加も不要なため、ホスト以外のプレイヤーはただTown Of Hostを導入したホストの部屋に参加するだけで追加役職を楽しめます。<br>
+But custom roles in the mod replace offical mods, so custom roles that replace the same official roles cannot be used at the same time.<br>
 
-しかし、弊害として公式追加役職の科学者・エンジニアを置き換える仕組みで役職追加を行っているため、以下の制限が発生することにご注意ください。<br>
-
-- 置き換え先役職が同じ追加役職・置き換え先となっている役職は同時に導入することができない。<br>
-- 置き換え先が異なる役職や科学者・エンジニア以外の追加役職は同時に導入することができる。<br>
-- ホストが途中で抜けるなどしてホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。<br>
-- 特殊役職を使った場合、その特殊役職の設定を書き換える。(例：ベントクールダウン0・科学者のバイタル使用不可など)<br>
-
-なお、ホスト以外のプレイヤーが入れた状態でプレイすると、以下のような表示の変化が行われます。<br>
-
-- 特殊役職独自の開始画面
-- インポスター勝利時に勝者にMadmateを追加
-- Jester/Terrorist勝利時に勝者が正常に勝者として表示される
-
-なお、modを導入していないプレイヤーが特殊役職を得た場合、科学者・エンジニアとしか表示されないので、試合開始前に役職の開設をするようお願いします。<br>
-
-## 設定変更画面
-注：コマンドによる設定変更は残っていますが、今後サポートされることはなく、コマンド追加の予定もありません。<br>
-ロビーでTabキーを押すと、部屋設定のテキストが設定画面に変化します。<br>
-操作方法は以下の通りです。<br>
-| キー | 動作 |
+## Custom Settings Menu
+In lobby, You can press tab to open Custom Settings Menu<br>
+The operation method is as follows.<br>
+| Key | Action |
 | :---: | ---- |
-| Tab | 設定画面表示/非表示 |
-| 十字キー上 | カーソルを上に移動 |
-| 十字キー下 | カーソルを下に移動 |
-| 十字キー右 | 選択中の項目を実行 |
-| 十字キー左 | 一つ戻る |
+| Tab | Open/Close |
+| Up | Corsor Up |
+| Down | Cursor Down |
+| Right | Execute item |
+| Left | Go back one |
 
-## 役職
+## Roles
 
-### Jester/てるてる
+### Jester
 
-陣営：単独<br>
-置き換え先：科学者<br>
-勝利条件：投票で追放される<br>
+Team：Solo<br>
+Replace：Scientist<br>
+Needed to win：Voted out<br>
 
-Jesterはタスクを持たず、クルー陣営にもインポスター陣営にも属さない第三陣営として動く役職です。<br>
-Jesterが勝利する方法はただ一つ。投票で追放されることです。<br>
-Jesterが追放された場合、クルーとインポスターは敗北となり、追放されたJesterのみの勝利となります。<br>
-キルされたり、追放されないままタスクやインポスター全滅で試合が終わった場合、Jesterは敗北となります。<br>
-バイタルは見れません。
+Jesters doesn't have any tasks and they aren't fellow Crewmates and Impostor.<br>
+Jesters can win with voted out.<br>
+When a Jester voted out, Only Jester who voted out wins. Other Players will lose.<br>
+If a Jester is killed or the game ends without vote out them, they will lose.<br>
+Jesters cannot use their vital.<br>
 
 ### Terrorist/テロリスト
 
-陣営：第三<br>
-置き換え先：エンジニア<br>
-勝利条件：タスクをすべて完了した状態で何らかの要因で死ぬ<br>
+Team：Solo<br>
+Replace：Engineer<br>
+Needed to win：Finish your tasks, then die<br>
 
 Terroristは第三陣営ですが、タスクを持っています。<br>
 タスクをすべて完了させてから何らかの要因で死亡すると単独勝利となります。<br>
@@ -70,8 +54,8 @@ Terroristのタスクはクルーのタスク数にカウントされず、Terro
 
 ### Sidekick/相棒
 
-陣営：インポスター<br>
-置き換え先：シェイプシフター<br>
+Team：Impostor<br>
+Replace：Shapeshifter<br>
 
 Sidekickはインポスターとして判定され、ベントとサボタージュに加え変身もできます。<br>
 しかし、初期状態でキルはできません。<br>
@@ -80,8 +64,8 @@ Sidekickではないインポスターが全滅したとき、すべてのSideki
 
 ### Vampire/吸血鬼
 
-陣営：インポスター<br>
-置き換え先：インポスター<br>
+Team：Impostor<br>
+Replace：Impostor<br>
 
 Vampireは、遅延キルが可能なインポスターです。<br>
 キルを発動してから10秒後にキル対象がテレポートなしで死にます。<br>
@@ -92,8 +76,8 @@ Vampireは、遅延キルが可能なインポスターです。<br>
 
 ### Madmate/狂人
 
-陣営：インポスター<br>
-置き換え先：エンジニア<br>
+Team：Impostor<br>
+Replace：Engineer<br>
 
 Madmateはタスクを持たず、キルもサボタージュもできませんが、インポスターの味方をする役職です。<br>
 しかし、ベントへの出入りと移動が可能です。<br>
@@ -101,8 +85,8 @@ Madmateはタスクを持たず、キルもサボタージュもできません�
 
 ### Bait/ベイト
 
-陣営：クルー<br>
-置き換え先：科学者<br>
+Team：Crewmate<br>
+Replace：Scientist<br>
 
 Baitは通常のクルーと同様にタスクを持ち、勝利条件も同じです。<br>
 しかし、Baitがキルされたとき、Baitをキルしたインポスターに強制的にセルフレポートをさせることができます。<br>
