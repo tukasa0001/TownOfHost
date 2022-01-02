@@ -9,6 +9,8 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace TownOfHost {
     class ExileControllerWrapUpPatch {
@@ -34,6 +36,17 @@ namespace TownOfHost {
             }
             if(main.currentEngineer == EngineerRole.Terrorist && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost) {
                 main.CheckTerroristWin(exiled);
+            }
+            if(AmongUsClient.Instance.AmHost && main.isFixedCooldown) {
+                Task task = Task.Run(() => {
+                    Thread.Sleep(1000);
+                    foreach(var pc in PlayerControl.AllPlayerControls) {
+                        if(pc.Data.Role.IsImpostor) {
+                            pc.RpcProtectPlayer(pc,0);
+                            pc.RpcMurderPlayer(pc);
+                        }
+                    }
+                });
             }
         }
     }
