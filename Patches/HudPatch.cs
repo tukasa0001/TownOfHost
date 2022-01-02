@@ -79,7 +79,6 @@ namespace TownOfHost {
             "PC NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
             "CNT NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
             "CNT name:" + PlayerControl.LocalPlayer.NetTransform.name + "\r\n";*/
-            __instance.TaskText.text = main.RefixCooldownDelay.ToString();
         }
     }
 }
