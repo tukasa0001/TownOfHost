@@ -163,4 +163,12 @@ $@"{main.getLang(lang.roleListStart)}
             else return main.getLang(lang.OFF);
         }
     }
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    class AddChatPatch {
+        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
+            if(chatText == "/winner" && AmongUsClient.Instance.AmHost) {
+                PlayerControl.LocalPlayer.RpcSendChat(main.WinnerList);
+            }
+        }
+    }
 }

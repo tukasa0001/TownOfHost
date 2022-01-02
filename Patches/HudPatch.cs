@@ -73,6 +73,13 @@ namespace TownOfHost {
             if(main.OptionControllerIsEnable) {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
             }
+            /*__instance.TaskText.text = 
+            "PC OwnerID:" + PlayerControl.LocalPlayer.OwnerId + "\r\n" + 
+            "CNT OwnerID:" + PlayerControl.LocalPlayer.NetTransform.OwnerId + "\r\n" + 
+            "PC NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
+            "CNT NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
+            "CNT name:" + PlayerControl.LocalPlayer.NetTransform.name + "\r\n";*/
+            __instance.TaskText.text = main.RefixCooldownDelay.ToString();
         }
     }
 }

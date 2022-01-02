@@ -38,15 +38,9 @@ namespace TownOfHost {
                 main.CheckTerroristWin(exiled);
             }
             if(AmongUsClient.Instance.AmHost && main.isFixedCooldown) {
-                Task task = Task.Run(() => {
-                    Thread.Sleep(1000);
-                    foreach(var pc in PlayerControl.AllPlayerControls) {
-                        if(pc.Data.Role.IsImpostor) {
-                            pc.RpcProtectPlayer(pc,0);
-                            pc.RpcMurderPlayer(pc);
-                        }
-                    }
-                });
+                main.RefixCooldownDelay = main.BeforeFixCooldown - 3f;
+                PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
         }
     }

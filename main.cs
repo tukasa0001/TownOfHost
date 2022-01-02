@@ -66,7 +66,9 @@ namespace TownOfHost
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
-        public static float BeforeFixCooldown = float.NaN;
+        public static float BeforeFixCooldown = 15f;
+        public static float RefixCooldownDelay = 0f;
+        public static string WinnerList = "";
         public static bool isJester(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
