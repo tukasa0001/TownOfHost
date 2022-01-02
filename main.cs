@@ -15,7 +15,7 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class main : BasePlugin
     {
-        //Sorry for some Japanese comments.
+        //Sorry for some Japanese comments.s
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.3.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
