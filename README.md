@@ -40,6 +40,16 @@
 
 ## 役職
 
+### 役職対応表
+| 追加役職 | 置き換え先役職 |
+| ---- | ---- |
+| Sidekick | シェイプシフター |
+| Vampire | 通常インポスター |
+| Madmate | エンジニア |
+| Jester | 科学者 |
+| Terrorist | エンジニア |
+| Bait | 科学者 |
+
 ### Jester/てるてる
 
 陣営：単独<br>
@@ -109,7 +119,6 @@ Baitは通常のクルーと同様にタスクを持ち、勝利条件も同じ�
 
 Baitの役職とmodの作り方の参考：https://github.com/Eisbison/TheOtherRoles<br>
 Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
-
-
+Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod
 
 作者のTwitter：https://twitter.com/XenonBottle
