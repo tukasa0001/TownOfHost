@@ -9,6 +9,8 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace TownOfHost {
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
@@ -29,6 +31,10 @@ $@"{main.getLang(lang.roleListStart)}
                 );
             }
             if(AmongUsClient.Instance.AmHost) {
+                if(getCommand("/winner", text, out arg)) {
+                    canceled = true;
+                    PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
+                }
                 if(getCommand("/jester", text, out arg)) {
                     canceled = true;
                     if(arg == "on"){
@@ -166,8 +172,8 @@ $@"{main.getLang(lang.roleListStart)}
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch {
         public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
-            if(chatText == "/winner" && AmongUsClient.Instance.AmHost) {
-                PlayerControl.LocalPlayer.RpcSendChat(main.WinnerList);
+            if(chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false) {
+                PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
             }
         }
     }

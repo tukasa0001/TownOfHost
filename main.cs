@@ -51,6 +51,7 @@ namespace TownOfHost
         }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor {get; private set;}
+        public static ConfigEntry<bool> IgnoreWinnerCommand {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool NoGameEnd;
@@ -68,7 +69,7 @@ namespace TownOfHost
         public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
-        public static string WinnerList = "";
+        public static string winnerList;
         public static bool isJester(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
@@ -183,6 +184,7 @@ namespace TownOfHost
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            winnerList = "";
 
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
@@ -190,6 +192,7 @@ namespace TownOfHost
             currentShapeshifter = ShapeshifterRoles.Default;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
+            IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
 
             langTexts = new Dictionary<lang, string>(){
                 {lang.Jester, Jester.Value},

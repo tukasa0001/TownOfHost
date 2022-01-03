@@ -60,9 +60,9 @@ namespace TownOfHost {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            main.WinnerList = "==winner==\r\n";
+            main.winnerList = "winner:";
             foreach(var wpd in TempData.winners) {
-                main.WinnerList += wpd.PlayerName + "\r\n";
+                main.winnerList += wpd.PlayerName + ", ";
             }
         }
     }
