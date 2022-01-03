@@ -13,7 +13,6 @@ using Hazel;
 namespace TownOfHost {
     [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.Update))]
     class DebugManager {
-        private static Il2CppSystem.Collections.Generic.List<PlayerControl> bots = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
         static System.Random random = new System.Random();
         public static void Postfix(KeyboardJoystick __instance) {
             if(Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost) {
@@ -31,6 +30,12 @@ namespace TownOfHost {
                 if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                     MeetingHud.Instance.RpcClose();
                 }
+            }
+            if(Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
+                var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                list.Add(PlayerControl.LocalPlayer);
+                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
             }
 
             if(main.OptionControllerIsEnable) {
