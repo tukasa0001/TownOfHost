@@ -17,7 +17,9 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.3.1";
+        public const string PluginVersion = "1.4";
+        public const VersionTypes PluginVersionType = VersionTypes.Beta;
+        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b" : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
@@ -267,5 +269,9 @@ namespace TownOfHost
     public enum ShapeshifterRoles {
         Default = 0,
         Sidekick
+    }
+    public enum VersionTypes {
+        Released = 0,
+        Beta = 1
     }
 }
