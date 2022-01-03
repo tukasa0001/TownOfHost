@@ -156,6 +156,11 @@ namespace TownOfHost
                 RPCProcedure.TerroristWin(Terrorist.PlayerId);
             }
         }
+        public static void ExileAsync(PlayerControl player) {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            player.Exiled();
+        }
         public override void Load()
         {
             Japanese = Config.Bind("Info", "Japanese", "日本語");
