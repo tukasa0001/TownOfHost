@@ -63,7 +63,7 @@ namespace TownOfHost {
                 }
             }
             //Vampire
-            if(main.isTerrorist(PlayerControl.LocalPlayer)) {
+            if(main.isVampire(PlayerControl.LocalPlayer)) {
                 TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Vampire) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }

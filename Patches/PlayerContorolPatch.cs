@@ -81,7 +81,9 @@ namespace TownOfHost {
             if(AmongUsClient.Instance.AmHost) {
                 if(main.BitPlayers.ContainsKey(__instance.PlayerId)) {
                     if(main.BitPlayers[__instance.PlayerId].Item2 >= 10) {
-                        __instance.RpcMurderPlayer(__instance);
+                        if(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
+                            __instance.RpcMurderPlayer(__instance);
+                        }
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
                         main.BitPlayers.Remove(__instance.PlayerId);
                         main.PlaySoundRPC(vampireID,Sounds.KillSound);
