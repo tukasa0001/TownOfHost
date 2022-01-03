@@ -52,6 +52,7 @@ namespace TownOfHost
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor {get; private set;}
         public static ConfigEntry<bool> IgnoreWinnerCommand {get; private set;}
+        public static ConfigEntry<string> WebhookURL {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool NoGameEnd;
@@ -193,6 +194,7 @@ namespace TownOfHost
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
+            WebhookURL = Config.Bind("Other", "WebhookURL", "none");
 
             langTexts = new Dictionary<lang, string>(){
                 {lang.Jester, Jester.Value},

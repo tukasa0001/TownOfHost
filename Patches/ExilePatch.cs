@@ -28,14 +28,17 @@ namespace TownOfHost {
             }
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled) {
-            if(main.currentScientist == ScientistRole.Jester && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost) {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
-                writer.Write(exiled.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPCProcedure.JesterExiled(exiled.PlayerId);
-            }
-            if(main.currentEngineer == EngineerRole.Terrorist && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost) {
-                main.CheckTerroristWin(exiled);
+            //Debug Message
+            if(exiled != null) {
+                if(main.currentScientist == ScientistRole.Jester && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost) {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
+                    writer.Write(exiled.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPCProcedure.JesterExiled(exiled.PlayerId);
+                }
+                if(main.currentEngineer == EngineerRole.Terrorist && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost) {
+                    main.CheckTerroristWin(exiled);
+                }
             }
             if(AmongUsClient.Instance.AmHost && main.isFixedCooldown) {
                 main.RefixCooldownDelay = main.BeforeFixCooldown - 3f;
