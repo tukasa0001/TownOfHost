@@ -30,12 +30,8 @@ namespace TownOfHost {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                 } else {
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
+                    if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
-                    if(main.IsHideAndSeek) {
-                        if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
-                    } else {
-                        if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
-                    }
                 }
             }
             return false;
