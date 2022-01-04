@@ -86,6 +86,7 @@ namespace TownOfHost {
             if(main.isFixedCooldown && AmongUsClient.Instance.AmHost) {
                 PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                main.BitPlayers = new Dictionary<byte, (byte, float)>();
             }
         }
     }

@@ -66,9 +66,9 @@ namespace TownOfHost {
                     foreach(var pc in PlayerControl.AllPlayerControls) {
                         if(bp.Key == pc.PlayerId && !pc.Data.IsDead) {
                             pc.RpcMurderPlayer(pc);
+                            main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         }
                     }
-                    main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -85,8 +85,7 @@ namespace TownOfHost {
                     //main.BitPlayers[__instance.PlayerId].Item2：キルするまでの秒数
                     if(main.BitPlayers[__instance.PlayerId].Item2 >= 10) {
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        if(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started &&
-                        !__instance.Data.IsDead) {
+                        if(!__instance.Data.IsDead) {
                             __instance.RpcMurderPlayer(__instance);
                             main.PlaySoundRPC(vampireID,Sounds.KillSound);
                         }

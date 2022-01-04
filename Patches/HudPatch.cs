@@ -64,8 +64,8 @@ namespace TownOfHost {
             }
             //Vampire
             if(main.isVampire(PlayerControl.LocalPlayer)) {
-                TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Vampire) + "</color>\r\n" +
-                "<color=#00ff00>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
+                TaskTextPrefix = "<color=#a557a5>" + main.getLang(lang.Vampire) + "</color>\r\n" +
+                "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
             if(!__instance.TaskText.text.Contains(TaskTextPrefix)) {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
