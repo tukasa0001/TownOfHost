@@ -26,16 +26,16 @@ namespace TownOfHost {
             if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost) {
                 main.SyncCustomSettingsRPC();
             }
-            if(Input.GetKeyDown(KeyCode.M)) {
-                if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                    MeetingHud.Instance.RpcClose();
-                }
-            }
             if(Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
                 var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 list.Add(PlayerControl.LocalPlayer);
                 HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
+            }
+            if(Input.GetKeyDown(KeyCode.M) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.PlayerId != 0) pc.nameText.text = "まっちゃ";
+                }
             }
 
             if(main.OptionControllerIsEnable) {

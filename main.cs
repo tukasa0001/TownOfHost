@@ -81,7 +81,6 @@ namespace TownOfHost
                 return true;
             return false;
         }
-
         public static bool isBait(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
                 return true;
@@ -102,6 +101,7 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        
         public static void ToggleRole(ScientistRole role) {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
