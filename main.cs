@@ -44,7 +44,7 @@ namespace TownOfHost
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
-        //langのenumに対応した値をリストから持ってくる
+        //langのenumに対応した値をリストから持ってくるA
         public static string getLang(lang lang) {
             var isSuccess = langTexts.TryGetValue(lang, out var text    );
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
@@ -61,7 +61,7 @@ namespace TownOfHost
         public static Color JesterColor() {
             if(TeruteruColor.Value)
                 return new Color(0.823f,0.411f,0.117f);
-            else 
+            else
                 return new Color(0.925f,0.384f,0.647f);
         }
         public static Color VampireColor = new Color(0.65f,0.34f,0.65f);
