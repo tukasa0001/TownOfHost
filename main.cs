@@ -44,7 +44,7 @@ namespace TownOfHost
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
-        //langのenumに対応した値をリストから持ってくるA
+        //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang) {
             var isSuccess = langTexts.TryGetValue(lang, out var text    );
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
@@ -101,7 +101,7 @@ namespace TownOfHost
                 return true;
             return false;
         }
-        
+
         public static void ToggleRole(ScientistRole role) {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
