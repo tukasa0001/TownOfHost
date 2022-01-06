@@ -41,21 +41,13 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                if (AmongUsClient.Instance.AmHost)
                 {
-                    foreach (var task in PlayerControl.LocalPlayer.myTasks)
+                    foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (task.TaskType == TaskTypes.SwipeCard)
+                        foreach (var task in pc.myTasks)
                         {
-                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
-                        }
-                        if (task.TaskType == TaskTypes.UnlockSafe)
-                        {
-                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
-                        }
-                        if (task.TaskType == TaskTypes.SubmitScan)
-                        {
-                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+                            pc.RpcCompleteTask(task.Id);
                         }
                     }
                 }

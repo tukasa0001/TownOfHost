@@ -44,10 +44,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(GameData), nameof(GameData.SetTasks))]
+    /*[HarmonyPatch(typeof(GameData), nameof(GameData.SetTasks))]
     class aftersettasks
     {
-        public static void Postfix(GameData __instance)
+        public static void Postfix(AmongUsClient __instance)
         {
             if (AmongUsClient.Instance.AmHost)
             {
@@ -71,5 +71,5 @@ namespace TownOfHost
                 }
             }
         }
-    }
+    }*/
 }
