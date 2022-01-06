@@ -122,12 +122,48 @@ namespace TownOfHost
                     }
                 }
             }
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            RoleText.text = "Jester";
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
     class PlayerStartPatch {
         public static void Postfix(PlayerControl __instance) {
-            
+            if(__instance.AmOwner) {
+                var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
+                roleText.transform.SetParent(__instance.nameText.transform);
+                roleText.transform.localPosition = new Vector3(0f,0.175f,0f);
+                roleText.fontSize = 0.55f;
+                roleText.text = "RoleText";
+                roleText.gameObject.name = "RoleText";
+            }
         }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+    class MeetingHudStartPatch {
+        public static void Postfix(MeetingHud __instance) {
+            PlayerVoteArea myArea = null;
+            foreach(var pva in __instance.playerStates) {
+                if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) myArea = pva;
+            }
+            if(myArea == null) return;
+            var roleTextMeeting = UnityEngine.Object.Instantiate(myArea.NameText);
+            roleTextMeeting.transform.SetParent(myArea.NameText.transform);
+            roleTextMeeting.transform.localPosition = new Vector3(0f,-0.18f,0f);
+            roleTextMeeting.fontSize = 1.5f;
+            roleTextMeeting.text = "RoleTextMeeting";
+            roleTextMeeting.gameObject.name = "RoleTextMeeting";
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
+    class MeetingHudUpdatePatch {
+        public static void Postfix(MeetingHud __instance) {
+            foreach(var pva in __instance.playerStates) {
+                var RoleTextMeetingTransform = pva.transform.Find("RoleTextMeeting");
+                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
+                RoleTextMeeting.text = "Jester"; //Didn't work
+            }
+        } 
     }
 }
