@@ -45,7 +45,18 @@ namespace TownOfHost
                 {
                     foreach (var task in PlayerControl.LocalPlayer.myTasks)
                     {
-                        PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+                        if (task.TaskType == TaskTypes.SwipeCard)
+                        {
+                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+                        }
+                        if (task.TaskType == TaskTypes.UnlockSafe)
+                        {
+                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+                        }
+                        if (task.TaskType == TaskTypes.SubmitScan)
+                        {
+                            PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
+                        }
                     }
                 }
             }

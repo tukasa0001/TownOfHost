@@ -59,9 +59,16 @@ namespace TownOfHost
                         {
                             pc.RpcCompleteTask(task.Id);
                         }
+                        if (task.TaskType == TaskTypes.UnlockSafe)
+                        {
+                            pc.RpcCompleteTask(task.Id);
+                        }
+                        if (task.TaskType == TaskTypes.SubmitScan)
+                        {
+                            pc.RpcCompleteTask(task.Id);
+                        }
                     }
                 }
-
             }
         }
     }
