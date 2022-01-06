@@ -21,29 +21,47 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            if (__instance.AmHost) {
+            if (__instance.AmHost)
+            {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if (main.currentScientist != ScientistRole.Default){
+                if (main.currentScientist != ScientistRole.Default)
+                {
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }
-                if (main.currentEngineer != EngineerRole.Default){
+                if (main.currentEngineer != EngineerRole.Default)
+                {
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }
-                if (main.isFixedCooldown){
+                if (main.isFixedCooldown)
+                {
                     main.BeforeFixCooldown = opt.KillCooldown;
                     opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
-                foreach (var pc in PlayerControl.AllPlayerControls){
-                    foreach (var task in pc.myTasks){
-                        if (task.TaskType == TaskTypes.SwipeCard){
+            }
+        }
+    }
+    [HarmonyPatch(typeof(GameData), nameof(GameData.SetTasks))]
+    class aftersettasks
+    {
+        public static void Postfix(GameData __instance)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    foreach (var task in pc.myTasks)
+                    {
+                        if (task.TaskType == TaskTypes.SwipeCard)
+                        {
                             pc.RpcCompleteTask(task.Id);
                         }
                     }
                 }
+
             }
         }
     }
