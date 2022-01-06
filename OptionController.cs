@@ -91,7 +91,7 @@ namespace TownOfHost {
                     )},
                     {OptionPages.DisableTasks, new PageObject(
                         "Disable Tasks",
-                        true,
+                        false,
                         () => {SetPage(OptionPages.DisableTasks);},
                         new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe},
                         OptionPages.modes
