@@ -98,4 +98,10 @@ namespace TownOfHost {
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
+    class PlayerStartPatch {
+        public static void Postfix(PlayerControl __instance) {
+            
+        }
+    }
 }
