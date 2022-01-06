@@ -160,7 +160,7 @@ namespace TownOfHost
     class MeetingHudUpdatePatch {
         public static void Postfix(MeetingHud __instance) {
             foreach(var pva in __instance.playerStates) {
-                var RoleTextMeetingTransform = pva.transform.Find("RoleTextMeeting");
+                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 RoleTextMeeting.text = "Jester"; //Didn't work
             }
