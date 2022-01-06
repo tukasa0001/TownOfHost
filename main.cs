@@ -139,6 +139,9 @@ namespace TownOfHost
             writer.Write((byte)currentShapeshifter);
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
+            writer.Write(DisableSwipeCard);
+            writer.Write(DisableSubmitScan);
+            writer.Write(DisableUnlockSafe);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
