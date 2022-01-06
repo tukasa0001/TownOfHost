@@ -44,32 +44,4 @@ namespace TownOfHost
             }
         }
     }
-    /*[HarmonyPatch(typeof(GameData), nameof(GameData.SetTasks))]
-    class aftersettasks
-    {
-        public static void Postfix(AmongUsClient __instance)
-        {
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    foreach (var task in pc.myTasks)
-                    {
-                        if (task.TaskType == TaskTypes.SwipeCard)
-                        {
-                            pc.RpcCompleteTask(task.Id);
-                        }
-                        if (task.TaskType == TaskTypes.UnlockSafe)
-                        {
-                            pc.RpcCompleteTask(task.Id);
-                        }
-                        if (task.TaskType == TaskTypes.SubmitScan)
-                        {
-                            pc.RpcCompleteTask(task.Id);
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 }
