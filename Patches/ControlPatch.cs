@@ -37,9 +37,6 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
                     MeetingHud.Instance.RpcClose();
-                } else {
-                    PlayerControl.GameOptions.MaxPlayers = 20;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
             }
             if (Input.GetKeyDown(KeyCode.O))
