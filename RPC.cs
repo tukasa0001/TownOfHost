@@ -35,7 +35,19 @@ namespace TownOfHost {
                     byte shapeshifter = reader.ReadByte();
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
-                    RPCProcedure.SyncCustomSettings(scientist,engineer,impostor,shapeshifter,IsHideAndSeek,NoGameEnd);
+                    bool SwipeCardDisabled = reader.ReadBoolean();
+                    bool SubmitScanDisabled = reader.ReadBoolean();
+                    bool UnlockSafeDisabled = reader.ReadBoolean();
+                    RPCProcedure.SyncCustomSettings(
+                        scientist,
+                        engineer,
+                        impostor,
+                        shapeshifter,
+                        IsHideAndSeek,
+                        NoGameEnd,
+                        SwipeCardDisabled,
+                        SubmitScanDisabled,
+                        UnlockSafeDisabled);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -57,13 +69,26 @@ namespace TownOfHost {
         }
     }
     class RPCProcedure {
-        public static void SyncCustomSettings(byte scientist, byte engineer,byte impostor , byte shapeshifter, bool isHideAndSeek, bool NoGameEnd) {
+        public static void SyncCustomSettings(
+            byte scientist,
+            byte engineer,
+            byte impostor,
+            byte shapeshifter,
+            bool isHideAndSeek,
+            bool NoGameEnd,
+            bool SwipeCardDisabled,
+            bool SubmitScanDisabled,
+            bool UnlockSafeDisabled) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
             main.currentShapeshifter = (ShapeshifterRoles)shapeshifter;
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
+            
+            main.DisableSwipeCard = SwipeCardDisabled;
+            main.DisableSubmitScan = SubmitScanDisabled;
+            main.DisableUnlockSafe = UnlockSafeDisabled;
             
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;

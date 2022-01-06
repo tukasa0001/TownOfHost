@@ -59,6 +59,10 @@ namespace TownOfHost
         public static bool IsHideAndSeek;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
+        //タスク無効化
+        public static bool DisableSwipeCard;
+        public static bool DisableSubmitScan;
+        public static bool DisableUnlockSafe;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor() {
             if(TeruteruColor.Value)
@@ -135,6 +139,9 @@ namespace TownOfHost
             writer.Write((byte)currentShapeshifter);
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
+            writer.Write(DisableSwipeCard);
+            writer.Write(DisableSubmitScan);
+            writer.Write(DisableUnlockSafe);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -198,6 +205,10 @@ namespace TownOfHost
             currentEngineer = EngineerRole.Default;
             currentImpostor = ImpostorRoles.Default;
             currentShapeshifter = ShapeshifterRoles.Default;
+
+            DisableSwipeCard = false;
+            DisableSubmitScan = false;
+            DisableUnlockSafe = false;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);

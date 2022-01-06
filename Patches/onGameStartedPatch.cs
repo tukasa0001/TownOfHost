@@ -10,26 +10,33 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 
-namespace TownOfHost {
+namespace TownOfHost
+{
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.StartGame))]
-    class changeRoleSettings {
-        public static void Postfix(AmongUsClient __instance) {
+    class changeRoleSettings
+    {
+        public static void Postfix(AmongUsClient __instance)
+        {
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
-            main.BitPlayers = new Dictionary<byte, (byte,float)>();
-            if(__instance.AmHost) {
+            main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            if (__instance.AmHost)
+            {
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if(main.currentScientist != ScientistRole.Default) {
+                if (main.currentScientist != ScientistRole.Default)
+                {
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }
-                if(main.currentEngineer != EngineerRole.Default) {
+                if (main.currentEngineer != EngineerRole.Default)
+                {
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }
-                if(main.isFixedCooldown) {
+                if (main.isFixedCooldown)
+                {
                     main.BeforeFixCooldown = opt.KillCooldown;
                     opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
