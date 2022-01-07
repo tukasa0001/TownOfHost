@@ -120,6 +120,8 @@ namespace TownOfHost
         public static void ToggleRole(ImpostorRoles role) {
             currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
         }
+
+        
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
