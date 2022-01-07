@@ -31,7 +31,7 @@ namespace TownOfHost {
 
         static void Postfix(PingTracker __instance){
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
-            __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion;
+            __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started) {
                 if (PlayerControl.LocalPlayer.Data.IsDead) {
                     __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
@@ -48,7 +48,13 @@ namespace TownOfHost {
     {
         static void Postfix(VersionShower __instance) {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion;
+            __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
+        }
+    }
+    [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
+    class AwakePatch {
+        public static void Prefix(ModManager __instance) {
+            __instance.ShowModStamp();
         }
     }
 }

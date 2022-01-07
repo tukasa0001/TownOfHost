@@ -17,7 +17,9 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.3.2";
+        public const string PluginVersion = "1.4";
+        public const VersionTypes PluginVersionType = VersionTypes.Beta;
+        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b" : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
@@ -57,6 +59,10 @@ namespace TownOfHost
         public static bool IsHideAndSeek;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
+        //タスク無効化
+        public static bool DisableSwipeCard;
+        public static bool DisableSubmitScan;
+        public static bool DisableUnlockSafe;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor() {
             if(TeruteruColor.Value)
@@ -114,6 +120,105 @@ namespace TownOfHost
         public static void ToggleRole(ImpostorRoles role) {
             currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
         }
+
+        public static (string,Color) GetRoleText(RoleTypes role) {
+            string RoleText = "Invalid";
+            Color TextColor = Color.red;
+            switch(role) {
+                case RoleTypes.Crewmate:
+                    RoleText = "Crewmate";
+                    TextColor = Color.white;
+                    break;
+                case RoleTypes.Scientist:
+                    switch(currentScientist) {
+                        case ScientistRole.Default:
+                            RoleText = "Scientist";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case ScientistRole.Jester:
+                            RoleText = "Jester";
+                            TextColor = JesterColor();
+                            break;
+                        case ScientistRole.Bait:
+                            RoleText = "Bait";
+                            TextColor = Color.cyan;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Engineer:
+                    switch(currentEngineer) {
+                        case EngineerRole.Default:
+                            RoleText = "Engineer";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case EngineerRole.Madmate:
+                            RoleText = "Madmate";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case EngineerRole.Terrorist:
+                            RoleText = "Terrorist";
+                            TextColor = Color.green;
+                            break;
+                        default:
+                            RoleText = "Invalid Engineer";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Impostor:
+                    switch(currentImpostor) {
+                        case ImpostorRoles.Default:
+                            RoleText = "Impostor";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ImpostorRoles.Vampire:
+                            RoleText = "Vampire";
+                            TextColor = VampireColor;
+                            break;
+                        default:
+                            RoleText = "Invalid Impostor";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Shapeshifter:
+                    switch(currentShapeshifter) {
+                        case ShapeshifterRoles.Default:
+                            RoleText = "Shapeshifter";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ShapeshifterRoles.Sidekick:
+                            RoleText = "Sidekick";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.GuardianAngel:
+                    RoleText = "GuardianAngel";
+                    TextColor = Palette.CrewmateBlue;
+                    break;
+            }
+            return (RoleText,TextColor);
+        }
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
+            string taskText = "";
+            int CompletedTaskCount = 0;
+            int AllTasksCount = 0;
+            foreach(var task in tasks) {
+                AllTasksCount++;
+                if(task.IsComplete) CompletedTaskCount++;
+            }
+            taskText = CompletedTaskCount + "/" + AllTasksCount;
+            return taskText;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
@@ -133,6 +238,9 @@ namespace TownOfHost
             writer.Write((byte)currentShapeshifter);
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
+            writer.Write(DisableSwipeCard);
+            writer.Write(DisableSubmitScan);
+            writer.Write(DisableUnlockSafe);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -196,6 +304,10 @@ namespace TownOfHost
             currentEngineer = EngineerRole.Default;
             currentImpostor = ImpostorRoles.Default;
             currentShapeshifter = ShapeshifterRoles.Default;
+
+            DisableSwipeCard = false;
+            DisableSubmitScan = false;
+            DisableUnlockSafe = false;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
@@ -272,5 +384,9 @@ namespace TownOfHost
     public enum ShapeshifterRoles {
         Default = 0,
         Sidekick
+    }
+    public enum VersionTypes {
+        Released = 0,
+        Beta = 1
     }
 }

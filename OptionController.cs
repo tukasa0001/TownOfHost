@@ -79,7 +79,7 @@ namespace TownOfHost {
                     "Mode Options",
                     false,
                     () => {SetPage(OptionPages.modes);},
-                    new List<OptionPages>(){OptionPages.HideAndSeek, OptionPages.NoGameEnd},
+                    new List<OptionPages>(){OptionPages.HideAndSeek, OptionPages.DisableTasks, OptionPages.NoGameEnd},
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
@@ -87,14 +87,42 @@ namespace TownOfHost {
                         true,
                         () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
                         new List<OptionPages>(){},
-                        OptionPages.roles
+                        OptionPages.modes
                     )},
+                    {OptionPages.DisableTasks, new PageObject(
+                        "Disable Tasks",
+                        false,
+                        () => {SetPage(OptionPages.DisableTasks);},
+                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe},
+                        OptionPages.modes
+                    )},
+                        {OptionPages.SwipeCard, new PageObject(
+                            "Disable SwipeCard Task: $DisableSwipeCard",
+                            true,
+                            () => {main.DisableSwipeCard = !main.DisableSwipeCard;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.SubmitScan, new PageObject(
+                            "Disable SubmitScan Task: $DisableSubmitScan",
+                            true,
+                            () => {main.DisableSubmitScan = !main.DisableSubmitScan;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.UnlockSafe, new PageObject(
+                            "Disable UnlockSafe Task: $DisableUnlockSafe",
+                            true,
+                            () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
                     {OptionPages.NoGameEnd, new PageObject(
                         "NoGameEnd<DEBUG>: $NoGameEndEnabled",
                         true,
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
-                        OptionPages.roles
+                        OptionPages.modes
                     )}
         };
         public static OptionPages currentPage = OptionPages.basepage;
@@ -147,6 +175,10 @@ namespace TownOfHost {
             text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
             text = text.Replace("$NoGameEndEnabled", ChatCommands.getOnOff(main.NoGameEnd));
 
+            text = text.Replace("$DisableSwipeCard", ChatCommands.getOnOff(main.DisableSwipeCard));
+            text = text.Replace("$DisableSubmitScan", ChatCommands.getOnOff(main.DisableSubmitScan));
+            text = text.Replace("$DisableUnlockSafe", ChatCommands.getOnOff(main.DisableUnlockSafe));
+
             return text;
         }
     }
@@ -175,6 +207,10 @@ namespace TownOfHost {
                 Vampire,
             modes,
                 HideAndSeek,
+                DisableTasks,
+                    SwipeCard,
+                    SubmitScan,
+                    UnlockSafe,
                 NoGameEnd
     }
 }
