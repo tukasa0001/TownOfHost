@@ -5,6 +5,7 @@ using Hazel;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
@@ -125,7 +126,14 @@ namespace TownOfHost
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if(RoleText != null) {
-                
+                var RoleTextData = main.GetRoleText(__instance.Data.Role.Role);
+                RoleText.text = RoleTextData.Item1;
+                RoleText.color = RoleTextData.Item2;
+                if(__instance.AmOwner || PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
+                else RoleText.enabled = false;
+                if(!AmongUsClient.Instance.IsGameStarted &&
+                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                RoleText.enabled = false;
             }
         }
     }
@@ -161,7 +169,19 @@ namespace TownOfHost
             foreach(var pva in __instance.playerStates) {
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                RoleTextMeeting.text = "Jester";
+                if(RoleTextMeeting != null) {
+                    var RoleTextData = main.GetRoleText(
+                        PlayerControl.AllPlayerControls.ToArray()
+                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
+                        .FirstOrDefault()
+                        .Data.Role.Role
+                    );
+                    RoleTextMeeting.text = RoleTextData.Item1;
+                    RoleTextMeeting.color = RoleTextData.Item2;
+                    if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId
+                     || PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
+                    else RoleTextMeeting.enabled = false;
+                }
             }
         } 
     }
