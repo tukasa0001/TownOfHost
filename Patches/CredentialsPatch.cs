@@ -51,4 +51,10 @@ namespace TownOfHost {
             __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
         }
     }
+    [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
+    class AwakePatch {
+        public static void Prefix(ModManager __instance) {
+            __instance.ShowModStamp();
+        }
+    }
 }
