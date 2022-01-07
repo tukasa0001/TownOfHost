@@ -120,6 +120,105 @@ namespace TownOfHost
         public static void ToggleRole(ImpostorRoles role) {
             currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
         }
+
+        public static (string,Color) GetRoleText(RoleTypes role) {
+            string RoleText = "Invalid";
+            Color TextColor = Color.red;
+            switch(role) {
+                case RoleTypes.Crewmate:
+                    RoleText = "Crewmate";
+                    TextColor = Color.white;
+                    break;
+                case RoleTypes.Scientist:
+                    switch(currentScientist) {
+                        case ScientistRole.Default:
+                            RoleText = "Scientist";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case ScientistRole.Jester:
+                            RoleText = "Jester";
+                            TextColor = JesterColor();
+                            break;
+                        case ScientistRole.Bait:
+                            RoleText = "Bait";
+                            TextColor = Color.cyan;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Engineer:
+                    switch(currentEngineer) {
+                        case EngineerRole.Default:
+                            RoleText = "Engineer";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case EngineerRole.Madmate:
+                            RoleText = "Madmate";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case EngineerRole.Terrorist:
+                            RoleText = "Terrorist";
+                            TextColor = Color.green;
+                            break;
+                        default:
+                            RoleText = "Invalid Engineer";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Impostor:
+                    switch(currentImpostor) {
+                        case ImpostorRoles.Default:
+                            RoleText = "Impostor";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ImpostorRoles.Vampire:
+                            RoleText = "Vampire";
+                            TextColor = VampireColor;
+                            break;
+                        default:
+                            RoleText = "Invalid Impostor";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Shapeshifter:
+                    switch(currentShapeshifter) {
+                        case ShapeshifterRoles.Default:
+                            RoleText = "Shapeshifter";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ShapeshifterRoles.Sidekick:
+                            RoleText = "Sidekick";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.GuardianAngel:
+                    RoleText = "GuardianAngel";
+                    TextColor = Palette.CrewmateBlue;
+                    break;
+            }
+            return (RoleText,TextColor);
+        }
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
+            string taskText = "";
+            int CompletedTaskCount = 0;
+            int AllTasksCount = 0;
+            foreach(var task in tasks) {
+                AllTasksCount++;
+                if(task.IsComplete) CompletedTaskCount++;
+            }
+            taskText = CompletedTaskCount + "/" + AllTasksCount;
+            return taskText;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
