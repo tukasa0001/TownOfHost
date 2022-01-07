@@ -5,6 +5,7 @@ using Hazel;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
@@ -122,6 +123,66 @@ namespace TownOfHost
                     }
                 }
             }
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            if(RoleText != null) {
+                var RoleTextData = main.GetRoleText(__instance.Data.Role.Role);
+                RoleText.text = RoleTextData.Item1;
+                RoleText.color = RoleTextData.Item2;
+                if(__instance.AmOwner/* || PlayerControl.LocalPlayer.Data.IsDead*/) RoleText.enabled = true;
+                else RoleText.enabled = false;
+                if(!AmongUsClient.Instance.IsGameStarted &&
+                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                RoleText.enabled = false;
+            }
         }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
+    class PlayerStartPatch {
+        public static void Postfix(PlayerControl __instance) {
+            var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
+            roleText.transform.SetParent(__instance.nameText.transform);
+            roleText.transform.localPosition = new Vector3(0f,0.175f,0f);
+            roleText.fontSize = 0.55f;
+            roleText.text = "RoleText";
+            roleText.gameObject.name = "RoleText";
+            roleText.enabled = false;
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+    class MeetingHudStartPatch {
+        public static void Postfix(MeetingHud __instance) {
+            foreach(var pva in __instance.playerStates) {
+                var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
+                roleTextMeeting.transform.SetParent(pva.NameText.transform);
+                roleTextMeeting.transform.localPosition = new Vector3(0f,-0.18f,0f);
+                roleTextMeeting.fontSize = 1.5f;
+                roleTextMeeting.text = "RoleTextMeeting";
+                roleTextMeeting.gameObject.name = "RoleTextMeeting";
+                roleTextMeeting.enabled = false;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
+    class MeetingHudUpdatePatch {
+        public static void Postfix(MeetingHud __instance) {
+            foreach(var pva in __instance.playerStates) {
+                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
+                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
+                if(RoleTextMeeting != null) {
+                    var pc = PlayerControl.AllPlayerControls.ToArray()
+                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
+                        .FirstOrDefault();
+                    if(pc == null) return;
+                    
+                    var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
+                    RoleTextMeeting.text = RoleTextData.Item1/* + " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>"*/;
+                    RoleTextMeeting.color = RoleTextData.Item2;
+                    if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId
+                    /* || PlayerControl.LocalPlayer.Data.IsDead*/) RoleTextMeeting.enabled = true;
+                    else RoleTextMeeting.enabled = false;
+                }
+            }
+        } 
     }
 }

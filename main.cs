@@ -67,7 +67,7 @@ namespace TownOfHost
         public static Color JesterColor() {
             if(TeruteruColor.Value)
                 return new Color(0.823f,0.411f,0.117f);
-            else 
+            else
                 return new Color(0.925f,0.384f,0.647f);
         }
         public static Color VampireColor = new Color(0.65f,0.34f,0.65f);
@@ -87,7 +87,6 @@ namespace TownOfHost
                 return true;
             return false;
         }
-
         public static bool isBait(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
                 return true;
@@ -108,6 +107,7 @@ namespace TownOfHost
                 return true;
             return false;
         }
+
         public static void ToggleRole(ScientistRole role) {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
@@ -119,6 +119,105 @@ namespace TownOfHost
         }
         public static void ToggleRole(ImpostorRoles role) {
             currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
+        }
+
+        public static (string,Color) GetRoleText(RoleTypes role) {
+            string RoleText = "Invalid";
+            Color TextColor = Color.red;
+            switch(role) {
+                case RoleTypes.Crewmate:
+                    RoleText = "Crewmate";
+                    TextColor = Color.white;
+                    break;
+                case RoleTypes.Scientist:
+                    switch(currentScientist) {
+                        case ScientistRole.Default:
+                            RoleText = "Scientist";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case ScientistRole.Jester:
+                            RoleText = "Jester";
+                            TextColor = JesterColor();
+                            break;
+                        case ScientistRole.Bait:
+                            RoleText = "Bait";
+                            TextColor = Color.cyan;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Engineer:
+                    switch(currentEngineer) {
+                        case EngineerRole.Default:
+                            RoleText = "Engineer";
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        case EngineerRole.Madmate:
+                            RoleText = "Madmate";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case EngineerRole.Terrorist:
+                            RoleText = "Terrorist";
+                            TextColor = Color.green;
+                            break;
+                        default:
+                            RoleText = "Invalid Engineer";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Impostor:
+                    switch(currentImpostor) {
+                        case ImpostorRoles.Default:
+                            RoleText = "Impostor";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ImpostorRoles.Vampire:
+                            RoleText = "Vampire";
+                            TextColor = VampireColor;
+                            break;
+                        default:
+                            RoleText = "Invalid Impostor";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.Shapeshifter:
+                    switch(currentShapeshifter) {
+                        case ShapeshifterRoles.Default:
+                            RoleText = "Shapeshifter";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        case ShapeshifterRoles.Sidekick:
+                            RoleText = "Sidekick";
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                        default:
+                            RoleText = "Invalid Scientist";
+                            TextColor = Color.red;
+                            break;
+                    }
+                    break;
+                case RoleTypes.GuardianAngel:
+                    RoleText = "GuardianAngel";
+                    TextColor = Palette.CrewmateBlue;
+                    break;
+            }
+            return (RoleText,TextColor);
+        }
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
+            string taskText = "";
+            int CompletedTaskCount = 0;
+            int AllTasksCount = 0;
+            foreach(var task in tasks) {
+                AllTasksCount++;
+                if(task.IsComplete) CompletedTaskCount++;
+            }
+            taskText = CompletedTaskCount + "/" + AllTasksCount;
+            return taskText;
         }
         //Enabled Role
         public static ScientistRole currentScientist;
