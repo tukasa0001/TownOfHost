@@ -140,7 +140,7 @@ namespace TownOfHost
                             TextColor = JesterColor();
                             break;
                         case ScientistRole.Bait:
-                            RoleText = "Crewmate";
+                            RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
                         default:
