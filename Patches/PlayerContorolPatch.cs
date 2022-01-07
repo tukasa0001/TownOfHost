@@ -170,12 +170,11 @@ namespace TownOfHost
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if(RoleTextMeeting != null) {
-                    var RoleTextData = main.GetRoleText(
-                        PlayerControl.AllPlayerControls.ToArray()
+                    var pc = PlayerControl.AllPlayerControls.ToArray()
                         .Where(pc => pc.PlayerId == pva.TargetPlayerId)
-                        .FirstOrDefault()
-                        .Data.Role.Role
-                    );
+                        .FirstOrDefault();
+                    if(pc == null) return;
+                    var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
                     RoleTextMeeting.text = RoleTextData.Item1;
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId
