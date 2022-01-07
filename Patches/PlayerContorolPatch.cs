@@ -174,8 +174,9 @@ namespace TownOfHost
                         .Where(pc => pc.PlayerId == pva.TargetPlayerId)
                         .FirstOrDefault();
                     if(pc == null) return;
+                    
                     var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
-                    RoleTextMeeting.text = RoleTextData.Item1;
+                    RoleTextMeeting.text = RoleTextData.Item1 + " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId
                      || PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;

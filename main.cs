@@ -208,6 +208,17 @@ namespace TownOfHost
             }
             return (RoleText,TextColor);
         }
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
+            string taskText = "";
+            int CompletedTaskCount = 0;
+            int AllTasksCount = 0;
+            foreach(var task in tasks) {
+                AllTasksCount++;
+                if(task.IsComplete) CompletedTaskCount++;
+            }
+            taskText = CompletedTaskCount + "/" + AllTasksCount;
+            return taskText;
+        }
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
