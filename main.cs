@@ -67,7 +67,7 @@ namespace TownOfHost
         public static Color JesterColor() {
             if(TeruteruColor.Value)
                 return new Color(0.823f,0.411f,0.117f);
-            else 
+            else
                 return new Color(0.925f,0.384f,0.647f);
         }
         public static Color VampireColor = new Color(0.65f,0.34f,0.65f);
@@ -87,7 +87,6 @@ namespace TownOfHost
                 return true;
             return false;
         }
-
         public static bool isBait(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
                 return true;
@@ -108,6 +107,7 @@ namespace TownOfHost
                 return true;
             return false;
         }
+
         public static void ToggleRole(ScientistRole role) {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
