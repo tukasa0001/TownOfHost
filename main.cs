@@ -17,8 +17,8 @@ namespace TownOfHost
     {
         //Sorry for some Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.3.4";
-        public const VersionTypes PluginVersionType = VersionTypes.Released;
+        public const string PluginVersion = "1.4";
+        public const VersionTypes PluginVersionType = VersionTypes.Beta;
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b" : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         //Lang-Config
