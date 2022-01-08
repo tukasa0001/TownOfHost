@@ -41,7 +41,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
-                if (AmongUsClient.Instance.AmHost)
+                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
