@@ -88,6 +88,8 @@ namespace TownOfHost {
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 main.BitPlayers = new Dictionary<byte, (byte, float)>();
             }
+
+            main.VisibleTasksCount = false;
         }
     }
 }

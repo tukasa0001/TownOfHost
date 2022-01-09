@@ -70,15 +70,15 @@ namespace TownOfHost {
     }
     class RPCProcedure {
         public static void SyncCustomSettings(
-            byte scientist,
-            byte engineer,
-            byte impostor,
-            byte shapeshifter,
-            bool isHideAndSeek,
-            bool NoGameEnd,
-            bool SwipeCardDisabled,
-            bool SubmitScanDisabled,
-            bool UnlockSafeDisabled) {
+                byte scientist,
+                byte engineer,
+                byte impostor,
+                byte shapeshifter,
+                bool isHideAndSeek,
+                bool NoGameEnd,
+                bool SwipeCardDisabled,
+                bool SubmitScanDisabled,
+                bool UnlockSafeDisabled) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
@@ -92,6 +92,8 @@ namespace TownOfHost {
             
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            
+            main.VisibleTasksCount = true;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;
