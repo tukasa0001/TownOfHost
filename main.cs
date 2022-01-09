@@ -208,6 +208,15 @@ namespace TownOfHost
             }
             return (RoleText,TextColor);
         }
+        public static bool hasTasks(GameData.PlayerInfo p) {
+            var hasTasks = true;
+            if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
+            if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+            if(p.IsDead && main.IsHideAndSeek) hasTasks = false;
+            return hasTasks;
+        }
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
             string taskText = "";
             int CompletedTaskCount = 0;

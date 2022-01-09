@@ -17,12 +17,7 @@ namespace TownOfHost {
             __instance.TotalTasks = 0;
             __instance.CompletedTasks = 0;
             foreach(var p in __instance.AllPlayers) {
-                var hasTasks = true;
-                if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
-                if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
-                if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
-                if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
-                if(p.IsDead && main.IsHideAndSeek) hasTasks = false;
+                var hasTasks = main.hasTasks(p);
                 if(hasTasks) {
                     foreach(var task in p.Tasks) {
                         __instance.TotalTasks++;

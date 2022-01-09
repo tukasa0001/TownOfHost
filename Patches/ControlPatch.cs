@@ -58,6 +58,10 @@ namespace TownOfHost
                 list.Add(PlayerControl.LocalPlayer);
                 HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
             }
+            if(Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                main.VisibleTasksCount = !main.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
+            }
 
             if (main.OptionControllerIsEnable)
             {

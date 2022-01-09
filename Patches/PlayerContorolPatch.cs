@@ -135,7 +135,7 @@ namespace TownOfHost
                 if(!AmongUsClient.Instance.IsGameStarted &&
                 AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                 RoleText.enabled = false;
-                if(!__instance.AmOwner && main.VisibleTasksCount) 
+                if(!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data)) 
                     RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.myTasks) + ")</color>";
             }
         }
@@ -180,7 +180,7 @@ namespace TownOfHost
                     
                     var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if(main.VisibleTasksCount) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
+                    if(main.VisibleTasksCount && main.hasTasks(pc.Data)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if(main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
