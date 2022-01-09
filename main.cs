@@ -228,6 +228,7 @@ namespace TownOfHost
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
+        public static bool VisibleTasksCount;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -299,6 +300,7 @@ namespace TownOfHost
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             winnerList = "";
+            VisibleTasksCount = false;
 
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
