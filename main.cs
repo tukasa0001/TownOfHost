@@ -210,6 +210,7 @@ namespace TownOfHost
         }
         public static bool hasTasks(GameData.PlayerInfo p) {
             var hasTasks = true;
+            if(p.Disconnected) hasTasks = false;
             if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
             if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
             if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
