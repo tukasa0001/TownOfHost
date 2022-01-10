@@ -228,6 +228,7 @@ namespace TownOfHost
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
         }
+        public static string getOnOff(bool value) => value ? "ON" : "OFF";
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
