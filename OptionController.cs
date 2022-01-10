@@ -34,42 +34,42 @@ namespace TownOfHost {
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        "<color=#ff0000>Madmate</color>: $MadmateEnabled",
+                        () => "<color=#ff0000>Madmate</color>: " + main.getOnOff(main.currentEngineer == EngineerRole.Madmate),
                         true,
                         () => {main.ToggleRole(EngineerRole.Madmate);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Sidekick, new PageObject(
-                        "<color=#ff0000>Sidekick</color>: $SidekickEnabled",
+                        () => "<color=#ff0000>Sidekick</color>: " + main.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick),
                         true,
                         () => {main.ToggleRole(ShapeshifterRoles.Sidekick);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        "<color=#a757a8>Vampire</color>: $VampireEnabled",
+                        () => "<color=#a757a8>Vampire</color>: " + main.getOnOff(main.currentImpostor == ImpostorRoles.Vampire),
                         true,
                         () => {main.ToggleRole(ImpostorRoles.Vampire);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Jester, new PageObject(
-                        "<color=#d161a4>Jester</color>: $JesterEnabled",
+                        () => "<color=#d161a4>Jester</color>: " + main.getOnOff(main.currentScientist == ScientistRole.Jester),
                         true,
                         () => {main.ToggleRole(ScientistRole.Jester);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        "<color=#00ff00>Terrorist</color>: $TerroristEnabled",
+                        () => "<color=#00ff00>Terrorist</color>: " + main.getOnOff(main.currentEngineer == EngineerRole.Terrorist),
                         true,
                         () => {main.ToggleRole(EngineerRole.Terrorist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Bait, new PageObject(
-                        "<color=#00bfff>Bait</color>: $BaitEnabled",
+                        () => "<color=#00bfff>Bait</color>: " + main.getOnOff(main.currentScientist == ScientistRole.Bait),
                         true,
                         () => {main.ToggleRole(ScientistRole.Bait);},
                         new List<OptionPages>(){},
@@ -83,7 +83,7 @@ namespace TownOfHost {
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
-                        "HideAndSeek<BETA>: $HideAndSeekEnabled",
+                        () => "HideAndSeek<BETA>: " + main.getOnOff(main.IsHideAndSeek),
                         true,
                         () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
                         new List<OptionPages>(){},
@@ -97,28 +97,28 @@ namespace TownOfHost {
                         OptionPages.modes
                     )},
                         {OptionPages.SwipeCard, new PageObject(
-                            "Disable SwipeCard Task: $DisableSwipeCard",
+                            () => "Disable SwipeCard Task: " + main.getOnOff(main.DisableSwipeCard),
                             true,
                             () => {main.DisableSwipeCard = !main.DisableSwipeCard;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.SubmitScan, new PageObject(
-                            "Disable SubmitScan Task: $DisableSubmitScan",
+                            () => "Disable SubmitScan Task: " + main.getOnOff(main.DisableSubmitScan),
                             true,
                             () => {main.DisableSubmitScan = !main.DisableSubmitScan;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.UnlockSafe, new PageObject(
-                            "Disable UnlockSafe Task: $DisableUnlockSafe",
+                            () => "Disable UnlockSafe Task: " + main.getOnOff(main.DisableUnlockSafe),
                             true,
                             () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                     {OptionPages.NoGameEnd, new PageObject(
-                        "NoGameEnd<DEBUG>: $NoGameEndEnabled",
+                        () => "NoGameEnd<DEBUG>: " + main.getOnOff(main.NoGameEnd),
                         true,
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
@@ -165,31 +165,25 @@ namespace TownOfHost {
                 text += obj.name + "\r\n";
             }
 
-            //置き換え
-            text = text.Replace("$JesterEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Jester));
-            text = text.Replace("$MadmateEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Madmate));
-            text = text.Replace("$BaitEnabled", ChatCommands.getOnOff(main.currentScientist == ScientistRole.Bait));
-            text = text.Replace("$TerroristEnabled", ChatCommands.getOnOff(main.currentEngineer == EngineerRole.Terrorist));
-            text = text.Replace("$SidekickEnabled", ChatCommands.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick));
-            text = text.Replace("$VampireEnabled", ChatCommands.getOnOff(main.currentImpostor == ImpostorRoles.Vampire));
-            text = text.Replace("$HideAndSeekEnabled", ChatCommands.getOnOff(main.IsHideAndSeek));
-            text = text.Replace("$NoGameEndEnabled", ChatCommands.getOnOff(main.NoGameEnd));
-
-            text = text.Replace("$DisableSwipeCard", ChatCommands.getOnOff(main.DisableSwipeCard));
-            text = text.Replace("$DisableSubmitScan", ChatCommands.getOnOff(main.DisableSubmitScan));
-            text = text.Replace("$DisableUnlockSafe", ChatCommands.getOnOff(main.DisableUnlockSafe));
-
             return text;
         }
     }
     class PageObject {
-        public string name;
+        public string name => getName();
+        private Func<string> getName;
         public bool isHostOnly;
         public Action onEnter;
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
         public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
-            this.name = name;
+            this.getName = () => name;
+            this.isHostOnly = isHostOnly;
+            this.onEnter = onEnter;
+            this.PagesInThis = PageInThis;
+            this.pageToReturn = PageToReturn;
+        }
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
+            this.getName = getName;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
