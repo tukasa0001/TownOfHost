@@ -34,6 +34,7 @@ $@"{main.getLang(lang.roleListStart)}
                 if(getCommand("/winner", text, out arg)) {
                     canceled = true;
                     PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
+                    __instance.TimeSinceLastMessage = 0.0f;
                 }
                 if(getCommand("/jester", text, out arg)) {
                     canceled = true;
@@ -174,6 +175,7 @@ $@"{main.getLang(lang.roleListStart)}
         public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
             if(chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false) {
                 PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
+                __instance.TimeSinceLastMessage = 0.0f;
             }
         }
     }
