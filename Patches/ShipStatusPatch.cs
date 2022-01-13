@@ -13,7 +13,9 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
     class ShipFixedUpdatePatch {
         public static void Postfix(ShipStatus __instance) {
+            //ここより上、全員が実行する
             if(!AmongUsClient.Instance.AmHost) return;
+            //ここより下、ホストのみが実行する
             if(main.isFixedCooldown && PlayerControl.GameOptions.KillCooldown == main.BeforeFixCooldown) {
                 if(main.RefixCooldownDelay <= 0) {
                     PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown * 2;

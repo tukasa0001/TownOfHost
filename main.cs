@@ -230,6 +230,9 @@ namespace TownOfHost
             return taskText;
         }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
+        public static string TextCursor => TextCursorVisible ? "_" : "";
+        public static bool TextCursorVisible;
+        public static float TextCursorTimer;
         //Enabled Role
         public static ScientistRole currentScientist;
         public static EngineerRole currentEngineer;
@@ -240,6 +243,7 @@ namespace TownOfHost
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
+        public static int VampireKillDelay = 10;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -253,6 +257,7 @@ namespace TownOfHost
             writer.Write(DisableSwipeCard);
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
+            writer.Write(VampireKillDelay);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -283,6 +288,9 @@ namespace TownOfHost
         }
         public override void Load()
         {
+            TextCursorTimer = 0f;
+            TextCursorVisible = true;
+
             Japanese = Config.Bind("Info", "Japanese", "日本語");
             Jester = Config.Bind("Lang", "JesterName", "Jester");
             Madmate = Config.Bind("Lang", "MadmateName", "Madmate");
@@ -321,6 +329,8 @@ namespace TownOfHost
             DisableSwipeCard = false;
             DisableSubmitScan = false;
             DisableUnlockSafe = false;
+
+            VampireKillDelay = 10;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);

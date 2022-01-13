@@ -29,7 +29,8 @@ namespace TownOfHost {
                         OptionPages.Madmate,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
-                        OptionPages.Bait
+                        OptionPages.Bait,
+                        OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
                 )},
@@ -75,6 +76,26 @@ namespace TownOfHost {
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
+                    {OptionPages.AdvancedRoleOptions, new PageObject(
+                        "Advanced Options",
+                        false,
+                        () => {SetPage(OptionPages.AdvancedRoleOptions);},
+                        new List<OptionPages>(){OptionPages.VampireKillDelay},
+                        OptionPages.roles
+                    )},
+                        {OptionPages.VampireKillDelay, new PageObject(
+                            () => "<color=#a757a8>Vampire Kill Delay</color>(s): " + main.VampireKillDelay + main.TextCursor,
+                            true,
+                            () => {main.VampireKillDelay = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var KillDelay = main.VampireKillDelay * 10;
+                                KillDelay += i;
+                                var FixedKillDelay = Math.Clamp(KillDelay,0,999);
+                                main.VampireKillDelay = FixedKillDelay;
+                            }
+                        )},
                 {OptionPages.modes, new PageObject(
                     "Mode Options",
                     false,
@@ -153,6 +174,14 @@ namespace TownOfHost {
             var currentPageObj = PageObjects[currentPage];
             SetPage(currentPageObj.pageToReturn);
         }
+        public static void Input(int num) {
+            var currentPageObj = PageObjects[currentPage];
+            var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
+
+            if(selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
+            selectingObj.onInput(num);
+            main.SyncCustomSettingsRPC();
+        }
         public static string GetOptionText() {
             string text;
             var currentPageObj = PageObjects[currentPage];
@@ -175,12 +204,14 @@ namespace TownOfHost {
         public Action onEnter;
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
+        public Action<int> onInput;
         public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
             this.getName = () => name;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
+            this.onInput = (i) => {return;};
         }
         public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
             this.getName = getName;
@@ -188,6 +219,23 @@ namespace TownOfHost {
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
+            this.onInput = (i) => {return;};
+        }
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+            this.getName = () => name;
+            this.isHostOnly = isHostOnly;
+            this.onEnter = onEnter;
+            this.PagesInThis = PageInThis;
+            this.pageToReturn = PageToReturn;
+            this.onInput = onInput;
+        }
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+            this.getName = getName;
+            this.isHostOnly = isHostOnly;
+            this.onEnter = onEnter;
+            this.PagesInThis = PageInThis;
+            this.pageToReturn = PageToReturn;
+            this.onInput = onInput;
         }
     }
     public enum OptionPages {
@@ -199,6 +247,9 @@ namespace TownOfHost {
                 Terrorist,
                 Sidekick,
                 Vampire,
+                VampireOptions,
+                AdvancedRoleOptions,
+                    VampireKillDelay,
             modes,
                 HideAndSeek,
                 DisableTasks,

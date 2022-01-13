@@ -31,4 +31,9 @@ namespace TownOfHost {
             awaiter.GetResult();
         }
     }
+    class Logger {
+        public static void SendInGame(string text, bool isAlways = false) {
+            DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
+        }
+    }
 }
