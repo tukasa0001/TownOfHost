@@ -100,7 +100,8 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             if (AmongUsClient.Instance.AmHost)
-            {
+            {//実行クライアントがホストの場合のみ実行
+                //Vampireの処理
                 if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                 {
                     //__instance：キルされる予定のプレイヤー
@@ -123,6 +124,8 @@ namespace TownOfHost
                     }
                 }
             }
+            //各クライアントが全員分実行
+            //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if(RoleText != null) {

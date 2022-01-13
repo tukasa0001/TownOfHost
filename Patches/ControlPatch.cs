@@ -63,8 +63,20 @@ namespace TownOfHost
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
 
+            if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
+            {
+                Logger.SendInGame("tabキーが押されました");
+                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
+                CustomOptionController.currentPage = OptionPages.basepage;
+                CustomOptionController.currentCursor = 0;
+            }
             if (main.OptionControllerIsEnable)
             {
+                main.TextCursorTimer += Time.deltaTime;
+                if(main.TextCursorTimer > 0.5f) {
+                    main.TextCursorTimer = 0f;
+                    main.TextCursorVisible = !main.TextCursorVisible;
+                }
                 if (Input.GetKeyDown(KeyCode.UpArrow)) CustomOptionController.Up();
                 if (Input.GetKeyDown(KeyCode.DownArrow)) CustomOptionController.Down();
                 if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -75,12 +87,16 @@ namespace TownOfHost
                 {
                     CustomOptionController.Return();
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
-            {
-                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = OptionPages.basepage;
-                CustomOptionController.currentCursor = 0;
+                if(Input.GetKeyDown(KeyCode.Alpha0)) CustomOptionController.Input(0);
+                if(Input.GetKeyDown(KeyCode.Alpha1)) CustomOptionController.Input(1);
+                if(Input.GetKeyDown(KeyCode.Alpha2)) CustomOptionController.Input(2);
+                if(Input.GetKeyDown(KeyCode.Alpha3)) CustomOptionController.Input(3);
+                if(Input.GetKeyDown(KeyCode.Alpha4)) CustomOptionController.Input(4);
+                if(Input.GetKeyDown(KeyCode.Alpha5)) CustomOptionController.Input(5);
+                if(Input.GetKeyDown(KeyCode.Alpha6)) CustomOptionController.Input(6);
+                if(Input.GetKeyDown(KeyCode.Alpha7)) CustomOptionController.Input(7);
+                if(Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
+                if(Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
             }
         }
     }
