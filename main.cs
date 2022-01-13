@@ -230,7 +230,7 @@ namespace TownOfHost
             return taskText;
         }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
-        public static string TextCursor() => TextCursorVisible ? "_" : "";
+        public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
@@ -257,6 +257,7 @@ namespace TownOfHost
             writer.Write(DisableSwipeCard);
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
+            writer.Write(VampireKillDelay);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {

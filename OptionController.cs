@@ -84,14 +84,16 @@ namespace TownOfHost {
                         OptionPages.roles
                     )},
                         {OptionPages.VampireKillDelay, new PageObject(
-                            () => "<color=#a757a8>Vampire Kill Delay</color>(s): " + main.VampireKillDelay + main.TextCursor(),
+                            () => "<color=#a757a8>Vampire Kill Delay</color>(s): " + main.VampireKillDelay + main.TextCursor,
                             true,
                             () => {main.VampireKillDelay = 0;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions,
                             (i) => {
-                                main.VampireKillDelay = main.VampireKillDelay * 10;
-                                main.VampireKillDelay += i;
+                                var KillDelay = main.VampireKillDelay * 10;
+                                KillDelay += i;
+                                var FixedKillDelay = Math.Clamp(KillDelay,0,999);
+                                main.VampireKillDelay = FixedKillDelay;
                             }
                         )},
                 {OptionPages.modes, new PageObject(

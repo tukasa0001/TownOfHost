@@ -38,6 +38,7 @@ namespace TownOfHost {
                     bool SwipeCardDisabled = reader.ReadBoolean();
                     bool SubmitScanDisabled = reader.ReadBoolean();
                     bool UnlockSafeDisabled = reader.ReadBoolean();
+                    int VampireKillDelay = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -47,7 +48,8 @@ namespace TownOfHost {
                         NoGameEnd,
                         SwipeCardDisabled,
                         SubmitScanDisabled,
-                        UnlockSafeDisabled);
+                        UnlockSafeDisabled,
+                        VampireKillDelay);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -78,7 +80,8 @@ namespace TownOfHost {
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
                 bool SubmitScanDisabled,
-                bool UnlockSafeDisabled) {
+                bool UnlockSafeDisabled,
+                int VampireKillDelay) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
