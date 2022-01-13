@@ -20,7 +20,7 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            if (!target.Data.IsDead)
+            if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             //When Bait is killed
             if (target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost
