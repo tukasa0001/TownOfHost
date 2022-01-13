@@ -175,12 +175,14 @@ namespace TownOfHost {
         public Action onEnter;
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
+        public Action<int> onInput;
         public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
             this.getName = () => name;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
+            this.onInput = (i) => {return;};
         }
         public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
             this.getName = getName;
@@ -188,6 +190,23 @@ namespace TownOfHost {
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
+            this.onInput = (i) => {return;};
+        }
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+            this.getName = () => name;
+            this.isHostOnly = isHostOnly;
+            this.onEnter = onEnter;
+            this.PagesInThis = PageInThis;
+            this.pageToReturn = PageToReturn;
+            this.onInput = onInput;
+        }
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+            this.getName = getName;
+            this.isHostOnly = isHostOnly;
+            this.onEnter = onEnter;
+            this.PagesInThis = PageInThis;
+            this.pageToReturn = PageToReturn;
+            this.onInput = onInput;
         }
     }
     public enum OptionPages {
