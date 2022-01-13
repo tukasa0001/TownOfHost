@@ -97,6 +97,8 @@ namespace TownOfHost {
             main.CustomWinTrigger = false;
             
             main.VisibleTasksCount = true;
+
+            main.VampireKillDelay = VampireKillDelay;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;

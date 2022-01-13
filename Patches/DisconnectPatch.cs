@@ -19,6 +19,7 @@ namespace TownOfHost
     class OnDisconnectedPatch {
         public static void Postfix(AmongUsClient __instance) {
             main.VisibleTasksCount = false;
+            main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
         }
     }
 }
