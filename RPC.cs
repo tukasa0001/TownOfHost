@@ -39,6 +39,7 @@ namespace TownOfHost {
                     bool SubmitScanDisabled = reader.ReadBoolean();
                     bool UnlockSafeDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    bool SyncButtonMode = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -49,7 +50,8 @@ namespace TownOfHost {
                         SwipeCardDisabled,
                         SubmitScanDisabled,
                         UnlockSafeDisabled,
-                        VampireKillDelay);
+                        VampireKillDelay,
+                        SyncButtonMode);
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -81,7 +83,8 @@ namespace TownOfHost {
                 bool SwipeCardDisabled,
                 bool SubmitScanDisabled,
                 bool UnlockSafeDisabled,
-                int VampireKillDelay) {
+                int VampireKillDelay,
+                bool SyncButtonMode) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
@@ -99,6 +102,7 @@ namespace TownOfHost {
             main.VisibleTasksCount = true;
 
             main.VampireKillDelay = VampireKillDelay;
+            main.SyncButtonMode = SyncButtonMode;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;

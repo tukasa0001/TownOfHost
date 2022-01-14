@@ -57,6 +57,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
+        public static bool SyncButtonMode;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
         //タスク無効化
@@ -258,6 +259,7 @@ namespace TownOfHost
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
             writer.Write(VampireKillDelay);
+            writer.Write(SyncButtonMode);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -314,6 +316,7 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
+            SyncButtonMode = false;
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
