@@ -117,6 +117,13 @@ namespace TownOfHost {
                         new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe},
                         OptionPages.modes
                     )},
+                    {OptionPages.DisableTasks, new PageObject(
+                        "Disable Tasks",
+                        false,
+                        () => {SetPage(OptionPages.DisableTasks);},
+                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe},
+                        OptionPages.modes
+                    )},
                         {OptionPages.SwipeCard, new PageObject(
                             () => "Disable SwipeCard Task: " + main.getOnOff(main.DisableSwipeCard),
                             true,
@@ -252,6 +259,9 @@ namespace TownOfHost {
                     VampireKillDelay,
             modes,
                 HideAndSeek,
+                SyncButtonMode,
+                    SyncButtonModeEnabled,
+                    SyncedButtonCount,
                 DisableTasks,
                     SwipeCard,
                     SubmitScan,

@@ -58,6 +58,7 @@ namespace TownOfHost
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool SyncButtonMode;
+        public static int SyncedButtonCount;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
         //タスク無効化
@@ -260,6 +261,7 @@ namespace TownOfHost
             writer.Write(DisableUnlockSafe);
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
+            writer.Write(SyncedButtonCount);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -317,6 +319,7 @@ namespace TownOfHost
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
             SyncButtonMode = false;
+            SyncedButtonCount = 10;
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
