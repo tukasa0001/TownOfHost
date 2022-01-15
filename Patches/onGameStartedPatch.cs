@@ -21,6 +21,7 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
                 main.SyncCustomSettingsRPC();

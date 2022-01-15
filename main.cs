@@ -59,6 +59,7 @@ namespace TownOfHost
         public static bool IsHideAndSeek;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
+        public static int UsedButtonCount;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
         //タスク無効化
@@ -79,6 +80,7 @@ namespace TownOfHost
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static string winnerList;
+        public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target) {
             if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
@@ -290,6 +292,10 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
+        public static void SendToAll(string text) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            MessagesToSend.Add(text);
+        }
         public override void Load()
         {
             TextCursorTimer = 0f;
@@ -320,12 +326,14 @@ namespace TownOfHost
             IsHideAndSeek = false;
             SyncButtonMode = false;
             SyncedButtonCount = 10;
+            UsedButtonCount = 0;
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             winnerList = "";
             VisibleTasksCount = false;
+            MessagesToSend = new List<string>();
 
             currentScientist = ScientistRole.Default;
             currentEngineer = EngineerRole.Default;
