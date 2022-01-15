@@ -42,18 +42,6 @@ $@"{main.getLang(lang.roleListStart)}
                     PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
                     __instance.TimeSinceLastMessage = 0.0f;
                 }
-                if (getCommand("/help jester", text, out arg))
-                {
-                    canceled = true;
-                    PlayerControl.LocalPlayer.RpcSendChat(== Jester / ジェスター ==
-置き換え元：科学者
-陣営：第三
-勝利条件：投票で追放されること。
-
-投票で追放されたときに単独勝利となる第三陣営の役職。
-追放されずにゲームが終了するか、キルされると敗北となる。);
-                    __instance.TimeSinceLastMessage = 0.0f;
-                }
                 if (getCommand("/jester", text, out arg))
                 {
                     canceled = true;
