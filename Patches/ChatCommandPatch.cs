@@ -62,7 +62,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "sidekick")
                     {
-                        main.SendToAll("Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。キルができない状態でもキルボタンはあるが、キルはできない。キルが可能になった後でも変身は継続して行うことができる。");
+                        main.SendToAll("Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。");
                     }
                     else if (arg == "vampire")
                     {
@@ -78,7 +78,11 @@ $@"{main.getLang(lang.roleListStart)}
                     canceled = true;
                     if (arg == "hide and seak")
                     {
-                        main.SendToAll("HideAndSeek:クルー陣営は全てのタスクを完了させると勝利する。インポスター陣営は全てのクルーをキルすると勝利する。サボタージュ、アドミン、カメラ、幽霊が生存者に位置情報を伝える行為、待ち伏せは禁止事項である。死体の報告、緊急会議ボタン、サボタージュ勝利をすることはできない。");
+                        main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
+                    }
+                    if (arg == "no game end")
+                    {
+                        main.SendToAll("HideAndSeek:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
                     }
                 }
                 if (getCommand("/jester", text, out arg))
