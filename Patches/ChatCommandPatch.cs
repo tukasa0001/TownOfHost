@@ -80,9 +80,13 @@ $@"{main.getLang(lang.roleListStart)}
                     {
                         main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
                     }
-                    if (arg == "nogameend")
+                    else if (arg == "nogameend")
                     {
                         main.SendToAll("HideAndSeek:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
+                    }
+                    else
+                    {
+                        main.SendToAll("Error:入力されたモードは存在しません。");
                     }
                 }
                 if (getCommand("/jester", text, out arg))
