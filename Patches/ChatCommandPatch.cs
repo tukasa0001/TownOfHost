@@ -33,8 +33,7 @@ $@"{main.getLang(lang.roleListStart)}
             if(AmongUsClient.Instance.AmHost) {
                 if(getCommand("/winner", text, out arg)) {
                     canceled = true;
-                    PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
-                    __instance.TimeSinceLastMessage = 0.0f;
+                    main.SendToAll(main.winnerList);
                 }
                 if(getCommand("/jester", text, out arg)) {
                     canceled = true;
@@ -174,8 +173,20 @@ $@"{main.getLang(lang.roleListStart)}
     class AddChatPatch {
         public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
             if(chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false) {
-                PlayerControl.LocalPlayer.RpcSendChat(main.winnerList);
+                main.SendToAll(main.winnerList);
+            }
+        }
+    }
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
+    class ChatUpdatePatch {
+        public static void Postfix(ChatController __instance) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            float num = 3f - __instance.TimeSinceLastMessage;
+            if(main.MessagesToSend.Count > 0 && num <= 0.0f) {
+                string msg = main.MessagesToSend[0];
+                main.MessagesToSend.RemoveAt(0);
                 __instance.TimeSinceLastMessage = 0.0f;
+                PlayerControl.LocalPlayer.RpcSendChat(msg);
             }
         }
     }

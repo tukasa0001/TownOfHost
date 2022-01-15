@@ -100,7 +100,12 @@ namespace TownOfHost {
                     "Mode Options",
                     false,
                     () => {SetPage(OptionPages.modes);},
-                    new List<OptionPages>(){OptionPages.HideAndSeek, OptionPages.DisableTasks, OptionPages.NoGameEnd},
+                    new List<OptionPages>(){
+                        OptionPages.HideAndSeek,
+                        OptionPages.SyncButtonMode,
+                        OptionPages.DisableTasks,
+                        OptionPages.NoGameEnd
+                    },
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
@@ -110,6 +115,38 @@ namespace TownOfHost {
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
+                    {OptionPages.SyncButtonMode, new PageObject(
+                        "Sync Button Mode",
+                        false,
+                        () => {SetPage(OptionPages.SyncButtonMode);},
+                        new List<OptionPages>(){OptionPages.SyncButtonModeEnabled, OptionPages.SyncedButtonCount},
+                        OptionPages.modes
+                    )},
+                        {OptionPages.SyncButtonModeEnabled, new PageObject(
+                            () => "Sync Button Mode: " + main.getOnOff(main.SyncButtonMode),
+                            true,
+                            () => {
+                                main.SyncButtonMode = !main.SyncButtonMode;
+                                //一人当たりのボタン数を9に設定
+                                PlayerControl.GameOptions.NumEmergencyMeetings = 9;
+                                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                            },
+                            new List<OptionPages>(){},
+                            OptionPages.SyncButtonMode
+                        )},
+                        {OptionPages.SyncedButtonCount, new PageObject(
+                            () => "Synced Buttons Count: " + main.SyncedButtonCount + main.TextCursor,
+                            true,
+                            () => {main.SyncedButtonCount = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.SyncButtonMode,
+                            (i) => {
+                                var Count = main.SyncedButtonCount * 10;
+                                Count += i;
+                                var FixedCount = Math.Clamp(Count,0,100);
+                                main.SyncedButtonCount = FixedCount;
+                            }
+                        )},
                     {OptionPages.DisableTasks, new PageObject(
                         "Disable Tasks",
                         false,
@@ -252,6 +289,9 @@ namespace TownOfHost {
                     VampireKillDelay,
             modes,
                 HideAndSeek,
+                SyncButtonMode,
+                    SyncButtonModeEnabled,
+                    SyncedButtonCount,
                 DisableTasks,
                     SwipeCard,
                     SubmitScan,
