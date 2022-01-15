@@ -21,6 +21,7 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
                 main.SyncCustomSettingsRPC();
@@ -40,6 +41,7 @@ namespace TownOfHost
                     main.BeforeFixCooldown = opt.KillCooldown;
                     opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
+                if(main.SyncButtonMode) main.BeforeFixMeetingCooldown = PlayerControl.GameOptions.EmergencyCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
             }
         }

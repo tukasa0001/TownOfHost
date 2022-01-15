@@ -73,20 +73,30 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
     class ReportDeadBodyPatch
     {
-        public static bool Prefix(PlayerControl __instance)
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (main.IsHideAndSeek) return false;
-            if (AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance.AmHost) return true;
+
+            if(main.SyncButtonMode && target == null) {
+                if(main.SyncedButtonCount <= main.UsedButtonCount) {
+                    return false;
+                }
+                else main.UsedButtonCount++;
+                if(main.SyncedButtonCount == main.UsedButtonCount) {
+                    PlayerControl.GameOptions.EmergencyCooldown = 3600;
+                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                }
+            }
+            
+            foreach (var bp in main.BitPlayers)
             {
-                foreach (var bp in main.BitPlayers)
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
                     {
-                        if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
-                        {
-                            pc.RpcMurderPlayer(pc);
-                            main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        }
+                        pc.RpcMurderPlayer(pc);
+                        main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                     }
                 }
             }
@@ -167,6 +177,8 @@ namespace TownOfHost
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enabled = false;
             }
+            if(main.SyncButtonMode)
+                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です");
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
