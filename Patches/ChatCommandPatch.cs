@@ -41,6 +41,14 @@ $@"{main.getLang(lang.roleListStart)}
                     canceled = true;
                     main.SendToAll(main.winnerList);
                 }
+                if (getCommand("/help", text, out arg))
+                {
+                    canceled = true;
+                    if (arg == "jester")
+                    {
+                        main.SendToAll("Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。");
+                    }
+                }
                 if (getCommand("/jester", text, out arg))
                 {
                     canceled = true;
