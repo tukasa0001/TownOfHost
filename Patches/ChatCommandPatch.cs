@@ -41,7 +41,7 @@ $@"{main.getLang(lang.roleListStart)}
                     canceled = true;
                     main.SendToAll(main.winnerList);
                 }
-                if (getCommand("/help roles", text, out arg))
+                if (getCommand("/h roles", text, out arg))
                 {
                     canceled = true;
                     if (arg == "jester")
@@ -50,15 +50,35 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "madmate")
                     {
-                        main.SendToAll("Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。");
+                        main.SendToAll("Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。");
+                    }
+                    else if (arg == "bait")
+                    {
+                        main.SendToAll("Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。");
+                    }
+                    else if (arg == "terrorist")
+                    {
+                        main.SendToAll("Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。");
+                    }
+                    else if (arg == "sidekick")
+                    {
+                        main.SendToAll("Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。キルができない状態でもキルボタンはあるが、キルはできない。キルが可能になった後でも変身は継続して行うことができる。");
+                    }
+                    else if (arg == "vampire")
+                    {
+                        main.SendToAll("Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。");
+                    }
+                    else
+                    {
+                        main.SendToAll("Error:入力された役職は存在しません。");
                     }
                 }
-                if (getCommand("/help modes", text, out arg))
+                if (getCommand("/h modes", text, out arg))
                 {
                     canceled = true;
                     if (arg == "hide and seak")
                     {
-                        main.SendToAll("HideAndSeek:クルー陣営は全てのタスクを完了させると勝利する。インポスター陣営は全てのクルーをキルすると勝利する。サボタージュやアドミン、カメラ、幽霊が生存者に位置情報を伝える行為、待ち伏せは禁止事項である。死体の通報や緊急会議ボタン、サボタージュ勝利をすることはできない。");
+                        main.SendToAll("HideAndSeek:クルー陣営は全てのタスクを完了させると勝利する。インポスター陣営は全てのクルーをキルすると勝利する。サボタージュ、アドミン、カメラ、幽霊が生存者に位置情報を伝える行為、待ち伏せは禁止事項である。死体の報告、緊急会議ボタン、サボタージュ勝利をすることはできない。");
                     }
                 }
                 if (getCommand("/jester", text, out arg))
