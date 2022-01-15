@@ -76,11 +76,11 @@ $@"{main.getLang(lang.roleListStart)}
                 if (getCommand("/h modes", text, out arg))
                 {
                     canceled = true;
-                    if (arg == "hide and seak")
+                    if (arg == "hideandseak")
                     {
                         main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
                     }
-                    if (arg == "no game end")
+                    if (arg == "nogameend")
                     {
                         main.SendToAll("HideAndSeek:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
                     }
