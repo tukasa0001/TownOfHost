@@ -58,7 +58,7 @@ $@"{main.getLang(lang.roleListStart)}
                     canceled = true;
                     if (arg == "hide and seak")
                     {
-                        main.SendToAll("test message");
+                        main.SendToAll("HideAndSeek:クルー陣営は全てのタスクを完了させると勝利する。インポスター陣営は全てのクルーをキルすると勝利する。サボタージュやアドミン、カメラ、幽霊が生存者に位置情報を伝える行為、待ち伏せは禁止事項である。死体の通報や緊急会議ボタン、サボタージュ勝利をすることはできない。");
                     }
                 }
                 if (getCommand("/jester", text, out arg))
