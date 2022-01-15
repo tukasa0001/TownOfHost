@@ -172,6 +172,7 @@ $@"{main.getLang(lang.roleListStart)}
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch {
         public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
+            Logger.SendToFile(__instance.name + ":" + chatText, LogLevel.Message);
             if(chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false) {
                 main.SendToAll(main.winnerList);
             }

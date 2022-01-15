@@ -22,10 +22,12 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
+            Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
             //When Bait is killed
             if (target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost
             && __instance.PlayerId != target.PlayerId)
             {
+                Logger.SendToFile(target.name + "はBaitだった");
                 Thread.Sleep(150);
                 __instance.CmdReportDeadBody(target.Data);
             }
@@ -33,6 +35,7 @@ namespace TownOfHost
             //Terrorist
             if (main.isTerrorist(target))
             {
+                Logger.SendToFile(target.name + "はTerroristだった");
                 main.CheckTerroristWin(target.Data);
             }
         }
@@ -43,6 +46,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
+            Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if (main.isSidekick(__instance))
             {
                 var ImpostorCount = 0;
@@ -51,7 +55,12 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Impostor &&
                          !pc.Data.IsDead) ImpostorCount++;
                 }
-                if (ImpostorCount > 0) return false;
+                Logger.SendToFile("ImpostorCount: " + ImpostorCount);
+                if (ImpostorCount > 0) {
+                    Logger.SendToFile(__instance.name + "はSidekickだったので、キルはキャンセルされました。");
+                    return false;
+                } else 
+                Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
@@ -79,11 +88,14 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
 
             if(main.SyncButtonMode && target == null) {
+                Logger.SendToFile("最大:" + main.SyncedButtonCount + ", 現在:" + main.UsedButtonCount, LogLevel.Message);
                 if(main.SyncedButtonCount <= main.UsedButtonCount) {
+                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンはリセットされました。", LogLevel.Message);
                     return false;
                 }
                 else main.UsedButtonCount++;
                 if(main.SyncedButtonCount == main.UsedButtonCount) {
+                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンクールダウンが1時間に設定されました。");
                     PlayerControl.GameOptions.EmergencyCooldown = 3600;
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
@@ -97,7 +109,9 @@ namespace TownOfHost
                     {
                         pc.RpcMurderPlayer(pc);
                         main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                    }
+                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                    } else 
+                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -124,7 +138,9 @@ namespace TownOfHost
                         {
                             __instance.RpcMurderPlayer(__instance);
                             main.PlaySoundRPC(vampireID, Sounds.KillSound);
-                        }
+                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                        } else 
+                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
                         main.BitPlayers.Remove(__instance.PlayerId);
                     }
                     else
@@ -177,8 +193,10 @@ namespace TownOfHost
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enabled = false;
             }
-            if(main.SyncButtonMode)
+            if(main.SyncButtonMode) {
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です");
+                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です", LogLevel.Message);
+            }
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
