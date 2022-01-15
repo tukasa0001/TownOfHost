@@ -79,9 +79,14 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
 
             if(main.SyncButtonMode && target == null) {
-                if(main.SyncedButtonCount <= main.UsedButtonCount) 
-                return false;
+                if(main.SyncedButtonCount <= main.UsedButtonCount) {
+                    return false;
+                }
                 else main.UsedButtonCount++;
+                if(main.SyncedButtonCount == main.UsedButtonCount) {
+                    PlayerControl.GameOptions.EmergencyCooldown = 3600;
+                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                }
             }
             
             foreach (var bp in main.BitPlayers)

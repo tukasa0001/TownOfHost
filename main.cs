@@ -79,6 +79,7 @@ namespace TownOfHost
         public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
+        public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
         public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target) {

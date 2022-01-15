@@ -41,6 +41,7 @@ namespace TownOfHost
                     main.BeforeFixCooldown = opt.KillCooldown;
                     opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
+                if(main.SyncButtonMode) main.BeforeFixMeetingCooldown = PlayerControl.GameOptions.EmergencyCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
             }
         }
