@@ -52,6 +52,9 @@ namespace TownOfHost
                     }
                 }
             }
+            if(Input.GetKey(KeyCode.B) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                Logger.SendToFile("none");
+            }
             if(Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
                 var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

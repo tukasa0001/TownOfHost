@@ -21,6 +21,7 @@ namespace TownOfHost
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b" : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
+        public static BepInEx.Logging.ManualLogSource Logger;
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
         public static ConfigEntry<string> Japanese {get; private set;}
@@ -322,6 +323,8 @@ namespace TownOfHost
             SidekickInfo = Config.Bind("Lang", "SidekickInfo", "You are Sidekick");
             Vampire = Config.Bind("Lang", "VampireName", "Vampire");
             VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill all crewmates with your bites");
+
+            Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
