@@ -56,11 +56,13 @@ namespace TownOfHost
                          !pc.Data.IsDead) ImpostorCount++;
                 }
                 Logger.SendToFile("ImpostorCount: " + ImpostorCount);
-                if (ImpostorCount > 0) {
+                if (ImpostorCount > 0)
+                {
                     Logger.SendToFile(__instance.name + "はSidekickだったので、キルはキャンセルされました。");
                     return false;
-                } else 
-                Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
+                }
+                else
+                    Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
@@ -87,20 +89,23 @@ namespace TownOfHost
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
 
-            if(main.SyncButtonMode && target == null) {
+            if (main.SyncButtonMode && target == null)
+            {
                 Logger.SendToFile("最大:" + main.SyncedButtonCount + ", 現在:" + main.UsedButtonCount, LogLevel.Message);
-                if(main.SyncedButtonCount <= main.UsedButtonCount) {
+                if (main.SyncedButtonCount <= main.UsedButtonCount)
+                {
                     Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンはリセットされました。", LogLevel.Message);
                     return false;
                 }
                 else main.UsedButtonCount++;
-                if(main.SyncedButtonCount == main.UsedButtonCount) {
+                if (main.SyncedButtonCount == main.UsedButtonCount)
+                {
                     Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンクールダウンが1時間に設定されました。");
                     PlayerControl.GameOptions.EmergencyCooldown = 3600;
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
             }
-            
+
             foreach (var bp in main.BitPlayers)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -110,7 +115,8 @@ namespace TownOfHost
                         pc.RpcMurderPlayer(pc);
                         main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
-                    } else 
+                    }
+                    else
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
                 }
             }
@@ -139,7 +145,8 @@ namespace TownOfHost
                             __instance.RpcMurderPlayer(__instance);
                             main.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                        } else 
+                        }
+                        else
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
                         main.BitPlayers.Remove(__instance.PlayerId);
                     }
@@ -154,27 +161,30 @@ namespace TownOfHost
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-            if(RoleText != null) {
+            if (RoleText != null)
+            {
                 var RoleTextData = main.GetRoleText(__instance.Data.Role.Role);
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
-                if(__instance.AmOwner) RoleText.enabled = true;
-                else if(main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
+                if (__instance.AmOwner) RoleText.enabled = true;
+                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
                 else RoleText.enabled = false;
-                if(!AmongUsClient.Instance.IsGameStarted &&
+                if (!AmongUsClient.Instance.IsGameStarted &&
                 AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-                RoleText.enabled = false;
-                if(!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data)) 
+                    RoleText.enabled = false;
+                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data))
                     RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.myTasks) + ")</color>";
             }
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
-    class PlayerStartPatch {
-        public static void Postfix(PlayerControl __instance) {
+    class PlayerStartPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
             var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
             roleText.transform.SetParent(__instance.nameText.transform);
-            roleText.transform.localPosition = new Vector3(0f,0.175f,0f);
+            roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
             roleText.fontSize = 0.55f;
             roleText.text = "RoleText";
             roleText.gameObject.name = "RoleText";
@@ -182,44 +192,52 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-    class MeetingHudStartPatch {
-        public static void Postfix(MeetingHud __instance) {
-            foreach(var pva in __instance.playerStates) {
+    class MeetingHudStartPatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            foreach (var pva in __instance.playerStates)
+            {
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
-                roleTextMeeting.transform.localPosition = new Vector3(0f,-0.18f,0f);
+                roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
                 roleTextMeeting.text = "RoleTextMeeting";
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enabled = false;
             }
-            if(main.SyncButtonMode) {
-                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です");
-                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です", LogLevel.Message);
+            if (main.SyncButtonMode)
+            {
+                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
+                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-    class MeetingHudUpdatePatch {
-        public static void Postfix(MeetingHud __instance) {
-            foreach(var pva in __instance.playerStates) {
+    class MeetingHudUpdatePatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            foreach (var pva in __instance.playerStates)
+            {
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                if(RoleTextMeeting != null) {
+                if (RoleTextMeeting != null)
+                {
                     var pc = PlayerControl.AllPlayerControls.ToArray()
                         .Where(pc => pc.PlayerId == pva.TargetPlayerId)
                         .FirstOrDefault();
-                    if(pc == null) return;
-                    
+                    if (pc == null) return;
+
                     var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if(main.VisibleTasksCount && main.hasTasks(pc.Data)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
+                    if (main.VisibleTasksCount && main.hasTasks(pc.Data)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
-                    if(pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if(main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
+                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
+                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
                     else RoleTextMeeting.enabled = false;
                 }
             }
-        } 
+        }
     }
 }
