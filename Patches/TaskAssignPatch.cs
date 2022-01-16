@@ -18,8 +18,8 @@ namespace TownOfHost {
             List<int> disabledTaskIndex = new List<int>();
             for(var i = 0; i < unusedTasks.Count; i++) {
                 var task = unusedTasks[i];
-                if(task.TaskType == TaskTypes.SubmitScan && main.DisableSwipeCard) disabledTaskIndex.Add(i);//スキャンタスク
-                if(task.TaskType == TaskTypes.SwipeCard && main.DisableSubmitScan) disabledTaskIndex.Add(i);//カードタスク
+                if(task.TaskType == TaskTypes.SwipeCard && main.DisableSwipeCard) disabledTaskIndex.Add(i);//スキャンタスク
+                if(task.TaskType == TaskTypes.SubmitScan && main.DisableSubmitScan) disabledTaskIndex.Add(i);//カードタスク
                 if(task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTaskIndex.Add(i);//金庫タスク
             }
             foreach(var i in disabledTaskIndex) {
