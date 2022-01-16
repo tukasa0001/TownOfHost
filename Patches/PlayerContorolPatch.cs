@@ -222,4 +222,15 @@ namespace TownOfHost
             }
         } 
     }
+    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
+    class SetColorPatch {
+        public static bool Prefix(PlayerControl __instance, int bodyColor) {
+            //色変更バグ対策
+            if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor) return true;
+            if(AmongUsClient.Instance.IsGameStarted) {
+                //ゲーム中に色を変えた場合
+            }
+            return true;
+        }
+    }
 }
