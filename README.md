@@ -50,7 +50,7 @@
 | Terrorist | エンジニア |
 | Bait | 科学者 |
 
-### Jester/てるてる
+### Jester/ジェスター
 
 陣営：単独<br>
 置き換え先：科学者<br>
