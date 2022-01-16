@@ -26,4 +26,18 @@ namespace TownOfHost {
             }
         }
     }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
+    class RepairSystemPatch {
+        public static bool Prefix(ShipStatus __instance) {
+            if(main.IsHideAndSeek) return false;
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
+    class CloseDoorsPatch {
+        public static bool Prefix(ShipStatus __instance) {
+            if(main.IsHideAndSeek) return false;
+            return true;
+        }
+    }
 }
