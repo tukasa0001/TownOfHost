@@ -16,7 +16,7 @@ namespace TownOfHost
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
-        {
+        {//注:この時点では役職は設定されていません。
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
@@ -41,8 +41,23 @@ namespace TownOfHost
                     main.BeforeFixCooldown = opt.KillCooldown;
                     opt.KillCooldown = main.BeforeFixCooldown * 2;
                 }
+
                 if(main.SyncButtonMode) main.BeforeFixMeetingCooldown = PlayerControl.GameOptions.EmergencyCooldown;
+
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
+            }
+        }
+    }
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
+    class SelectRolesPatch {
+        public static void Postfix(RoleManager __instance) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            if(main.IsHideAndSeek) {
+                //Hide And Seek時の処理
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.Data.Role.IsImpostor) pc.RpcSetColor(0);//赤色
+                    else pc.RpcSetColor(1);//青色
+                }
             }
         }
     }
