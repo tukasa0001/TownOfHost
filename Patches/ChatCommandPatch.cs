@@ -89,6 +89,13 @@ $@"{main.getLang(lang.roleListStart)}
                         main.SendToAll("Error:入力されたモードは存在しません。");
                     }
                 }
+                if (getCommand("/h commands", text, out arg))
+                {
+                    canceled = true;
+                    main.SendToAll("/winner:全員が前回の勝者の名前を確認することができる。");
+                    main.SendToAll("/[役職名] on/off:役職の有無を変更できる。");
+                    main.SendToAll("/[役職名] on/off:役職の有無を変更できる。");
+                }
                 if (getCommand("/jester", text, out arg))
                 {
                     canceled = true;
@@ -194,6 +201,27 @@ $@"{main.getLang(lang.roleListStart)}
                         cancelVal = "/sidekick";
                     }
                 }
+                if (getCommand("/vampire", text, out arg))
+                {
+                    canceled = true;
+                    if (arg == "on")
+                    {
+                        main.currentImpostor = ImpostorRoles.Vampire;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Vampire));
+                        main.SyncCustomSettingsRPC();
+                    }
+                    else if (arg == "off")
+                    {
+                        main.currentImpostor = ImpostorRoles.Vampire;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Vampire));
+                        main.SyncCustomSettingsRPC();
+                    }
+                    else
+                    {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
+                        cancelVal = "/Vampire";
+                    }
+                }
                 if (getCommand("/hideandseek", text, out arg))
                 {
                     canceled = true;
@@ -271,8 +299,10 @@ $@"{main.getLang(lang.roleListStart)}
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    class AddChatPatch {
-        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
+    class AddChatPatch
+    {
+        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText)
+        {
             Logger.SendToFile(__instance.name + ":" + chatText, LogLevel.Message);
             if (chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false)
             {
