@@ -25,10 +25,11 @@ namespace TownOfHost {
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
             if(main.currentWinner == CustomWinner.Default) {
-                if (CheckAndEndGameForTaskWin(__instance)) return false;
                 if(main.IsHideAndSeek) {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
+                    if (CheckAndEndGameForTaskWin(__instance)) return false;
                 } else {
+                    if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;

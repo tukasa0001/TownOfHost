@@ -58,6 +58,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL {get; private set;}
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
+        public static bool AllowCloseDoors;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -266,6 +267,7 @@ namespace TownOfHost
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
+            writer.Write(AllowCloseDoors);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -328,6 +330,7 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
             IsHideAndSeek = false;
+            AllowCloseDoors = false;
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;

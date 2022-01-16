@@ -102,6 +102,7 @@ namespace TownOfHost {
                     () => {SetPage(OptionPages.modes);},
                     new List<OptionPages>(){
                         OptionPages.HideAndSeek,
+                        OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
                         OptionPages.NoGameEnd
@@ -115,6 +116,22 @@ namespace TownOfHost {
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
+                    {OptionPages.HideAndSeekOptions, new PageObject(
+                        "HideAndSeek Options",
+                        false,
+                        () => {SetPage(OptionPages.HideAndSeekOptions);},
+                        new List<OptionPages>(){
+                            OptionPages.AllowCloseDoors
+                        },
+                        OptionPages.modes
+                    )},
+                        {OptionPages.AllowCloseDoors, new PageObject(
+                            () => "Allow Close Doors: " + main.getOnOff(main.AllowCloseDoors),
+                            false,
+                            () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
+                        )},
                     {OptionPages.SyncButtonMode, new PageObject(
                         "Sync Button Mode",
                         false,
@@ -289,6 +306,10 @@ namespace TownOfHost {
                     VampireKillDelay,
             modes,
                 HideAndSeek,
+                HideAndSeekOptions,
+                    AllowCloseDoors,
+                    IgnoreCosmetics,
+                    HideAndSeekRoles,
                 SyncButtonMode,
                     SyncButtonModeEnabled,
                     SyncedButtonCount,
