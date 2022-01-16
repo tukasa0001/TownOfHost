@@ -191,7 +191,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "off")
                     {
-                        main.currentShapeshifter = ShapeshifterRoles.Sidekick;
+                        main.currentShapeshifter = ShapeshifterRoles.Default;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Sidekick));
                         main.SyncCustomSettingsRPC();
                     }
@@ -212,7 +212,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "off")
                     {
-                        main.currentImpostor = ImpostorRoles.Vampire;
+                        main.currentImpostor = ImpostorRoles.Default;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Vampire));
                         main.SyncCustomSettingsRPC();
                     }
