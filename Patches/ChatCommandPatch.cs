@@ -184,7 +184,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "off")
                     {
-                        main.currentShapeshifter = ShapeshifterRoles.Sidekick;
+                        main.currentShapeshifter = ShapeshifterRoles.Default;
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Sidekick));
                         main.SyncCustomSettingsRPC();
                     }
@@ -192,6 +192,27 @@ $@"{main.getLang(lang.roleListStart)}
                     {
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                         cancelVal = "/sidekick";
+                    }
+                }
+                if (getCommand("/vampire", text, out arg))
+                {
+                    canceled = true;
+                    if (arg == "on")
+                    {
+                        main.currentImpostor = ImpostorRoles.Vampire;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleEnabled, lang.Vampire));
+                        main.SyncCustomSettingsRPC();
+                    }
+                    else if (arg == "off")
+                    {
+                        main.currentImpostor = ImpostorRoles.Default;
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.roleDisabled, lang.Vampire));
+                        main.SyncCustomSettingsRPC();
+                    }
+                    else
+                    {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
+                        cancelVal = "/Vampire";
                     }
                 }
                 if (getCommand("/hideandseek", text, out arg))
@@ -271,8 +292,10 @@ $@"{main.getLang(lang.roleListStart)}
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    class AddChatPatch {
-        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText) {
+    class AddChatPatch
+    {
+        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText)
+        {
             Logger.SendToFile(__instance.name + ":" + chatText, LogLevel.Message);
             if (chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false)
             {
