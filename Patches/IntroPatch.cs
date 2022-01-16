@@ -45,7 +45,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = main.JesterColor();
                 __instance.BackgroundBar.material.color = main.JesterColor();
                 __instance.RoleText.text = "ジェスター";
-                __instance.RoleBlurbText.text = "投票で追放されて勝利しろ";
+                __instance.RoleBlurbText.text = "投票で追放されて勝利しろ。";
             }
             if (main.isMadmate(PlayerControl.LocalPlayer))
             {
@@ -55,7 +55,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 __instance.RoleText.text = "狂人";
-                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ";
+                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ。";
             }
             if (main.isBait(PlayerControl.LocalPlayer))
             {
@@ -65,7 +65,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.cyan;
                 __instance.BackgroundBar.material.color = Color.yellow;
                 __instance.RoleText.text = "ベイト";
-                __instance.RoleBlurbText.text = "おとりになってインポスターを暴け";
+                __instance.RoleBlurbText.text = "おとりになってインポスターを探し出せ。";
             }
             if (main.isTerrorist(PlayerControl.LocalPlayer))
             {
@@ -75,7 +75,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
                 __instance.RoleText.text = "テロリスト";
-                __instance.RoleBlurbText.text = "タスクを終えて、そして死んで勝利しろ";
+                __instance.RoleBlurbText.text = "タスクを完了させ、そして死んで勝利しろ。";
             }
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {
@@ -86,7 +86,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Color.red;
                 __instance.RoleText.text = "相棒";
-                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ";
+                __instance.RoleBlurbText.text = "インポスターを助けて勝利しろ。";
             }
             if (main.isVampire(PlayerControl.LocalPlayer))
             {
@@ -97,7 +97,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = main.VampireColor;
                 __instance.RoleText.text = "吸血鬼";
-                __instance.RoleBlurbText.text = "クルーを全員噛み殺せ";
+                __instance.RoleBlurbText.text = "クルーを全員噛み殺せ。";
             }
         }
     }
