@@ -36,7 +36,7 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch {
         public static bool Prefix(ShipStatus __instance) {
-            if(main.IsHideAndSeek) return false;
+            if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
             return true;
         }
     }
