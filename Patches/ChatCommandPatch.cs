@@ -89,13 +89,6 @@ $@"{main.getLang(lang.roleListStart)}
                         main.SendToAll("Error:入力されたモードは存在しません。");
                     }
                 }
-                if (getCommand("/h commands", text, out arg))
-                {
-                    canceled = true;
-                    main.SendToAll("/winner:全員が前回の勝者の名前を確認することができる。");
-                    main.SendToAll("/[役職名] on/off:役職の有無を変更できる。");
-                    main.SendToAll("/[役職名] on/off:役職の有無を変更できる。");
-                }
                 if (getCommand("/jester", text, out arg))
                 {
                     canceled = true;
