@@ -150,7 +150,7 @@ namespace TownOfHost {
                         {OptionPages.HideAndSeekRoles, new PageObject(
                             "HideAndSeekRoles",
                             false,
-                            () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
+                            () => {SetPage(OptionPages.HideAndSeekRoles);},
                             new List<OptionPages>(){
                                 OptionPages.Fox,
                                 OptionPages.Troll
@@ -171,8 +171,7 @@ namespace TownOfHost {
                                     Count += i;
                                     var MaxCount = 
                                         GameData.Instance.AllPlayers.Count
-                                        - main.TrollCount
-                                        - PlayerControl.GameOptions.NumImpostors;
+                                        - main.TrollCount;
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
                                     main.FoxCount = FixedCount;
                                 }
@@ -191,8 +190,7 @@ namespace TownOfHost {
                                     Count += i;
                                     var MaxCount = 
                                         GameData.Instance.AllPlayers.Count
-                                        - main.FoxCount
-                                        - PlayerControl.GameOptions.NumImpostors;
+                                        - main.FoxCount;
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
                                     main.TrollCount = FixedCount;
                                 }
