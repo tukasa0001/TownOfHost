@@ -63,6 +63,7 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
+        public static Dictionary<byte,HideAndSeekRoles> HideAndSeekRoleList;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -341,6 +342,7 @@ namespace TownOfHost
             HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
+            HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
@@ -440,6 +442,11 @@ namespace TownOfHost
     public enum ShapeshifterRoles {
         Default = 0,
         Sidekick
+    }
+    public enum HideAndSeekRoles {
+        Default = 0,
+        Troll = 1,
+        Fox = 2
     }
     public enum VersionTypes {
         Released = 0,
