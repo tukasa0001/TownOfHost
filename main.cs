@@ -63,6 +63,8 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
+        public static int FoxCount;
+        public static int TrollCount;
         public static Dictionary<byte,HideAndSeekRoles> HideAndSeekRoleList;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -274,6 +276,8 @@ namespace TownOfHost
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
+            writer.Write(FoxCount);
+            writer.Write(TrollCount);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -342,6 +346,8 @@ namespace TownOfHost
             HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
+            TrollCount = 0;
+            FoxCount = 0;
             HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
 
             SyncButtonMode = false;

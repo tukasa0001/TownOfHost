@@ -43,6 +43,8 @@ namespace TownOfHost {
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
+                    int FoxCount = reader.ReadInt32();
+                    int TrollCount = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -57,7 +59,9 @@ namespace TownOfHost {
                         SyncButtonMode,
                         SyncedButtonCount,
                         AllowCloseDoors,
-                        HaSKillDelay
+                        HaSKillDelay,
+                        FoxCount,
+                        TrollCount
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -94,7 +98,9 @@ namespace TownOfHost {
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
-                int HaSKillDelay
+                int HaSKillDelay,
+                int FoxCount,
+                int TrollCount
             ) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
@@ -119,6 +125,8 @@ namespace TownOfHost {
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;
+            main.FoxCount = FoxCount;
+            main.TrollCount = TrollCount;
         }
         public static void JesterExiled(byte jesterID) {
             main.ExiledJesterID = jesterID;

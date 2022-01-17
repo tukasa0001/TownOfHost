@@ -122,20 +122,21 @@ namespace TownOfHost {
                         () => {SetPage(OptionPages.HideAndSeekOptions);},
                         new List<OptionPages>(){
                             OptionPages.AllowCloseDoors,
-                            OptionPages.HideAndSeekWaitingTime
+                            OptionPages.HideAndSeekWaitingTime,
+                            OptionPages.HideAndSeekRoles
                         },
                         OptionPages.modes
                     )},
                         {OptionPages.AllowCloseDoors, new PageObject(
                             () => "Allow Close Doors: " + main.getOnOff(main.AllowCloseDoors),
-                            false,
+                            true,
                             () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.HideAndSeekWaitingTime, new PageObject(
                             () => "Impostor waiting time: " + main.HideAndSeekKillDelay,
-                            false,
+                            true,
                             () => {main.HideAndSeekKillDelay = 0;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions,
@@ -146,6 +147,56 @@ namespace TownOfHost {
                                 main.HideAndSeekKillDelay = FixedDelay;
                             }
                         )},
+                        {OptionPages.HideAndSeekRoles, new PageObject(
+                            "HideAndSeekRoles",
+                            false,
+                            () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
+                            new List<OptionPages>(){
+                                OptionPages.Fox,
+                                OptionPages.Troll
+                            },
+                            OptionPages.HideAndSeekOptions
+                        )},
+                            {OptionPages.Fox, new PageObject(
+                                () => "<color=#e478ff>Fox</color>: " + main.FoxCount,
+                                true,
+                                () => {
+                                    if(main.FoxCount == 0) main.FoxCount = 1;
+                                    else main.FoxCount = 0;
+                                },
+                                new List<OptionPages>(){},
+                                OptionPages.HideAndSeekRoles,
+                                (i) => {
+                                    var Count = main.FoxCount * 10;
+                                    Count += i;
+                                    var MaxCount = 
+                                        GameData.Instance.AllPlayers.Count
+                                        - main.TrollCount
+                                        - PlayerControl.GameOptions.NumImpostors;
+                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
+                                    main.FoxCount = FixedCount;
+                                }
+                            )},
+                            {OptionPages.Troll, new PageObject(
+                                () => "<color=#00ff00>Troll</color>: " + main.TrollCount,
+                                true,
+                                () => {
+                                    if(main.TrollCount == 0) main.TrollCount = 1;
+                                    else main.TrollCount = 0;
+                                },
+                                new List<OptionPages>(){},
+                                OptionPages.HideAndSeekRoles,
+                                (i) => {
+                                    var Count = main.TrollCount * 10;
+                                    Count += i;
+                                    var MaxCount = 
+                                        GameData.Instance.AllPlayers.Count
+                                        - main.FoxCount
+                                        - PlayerControl.GameOptions.NumImpostors;
+                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
+                                    main.TrollCount = FixedCount;
+                                }
+                            )},
                     {OptionPages.SyncButtonMode, new PageObject(
                         "Sync Button Mode",
                         false,
@@ -325,6 +376,8 @@ namespace TownOfHost {
                     IgnoreCosmetics,
                     HideAndSeekWaitingTime,
                     HideAndSeekRoles,
+                        Fox,
+                        Troll,
                 SyncButtonMode,
                     SyncButtonModeEnabled,
                     SyncedButtonCount,
