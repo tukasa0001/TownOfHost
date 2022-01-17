@@ -224,11 +224,13 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
     class SetColorPatch {
+        public static bool IsAntiGlitchDisabled = false;
         public static bool Prefix(PlayerControl __instance, int bodyColor) {
             //色変更バグ対策
-            if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor) return true;
-            if(AmongUsClient.Instance.IsGameStarted) {
+            if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
+            if(AmongUsClient.Instance.IsGameStarted && main.IsHideAndSeek) {
                 //ゲーム中に色を変えた場合
+                __instance.RpcMurderPlayer(__instance);
             }
             return true;
         }

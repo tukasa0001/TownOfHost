@@ -53,12 +53,14 @@ namespace TownOfHost
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             if(main.IsHideAndSeek) {
+                SetColorPatch.IsAntiGlitchDisabled = true;
                 //Hide And Seek時の処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.Data.Role.IsImpostor) pc.RpcSetColor(0);//赤色
                     else pc.RpcSetColor(1);//青色
                 }
             }
+            SetColorPatch.IsAntiGlitchDisabled = false;
         }
     }
 }
