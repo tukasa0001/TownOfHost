@@ -23,7 +23,7 @@ namespace TownOfHost {
             }
             //壁抜け解除
             if(PlayerControl.LocalPlayer.Collider.offset.y == 127f) {
-                if(!Input.GetKey(KeyCode.LeftControl)) {
+                if(!Input.GetKey(KeyCode.LeftControl) || AmongUsClient.Instance.IsGameStarted) {
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }

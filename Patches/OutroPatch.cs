@@ -89,6 +89,9 @@ namespace TownOfHost {
             if(main.SyncButtonMode) {
                 PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
             }
+            if(main.IsHideAndSeek) {
+                PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
+            }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
 

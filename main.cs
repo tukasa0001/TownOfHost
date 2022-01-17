@@ -59,6 +59,12 @@ namespace TownOfHost
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
+        public static bool IgnoreCosmetics;
+        public static float HideAndSeekKillDelay;
+        public static float HideAndSeekKillDelayTimer;
+        public static float HideAndSeekImpVisionMin;
+        public static float HideAndSeekImpVisionMax;
+        public static int HideAndSeekSpawnID;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -329,11 +335,20 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
             currentWinner = CustomWinner.Default;
+
             IsHideAndSeek = false;
             AllowCloseDoors = false;
+            IgnoreCosmetics = false;
+            HideAndSeekKillDelay = 30f;
+            HideAndSeekKillDelayTimer = 0f;
+            HideAndSeekImpVisionMin = 0.25f;
+            HideAndSeekImpVisionMax = 0.25f;
+            HideAndSeekSpawnID = 0;
+
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
+
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;

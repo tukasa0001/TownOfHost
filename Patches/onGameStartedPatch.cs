@@ -44,6 +44,13 @@ namespace TownOfHost
 
                 if(main.SyncButtonMode) main.BeforeFixMeetingCooldown = PlayerControl.GameOptions.EmergencyCooldown;
 
+                if(main.IsHideAndSeek) {
+                    main.HideAndSeekKillDelayTimer = main.HideAndSeekKillDelay;
+                    main.HideAndSeekImpVisionMin = opt.ImpostorLightMod;
+                    opt.ImpostorLightMod = 0f;
+                    Logger.SendToFile("HideAndSeekImpVisionMinを" + main.HideAndSeekImpVisionMin + "に変更");
+                }
+
                 PlayerControl.LocalPlayer.RpcSyncSettings(opt);
             }
         }
@@ -53,12 +60,14 @@ namespace TownOfHost
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             if(main.IsHideAndSeek) {
+                var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 //Hide And Seek時の処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.Data.Role.IsImpostor) pc.RpcSetColor(0);//赤色
                     else pc.RpcSetColor(1);//青色
                 }
+                main.HideAndSeekSpawnID = rand.Next(0,ShipStatus.Instance.AllVents.Count);
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }

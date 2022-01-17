@@ -32,6 +32,12 @@ namespace TownOfHost
             {
                 main.SyncCustomSettingsRPC();
             }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                var pos = PlayerControl.LocalPlayer.NetTransform.body.position;
+                Logger.SendToFile("座標: " + pos.x + ", " + pos.y);
+                if(AmongUsClient.Instance.AmHost && Input.GetKey(KeyCode.LeftShift)) PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(pos);
+            }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
