@@ -121,7 +121,8 @@ namespace TownOfHost {
                         false,
                         () => {SetPage(OptionPages.HideAndSeekOptions);},
                         new List<OptionPages>(){
-                            OptionPages.AllowCloseDoors
+                            OptionPages.AllowCloseDoors,
+                            OptionPages.HideAndSeekWaitingTime
                         },
                         OptionPages.modes
                     )},
@@ -131,6 +132,19 @@ namespace TownOfHost {
                             () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions
+                        )},
+                        {OptionPages.HideAndSeekWaitingTime, new PageObject(
+                            () => "Impostor waiting time: " + main.HideAndSeekKillDelay,
+                            false,
+                            () => {main.HideAndSeekKillDelay = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions,
+                            (i) => {
+                                var Count = main.HideAndSeekKillDelay * 10;
+                                Count += i;
+                                var FixedDelay = Math.Clamp(Count,0,180);
+                                main.HideAndSeekKillDelay = FixedDelay;
+                            }
                         )},
                     {OptionPages.SyncButtonMode, new PageObject(
                         "Sync Button Mode",
@@ -145,7 +159,7 @@ namespace TownOfHost {
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
                                 //一人当たりのボタン数を9に設定
-                                PlayerControl.GameOptions.NumEmergencyMeetings = 9;
+                                //PlayerControl.GameOptions.NumEmergencyMeetings = 9;
                                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                             },
                             new List<OptionPages>(){},
@@ -309,6 +323,7 @@ namespace TownOfHost {
                 HideAndSeekOptions,
                     AllowCloseDoors,
                     IgnoreCosmetics,
+                    HideAndSeekWaitingTime,
                     HideAndSeekRoles,
                 SyncButtonMode,
                     SyncButtonModeEnabled,
