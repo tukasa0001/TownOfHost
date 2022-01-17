@@ -47,6 +47,10 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
+                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
+                return false;
+            }
             if (main.isSidekick(__instance))
             {
                 var ImpostorCount = 0;

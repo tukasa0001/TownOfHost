@@ -35,7 +35,7 @@ namespace TownOfHost {
                         }
                     }
                 } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
-                    Logger.SendInGame("キル能力解禁");
+                    Logger.info("キル能力解禁");
                     main.HideAndSeekKillDelayTimer = float.NaN;
                     PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
