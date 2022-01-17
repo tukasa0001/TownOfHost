@@ -9,6 +9,7 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TownOfHost {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
@@ -45,8 +46,12 @@ namespace TownOfHost {
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
     class RepairSystemPatch {
-        public static bool Prefix(ShipStatus __instance) {
-            if(main.IsHideAndSeek) return false;
+        public static bool Prefix(ShipStatus __instance,
+            [HarmonyArgument(0)] SystemTypes systemType,
+            [HarmonyArgument(1)] PlayerControl player,
+            [HarmonyArgument(2)] byte amount) {
+            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+            if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
             return true;
         }
     }

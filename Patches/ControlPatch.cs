@@ -9,6 +9,8 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 using Hazel;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace TownOfHost
 {
@@ -48,6 +50,16 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
                     MeetingHud.Instance.RpcClose();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                {
+                    Logger.SendInGame("voidの非同期処理呼び出し前(" + Thread.CurrentThread.ManagedThreadId + ")");
+                    SlowVoid();
+                    Logger.SendInGame("voidの非同期処理呼び出し後(" + Thread.CurrentThread.ManagedThreadId + ")");
+                    // async Taskでも動くけど警告が出る
                 }
             }
             if (Input.GetKeyDown(KeyCode.O))
@@ -112,6 +124,11 @@ namespace TownOfHost
                 if(Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
                 if(Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
             }
+        }
+        public static async void SlowVoid() {
+            Logger.SendInGame("voidの非同期処理開始(" + Thread.CurrentThread.ManagedThreadId + ")");
+            await Task.Delay(10000);
+            Logger.SendInGame("voidの非同期処理終了(" + Thread.CurrentThread.ManagedThreadId + ")");
         }
     }
 }
