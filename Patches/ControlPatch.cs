@@ -52,16 +52,6 @@ namespace TownOfHost
                     MeetingHud.Instance.RpcClose();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-                {
-                    Logger.SendInGame("voidの非同期処理呼び出し前(" + Thread.CurrentThread.ManagedThreadId + ")");
-                    SlowVoid();
-                    Logger.SendInGame("voidの非同期処理呼び出し後(" + Thread.CurrentThread.ManagedThreadId + ")");
-                    // async Taskでも動くけど警告が出る
-                }
-            }
             if (Input.GetKeyDown(KeyCode.O))
             {
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)

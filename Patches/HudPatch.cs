@@ -79,6 +79,65 @@ namespace TownOfHost {
             "PC NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
             "CNT NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" + 
             "CNT name:" + PlayerControl.LocalPlayer.NetTransform.name + "\r\n";*/
+
+            if(Input.GetKeyDown(KeyCode.RightShift)) {
+                RepairSender.enabled = !RepairSender.enabled;
+                RepairSender.Reset();
+            }
+            if(RepairSender.enabled && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                if(Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
+                if(Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
+                if(Input.GetKeyDown(KeyCode.Alpha2)) RepairSender.Input(2);
+                if(Input.GetKeyDown(KeyCode.Alpha3)) RepairSender.Input(3);
+                if(Input.GetKeyDown(KeyCode.Alpha4)) RepairSender.Input(4);
+                if(Input.GetKeyDown(KeyCode.Alpha5)) RepairSender.Input(5);
+                if(Input.GetKeyDown(KeyCode.Alpha6)) RepairSender.Input(6);
+                if(Input.GetKeyDown(KeyCode.Alpha7)) RepairSender.Input(7);
+                if(Input.GetKeyDown(KeyCode.Alpha8)) RepairSender.Input(8);
+                if(Input.GetKeyDown(KeyCode.Alpha9)) RepairSender.Input(9);
+                if(Input.GetKeyDown(KeyCode.Return)) RepairSender.InputEnter();
+                __instance.TaskText.text = RepairSender.getText();
+            }
+        }
+    }
+    class RepairSender {
+        public static bool enabled = false;
+        public static bool TypingAmount = false;
+
+        public static int SystemType;
+        public static int amount;
+
+        public static void Input(int num) {
+            if(!TypingAmount) {
+                //SystemType入力中
+                SystemType = SystemType * 10;
+                SystemType += num;
+            } else {
+                //Amount入力中
+                amount = amount * 10;
+                amount += num;
+            }
+        }
+        public static void InputEnter() {
+            if(!TypingAmount) {
+                //SystemType入力中
+                TypingAmount = true;
+            } else {
+                //Amount入力中
+                send();
+            }
+        }
+        public static void send() {
+            ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
+            Reset();
+        }
+        public static void Reset() {
+            TypingAmount = false;
+            SystemType = 0;
+            amount = 0;
+        }
+        public static string getText() {
+            return SystemType.ToString() + "(" + ((SystemTypes)SystemType).ToString() + ")\r\n" + amount;
         }
     }
 }

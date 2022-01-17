@@ -51,6 +51,8 @@ namespace TownOfHost {
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount) {
             Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+            if(RepairSender.enabled)
+            Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
             return true;
         }
