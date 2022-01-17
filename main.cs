@@ -60,11 +60,9 @@ namespace TownOfHost
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreCosmetics;
-        public static float HideAndSeekKillDelay;
+        public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
-        public static float HideAndSeekImpVisionMax;
-        public static int HideAndSeekSpawnID;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -274,6 +272,7 @@ namespace TownOfHost
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
+            writer.Write(HideAndSeekKillDelay);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
@@ -339,10 +338,9 @@ namespace TownOfHost
             IsHideAndSeek = false;
             AllowCloseDoors = false;
             IgnoreCosmetics = false;
-            HideAndSeekKillDelay = 30f;
+            HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
-            HideAndSeekImpVisionMax = 0.25f;
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
