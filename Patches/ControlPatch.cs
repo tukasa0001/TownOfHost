@@ -38,6 +38,11 @@ namespace TownOfHost
                 Logger.SendToFile("座標: " + pos.x + ", " + pos.y);
                 if(AmongUsClient.Instance.AmHost && Input.GetKey(KeyCode.LeftShift)) PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(pos);
             }
+             if (Input.GetKeyDown(KeyCode.T) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
+                main.HideAndSeekKillDelayTimer = 15f;
+                main.HideAndSeekSpawnID = random.Next(0,ShipStatus.Instance.AllVents.Count);
+            }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
