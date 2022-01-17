@@ -67,7 +67,6 @@ namespace TownOfHost
                     if(pc.Data.Role.IsImpostor) pc.RpcSetColor(0);//赤色
                     else pc.RpcSetColor(1);//青色
                 }
-                main.HideAndSeekSpawnID = rand.Next(0,ShipStatus.Instance.AllVents.Count);
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }

@@ -343,7 +343,6 @@ namespace TownOfHost
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
             HideAndSeekImpVisionMax = 0.25f;
-            HideAndSeekSpawnID = 0;
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;

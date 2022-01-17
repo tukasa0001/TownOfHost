@@ -32,11 +32,6 @@ namespace TownOfHost {
                     //インポスター行動解禁までの処理
                     foreach(var pc in PlayerControl.AllPlayerControls) {
                         if(pc.Data.Role.IsImpostor) {
-                            Vector2 pos = Vector2.zero;
-                            pos = ShipStatus.Instance.AllVents.ToArray()
-                                .Where(vent => vent.Id == main.HideAndSeekSpawnID)
-                                .FirstOrDefault().transform.position;
-                            pc.NetTransform.RpcSnapTo(pos);
                         }
                     }
                 } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
