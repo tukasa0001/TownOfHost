@@ -68,6 +68,14 @@ $@"{main.getLang(lang.roleListStart)}
                     {
                         main.SendToAll("Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。");
                     }
+                    else if (arg == "fox")
+                    {
+                        main.SendToAll("Fox(Hide And Seek):Troll陣営を除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。");
+                    }
+                    else if (arg == "troll")
+                    {
+                        main.SendToAll("Troll(Hide And Seek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。");
+                    }
                     else
                     {
                         main.SendToAll("Error:入力された役職は存在しません。");
