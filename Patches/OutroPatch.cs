@@ -75,7 +75,7 @@ namespace TownOfHost
                 }
             }
             //HideAndSeek専用
-            if(main.IsHideAndSeek && main.currentWinner == CustomWinner.Draw) {
+            if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
