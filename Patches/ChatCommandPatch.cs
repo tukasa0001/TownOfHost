@@ -44,7 +44,9 @@ $@"{main.getLang(lang.roleListStart)}
                 if (getCommand("/h roles", text, out arg))
                 {
                     canceled = true;
-                    if (arg == "jester")
+                    if(arg == "") {
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, fox, troll");
+                    } else if (arg == "jester")
                     {
                         main.SendToAll("Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。");
                     }
@@ -78,13 +80,15 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else
                     {
-                        main.SendToAll("Error:入力された役職は存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力された役職は存在しません。");
                     }
                 }
                 if (getCommand("/h modes", text, out arg))
                 {
                     canceled = true;
-                    if (arg == "hideandseek")
+                    if(arg == "") {
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: hideandseek, nogameend, syncbuttonmode");
+                    } else if (arg == "hideandseek")
                     {
                         main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
                     }
@@ -98,7 +102,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else
                     {
-                        main.SendToAll("Error:入力されたモードは存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力されたモードは存在しません。");
                     }
                 }
                 if (getCommand("/endgame", text, out arg))
