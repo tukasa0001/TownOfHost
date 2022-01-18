@@ -76,7 +76,7 @@ $@"{main.getLang(lang.roleListStart)}
                 if (getCommand("/h modes", text, out arg))
                 {
                     canceled = true;
-                    if (arg == "hideandseak")
+                    if (arg == "hideandseek")
                     {
                         main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
                     }
