@@ -88,6 +88,7 @@ namespace TownOfHost
                     FoxList.Add(Crewmates[id]);
                     main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Fox;
                     Crewmates[id].RpcSetColor(3);
+                    Crewmates[id].RpcSetHideAndSeekRole(HideAndSeekRoles.Fox);
                     Crewmates.RemoveAt(id);
                 }
                 for(var i = 0; i < FixedTrollCount; i++) {
@@ -95,8 +96,12 @@ namespace TownOfHost
                     TrollList.Add(Crewmates[id]);
                     main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Troll;
                     Crewmates[id].RpcSetColor(2);
+                    Crewmates[id].RpcSetHideAndSeekRole(HideAndSeekRoles.Troll);
                     Crewmates.RemoveAt(id);
                 }
+                //通常クルー・インポスター用RPC
+                foreach(var pc in Crewmates) pc.SetHideAndSeekRole(HideAndSeekRoles.Default);
+                foreach(var pc in Impostors) pc.SetHideAndSeekRole(HideAndSeekRoles.Default);
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }

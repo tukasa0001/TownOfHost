@@ -288,8 +288,6 @@ namespace TownOfHost
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetHideAndSeekRole(byte PlayerID, HideAndSeekRoles role) {
-        }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
             if(!AmongUsClient.Instance.AmHost) return;
             var isAllConpleted = true;
@@ -451,7 +449,7 @@ namespace TownOfHost
         Default = 0,
         Sidekick
     }
-    public enum HideAndSeekRoles {
+    public enum HideAndSeekRoles:byte {
         Default = 0,
         Troll = 1,
         Fox = 2

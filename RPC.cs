@@ -18,14 +18,15 @@ namespace TownOfHost {
         JesterExiled,
         TerroristWin,
         EndGame,
-        PlaySound
+        PlaySound,
+        SetHideAndSeekRole
     }
     public enum Sounds {
         KillSound
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
-        public static void Postfix([HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
             byte packetID = callId;
             switch(packetID) {
                 case (byte)CustomRPC.SyncCustomSettings:
@@ -80,10 +81,14 @@ namespace TownOfHost {
                     Sounds sound = (Sounds)reader.ReadByte();
                     RPCProcedure.PlaySound(playerID, sound);
                     break;
+                case (byte)CustomRPC.SetHideAndSeekRole:
+                    HideAndSeekRoles HaSRole = (HideAndSeekRoles)reader.ReadByte();
+                    __instance.SetHideAndSeekRole(HaSRole);
+                    break;
             }
         }
     }
-    class RPCProcedure {
+    static class RPCProcedure {
         public static void SyncCustomSettings(
                 byte scientist,
                 byte engineer,
@@ -193,6 +198,19 @@ namespace TownOfHost {
                         SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
                         break;
                 }
+            }
+        }
+        public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
+            main.HideAndSeekRoleList[player.PlayerId] = role;
+        }
+        public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
+            if(AmongUsClient.Instance.AmClient) {
+                player.SetHideAndSeekRole(role);
+            }
+            if(AmongUsClient.Instance.AmHost) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)role);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
     }

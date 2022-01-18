@@ -26,7 +26,7 @@ namespace TownOfHost
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.RightShift))
             {
                 __instance.TeamTitle.text = "Town Of Host";
                 __instance.ImpostorText.gameObject.SetActive(true);
