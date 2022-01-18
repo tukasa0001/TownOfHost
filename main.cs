@@ -15,7 +15,7 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class main : BasePlugin
     {
-        //Sorry for some Japanese comments.
+        //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
