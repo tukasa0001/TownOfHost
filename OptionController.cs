@@ -9,8 +9,10 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 
-namespace TownOfHost {
-    static class CustomOptionController {
+namespace TownOfHost
+{
+    static class CustomOptionController
+    {
         public static Dictionary<OptionPages, PageObject> PageObjects = new Dictionary<OptionPages, PageObject>(){
             {OptionPages.basepage, new PageObject(
                 "Town Of Host Options",
@@ -185,46 +187,54 @@ namespace TownOfHost {
         };
         public static OptionPages currentPage = OptionPages.basepage;
         public static int currentCursor = 0;
-        public static void SetPage(OptionPages page) {
+        public static void SetPage(OptionPages page)
+        {
             currentCursor = 0;
             currentPage = page;
         }
-        public static void Up() {
+        public static void Up()
+        {
             var currentPageObj = PageObjects[currentPage];
-            if(currentCursor <= 0) currentCursor = 0;
+            if (currentCursor <= 0) currentCursor = 0;
             else currentCursor--;
         }
-        public static void Down() {
+        public static void Down()
+        {
             var currentPageObj = PageObjects[currentPage];
-            if(currentCursor >= currentPageObj.PagesInThis.Count - 1) currentCursor = currentPageObj.PagesInThis.Count - 1;
+            if (currentCursor >= currentPageObj.PagesInThis.Count - 1) currentCursor = currentPageObj.PagesInThis.Count - 1;
             else currentCursor++;
         }
-        public static void Enter() {
+        public static void Enter()
+        {
             var currentPageObj = PageObjects[currentPage];
             var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
 
-            if(selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
+            if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onEnter();
             main.SyncCustomSettingsRPC();
         }
-        public static void Return() {
+        public static void Return()
+        {
             var currentPageObj = PageObjects[currentPage];
             SetPage(currentPageObj.pageToReturn);
         }
-        public static void Input(int num) {
+        public static void Input(int num)
+        {
             var currentPageObj = PageObjects[currentPage];
             var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
 
-            if(selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
+            if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onInput(num);
             main.SyncCustomSettingsRPC();
         }
-        public static string GetOptionText() {
+        public static string GetOptionText()
+        {
             string text;
             var currentPageObj = PageObjects[currentPage];
 
             text = "==" + currentPageObj.name + "==" + "\r\n";
-            for(var i = 0; i < currentPageObj.PagesInThis.Count; i++) {
+            for (var i = 0; i < currentPageObj.PagesInThis.Count; i++)
+            {
                 var obj = PageObjects[currentPageObj.PagesInThis[i]];
 
                 text += currentCursor == i ? ">" : "";
@@ -234,7 +244,8 @@ namespace TownOfHost {
             return text;
         }
     }
-    class PageObject {
+    class PageObject
+    {
         public string name => getName();
         private Func<string> getName;
         public bool isHostOnly;
@@ -242,23 +253,26 @@ namespace TownOfHost {
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
         public Action<int> onInput;
-        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn)
+        {
             this.getName = () => name;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
-            this.onInput = (i) => {return;};
+            this.onInput = (i) => { return; };
         }
-        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn) {
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn)
+        {
             this.getName = getName;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
-            this.onInput = (i) => {return;};
+            this.onInput = (i) => { return; };
         }
-        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput)
+        {
             this.getName = () => name;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
@@ -266,7 +280,8 @@ namespace TownOfHost {
             this.pageToReturn = PageToReturn;
             this.onInput = onInput;
         }
-        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput) {
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput)
+        {
             this.getName = getName;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
@@ -275,27 +290,28 @@ namespace TownOfHost {
             this.onInput = onInput;
         }
     }
-    public enum OptionPages {
+    public enum OptionPages
+    {
         basepage = 0,
-            roles,
-                Jester,
-                Madmate,
-                Bait,
-                Terrorist,
-                Sidekick,
-                Vampire,
-                VampireOptions,
-                AdvancedRoleOptions,
-                    VampireKillDelay,
-            modes,
-                HideAndSeek,
-                SyncButtonMode,
-                    SyncButtonModeEnabled,
-                    SyncedButtonCount,
-                DisableTasks,
-                    SwipeCard,
-                    SubmitScan,
-                    UnlockSafe,
-                NoGameEnd
+        roles,
+        Jester,
+        Madmate,
+        Bait,
+        Terrorist,
+        Sidekick,
+        Vampire,
+        VampireOptions,
+        AdvancedRoleOptions,
+        VampireKillDelay,
+        modes,
+        HideAndSeek,
+        SyncButtonMode,
+        SyncButtonModeEnabled,
+        SyncedButtonCount,
+        DisableTasks,
+        SwipeCard,
+        SubmitScan,
+        UnlockSafe,
+        NoGameEnd
     }
 }

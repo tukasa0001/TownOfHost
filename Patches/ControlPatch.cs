@@ -52,16 +52,19 @@ namespace TownOfHost
                     }
                 }
             }
-            if(Input.GetKey(KeyCode.B) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if (Input.GetKey(KeyCode.B) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 Logger.SendToFile("none");
             }
-            if(Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
                 var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 list.Add(PlayerControl.LocalPlayer);
                 HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
             }
-            if(Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
@@ -76,7 +79,8 @@ namespace TownOfHost
             if (main.OptionControllerIsEnable)
             {
                 main.TextCursorTimer += Time.deltaTime;
-                if(main.TextCursorTimer > 0.5f) {
+                if (main.TextCursorTimer > 0.5f)
+                {
                     main.TextCursorTimer = 0f;
                     main.TextCursorVisible = !main.TextCursorVisible;
                 }
@@ -90,16 +94,16 @@ namespace TownOfHost
                 {
                     CustomOptionController.Return();
                 }
-                if(Input.GetKeyDown(KeyCode.Alpha0)) CustomOptionController.Input(0);
-                if(Input.GetKeyDown(KeyCode.Alpha1)) CustomOptionController.Input(1);
-                if(Input.GetKeyDown(KeyCode.Alpha2)) CustomOptionController.Input(2);
-                if(Input.GetKeyDown(KeyCode.Alpha3)) CustomOptionController.Input(3);
-                if(Input.GetKeyDown(KeyCode.Alpha4)) CustomOptionController.Input(4);
-                if(Input.GetKeyDown(KeyCode.Alpha5)) CustomOptionController.Input(5);
-                if(Input.GetKeyDown(KeyCode.Alpha6)) CustomOptionController.Input(6);
-                if(Input.GetKeyDown(KeyCode.Alpha7)) CustomOptionController.Input(7);
-                if(Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
-                if(Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
+                if (Input.GetKeyDown(KeyCode.Alpha0)) CustomOptionController.Input(0);
+                if (Input.GetKeyDown(KeyCode.Alpha1)) CustomOptionController.Input(1);
+                if (Input.GetKeyDown(KeyCode.Alpha2)) CustomOptionController.Input(2);
+                if (Input.GetKeyDown(KeyCode.Alpha3)) CustomOptionController.Input(3);
+                if (Input.GetKeyDown(KeyCode.Alpha4)) CustomOptionController.Input(4);
+                if (Input.GetKeyDown(KeyCode.Alpha5)) CustomOptionController.Input(5);
+                if (Input.GetKeyDown(KeyCode.Alpha6)) CustomOptionController.Input(6);
+                if (Input.GetKeyDown(KeyCode.Alpha7)) CustomOptionController.Input(7);
+                if (Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
+                if (Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
             }
         }
     }
