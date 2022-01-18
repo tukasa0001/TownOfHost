@@ -61,7 +61,7 @@ namespace TownOfHost {
                 }
             }
             //HideAndSeek専用
-            if(main.IsHideAndSeek) {
+            if(main.IsHideAndSeek && main.currentWinner == CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
@@ -113,7 +113,6 @@ namespace TownOfHost {
                         var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
                         if(hasRole && role == HideAndSeekRoles.Troll) {
                             __instance.BackgroundBar.material.color = Color.green;
-                            break;
                         }
                     }
                 }
