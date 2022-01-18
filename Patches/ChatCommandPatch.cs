@@ -70,11 +70,11 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "fox")
                     {
-                        main.SendToAll("Fox(Hide And Seek):Troll陣営を除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。");
+                        main.SendToAll("Fox(HideAndSeek):Troll陣営を除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。");
                     }
                     else if (arg == "troll")
                     {
-                        main.SendToAll("Troll(Hide And Seek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。");
+                        main.SendToAll("Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。");
                     }
                     else
                     {
@@ -90,7 +90,11 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "nogameend")
                     {
-                        main.SendToAll("HideAndSeek:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
+                        main.SendToAll("NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
+                    }
+                    else if (arg == "syncbuttonmode")
+                    {
+                        main.SendToAll("SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。");
                     }
                     else
                     {
