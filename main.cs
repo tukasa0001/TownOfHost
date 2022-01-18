@@ -229,7 +229,14 @@ namespace TownOfHost
             if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
             if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
             if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
-            if(p.IsDead && main.IsHideAndSeek) hasTasks = false;
+            if(main.IsHideAndSeek) {
+                if(p.IsDead) hasTasks = false;
+                var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
+                if(hasRole) {
+                    if(role == HideAndSeekRoles.Fox ||
+                    role == HideAndSeekRoles.Troll) hasTasks = false;
+                }
+            }
             return hasTasks;
         }
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {

@@ -27,6 +27,7 @@ namespace TownOfHost {
             if(main.currentWinner == CustomWinner.Default) {
                 if(main.IsHideAndSeek) {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
+                    if (CheckAndEndGameForTroll(__instance)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                 } else {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
@@ -109,6 +110,19 @@ namespace TownOfHost {
                 __instance.enabled = false;
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
+            }
+            return false;
+        }
+
+        private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
+                if(!hasRole) return false;
+                if(role == HideAndSeekRoles.Troll && pc.Data.IsDead) {
+                    __instance.enabled = false;
+                    ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                    return true;
+                }
             }
             return false;
         }
