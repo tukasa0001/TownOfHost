@@ -24,10 +24,7 @@ namespace TownOfHost
                 {OptionPages.roles, new PageObject(
                     "Role Options",
                     false,
-                    () => {
-                        if(main.IsHideAndSeek) SetPage(OptionPages.HideAndSeekRoles);
-                        else SetPage(OptionPages.roles);
-                    },
+                    () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
                         OptionPages.Sidekick,
                         OptionPages.Vampire,
