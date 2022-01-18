@@ -166,11 +166,16 @@ namespace TownOfHost {
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
                     GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
+                    var hasHideAndSeekRole = main.HideAndSeekRoleList.TryGetValue((byte)i,out var role);
                     if (!playerInfo.Disconnected)
                     {
                         if (!playerInfo.IsDead)
                         {
-                            numTotalAlive++;
+                            if(!hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
+                            else {
+                                //HideAndSeek中
+                                if(role == HideAndSeekRoles.Default) numTotalAlive++;
+                            }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor) {
                                 numImpostorsAlive++;

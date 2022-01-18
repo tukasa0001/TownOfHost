@@ -100,8 +100,8 @@ namespace TownOfHost
                     Crewmates.RemoveAt(id);
                 }
                 //通常クルー・インポスター用RPC
-                foreach(var pc in Crewmates) pc.SetHideAndSeekRole(HideAndSeekRoles.Default);
-                foreach(var pc in Impostors) pc.SetHideAndSeekRole(HideAndSeekRoles.Default);
+                foreach(var pc in Crewmates) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
+                foreach(var pc in Impostors) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
