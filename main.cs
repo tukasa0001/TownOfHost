@@ -243,6 +243,35 @@ namespace TownOfHost
             }
             return (RoleText, TextColor);
         }
+        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole) {
+            string text = "Invalid";
+            Color color = Color.red;
+            switch(oRole) {
+                case RoleTypes.Impostor:
+                    text = "Impostor";
+                    color = Palette.ImpostorRed;
+                    break;
+                case RoleTypes.Shapeshifter:
+                    goto case RoleTypes.Impostor;
+                default:
+                    switch(hRole) {
+                        case HideAndSeekRoles.Default:
+                            text = "Crewmate";
+                            color = Color.white;
+                            break;
+                        case HideAndSeekRoles.Fox:
+                            text = "Fox";
+                            color = Color.magenta;
+                            break;
+                        case HideAndSeekRoles.Troll:
+                            text = "Troll";
+                            color = Color.green;
+                            break;
+                    }
+                    break;
+            }
+            return (text,color);
+        }
         public static bool hasTasks(GameData.PlayerInfo p)
         {
             var hasTasks = true;

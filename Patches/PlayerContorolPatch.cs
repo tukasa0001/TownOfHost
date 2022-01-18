@@ -168,6 +168,10 @@ namespace TownOfHost
             if (RoleText != null)
             {
                 var RoleTextData = main.GetRoleText(__instance.Data.Role.Role);
+                if(main.IsHideAndSeek) {
+                    var hasRole = main.HideAndSeekRoleList.TryGetValue(__instance.PlayerId, out var role);
+                    if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
+                }
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
                 if (__instance.AmOwner) RoleText.enabled = true;
