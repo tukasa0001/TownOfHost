@@ -65,7 +65,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.cyan;
                 __instance.BackgroundBar.material.color = Color.yellow;
                 __instance.RoleText.text = "ベイト";
-                __instance.RoleBlurbText.text = "おとりになってインポスターを暴け";
+                __instance.RoleBlurbText.text = "おとりになってインポスターを探し出せ";
             }
             if (main.isTerrorist(PlayerControl.LocalPlayer))
             {
@@ -75,7 +75,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
                 __instance.RoleText.text = "テロリスト";
-                __instance.RoleBlurbText.text = "タスクを終えて、そして死んで勝利しろ";
+                __instance.RoleBlurbText.text = "タスクを完了させ、そして死んで勝利しろ";
             }
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {

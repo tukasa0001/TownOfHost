@@ -15,10 +15,13 @@ using TownOfHost;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace TownOfHost {
-    class webhook {
-        public static void send(string text) {
-            if(main.WebhookURL.Value == "none") return;
+namespace TownOfHost
+{
+    class webhook
+    {
+        public static void send(string text)
+        {
+            if (main.WebhookURL.Value == "none") return;
             HttpClient httpClient = new HttpClient();
             Dictionary<string, string> strs = new Dictionary<string, string>()
                 {
@@ -31,14 +34,18 @@ namespace TownOfHost {
             awaiter.GetResult();
         }
     }
-    class Logger {
-        public static void SendInGame(string text, bool isAlways = false) {
+    class Logger
+    {
+        public static void SendInGame(string text, bool isAlways = false)
+        {
             DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
             SendToFile("<InGame>" + text);
         }
-        public static void SendToFile(string text, LogLevel level = LogLevel.Normal) {
+        public static void SendToFile(string text, LogLevel level = LogLevel.Normal)
+        {
             var logger = main.Logger;
-            switch(level) {
+            switch (level)
+            {
                 case LogLevel.Normal:
                     logger.LogInfo(text);
                     break;
@@ -66,7 +73,8 @@ namespace TownOfHost {
         public static void fatal(string text) => SendToFile(text,LogLevel.Fatal);
         public static void msg(string text) => SendToFile(text,LogLevel.Message);
     }
-    public enum LogLevel {
+    public enum LogLevel
+    {
         Normal = 0,
         Warning,
         Error,

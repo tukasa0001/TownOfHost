@@ -24,38 +24,39 @@ namespace TownOfHost
         public static BepInEx.Logging.ManualLogSource Logger;
         //Lang-Config
         //これらのconfigの値がlangTextsリストに入る
-        public static ConfigEntry<string> Japanese {get; private set;}
-        public static ConfigEntry<string> Jester {get; private set;}
-        public static ConfigEntry<string> Madmate {get; private set;}
-        public static ConfigEntry<string> RoleEnabled {get; private set;}
-        public static ConfigEntry<string> RoleDisabled {get; private set;}
-        public static ConfigEntry<string> CommandError {get; private set;}
-        public static ConfigEntry<string> InvalidArgs {get; private set;}
-        public static ConfigEntry<string> roleListStart {get; private set;}
-        public static ConfigEntry<string> ON {get; private set;}
-        public static ConfigEntry<string> OFF {get; private set;}
-        public static ConfigEntry<string> JesterInfo {get; private set;}
-        public static ConfigEntry<string> MadmateInfo {get; private set;}
-        public static ConfigEntry<string> Bait {get; private set;}
-        public static ConfigEntry<string> BaitInfo {get; private set;}
-        public static ConfigEntry<string> Terrorist {get; private set;}
-        public static ConfigEntry<string> TerroristInfo {get; private set;}
-        public static ConfigEntry<string> Sidekick {get; private set;}
-        public static ConfigEntry<string> SidekickInfo {get; private set;}
-        public static ConfigEntry<string> Vampire {get; private set;}
-        public static ConfigEntry<string> VampireInfo {get; private set;}
+        public static ConfigEntry<string> Japanese { get; private set; }
+        public static ConfigEntry<string> Jester { get; private set; }
+        public static ConfigEntry<string> Madmate { get; private set; }
+        public static ConfigEntry<string> RoleEnabled { get; private set; }
+        public static ConfigEntry<string> RoleDisabled { get; private set; }
+        public static ConfigEntry<string> CommandError { get; private set; }
+        public static ConfigEntry<string> InvalidArgs { get; private set; }
+        public static ConfigEntry<string> roleListStart { get; private set; }
+        public static ConfigEntry<string> ON { get; private set; }
+        public static ConfigEntry<string> OFF { get; private set; }
+        public static ConfigEntry<string> JesterInfo { get; private set; }
+        public static ConfigEntry<string> MadmateInfo { get; private set; }
+        public static ConfigEntry<string> Bait { get; private set; }
+        public static ConfigEntry<string> BaitInfo { get; private set; }
+        public static ConfigEntry<string> Terrorist { get; private set; }
+        public static ConfigEntry<string> TerroristInfo { get; private set; }
+        public static ConfigEntry<string> Sidekick { get; private set; }
+        public static ConfigEntry<string> SidekickInfo { get; private set; }
+        public static ConfigEntry<string> Vampire { get; private set; }
+        public static ConfigEntry<string> VampireInfo { get; private set; }
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
-        public static string getLang(lang lang) {
-            var isSuccess = langTexts.TryGetValue(lang, out var text    );
+        public static string getLang(lang lang)
+        {
+            var isSuccess = langTexts.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         //Other Configs
-        public static ConfigEntry<bool> TeruteruColor {get; private set;}
-        public static ConfigEntry<bool> IgnoreWinnerCommand {get; private set;}
-        public static ConfigEntry<string> WebhookURL {get; private set;}
+        public static ConfigEntry<bool> TeruteruColor { get; private set; }
+        public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
+        public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
@@ -75,14 +76,16 @@ namespace TownOfHost
         public static bool DisableSwipeCard;
         public static bool DisableSubmitScan;
         public static bool DisableUnlockSafe;
+        public static bool DisableUploadData;
         //色がTeruteruモードとJesterモードがある
-        public static Color JesterColor() {
-            if(TeruteruColor.Value)
-                return new Color(0.823f,0.411f,0.117f);
+        public static Color JesterColor()
+        {
+            if (TeruteruColor.Value)
+                return new Color(0.823f, 0.411f, 0.117f);
             else
-                return new Color(0.925f,0.384f,0.647f);
+                return new Color(0.925f, 0.384f, 0.647f);
         }
-        public static Color VampireColor = new Color(0.65f,0.34f,0.65f);
+        public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
@@ -91,60 +94,73 @@ namespace TownOfHost
         public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
         public static List<string> MessagesToSend;
-        public static bool isJester(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
+        public static bool isJester(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
                 return true;
             return false;
         }
-        public static bool isMadmate(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Madmate)
+        public static bool isMadmate(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Madmate)
                 return true;
             return false;
         }
-        public static bool isBait(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
+        public static bool isBait(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
                 return true;
             return false;
         }
-        public static bool isTerrorist(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Terrorist)
+        public static bool isTerrorist(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Terrorist)
                 return true;
             return false;
         }
-        public static bool isSidekick(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
+        public static bool isSidekick(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
                 return true;
             return false;
         }
-        public static bool isVampire(PlayerControl target) {
-            if(target.Data.Role.Role == RoleTypes.Impostor && currentImpostor == ImpostorRoles.Vampire)
+        public static bool isVampire(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Impostor && currentImpostor == ImpostorRoles.Vampire)
                 return true;
             return false;
         }
 
-        public static void ToggleRole(ScientistRole role) {
+        public static void ToggleRole(ScientistRole role)
+        {
             currentScientist = role == currentScientist ? ScientistRole.Default : role;
         }
-        public static void ToggleRole(EngineerRole role) {
+        public static void ToggleRole(EngineerRole role)
+        {
             currentEngineer = role == currentEngineer ? EngineerRole.Default : role;
         }
-        public static void ToggleRole(ShapeshifterRoles role) {
+        public static void ToggleRole(ShapeshifterRoles role)
+        {
             currentShapeshifter = role == currentShapeshifter ? ShapeshifterRoles.Default : role;
         }
-        public static void ToggleRole(ImpostorRoles role) {
+        public static void ToggleRole(ImpostorRoles role)
+        {
             currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
         }
 
-        public static (string,Color) GetRoleText(RoleTypes role) {
+        public static (string, Color) GetRoleText(RoleTypes role)
+        {
             string RoleText = "Invalid";
             Color TextColor = Color.red;
-            switch(role) {
+            switch (role)
+            {
                 case RoleTypes.Crewmate:
                     RoleText = "Crewmate";
                     TextColor = Color.white;
                     break;
                 case RoleTypes.Scientist:
-                    switch(currentScientist) {
+                    switch (currentScientist)
+                    {
                         case ScientistRole.Default:
                             RoleText = "Scientist";
                             TextColor = Palette.CrewmateBlue;
@@ -164,7 +180,8 @@ namespace TownOfHost
                     }
                     break;
                 case RoleTypes.Engineer:
-                    switch(currentEngineer) {
+                    switch (currentEngineer)
+                    {
                         case EngineerRole.Default:
                             RoleText = "Engineer";
                             TextColor = Palette.CrewmateBlue;
@@ -184,7 +201,8 @@ namespace TownOfHost
                     }
                     break;
                 case RoleTypes.Impostor:
-                    switch(currentImpostor) {
+                    switch (currentImpostor)
+                    {
                         case ImpostorRoles.Default:
                             RoleText = "Impostor";
                             TextColor = Palette.ImpostorRed;
@@ -200,7 +218,8 @@ namespace TownOfHost
                     }
                     break;
                 case RoleTypes.Shapeshifter:
-                    switch(currentShapeshifter) {
+                    switch (currentShapeshifter)
+                    {
                         case ShapeshifterRoles.Default:
                             RoleText = "Shapeshifter";
                             TextColor = Palette.ImpostorRed;
@@ -220,9 +239,10 @@ namespace TownOfHost
                     TextColor = Palette.CrewmateBlue;
                     break;
             }
-            return (RoleText,TextColor);
+            return (RoleText, TextColor);
         }
-        public static bool hasTasks(GameData.PlayerInfo p) {
+        public static bool hasTasks(GameData.PlayerInfo p)
+        {
             var hasTasks = true;
             if(p.Disconnected) hasTasks = false;
             if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
@@ -239,13 +259,15 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks) {
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks)
+        {
             string taskText = "";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
-            foreach(var task in tasks) {
+            foreach (var task in tasks)
+            {
                 AllTasksCount++;
-                if(task.IsComplete) CompletedTaskCount++;
+                if (task.IsComplete) CompletedTaskCount++;
             }
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
@@ -266,8 +288,9 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
         //SyncCustomSettingsRPC Sender
-        public static void SyncCustomSettingsRPC() {
-            if(!AmongUsClient.Instance.AmHost) return;
+        public static void SyncCustomSettingsRPC()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             writer.Write((byte)currentScientist);
             writer.Write((byte)currentEngineer);
@@ -278,6 +301,7 @@ namespace TownOfHost
             writer.Write(DisableSwipeCard);
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
+            writer.Write(DisableUploadData);
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
@@ -287,34 +311,40 @@ namespace TownOfHost
             writer.Write(TrollCount);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void PlaySoundRPC(byte PlayerID, Sounds sound) {
-            if(AmongUsClient.Instance.AmHost)
-                RPCProcedure.PlaySound(PlayerID,sound);
+        public static void PlaySoundRPC(byte PlayerID, Sounds sound)
+        {
+            if (AmongUsClient.Instance.AmHost)
+                RPCProcedure.PlaySound(PlayerID, sound);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
-            if(!AmongUsClient.Instance.AmHost) return;
+        public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
             var isAllConpleted = true;
-            foreach(var task in Terrorist.Tasks) {
-                if(!task.Complete) isAllConpleted = false;
+            foreach (var task in Terrorist.Tasks)
+            {
+                if (!task.Complete) isAllConpleted = false;
             }
-            if(isAllConpleted) {
+            if (isAllConpleted)
+            {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.TerroristWin(Terrorist.PlayerId);
             }
         }
-        public static void ExileAsync(PlayerControl player) {
+        public static void ExileAsync(PlayerControl player)
+        {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
-        public static void SendToAll(string text) {
-            if(!AmongUsClient.Instance.AmHost) return;
+        public static void SendToAll(string text)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessagesToSend.Add(text);
         }
         public override void Load()
@@ -377,6 +407,7 @@ namespace TownOfHost
             DisableSwipeCard = false;
             DisableSubmitScan = false;
             DisableUnlockSafe = false;
+            DisableUploadData = false;
 
             VampireKillDelay = 10;
 
@@ -410,7 +441,8 @@ namespace TownOfHost
         }
     }
     //Lang-enum
-    public enum lang {
+    public enum lang
+    {
         Jester = 0,
         Madmate,
         roleEnabled,
@@ -432,27 +464,32 @@ namespace TownOfHost
         VampireInfo
     }
     //WinData
-    public enum CustomWinner {
+    public enum CustomWinner
+    {
         Draw = 0,
         Default,
         Jester,
         Terrorist
     }
-    public enum ScientistRole {
+    public enum ScientistRole
+    {
         Default = 0,
         Jester,
         Bait
     }
-    public enum EngineerRole {
+    public enum EngineerRole
+    {
         Default = 0,
         Madmate,
         Terrorist
     }
-    public enum ImpostorRoles {
+    public enum ImpostorRoles
+    {
         Default = 0,
         Vampire
     }
-    public enum ShapeshifterRoles {
+    public enum ShapeshifterRoles
+    {
         Default = 0,
         Sidekick
     }

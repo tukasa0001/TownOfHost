@@ -87,7 +87,7 @@ Bait has tasks, and they are fellow of Crewmate.
 When bait is killed, the Impostor who killed them is forced self report.
 Bait cannot use their vital.
 
-## Credits 
+## Credits
 
 Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
 Jester and Madmate：https://au.libhalt.net<br>
