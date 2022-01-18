@@ -19,8 +19,9 @@ namespace TownOfHost
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaName = "";
-        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b" : "";
+        public const string BetaVersion = "1";
+        public const string BetaName = "Hide And Seek Beta";
+        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
         //Lang-Config
