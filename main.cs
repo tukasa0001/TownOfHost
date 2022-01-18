@@ -288,6 +288,8 @@ namespace TownOfHost
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetHideAndSeekRole(byte PlayerID, HideAndSeekRoles role) {
+        }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist) {
             if(!AmongUsClient.Instance.AmHost) return;
             var isAllConpleted = true;

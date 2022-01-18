@@ -62,10 +62,40 @@ namespace TownOfHost
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
+                main.HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
                 //Hide And Seek時の処理
+                List<PlayerControl> Impostors = new List<PlayerControl>();
+                List<PlayerControl> Crewmates = new List<PlayerControl>();
+                //リスト作成兼色設定処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.Data.Role.IsImpostor) pc.RpcSetColor(0);//赤色
-                    else pc.RpcSetColor(1);//青色
+                    main.HideAndSeekRoleList.Add(pc.PlayerId,HideAndSeekRoles.Default);
+                    if(pc.Data.Role.IsImpostor) {
+                        Impostors.Add(pc);
+                        pc.RpcSetColor(0);
+                    } else {
+                        Crewmates.Add(pc);
+                        pc.RpcSetColor(1);
+                    }
+                }
+                //FoxCountとTrollCountを適切に修正する
+                int FixedFoxCount = Math.Clamp(main.FoxCount,0,Crewmates.Count);
+                int FixedTrollCount = Math.Clamp(main.TrollCount,0,Crewmates.Count - FixedFoxCount);
+                List<PlayerControl> FoxList = new List<PlayerControl>();
+                List<PlayerControl> TrollList = new List<PlayerControl>();
+                //役職設定処理
+                for(var i = 0; i < FixedFoxCount; i++) {
+                    var id = rand.Next(Crewmates.Count);
+                    FoxList.Add(Crewmates[id]);
+                    main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Fox;
+                    Crewmates[id].RpcSetColor(3);
+                    Crewmates.RemoveAt(id);
+                }
+                for(var i = 0; i < FixedTrollCount; i++) {
+                    var id = rand.Next(Crewmates.Count);
+                    TrollList.Add(Crewmates[id]);
+                    main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Troll;
+                    Crewmates[id].RpcSetColor(2);
+                    Crewmates.RemoveAt(id);
                 }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
