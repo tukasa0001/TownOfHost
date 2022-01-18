@@ -25,6 +25,7 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.SubmitScan && main.DisableSwipeCard) disabledTaskIndex.Add(i);//スキャンタスク
                 if (task.TaskType == TaskTypes.SwipeCard && main.DisableSubmitScan) disabledTaskIndex.Add(i);//カードタスク
                 if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTaskIndex.Add(i);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTaskIndex.Add(i);//ダウンロードタスク
             }
             foreach (var i in disabledTaskIndex)
             {

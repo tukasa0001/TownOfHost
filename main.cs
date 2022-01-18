@@ -68,6 +68,7 @@ namespace TownOfHost
         public static bool DisableSwipeCard;
         public static bool DisableSubmitScan;
         public static bool DisableUnlockSafe;
+        public static bool DisableUploadData;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor()
         {
@@ -285,6 +286,7 @@ namespace TownOfHost
             writer.Write(DisableSwipeCard);
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
+            writer.Write(DisableUploadData);
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
@@ -375,6 +377,7 @@ namespace TownOfHost
             DisableSwipeCard = false;
             DisableSubmitScan = false;
             DisableUnlockSafe = false;
+            DisableUploadData = false;
 
             VampireKillDelay = 10;
 

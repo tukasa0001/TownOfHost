@@ -153,7 +153,7 @@ namespace TownOfHost
                         "Disable Tasks",
                         false,
                         () => {SetPage(OptionPages.DisableTasks);},
-                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe},
+                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe, OptionPages.UploadData},
                         OptionPages.modes
                     )},
                         {OptionPages.SwipeCard, new PageObject(
@@ -177,6 +177,14 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
+                        {OptionPages.UploadData, new PageObject(
+                            () => "Disable UploadData Task: " + main.getOnOff(main.DisableUploadData),
+                            true,
+                            () => {main.DisableUploadData = !main.DisableUploadData;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+
                     {OptionPages.NoGameEnd, new PageObject(
                         () => "NoGameEnd<DEBUG>: " + main.getOnOff(main.NoGameEnd),
                         true,
@@ -312,6 +320,7 @@ namespace TownOfHost
         SwipeCard,
         SubmitScan,
         UnlockSafe,
+        UploadData,
         NoGameEnd
     }
 }
