@@ -34,6 +34,12 @@ namespace TownOfHost
             {
                 main.SyncCustomSettingsRPC();
             }
+            if (Input.GetKeyDown(KeyCode.Z) && AmongUsClient.Instance.AmHost)
+            {
+                foreach(var p in PlayerControl.AllPlayerControls) {
+                    p.RpcSetHideAndSeekRole(HideAndSeekRoles.Troll);
+                }
+            }
             if (Input.GetKeyDown(KeyCode.T))
             {
                 var pos = PlayerControl.LocalPlayer.NetTransform.body.position;

@@ -88,8 +88,9 @@ namespace TownOfHost
                     RPCProcedure.PlaySound(playerID, sound);
                     break;
                 case (byte)CustomRPC.SetHideAndSeekRole:
+                    byte target = reader.ReadByte();
                     HideAndSeekRoles HaSRole = (HideAndSeekRoles)reader.ReadByte();
-                    __instance.SetHideAndSeekRole(HaSRole);
+                    RPCProcedure.SetHideAndSeekRole(target, HaSRole);
                     break;
             }
         }
@@ -225,6 +226,9 @@ namespace TownOfHost
                 }
             }
         }
+        public static void SetHideAndSeekRole(byte targetID, HideAndSeekRoles role) {
+            main.HideAndSeekRoleList[targetID] = role;
+        }
         public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
             main.HideAndSeekRoleList[player.PlayerId] = role;
         }
@@ -233,7 +237,8 @@ namespace TownOfHost
                 player.SetHideAndSeekRole(role);
             }
             if(AmongUsClient.Instance.AmHost) {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
+                writer.Write(player.PlayerId);
                 writer.Write((byte)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
