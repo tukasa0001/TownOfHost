@@ -24,6 +24,12 @@ namespace TownOfHost
             main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
+                if(main.IsHideAndSeek) {
+                    main.currentEngineer = EngineerRole.Default;
+                    main.currentScientist = ScientistRole.Default;
+                    main.currentImpostor = ImpostorRoles.Default;
+                    main.currentShapeshifter = ShapeshifterRoles.Default;
+                }
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
                 if (main.currentScientist != ScientistRole.Default)
