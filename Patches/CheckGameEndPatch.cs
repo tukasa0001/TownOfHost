@@ -26,15 +26,13 @@ namespace TownOfHost
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if (main.currentWinner == CustomWinner.Default)
-            {
-                if (CheckAndEndGameForTaskWin(__instance)) return false;
-                if (main.IsHideAndSeek)
-                {
+            if(main.currentWinner == CustomWinner.Default) {
+                if(main.IsHideAndSeek) {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
-                }
-                else
-                {
+                    if (CheckAndEndGameForTroll(__instance)) return false;
+                    if (CheckAndEndGameForTaskWin(__instance)) return false;
+                } else {
+                    if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
@@ -133,10 +131,21 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForJester(ShipStatus __instance)
-        {
-            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger)
-            {
+        private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
+                if(!hasRole) return false;
+                if(role == HideAndSeekRoles.Troll && pc.Data.IsDead) {
+                    __instance.enabled = false;
+                    ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool CheckAndEndGameForJester(ShipStatus __instance) {
+            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger) {
                 __instance.enabled = false;
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
@@ -180,11 +189,16 @@ namespace TownOfHost
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
                     GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
+                    var hasHideAndSeekRole = main.HideAndSeekRoleList.TryGetValue((byte)i,out var role);
                     if (!playerInfo.Disconnected)
                     {
                         if (!playerInfo.IsDead)
                         {
-                            numTotalAlive++;
+                            if(!hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
+                            else {
+                                //HideAndSeek中
+                                if(role == HideAndSeekRoles.Default) numTotalAlive++;
+                            }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor)
                             {

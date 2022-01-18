@@ -67,6 +67,11 @@ namespace TownOfHost
                     break;
             }
         }
+        public static void info(string text) => SendToFile(text,LogLevel.Normal);
+        public static void warn(string text) => SendToFile(text,LogLevel.Warning);
+        public static void error(string text) => SendToFile(text,LogLevel.Error);
+        public static void fatal(string text) => SendToFile(text,LogLevel.Fatal);
+        public static void msg(string text) => SendToFile(text,LogLevel.Message);
     }
     public enum LogLevel
     {

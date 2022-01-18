@@ -24,7 +24,10 @@ namespace TownOfHost
                 {OptionPages.roles, new PageObject(
                     "Role Options",
                     false,
-                    () => {SetPage(OptionPages.roles);},
+                    () => {
+                        if(main.IsHideAndSeek) SetPage(OptionPages.HideAndSeekRoles);
+                        else SetPage(OptionPages.roles);
+                    },
                     new List<OptionPages>(){
                         OptionPages.Sidekick,
                         OptionPages.Vampire,
@@ -104,6 +107,7 @@ namespace TownOfHost
                     () => {SetPage(OptionPages.modes);},
                     new List<OptionPages>(){
                         OptionPages.HideAndSeek,
+                        OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
                         OptionPages.NoGameEnd
@@ -117,6 +121,85 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
+                    {OptionPages.HideAndSeekOptions, new PageObject(
+                        "HideAndSeek Options",
+                        false,
+                        () => {SetPage(OptionPages.HideAndSeekOptions);},
+                        new List<OptionPages>(){
+                            OptionPages.AllowCloseDoors,
+                            OptionPages.HideAndSeekWaitingTime,
+                            OptionPages.HideAndSeekRoles
+                        },
+                        OptionPages.modes
+                    )},
+                        {OptionPages.AllowCloseDoors, new PageObject(
+                            () => "Allow Close Doors: " + main.getOnOff(main.AllowCloseDoors),
+                            true,
+                            () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
+                        )},
+                        {OptionPages.HideAndSeekWaitingTime, new PageObject(
+                            () => "Impostor waiting time: " + main.HideAndSeekKillDelay,
+                            true,
+                            () => {main.HideAndSeekKillDelay = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions,
+                            (i) => {
+                                var Count = main.HideAndSeekKillDelay * 10;
+                                Count += i;
+                                var FixedDelay = Math.Clamp(Count,0,180);
+                                main.HideAndSeekKillDelay = FixedDelay;
+                            }
+                        )},
+                        {OptionPages.HideAndSeekRoles, new PageObject(
+                            "HideAndSeekRoles",
+                            false,
+                            () => {SetPage(OptionPages.HideAndSeekRoles);},
+                            new List<OptionPages>(){
+                                OptionPages.Fox,
+                                OptionPages.Troll
+                            },
+                            OptionPages.HideAndSeekOptions
+                        )},
+                            {OptionPages.Fox, new PageObject(
+                                () => "<color=#e478ff>Fox</color>: " + main.FoxCount,
+                                true,
+                                () => {
+                                    if(main.FoxCount == 0) main.FoxCount = 1;
+                                    else main.FoxCount = 0;
+                                },
+                                new List<OptionPages>(){},
+                                OptionPages.HideAndSeekRoles,
+                                (i) => {
+                                    var Count = main.FoxCount * 10;
+                                    Count += i;
+                                    var MaxCount = 
+                                        GameData.Instance.AllPlayers.Count
+                                        - main.TrollCount;
+                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
+                                    main.FoxCount = FixedCount;
+                                }
+                            )},
+                            {OptionPages.Troll, new PageObject(
+                                () => "<color=#00ff00>Troll</color>: " + main.TrollCount,
+                                true,
+                                () => {
+                                    if(main.TrollCount == 0) main.TrollCount = 1;
+                                    else main.TrollCount = 0;
+                                },
+                                new List<OptionPages>(){},
+                                OptionPages.HideAndSeekRoles,
+                                (i) => {
+                                    var Count = main.TrollCount * 10;
+                                    Count += i;
+                                    var MaxCount = 
+                                        GameData.Instance.AllPlayers.Count
+                                        - main.FoxCount;
+                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
+                                    main.TrollCount = FixedCount;
+                                }
+                            )},
                     {OptionPages.SyncButtonMode, new PageObject(
                         "Sync Button Mode",
                         false,
@@ -130,7 +213,7 @@ namespace TownOfHost
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
                                 //一人当たりのボタン数を9に設定
-                                PlayerControl.GameOptions.NumEmergencyMeetings = 9;
+                                //PlayerControl.GameOptions.NumEmergencyMeetings = 9;
                                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                             },
                             new List<OptionPages>(){},
@@ -301,26 +384,33 @@ namespace TownOfHost
     public enum OptionPages
     {
         basepage = 0,
-        roles,
-        Jester,
-        Madmate,
-        Bait,
-        Terrorist,
-        Sidekick,
-        Vampire,
-        VampireOptions,
-        AdvancedRoleOptions,
-        VampireKillDelay,
-        modes,
-        HideAndSeek,
-        SyncButtonMode,
-        SyncButtonModeEnabled,
-        SyncedButtonCount,
-        DisableTasks,
-        SwipeCard,
-        SubmitScan,
-        UnlockSafe,
-        UploadData,
-        NoGameEnd
+            roles,
+                Jester,
+                Madmate,
+                Bait,
+                Terrorist,
+                Sidekick,
+                Vampire,
+                VampireOptions,
+                AdvancedRoleOptions,
+                    VampireKillDelay,
+            modes,
+                HideAndSeek,
+                HideAndSeekOptions,
+                    AllowCloseDoors,
+                    IgnoreCosmetics,
+                    HideAndSeekWaitingTime,
+                    HideAndSeekRoles,
+                        Fox,
+                        Troll,
+                SyncButtonMode,
+                    SyncButtonModeEnabled,
+                    SyncedButtonCount,
+                DisableTasks,
+                    SwipeCard,
+                    SubmitScan,
+                    UnlockSafe,
+                    UploadData,
+                NoGameEnd
     }
 }

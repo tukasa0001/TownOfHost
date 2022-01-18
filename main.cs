@@ -59,6 +59,14 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
+        public static bool AllowCloseDoors;
+        public static bool IgnoreCosmetics;
+        public static int HideAndSeekKillDelay;
+        public static float HideAndSeekKillDelayTimer;
+        public static float HideAndSeekImpVisionMin;
+        public static int FoxCount;
+        public static int TrollCount;
+        public static Dictionary<byte,HideAndSeekRoles> HideAndSeekRoleList;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -236,12 +244,19 @@ namespace TownOfHost
         public static bool hasTasks(GameData.PlayerInfo p)
         {
             var hasTasks = true;
-            if (p.Disconnected) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
-            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
-            if (p.IsDead && main.IsHideAndSeek) hasTasks = false;
+            if(p.Disconnected) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
+            if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+            if(main.IsHideAndSeek) {
+                if(p.IsDead) hasTasks = false;
+                var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
+                if(hasRole) {
+                    if(role == HideAndSeekRoles.Fox ||
+                    role == HideAndSeekRoles.Troll) hasTasks = false;
+                }
+            }
             return hasTasks;
         }
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks)
@@ -290,6 +305,10 @@ namespace TownOfHost
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
+            writer.Write(AllowCloseDoors);
+            writer.Write(HideAndSeekKillDelay);
+            writer.Write(FoxCount);
+            writer.Write(TrollCount);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -357,10 +376,21 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
             currentWinner = CustomWinner.Default;
+
             IsHideAndSeek = false;
+            AllowCloseDoors = false;
+            IgnoreCosmetics = false;
+            HideAndSeekKillDelay = 30;
+            HideAndSeekKillDelayTimer = 0f;
+            HideAndSeekImpVisionMin = 0.25f;
+            TrollCount = 0;
+            FoxCount = 0;
+            HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
+
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
+
             NoGameEnd = false;
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
@@ -463,8 +493,12 @@ namespace TownOfHost
         Default = 0,
         Sidekick
     }
-    public enum VersionTypes
-    {
+    public enum HideAndSeekRoles:byte {
+        Default = 0,
+        Troll = 1,
+        Fox = 2
+    }
+    public enum VersionTypes {
         Released = 0,
         Beta = 1
     }

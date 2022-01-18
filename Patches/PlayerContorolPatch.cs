@@ -47,6 +47,10 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
+                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
+                return false;
+            }
             if (main.isSidekick(__instance))
             {
                 var ImpostorCount = 0;
@@ -238,6 +242,19 @@ namespace TownOfHost
                     else RoleTextMeeting.enabled = false;
                 }
             }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
+    class SetColorPatch {
+        public static bool IsAntiGlitchDisabled = false;
+        public static bool Prefix(PlayerControl __instance, int bodyColor) {
+            //色変更バグ対策
+            if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
+            if(AmongUsClient.Instance.IsGameStarted && main.IsHideAndSeek) {
+                //ゲーム中に色を変えた場合
+                __instance.RpcMurderPlayer(__instance);
+            }
+            return true;
         }
     }
 }

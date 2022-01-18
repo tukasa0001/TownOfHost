@@ -20,17 +20,16 @@ namespace TownOfHost
         JesterExiled,
         TerroristWin,
         EndGame,
-        PlaySound
+        PlaySound,
+        SetHideAndSeekRole
     }
     public enum Sounds
     {
         KillSound
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
-    class RPCHandlerPatch
-    {
-        public static void Postfix([HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
-        {
+    class RPCHandlerPatch {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
             byte packetID = callId;
             switch (packetID)
             {
@@ -48,6 +47,10 @@ namespace TownOfHost
                     int VampireKillDelay = reader.ReadInt32();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
+                    bool AllowCloseDoors = reader.ReadBoolean();
+                    int HaSKillDelay = reader.ReadInt32();
+                    int FoxCount = reader.ReadInt32();
+                    int TrollCount = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -61,7 +64,11 @@ namespace TownOfHost
                         UploadDataDisabled,
                         VampireKillDelay,
                         SyncButtonMode,
-                        SyncedButtonCount
+                        SyncedButtonCount,
+                        AllowCloseDoors,
+                        HaSKillDelay,
+                        FoxCount,
+                        TrollCount
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -80,11 +87,14 @@ namespace TownOfHost
                     Sounds sound = (Sounds)reader.ReadByte();
                     RPCProcedure.PlaySound(playerID, sound);
                     break;
+                case (byte)CustomRPC.SetHideAndSeekRole:
+                    HideAndSeekRoles HaSRole = (HideAndSeekRoles)reader.ReadByte();
+                    __instance.SetHideAndSeekRole(HaSRole);
+                    break;
             }
         }
     }
-    class RPCProcedure
-    {
+    static class RPCProcedure {
         public static void SyncCustomSettings(
                 byte scientist,
                 byte engineer,
@@ -98,9 +108,12 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 int VampireKillDelay,
                 bool SyncButtonMode,
-                int SyncedButtonCount
-            )
-        {
+                int SyncedButtonCount,
+                bool AllowCloseDoors,
+                int HaSKillDelay,
+                int FoxCount,
+                int TrollCount
+            ) {
             main.currentScientist = (ScientistRole)scientist;
             main.currentEngineer = (EngineerRole)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
@@ -122,6 +135,11 @@ namespace TownOfHost
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
+
+            main.AllowCloseDoors = AllowCloseDoors;
+            main.HideAndSeekKillDelay = HaSKillDelay;
+            main.FoxCount = FoxCount;
+            main.TrollCount = TrollCount;
         }
         public static void JesterExiled(byte jesterID)
         {
@@ -205,6 +223,19 @@ namespace TownOfHost
                         SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
                         break;
                 }
+            }
+        }
+        public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
+            main.HideAndSeekRoleList[player.PlayerId] = role;
+        }
+        public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
+            if(AmongUsClient.Instance.AmClient) {
+                player.SetHideAndSeekRole(role);
+            }
+            if(AmongUsClient.Instance.AmHost) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)role);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
     }

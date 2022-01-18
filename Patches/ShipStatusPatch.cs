@@ -8,6 +8,8 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TownOfHost
 {
@@ -31,6 +33,42 @@ namespace TownOfHost
                     main.RefixCooldownDelay -= Time.fixedDeltaTime;
                 }
             }
+            if(main.IsHideAndSeek) {
+                if(main.HideAndSeekKillDelayTimer > 0) {
+                    main.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
+                    Logger.SendToFile("HaSKillDelayTimer: " + main.HideAndSeekKillDelayTimer);
+                    //インポスター行動解禁までの処理
+                    foreach(var pc in PlayerControl.AllPlayerControls) {
+                        if(pc.Data.Role.IsImpostor) {
+                        }
+                    }
+                } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
+                    Logger.info("キル能力解禁");
+                    main.HideAndSeekKillDelayTimer = float.NaN;
+                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
+                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                }
+            }
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
+    class RepairSystemPatch {
+        public static bool Prefix(ShipStatus __instance,
+            [HarmonyArgument(0)] SystemTypes systemType,
+            [HarmonyArgument(1)] PlayerControl player,
+            [HarmonyArgument(2)] byte amount) {
+            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+            if(RepairSender.enabled)
+            Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+            if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
+    class CloseDoorsPatch {
+        public static bool Prefix(ShipStatus __instance) {
+            if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
+            return true;
         }
     }
 }

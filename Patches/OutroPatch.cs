@@ -74,6 +74,30 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
+            //HideAndSeek専用
+            if(main.IsHideAndSeek && main.currentWinner == CustomWinner.Draw) {
+                var winners = new List<PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
+                    if(!hasRole) continue;
+                    if(role == HideAndSeekRoles.Default) {
+                        if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                            winners.Add(pc);
+                        if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
+                            winners.Add(pc);
+                    }
+                    if(role == HideAndSeekRoles.Fox && !pc.Data.IsDead) winners.Add(pc);
+                    if(role == HideAndSeekRoles.Troll && pc.Data.IsDead) {
+                        winners = new List<PlayerControl>();
+                        winners.Add(pc);
+                        break;
+                    }
+                }
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach(var pc in winners) {
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+                }
+            }
             main.winnerList = "winner:";
             foreach (var wpd in TempData.winners)
             {
@@ -103,6 +127,16 @@ namespace TownOfHost
                 __instance.WinText.text = "廃村";
                 __instance.WinText.color = Color.white;
             }
+            if(main.IsHideAndSeek) {
+                foreach(var p in PlayerControl.AllPlayerControls) {
+                    if(p.Data.IsDead) {
+                        var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
+                        if(hasRole && role == HideAndSeekRoles.Troll) {
+                            __instance.BackgroundBar.material.color = Color.green;
+                        }
+                    }
+                }
+            }
             if (main.isFixedCooldown && AmongUsClient.Instance.AmHost)
             {
                 PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
@@ -112,9 +146,20 @@ namespace TownOfHost
                 PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
-
             main.VisibleTasksCount = false;
+            if(AmongUsClient.Instance.AmHost) {
+                if(main.IsHideAndSeek) {
+                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
+                }
+                if(main.isFixedCooldown) {
+                    PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
+                }
+                if(main.SyncButtonMode) {
+                    PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
+                }
+                
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            }
         }
     }
 }

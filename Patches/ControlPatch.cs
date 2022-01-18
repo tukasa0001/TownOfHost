@@ -9,6 +9,8 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
 using Hazel;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace TownOfHost
 {
@@ -31,6 +33,12 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
             {
                 main.SyncCustomSettingsRPC();
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                var pos = PlayerControl.LocalPlayer.NetTransform.body.position;
+                Logger.SendToFile("座標: " + pos.x + ", " + pos.y);
+                if(AmongUsClient.Instance.AmHost && Input.GetKey(KeyCode.LeftShift)) PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(pos);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
@@ -105,6 +113,11 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
             }
+        }
+        public static async void SlowVoid() {
+            Logger.SendInGame("voidの非同期処理開始(" + Thread.CurrentThread.ManagedThreadId + ")");
+            await Task.Delay(10000);
+            Logger.SendInGame("voidの非同期処理終了(" + Thread.CurrentThread.ManagedThreadId + ")");
         }
     }
 }

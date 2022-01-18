@@ -115,6 +115,7 @@ $@"{main.getLang(lang.roleListStart)}
                         __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
                         cancelVal = "/dis";
                     }
+                    ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                 }
             }
             if (canceled)
