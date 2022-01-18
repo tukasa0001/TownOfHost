@@ -99,6 +99,28 @@ namespace TownOfHost
                 __instance.RoleText.text = "吸血鬼";
                 __instance.RoleBlurbText.text = "クルーを全員噛み殺せ";
             }
+            if(main.IsHideAndSeek) {
+                if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Fox) {
+                    __instance.TeamTitle.text = "Fox";
+                    __instance.TeamTitle.fontSize -= 0.5f;
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = "殺されずに逃げきれ";
+                    __instance.TeamTitle.color = Color.magenta;
+                    __instance.BackgroundBar.material.color = Color.magenta;
+                    __instance.RoleText.text = "狐";
+                    __instance.RoleBlurbText.text = "殺されずに逃げきれ";
+                }
+                if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Troll) {
+                    __instance.TeamTitle.text = "Troll";
+                    __instance.TeamTitle.fontSize -= 0.5f;
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = "インポスターにキルされろ";
+                    __instance.TeamTitle.color = Color.green;
+                    __instance.BackgroundBar.material.color = Color.green;
+                    __instance.RoleText.text = "トロール";
+                    __instance.RoleBlurbText.text = "インポスターにキルされろ";
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
