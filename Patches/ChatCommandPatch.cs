@@ -36,10 +36,27 @@ $@"{main.getLang(lang.roleListStart)}
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                if (getCommand("/winner", text, out arg))
+                if (getCommand("/winner", text, out arg) || getCommand("/win", text, out arg))
                 {
                     canceled = true;
                     main.SendToAll(main.winnerList);
+                }
+                
+                if (getCommand("/h now", text, out arg))
+                {
+                    canceled = true;
+                    main.SendToAll("現在有効になっている設定の説明:");
+                    if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.roleTexts["vampire"]); }
+                    if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.roleTexts["sidekick"]); }
+                    if(main.currentEngineer == EngineerRole.Madmate){ main.SendToAll(main.roleTexts["madmate"]); }
+                    if(main.currentEngineer == EngineerRole.Terrorist){ main.SendToAll(main.roleTexts["terrorist"]); }
+                    if(main.currentScientist == ScientistRole.Bait){ main.SendToAll(main.roleTexts["bait"]); }
+                    if(main.currentScientist == ScientistRole.Jester){ main.SendToAll(main.roleTexts["jester"]); }
+                    if(main.FoxCount > 0 ){ main.SendToAll(main.roleTexts["fox"]); }
+                    if(main.TrollCount > 0 ){ main.SendToAll(main.roleTexts["troll"]); }
+                    if(main.IsHideAndSeek){ main.SendToAll(main.modeTexts["hideandseek"]); }
+                    if(main.NoGameEnd){ main.SendToAll(main.modeTexts["nogameend"]); }
+                    if(main.SyncButtonMode){ main.SendToAll(main.modeTexts["syncbuttonmode"]); }
                 }
                 if (getCommand("/h roles", text, out arg))
                 {
@@ -50,35 +67,35 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "jester")
                     {
-                        main.SendToAll("Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。");
+                        main.SendToAll(main.roleTexts["jester"]);
                     }
                     else if (arg == "madmate")
                     {
-                        main.SendToAll("Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。");
+                        main.SendToAll(main.roleTexts["madmate"]);
                     }
                     else if (arg == "bait")
                     {
-                        main.SendToAll("Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。");
+                        main.SendToAll(main.roleTexts["bait"]);
                     }
                     else if (arg == "terrorist")
                     {
-                        main.SendToAll("Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。");
+                        main.SendToAll(main.roleTexts["terrorist"]);
                     }
                     else if (arg == "sidekick")
                     {
-                        main.SendToAll("Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。");
+                        main.SendToAll(main.roleTexts["sidekick"]);
                     }
                     else if (arg == "vampire")
                     {
-                        main.SendToAll("Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。");
+                        main.SendToAll(main.roleTexts["vampire"]);
                     }
                     else if (arg == "fox")
                     {
-                        main.SendToAll("Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。");
+                        main.SendToAll(main.roleTexts["fox"]);
                     }
                     else if (arg == "troll")
                     {
-                        main.SendToAll("Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。");
+                        main.SendToAll(main.roleTexts["troll"]);
                     }
                     else
                     {
@@ -94,15 +111,15 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "hideandseek")
                     {
-                        main.SendToAll("HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。");
+                        main.SendToAll(main.modeTexts["hideandseek"]);
                     }
                     else if (arg == "nogameend")
                     {
-                        main.SendToAll("NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。");
+                        main.SendToAll(main.modeTexts["nogameend"]);
                     }
                     else if (arg == "syncbuttonmode")
                     {
-                        main.SendToAll("SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。");
+                        main.SendToAll(main.modeTexts["syncbuttonmode"]);
                     }
                     else
                     {
@@ -173,7 +190,7 @@ $@"{main.getLang(lang.roleListStart)}
         public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText)
         {
             Logger.SendToFile(__instance.name + ":" + chatText, LogLevel.Message);
-            if (chatText == "/winner" && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false)
+            if ((chatText == "/winner" || chatText == "/win") && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false)
             {
                 main.SendToAll(main.winnerList);
             }
