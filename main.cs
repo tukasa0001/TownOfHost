@@ -183,6 +183,10 @@ namespace TownOfHost
                             RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
+                        case ScientistRole.SabotargeMaster:
+                            RoleText = "Sabotarge Master";
+                            TextColor = Color.blue;
+                            break;
                         default:
                             RoleText = "Invalid Scientist";
                             TextColor = Color.red;

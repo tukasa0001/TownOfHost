@@ -36,6 +36,7 @@ namespace TownOfHost
                         OptionPages.Jester,
                         OptionPages.Terrorist,
                         OptionPages.Bait,
+                        OptionPages.SabotargeMaster,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
