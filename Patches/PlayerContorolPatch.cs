@@ -28,7 +28,7 @@ namespace TownOfHost
             && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");
-                Thread.Sleep(150);
+                Thread.Sleep(150); //Fix This
                 __instance.CmdReportDeadBody(target.Data);
             }
             else
