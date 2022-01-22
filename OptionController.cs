@@ -129,6 +129,8 @@ namespace TownOfHost
                         new List<OptionPages>(){
                             OptionPages.AllowCloseDoors,
                             OptionPages.HideAndSeekWaitingTime,
+                            OptionPages.IgnoreCosmetics,
+                            OptionPages.IgnoreVent,
                             OptionPages.HideAndSeekRoles
                         },
                         OptionPages.modes
@@ -152,6 +154,20 @@ namespace TownOfHost
                                 var FixedDelay = Math.Clamp(Count,0,180);
                                 main.HideAndSeekKillDelay = FixedDelay;
                             }
+                        )},
+                        {OptionPages.IgnoreCosmetics, new PageObject(
+                            () => "Ignore Cosmetics: " + main.getOnOff(main.IgnoreCosmetics),
+                            true,
+                            () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
+                        )},
+                        {OptionPages.IgnoreVent, new PageObject(
+                            () => "Ignore Vents: " + main.getOnOff(main.IgnoreVent),
+                            true,
+                            () => {main.IgnoreVent = !main.IgnoreVent;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.HideAndSeekRoles, new PageObject(
                             "HideAndSeekRoles",
@@ -425,6 +441,7 @@ namespace TownOfHost
                     AllowCloseDoors,
                     IgnoreCosmetics,
                     HideAndSeekWaitingTime,
+                    IgnoreVent,
                     HideAndSeekRoles,
                         Fox,
                         Troll,

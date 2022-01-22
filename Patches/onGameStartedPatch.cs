@@ -86,6 +86,12 @@ namespace TownOfHost
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
                     }
+                    if(main.IgnoreCosmetics) {
+                        pc.RpcSetHat("");
+                        pc.RpcSetSkin("");
+                        pc.RpcSetPet("");
+                        pc.RpcSetVisor("");
+                    }
                 }
                 //FoxCountとTrollCountを適切に修正する
                 int FixedFoxCount = Math.Clamp(main.FoxCount,0,Crewmates.Count);

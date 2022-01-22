@@ -62,6 +62,7 @@ namespace TownOfHost
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
+        public static bool IgnoreVent;
         public static bool IgnoreCosmetics;
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
@@ -348,6 +349,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
+            writer.Write(IgnoreVent);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -438,6 +440,7 @@ namespace TownOfHost
 
             IsHideAndSeek = false;
             AllowCloseDoors = false;
+            IgnoreVent = false;
             IgnoreCosmetics = false;
             HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;

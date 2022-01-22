@@ -183,6 +183,9 @@ namespace TownOfHost
                 }
                 if(__instance.AmOwner) main.ApplySuffix();
             }
+            if(main.IsHideAndSeek && main.IgnoreVent) {
+                if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
+            }
             //各クライアントが全員分実行
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
