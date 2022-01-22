@@ -171,7 +171,7 @@ namespace TownOfHost
                                 (i) => {
                                     var Count = main.FoxCount * 10;
                                     Count += i;
-                                    var MaxCount = 
+                                    var MaxCount =
                                         GameData.Instance.AllPlayers.Count
                                         - main.TrollCount;
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
@@ -190,7 +190,7 @@ namespace TownOfHost
                                 (i) => {
                                     var Count = main.TrollCount * 10;
                                     Count += i;
-                                    var MaxCount = 
+                                    var MaxCount =
                                         GameData.Instance.AllPlayers.Count
                                         - main.FoxCount;
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
@@ -233,7 +233,7 @@ namespace TownOfHost
                         "Disable Tasks",
                         false,
                         () => {SetPage(OptionPages.DisableTasks);},
-                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe, OptionPages.UploadData},
+                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe, OptionPages.UploadData, OptionPages.StartReactor},
                         OptionPages.modes
                     )},
                         {OptionPages.SwipeCard, new PageObject(
@@ -264,7 +264,13 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
-
+                        {OptionPages.StartReactor, new PageObject(
+                            () => "Disable StartReactor Task: " + main.getOnOff(main.DisableStartReactor),
+                            true,
+                            () => {main.DisableStartReactor = !main.DisableStartReactor;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
                     {OptionPages.NoGameEnd, new PageObject(
                         () => "NoGameEnd<DEBUG>: " + main.getOnOff(main.NoGameEnd),
                         true,
@@ -332,8 +338,7 @@ namespace TownOfHost
             return text;
         }
     }
-    class PageObject
-    {
+    class PageObject {
         public string name => getName();
         private Func<string> getName;
         public bool isHostOnly;
@@ -408,6 +413,7 @@ namespace TownOfHost
                     SubmitScan,
                     UnlockSafe,
                     UploadData,
+                    StartReactor,
                 NoGameEnd
     }
 }

@@ -44,6 +44,7 @@ namespace TownOfHost
                     bool SubmitScanDisabled = reader.ReadBoolean();
                     bool UnlockSafeDisabled = reader.ReadBoolean();
                     bool UploadDataDisabled = reader.ReadBoolean();
+                    bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
@@ -62,6 +63,7 @@ namespace TownOfHost
                         SubmitScanDisabled,
                         UnlockSafeDisabled,
                         UploadDataDisabled,
+                        StartReactorDisabled,
                         VampireKillDelay,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -107,6 +109,7 @@ namespace TownOfHost
                 bool SubmitScanDisabled,
                 bool UnlockSafeDisabled,
                 bool UploadDataDisabled,
+                bool StartReactorDisabled,
                 int VampireKillDelay,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -126,6 +129,7 @@ namespace TownOfHost
             main.DisableSubmitScan = SubmitScanDisabled;
             main.DisableUnlockSafe = UnlockSafeDisabled;
             main.DisableUploadData = UploadDataDisabled;
+            main.DisableStartReactor = StartReactorDisabled;
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;

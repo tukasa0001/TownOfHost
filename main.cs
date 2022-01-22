@@ -70,7 +70,7 @@ namespace TownOfHost
         public static float HideAndSeekImpVisionMin;
         public static int FoxCount;
         public static int TrollCount;
-        public static Dictionary<byte,HideAndSeekRoles> HideAndSeekRoleList;
+        public static Dictionary<byte, HideAndSeekRoles> HideAndSeekRoleList;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -81,6 +81,7 @@ namespace TownOfHost
         public static bool DisableSubmitScan;
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
+        public static bool DisableStartReactor;
         //色がTeruteruモードとJesterモードがある
         public static Color JesterColor()
         {
@@ -245,10 +246,12 @@ namespace TownOfHost
             }
             return (RoleText, TextColor);
         }
-        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole) {
+        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole)
+        {
             string text = "Invalid";
             Color color = Color.red;
-            switch(oRole) {
+            switch (oRole)
+            {
                 case RoleTypes.Impostor:
                     text = "Impostor";
                     color = Palette.ImpostorRed;
@@ -256,7 +259,8 @@ namespace TownOfHost
                 case RoleTypes.Shapeshifter:
                     goto case RoleTypes.Impostor;
                 default:
-                    switch(hRole) {
+                    switch (hRole)
+                    {
                         case HideAndSeekRoles.Default:
                             text = "Crewmate";
                             color = Color.white;
@@ -272,21 +276,23 @@ namespace TownOfHost
                     }
                     break;
             }
-            return (text,color);
+            return (text, color);
         }
         public static bool hasTasks(GameData.PlayerInfo p)
         {
             var hasTasks = true;
-            if(p.Disconnected) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist) hasTasks = false;
-            if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
-            if(main.IsHideAndSeek) {
-                if(p.IsDead) hasTasks = false;
+            if (p.Disconnected) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist) hasTasks = false;
+            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+            if (main.IsHideAndSeek)
+            {
+                if (p.IsDead) hasTasks = false;
                 var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
-                if(hasRole) {
-                    if(role == HideAndSeekRoles.Fox ||
+                if (hasRole)
+                {
+                    if (role == HideAndSeekRoles.Fox ||
                     role == HideAndSeekRoles.Troll) hasTasks = false;
                 }
             }
@@ -335,6 +341,7 @@ namespace TownOfHost
             writer.Write(DisableSubmitScan);
             writer.Write(DisableUnlockSafe);
             writer.Write(DisableUploadData);
+            writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
@@ -441,6 +448,7 @@ namespace TownOfHost
             DisableSubmitScan = false;
             DisableUnlockSafe = false;
             DisableUploadData = false;
+            DisableStartReactor = false;
 
             VampireKillDelay = 10;
 
@@ -543,12 +551,14 @@ namespace TownOfHost
         Default = 0,
         Sidekick
     }
-    public enum HideAndSeekRoles:byte {
+    public enum HideAndSeekRoles : byte
+    {
         Default = 0,
         Troll = 1,
         Fox = 2
     }
-    public enum VersionTypes {
+    public enum VersionTypes
+    {
         Released = 0,
         Beta = 1
     }

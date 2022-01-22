@@ -101,7 +101,7 @@ namespace TownOfHost
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if(RepairSender.enabled && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if(RepairSender.enabled/* && AmongUsClient.Instance.GameMode == GameModes.FreePlay*/) {
                 if(Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if(Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
                 if(Input.GetKeyDown(KeyCode.Alpha2)) RepairSender.Input(2);

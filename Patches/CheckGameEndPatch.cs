@@ -194,7 +194,7 @@ namespace TownOfHost
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if(!hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
+                            if(!main.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
                             else {
                                 //HideAndSeek中
                                 if(role == HideAndSeekRoles.Default) numTotalAlive++;
