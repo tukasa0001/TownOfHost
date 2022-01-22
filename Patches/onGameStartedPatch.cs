@@ -24,6 +24,7 @@ namespace TownOfHost
             main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
+                main.VisibleTasksCount = true;
                 if(main.IsHideAndSeek) {
                     main.currentEngineer = EngineerRole.Default;
                     main.currentScientist = ScientistRole.Default;

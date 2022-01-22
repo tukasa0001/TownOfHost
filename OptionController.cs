@@ -338,8 +338,7 @@ namespace TownOfHost
             return text;
         }
     }
-    class PageObject
-    {
+    class PageObject {
         public string name => getName();
         private Func<string> getName;
         public bool isHostOnly;
