@@ -90,18 +90,14 @@ namespace TownOfHost
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
             }
-            /*__instance.TaskText.text =
-            "PC OwnerID:" + PlayerControl.LocalPlayer.OwnerId + "\r\n" +
-            "CNT OwnerID:" + PlayerControl.LocalPlayer.NetTransform.OwnerId + "\r\n" +
-            "PC NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" +
-            "CNT NetID:" + PlayerControl.LocalPlayer.NetId + "\r\n" +
-            "CNT name:" + PlayerControl.LocalPlayer.NetTransform.name + "\r\n";*/
 
-            if(Input.GetKeyDown(KeyCode.RightShift)) {
+
+            if(AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
+            if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if(RepairSender.enabled/* && AmongUsClient.Instance.GameMode == GameModes.FreePlay*/) {
+            if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
                 if(Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if(Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
                 if(Input.GetKeyDown(KeyCode.Alpha2)) RepairSender.Input(2);
