@@ -35,12 +35,12 @@ namespace TownOfHost
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
                 if (main.currentScientist != ScientistRole.Default)
-                {
+                {//バイタル無効
                     opt.RoleOptions.ScientistBatteryCharge = 0f;
                     opt.RoleOptions.ScientistCooldown = 99f;
                 }
                 if (main.currentEngineer != EngineerRole.Default)
-                {
+                {//無限ベント
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }
