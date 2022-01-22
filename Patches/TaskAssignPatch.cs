@@ -36,11 +36,4 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
-    class AddTaskButtonPatch {
-        public static void Postfix(TaskAddButton __instance) {
-            string text = __instance.FindTaskByType().TaskType.ToString();
-            Logger.SendInGame(text);
-        }
-    }
 }
