@@ -181,6 +181,7 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+                if(__instance.AmOwner) main.ApplySuffix();
             }
             //各クライアントが全員分実行
             //役職テキストの表示

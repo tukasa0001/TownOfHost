@@ -18,7 +18,11 @@ namespace TownOfHost
                 "Town Of Host Options",
                 false,
                 () => {},
-                new List<OptionPages>(){OptionPages.roles, OptionPages.modes},
+                new List<OptionPages>(){
+                    OptionPages.roles,
+                    OptionPages.modes,
+                    OptionPages.Suffix
+                },
                 OptionPages.basepage
             )},
                 {OptionPages.roles, new PageObject(
@@ -277,7 +281,18 @@ namespace TownOfHost
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
                         OptionPages.modes
-                    )}
+                    )},
+                {OptionPages.Suffix, new PageObject(
+                    () => "Suffix Mode: " + main.currentSuffix.ToString(),
+                    false,
+                    () => {
+                        var next = main.currentSuffix + 1;
+                        if(next > SuffixModes.Recording) next = SuffixModes.None;
+                        main.currentSuffix = next;
+                    },
+                    new List<OptionPages>(){},
+                    OptionPages.basepage
+                )},
         };
         public static OptionPages currentPage = OptionPages.basepage;
         public static int currentCursor = 0;
@@ -323,6 +338,14 @@ namespace TownOfHost
         }
         public static string GetOptionText()
         {
+            if(AmongUsClient.Instance.AmHost && !PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
+                //ホストの設定にSuffixを入れる
+                PageObjects[OptionPages.basepage].PagesInThis.Add(OptionPages.Suffix);
+            }
+            if(!AmongUsClient.Instance.AmHost && PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
+                //ホストの設定にSuffixを入れる
+                PageObjects[OptionPages.basepage].PagesInThis.Remove(OptionPages.Suffix);
+            }
             string text;
             var currentPageObj = PageObjects[currentPage];
 
@@ -414,6 +437,7 @@ namespace TownOfHost
                     UnlockSafe,
                     UploadData,
                     StartReactor,
-                NoGameEnd
+                NoGameEnd,
+            Suffix
     }
 }
