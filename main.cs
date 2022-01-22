@@ -499,7 +499,9 @@ namespace TownOfHost
                 {lang.Sidekick, Sidekick.Value},
                 {lang.SidekickInfo, SidekickInfo.Value},
                 {lang.Vampire, Vampire.Value},
-                {lang.VampireInfo, VampireInfo.Value}
+                {lang.VampireInfo, VampireInfo.Value},
+                {lang.SabotargeMaster, "Sabotarge Master"},
+                {lang.SabotargeMasterInfo, "Fix Sabotarges Faster"}
             };
 
             Harmony.PatchAll();
@@ -526,7 +528,9 @@ namespace TownOfHost
         Sidekick,
         SidekickInfo,
         Vampire,
-        VampireInfo
+        VampireInfo,
+        SabotargeMaster,
+        SabotargeMasterInfo
     }
     //WinData
     public enum CustomWinner
