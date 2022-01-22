@@ -24,6 +24,7 @@ namespace TownOfHost
             main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
+
                 main.VisibleTasksCount = true;
                 if(main.IsHideAndSeek) {
                     main.currentEngineer = EngineerRole.Default;
@@ -66,6 +67,8 @@ namespace TownOfHost
     class SelectRolesPatch {
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
+            main.ApplySuffix();
+            
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
