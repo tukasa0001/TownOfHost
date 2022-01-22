@@ -11,6 +11,7 @@ using TownOfHost;
 using Hazel;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -54,10 +55,34 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Input.GetKey(KeyCode.B) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //マスゲーム用コード
+            /*if (Input.GetKeyDown(KeyCode.C))
             {
-                Logger.SendToFile("none");
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
+                }
             }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Vector2 pos = PlayerControl.LocalPlayer.NetTransform.transform.position;
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) {
+                        pc.NetTransform.RpcSnapTo(pos);
+                        pos.x += 0.5f;
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) pc.MyPhysics.RpcExitVent(2);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
+            }*/
+            //マスゲーム用コード終わり
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
