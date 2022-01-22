@@ -1,8 +1,8 @@
 # Town Of Host
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 ## 変更履歴
-ロビーでVキー、Bキーを押すことでコードを隠せるように変更
-部屋の落ちるまでのタイマー設置
+ロビーでVキー、Bキーを押すことでコードを隠せるように変更。<br>
+部屋の落ちるまでのタイマー設置。
 ## modについて
 
 このmodは非公式のものであり、このmodの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
