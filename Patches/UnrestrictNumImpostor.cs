@@ -56,4 +56,53 @@ namespace TownOfHost {//参考：https://github.com/NuclearPowered/Reactor/blob/
             return false;
         }
     }
+    public class GameStartManagerPatch
+    {
+        private static float timer = 600f;
+        private static string lobbyCodehide = "";
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
+        public class GameStartManagerStartPatch
+        {
+            public static void Postfix(GameStartManager __instance)
+            {
+                // Reset lobby countdown timer
+                timer = 600f;
+                // Copy lobby code
+                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+                GUIUtility.systemCopyBuffer = code;
+                lobbyCodehide = $"<color={main.modColor}>TownOfHost</color>";
+            }
+        }
+
+        [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
+        public class GameStartManagerUpdatePatch
+        {
+            private static bool update = false;
+            private static string currentText = "";
+            public static void Prefix(GameStartManager __instance)
+            {
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return; // Not host or no instance
+                update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
+            }
+            public static void Postfix(GameStartManager __instance)
+            {
+                // Lobby code
+                if (Input.GetKeyDown(KeyCode.V)) lobbyCodehide = $"<color={main.modColor}>TownOfHost</color>";
+                if (Input.GetKeyDown(KeyCode.B)) lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                __instance.GameRoomName.text = lobbyCodehide;
+                // Lobby timer
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
+
+                if (update) currentText = __instance.PlayerCounter.text;
+
+                timer = Mathf.Max(0f, timer -= Time.deltaTime);
+                int minutes = (int)timer / 60;
+                int seconds = (int)timer % 60;
+                string suffix = $" ({minutes:00}:{seconds:00})";
+
+                __instance.PlayerCounter.text = currentText + suffix;
+                __instance.PlayerCounter.autoSizeTextContainer = true;
+            }
+        }
+    }
 }
