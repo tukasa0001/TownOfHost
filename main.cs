@@ -276,13 +276,13 @@ namespace TownOfHost
             }
             return (text, color);
         }
-        public static bool hasTasks(GameData.PlayerInfo p)
+        public static bool hasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
