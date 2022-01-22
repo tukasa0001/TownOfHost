@@ -6,6 +6,7 @@ using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
@@ -18,19 +19,27 @@ namespace TownOfHost
         public static void Prefix(ShipStatus __instance,
         [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
-            List<int> disabledTaskIndex = new List<int>();
+            List<NormalPlayerTask> disabledTaskIndex = new List<NormalPlayerTask>();
             for (var i = 0; i < unusedTasks.Count; i++)
             {
                 var task = unusedTasks[i];
-                if (task.TaskType == TaskTypes.SwipeCard && main.DisableSwipeCard) disabledTaskIndex.Add(i);//カードタスク
-                if (task.TaskType == TaskTypes.SubmitScan && main.DisableSubmitScan) disabledTaskIndex.Add(i);//スキャンタスク
-                if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTaskIndex.Add(i);//金庫タスク
-                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTaskIndex.Add(i);//ダウンロードタスク
+                if (task.TaskType == TaskTypes.SwipeCard && main.DisableSwipeCard) disabledTaskIndex.Add(task);//カードタスク
+                if (task.TaskType == TaskTypes.SubmitScan && main.DisableSubmitScan) disabledTaskIndex.Add(task);//スキャンタスク
+                if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTaskIndex.Add(task);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTaskIndex.Add(task);
             }
-            foreach (var i in disabledTaskIndex)
+            foreach (var task in disabledTaskIndex)
             {
-                unusedTasks.RemoveAt(i);
+                Logger.msg("削除: " + task.TaskType.ToString());
+                unusedTasks.Remove(task);
             }
+        }
+    }
+    [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
+    class AddTaskButtonPatch {
+        public static void Postfix(TaskAddButton __instance) {
+            string text = __instance.FindTaskByType().TaskType.ToString();
+            Logger.SendInGame(text);
         }
     }
 }
