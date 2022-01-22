@@ -100,25 +100,25 @@ namespace TownOfHost
         public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Jester)
                 return true;
             return false;
         }
         public static bool isMadmate(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Madmate)
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Madmate)
                 return true;
             return false;
         }
         public static bool isBait(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Bait)
                 return true;
             return false;
         }
         public static bool isTerrorist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Terrorist)
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Terrorist)
                 return true;
             return false;
         }
@@ -135,13 +135,13 @@ namespace TownOfHost
             return false;
         }
 
-        public static void ToggleRole(ScientistRole role)
+        public static void ToggleRole(ScientistRoles role)
         {
-            currentScientist = role == currentScientist ? ScientistRole.Default : role;
+            currentScientist = role == currentScientist ? ScientistRoles.Default : role;
         }
-        public static void ToggleRole(EngineerRole role)
+        public static void ToggleRole(EngineerRoles role)
         {
-            currentEngineer = role == currentEngineer ? EngineerRole.Default : role;
+            currentEngineer = role == currentEngineer ? EngineerRoles.Default : role;
         }
         public static void ToggleRole(ShapeshifterRoles role)
         {
@@ -165,15 +165,15 @@ namespace TownOfHost
                 case RoleTypes.Scientist:
                     switch (currentScientist)
                     {
-                        case ScientistRole.Default:
+                        case ScientistRoles.Default:
                             RoleText = "Scientist";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case ScientistRole.Jester:
+                        case ScientistRoles.Jester:
                             RoleText = "Jester";
                             TextColor = JesterColor();
                             break;
-                        case ScientistRole.Bait:
+                        case ScientistRoles.Bait:
                             RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
@@ -186,15 +186,15 @@ namespace TownOfHost
                 case RoleTypes.Engineer:
                     switch (currentEngineer)
                     {
-                        case EngineerRole.Default:
+                        case EngineerRoles.Default:
                             RoleText = "Engineer";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case EngineerRole.Madmate:
+                        case EngineerRoles.Madmate:
                             RoleText = "Madmate";
                             TextColor = Palette.ImpostorRed;
                             break;
-                        case EngineerRole.Terrorist:
+                        case EngineerRoles.Terrorist:
                             RoleText = "Terrorist";
                             TextColor = Color.green;
                             break;
@@ -278,9 +278,9 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if(p.Disconnected) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
-            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
+            if(p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist) hasTasks = false;
             if(p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if(main.IsHideAndSeek) {
                 if(p.IsDead) hasTasks = false;
@@ -310,8 +310,8 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static ScientistRole currentScientist;
-        public static EngineerRole currentEngineer;
+        public static ScientistRoles currentScientist;
+        public static EngineerRoles currentEngineer;
         public static ImpostorRoles currentImpostor;
         public static ShapeshifterRoles currentShapeshifter;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -432,8 +432,8 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            currentScientist = ScientistRole.Default;
-            currentEngineer = EngineerRole.Default;
+            currentScientist = ScientistRoles.Default;
+            currentEngineer = EngineerRoles.Default;
             currentImpostor = ImpostorRoles.Default;
             currentShapeshifter = ShapeshifterRoles.Default;
 
@@ -521,13 +521,13 @@ namespace TownOfHost
         Jester,
         Terrorist
     }
-    public enum ScientistRole
+    public enum ScientistRoles
     {
         Default = 0,
         Jester,
         Bait
     }
-    public enum EngineerRole
+    public enum EngineerRoles
     {
         Default = 0,
         Madmate,

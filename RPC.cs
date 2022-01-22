@@ -115,8 +115,8 @@ namespace TownOfHost
                 int FoxCount,
                 int TrollCount
             ) {
-            main.currentScientist = (ScientistRole)scientist;
-            main.currentEngineer = (EngineerRole)engineer;
+            main.currentScientist = (ScientistRoles)scientist;
+            main.currentEngineer = (EngineerRoles)engineer;
             main.currentImpostor = (ImpostorRoles)impostor;
             main.currentShapeshifter = (ShapeshifterRoles)shapeshifter;
             main.IsHideAndSeek = isHideAndSeek;

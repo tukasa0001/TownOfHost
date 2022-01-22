@@ -24,7 +24,7 @@ namespace TownOfHost
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
             //When Bait is killed
-            if (target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait && AmongUsClient.Instance.AmHost
+            if (target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Bait && AmongUsClient.Instance.AmHost
             && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");

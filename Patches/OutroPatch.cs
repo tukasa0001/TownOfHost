@@ -26,9 +26,9 @@ namespace TownOfHost
                 {
                     if (p.Data.Role.Role == RoleTypes.Crewmate) winner.Add(p); //Crewmate
                     if (p.Data.Role.Role == RoleTypes.GuardianAngel) winner.Add(p); //GuardianAngel
-                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Default) winner.Add(p); //Engineer
-                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Default) winner.Add(p); //Scientist
-                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Bait) winner.Add(p); //bait
+                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Default) winner.Add(p); //Engineer
+                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Default) winner.Add(p); //Scientist
+                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Bait) winner.Add(p); //bait
                 }
             }
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
@@ -37,7 +37,7 @@ namespace TownOfHost
                 {
                     if (p.Data.Role.Role == RoleTypes.Impostor) winner.Add(p); //Impostor
                     if (p.Data.Role.Role == RoleTypes.Shapeshifter) winner.Add(p); //ShapeShifter
-                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) winner.Add(p); // MadmateのEngineer
+                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) winner.Add(p); // MadmateのEngineer
                 }
             }
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -56,7 +56,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRole.Jester)
+            if (main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRoles.Jester)
             { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -65,7 +65,7 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            if (main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRole.Terrorist)
+            if (main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRoles.Terrorist)
             { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)

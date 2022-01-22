@@ -28,10 +28,12 @@ namespace TownOfHost
                 canceled = true;
                 __instance.AddChat(PlayerControl.LocalPlayer,
 $@"{main.getLang(lang.roleListStart)}
-{main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRole.Jester)}
-{main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRole.Madmate)}
-{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRole.Bait)}
-{main.getLang(lang.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRole.Terrorist)}"
+{main.getLang(lang.Sidekick)}: {getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick)}
+{main.getLang(lang.Vampire)}: {getOnOff(main.currentImpostor == ImpostorRoles.Vampire)}
+{main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRoles.Jester)}
+{main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRoles.Madmate)}
+{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRoles.Bait)}
+{main.getLang(lang.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRoles.Terrorist)}"
                 );
             }
             if (AmongUsClient.Instance.AmHost)
@@ -48,10 +50,10 @@ $@"{main.getLang(lang.roleListStart)}
                     main.SendToAll("現在有効になっている設定の説明:");
                     if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.roleTexts["vampire"]); }
                     if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.roleTexts["sidekick"]); }
-                    if(main.currentEngineer == EngineerRole.Madmate){ main.SendToAll(main.roleTexts["madmate"]); }
-                    if(main.currentEngineer == EngineerRole.Terrorist){ main.SendToAll(main.roleTexts["terrorist"]); }
-                    if(main.currentScientist == ScientistRole.Bait){ main.SendToAll(main.roleTexts["bait"]); }
-                    if(main.currentScientist == ScientistRole.Jester){ main.SendToAll(main.roleTexts["jester"]); }
+                    if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.roleTexts["madmate"]); }
+                    if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.roleTexts["terrorist"]); }
+                    if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.roleTexts["bait"]); }
+                    if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.roleTexts["jester"]); }
                     if(main.FoxCount > 0 ){ main.SendToAll(main.roleTexts["fox"]); }
                     if(main.TrollCount > 0 ){ main.SendToAll(main.roleTexts["troll"]); }
                     if(main.IsHideAndSeek){ main.SendToAll(main.modeTexts["hideandseek"]); }
