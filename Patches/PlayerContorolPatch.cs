@@ -125,7 +125,28 @@ namespace TownOfHost
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+
+            if(__instance.Data.IsDead) return true;
+            //=============================================
+            //以下、ボタンが押されることが確定したものとする。
+            //=============================================
+
+            if(main.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead) {
+                //SyncButtonMode中にホストが死んでいる場合
+                ChangeLocalNameAndRevert(
+                    "緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。",
+                    1000
+                );
+            }
+
             return true;
+        }
+        public static async void ChangeLocalNameAndRevert(string name, int time) {
+            //async Taskじゃ警告出るから仕方ないよね。
+            var revertName = PlayerControl.LocalPlayer.name;
+            PlayerControl.LocalPlayer.RpcSetName(name);
+            await Task.Delay(time);
+            PlayerControl.LocalPlayer.RpcSetName(revertName);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -216,6 +237,7 @@ namespace TownOfHost
             }
             if (main.SyncButtonMode)
             {
+                if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }

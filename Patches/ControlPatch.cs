@@ -70,7 +70,6 @@ namespace TownOfHost
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
