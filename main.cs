@@ -324,6 +324,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
         {
@@ -384,6 +385,26 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessagesToSend.Add(text);
+        }
+        public static void ApplySuffix() {
+            if(!AmongUsClient.Instance.AmHost) return;
+            string name = SaveManager.PlayerName;
+            if(!AmongUsClient.Instance.IsGameStarted) {
+                switch(currentSuffix) {
+                    case SuffixModes.None:
+                        break;
+                    case SuffixModes.TOH:
+                        name += "\r\n<color=" + modColor + ">TOH v" + PluginVersion + VersionSuffix + "</color>";
+                        break;
+                    case SuffixModes.Streaming:
+                        name += "\r\n配信中";
+                        break;
+                    case SuffixModes.Recording:
+                        name += "\r\n録画中";
+                        break;
+                }
+            }
+            if(name != PlayerControl.LocalPlayer.name) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public override void Load()
         {
@@ -449,6 +470,8 @@ namespace TownOfHost
             DisableStartReactor = false;
 
             VampireKillDelay = 10;
+
+            currentSuffix = SuffixModes.None;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
@@ -537,6 +560,12 @@ namespace TownOfHost
         Default = 0,
         Troll = 1,
         Fox = 2
+    }
+    public enum SuffixModes {
+        None = 0,
+        TOH,
+        Streaming,
+        Recording
     }
     public enum VersionTypes
     {
