@@ -134,6 +134,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isSabotargeMaster(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.SabotargeMaster)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRole role)
         {
@@ -544,7 +550,8 @@ namespace TownOfHost
     {
         Default = 0,
         Jester,
-        Bait
+        Bait,
+        SabotargeMaster
     }
     public enum EngineerRole
     {

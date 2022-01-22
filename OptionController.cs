@@ -82,6 +82,13 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
+                    {OptionPages.SabotargeMaster, new PageObject(
+                        () => "<color=#0000ff>Sabotarge Master</color>: " + main.getOnOff(main.currentScientist == ScientistRole.SabotargeMaster),
+                        true,
+                        () => {main.ToggleRole(ScientistRole.SabotargeMaster);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         "Advanced Options",
                         false,
@@ -432,6 +439,7 @@ namespace TownOfHost
                 Terrorist,
                 Sidekick,
                 Vampire,
+                SabotargeMaster,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
