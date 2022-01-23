@@ -28,12 +28,12 @@ namespace TownOfHost
                 canceled = true;
                 __instance.AddChat(PlayerControl.LocalPlayer,
 $@"{main.getLang(lang.roleListStart)}
-{main.getLang(lang.Sidekick)}: {getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick)}
-{main.getLang(lang.Vampire)}: {getOnOff(main.currentImpostor == ImpostorRoles.Vampire)}
-{main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRoles.Jester)}
-{main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRoles.Madmate)}
-{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRoles.Bait)}
-{main.getLang(lang.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRoles.Terrorist)}"
+{main.getRoleName(RoleNames.Sidekick)}: {getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick)}
+{main.getRoleName(RoleNames.Vampire)}: {getOnOff(main.currentImpostor == ImpostorRoles.Vampire)}
+{main.getRoleName(RoleNames.Jester)}: {getOnOff(main.currentScientist == ScientistRoles.Jester)}
+{main.getRoleName(RoleNames.Madmate)}: {getOnOff(main.currentEngineer == EngineerRoles.Madmate)}
+{main.getRoleName(RoleNames.Bait)}: {getOnOff(main.currentScientist == ScientistRoles.Bait)}
+{main.getRoleName(RoleNames.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRoles.Terrorist)}"
                 );
             }
             if (AmongUsClient.Instance.AmHost)
@@ -48,17 +48,17 @@ $@"{main.getLang(lang.roleListStart)}
                 {
                     canceled = true;
                     main.SendToAll("現在有効になっている設定の説明:");
-                    if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.roleTexts["vampire"]); }
-                    if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.roleTexts["sidekick"]); }
-                    if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.roleTexts["madmate"]); }
-                    if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.roleTexts["terrorist"]); }
-                    if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.roleTexts["bait"]); }
-                    if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.roleTexts["jester"]); }
-                    if(main.FoxCount > 0 ){ main.SendToAll(main.roleTexts["fox"]); }
-                    if(main.TrollCount > 0 ){ main.SendToAll(main.roleTexts["troll"]); }
-                    if(main.IsHideAndSeek){ main.SendToAll(main.modeTexts["hideandseek"]); }
-                    if(main.NoGameEnd){ main.SendToAll(main.modeTexts["nogameend"]); }
-                    if(main.SyncButtonMode){ main.SendToAll(main.modeTexts["syncbuttonmode"]); }
+                    if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.getLang(lang.VampireInfoLong)); }
+                    if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
+                    if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
+                    if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
+                    if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                    if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+                    if(main.IsHideAndSeek){ main.SendToAll(main.getLang(lang.HideAndSeekInfo)); }
+                    if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+                    if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 }
                 if (getCommand("/h roles", text, out arg))
                 {

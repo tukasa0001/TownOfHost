@@ -50,15 +50,22 @@ namespace TownOfHost
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         //Lang-arrangement
-        private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
+        private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
+        private static Dictionary<RoleNames, string> JapaneseRoleNames = new Dictionary<RoleNames, string>();
+        private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
+        private static Dictionary<RoleNames, string> EnglishRoleNames = new Dictionary<RoleNames, string>();
         public static Dictionary<string, string> roleTexts = new Dictionary<string, string>();
         public static Dictionary<string, string> modeTexts = new Dictionary<string, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var isSuccess = langTexts.TryGetValue(lang, out var text);
+            var isSuccess = JapaneseTexts.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
+        }
+        public static string getRoleName(RoleNames role) {
+            var isSuccess = JapaneseRoleNames.TryGetValue(role, out var text);
+            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor { get; private set; }
@@ -503,9 +510,49 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
 
-            langTexts = new Dictionary<lang, string>(){
-                {lang.Jester, Jester.Value},
-                {lang.Madmate, Madmate.Value},
+            JapaneseTexts = new Dictionary<lang, string>(){
+                //役職解説(短)
+                {lang.JesterInfo, JesterInfo.Value},
+                {lang.MadmateInfo, MadmateInfo.Value},
+                {lang.BaitInfo, BaitInfo.Value},
+                {lang.TerroristInfo, TerroristInfo.Value},
+                {lang.SidekickInfo, SidekickInfo.Value},
+                {lang.VampireInfo, VampireInfo.Value},
+                {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
+                //役職解説(長)
+                {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
+                {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
+                {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
+                {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない"},
+                //モード名
+                {lang.HideAndSeek, "HideAndSeek"},
+                {lang.NoGameEnd, "NoGameEnd"},
+                {lang.SyncButtonMode, "ボタン回数同期モード"},
+                //モード解説
+                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。"},
+                {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
+                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"},
+                //オプション項目
+                {lang.AdvancedRoleOptions, "詳細オプション"},
+                {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
+                {lang.SabotageMasterFixDoors, "サボタージュマスターが複数のドアを直す"},
+                {lang.HideAndSeekOptions, "HideAndSeekの設定"},
+                {lang.AllowCloseDoors, "ドア閉めを許可"},
+                {lang.HideAndSeekWaitingTime, "インポスターの待機時間"},
+                {lang.IgnoreCosmetics, "装飾品を禁止"},
+                {lang.IgnoreVent, "ベント使用を禁止"},
+                {lang.HideAndSeekRoles, "鬼ごっこの役職"},
+                {lang.SyncedButtonCount, "合計ボタン使用可能回数"},
+                {lang.DisableSwipeCardTask, "カードタスクを無効化"},
+                {lang.DisableSubmitScanTask, "医務室のスキャンタスクを無効化"},
+                {lang.DisableUnlockSafeTask, "金庫タスクを無効化"},
+                {lang.DisableUploadDataTask, "ダウンロードタスクを無効化"},
+                {lang.DisableStartReactorTask, "原子炉起動タスクを無効化"},
+                //その他
                 {lang.roleEnabled, RoleEnabled.Value},
                 {lang.roleDisabled, RoleDisabled.Value},
                 {lang.commandError, CommandError.Value},
@@ -513,35 +560,6 @@ namespace TownOfHost
                 {lang.roleListStart, roleListStart.Value},
                 {lang.ON, ON.Value},
                 {lang.OFF, OFF.Value},
-                {lang.JesterInfo, JesterInfo.Value},
-                {lang.MadmateInfo, MadmateInfo.Value},
-                {lang.Bait, Bait.Value},
-                {lang.BaitInfo, BaitInfo.Value},
-                {lang.Terrorist, Terrorist.Value},
-                {lang.TerroristInfo, TerroristInfo.Value},
-                {lang.Sidekick, Sidekick.Value},
-                {lang.SidekickInfo, SidekickInfo.Value},
-                {lang.Vampire, Vampire.Value},
-                {lang.VampireInfo, VampireInfo.Value},
-                {lang.SabotageMaster, "Sabotage Master"},
-                {lang.SabotageMasterInfo, "Fix Sabotages Faster"}
-            };
-
-            roleTexts = new Dictionary<string, string>(){
-                {"jester", "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {"madmate", "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
-                {"bait", "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {"terrorist", "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {"sidekick", "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
-                {"vampire", "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {"fox", "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
-                {"troll", "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない"}
-            };
-
-            modeTexts = new Dictionary<string, string>(){
-                {"hideandseek", "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。"},
-                {"nogameend", "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {"syncbuttonmode", "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"}
             };
 
             Harmony.PatchAll();
@@ -550,8 +568,53 @@ namespace TownOfHost
     //Lang-enum
     public enum lang
     {
-        Jester = 0,
-        Madmate,
+        //役職解説(短)
+        JesterInfo = 0,
+        MadmateInfo,
+        BaitInfo,
+        TerroristInfo,
+        SidekickInfo,
+        VampireInfo,
+        SabotageMasterInfo,
+        FoxInfo,
+        TrollInfo,
+        //役職解説(長)
+        JesterInfoLong,
+        MadmateInfoLong,
+        BaitInfoLong,
+        TerroristInfoLong,
+        SidekickInfoLong,
+        VampireInfoLong,
+        SabotageMasterInfoLong,
+        FoxInfoLong,
+        TrollInfoLong,
+        //モード名
+        HideAndSeek,
+        SyncButtonMode,
+        NoGameEnd,
+        DisableTasks,
+        //モード解説
+        HideAndSeekInfo,
+        SyncButtonModeInfo,
+        NoGameEndInfo,
+        //オプション項目
+        AdvancedRoleOptions,
+        VampireKillDelay,
+        SabotageMasterFixDoors,
+        HideAndSeekOptions,
+        AllowCloseDoors,
+        HideAndSeekWaitingTime,
+        IgnoreCosmetics,
+        IgnoreVent,
+        HideAndSeekRoles,
+        SyncedButtonCount,
+        DisableSwipeCardTask,
+        DisableSubmitScanTask,
+        DisableUnlockSafeTask,
+        DisableUploadDataTask,
+        DisableStartReactorTask,
+        SuffixMode,
+        //その他
         roleEnabled,
         roleDisabled,
         commandError,
@@ -559,18 +622,15 @@ namespace TownOfHost
         roleListStart,
         ON,
         OFF,
-        JesterInfo,
-        MadmateInfo,
+    }
+    public enum RoleNames {
+        Jester = 0,
+        Madmate,
         Bait,
-        BaitInfo,
         Terrorist,
-        TerroristInfo,
         Sidekick,
-        SidekickInfo,
         Vampire,
-        VampireInfo,
-        SabotageMaster,
-        SabotageMasterInfo
+        SabotageMaster
     }
     //WinData
     public enum CustomWinner

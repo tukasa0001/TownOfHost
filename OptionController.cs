@@ -271,7 +271,13 @@ namespace TownOfHost
                         "Disable Tasks",
                         false,
                         () => {SetPage(OptionPages.DisableTasks);},
-                        new List<OptionPages>(){OptionPages.SwipeCard, OptionPages.SubmitScan, OptionPages.UnlockSafe, OptionPages.UploadData, OptionPages.StartReactor},
+                        new List<OptionPages>(){
+                            OptionPages.SwipeCard,
+                            OptionPages.SubmitScan,
+                            OptionPages.UnlockSafe,
+                            OptionPages.UploadData,
+                            OptionPages.StartReactor
+                        },
                         OptionPages.modes
                     )},
                         {OptionPages.SwipeCard, new PageObject(
@@ -403,41 +409,32 @@ namespace TownOfHost
         public List<OptionPages> PagesInThis;
         public OptionPages pageToReturn;
         public Action<int> onInput;
-        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn)
+        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
         {
             this.getName = () => name;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
-            this.onInput = (i) => { return; };
+            this.onInput = onInput == null ? (i) => {return;} : onInput;
         }
-        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn)
+        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
         {
             this.getName = getName;
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
-            this.onInput = (i) => { return; };
+            this.onInput = onInput == null ? (i) => {return;} : onInput;
         }
-        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput)
+        public PageObject(lang lang, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
         {
-            this.getName = () => name;
+            this.getName = () => main.getLang(lang);
             this.isHostOnly = isHostOnly;
             this.onEnter = onEnter;
             this.PagesInThis = PageInThis;
             this.pageToReturn = PageToReturn;
-            this.onInput = onInput;
-        }
-        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput)
-        {
-            this.getName = getName;
-            this.isHostOnly = isHostOnly;
-            this.onEnter = onEnter;
-            this.PagesInThis = PageInThis;
-            this.pageToReturn = PageToReturn;
-            this.onInput = onInput;
+            this.onInput = onInput == null ? (i) => {return;} : onInput;
         }
     }
     public enum OptionPages
