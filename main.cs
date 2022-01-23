@@ -141,7 +141,7 @@ namespace TownOfHost
         }
         public static bool isSabotargeMaster(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.SabotargeMaster)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotargeMaster)
                 return true;
             return false;
         }
@@ -188,7 +188,7 @@ namespace TownOfHost
                             RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
-                        case ScientistRole.SabotargeMaster:
+                        case ScientistRoles.SabotargeMaster:
                             RoleText = "Sabotarge Master";
                             TextColor = Color.blue;
                             break;
