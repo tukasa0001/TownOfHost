@@ -42,56 +42,56 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        () => "<color=#ff0000>Madmate</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Madmate),
+                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Madmate),
                         true,
                         () => {main.ToggleRole(EngineerRoles.Madmate);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Sidekick, new PageObject(
-                        () => "<color=#ff0000>Sidekick</color>: " + main.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick),
+                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>: " + main.getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick),
                         true,
                         () => {main.ToggleRole(ShapeshifterRoles.Sidekick);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        () => "<color=#a757a8>Vampire</color>: " + main.getOnOff(main.currentImpostor == ImpostorRoles.Vampire),
+                        () => "<color=#a757a8>" + main.getRoleName(RoleNames.Vampire) + "</color>: " + main.getOnOff(main.currentImpostor == ImpostorRoles.Vampire),
                         true,
                         () => {main.ToggleRole(ImpostorRoles.Vampire);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Jester, new PageObject(
-                        () => "<color=#d161a4>Jester</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Jester),
+                        () => "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Jester),
                         true,
                         () => {main.ToggleRole(ScientistRoles.Jester);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        () => "<color=#00ff00>Terrorist</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Terrorist),
+                        () => "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Terrorist),
                         true,
                         () => {main.ToggleRole(EngineerRoles.Terrorist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Bait, new PageObject(
-                        () => "<color=#00bfff>Bait</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Bait),
+                        () => "<color=#00bfff>" + main.getRoleName(RoleNames.Bait) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Bait),
                         true,
                         () => {main.ToggleRole(ScientistRoles.Bait);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.SabotageMaster, new PageObject(
-                        () => "<color=#0000ff>Sabotage Master</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.SabotageMaster),
+                        () => "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.SabotageMaster),
                         true,
                         () => {main.ToggleRole(ScientistRoles.SabotageMaster);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
-                        "Advanced Options",
+                        lang.AdvancedRoleOptions,
                         false,
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
@@ -101,7 +101,7 @@ namespace TownOfHost
                         OptionPages.roles
                     )},
                         {OptionPages.VampireKillDelay, new PageObject(
-                            () => "<color=#a757a8>Vampire Kill Delay</color>(s): " + main.VampireKillDelay + main.TextCursor,
+                            () => "<color=#a757a8>" + main.getLang(lang.VampireKillDelay) + "</color>(s): " + main.VampireKillDelay + main.TextCursor,
                             true,
                             () => {main.VampireKillDelay = 0;},
                             new List<OptionPages>(){},
@@ -114,7 +114,7 @@ namespace TownOfHost
                             }
                         )},
                         {OptionPages.SabotageMasterFixesDoors, new PageObject(
-                            () => "<color=#0000ff>Sabotage Master Fixes Doors</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
                             true,
                             () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
                             new List<OptionPages>(){},
@@ -134,14 +134,14 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
                     {OptionPages.HideAndSeek, new PageObject(
-                        () => "HideAndSeek<BETA>: " + main.getOnOff(main.IsHideAndSeek),
+                        () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek),
                         true,
                         () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
                     {OptionPages.HideAndSeekOptions, new PageObject(
-                        "HideAndSeek Options",
+                        lang.HideAndSeekOptions,
                         false,
                         () => {SetPage(OptionPages.HideAndSeekOptions);},
                         new List<OptionPages>(){
@@ -154,14 +154,14 @@ namespace TownOfHost
                         OptionPages.modes
                     )},
                         {OptionPages.AllowCloseDoors, new PageObject(
-                            () => "Allow Close Doors: " + main.getOnOff(main.AllowCloseDoors),
+                            () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors),
                             true,
                             () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.HideAndSeekWaitingTime, new PageObject(
-                            () => "Impostor waiting time: " + main.HideAndSeekKillDelay,
+                            () => main.getLang(lang.HideAndSeekWaitingTime) + ": " + main.HideAndSeekKillDelay,
                             true,
                             () => {main.HideAndSeekKillDelay = 0;},
                             new List<OptionPages>(){},
@@ -174,21 +174,21 @@ namespace TownOfHost
                             }
                         )},
                         {OptionPages.IgnoreCosmetics, new PageObject(
-                            () => "Ignore Cosmetics: " + main.getOnOff(main.IgnoreCosmetics),
+                            () => main.getLang(lang.IgnoreCosmetics) + ": " + main.getOnOff(main.IgnoreCosmetics),
                             true,
                             () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.IgnoreVent, new PageObject(
-                            () => "Ignore Vents: " + main.getOnOff(main.IgnoreVent),
+                            () => main.getLang(lang.IgnoreVent) + ": " + main.getOnOff(main.IgnoreVent),
                             true,
                             () => {main.IgnoreVent = !main.IgnoreVent;},
                             new List<OptionPages>(){},
                             OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.HideAndSeekRoles, new PageObject(
-                            "HideAndSeekRoles",
+                            lang.HideAndSeekRoles,
                             false,
                             () => {SetPage(OptionPages.HideAndSeekRoles);},
                             new List<OptionPages>(){
@@ -198,7 +198,7 @@ namespace TownOfHost
                             OptionPages.HideAndSeekOptions
                         )},
                             {OptionPages.Fox, new PageObject(
-                                () => "<color=#e478ff>Fox</color>: " + main.FoxCount,
+                                () => "<color=#e478ff>" + main.getRoleName(RoleNames.Fox) + "</color>: " + main.FoxCount,
                                 true,
                                 () => {
                                     if(main.FoxCount == 0) main.FoxCount = 1;
@@ -217,7 +217,7 @@ namespace TownOfHost
                                 }
                             )},
                             {OptionPages.Troll, new PageObject(
-                                () => "<color=#00ff00>Troll</color>: " + main.TrollCount,
+                                () => "<color=#00ff00>" + main.getRoleName(RoleNames.Troll) + "</color>: " + main.TrollCount,
                                 true,
                                 () => {
                                     if(main.TrollCount == 0) main.TrollCount = 1;
@@ -236,14 +236,14 @@ namespace TownOfHost
                                 }
                             )},
                     {OptionPages.SyncButtonMode, new PageObject(
-                        "Sync Button Mode",
+                        lang.SyncButtonMode,
                         false,
                         () => {SetPage(OptionPages.SyncButtonMode);},
                         new List<OptionPages>(){OptionPages.SyncButtonModeEnabled, OptionPages.SyncedButtonCount},
                         OptionPages.modes
                     )},
                         {OptionPages.SyncButtonModeEnabled, new PageObject(
-                            () => "Sync Button Mode: " + main.getOnOff(main.SyncButtonMode),
+                            () => main.getLang(lang.SyncButtonMode) + ": " + main.getOnOff(main.SyncButtonMode),
                             true,
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
@@ -255,7 +255,7 @@ namespace TownOfHost
                             OptionPages.SyncButtonMode
                         )},
                         {OptionPages.SyncedButtonCount, new PageObject(
-                            () => "Synced Buttons Count: " + main.SyncedButtonCount + main.TextCursor,
+                            () => main.getLang(lang.SyncedButtonCount) + ": " + main.SyncedButtonCount + main.TextCursor,
                             true,
                             () => {main.SyncedButtonCount = 0;},
                             new List<OptionPages>(){},
@@ -268,7 +268,7 @@ namespace TownOfHost
                             }
                         )},
                     {OptionPages.DisableTasks, new PageObject(
-                        "Disable Tasks",
+                        lang.DisableTasks,
                         false,
                         () => {SetPage(OptionPages.DisableTasks);},
                         new List<OptionPages>(){
@@ -281,49 +281,49 @@ namespace TownOfHost
                         OptionPages.modes
                     )},
                         {OptionPages.SwipeCard, new PageObject(
-                            () => "Disable SwipeCard Task: " + main.getOnOff(main.DisableSwipeCard),
+                            () => main.getLang(lang.DisableSwipeCardTask) + ": " + main.getOnOff(main.DisableSwipeCard),
                             true,
                             () => {main.DisableSwipeCard = !main.DisableSwipeCard;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.SubmitScan, new PageObject(
-                            () => "Disable SubmitScan Task: " + main.getOnOff(main.DisableSubmitScan),
+                            () => main.getLang(lang.DisableSubmitScanTask) + ": " + main.getOnOff(main.DisableSubmitScan),
                             true,
                             () => {main.DisableSubmitScan = !main.DisableSubmitScan;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.UnlockSafe, new PageObject(
-                            () => "Disable UnlockSafe Task: " + main.getOnOff(main.DisableUnlockSafe),
+                            () => main.getLang(lang.DisableUnlockSafeTask) + ": " + main.getOnOff(main.DisableUnlockSafe),
                             true,
                             () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.UploadData, new PageObject(
-                            () => "Disable UploadData Task: " + main.getOnOff(main.DisableUploadData),
+                            () => main.getLang(lang.DisableUploadDataTask) + ": " + main.getOnOff(main.DisableUploadData),
                             true,
                             () => {main.DisableUploadData = !main.DisableUploadData;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                         {OptionPages.StartReactor, new PageObject(
-                            () => "Disable StartReactor Task: " + main.getOnOff(main.DisableStartReactor),
+                            () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor),
                             true,
                             () => {main.DisableStartReactor = !main.DisableStartReactor;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
                     {OptionPages.NoGameEnd, new PageObject(
-                        () => "NoGameEnd<DEBUG>: " + main.getOnOff(main.NoGameEnd),
+                        () => main.getLang(lang.NoGameEnd) + "<DEBUG>: " + main.getOnOff(main.NoGameEnd),
                         true,
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
                 {OptionPages.Suffix, new PageObject(
-                    () => "Suffix Mode: " + main.currentSuffix.ToString(),
+                    () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(),
                     false,
                     () => {
                         var next = main.currentSuffix + 1;

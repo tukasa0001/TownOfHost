@@ -539,7 +539,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.SabotageMasterFixDoors, "サボタージュマスターが複数のドアを直す"},
+                {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直す"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉めを許可"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間"},
@@ -552,6 +552,7 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "金庫タスクを無効化"},
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化"},
+                {lang.SuffixMode, "名前の二行目"},
                 //その他
                 {lang.roleEnabled, RoleEnabled.Value},
                 {lang.roleDisabled, RoleDisabled.Value},
@@ -600,7 +601,7 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
-        SabotageMasterFixDoors,
+        SabotageMasterFixesDoors,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
@@ -630,7 +631,9 @@ namespace TownOfHost
         Terrorist,
         Sidekick,
         Vampire,
-        SabotageMaster
+        SabotageMaster,
+        Fox,
+        Troll
     }
     //WinData
     public enum CustomWinner
