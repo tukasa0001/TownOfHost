@@ -123,8 +123,7 @@ namespace TownOfHost
         {
             private static void Postfix(TextBoxTMP __instance)
             {
-                bool flag = (__instance.name == "GameIdText" || __instance.name == "IpTextBox" || __instance.name == "PortTextBox");
-                __instance.outputText.text = new string('*', __instance.text.Length);
+                if(__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
             }
         }
     }
