@@ -14,7 +14,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch
     {
-        private static int fontSize = 10;
         public static void Postfix(HudManager __instance)
         {
             var TaskTextPrefix = "";
@@ -90,12 +89,13 @@ namespace TownOfHost
             if (main.OptionControllerIsEnable)
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
-                __instance.GameSettings.fontSizeMin = 2.5f;
-                __instance.GameSettings.fontSizeMax = 2.5f;
+                __instance.GameSettings.fontSizeMin = 2f;
+                __instance.GameSettings.fontSizeMax = 2f;
                 __instance.GameSettings.m_maxHeight = 0.5f;
+            } else {
+                __instance.GameSettings.fontSizeMin = 1.3f;
+                __instance.GameSettings.fontSizeMax = 1.3f;
             }
-            __instance.GameSettings.fontSizeMin = 1.5f;
-            __instance.GameSettings.fontSizeMax = 1.5f;
 
             if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
