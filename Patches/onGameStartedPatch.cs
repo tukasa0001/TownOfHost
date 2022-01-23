@@ -24,6 +24,7 @@ namespace TownOfHost
             main.UsedButtonCount = 0;
             if (__instance.AmHost)
             {
+
                 main.VisibleTasksCount = true;
                 if(main.IsHideAndSeek) {
                     main.currentEngineer = EngineerRoles.Default;
@@ -66,6 +67,8 @@ namespace TownOfHost
     class SelectRolesPatch {
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
+            main.ApplySuffix();
+            
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
@@ -82,6 +85,12 @@ namespace TownOfHost
                     } else {
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
+                    }
+                    if(main.IgnoreCosmetics) {
+                        pc.RpcSetHat("");
+                        pc.RpcSetSkin("");
+                        pc.RpcSetPet("");
+                        pc.RpcSetVisor("");
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する

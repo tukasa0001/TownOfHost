@@ -18,7 +18,11 @@ namespace TownOfHost
                 "Town Of Host Options",
                 false,
                 () => {},
-                new List<OptionPages>(){OptionPages.roles, OptionPages.modes},
+                new List<OptionPages>(){
+                    OptionPages.roles,
+                    OptionPages.modes,
+                    OptionPages.Suffix
+                },
                 OptionPages.basepage
             )},
                 {OptionPages.roles, new PageObject(
@@ -125,6 +129,8 @@ namespace TownOfHost
                         new List<OptionPages>(){
                             OptionPages.AllowCloseDoors,
                             OptionPages.HideAndSeekWaitingTime,
+                            OptionPages.IgnoreCosmetics,
+                            OptionPages.IgnoreVent,
                             OptionPages.HideAndSeekRoles
                         },
                         OptionPages.modes
@@ -148,6 +154,20 @@ namespace TownOfHost
                                 var FixedDelay = Math.Clamp(Count,0,180);
                                 main.HideAndSeekKillDelay = FixedDelay;
                             }
+                        )},
+                        {OptionPages.IgnoreCosmetics, new PageObject(
+                            () => "Ignore Cosmetics: " + main.getOnOff(main.IgnoreCosmetics),
+                            true,
+                            () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
+                        )},
+                        {OptionPages.IgnoreVent, new PageObject(
+                            () => "Ignore Vents: " + main.getOnOff(main.IgnoreVent),
+                            true,
+                            () => {main.IgnoreVent = !main.IgnoreVent;},
+                            new List<OptionPages>(){},
+                            OptionPages.HideAndSeekOptions
                         )},
                         {OptionPages.HideAndSeekRoles, new PageObject(
                             "HideAndSeekRoles",
@@ -277,7 +297,18 @@ namespace TownOfHost
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
                         OptionPages.modes
-                    )}
+                    )},
+                {OptionPages.Suffix, new PageObject(
+                    () => "Suffix Mode: " + main.currentSuffix.ToString(),
+                    false,
+                    () => {
+                        var next = main.currentSuffix + 1;
+                        if(next > SuffixModes.Recording) next = SuffixModes.None;
+                        main.currentSuffix = next;
+                    },
+                    new List<OptionPages>(){},
+                    OptionPages.basepage
+                )},
         };
         public static OptionPages currentPage = OptionPages.basepage;
         public static int currentCursor = 0;
@@ -323,6 +354,14 @@ namespace TownOfHost
         }
         public static string GetOptionText()
         {
+            if(AmongUsClient.Instance.AmHost && !PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
+                //ホストの設定にSuffixを入れる
+                PageObjects[OptionPages.basepage].PagesInThis.Add(OptionPages.Suffix);
+            }
+            if(!AmongUsClient.Instance.AmHost && PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
+                //ホストの設定にSuffixを入れる
+                PageObjects[OptionPages.basepage].PagesInThis.Remove(OptionPages.Suffix);
+            }
             string text;
             var currentPageObj = PageObjects[currentPage];
 
@@ -402,6 +441,7 @@ namespace TownOfHost
                     AllowCloseDoors,
                     IgnoreCosmetics,
                     HideAndSeekWaitingTime,
+                    IgnoreVent,
                     HideAndSeekRoles,
                         Fox,
                         Troll,
@@ -414,6 +454,7 @@ namespace TownOfHost
                     UnlockSafe,
                     UploadData,
                     StartReactor,
-                NoGameEnd
+                NoGameEnd,
+            Suffix
     }
 }

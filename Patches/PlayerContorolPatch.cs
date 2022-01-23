@@ -28,7 +28,7 @@ namespace TownOfHost
             && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");
-                Thread.Sleep(150);
+                Thread.Sleep(150); //Fix This
                 __instance.CmdReportDeadBody(target.Data);
             }
             else
@@ -125,7 +125,28 @@ namespace TownOfHost
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+
+            if(__instance.Data.IsDead) return true;
+            //=============================================
+            //以下、ボタンが押されることが確定したものとする。
+            //=============================================
+
+            if(main.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead) {
+                //SyncButtonMode中にホストが死んでいる場合
+                ChangeLocalNameAndRevert(
+                    "緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。",
+                    1000
+                );
+            }
+
             return true;
+        }
+        public static async void ChangeLocalNameAndRevert(string name, int time) {
+            //async Taskじゃ警告出るから仕方ないよね。
+            var revertName = PlayerControl.LocalPlayer.name;
+            PlayerControl.LocalPlayer.RpcSetName(name);
+            await Task.Delay(time);
+            PlayerControl.LocalPlayer.RpcSetName(revertName);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -160,6 +181,10 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+                if(__instance.AmOwner) main.ApplySuffix();
+            }
+            if(main.IsHideAndSeek && main.IgnoreVent) {
+                if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
             }
             //各クライアントが全員分実行
             //役職テキストの表示
@@ -180,7 +205,7 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.IsGameStarted &&
                 AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     RoleText.enabled = false;
-                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data))
+                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
                     RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.myTasks) + ")</color>";
             }
         }
@@ -216,6 +241,7 @@ namespace TownOfHost
             }
             if (main.SyncButtonMode)
             {
+                if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
@@ -239,7 +265,7 @@ namespace TownOfHost
 
                     var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
+                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;

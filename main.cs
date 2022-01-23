@@ -64,6 +64,7 @@ namespace TownOfHost
         public static CustomWinner currentWinner;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
+        public static bool IgnoreVent;
         public static bool IgnoreCosmetics;
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
@@ -278,13 +279,13 @@ namespace TownOfHost
             }
             return (text, color);
         }
-        public static bool hasTasks(GameData.PlayerInfo p)
+        public static bool hasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
@@ -326,6 +327,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
         {
@@ -349,6 +351,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
+            writer.Write(IgnoreVent);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -387,6 +390,26 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             MessagesToSend.Add(text);
         }
+        public static void ApplySuffix() {
+            if(!AmongUsClient.Instance.AmHost) return;
+            string name = SaveManager.PlayerName;
+            if(!AmongUsClient.Instance.IsGameStarted) {
+                switch(currentSuffix) {
+                    case SuffixModes.None:
+                        break;
+                    case SuffixModes.TOH:
+                        name += "\r\n<color=" + modColor + ">TOH v" + PluginVersion + VersionSuffix + "</color>";
+                        break;
+                    case SuffixModes.Streaming:
+                        name += "\r\n配信中";
+                        break;
+                    case SuffixModes.Recording:
+                        name += "\r\n録画中";
+                        break;
+                }
+            }
+            if(name != PlayerControl.LocalPlayer.name) PlayerControl.LocalPlayer.RpcSetName(name);
+        }
         public override void Load()
         {
             TextCursorTimer = 0f;
@@ -419,6 +442,7 @@ namespace TownOfHost
 
             IsHideAndSeek = false;
             AllowCloseDoors = false;
+            IgnoreVent = false;
             IgnoreCosmetics = false;
             HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;
@@ -451,6 +475,8 @@ namespace TownOfHost
             DisableStartReactor = false;
 
             VampireKillDelay = 10;
+
+            currentSuffix = SuffixModes.None;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
@@ -556,6 +582,12 @@ namespace TownOfHost
         Default = 0,
         Troll = 1,
         Fox = 2
+    }
+    public enum SuffixModes {
+        None = 0,
+        TOH,
+        Streaming,
+        Recording
     }
     public enum VersionTypes
     {

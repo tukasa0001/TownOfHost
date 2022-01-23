@@ -11,6 +11,7 @@ using TownOfHost;
 using Hazel;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -20,7 +21,7 @@ namespace TownOfHost
         static System.Random random = new System.Random();
         public static void Postfix(KeyboardJoystick __instance)
         {
-            if (Input.GetKeyDown(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -54,10 +55,34 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Input.GetKey(KeyCode.B) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //マスゲーム用コード
+            /*if (Input.GetKeyDown(KeyCode.C))
             {
-                Logger.SendToFile("none");
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
+                }
             }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Vector2 pos = PlayerControl.LocalPlayer.NetTransform.transform.position;
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) {
+                        pc.NetTransform.RpcSnapTo(pos);
+                        pos.x += 0.5f;
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.AmOwner) pc.MyPhysics.RpcExitVent(2);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
+            }*/
+            //マスゲーム用コード終わり
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
@@ -70,7 +95,6 @@ namespace TownOfHost
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
