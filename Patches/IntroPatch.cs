@@ -90,7 +90,8 @@ namespace TownOfHost
             if (main.isSabotageMaster(PlayerControl.LocalPlayer))
             {
                 __instance.TeamTitle.text = main.getRoleName(RoleNames.SabotageMaster);
-                __instance.TeamTitle.fontSize -= 0.5f;
+                __instance.TeamTitle.fontSize -= 0.75f;
+                __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.SabotageMasterInfo);
                 __instance.TeamTitle.color = Color.blue;

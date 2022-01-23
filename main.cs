@@ -575,7 +575,7 @@ namespace TownOfHost
                 {RoleNames.Terrorist, "Terrorist"},
                 {RoleNames.Sidekick, "Sidekick"},
                 {RoleNames.Vampire, "Vampire"},
-                {RoleNames.SabotageMaster, "Sabotage Master"},
+                {RoleNames.SabotageMaster, "SabotageMaster"},
                 {RoleNames.Fox, "Fox"},
                 {RoleNames.Troll, "Troll"},
             };
