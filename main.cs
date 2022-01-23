@@ -46,6 +46,9 @@ namespace TownOfHost
         public static ConfigEntry<string> SidekickInfo { get; private set; }
         public static ConfigEntry<string> Vampire { get; private set; }
         public static ConfigEntry<string> VampireInfo { get; private set; }
+        //Client Options
+        public static ConfigEntry<bool> HideCodes {get; private set;}
+        public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
         //Lang-Get
@@ -433,6 +436,10 @@ namespace TownOfHost
             SidekickInfo = Config.Bind("Lang", "SidekickInfo", "You are Sidekick");
             Vampire = Config.Bind("Lang", "VampireName", "Vampire");
             VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill all crewmates with your bites");
+
+            //Client Options
+            HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Lang Mode", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
