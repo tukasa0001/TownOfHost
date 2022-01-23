@@ -90,13 +90,49 @@ namespace TownOfHost
                         }
                         break;
                     case SystemTypes.Doors:
-                        //if(PlayerControl.GameOptions.MapId == )
+                        if(!main.SabotageMasterFixesDoors) break;
+                        if(DoorsProgressing == true) break;
+
+                        int mapId = PlayerControl.GameOptions.MapId;
+                        if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
+                        
+                        DoorsProgressing = true;
+                        if(mapId == 2) {
+                            //Polus
+                            CheckAndOpenDoorsRange(__instance, amount, 71, 72);
+                            CheckAndOpenDoorsRange(__instance, amount, 67, 68);
+                            CheckAndOpenDoorsRange(__instance, amount, 64, 66);
+                            CheckAndOpenDoorsRange(__instance, amount, 73, 74);
+                        }
+                        else if(mapId == 4) {
+                            //Airship
+                            CheckAndOpenDoorsRange(__instance, amount, 64, 67);
+                            CheckAndOpenDoorsRange(__instance, amount, 71, 73);
+                            CheckAndOpenDoorsRange(__instance, amount, 74, 75);
+                            CheckAndOpenDoorsRange(__instance, amount, 76, 78);
+                            CheckAndOpenDoorsRange(__instance, amount, 68, 70);
+                            CheckAndOpenDoorsRange(__instance, amount, 83, 84);
+                        }
+                        DoorsProgressing = false;
                         break;
                 }
             }
 
             return true;
         }
+        private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
+            var Ids = new List<int>();
+            for(var i = min; i <= max; i++) {
+                Ids.Add(i);
+            }
+            CheckAndOpenDoors(__instance, amount, Ids.ToArray());
+        }
+        private static void CheckAndOpenDoors(ShipStatus __instance, int amount, params int[] DoorIds) {
+            if(DoorIds.Contains(amount)) foreach(var id in DoorIds) {
+                __instance.RpcRepairSystem(SystemTypes.Doors, id);
+            }
+        }
+        private static bool DoorsProgressing = false;
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch {

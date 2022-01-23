@@ -89,14 +89,6 @@ namespace TownOfHost
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
-            if(Input.GetKeyDown(KeyCode.I) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                PlayerControl.LocalPlayer.CmdReportDeadBody(PlayerControl.LocalPlayer.Data);
-            }
-            if(Input.GetKeyDown(KeyCode.K) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                foreach(var vent in ShipStatus.Instance.AllVents) {
-                    VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, vent.Id);
-                }
-            }
 
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
