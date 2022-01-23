@@ -84,9 +84,9 @@ namespace TownOfHost
                         OptionPages.roles
                     )},
                     {OptionPages.SabotageMaster, new PageObject(
-                        () => "<color=#0000ff>Sabotarge Master</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.SabotargeMaster),
+                        () => "<color=#0000ff>Sabotage Master</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.SabotageMaster),
                         true,
-                        () => {main.ToggleRole(ScientistRoles.SabotargeMaster);},
+                        () => {main.ToggleRole(ScientistRoles.SabotageMaster);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},

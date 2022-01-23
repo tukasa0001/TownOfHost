@@ -64,8 +64,8 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return true;
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
             
-            //SabotargeMaster
-            if(main.isSabotargeMaster(player)) {
+            //SabotageMaster
+            if(main.isSabotageMaster(player)) {
                 switch(systemType){
                     case SystemTypes.Reactor:
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
@@ -144,7 +144,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
-            if(main.isSabotargeMaster(player)) {
+            if(main.isSabotageMaster(player)) {
                 if(0 <= amount && amount <= 4) {
                     __instance.ActualSwitches = 0;
                     __instance.ExpectedSwitches = 0;

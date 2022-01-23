@@ -139,9 +139,9 @@ namespace TownOfHost
                 return true;
             return false;
         }
-        public static bool isSabotargeMaster(PlayerControl target)
+        public static bool isSabotageMaster(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotargeMaster)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotageMaster)
                 return true;
             return false;
         }
@@ -188,8 +188,8 @@ namespace TownOfHost
                             RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
-                        case ScientistRoles.SabotargeMaster:
-                            RoleText = "Sabotarge Master";
+                        case ScientistRoles.SabotageMaster:
+                            RoleText = "Sabotage Master";
                             TextColor = Color.blue;
                             break;
                         default:
@@ -523,8 +523,8 @@ namespace TownOfHost
                 {lang.SidekickInfo, SidekickInfo.Value},
                 {lang.Vampire, Vampire.Value},
                 {lang.VampireInfo, VampireInfo.Value},
-                {lang.SabotargeMaster, "Sabotarge Master"},
-                {lang.SabotargeMasterInfo, "Fix Sabotarges Faster"}
+                {lang.SabotageMaster, "Sabotage Master"},
+                {lang.SabotageMasterInfo, "Fix Sabotages Faster"}
             };
 
             roleTexts = new Dictionary<string, string>(){
@@ -569,8 +569,8 @@ namespace TownOfHost
         SidekickInfo,
         Vampire,
         VampireInfo,
-        SabotargeMaster,
-        SabotargeMasterInfo
+        SabotageMaster,
+        SabotageMasterInfo
     }
     //WinData
     public enum CustomWinner
@@ -585,7 +585,7 @@ namespace TownOfHost
         Default = 0,
         Jester,
         Bait,
-        SabotargeMaster
+        SabotageMaster
     }
     public enum EngineerRoles
     {

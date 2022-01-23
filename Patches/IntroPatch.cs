@@ -87,12 +87,12 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = main.VampireColor;
             }
-            if (main.isSabotargeMaster(PlayerControl.LocalPlayer))
+            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getLang(lang.SabotargeMaster);
+                __instance.TeamTitle.text = main.getLang(lang.SabotageMaster);
                 __instance.TeamTitle.fontSize -= 0.5f;
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.SabotargeMasterInfo);
+                __instance.ImpostorText.text = main.getLang(lang.SabotageMasterInfo);
                 __instance.TeamTitle.color = Color.blue;
                 __instance.BackgroundBar.material.color = Color.blue;
             }
