@@ -139,6 +139,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isSabotargeMaster(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotargeMaster)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {
@@ -181,6 +187,10 @@ namespace TownOfHost
                         case ScientistRoles.Bait:
                             RoleText = "Bait";
                             TextColor = Color.cyan;
+                            break;
+                        case ScientistRoles.SabotargeMaster:
+                            RoleText = "Sabotarge Master";
+                            TextColor = Color.blue;
                             break;
                         default:
                             RoleText = "Invalid Scientist";
@@ -330,6 +340,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static bool SabotageMasterFixesDoors;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -461,6 +472,7 @@ namespace TownOfHost
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
+            
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -482,6 +494,8 @@ namespace TownOfHost
             DisableStartReactor = false;
 
             VampireKillDelay = 10;
+
+            SabotageMasterFixesDoors = false;
 
             currentSuffix = SuffixModes.None;
 
@@ -508,7 +522,9 @@ namespace TownOfHost
                 {lang.Sidekick, Sidekick.Value},
                 {lang.SidekickInfo, SidekickInfo.Value},
                 {lang.Vampire, Vampire.Value},
-                {lang.VampireInfo, VampireInfo.Value}
+                {lang.VampireInfo, VampireInfo.Value},
+                {lang.SabotargeMaster, "Sabotarge Master"},
+                {lang.SabotargeMasterInfo, "Fix Sabotarges Faster"}
             };
 
             roleTexts = new Dictionary<string, string>(){
@@ -552,7 +568,9 @@ namespace TownOfHost
         Sidekick,
         SidekickInfo,
         Vampire,
-        VampireInfo
+        VampireInfo,
+        SabotargeMaster,
+        SabotargeMasterInfo
     }
     //WinData
     public enum CustomWinner
@@ -566,7 +584,8 @@ namespace TownOfHost
     {
         Default = 0,
         Jester,
-        Bait
+        Bait,
+        SabotargeMaster
     }
     public enum EngineerRoles
     {

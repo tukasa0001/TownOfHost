@@ -60,15 +60,96 @@ namespace TownOfHost
             Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
             if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
             Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+
+            if(!AmongUsClient.Instance.AmHost) return true;
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            
+            //SabotargeMaster
+            if(main.isSabotargeMaster(player)) {
+                switch(systemType){
+                    case SystemTypes.Reactor:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                        if(amount == 16 || amount == 17) {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
+                        }
+                        break;
+                    case SystemTypes.Laboratory:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
+                        break;
+                    case SystemTypes.LifeSupp:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                        break;
+                    case SystemTypes.Comms:
+                        if(amount == 16 || amount == 17) {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
+                        }
+                        break;
+                    case SystemTypes.Doors:
+                        if(!main.SabotageMasterFixesDoors) break;
+                        if(DoorsProgressing == true) break;
+
+                        int mapId = PlayerControl.GameOptions.MapId;
+                        if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
+                        
+                        DoorsProgressing = true;
+                        if(mapId == 2) {
+                            //Polus
+                            CheckAndOpenDoorsRange(__instance, amount, 71, 72);
+                            CheckAndOpenDoorsRange(__instance, amount, 67, 68);
+                            CheckAndOpenDoorsRange(__instance, amount, 64, 66);
+                            CheckAndOpenDoorsRange(__instance, amount, 73, 74);
+                        }
+                        else if(mapId == 4) {
+                            //Airship
+                            CheckAndOpenDoorsRange(__instance, amount, 64, 67);
+                            CheckAndOpenDoorsRange(__instance, amount, 71, 73);
+                            CheckAndOpenDoorsRange(__instance, amount, 74, 75);
+                            CheckAndOpenDoorsRange(__instance, amount, 76, 78);
+                            CheckAndOpenDoorsRange(__instance, amount, 68, 70);
+                            CheckAndOpenDoorsRange(__instance, amount, 83, 84);
+                        }
+                        DoorsProgressing = false;
+                        break;
+                }
+            }
+
             return true;
         }
+        private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
+            var Ids = new List<int>();
+            for(var i = min; i <= max; i++) {
+                Ids.Add(i);
+            }
+            CheckAndOpenDoors(__instance, amount, Ids.ToArray());
+        }
+        private static void CheckAndOpenDoors(ShipStatus __instance, int amount, params int[] DoorIds) {
+            if(DoorIds.Contains(amount)) foreach(var id in DoorIds) {
+                __instance.RpcRepairSystem(SystemTypes.Doors, id);
+            }
+        }
+        private static bool DoorsProgressing = false;
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch {
         public static bool Prefix(ShipStatus __instance) {
             if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
             return true;
+        }
+    }
+    [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
+    class SwitchSystemRepairPatch {
+        public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
+            if(main.isSabotargeMaster(player)) {
+                if(0 <= amount && amount <= 4) {
+                    __instance.ActualSwitches = 0;
+                    __instance.ExpectedSwitches = 0;
+                }
+            }
         }
     }
 }

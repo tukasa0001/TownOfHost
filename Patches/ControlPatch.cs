@@ -83,6 +83,13 @@ namespace TownOfHost
                 VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
             }*/
             //マスゲーム用コード終わり
+            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
+            }
+
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
