@@ -91,6 +91,14 @@ namespace TownOfHost
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
             }
 
+            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
+                __instance.ShowMap(tmpAction);
+                if (PlayerControl.LocalPlayer.AmOwner) {
+                    PlayerControl.LocalPlayer.MyPhysics.inputHandler.enabled = true;
+                    ConsoleJoystick.SetMode_Task();
+                }
+            }
 
             if(AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
             if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {

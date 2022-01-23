@@ -60,7 +60,30 @@ namespace TownOfHost
             Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
             if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
             Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+
+            if(!AmongUsClient.Instance.AmHost) return true;
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            
+            //SabotargeMaster
+            if(main.isSabotargeMaster(player)) {
+                switch(systemType){
+                    case SystemTypes.Reactor:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                        break;
+                    case SystemTypes.LifeSupp:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                        break;
+                    case SystemTypes.Comms:
+                        if(amount == 16 || amount == 17) {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
+                        }
+                        break;
+                }
+            }
+
             return true;
         }
     }
@@ -69,6 +92,17 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance) {
             if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
             return true;
+        }
+    }
+    [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
+    class SwitchSystemRepairPatch {
+        public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
+            if(main.isSabotargeMaster(player)) {
+                if(0 <= amount && amount <= 4) {
+                    __instance.ActualSwitches = 0;
+                    __instance.ExpectedSwitches = 0;
+                }
+            }
         }
     }
 }
