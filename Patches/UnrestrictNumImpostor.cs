@@ -111,7 +111,6 @@ namespace TownOfHost {//参考：https://github.com/NuclearPowered/Reactor/blob/
             {
                 bool flag = (__instance.name == "GameIdText" || __instance.name == "IpTextBox" || __instance.name == "PortTextBox");
                 __instance.outputText.text = new string('*', __instance.text.Length);
-
             }
         }
     }
