@@ -340,6 +340,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static bool SabotageMasterFixesDoors;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -471,6 +472,7 @@ namespace TownOfHost
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
+            
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -492,6 +494,8 @@ namespace TownOfHost
             DisableStartReactor = false;
 
             VampireKillDelay = 10;
+
+            SabotageMasterFixesDoors = false;
 
             currentSuffix = SuffixModes.None;
 

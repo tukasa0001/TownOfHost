@@ -36,7 +36,7 @@ namespace TownOfHost
                         OptionPages.Jester,
                         OptionPages.Terrorist,
                         OptionPages.Bait,
-                        OptionPages.SabotargeMaster,
+                        OptionPages.SabotageMaster,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -83,7 +83,7 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
-                    {OptionPages.SabotargeMaster, new PageObject(
+                    {OptionPages.SabotageMaster, new PageObject(
                         () => "<color=#0000ff>Sabotarge Master</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.SabotargeMaster),
                         true,
                         () => {main.ToggleRole(ScientistRoles.SabotargeMaster);},
@@ -94,7 +94,10 @@ namespace TownOfHost
                         "Advanced Options",
                         false,
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
-                        new List<OptionPages>(){OptionPages.VampireKillDelay},
+                        new List<OptionPages>(){
+                            OptionPages.VampireKillDelay,
+                            OptionPages.SabotageMasterFixesDoors
+                        },
                         OptionPages.roles
                     )},
                         {OptionPages.VampireKillDelay, new PageObject(
@@ -109,6 +112,13 @@ namespace TownOfHost
                                 var FixedKillDelay = Math.Clamp(KillDelay,0,999);
                                 main.VampireKillDelay = FixedKillDelay;
                             }
+                        )},
+                        {OptionPages.SabotageMasterFixesDoors, new PageObject(
+                            () => "<color=#0000ff>Sabotage Master Fixes Doors</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
+                            true,
+                            () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
                         )},
                 {OptionPages.modes, new PageObject(
                     "Mode Options",
@@ -440,10 +450,11 @@ namespace TownOfHost
                 Terrorist,
                 Sidekick,
                 Vampire,
-                SabotargeMaster,
+                SabotageMaster,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    SabotageMasterFixesDoors,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,

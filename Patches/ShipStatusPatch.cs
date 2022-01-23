@@ -89,6 +89,9 @@ namespace TownOfHost
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
                         }
                         break;
+                    case SystemTypes.Doors:
+                        //if(PlayerControl.GameOptions.MapId == )
+                        break;
                 }
             }
 
