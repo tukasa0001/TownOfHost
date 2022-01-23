@@ -23,19 +23,6 @@ namespace TownOfHost
             string arg;
             var canceled = false;
             var cancelVal = "";
-            if (getCommand("/list", text, out arg))
-            {
-                canceled = true;
-                __instance.AddChat(PlayerControl.LocalPlayer,
-$@"{main.getLang(lang.roleListStart)}
-{main.getRoleName(RoleNames.Sidekick)}: {getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick)}
-{main.getRoleName(RoleNames.Vampire)}: {getOnOff(main.currentImpostor == ImpostorRoles.Vampire)}
-{main.getRoleName(RoleNames.Jester)}: {getOnOff(main.currentScientist == ScientistRoles.Jester)}
-{main.getRoleName(RoleNames.Madmate)}: {getOnOff(main.currentEngineer == EngineerRoles.Madmate)}
-{main.getRoleName(RoleNames.Bait)}: {getOnOff(main.currentScientist == ScientistRoles.Bait)}
-{main.getRoleName(RoleNames.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRoles.Terrorist)}"
-                );
-            }
             if (AmongUsClient.Instance.AmHost)
             {
                 if (getCommand("/winner", text, out arg) || getCommand("/win", text, out arg))
@@ -101,7 +88,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力された役職は存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
                 if (getCommand("/h modes", text, out arg))
@@ -125,7 +112,7 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力されたモードは存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
                 if (getCommand("/endgame", text, out arg))
@@ -150,9 +137,14 @@ $@"{main.getLang(lang.roleListStart)}
                         ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                     }
                     else
+                    if (arg == "")
                     {
                         __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
                         cancelVal = "/dis";
+                    }
+                    else
+                    {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                     ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                 }

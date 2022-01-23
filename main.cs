@@ -60,11 +60,14 @@ namespace TownOfHost
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var isSuccess = JapaneseTexts.TryGetValue(lang, out var text);
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(RoleNames role) {
-            var isSuccess = JapaneseRoleNames.TryGetValue(role, out var text);
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
+            var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
         //Other Configs
@@ -512,13 +515,13 @@ namespace TownOfHost
 
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
-                {lang.JesterInfo, JesterInfo.Value},
-                {lang.MadmateInfo, MadmateInfo.Value},
-                {lang.BaitInfo, BaitInfo.Value},
-                {lang.TerroristInfo, TerroristInfo.Value},
-                {lang.SidekickInfo, SidekickInfo.Value},
-                {lang.VampireInfo, VampireInfo.Value},
-                {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
+                {lang.JesterInfo, "投票で追放されて勝利しよう"},
+                {lang.MadmateInfo, "インポスターを助けて勝利しよう"},
+                {lang.BaitInfo, "クルーのおとりになろう"},
+                {lang.TerroristInfo, "タスクを完了させ、自爆して勝利しよう"},
+                {lang.SidekickInfo, "相方のインポスターを助けよう"},
+                {lang.VampireInfo, "遅延キルで村を混乱させよう"},
+                {lang.SabotageMasterInfo, "より早くサボタージュを直そう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
@@ -547,6 +550,7 @@ namespace TownOfHost
                 {lang.IgnoreVent, "ベント使用を禁止"},
                 {lang.HideAndSeekRoles, "鬼ごっこの役職"},
                 {lang.SyncedButtonCount, "合計ボタン使用可能回数"},
+                {lang.DisableTasks, "タスクを無効化"},
                 {lang.DisableSwipeCardTask, "カードタスクを無効化"},
                 {lang.DisableSubmitScanTask, "医務室のスキャンタスクを無効化"},
                 {lang.DisableUnlockSafeTask, "金庫タスクを無効化"},
@@ -554,13 +558,82 @@ namespace TownOfHost
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化"},
                 {lang.SuffixMode, "名前の二行目"},
                 //その他
-                {lang.roleEnabled, RoleEnabled.Value},
-                {lang.roleDisabled, RoleDisabled.Value},
-                {lang.commandError, CommandError.Value},
-                {lang.InvalidArgs, InvalidArgs.Value},
-                {lang.roleListStart, roleListStart.Value},
-                {lang.ON, ON.Value},
-                {lang.OFF, OFF.Value},
+                {lang.commandError, "エラー:%1$"},
+                {lang.InvalidArgs, "無効な引数"},
+                {lang.ON, "ON"},
+                {lang.OFF, "OFF"},
+            };
+            EnglishTexts = new Dictionary<lang, string>(){
+                //役職解説(短)
+                {lang.JesterInfo, "Get Voted Out"},
+                {lang.MadmateInfo, "Help Impostors"},
+                {lang.BaitInfo, "Bait Your Enemies"},
+                {lang.TerroristInfo, "Finish all tasks, then die."},
+                {lang.SidekickInfo, "Help Impostors"},
+                {lang.VampireInfo, "Kill all crewmates with your bites"},
+                {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
+                //役職解説(長)
+                {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
+                {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
+                {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
+                {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない"},
+                //モード名
+                {lang.HideAndSeek, "HideAndSeek"},
+                {lang.NoGameEnd, "NoGameEnd"},
+                {lang.SyncButtonMode, "Sync Button Mode"},
+                //モード解説
+                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。"},
+                {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
+                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"},
+                //オプション項目
+                {lang.AdvancedRoleOptions, "Advanced Options"},
+                {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
+                {lang.HideAndSeekOptions, "HideAndSeekの設定"},
+                {lang.AllowCloseDoors, "Allow Close Doors"},
+                {lang.HideAndSeekWaitingTime, "Impostor waiting time"},
+                {lang.IgnoreCosmetics, "Ignore Cosmetics"},
+                {lang.IgnoreVent, "Ignore Using Vents"},
+                {lang.HideAndSeekRoles, "HideAndSeek Roles"},
+                {lang.SyncedButtonCount, "Max Button Count"},
+                {lang.DisableTasks, "Disable Tasks"},
+                {lang.DisableSwipeCardTask, "Disable SwipeCard Task"},
+                {lang.DisableSubmitScanTask, "Disable SubmitScan Task"},
+                {lang.DisableUnlockSafeTask, "Disable UnlockSafe Task"},
+                {lang.DisableUploadDataTask, "Disable UploadData Task"},
+                {lang.DisableStartReactorTask, "Disable StartReactor Task"},
+                {lang.SuffixMode, "Suffix"},
+                //その他
+                {lang.commandError, "Error:%1$"},
+                {lang.InvalidArgs, "Invalis Args"},
+                {lang.ON, "ON"},
+                {lang.OFF, "OFF"},
+            };
+            EnglishRoleNames = new Dictionary<RoleNames, string>(){
+                {RoleNames.Jester, "Jester"},
+                {RoleNames.Madmate, "Madmate"},
+                {RoleNames.Bait, "Bait"},
+                {RoleNames.Terrorist, "Terrorist"},
+                {RoleNames.Sidekick, "Sidekick"},
+                {RoleNames.Vampire, "Vampire"},
+                {RoleNames.SabotageMaster, "SabotageMaster"},
+                {RoleNames.Fox, "Fox"},
+                {RoleNames.Troll, "Troll"},
+            };
+            JapaneseRoleNames = new Dictionary<RoleNames, string>(){
+                {RoleNames.Jester, "ジェスター"},
+                {RoleNames.Madmate, "狂人"},
+                {RoleNames.Bait, "ベイト"},
+                {RoleNames.Terrorist, "テロリスト"},
+                {RoleNames.Sidekick, "サイドキック"},
+                {RoleNames.Vampire, "ヴァンパイア"},
+                {RoleNames.SabotageMaster, "サボタージュマスター"},
+                {RoleNames.Fox, "狐"},
+                {RoleNames.Troll, "トロール"},
             };
 
             Harmony.PatchAll();
@@ -616,11 +689,8 @@ namespace TownOfHost
         DisableStartReactorTask,
         SuffixMode,
         //その他
-        roleEnabled,
-        roleDisabled,
         commandError,
         InvalidArgs,
-        roleListStart,
         ON,
         OFF,
     }
