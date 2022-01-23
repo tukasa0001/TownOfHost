@@ -100,8 +100,8 @@ namespace TownOfHost
             public static void Postfix(GameStartManager __instance)
             {
                 // Lobby code
-                if (Input.GetKeyDown(KeyCode.V)) lobbyCodehide = $"<color={main.modColor}>TownOfHost</color>";
-                if (Input.GetKeyDown(KeyCode.B)) lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                if (main.HideCodes.Value) lobbyCodehide = $"<color={main.modColor}>TownOfHost</color>";
+                else lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
