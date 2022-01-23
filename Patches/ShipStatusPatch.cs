@@ -70,6 +70,14 @@ namespace TownOfHost
                     case SystemTypes.Reactor:
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
                         if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                        if(amount == 16 || amount == 17) {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
+                        }
+                        break;
+                    case SystemTypes.Laboratory:
+                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
+                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
                         break;
                     case SystemTypes.LifeSupp:
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
