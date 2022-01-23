@@ -8,7 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
-
+//herro
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
@@ -46,8 +46,13 @@ namespace TownOfHost
         public static ConfigEntry<string> SidekickInfo { get; private set; }
         public static ConfigEntry<string> Vampire { get; private set; }
         public static ConfigEntry<string> VampireInfo { get; private set; }
+        //Client Options
+        public static ConfigEntry<bool> HideCodes {get; private set;}
+        public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> langTexts = new Dictionary<lang, string>();
+        public static Dictionary<string, string> roleTexts = new Dictionary<string, string>();
+        public static Dictionary<string, string> modeTexts = new Dictionary<string, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
@@ -100,25 +105,25 @@ namespace TownOfHost
         public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Jester)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Jester)
                 return true;
             return false;
         }
         public static bool isMadmate(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Madmate)
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Madmate)
                 return true;
             return false;
         }
         public static bool isBait(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRole.Bait)
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Bait)
                 return true;
             return false;
         }
         public static bool isTerrorist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRole.Terrorist)
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Terrorist)
                 return true;
             return false;
         }
@@ -141,13 +146,13 @@ namespace TownOfHost
             return false;
         }
 
-        public static void ToggleRole(ScientistRole role)
+        public static void ToggleRole(ScientistRoles role)
         {
-            currentScientist = role == currentScientist ? ScientistRole.Default : role;
+            currentScientist = role == currentScientist ? ScientistRoles.Default : role;
         }
-        public static void ToggleRole(EngineerRole role)
+        public static void ToggleRole(EngineerRoles role)
         {
-            currentEngineer = role == currentEngineer ? EngineerRole.Default : role;
+            currentEngineer = role == currentEngineer ? EngineerRoles.Default : role;
         }
         public static void ToggleRole(ShapeshifterRoles role)
         {
@@ -171,15 +176,15 @@ namespace TownOfHost
                 case RoleTypes.Scientist:
                     switch (currentScientist)
                     {
-                        case ScientistRole.Default:
+                        case ScientistRoles.Default:
                             RoleText = "Scientist";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case ScientistRole.Jester:
+                        case ScientistRoles.Jester:
                             RoleText = "Jester";
                             TextColor = JesterColor();
                             break;
-                        case ScientistRole.Bait:
+                        case ScientistRoles.Bait:
                             RoleText = "Bait";
                             TextColor = Color.cyan;
                             break;
@@ -196,15 +201,15 @@ namespace TownOfHost
                 case RoleTypes.Engineer:
                     switch (currentEngineer)
                     {
-                        case EngineerRole.Default:
+                        case EngineerRoles.Default:
                             RoleText = "Engineer";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case EngineerRole.Madmate:
+                        case EngineerRoles.Madmate:
                             RoleText = "Madmate";
                             TextColor = Palette.ImpostorRed;
                             break;
-                        case EngineerRole.Terrorist:
+                        case EngineerRoles.Terrorist:
                             RoleText = "Terrorist";
                             TextColor = Color.green;
                             break;
@@ -291,9 +296,9 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRole.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRole.Terrorist && ForRecompute) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
@@ -325,8 +330,8 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static ScientistRole currentScientist;
-        public static EngineerRole currentEngineer;
+        public static ScientistRoles currentScientist;
+        public static EngineerRoles currentEngineer;
         public static ImpostorRoles currentImpostor;
         public static ShapeshifterRoles currentShapeshifter;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -444,6 +449,10 @@ namespace TownOfHost
             Vampire = Config.Bind("Lang", "VampireName", "Vampire");
             VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill all crewmates with your bites");
 
+            //Client Options
+            HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
             currentWinner = CustomWinner.Default;
@@ -471,8 +480,8 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            currentScientist = ScientistRole.Default;
-            currentEngineer = EngineerRole.Default;
+            currentScientist = ScientistRoles.Default;
+            currentEngineer = EngineerRoles.Default;
             currentImpostor = ImpostorRoles.Default;
             currentShapeshifter = ShapeshifterRoles.Default;
 
@@ -514,6 +523,23 @@ namespace TownOfHost
                 {lang.SabotargeMasterInfo, "Fix Sabotarges Faster"}
             };
 
+            roleTexts = new Dictionary<string, string>(){
+                {"jester", "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {"madmate", "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {"bait", "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {"terrorist", "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {"sidekick", "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
+                {"vampire", "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
+                {"fox", "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
+                {"troll", "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない"}
+            };
+
+            modeTexts = new Dictionary<string, string>(){
+                {"hideandseek", "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。"},
+                {"nogameend", "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
+                {"syncbuttonmode", "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"}
+            };
+
             Harmony.PatchAll();
         }
     }
@@ -550,14 +576,14 @@ namespace TownOfHost
         Jester,
         Terrorist
     }
-    public enum ScientistRole
+    public enum ScientistRoles
     {
         Default = 0,
         Jester,
         Bait,
         SabotargeMaster
     }
-    public enum EngineerRole
+    public enum EngineerRoles
     {
         Default = 0,
         Madmate,

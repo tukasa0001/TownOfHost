@@ -42,9 +42,9 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        () => "<color=#ff0000>Madmate</color>: " + main.getOnOff(main.currentEngineer == EngineerRole.Madmate),
+                        () => "<color=#ff0000>Madmate</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Madmate),
                         true,
-                        () => {main.ToggleRole(EngineerRole.Madmate);},
+                        () => {main.ToggleRole(EngineerRoles.Madmate);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -63,23 +63,23 @@ namespace TownOfHost
                         OptionPages.roles
                     )},
                     {OptionPages.Jester, new PageObject(
-                        () => "<color=#d161a4>Jester</color>: " + main.getOnOff(main.currentScientist == ScientistRole.Jester),
+                        () => "<color=#d161a4>Jester</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Jester),
                         true,
-                        () => {main.ToggleRole(ScientistRole.Jester);},
+                        () => {main.ToggleRole(ScientistRoles.Jester);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        () => "<color=#00ff00>Terrorist</color>: " + main.getOnOff(main.currentEngineer == EngineerRole.Terrorist),
+                        () => "<color=#00ff00>Terrorist</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Terrorist),
                         true,
-                        () => {main.ToggleRole(EngineerRole.Terrorist);},
+                        () => {main.ToggleRole(EngineerRoles.Terrorist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Bait, new PageObject(
-                        () => "<color=#00bfff>Bait</color>: " + main.getOnOff(main.currentScientist == ScientistRole.Bait),
+                        () => "<color=#00bfff>Bait</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Bait),
                         true,
-                        () => {main.ToggleRole(ScientistRole.Bait);},
+                        () => {main.ToggleRole(ScientistRoles.Bait);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
