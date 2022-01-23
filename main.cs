@@ -439,7 +439,7 @@ namespace TownOfHost
 
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
-            JapaneseRoleName = Config.Bind("Client Options", "Lang Mode", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
