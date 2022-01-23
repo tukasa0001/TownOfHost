@@ -69,35 +69,35 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "jester")
                     {
-                        main.SendToAll(main.roleTexts["jester"]);
+                        main.SendToAll(main.getLang(lang.JesterInfoLong));
                     }
                     else if (arg == "madmate")
                     {
-                        main.SendToAll(main.roleTexts["madmate"]);
+                        main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     }
                     else if (arg == "bait")
                     {
-                        main.SendToAll(main.roleTexts["bait"]);
+                        main.SendToAll(main.getLang(lang.BaitInfoLong));
                     }
                     else if (arg == "terrorist")
                     {
-                        main.SendToAll(main.roleTexts["terrorist"]);
+                        main.SendToAll(main.getLang(lang.TerroristInfoLong));
                     }
                     else if (arg == "sidekick")
                     {
-                        main.SendToAll(main.roleTexts["sidekick"]);
+                        main.SendToAll(main.getLang(lang.SidekickInfoLong));
                     }
                     else if (arg == "vampire")
                     {
-                        main.SendToAll(main.roleTexts["vampire"]);
+                        main.SendToAll(main.getLang(lang.VampireInfoLong));
                     }
                     else if (arg == "fox")
                     {
-                        main.SendToAll(main.roleTexts["fox"]);
+                        main.SendToAll(main.getLang(lang.FoxInfoLong));
                     }
                     else if (arg == "troll")
                     {
-                        main.SendToAll(main.roleTexts["troll"]);
+                        main.SendToAll(main.getLang(lang.TrollInfoLong));
                     }
                     else
                     {
@@ -113,15 +113,15 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "hideandseek")
                     {
-                        main.SendToAll(main.modeTexts["hideandseek"]);
+                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
                     }
                     else if (arg == "nogameend")
                     {
-                        main.SendToAll(main.modeTexts["nogameend"]);
+                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
                     }
                     else if (arg == "syncbuttonmode")
                     {
-                        main.SendToAll(main.modeTexts["syncbuttonmode"]);
+                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                     }
                     else
                     {
