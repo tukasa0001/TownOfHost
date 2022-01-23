@@ -24,28 +24,6 @@ namespace TownOfHost
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
-        //Lang-Config
-        //これらのconfigの値がlangTextsリストに入る
-        public static ConfigEntry<string> Japanese { get; private set; }
-        public static ConfigEntry<string> Jester { get; private set; }
-        public static ConfigEntry<string> Madmate { get; private set; }
-        public static ConfigEntry<string> RoleEnabled { get; private set; }
-        public static ConfigEntry<string> RoleDisabled { get; private set; }
-        public static ConfigEntry<string> CommandError { get; private set; }
-        public static ConfigEntry<string> InvalidArgs { get; private set; }
-        public static ConfigEntry<string> roleListStart { get; private set; }
-        public static ConfigEntry<string> ON { get; private set; }
-        public static ConfigEntry<string> OFF { get; private set; }
-        public static ConfigEntry<string> JesterInfo { get; private set; }
-        public static ConfigEntry<string> MadmateInfo { get; private set; }
-        public static ConfigEntry<string> Bait { get; private set; }
-        public static ConfigEntry<string> BaitInfo { get; private set; }
-        public static ConfigEntry<string> Terrorist { get; private set; }
-        public static ConfigEntry<string> TerroristInfo { get; private set; }
-        public static ConfigEntry<string> Sidekick { get; private set; }
-        public static ConfigEntry<string> SidekickInfo { get; private set; }
-        public static ConfigEntry<string> Vampire { get; private set; }
-        public static ConfigEntry<string> VampireInfo { get; private set; }
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
@@ -54,8 +32,6 @@ namespace TownOfHost
         private static Dictionary<RoleNames, string> JapaneseRoleNames = new Dictionary<RoleNames, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<RoleNames, string> EnglishRoleNames = new Dictionary<RoleNames, string>();
-        public static Dictionary<string, string> roleTexts = new Dictionary<string, string>();
-        public static Dictionary<string, string> modeTexts = new Dictionary<string, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
@@ -438,27 +414,6 @@ namespace TownOfHost
         {
             TextCursorTimer = 0f;
             TextCursorVisible = true;
-
-            Japanese = Config.Bind("Info", "Japanese", "日本語");
-            Jester = Config.Bind("Lang", "JesterName", "Jester");
-            Madmate = Config.Bind("Lang", "MadmateName", "Madmate");
-            RoleEnabled = Config.Bind("Lang", "RoleEnabled", "%1$ is Enabled.");
-            RoleDisabled = Config.Bind("Lang", "RoleDisabled", "%1$ is Disabled.");
-            CommandError = Config.Bind("Lang", "CommandError", "Error:%1$");
-            InvalidArgs = Config.Bind("Lang", "InvalidArgs", "Invaild Arguments");
-            roleListStart = Config.Bind("Lang", "roleListStart", "Role List");
-            ON = Config.Bind("Lang", "ON", "ON");
-            OFF = Config.Bind("Lang", "OFF", "OFF");
-            JesterInfo = Config.Bind("Lang", "JesterInfo", "Get Voted Out To Win");
-            MadmateInfo = Config.Bind("Lang", "MadmateInfo", "Help Impostors To Win");
-            Bait = Config.Bind("Lang", "BaitName", "Bait");
-            BaitInfo = Config.Bind("Lang", "BaitInfo", "Bait Your Enemies");
-            Terrorist = Config.Bind("Lang", "TerroristName", "Terrorist");
-            TerroristInfo = Config.Bind("Lang", "TerroristInfo", "Finish your tasks, then die");
-            Sidekick = Config.Bind("Lang", "SidekickName", "Sidekick");
-            SidekickInfo = Config.Bind("Lang", "SidekickInfo", "You are Sidekick");
-            Vampire = Config.Bind("Lang", "VampireName", "Vampire");
-            VampireInfo = Config.Bind("Lang", "VampireInfo", "Kill all crewmates with your bites");
 
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
