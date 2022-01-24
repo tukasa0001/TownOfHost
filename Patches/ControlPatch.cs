@@ -27,6 +27,18 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
+            //====================
+            // テスト用キーコマンド
+            // | キー | 条件 | 動作 |
+            // | ---- | ---- | ---- |
+            // | X | フリープレイ中 | キルクール0 |
+            // | Y | ホスト | カスタム設定同期 |
+            // | M | フリープレイ中 | 会議強制終了 |
+            // | O | フリープレイ中 | 全タスク完了 |
+            // | G | フリープレイ中 | 開始画面表示 |
+            // | = | フリープレイ中 | VisibleTaskCountを切り替え |
+            // | P | フリープレイ中 | トイレのドアを一気に開ける |
+            //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
@@ -54,6 +66,24 @@ namespace TownOfHost
                         }
                     }
                 }
+            }
+            if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
+                HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
+                var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                list.Add(PlayerControl.LocalPlayer);
+                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
+            }
+            if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
+                main.VisibleTasksCount = !main.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
+            }
+            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
+                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
@@ -83,25 +113,8 @@ namespace TownOfHost
                 VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
             }*/
             //マスゲーム用コード終わり
-            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
-                ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
-            }
 
-            if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-            {
-                HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
-                var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
-                list.Add(PlayerControl.LocalPlayer);
-                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
-            }
-            if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-            {
-                main.VisibleTasksCount = !main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
-            }
+
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");

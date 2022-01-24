@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using Hazel;
 using System.Linq;
 using System.Threading.Tasks;
 
