@@ -35,25 +35,25 @@ namespace TownOfHost
             //Madmate
             if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate)
             {
-                TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Madmate) + "</color>\r\n" +
+                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
             }
             //Jester
             if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester)
             {
-                TaskTextPrefix = "<color=#d161a4>" + main.getLang(lang.Jester) + "</color>\r\n" +
+                TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
             }
             //Bait
             if (main.isBait(PlayerControl.LocalPlayer))
             {
-                TaskTextPrefix = "<color=#00bfff>" + main.getLang(lang.Bait) + "</color>\r\n" +
+                TaskTextPrefix = "<color=#00bfff>" + main.getRoleName(RoleNames.Bait) + "</color>\r\n" +
                 "<color=#00bfff>" + main.getLang(lang.BaitInfo) + "</color>\r\n";
             }
             //Terrorist
             if (main.isTerrorist(PlayerControl.LocalPlayer))
             {
-                TaskTextPrefix = "<color=#00ff00>" + main.getLang(lang.Terrorist) + "</color>\r\n" +
+                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
             //Sidekick
@@ -67,19 +67,19 @@ namespace TownOfHost
                 }
                 if (ImpostorCount > 0)
                 {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Sidekick) + "</color>\r\n" +
+                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>\r\n" +
                     "<color=#ff0000>" + "You can't kill now" + "</color>\r\n";
                 }
                 else
                 {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getLang(lang.Sidekick) + "</color>\r\n" +
+                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>\r\n" +
                     "<color=#ff0000>" + "Other Impostors are dead,\r\nso Kill everyone!" + "</color>\r\n";
                 }
             }
             //Vampire
             if (main.isVampire(PlayerControl.LocalPlayer))
             {
-                TaskTextPrefix = "<color=#a557a5>" + main.getLang(lang.Vampire) + "</color>\r\n" +
+                TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(RoleNames.Vampire) + "</color>\r\n" +
                 "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
@@ -89,6 +89,12 @@ namespace TownOfHost
             if (main.OptionControllerIsEnable)
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
+                __instance.GameSettings.fontSizeMin = 2f;
+                __instance.GameSettings.fontSizeMax = 2f;
+                __instance.GameSettings.m_maxHeight = 0.5f;
+            } else {
+                __instance.GameSettings.fontSizeMin = 1.3f;
+                __instance.GameSettings.fontSizeMax = 1.3f;
             }
 
             if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {

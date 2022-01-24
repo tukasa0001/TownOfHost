@@ -23,19 +23,6 @@ namespace TownOfHost
             string arg;
             var canceled = false;
             var cancelVal = "";
-            if (getCommand("/list", text, out arg))
-            {
-                canceled = true;
-                __instance.AddChat(PlayerControl.LocalPlayer,
-$@"{main.getLang(lang.roleListStart)}
-{main.getLang(lang.Sidekick)}: {getOnOff(main.currentShapeshifter == ShapeshifterRoles.Sidekick)}
-{main.getLang(lang.Vampire)}: {getOnOff(main.currentImpostor == ImpostorRoles.Vampire)}
-{main.getLang(lang.Jester)}: {getOnOff(main.currentScientist == ScientistRoles.Jester)}
-{main.getLang(lang.Madmate)}: {getOnOff(main.currentEngineer == EngineerRoles.Madmate)}
-{main.getLang(lang.Bait)}: {getOnOff(main.currentScientist == ScientistRoles.Bait)}
-{main.getLang(lang.Terrorist)}: {getOnOff(main.currentEngineer == EngineerRoles.Terrorist)}"
-                );
-            }
             if (AmongUsClient.Instance.AmHost)
             {
                 if (getCommand("/winner", text, out arg) || getCommand("/win", text, out arg))
@@ -48,17 +35,17 @@ $@"{main.getLang(lang.roleListStart)}
                 {
                     canceled = true;
                     main.SendToAll("現在有効になっている設定の説明:");
-                    if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.roleTexts["vampire"]); }
-                    if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.roleTexts["sidekick"]); }
-                    if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.roleTexts["madmate"]); }
-                    if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.roleTexts["terrorist"]); }
-                    if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.roleTexts["bait"]); }
-                    if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.roleTexts["jester"]); }
-                    if(main.FoxCount > 0 ){ main.SendToAll(main.roleTexts["fox"]); }
-                    if(main.TrollCount > 0 ){ main.SendToAll(main.roleTexts["troll"]); }
-                    if(main.IsHideAndSeek){ main.SendToAll(main.modeTexts["hideandseek"]); }
-                    if(main.NoGameEnd){ main.SendToAll(main.modeTexts["nogameend"]); }
-                    if(main.SyncButtonMode){ main.SendToAll(main.modeTexts["syncbuttonmode"]); }
+                    if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.getLang(lang.VampireInfoLong)); }
+                    if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
+                    if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
+                    if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
+                    if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                    if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+                    if(main.IsHideAndSeek){ main.SendToAll(main.getLang(lang.HideAndSeekInfo)); }
+                    if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+                    if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 }
                 if (getCommand("/h roles", text, out arg))
                 {
@@ -69,39 +56,39 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "jester")
                     {
-                        main.SendToAll(main.roleTexts["jester"]);
+                        main.SendToAll(main.getLang(lang.JesterInfoLong));
                     }
                     else if (arg == "madmate")
                     {
-                        main.SendToAll(main.roleTexts["madmate"]);
+                        main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     }
                     else if (arg == "bait")
                     {
-                        main.SendToAll(main.roleTexts["bait"]);
+                        main.SendToAll(main.getLang(lang.BaitInfoLong));
                     }
                     else if (arg == "terrorist")
                     {
-                        main.SendToAll(main.roleTexts["terrorist"]);
+                        main.SendToAll(main.getLang(lang.TerroristInfoLong));
                     }
                     else if (arg == "sidekick")
                     {
-                        main.SendToAll(main.roleTexts["sidekick"]);
+                        main.SendToAll(main.getLang(lang.SidekickInfoLong));
                     }
                     else if (arg == "vampire")
                     {
-                        main.SendToAll(main.roleTexts["vampire"]);
+                        main.SendToAll(main.getLang(lang.VampireInfoLong));
                     }
                     else if (arg == "fox")
                     {
-                        main.SendToAll(main.roleTexts["fox"]);
+                        main.SendToAll(main.getLang(lang.FoxInfoLong));
                     }
                     else if (arg == "troll")
                     {
-                        main.SendToAll(main.roleTexts["troll"]);
+                        main.SendToAll(main.getLang(lang.TrollInfoLong));
                     }
                     else
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力された役職は存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
                 if (getCommand("/h modes", text, out arg))
@@ -113,19 +100,19 @@ $@"{main.getLang(lang.roleListStart)}
                     }
                     else if (arg == "hideandseek")
                     {
-                        main.SendToAll(main.modeTexts["hideandseek"]);
+                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
                     }
                     else if (arg == "nogameend")
                     {
-                        main.SendToAll(main.modeTexts["nogameend"]);
+                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
                     }
                     else if (arg == "syncbuttonmode")
                     {
-                        main.SendToAll(main.modeTexts["syncbuttonmode"]);
+                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                     }
                     else
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "Error:入力されたモードは存在しません。");
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
                 if (getCommand("/endgame", text, out arg))
@@ -150,9 +137,14 @@ $@"{main.getLang(lang.roleListStart)}
                         ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                     }
                     else
+                    if (arg == "")
                     {
                         __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
                         cancelVal = "/dis";
+                    }
+                    else
+                    {
+                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                     ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                 }
