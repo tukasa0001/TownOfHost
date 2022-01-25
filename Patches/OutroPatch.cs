@@ -24,20 +24,20 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Data.Role.Role == RoleTypes.Crewmate) winner.Add(p); //Crewmate
-                    if (p.Data.Role.Role == RoleTypes.GuardianAngel) winner.Add(p); //GuardianAngel
-                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Default) winner.Add(p); //Engineer
-                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Default) winner.Add(p); //Scientist
-                    if (p.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Bait) winner.Add(p); //bait
+                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
+                    if (main.isJester(p)) canWin = false; //Jester
+                    if (main.isMadmate(p)) canWin = false; //Jester
+                    if (main.isTerrorist(p)) canWin = false; //Jester
+                    if(canWin) winner.Add(p);
                 }
             }
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Data.Role.Role == RoleTypes.Impostor) winner.Add(p); //Impostor
-                    if (p.Data.Role.Role == RoleTypes.Shapeshifter) winner.Add(p); //ShapeShifter
-                    if (p.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) winner.Add(p); // MadmateのEngineer
+                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
+                    if (main.isMadmate(p)) canWin = true; // MadmateのEngineer
+                    if(canWin) winner.Add(p);
                 }
             }
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
