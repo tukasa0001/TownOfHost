@@ -470,13 +470,13 @@ namespace TownOfHost
 
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
-                {lang.JesterInfo, "投票で追放されよう。"},
-                {lang.MadmateInfo, "インポスターを助けよう。"},
-                {lang.BaitInfo, "クルーのおとりになろう。"},
-                {lang.TerroristInfo, "タスクを完了させ、自爆しよう。"},
-                {lang.SidekickInfo, "インポスターを助けよう。"},
-                {lang.VampireInfo, "全員を噛んで倒そう。"},
-                {lang.SabotageMasterInfo, "より早くサボタージュを直そう。"},
+                {lang.JesterInfo, "投票で追放されよう"},
+                {lang.MadmateInfo, "インポスターを助けよう"},
+                {lang.BaitInfo, "クルーのおとりになろう"},
+                {lang.TerroristInfo, "タスクを完了させ、自爆しよう"},
+                {lang.SidekickInfo, "インポスターを助けよう"},
+                {lang.VampireInfo, "全員を噛んで倒そう"},
+                {lang.SabotageMasterInfo, "より早くサボタージュを直そう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(科学者):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、狂人からはインポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
@@ -520,13 +520,13 @@ namespace TownOfHost
             };
             EnglishTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
-                {lang.JesterInfo, "Get Voted Out."},
-                {lang.MadmateInfo, "Help Impostors."},
-                {lang.BaitInfo, "Bait Your Enemies."},
-                {lang.TerroristInfo, "Finish all tasks, then die."},
-                {lang.SidekickInfo, "Help Impostors."},
-                {lang.VampireInfo, "Kill all crewmates with your bites."},
-                {lang.SabotageMasterInfo, "Fix Sabotages Faster."},
+                {lang.JesterInfo, "Get Voted Out"},
+                {lang.MadmateInfo, "Help Impostors"},
+                {lang.BaitInfo, "Bait Your Enemies"},
+                {lang.TerroristInfo, "Finish all tasks, then die"},
+                {lang.SidekickInfo, "Help Impostors"},
+                {lang.VampireInfo, "Kill all crewmates with your bites"},
+                {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
