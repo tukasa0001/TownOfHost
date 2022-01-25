@@ -437,7 +437,7 @@ namespace TownOfHost
             SyncButtonMode = false;
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
-            
+
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -478,14 +478,14 @@ namespace TownOfHost
                 {lang.VampireInfo, "遅延キルで村を混乱させよう"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直そう"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
-                {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
-                {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
-                {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない"},
+                {lang.JesterInfoLong, "ジェスター(科学者):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、狂人からはインポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {lang.BaitInfoLong, "ベイト(科学者):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.TerroristInfoLong, "テロリスト(エンジニア):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
+                {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
+                {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
+                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は追加勝利することができない"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -493,7 +493,7 @@ namespace TownOfHost
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"},
+                {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
@@ -584,8 +584,8 @@ namespace TownOfHost
                 {RoleNames.Madmate, "狂人"},
                 {RoleNames.Bait, "ベイト"},
                 {RoleNames.Terrorist, "テロリスト"},
-                {RoleNames.Sidekick, "サイドキック"},
-                {RoleNames.Vampire, "ヴァンパイア"},
+                {RoleNames.Sidekick, "相棒"},
+                {RoleNames.Vampire, "吸血鬼"},
                 {RoleNames.SabotageMaster, "サボタージュマスター"},
                 {RoleNames.Fox, "狐"},
                 {RoleNames.Troll, "トロール"},
