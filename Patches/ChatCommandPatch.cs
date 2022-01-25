@@ -41,6 +41,7 @@ namespace TownOfHost
                     if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
                     if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
                     if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
                     if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                     if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
                     if(main.IsHideAndSeek){ main.SendToAll(main.getLang(lang.HideAndSeekInfo)); }
