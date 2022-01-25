@@ -496,7 +496,7 @@ namespace TownOfHost
                 {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
-                {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
+                {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直す"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉めを許可"},
