@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.4-beta1</Version>
+    <Description>Town Of Host</Description>
+    <Authors>tukasa0001, integral0131</Authors>
   </PropertyGroup>
 
     <ItemGroup>
