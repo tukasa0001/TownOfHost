@@ -53,7 +53,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, fox, troll");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, sabotagemaster, fox, troll");
                     }
                     else if (arg == "jester")
                     {
@@ -78,6 +78,10 @@ namespace TownOfHost
                     else if (arg == "vampire")
                     {
                         main.SendToAll(main.getLang(lang.VampireInfoLong));
+                    }
+                    else if (arg == "sabotagemaster")
+                    {
+                        main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                     }
                     else if (arg == "fox")
                     {
