@@ -68,6 +68,10 @@ namespace TownOfHost
                 else
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
+            if(main.isMadGuardian(target)) {
+                __instance.RpcProtectPlayer(target, 0);
+                __instance.RpcMurderPlayer(target);
+            }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
                 __instance.RpcProtectPlayer(target, 0);
