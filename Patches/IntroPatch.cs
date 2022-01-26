@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -26,6 +27,7 @@ namespace TownOfHost
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            var rand = new System.Random();
             if (Input.GetKey(KeyCode.RightShift))
             {
                 __instance.TeamTitle.text = "Town Of Host";
@@ -52,6 +54,7 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.MadmateInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
             if (main.isBait(PlayerControl.LocalPlayer))
             {
@@ -68,6 +71,9 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.TerroristInfo);
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
+                var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
+                .MinigamePrefab.OpenSound;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
             }
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {
@@ -96,6 +102,11 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.SabotageMasterInfo);
                 __instance.TeamTitle.color = Color.blue;
                 __instance.BackgroundBar.material.color = Color.blue;
+                var prefab = (BoardPassGame)PolusShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.ScanBoardingPass).FirstOrDefault()
+                .MinigamePrefab;
+                var sound = prefab.scanStartSound;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
+
             }
             if (main.isMadGuardian(PlayerControl.LocalPlayer))
             {
@@ -104,6 +115,7 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.MadGuardianInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
             if(main.IsHideAndSeek) {
                 if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Fox) {
@@ -127,6 +139,9 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = "インポスターにキルされろ";
                 }
             }
+        }
+        private static AudioClip GetIntroSound(RoleTypes roleType) {
+            return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
