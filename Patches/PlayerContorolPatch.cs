@@ -68,14 +68,6 @@ namespace TownOfHost
                 else
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
-            //###############
-            //#####DEBUG#####
-            //###############
-            if(main.AmDebugger.Value) {
-                Logger.SendInGame("GuardAndKillAsync");
-                __instance.RpcGuardAndKill(target);
-                return false;
-            }
             if(main.isMadGuardian(target)) {
                 var isTaskFinished = true;
                 foreach(var task in target.Data.Tasks) {
@@ -85,20 +77,17 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    __instance.RpcProtectPlayer(target, 0);
-                    __instance.RpcMurderPlayer(target);
+                    __instance.RpcGuardAndKill(target);
                     if(main.MadGuardianCanSeeBarrier) {
                         //MadGuardian視点用
-                        target.RpcProtectPlayer(target, 0);
-                        target.RpcMurderPlayer(target);
+                        target.RpcGuardAndKill(target);
                     }
                     return false;
                 }
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
-                __instance.RpcProtectPlayer(target, 0);
-                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
@@ -106,8 +95,7 @@ namespace TownOfHost
             __instance.RpcMurderPlayer(target);
             if (main.isFixedCooldown)
             {
-                __instance.RpcProtectPlayer(target, 0);
-                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
             }
             return false;
         }
