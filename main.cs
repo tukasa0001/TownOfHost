@@ -327,6 +327,7 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
         public static bool SabotageMasterFixesDoors;
+        public static bool MadmateCanFixLightsOut;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -461,6 +462,8 @@ namespace TownOfHost
             VampireKillDelay = 10;
 
             SabotageMasterFixesDoors = false;
+
+            MadmateCanFixLightsOut = false;
 
             currentSuffix = SuffixModes.None;
 

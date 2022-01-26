@@ -119,6 +119,11 @@ namespace TownOfHost
                 }
             }
 
+            if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
+               main.isMadmate(player) && //実行者がMadmate
+               systemType == SystemTypes.Electrical && //システムタイプが電気室
+               0 <= amount && amount <= 4) //配電盤操作のamount
+                return false;
             return true;
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
