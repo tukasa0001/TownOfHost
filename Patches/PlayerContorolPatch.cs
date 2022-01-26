@@ -181,6 +181,10 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
+            if(main.AmDebugger.Value && Input.GetKey(KeyCode.J)) {
+                __instance.RpcProtectPlayer(__instance, 0);
+                __instance.RpcMurderPlayer(__instance);
+            }
             if(main.AmDebugger.Value && Input.GetKey(KeyCode.K)) {
                 __instance.RpcGuardAndKill();
             }
