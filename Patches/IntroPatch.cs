@@ -97,6 +97,14 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.blue;
                 __instance.BackgroundBar.material.color = Color.blue;
             }
+            if (main.isMadGuardian(PlayerControl.LocalPlayer))
+            {
+                __instance.TeamTitle.text = main.getRoleName(RoleNames.MadGuardian);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.MadGuardianInfo);
+                __instance.TeamTitle.color = Palette.ImpostorRed;
+                __instance.BackgroundBar.material.color = Palette.ImpostorRed;
+            }
             if(main.IsHideAndSeek) {
                 if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Fox) {
                     __instance.TeamTitle.text = "Fox";
