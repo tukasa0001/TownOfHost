@@ -457,7 +457,7 @@ namespace TownOfHost
             AllowCloseDoors = false;
             IgnoreVent = false;
             IgnoreCosmetics = false;
-            HideAndSeekKillDelay = 30;
+            HideAndSeekKillDelay = 10;
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
             TrollCount = 0;
