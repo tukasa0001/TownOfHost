@@ -51,6 +51,7 @@ namespace TownOfHost
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
+                    bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
@@ -78,6 +79,7 @@ namespace TownOfHost
                         SabotageMasterFixesReactors,
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
+                        SabotageMasterFixesElectrical,
                         SyncButtonMode,
                         SyncedButtonCount,
                         AllowCloseDoors,
@@ -132,6 +134,7 @@ namespace TownOfHost
                 bool SabotageMasterFixesReactors,
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
+                bool SabotageMasterFixesElectrical,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
@@ -167,6 +170,7 @@ namespace TownOfHost
             main.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
             main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
+            main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;

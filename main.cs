@@ -343,6 +343,7 @@ namespace TownOfHost
         public static bool SabotageMasterFixesReactors;
         public static bool SabotageMasterFixesOxygens;
         public static bool SabotageMasterFixesCommunications;
+        public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
 
         public static bool MadmateCanFixLightsOut;
@@ -370,6 +371,7 @@ namespace TownOfHost
             writer.Write(SabotageMasterFixesReactors);
             writer.Write(SabotageMasterFixesOxygens);
             writer.Write(SabotageMasterFixesCommunications);
+            writer.Write(SabotageMasterFixesElectrical);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
@@ -493,6 +495,7 @@ namespace TownOfHost
             SabotageMasterFixesReactors = true;
             SabotageMasterFixesOxygens = true;
             SabotageMasterFixesCommunications = true;
+            SabotageMasterFixesElectrical = true;
 
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
@@ -543,6 +546,7 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesReactors, "サボタージュマスターがリアクターを同時に直せる"},
                 {lang.SabotageMasterFixesOxygens, "サボタージュマスターが酸素を同時に直せる"},
                 {lang.SabotageMasterFixesCommunications, "サボタージュマスターがコミュニケーションを同時に直せる（MiraHQのみ）"},
+                {lang.SabotageMasterFixesElectrical, "サボタージュマスターが停電を一度に直せる"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドアを閉めることを許可"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -601,7 +605,8 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
                 {lang.SabotageMasterFixesReactors, "Sabotage master fixes both reactors"},
                 {lang.SabotageMasterFixesOxygens, "Sabotage master fixes both oxygens"},
-                {lang.SabotageMasterFixesCommunications, "Sabotage master fixes communications(MiraHQ only)"},
+                {lang.SabotageMasterFixesCommunications, "Sabotage master fixes both communications(MiraHQ only)"},
+                {lang.SabotageMasterFixesElectrical, "Sabotage master fixes electrical all at once"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Close Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor waiting time"},
@@ -694,6 +699,7 @@ namespace TownOfHost
         SabotageMasterFixesReactors,
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
+        SabotageMasterFixesElectrical,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

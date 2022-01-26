@@ -163,9 +163,12 @@ namespace TownOfHost
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
             if(main.isSabotageMaster(player)) {
+                if(!main.SabotageMasterFixesElectrical) return;
+                if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) return;
                 if(0 <= amount && amount <= 4) {
                     __instance.ActualSwitches = 0;
                     __instance.ExpectedSwitches = 0;
+                    main.SabotageMasterUsedSkillCount++;
                 }
             }
         }

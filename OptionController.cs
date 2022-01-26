@@ -109,6 +109,7 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesReactors,
                             OptionPages.SabotageMasterFixesOxygens,
                             OptionPages.SabotageMasterFixesCommunications,
+                            OptionPages.SabotageMasterFixesElectrical,
                             OptionPages.MadmateCanFixLightsOut,
                             OptionPages.MadGuardianCanSeeBarrier
                         },
@@ -165,6 +166,13 @@ namespace TownOfHost
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesCommunications) + "</color>: " + main.getOnOff(main.SabotageMasterFixesCommunications),
                             true,
                             () => {main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesElectrical, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesElectrical) + "</color>: " + main.getOnOff(main.SabotageMasterFixesElectrical),
+                            true,
+                            () => {main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -519,6 +527,7 @@ namespace TownOfHost
                     SabotageMasterFixesReactors,
                     SabotageMasterFixesOxygens,
                     SabotageMasterFixesCommunications,
+                    SabotageMasterFixesElectrical,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,
