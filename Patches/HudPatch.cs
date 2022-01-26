@@ -91,10 +91,24 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>\r\n" +
                 "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
             }
+
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
+            
+            if(Input.GetKey(KeyCode.LeftAlt)) {
+                //=====タスクリスト確認用デバッグ処理======
+                string text = "==デバッグ用タスクリスト==\r\n| Type | IsComplete |";
+                foreach(var task in PlayerControl.LocalPlayer.Data.Tasks) {
+                    string line = "| ";
+                    line += task.TypeId + " | ";
+                    line += task.Complete.ToString() + " |";
+                    text += "\r\n" + line;
+                }
+                __instance.TaskText.text = text;
+            }
+
             if (main.OptionControllerIsEnable)
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();

@@ -309,7 +309,7 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks)
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
         {
             string taskText = "";
             int CompletedTaskCount = 0;
@@ -317,7 +317,7 @@ namespace TownOfHost
             foreach (var task in tasks)
             {
                 AllTasksCount++;
-                if (task.IsComplete) CompletedTaskCount++;
+                if (task.Complete) CompletedTaskCount++;
             }
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
