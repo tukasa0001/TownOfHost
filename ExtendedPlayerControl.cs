@@ -31,7 +31,7 @@ namespace TownOfHost {
             new LateTask(() => {
                 if(target.protectedByGuardian)
                     killer.RpcMurderPlayer(target);
-            }, 0.1f, "GuardAndKill");
+            }, 0.2f, "GuardAndKill");
         }
     }
 }
