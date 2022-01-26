@@ -470,13 +470,13 @@ namespace TownOfHost
 
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
-                {lang.JesterInfo, "投票で追放されよう。"},
-                {lang.MadmateInfo, "インポスターを助けよう。"},
-                {lang.BaitInfo, "クルーのおとりになろう。"},
-                {lang.TerroristInfo, "タスクを完了させ、自爆しよう。"},
-                {lang.SidekickInfo, "インポスターを助けよう。"},
-                {lang.VampireInfo, "全員を噛んで倒そう。"},
-                {lang.SabotageMasterInfo, "より早くサボタージュを直そう。"},
+                {lang.JesterInfo, "投票で追放されよう"},
+                {lang.MadmateInfo, "インポスターを助けよう"},
+                {lang.BaitInfo, "クルーのおとりになろう"},
+                {lang.TerroristInfo, "タスクを完了させ、自爆しよう"},
+                {lang.SidekickInfo, "インポスターを助けよう"},
+                {lang.VampireInfo, "全員を噛んで倒そう"},
+                {lang.SabotageMasterInfo, "より早くサボタージュを直そう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(科学者):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、狂人からはインポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
@@ -484,7 +484,7 @@ namespace TownOfHost
                 {lang.TerroristInfoLong, "テロリスト(エンジニア):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから10秒(変更可能)経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):リアクター・O2は片方修理すれば両方直る。停電は一か所のクリックですべて直る。設定でONにするとドアを開けた際にその部屋のドアがすべて開く。"},
+                {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れるとすべて直る。ドアを開けるとその部屋のドアがすべて開く。(変更可能)"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は追加勝利することができない。"},
                 //モード名
@@ -521,13 +521,13 @@ namespace TownOfHost
             };
             EnglishTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
-                {lang.JesterInfo, "Get Voted Out."},
-                {lang.MadmateInfo, "Help Impostors."},
-                {lang.BaitInfo, "Bait Your Enemies."},
-                {lang.TerroristInfo, "Finish all tasks, then die."},
-                {lang.SidekickInfo, "Help Impostors."},
-                {lang.VampireInfo, "Kill all crewmates with your bites."},
-                {lang.SabotageMasterInfo, "Fix Sabotages Faster."},
+                {lang.JesterInfo, "Get Voted Out"},
+                {lang.MadmateInfo, "Help Impostors"},
+                {lang.BaitInfo, "Bait Your Enemies"},
+                {lang.TerroristInfo, "Finish all tasks, then die"},
+                {lang.SidekickInfo, "Help Impostors"},
+                {lang.VampireInfo, "Kill all crewmates with your bites"},
+                {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
@@ -535,7 +535,7 @@ namespace TownOfHost
                 {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):リアクター・O2は片方修理すれば両方直る。停電は一か所のクリックですべて直る。設定でONにするとドアを開けた際にその部屋のドアがすべて開く。"},
+                {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れるとすべて直る。ドアを開けるとその部屋のドアがすべて開く。(変更可能)"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。"},
                 //モード名
