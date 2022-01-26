@@ -421,7 +421,7 @@ namespace TownOfHost
                         break;
                 }
             }
-            if(name != PlayerControl.LocalPlayer.name) PlayerControl.LocalPlayer.RpcSetName(name);
+            if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public override void Load()
         {
