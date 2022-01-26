@@ -82,6 +82,12 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(RoleNames.Vampire) + "</color>\r\n" +
                 "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
+            //Sabotage Master
+            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>\r\n" +
+                "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
+            }
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
