@@ -105,6 +105,7 @@ namespace TownOfHost
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
                             OptionPages.MadmateCanFixLightsOut,
+                            OptionPages.MadGuardianCanSeeBarrier,
                             OptionPages.SabotageMasterFixesDoors
                         },
                         OptionPages.roles
@@ -126,6 +127,13 @@ namespace TownOfHost
                             () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
                             true,
                             () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
+                            true,
+                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -394,6 +402,7 @@ namespace TownOfHost
         }
         public static string GetOptionText()
         {
+            string text;
             if(AmongUsClient.Instance.AmHost && !PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
                 //ホストの設定にSuffixを入れる
                 PageObjects[OptionPages.basepage].PagesInThis.Add(OptionPages.Suffix);
@@ -402,9 +411,7 @@ namespace TownOfHost
                 //ホストの設定にSuffixを入れる
                 PageObjects[OptionPages.basepage].PagesInThis.Remove(OptionPages.Suffix);
             }
-            string text;
             var currentPageObj = PageObjects[currentPage];
-
             text = "==" + currentPageObj.name + "==" + "\r\n";
             for (var i = 0; i < currentPageObj.PagesInThis.Count; i++)
             {
@@ -413,7 +420,6 @@ namespace TownOfHost
                 text += currentCursor == i ? ">" : "";
                 text += obj.name + "\r\n";
             }
-
             return text;
         }
     }
@@ -469,6 +475,7 @@ namespace TownOfHost
                 AdvancedRoleOptions,
                     VampireKillDelay,
                     MadmateCanFixLightsOut,
+                    MadGuardianCanSeeBarrier,
                     SabotageMasterFixesDoors,
             modes,
                 HideAndSeek,

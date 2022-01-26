@@ -71,6 +71,12 @@ namespace TownOfHost
             if(main.isMadGuardian(target)) {
                 __instance.RpcProtectPlayer(target, 0);
                 __instance.RpcMurderPlayer(target);
+                if(main.MadGuardianCanSeeBarrier) {
+                    //MadGuardian視点用
+                    target.RpcProtectPlayer(target, 0);
+                    target.RpcMurderPlayer(target);
+                }
+                return false;
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理

@@ -339,6 +339,7 @@ namespace TownOfHost
         public static int VampireKillDelay = 10;
         public static bool SabotageMasterFixesDoors;
         public static bool MadmateCanFixLightsOut;
+        public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -475,6 +476,7 @@ namespace TownOfHost
             SabotageMasterFixesDoors = false;
 
             MadmateCanFixLightsOut = false;
+            MadGuardianCanSeeBarrier = false;
 
             currentSuffix = SuffixModes.None;
 
@@ -515,6 +517,7 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "狂人が停電を直すことができる"},
+                {lang.MadGuardianCanSeeBarrier, "守護狂人が割れたバリアを見ることができる"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直せる"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドアを閉めることを許可"},
@@ -569,6 +572,7 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
+                {lang.MadGuardianCanSeeBarrier, "Mad Guardian Can See Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Close Doors"},
@@ -656,6 +660,7 @@ namespace TownOfHost
         AdvancedRoleOptions,
         VampireKillDelay,
         MadmateCanFixLightsOut,
+        MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
         HideAndSeekOptions,
         AllowCloseDoors,
