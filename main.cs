@@ -376,7 +376,6 @@ namespace TownOfHost
             writer.Write(FoxCount);
             writer.Write(TrollCount);
             writer.Write(IgnoreVent);
-            writer.Write(SabotageMasterFixesDoors);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
             AmongUsClient.Instance.FinishRpcImmediately(writer);

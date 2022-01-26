@@ -110,8 +110,7 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesOxygens,
                             OptionPages.SabotageMasterFixesCommunications,
                             OptionPages.MadmateCanFixLightsOut,
-                            OptionPages.MadGuardianCanSeeBarrier,
-                            OptionPages.SabotageMasterFixesDoors
+                            OptionPages.MadGuardianCanSeeBarrier
                         },
                         OptionPages.roles
                     )},
@@ -127,20 +126,6 @@ namespace TownOfHost
                                 var FixedKillDelay = Math.Clamp(KillDelay,0,999);
                                 main.VampireKillDelay = FixedKillDelay;
                             }
-                        )},
-                        {OptionPages.MadmateCanFixLightsOut, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
-                            true,
-                            () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
-                        )},
-                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
-                            true,
-                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterSkillLimit, new PageObject(
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterSkillLimit) + "</color>: " + main.SabotageMasterSkillLimit + main.TextCursor,
@@ -180,6 +165,20 @@ namespace TownOfHost
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesCommunications) + "</color>: " + main.getOnOff(main.SabotageMasterFixesCommunications),
                             true,
                             () => {main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.MadmateCanFixLightsOut, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
+                            true,
+                            () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
+                            true,
+                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
