@@ -115,7 +115,7 @@ namespace TownOfHost
                             }
                         )},
                         {OptionPages.MadmateCanFixLightsOut, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
+                            () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
                             true,
                             () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
                             new List<OptionPages>(){},
