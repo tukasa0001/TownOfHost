@@ -71,6 +71,7 @@ namespace TownOfHost
         public static void Prefix(ModManager __instance)
         {
             __instance.ShowModStamp();
+            LateTask.Update(Time.deltaTime);
         }
     }
 }
