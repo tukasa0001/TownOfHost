@@ -253,16 +253,5 @@ namespace TownOfHost
         public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
             main.HideAndSeekRoleList[player.PlayerId] = role;
         }
-        public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
-            if(AmongUsClient.Instance.AmClient) {
-                player.SetHideAndSeekRole(role);
-            }
-            if(AmongUsClient.Instance.AmHost) {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
-                writer.Write(player.PlayerId);
-                writer.Write((byte)role);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
     }
 }

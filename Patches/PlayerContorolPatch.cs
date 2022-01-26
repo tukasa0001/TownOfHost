@@ -68,6 +68,14 @@ namespace TownOfHost
                 else
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
+            //###############
+            //#####DEBUG#####
+            //###############
+            if(main.AmDebugger.Value) {
+                Logger.SendInGame("GuardAndKillAsync");
+                __instance.RpcGuardAndKill(target);
+                return false;
+            }
             if(main.isMadGuardian(target)) {
                 var isTaskFinished = true;
                 foreach(var task in target.Data.Tasks) {
