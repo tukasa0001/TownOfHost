@@ -17,6 +17,7 @@ namespace TownOfHost
         public static void Postfix(HudManager __instance)
         {
             var TaskTextPrefix = "";
+            var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -37,12 +38,14 @@ namespace TownOfHost
             {
                 TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
+                TaskTextPrefix += FakeTasksText;
             }
             //Jester
             if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester)
             {
                 TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
+                TaskTextPrefix += FakeTasksText;
             }
             //Bait
             if (main.isBait(PlayerControl.LocalPlayer))
