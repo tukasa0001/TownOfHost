@@ -96,6 +96,7 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.MadmateCanFixLightsOut,
                             OptionPages.SabotageMasterFixesDoors
                         },
                         OptionPages.roles
@@ -112,6 +113,13 @@ namespace TownOfHost
                                 var FixedKillDelay = Math.Clamp(KillDelay,0,999);
                                 main.VampireKillDelay = FixedKillDelay;
                             }
+                        )},
+                        {OptionPages.MadmateCanFixLightsOut, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
+                            true,
+                            () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesDoors, new PageObject(
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
@@ -451,6 +459,7 @@ namespace TownOfHost
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    MadmateCanFixLightsOut,
                     SabotageMasterFixesDoors,
             modes,
                 HideAndSeek,

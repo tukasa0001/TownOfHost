@@ -501,6 +501,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
+                {lang.MadmateCanFixLightsOut, "狂人が停電を直すことができる"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直せる"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドアを閉めることを許可"},
@@ -552,6 +553,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Close Doors"},
@@ -634,6 +636,7 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
+        MadmateCanFixLightsOut,
         SabotageMasterFixesDoors,
         HideAndSeekOptions,
         AllowCloseDoors,
