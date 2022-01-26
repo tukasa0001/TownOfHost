@@ -26,8 +26,9 @@ namespace TownOfHost
                 {
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
                     if (main.isJester(p)) canWin = false; //Jester
-                    if (main.isMadmate(p)) canWin = false; //Jester
-                    if (main.isTerrorist(p)) canWin = false; //Jester
+                    if (main.isMadmate(p)) canWin = false; //Madmate
+                    if (main.isMadGuardian(p)) canWin = false; //Mad Guardian
+                    if (main.isTerrorist(p)) canWin = false; //Terrorist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -36,7 +37,8 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
-                    if (main.isMadmate(p)) canWin = true; // MadmateのEngineer
+                    if (main.isMadmate(p)) canWin = true; //Madmate
+                    if (main.isMadGuardian(p)) canWin = true; //Mad Guardian
                     if(canWin) winner.Add(p);
                 }
             }

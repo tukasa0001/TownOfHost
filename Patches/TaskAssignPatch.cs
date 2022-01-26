@@ -26,8 +26,8 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.SwipeCard && main.DisableSwipeCard) disabledTasks.Add(task);//カードタスク
                 if (task.TaskType == TaskTypes.SubmitScan && main.DisableSubmitScan) disabledTasks.Add(task);//スキャンタスク
                 if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTasks.Add(task);//金庫タスク
-                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTasks.Add(task);
-                if (task.TaskType == TaskTypes.StartReactor && main.DisableStartReactor) disabledTasks.Add(task);//覚えタスク
+                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTasks.Add(task);//アップロードタスク
+                if (task.TaskType == TaskTypes.StartReactor && main.DisableStartReactor) disabledTasks.Add(task);//リアクターの3x3タスク
             }
             foreach (var task in disabledTasks)
             {
