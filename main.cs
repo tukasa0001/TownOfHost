@@ -131,6 +131,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isMadGuardian(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.MadGuardian)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {
@@ -177,6 +183,10 @@ namespace TownOfHost
                         case ScientistRoles.SabotageMaster:
                             RoleText = "Sabotage Master";
                             TextColor = Color.blue;
+                            break;
+                        case ScientistRoles.MadGuardian:
+                            RoleText = "Mad Guardian";
+                            TextColor = Palette.ImpostorRed;
                             break;
                         default:
                             RoleText = "Invalid Scientist";
@@ -234,7 +244,7 @@ namespace TownOfHost
                             TextColor = Palette.ImpostorRed;
                             break;
                         default:
-                            RoleText = "Invalid Scientist";
+                            RoleText = "Invalid Shapeshifter";
                             TextColor = Color.red;
                             break;
                     }
@@ -283,6 +293,7 @@ namespace TownOfHost
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
@@ -690,7 +701,8 @@ namespace TownOfHost
         Default = 0,
         Jester,
         Bait,
-        SabotageMaster
+        SabotageMaster,
+        MadGuardian
     }
     public enum EngineerRoles
     {
