@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -103,7 +104,8 @@ namespace TownOfHost
             main.winnerList = "winner:";
             foreach (var wpd in TempData.winners)
             {
-                main.winnerList += wpd.PlayerName + ", ";
+                main.winnerList += wpd.PlayerName;
+                if(wpd != TempData.winners[TempData.winners.Count - 1]) main.winnerList += ", ";
             }
         }
     }
