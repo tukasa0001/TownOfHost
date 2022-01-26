@@ -31,7 +31,7 @@ namespace TownOfHost
                     main.SendToAll(main.winnerList);
                 }
 
-                if (getCommand("/h n", text, out arg))
+                if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
                 {
                     canceled = true;
                     main.SendToAll("現在有効になっている設定の説明:");
@@ -48,7 +48,7 @@ namespace TownOfHost
                     if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                     if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 }
-                if (getCommand("/h r", text, out arg))
+                if (getCommand("/h r", text, out arg) || getCommand("/h roles", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
@@ -96,7 +96,7 @@ namespace TownOfHost
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
-                if (getCommand("/h m", text, out arg))
+                if (getCommand("/h m", text, out arg) || getCommand("/h modes", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
