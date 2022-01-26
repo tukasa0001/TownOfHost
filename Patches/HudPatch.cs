@@ -17,6 +17,7 @@ namespace TownOfHost
         public static void Postfix(HudManager __instance)
         {
             var TaskTextPrefix = "";
+            var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -37,12 +38,14 @@ namespace TownOfHost
             {
                 TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
+                TaskTextPrefix += FakeTasksText;
             }
             //Jester
             if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester)
             {
                 TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
+                TaskTextPrefix += FakeTasksText;
             }
             //Bait
             if (main.isBait(PlayerControl.LocalPlayer))
@@ -82,10 +85,30 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(RoleNames.Vampire) + "</color>\r\n" +
                 "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
+            //Sabotage Master
+            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>\r\n" +
+                "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
+            }
+
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
+            
+            if(Input.GetKey(KeyCode.LeftAlt)) {
+                //=====タスクリスト確認用デバッグ処理======
+                string text = "==デバッグ用タスクリスト==\r\n| Type | IsComplete |";
+                foreach(var task in PlayerControl.LocalPlayer.Data.Tasks) {
+                    string line = "| ";
+                    line += task.TypeId + " | ";
+                    line += task.Complete.ToString() + " |";
+                    text += "\r\n" + line;
+                }
+                __instance.TaskText.text = text;
+            }
+
             if (main.OptionControllerIsEnable)
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
