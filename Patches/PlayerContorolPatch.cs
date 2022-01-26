@@ -28,8 +28,7 @@ namespace TownOfHost
             && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");
-                Thread.Sleep(150); //Fix This
-                __instance.CmdReportDeadBody(target.Data);
+                new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //Terrorist
