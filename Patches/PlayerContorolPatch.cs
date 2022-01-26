@@ -69,14 +69,23 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
             if(main.isMadGuardian(target)) {
-                __instance.RpcProtectPlayer(target, 0);
-                __instance.RpcMurderPlayer(target);
-                if(main.MadGuardianCanSeeBarrier) {
-                    //MadGuardian視点用
-                    target.RpcProtectPlayer(target, 0);
-                    target.RpcMurderPlayer(target);
+                var isTaskFinished = true;
+                foreach(var task in target.Data.Tasks) {
+                    if(!task.Complete) {
+                        isTaskFinished = false;
+                        break;
+                    }
                 }
-                return false;
+                if(isTaskFinished) {
+                    __instance.RpcProtectPlayer(target, 0);
+                    __instance.RpcMurderPlayer(target);
+                    if(main.MadGuardianCanSeeBarrier) {
+                        //MadGuardian視点用
+                        target.RpcProtectPlayer(target, 0);
+                        target.RpcMurderPlayer(target);
+                    }
+                    return false;
+                }
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
