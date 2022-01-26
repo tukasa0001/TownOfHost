@@ -27,6 +27,7 @@ namespace TownOfHost
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
+        public static ConfigEntry<bool> AmDebugger {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
         private static Dictionary<RoleNames, string> JapaneseRoleNames = new Dictionary<RoleNames, string>();
@@ -436,6 +437,7 @@ namespace TownOfHost
             }
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
+
         public override void Load()
         {
             TextCursorTimer = 0f;
@@ -500,6 +502,7 @@ namespace TownOfHost
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
+            AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)

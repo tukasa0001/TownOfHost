@@ -28,8 +28,7 @@ namespace TownOfHost
             && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");
-                Thread.Sleep(150); //Fix This
-                __instance.CmdReportDeadBody(target.Data);
+                new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //Terrorist
@@ -77,20 +76,17 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    __instance.RpcProtectPlayer(target, 0);
-                    __instance.RpcMurderPlayer(target);
+                    __instance.RpcGuardAndKill(target);
                     if(main.MadGuardianCanSeeBarrier) {
                         //MadGuardian視点用
-                        target.RpcProtectPlayer(target, 0);
-                        target.RpcMurderPlayer(target);
+                        target.RpcGuardAndKill(target);
                     }
                     return false;
                 }
             }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
-                __instance.RpcProtectPlayer(target, 0);
-                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
@@ -98,8 +94,7 @@ namespace TownOfHost
             __instance.RpcMurderPlayer(target);
             if (main.isFixedCooldown)
             {
-                __instance.RpcProtectPlayer(target, 0);
-                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
             }
             return false;
         }
