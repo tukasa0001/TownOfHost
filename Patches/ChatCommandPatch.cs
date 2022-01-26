@@ -30,8 +30,8 @@ namespace TownOfHost
                     canceled = true;
                     main.SendToAll(main.winnerList);
                 }
-                
-                if (getCommand("/h now", text, out arg))
+
+                if (getCommand("/h n", text, out arg))
                 {
                     canceled = true;
                     main.SendToAll("現在有効になっている設定の説明:");
@@ -48,12 +48,12 @@ namespace TownOfHost
                     if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                     if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 }
-                if (getCommand("/h roles", text, out arg) || getCommand("/h r", text, out arg))
+                if (getCommand("/h r", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, sabotagemaster, fox, troll");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, je, madmate, ma, bait, ba, terrorist, te, sidekick, si, vampire, va, sabotagemaster, sa, fox, fo, troll, tr");
                     }
                     else if (arg == "jester" || arg == "je")
                     {
@@ -96,12 +96,12 @@ namespace TownOfHost
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
-                if (getCommand("/h modes", text, out arg) || getCommand("/h m", text, out arg))
+                if (getCommand("/h m", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: hideandseek, nogameend, syncbuttonmode");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: hideandseek, has, nogameend, nge, syncbuttonmode, sbm");
                     }
                     else if (arg == "hideandseek" || arg == "has")
                     {
@@ -111,7 +111,7 @@ namespace TownOfHost
                     {
                         main.SendToAll(main.getLang(lang.NoGameEndInfo));
                     }
-                    else if (arg == "syncbuttonmode" || arg == "sb")
+                    else if (arg == "syncbuttonmode" || arg == "sbm")
                     {
                         main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                     }
