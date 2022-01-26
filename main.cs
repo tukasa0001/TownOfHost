@@ -326,7 +326,13 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
+        public static bool SabotageMasterFixesReactors;
+        public static bool SabotageMasterFixesOxygens;
+        public static bool SabotageMasterFixesCommunications;
+        public static int SabotageMasterUsedSkillCount;
+
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -345,6 +351,11 @@ namespace TownOfHost
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
+            writer.Write(SabotageMasterSkillLimit);
+            writer.Write(SabotageMasterFixesDoors);
+            writer.Write(SabotageMasterFixesReactors);
+            writer.Write(SabotageMasterFixesOxygens);
+            writer.Write(SabotageMasterFixesCommunications);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
@@ -460,7 +471,11 @@ namespace TownOfHost
 
             VampireKillDelay = 10;
 
+            SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
+            SabotageMasterFixesReactors = true;
+            SabotageMasterFixesOxygens = true;
+            SabotageMasterFixesCommunications = true;
 
             currentSuffix = SuffixModes.None;
 
@@ -498,7 +513,11 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
+                {lang.SabotageMasterSkillLimit, "サボタージュマスターの能力の回数制限（ドアは除く）"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直せる"},
+                {lang.SabotageMasterFixesReactors, "サボタージュマスターがリアクターを同時に直せる"},
+                {lang.SabotageMasterFixesOxygens, "サボタージュマスターが酸素を同時に直せる"},
+                {lang.SabotageMasterFixesCommunications, "サボタージュマスターがコミュニケーションを同時に直せる（MiraHQのみ）"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドアを閉めることを許可"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -549,7 +568,11 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.SabotageMasterSkillLimit, "Sabotage master fixes sabotage limit(Ignore Doors)"},
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
+                {lang.SabotageMasterFixesReactors, "Sabotage master fixes both reactors"},
+                {lang.SabotageMasterFixesOxygens, "Sabotage master fixes both oxygens"},
+                {lang.SabotageMasterFixesCommunications, "Sabotage master fixes communications(MiraHQ only)"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Close Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor waiting time"},
@@ -631,7 +654,11 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
+        SabotageMasterSkillLimit,
         SabotageMasterFixesDoors,
+        SabotageMasterFixesReactors,
+        SabotageMasterFixesOxygens,
+        SabotageMasterFixesCommunications,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

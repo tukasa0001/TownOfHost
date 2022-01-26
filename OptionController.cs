@@ -96,7 +96,11 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
-                            OptionPages.SabotageMasterFixesDoors
+                            OptionPages.SabotageMasterSkillLimit,
+                            OptionPages.SabotageMasterFixesDoors,
+                            OptionPages.SabotageMasterFixesReactors,
+                            OptionPages.SabotageMasterFixesOxygens,
+                            OptionPages.SabotageMasterFixesCommunications
                         },
                         OptionPages.roles
                     )},
@@ -113,10 +117,44 @@ namespace TownOfHost
                                 main.VampireKillDelay = FixedKillDelay;
                             }
                         )},
+                        {OptionPages.SabotageMasterSkillLimit, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterSkillLimit) + "</color>: " + main.SabotageMasterSkillLimit + main.TextCursor,
+                            true,
+                            () => {main.SabotageMasterSkillLimit = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var SkillLimit = main.SabotageMasterSkillLimit * 10;
+                                SkillLimit += i;
+                                var FixedSkillLimit = Math.Clamp(SkillLimit,0,999);
+                                main.SabotageMasterSkillLimit = FixedSkillLimit;
+                            }
+                        )},
                         {OptionPages.SabotageMasterFixesDoors, new PageObject(
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
                             true,
                             () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesReactors, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesReactors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesReactors),
+                            true,
+                            () => {main.SabotageMasterFixesReactors = !main.SabotageMasterFixesReactors;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesOxygens, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesOxygens) + "</color>: " + main.getOnOff(main.SabotageMasterFixesOxygens),
+                            true,
+                            () => {main.SabotageMasterFixesOxygens = !main.SabotageMasterFixesOxygens;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesCommunications, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesCommunications) + "</color>: " + main.getOnOff(main.SabotageMasterFixesCommunications),
+                            true,
+                            () => {main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -451,7 +489,11 @@ namespace TownOfHost
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    SabotageMasterSkillLimit,
                     SabotageMasterFixesDoors,
+                    SabotageMasterFixesReactors,
+                    SabotageMasterFixesOxygens,
+                    SabotageMasterFixesCommunications,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,

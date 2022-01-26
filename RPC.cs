@@ -46,6 +46,11 @@ namespace TownOfHost
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    int SabotageMasterSkillLimit = reader.ReadInt32();
+                    bool SabotageMasterFixesDoors = reader.ReadBoolean();
+                    bool SabotageMasterFixesReactors = reader.ReadBoolean();
+                    bool SabotageMasterFixesOxygens = reader.ReadBoolean();
+                    bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
@@ -66,6 +71,11 @@ namespace TownOfHost
                         UploadDataDisabled,
                         StartReactorDisabled,
                         VampireKillDelay,
+                        SabotageMasterSkillLimit,
+                        SabotageMasterFixesDoors,
+                        SabotageMasterFixesReactors,
+                        SabotageMasterFixesOxygens,
+                        SabotageMasterFixesCommunications,
                         SyncButtonMode,
                         SyncedButtonCount,
                         AllowCloseDoors,
@@ -113,6 +123,11 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
                 int VampireKillDelay,
+                int SabotageMasterSkillLimit,
+                bool SabotageMasterFixesDoors,
+                bool SabotageMasterFixesReactors,
+                bool SabotageMasterFixesOxygens,
+                bool SabotageMasterFixesCommunications,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
@@ -140,6 +155,12 @@ namespace TownOfHost
             main.VisibleTasksCount = true;
 
             main.VampireKillDelay = VampireKillDelay;
+
+            main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
+            main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
+            main.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
+            main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
+            main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
