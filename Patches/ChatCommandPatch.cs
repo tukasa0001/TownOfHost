@@ -41,48 +41,53 @@ namespace TownOfHost
                     if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
                     if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
                     if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
+                    if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
                     if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                     if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
                     if(main.IsHideAndSeek){ main.SendToAll(main.getLang(lang.HideAndSeekInfo)); }
                     if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                     if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 }
-                if (getCommand("/h roles", text, out arg))
+                if (getCommand("/h roles", text, out arg) || getCommand("/h r", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, fox, troll");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, madmate, bait, terrorist, sidekick, vampire, sabotagemaster, fox, troll");
                     }
-                    else if (arg == "jester")
+                    else if (arg == "jester" || arg == "je")
                     {
                         main.SendToAll(main.getLang(lang.JesterInfoLong));
                     }
-                    else if (arg == "madmate")
+                    else if (arg == "madmate" || arg == "ma")
                     {
                         main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     }
-                    else if (arg == "bait")
+                    else if (arg == "bait" || arg == "ba")
                     {
                         main.SendToAll(main.getLang(lang.BaitInfoLong));
                     }
-                    else if (arg == "terrorist")
+                    else if (arg == "terrorist" || arg == "te")
                     {
                         main.SendToAll(main.getLang(lang.TerroristInfoLong));
                     }
-                    else if (arg == "sidekick")
+                    else if (arg == "sidekick" || arg == "si")
                     {
                         main.SendToAll(main.getLang(lang.SidekickInfoLong));
                     }
-                    else if (arg == "vampire")
+                    else if (arg == "vampire" || arg == "va")
                     {
                         main.SendToAll(main.getLang(lang.VampireInfoLong));
                     }
-                    else if (arg == "fox")
+                    else if (arg == "sabotagemaster" || arg == "sa")
+                    {
+                        main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                    }
+                    else if (arg == "fox" || arg == "fo")
                     {
                         main.SendToAll(main.getLang(lang.FoxInfoLong));
                     }
-                    else if (arg == "troll")
+                    else if (arg == "troll" || arg == "tr")
                     {
                         main.SendToAll(main.getLang(lang.TrollInfoLong));
                     }
@@ -91,22 +96,22 @@ namespace TownOfHost
                         __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
                     }
                 }
-                if (getCommand("/h modes", text, out arg))
+                if (getCommand("/h modes", text, out arg) || getCommand("/h m", text, out arg))
                 {
                     canceled = true;
                     if (arg == "")
                     {
                         __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: hideandseek, nogameend, syncbuttonmode");
                     }
-                    else if (arg == "hideandseek")
+                    else if (arg == "hideandseek" || arg == "has")
                     {
                         main.SendToAll(main.getLang(lang.HideAndSeekInfo));
                     }
-                    else if (arg == "nogameend")
+                    else if (arg == "nogameend" || arg == "nge")
                     {
                         main.SendToAll(main.getLang(lang.NoGameEndInfo));
                     }
-                    else if (arg == "syncbuttonmode")
+                    else if (arg == "syncbuttonmode" || arg == "sb")
                     {
                         main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                     }
