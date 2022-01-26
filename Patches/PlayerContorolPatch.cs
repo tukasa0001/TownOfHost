@@ -108,13 +108,13 @@ namespace TownOfHost
                 Logger.SendToFile("最大:" + main.SyncedButtonCount + ", 現在:" + main.UsedButtonCount, LogLevel.Message);
                 if (main.SyncedButtonCount <= main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンはリセットされました。", LogLevel.Message);
+                    Logger.SendToFile("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", LogLevel.Message);
                     return false;
                 }
                 else main.UsedButtonCount++;
                 if (main.SyncedButtonCount == main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンクールダウンが1時間に設定されました。");
+                    Logger.SendToFile("使用可能ボタン回数が最大数に達したため、ボタンクールダウンが1時間に設定されました。");
                     PlayerControl.GameOptions.EmergencyCooldown = 3600;
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
