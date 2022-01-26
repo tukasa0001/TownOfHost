@@ -25,7 +25,8 @@ namespace TownOfHost {
             }
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target) {
+        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
+            if(target == null) target = killer;
             killer.RpcProtectPlayer(target, 0);
             new LateTask(() => {
                 if(target.protectedByGuardian)

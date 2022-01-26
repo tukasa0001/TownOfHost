@@ -181,6 +181,9 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
+            if(main.AmDebugger.Value && Input.GetKey(KeyCode.K)) {
+                __instance.RpcGuardAndKill();
+            }
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
                 //Vampireの処理
