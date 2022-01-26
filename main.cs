@@ -131,6 +131,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isMadGuardian(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.MadGuardian)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {
@@ -177,6 +183,10 @@ namespace TownOfHost
                         case ScientistRoles.SabotageMaster:
                             RoleText = "Sabotage Master";
                             TextColor = Color.blue;
+                            break;
+                        case ScientistRoles.MadGuardian:
+                            RoleText = "Mad Guardian";
+                            TextColor = Palette.ImpostorRed;
                             break;
                         default:
                             RoleText = "Invalid Scientist";
@@ -234,7 +244,7 @@ namespace TownOfHost
                             TextColor = Palette.ImpostorRed;
                             break;
                         default:
-                            RoleText = "Invalid Scientist";
+                            RoleText = "Invalid Shapeshifter";
                             TextColor = Color.red;
                             break;
                     }
@@ -283,6 +293,7 @@ namespace TownOfHost
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
@@ -298,7 +309,7 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(Il2CppSystem.Collections.Generic.List<PlayerTask> tasks)
+        public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
         {
             string taskText = "";
             int CompletedTaskCount = 0;
@@ -306,7 +317,7 @@ namespace TownOfHost
             foreach (var task in tasks)
             {
                 AllTasksCount++;
-                if (task.IsComplete) CompletedTaskCount++;
+                if (task.Complete) CompletedTaskCount++;
             }
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
@@ -333,6 +344,8 @@ namespace TownOfHost
         public static bool SabotageMasterFixesCommunications;
         public static int SabotageMasterUsedSkillCount;
 
+        public static bool MadmateCanFixLightsOut;
+        public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -363,6 +376,9 @@ namespace TownOfHost
             writer.Write(FoxCount);
             writer.Write(TrollCount);
             writer.Write(IgnoreVent);
+            writer.Write(SabotageMasterFixesDoors);
+            writer.Write(MadmateCanFixLightsOut);
+            writer.Write(MadGuardianCanSeeBarrier);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -419,7 +435,7 @@ namespace TownOfHost
                         break;
                 }
             }
-            if(name != PlayerControl.LocalPlayer.name) PlayerControl.LocalPlayer.RpcSetName(name);
+            if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public override void Load()
         {
@@ -477,6 +493,9 @@ namespace TownOfHost
             SabotageMasterFixesOxygens = true;
             SabotageMasterFixesCommunications = true;
 
+            MadmateCanFixLightsOut = false;
+            MadGuardianCanSeeBarrier = false;
+
             currentSuffix = SuffixModes.None;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
@@ -487,6 +506,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "投票で追放されよう"},
                 {lang.MadmateInfo, "インポスターを助けよう"},
+                {lang.MadGuardianInfo, "タスクを完了させ、インポスターを助けよう"},
                 {lang.BaitInfo, "クルーのおとりになろう"},
                 {lang.TerroristInfo, "タスクを完了させ、自爆しよう"},
                 {lang.SidekickInfo, "インポスターを助けよう"},
@@ -495,11 +515,12 @@ namespace TownOfHost
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(科学者):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、狂人からはインポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {lang.MadGuardianInfoLong, "守護狂人(科学者):インポスター陣営に属するが、守護狂人からはインポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュはできず、ベントに入ることもできない。"},
                 {lang.BaitInfoLong, "ベイト(科学者):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト(エンジニア):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから10秒(変更可能)経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れるとすべて直る。ドアを開けるとその部屋のドアがすべて開く。(変更可能)"},
+                {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(変更可能)"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は追加勝利することができない。"},
                 //モード名
@@ -513,6 +534,8 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細オプション"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
+                {lang.MadmateCanFixLightsOut, "狂人が停電を直すことができる"},
+                {lang.MadGuardianCanSeeBarrier, "守護狂人が割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "サボタージュマスターの能力の回数制限（ドアは除く）"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直せる"},
                 {lang.SabotageMasterFixesReactors, "サボタージュマスターがリアクターを同時に直せる"},
@@ -542,6 +565,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "Get Voted Out"},
                 {lang.MadmateInfo, "Help Impostors"},
+                {lang.MadGuardianInfo, "Finish Your Tasks And Help Impostors"},
                 {lang.BaitInfo, "Bait Your Enemies"},
                 {lang.TerroristInfo, "Finish all tasks, then die"},
                 {lang.SidekickInfo, "Help Impostors"},
@@ -550,11 +574,12 @@ namespace TownOfHost
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Madmateからはインポスターが誰なのかはわからない。インポスターからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントに入ることができる。"},
+                {lang.MadGuardianInfoLong, "Mad Guardian(Scientist):インポスター陣営に属するが、Mad Guardianからはインポスターが誰なのかはわからない。インポスターからもMad Guardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュはできず、ベントに入ることもできない。"},
                 {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
-                {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れるとすべて直る。ドアを開けるとその部屋のドアがすべて開く。(変更可能)"},
+                {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(変更可能)"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば追加勝利となる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは追加勝利することができない。"},
                 //モード名
@@ -569,6 +594,8 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "Sabotage master fixes sabotage limit(Ignore Doors)"},
+                {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
+                {lang.MadGuardianCanSeeBarrier, "Mad Guardian Can See Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
                 {lang.SabotageMasterFixesReactors, "Sabotage master fixes both reactors"},
                 {lang.SabotageMasterFixesOxygens, "Sabotage master fixes both oxygens"},
@@ -596,6 +623,7 @@ namespace TownOfHost
             EnglishRoleNames = new Dictionary<RoleNames, string>(){
                 {RoleNames.Jester, "Jester"},
                 {RoleNames.Madmate, "Madmate"},
+                {RoleNames.MadGuardian, "Mad Guardian"},
                 {RoleNames.Bait, "Bait"},
                 {RoleNames.Terrorist, "Terrorist"},
                 {RoleNames.Sidekick, "Sidekick"},
@@ -607,6 +635,7 @@ namespace TownOfHost
             JapaneseRoleNames = new Dictionary<RoleNames, string>(){
                 {RoleNames.Jester, "ジェスター"},
                 {RoleNames.Madmate, "狂人"},
+                {RoleNames.MadGuardian, "守護狂人"},
                 {RoleNames.Bait, "ベイト"},
                 {RoleNames.Terrorist, "テロリスト"},
                 {RoleNames.Sidekick, "相棒"},
@@ -630,6 +659,7 @@ namespace TownOfHost
         SidekickInfo,
         VampireInfo,
         SabotageMasterInfo,
+        MadGuardianInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -640,6 +670,7 @@ namespace TownOfHost
         SidekickInfoLong,
         VampireInfoLong,
         SabotageMasterInfoLong,
+        MadGuardianInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -654,8 +685,10 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
-        SabotageMasterSkillLimit,
+        MadmateCanFixLightsOut,
+        MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
+        SabotageMasterSkillLimit,
         SabotageMasterFixesReactors,
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
@@ -686,6 +719,7 @@ namespace TownOfHost
         Sidekick,
         Vampire,
         SabotageMaster,
+        MadGuardian,
         Fox,
         Troll
     }
@@ -702,7 +736,8 @@ namespace TownOfHost
         Default = 0,
         Jester,
         Bait,
-        SabotageMaster
+        SabotageMaster,
+        MadGuardian
     }
     public enum EngineerRoles
     {

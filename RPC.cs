@@ -58,6 +58,8 @@ namespace TownOfHost
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
+                    bool MadmateCanFixLightsOut = reader.ReadBoolean();
+                    bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -82,7 +84,9 @@ namespace TownOfHost
                         HaSKillDelay,
                         FoxCount,
                         TrollCount,
-                        IgnoreVent
+                        IgnoreVent,
+                        MadmateCanFixLightsOut,
+                        MadGuardianCanSeeBarrier
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -134,7 +138,9 @@ namespace TownOfHost
                 int HaSKillDelay,
                 int FoxCount,
                 int TrollCount,
-                bool IgnoreVent
+                bool IgnoreVent,
+                bool MadmateCanFixLightsOut,
+                bool MadGuardianCanSeeBarrier
             ) {
             main.currentScientist = (ScientistRoles)scientist;
             main.currentEngineer = (EngineerRoles)engineer;
@@ -170,6 +176,9 @@ namespace TownOfHost
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
             main.IgnoreVent = IgnoreVent;
+
+            main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
+            main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
         }
         public static void JesterExiled(byte jesterID)
         {

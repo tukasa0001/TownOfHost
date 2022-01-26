@@ -33,6 +33,7 @@ namespace TownOfHost
                         OptionPages.Sidekick,
                         OptionPages.Vampire,
                         OptionPages.Madmate,
+                        OptionPages.MadGuardian,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
                         OptionPages.Bait,
@@ -45,6 +46,13 @@ namespace TownOfHost
                         () => "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Madmate),
                         true,
                         () => {main.ToggleRole(EngineerRoles.Madmate);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
+                    {OptionPages.MadGuardian, new PageObject(
+                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.MadGuardian) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.MadGuardian),
+                        true,
+                        () => {main.ToggleRole(ScientistRoles.MadGuardian);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -100,7 +108,10 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesDoors,
                             OptionPages.SabotageMasterFixesReactors,
                             OptionPages.SabotageMasterFixesOxygens,
-                            OptionPages.SabotageMasterFixesCommunications
+                            OptionPages.SabotageMasterFixesCommunications,
+                            OptionPages.MadmateCanFixLightsOut,
+                            OptionPages.MadGuardianCanSeeBarrier,
+                            OptionPages.SabotageMasterFixesDoors
                         },
                         OptionPages.roles
                     )},
@@ -116,6 +127,20 @@ namespace TownOfHost
                                 var FixedKillDelay = Math.Clamp(KillDelay,0,999);
                                 main.VampireKillDelay = FixedKillDelay;
                             }
+                        )},
+                        {OptionPages.MadmateCanFixLightsOut, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
+                            true,
+                            () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
+                            true,
+                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterSkillLimit, new PageObject(
                             () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterSkillLimit) + "</color>: " + main.SabotageMasterSkillLimit + main.TextCursor,
@@ -416,6 +441,7 @@ namespace TownOfHost
         }
         public static string GetOptionText()
         {
+            string text;
             if(AmongUsClient.Instance.AmHost && !PageObjects[OptionPages.basepage].PagesInThis.Contains(OptionPages.Suffix)) {
                 //ホストの設定にSuffixを入れる
                 PageObjects[OptionPages.basepage].PagesInThis.Add(OptionPages.Suffix);
@@ -424,9 +450,7 @@ namespace TownOfHost
                 //ホストの設定にSuffixを入れる
                 PageObjects[OptionPages.basepage].PagesInThis.Remove(OptionPages.Suffix);
             }
-            string text;
             var currentPageObj = PageObjects[currentPage];
-
             text = "==" + currentPageObj.name + "==" + "\r\n";
             for (var i = 0; i < currentPageObj.PagesInThis.Count; i++)
             {
@@ -435,7 +459,6 @@ namespace TownOfHost
                 text += currentCursor == i ? ">" : "";
                 text += obj.name + "\r\n";
             }
-
             return text;
         }
     }
@@ -481,6 +504,7 @@ namespace TownOfHost
             roles,
                 Jester,
                 Madmate,
+                MadGuardian,
                 Bait,
                 Terrorist,
                 Sidekick,
@@ -489,6 +513,8 @@ namespace TownOfHost
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    MadmateCanFixLightsOut,
+                    MadGuardianCanSeeBarrier,
                     SabotageMasterSkillLimit,
                     SabotageMasterFixesDoors,
                     SabotageMasterFixesReactors,

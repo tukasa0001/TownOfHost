@@ -68,6 +68,25 @@ namespace TownOfHost
                 else
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
+            if(main.isMadGuardian(target)) {
+                var isTaskFinished = true;
+                foreach(var task in target.Data.Tasks) {
+                    if(!task.Complete) {
+                        isTaskFinished = false;
+                        break;
+                    }
+                }
+                if(isTaskFinished) {
+                    __instance.RpcProtectPlayer(target, 0);
+                    __instance.RpcMurderPlayer(target);
+                    if(main.MadGuardianCanSeeBarrier) {
+                        //MadGuardian視点用
+                        target.RpcProtectPlayer(target, 0);
+                        target.RpcMurderPlayer(target);
+                    }
+                    return false;
+                }
+            }
             if (main.isVampire(__instance) && !main.isBait(target))
             { //キルキャンセル&自爆処理
                 __instance.RpcProtectPlayer(target, 0);
@@ -98,13 +117,13 @@ namespace TownOfHost
                 Logger.SendToFile("最大:" + main.SyncedButtonCount + ", 現在:" + main.UsedButtonCount, LogLevel.Message);
                 if (main.SyncedButtonCount <= main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンはリセットされました。", LogLevel.Message);
+                    Logger.SendToFile("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", LogLevel.Message);
                     return false;
                 }
                 else main.UsedButtonCount++;
                 if (main.SyncedButtonCount == main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大のため、ボタンクールダウンが1時間に設定されました。");
+                    Logger.SendToFile("使用可能ボタン回数が最大数に達したため、ボタンクールダウンが1時間に設定されました。");
                     PlayerControl.GameOptions.EmergencyCooldown = 3600;
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
@@ -206,7 +225,7 @@ namespace TownOfHost
                 AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     RoleText.enabled = false;
                 if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
-                    RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.myTasks) + ")</color>";
+                    RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.Data.Tasks) + ")</color>";
             }
         }
     }
@@ -265,7 +284,7 @@ namespace TownOfHost
 
                     var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.myTasks) + ")</color>";
+                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
