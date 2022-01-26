@@ -59,10 +59,11 @@ namespace TownOfHost
     {
         static void Postfix(VersionShower __instance)
         {
-            __instance.text.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            __instance.text.text = 
-            __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
-            if(main.PluginVersionType == VersionTypes.Beta) __instance.text.text += "\r\n" + main.BetaName;
+            var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
+            credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
+            credentials.transform.position = new Vector3(4.3f,__instance.transform.localPosition.y+0.3f,0);
+            credentials.text = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
+            if(main.PluginVersionType == VersionTypes.Beta) credentials.text += "\r\n" + main.BetaName;
         }
     }
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
