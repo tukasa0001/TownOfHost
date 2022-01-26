@@ -53,7 +53,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: jester, je, madmate, ma, bait, ba, terrorist, te, sidekick, si, vampire, va, sabotagemaster, sa, fox, fo, troll, tr");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), fox(fo), troll(tr)");
                     }
                     else if (arg == "jester" || arg == "je")
                     {
@@ -101,7 +101,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数: hideandseek, has, nogameend, nge, syncbuttonmode, sbm");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
                     }
                     else if (arg == "hideandseek" || arg == "has")
                     {
