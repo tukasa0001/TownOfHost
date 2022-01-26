@@ -33,6 +33,7 @@ namespace TownOfHost
                         OptionPages.Sidekick,
                         OptionPages.Vampire,
                         OptionPages.Madmate,
+                        OptionPages.MadGuardian,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
                         OptionPages.Bait,
@@ -45,6 +46,13 @@ namespace TownOfHost
                         () => "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Madmate),
                         true,
                         () => {main.ToggleRole(EngineerRoles.Madmate);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
+                    {OptionPages.MadGuardian, new PageObject(
+                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.MadGuardian) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.MadGuardian),
+                        true,
+                        () => {main.ToggleRole(ScientistRoles.MadGuardian);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -451,6 +459,7 @@ namespace TownOfHost
             roles,
                 Jester,
                 Madmate,
+                MadGuardian,
                 Bait,
                 Terrorist,
                 Sidekick,
