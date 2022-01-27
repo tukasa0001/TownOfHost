@@ -36,6 +36,7 @@ namespace TownOfHost
                         OptionPages.MadGuardian,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
+                        OptionPages.Nekomata,
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
                         OptionPages.AdvancedRoleOptions
@@ -81,6 +82,13 @@ namespace TownOfHost
                         () => "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Terrorist),
                         true,
                         () => {main.ToggleRole(EngineerRoles.Terrorist);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
+                    {OptionPages.Nekomata, new PageObject(
+                        () => "<color=#ff00ff>" + main.getRoleName(RoleNames.Nekomata) + "</color>: " + main.getOnOff(main.currentEngineer == EngineerRoles.Nekomata),
+                        true,
+                        () => {main.ToggleRole(EngineerRoles.Nekomata);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -514,6 +522,7 @@ namespace TownOfHost
                 MadGuardian,
                 Bait,
                 Terrorist,
+                Nekomata,
                 Sidekick,
                 Vampire,
                 SabotageMaster,

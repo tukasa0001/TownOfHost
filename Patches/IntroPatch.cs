@@ -75,6 +75,14 @@ namespace TownOfHost
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
             }
+            if (main.isNekomata(PlayerControl.LocalPlayer))
+            {
+                __instance.TeamTitle.text = main.getRoleName(RoleNames.Nekomata);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.NekomataInfo);
+                __instance.TeamTitle.color = Color.magenta;
+                __instance.BackgroundBar.material.color = Color.magenta;
+            }
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {
                 __instance.TeamTitle.text = main.getRoleName(RoleNames.Sidekick);
