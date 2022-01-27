@@ -315,7 +315,8 @@ namespace TownOfHost
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian && ForRecompute) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Oppotunist) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
