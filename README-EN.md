@@ -54,11 +54,11 @@ They can not use their vital.<br>
 
 ### Madmate
 
-Team：Imposter
+Team：Impostor
 Replace From：Engineer
 
-Belongs to the Imposter team, but Madmate does not know who the Imposter is.
-Imposter also doesn't know who Madmate is.
+Belongs to the Impostor team, but Madmate does not know who the Impostor is.
+Impostors also doesn't know who Madmate is.
 They can not kill or sabotage, but they can enter the vent.
 
 (There are special settings for them.)
@@ -87,7 +87,7 @@ Team：Impostor<br>
 Replace From：Shapeshifter<br>
 
 Can vent, sabotage, and transform initially, but can not kill.
-If all of the Imposters who are not Sidekicks die, the Sidekick will be able to kill.
+If all of the Impostors who are not Sidekicks die, the Sidekick will be able to kill.
 If the Sidekick is not killable, they will still have a kill button, but they can not be killable.
 They can continue to transform even after the kill is enabled.
 
@@ -116,75 +116,70 @@ Opening a door in Polus or The Airship will open all the doors in that room.
 
 ### MadGuardian
 
-Team：Imposter
+Team：Impostor
 Replace From：Scientist
 
-Belongs to the Imposter team, but MadGuardian does not know who the Imposter is.
-Imposter also doesn't know who MadGuardian is.
+Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.
+Impostors also doesn't know who MadGuardian is.
 However, if they complete all of their own tasks, they will no longer be killed.
 They can not kill, sabotage, and to enter the vent.
 
 ## モード
 
-### HideAndSeek/鬼ごっこモード
+### HideAndSeek
 
-#クルー陣営(青色)勝利条件
-全てのタスクを完了させること。
-※幽霊のタスクはカウントされません。
+#Crewmates Team (Blue) Victory Conditions
+Completing all tasks.
+※Ghosts's tasks are not counted.
 
-#インポスター陣営(赤色)勝利条件
-全てのクルーをキルすること。
-※クルーとインポスターが同数であってもクルーが全滅していないと試合は終わりません。
+#Impostor Team (Red) Victory Conditions
+Killing all Crewmates.
+※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates have been wiped out.
 
-#Fox(紫色)勝利条件
-Trollを除くいずれかの陣営が勝利したときに生き残っていること。
+#Fox (Purple) Victory Conditions
+Aliving when one of the teams (Except Troll) wins.
 
-#Troll(緑色)勝利条件
-インポスターにキルされること。
+#Troll (Green) Victory Conditions
+Being killed by Impostors.
 
-#禁止事項
-・サボタージュ
-・アドミン
-・カメラ
-・幽霊が生存者に位置情報を伝える行為
-・待ち伏せ(クルーのタスク勝利が不可能となる可能性があるため。)
+#Prohibited items
+・Sabotage
+・Admin
+・Camera
+・The act of a ghosts giving its location to a survivor
+・Ambush (This may make it impossible for the Crewmates to win with the tasks.)
 
-#できないこと
-・死体の通報
-・緊急会議ボタン
-・サボタージュ
+#What you can't do
+・Reporting a dead bodies
+・Emergency conference button
+・Sabotage
 
-(専用の設定があります。)
+(There are special settings for them.)
 
-### NoGameEnd/デバッグモード
+### NoGameEnd
 
-#クルー陣営勝利条件
-なし
+#Crewmates Team Victory Conditions
+None
 
-#インポスター陣営勝利条件
-なし
+#Impostor Team Victory Conditions
+None
 
-#禁止事項
-なし
+#Prohibited items
+None
 
-#できないこと
-ホストのSHIFT+L以外でのゲーム終了。
+#What you can't do
+Exiting the game with anything other than host's SHIFT+L.
 
-勝利判定が存在しないデバッグ用のモードです。
+This is a debug mode where there is no win decision.
 
-### SyncButtonMode/ボタン回数同期モード
+### SyncButtonMode
 
-プレイヤー全員のボタン回数が同期されているモードです。
-
-
-
-
-
+This is the mode in which all players' button counts are synchronised.
 
 ## Credits
 
 Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
 Jester and Madmate：https://au.libhalt.net<br>
-Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod<br>
+Terrorist(Trickstar + Joker)：https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter：https://twitter.com/XenonBottle

@@ -149,10 +149,10 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 全てのクルーをキルすること。
 ※クルーとインポスターが同数であってもクルーが全滅していないと試合は終わりません。
 
-#Fox(紫色)勝利条件
-Trollを除くいずれかの陣営が勝利したときに生き残っていること。
+#狐(紫色)勝利条件
+トロールを除くいずれかの陣営が勝利したときに生き残っていること。
 
-#Troll(緑色)勝利条件
+#トロール(緑色)勝利条件
 インポスターにキルされること。
 
 #禁止事項
@@ -191,7 +191,7 @@ Trollを除くいずれかの陣営が勝利したときに生き残っている
 
 ## 参考など
 
-Baitの役職とModの作成方法の参考：https://github.com/Eisbison/TheOtherRoles<br>
+BaitやVampireの役職とModの作成方法の参考：https://github.com/Eisbison/TheOtherRoles<br>
 Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker)：https://github.com/MengTube/Foolers-Mod
 
