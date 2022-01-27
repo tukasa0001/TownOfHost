@@ -57,7 +57,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
-                if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+                if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
                 {
                     MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
                 }
