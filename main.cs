@@ -81,6 +81,7 @@ namespace TownOfHost
             else
                 return new Color(0.925f, 0.384f, 0.647f);
         }
+        public static Color MayorColor = new Color(1f, 0f, 1f);
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -135,6 +136,12 @@ namespace TownOfHost
         public static bool isMadGuardian(PlayerControl target)
         {
             if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.MadGuardian)
+                return true;
+            return false;
+        }
+        public static bool isMayor(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Mayor)
                 return true;
             return false;
         }
@@ -345,6 +352,7 @@ namespace TownOfHost
         public static bool SabotageMasterFixesCommunications;
         public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
+        public static int MayorAdditionalVote;
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
@@ -381,6 +389,7 @@ namespace TownOfHost
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MayorAdditionalVote);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -500,6 +509,8 @@ namespace TownOfHost
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
 
+            MayorAdditionalVote = 1;
+
             currentSuffix = SuffixModes.None;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
@@ -519,6 +530,7 @@ namespace TownOfHost
                 {lang.AfterSidekickInfo,"クルーメイトに復讐をしろ"},
                 {lang.VampireInfo, "全員を噛んで倒せ"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
+                {lang.MayorInfo, "二回投票できる"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(科学者):会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -528,6 +540,7 @@ namespace TownOfHost
                 {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "メイヤー(科学者):票を複数持っており、まとめて一人に入れることができる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。"},
                 //モード名
@@ -549,6 +562,7 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "サボタージュマスターが酸素妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesCommunications, "サボタージュマスターがMIRA HQの通信妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesElectrical, "サボタージュマスターが停電に対して能力を使える"},
+                {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -581,6 +595,7 @@ namespace TownOfHost
                 {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
                 {lang.VampireInfo, "Kill Everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
+                {lang.MayorInfo, "You Can Vote Two Times"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -590,6 +605,7 @@ namespace TownOfHost
                 {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "Mayor(Scientist):票を複数持っており、まとめて一人に入れることができる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。。"},
                 //モード名
@@ -611,6 +627,7 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
                 {lang.SabotageMasterFixesCommunications, "SabotageMaster Can Fixes Both Communications In MIRA HQ"},
                 {lang.SabotageMasterFixesElectrical, "SabotageMaster Can Fixes Lights Out All At Once"},
+                {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
@@ -640,6 +657,7 @@ namespace TownOfHost
                 {RoleNames.Sidekick, "Sidekick"},
                 {RoleNames.Vampire, "Vampire"},
                 {RoleNames.SabotageMaster, "SabotageMaster"},
+                {RoleNames.Mayor, "Mayor"},
                 {RoleNames.Fox, "Fox"},
                 {RoleNames.Troll, "Troll"},
             };
@@ -652,6 +670,7 @@ namespace TownOfHost
                 {RoleNames.Sidekick, "相棒"},
                 {RoleNames.Vampire, "吸血鬼"},
                 {RoleNames.SabotageMaster, "サボタージュマスター"},
+                {RoleNames.Mayor, "メイヤー"},
                 {RoleNames.Fox, "狐"},
                 {RoleNames.Troll, "トロール"},
             };
@@ -673,6 +692,7 @@ namespace TownOfHost
         VampireInfo,
         SabotageMasterInfo,
         MadGuardianInfo,
+        MayorInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -684,6 +704,7 @@ namespace TownOfHost
         VampireInfoLong,
         SabotageMasterInfoLong,
         MadGuardianInfoLong,
+        MayorInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -706,6 +727,7 @@ namespace TownOfHost
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
         SabotageMasterFixesElectrical,
+        MayorAdditionalVote,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
@@ -734,6 +756,7 @@ namespace TownOfHost
         Vampire,
         SabotageMaster,
         MadGuardian,
+        Mayor,
         Fox,
         Troll
     }
@@ -751,7 +774,8 @@ namespace TownOfHost
         Jester,
         Bait,
         SabotageMaster,
-        MadGuardian
+        MadGuardian,
+        Mayor
     }
     public enum EngineerRoles
     {

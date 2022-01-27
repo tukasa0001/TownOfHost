@@ -33,6 +33,13 @@ namespace TownOfHost
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
                 });
+                if(isMayor(ps.TargetPlayerId))//Mayorの投票数
+                for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
+                    statesList.Add(new MeetingHud.VoterState() {
+                        VoterId = ps.TargetPlayerId,
+                        VotedForId = ps.VotedFor
+                    });
+                }
             }
             states = statesList.ToArray();
 
@@ -61,7 +68,10 @@ namespace TownOfHost
             MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie);
             return false;
         }
-        
+        public static bool isMayor(byte id) {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return main.isMayor(player);
+        }
     }
 
     static class ExtendedMeetingHud {
@@ -73,6 +83,7 @@ namespace TownOfHost
                 if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254) {
                     int num;
                     int VoteNum = 1;
+                    if(CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = main.MayorAdditionalVote + 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
