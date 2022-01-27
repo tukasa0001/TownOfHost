@@ -630,7 +630,7 @@ namespace TownOfHost
             EnglishRoleNames = new Dictionary<RoleNames, string>(){
                 {RoleNames.Jester, "Jester"},
                 {RoleNames.Madmate, "Madmate"},
-                {RoleNames.MadGuardian, "Mad Guardian"},
+                {RoleNames.MadGuardian, "MadGuardian"},
                 {RoleNames.Bait, "Bait"},
                 {RoleNames.Terrorist, "Terrorist"},
                 {RoleNames.Sidekick, "Sidekick"},
