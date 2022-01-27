@@ -90,8 +90,6 @@ namespace TownOfHost
                     if(main.IgnoreCosmetics) {
                         pc.RpcSetHat("");
                         pc.RpcSetSkin("");
-                        pc.RpcSetPet("");
-                        pc.RpcSetVisor("");
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
