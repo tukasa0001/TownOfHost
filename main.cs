@@ -138,6 +138,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isMayor(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Mayor)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {
