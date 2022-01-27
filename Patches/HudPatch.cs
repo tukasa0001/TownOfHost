@@ -40,6 +40,13 @@ namespace TownOfHost
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
                 TaskTextPrefix += FakeTasksText;
             }
+            //MadGuardian
+            if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian)
+            {
+                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
+                "<color=#ff0000>" + main.getLang(lang.MadGuardianInfo) + "</color>\r\n";
+                TaskTextPrefix += FakeTasksText;
+            }
             //Jester
             if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester)
             {
@@ -71,12 +78,12 @@ namespace TownOfHost
                 if (ImpostorCount > 0)
                 {
                     TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + "You can't kill now" + "</color>\r\n";
+                    "<color=#ff0000>" + main.getLang(lang.BeforeSidekickInfo) + "</color>\r\n";
                 }
                 else
                 {
                     TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + "Other Impostors are dead,\r\nso Kill everyone!" + "</color>\r\n";
+                    "<color=#ff0000>" + main.getLang(lang.AfterSidekickInfo) + "</color>\r\n";
                 }
             }
             //Vampire
@@ -85,7 +92,7 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(RoleNames.Vampire) + "</color>\r\n" +
                 "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
-            //Sabotage Master
+            //SabotageMaster
             if (main.isSabotageMaster(PlayerControl.LocalPlayer))
             {
                 TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>\r\n" +
@@ -96,7 +103,7 @@ namespace TownOfHost
             {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
-            
+
             if(Input.GetKey(KeyCode.LeftAlt)) {
                 //=====タスクリスト確認用デバッグ処理======
                 string text = "==デバッグ用タスクリスト==\r\n| Type | IsComplete |";

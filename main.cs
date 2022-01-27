@@ -515,6 +515,8 @@ namespace TownOfHost
                 {lang.BaitInfo, "クルーのおとりになれ"},
                 {lang.TerroristInfo, "タスクを完了させ、自爆しろ"},
                 {lang.SidekickInfo, "インポスターの後継者となれ"},
+                {lang.BeforeSidekickInfo,"今はキルをすることができない"},
+                {lang.AfterSidekickInfo,"クルーメイトに復讐をしろ"},
                 {lang.VampireInfo, "全員を噛んで倒せ"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
                 //役職解説(長)
@@ -575,6 +577,8 @@ namespace TownOfHost
                 {lang.BaitInfo, "Be a decoy for the Crewmates"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.SidekickInfo, "Be the successor for the Impostors"},
+                {lang.BeforeSidekickInfo,"You can not kill now"},
+                {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
                 {lang.VampireInfo, "Kill Everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 //役職解説(長)
@@ -664,6 +668,8 @@ namespace TownOfHost
         BaitInfo,
         TerroristInfo,
         SidekickInfo,
+        BeforeSidekickInfo,
+        AfterSidekickInfo,
         VampireInfo,
         SabotageMasterInfo,
         MadGuardianInfo,
