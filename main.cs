@@ -114,6 +114,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isNekomata(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Nekomata)
+                return true;
+            return false;
+        }
         public static bool isSidekick(PlayerControl target)
         {
             if (target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
@@ -209,6 +215,10 @@ namespace TownOfHost
                         case EngineerRoles.Terrorist:
                             RoleText = "Terrorist";
                             TextColor = Color.green;
+                            break;
+                        case EngineerRoles.Nekomata:
+                            RoleText = "Nekomata";
+                            TextColor = Color.magenta;
                             break;
                         default:
                             RoleText = "Invalid Engineer";
@@ -514,6 +524,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfo, "タスクを完了させ、インポスターを助けよう"},
                 {lang.BaitInfo, "クルーのおとりになろう"},
                 {lang.TerroristInfo, "タスクを完了させ、自爆しよう"},
+                {lang.NekomataInfo, "吊られて道連れにしよう"},
                 {lang.SidekickInfo, "インポスターを助けよう"},
                 {lang.VampireInfo, "全員を噛んで倒そう"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直そう"},
@@ -523,6 +534,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "守護狂人(科学者):インポスター陣営に属するが、守護狂人からはインポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュはできず、ベントに入ることもできない。"},
                 {lang.BaitInfoLong, "ベイト(科学者):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト(エンジニア):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.NekomataInfoLong, "ネコマタ(エンジニア):クルー陣営。吊られることでランダムに一人道連れにできる。"},
                 {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから10秒(変更可能)経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(変更可能)"},
@@ -574,6 +586,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfo, "Finish Your Tasks And Help Impostors"},
                 {lang.BaitInfo, "Bait Your Enemies"},
                 {lang.TerroristInfo, "Finish all tasks, then die"},
+                {lang.NekomataInfo, "Die togather"},
                 {lang.SidekickInfo, "Help Impostors"},
                 {lang.VampireInfo, "Kill all crewmates with your bites"},
                 {lang.SabotageMasterInfo, "Fix Sabotages Faster"},
@@ -583,6 +596,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "Mad Guardian(Scientist):インポスター陣営に属するが、Mad Guardianからはインポスターが誰なのかはわからない。インポスターからもMad Guardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュはできず、ベントに入ることもできない。"},
                 {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.NekomataInfoLong, "Nekomata(Engineer):クルー陣営。吊られることでランダムに一人道連れにできる。"},
                 {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから10秒経って実際にキルが発生する役職。キルをしたときのテレポートは発生しない。また、キルボタンを押してから10秒経つまでに会議が始まるとその瞬間にキルが発生する。"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素枯渇、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電はレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(変更可能)"},
@@ -633,6 +647,7 @@ namespace TownOfHost
                 {RoleNames.MadGuardian, "Mad Guardian"},
                 {RoleNames.Bait, "Bait"},
                 {RoleNames.Terrorist, "Terrorist"},
+                {RoleNames.Nekomata, "Nekomata"},
                 {RoleNames.Sidekick, "Sidekick"},
                 {RoleNames.Vampire, "Vampire"},
                 {RoleNames.SabotageMaster, "SabotageMaster"},
@@ -644,7 +659,7 @@ namespace TownOfHost
                 {RoleNames.Madmate, "狂人"},
                 {RoleNames.MadGuardian, "守護狂人"},
                 {RoleNames.Bait, "ベイト"},
-                {RoleNames.Terrorist, "テロリスト"},
+                {RoleNames.Nekomata, "ネコマタ"},
                 {RoleNames.Sidekick, "相棒"},
                 {RoleNames.Vampire, "吸血鬼"},
                 {RoleNames.SabotageMaster, "サボタージュマスター"},
@@ -663,6 +678,7 @@ namespace TownOfHost
         MadmateInfo,
         BaitInfo,
         TerroristInfo,
+        NekomataInfo,
         SidekickInfo,
         VampireInfo,
         SabotageMasterInfo,
@@ -674,6 +690,7 @@ namespace TownOfHost
         MadmateInfoLong,
         BaitInfoLong,
         TerroristInfoLong,
+        NekomataInfoLong,
         SidekickInfoLong,
         VampireInfoLong,
         SabotageMasterInfoLong,
@@ -724,6 +741,7 @@ namespace TownOfHost
         Madmate,
         Bait,
         Terrorist,
+        Nekomata,
         Sidekick,
         Vampire,
         SabotageMaster,
@@ -751,7 +769,8 @@ namespace TownOfHost
     {
         Default = 0,
         Madmate,
-        Terrorist
+        Terrorist,
+        Nekomata
     }
     public enum ImpostorRoles
     {

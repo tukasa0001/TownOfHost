@@ -59,6 +59,12 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
+            //Nekomata
+            if (main.isNekomata(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#ff00ff>" + main.getRoleName(RoleNames.Nekomata) + "</color>\r\n" +
+                "<color=#ff00ff>" + main.getLang(lang.NekomataInfo) + "</color>\r\n";
+            }
             //Sidekick
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {

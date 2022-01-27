@@ -49,6 +49,20 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
+                if (main.currentEngineer == EngineerRoles.Nekomata && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost)
+                {
+                    var livingPlayers = new List<PlayerControl>();
+                    foreach(PlayerControl p in PlayerControl.AllPlayerControls){
+                        if(!p.Data.IsDead && p.PlayerId != exiled.PlayerId)livingPlayers.Add(p);
+                    }
+                    var pc = livingPlayers[UnityEngine.Random.Range(0, livingPlayers.Count)];
+                    pc.Exiled();
+                    Logger.info($"{exiled.PlayerName}はネコマタだったため{GameData.Instance.GetPlayerById(pc.PlayerId).PlayerName}を連れて行きました");
+                    WrapUpPostfix(GameData.Instance.GetPlayerById(pc.PlayerId));
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.Exiled , Hazel.SendOption.Reliable, -1);
+                    writer.Write(pc.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {

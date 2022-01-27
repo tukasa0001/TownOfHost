@@ -46,6 +46,7 @@ namespace TownOfHost
                         if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
                         if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
                         if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
+                        if(main.currentEngineer == EngineerRoles.Nekomata){ main.SendToAll(main.getLang(lang.NekomataInfoLong)); }
                         if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
                         if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
                         if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
@@ -57,7 +58,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), fox(fo), troll(tr)");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: jester(je), madmate(ma), bait(ba), terrorist(te), nekomata(ne), sidekick(si), vampire(va), sabotagemaster(sa), fox(fo), troll(tr)");
                     }
                     else if (arg == "jester" || arg == "je")
                     {
@@ -74,6 +75,10 @@ namespace TownOfHost
                     else if (arg == "terrorist" || arg == "te")
                     {
                         main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                    }
+                    else if (arg == "nekomata" || arg == "ne")
+                    {
+                        main.SendToAll(main.getLang(lang.NekomataInfoLong));
                     }
                     else if (arg == "sidekick" || arg == "si")
                     {
