@@ -42,7 +42,7 @@ namespace TownOfHost{
                 passiveButton.OnClick = new Button.ButtonClickedEvent();
                 passiveButton.OnClick.AddListener(onClick);
                 updateToggle(button, text, on);
-                
+
                 return button;
             }
             return null;

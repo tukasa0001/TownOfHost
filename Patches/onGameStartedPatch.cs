@@ -69,7 +69,7 @@ namespace TownOfHost
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
-            
+
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;

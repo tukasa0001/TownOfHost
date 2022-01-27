@@ -64,7 +64,7 @@ namespace TownOfHost
 
             if(!AmongUsClient.Instance.AmHost) return true;
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
-            
+
             //SabotageMaster
             if(main.isSabotageMaster(player)) {
                 switch(systemType){
@@ -108,7 +108,7 @@ namespace TownOfHost
 
                         int mapId = PlayerControl.GameOptions.MapId;
                         if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
-                        
+
                         DoorsProgressing = true;
                         if(mapId == 2) {
                             //Polus
