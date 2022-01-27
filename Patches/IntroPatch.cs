@@ -92,6 +92,7 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.VampireInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = main.VampireColor;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
             }
             if (main.isSabotageMaster(PlayerControl.LocalPlayer))
             {
@@ -102,10 +103,7 @@ namespace TownOfHost
                 __instance.ImpostorText.text = main.getLang(lang.SabotageMasterInfo);
                 __instance.TeamTitle.color = Color.blue;
                 __instance.BackgroundBar.material.color = Color.blue;
-                var prefab = (BoardPassGame)PolusShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.ScanBoardingPass).FirstOrDefault()
-                .MinigamePrefab;
-                var sound = prefab.scanStartSound;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
 
             }
             if (main.isMadGuardian(PlayerControl.LocalPlayer))
