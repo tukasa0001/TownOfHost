@@ -145,6 +145,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isOppotunist(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Oppotunist)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {

@@ -114,6 +114,14 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
+            if (main.isOppotunist(PlayerControl.LocalPlayer))
+            {
+                __instance.TeamTitle.text = main.getRoleName(RoleNames.Oppotunist);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.OppotunistInfo);
+                __instance.TeamTitle.color = Color.green;
+                __instance.BackgroundBar.material.color = Color.green;
+            }
             if (main.isMayor(PlayerControl.LocalPlayer))
             {
                 __instance.TeamTitle.text = main.getRoleName(RoleNames.Mayor);
