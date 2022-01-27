@@ -39,7 +39,6 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | フリープレイ中 | VotingCompleteRPCを送信 |
-            // | H | フリープレイ中 | ホストの投票を追加 |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
