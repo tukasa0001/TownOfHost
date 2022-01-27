@@ -81,6 +81,7 @@ namespace TownOfHost
             else
                 return new Color(0.925f, 0.384f, 0.647f);
         }
+        public static Color MayorColor = new Color(1f, 0f, 1f);
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";

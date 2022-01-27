@@ -104,7 +104,6 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.blue;
                 __instance.BackgroundBar.material.color = Color.blue;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
-
             }
             if (main.isMadGuardian(PlayerControl.LocalPlayer))
             {
@@ -114,6 +113,16 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+            }
+            if (main.isMayor(PlayerControl.LocalPlayer))
+            {
+                __instance.TeamTitle.text = main.getRoleName(RoleNames.Mayor);
+                __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.MayorInfo);
+                __instance.TeamTitle.color = main.MayorColor;
+                __instance.BackgroundBar.material.color = main.MayorColor;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
             if(main.IsHideAndSeek) {
                 if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Fox) {
