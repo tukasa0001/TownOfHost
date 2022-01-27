@@ -39,6 +39,7 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | フリープレイ中 | VotingCompleteRPCを送信 |
+            // | H | フリープレイ中 | ホストの投票を追加 |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -77,7 +78,11 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.V) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
-                var array = new MeetingHud.VoterState[0];
+                var array = new MeetingHud.VoterState[1];
+                array.AddItem(new MeetingHud.VoterState(){
+                    VoterId = 0,
+                    VotedForId = 0
+                });
                 MeetingHud.Instance.RpcVotingComplete(array, PlayerControl.LocalPlayer.Data, false);
             }
             if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
