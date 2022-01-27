@@ -1,6 +1,5 @@
 # Town Of Host
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
-
 ## 変更履歴
 待機ロビーでVキーまたはBキーを押すことでコードを隠せるように変更。<br>
 部屋が崩壊するまでのタイマーを設置。
