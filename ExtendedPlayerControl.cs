@@ -25,6 +25,10 @@ namespace TownOfHost {
             }
         }
 
+        public static void RpcExile(this PlayerControl player) {
+            main.ExileAsync(player);
+        }
+
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
             if(target == null) target = killer;
             killer.RpcProtectPlayer(target, 0);
