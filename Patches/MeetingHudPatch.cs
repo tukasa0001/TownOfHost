@@ -22,17 +22,19 @@ namespace TownOfHost
                 if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
                     return false;
             }
-            MeetingHud.VoterState[] states = new MeetingHud.VoterState[__instance.playerStates.Length];
+            MeetingHud.VoterState[] states;
             GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
             bool tie = false;
 
+            List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
-                states[i] = new MeetingHud.VoterState() {
+                statesList.Add(new MeetingHud.VoterState() {
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
-                };
+                });
             }
+            states = statesList.ToArray();
 
             var VotingData = __instance.CustomCalculateVotes();
             byte exileId = byte.MaxValue;
@@ -70,8 +72,9 @@ namespace TownOfHost
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254) {
                     int num;
+                    int VoteNum = 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
-                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? 1 : num + 1;
+                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
             }
             return dic;
