@@ -19,8 +19,8 @@ namespace TownOfHost
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "2";
-        public const string BetaName = "Sabotage Master Beta";
+        public const string BetaVersion = "3";
+        public const string BetaName = "Mad Guardian Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -338,7 +338,14 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
+        public static bool SabotageMasterFixesReactors;
+        public static bool SabotageMasterFixesOxygens;
+        public static bool SabotageMasterFixesCommunications;
+        public static bool SabotageMasterFixesElectrical;
+        public static int SabotageMasterUsedSkillCount;
+
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
@@ -359,6 +366,12 @@ namespace TownOfHost
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
+            writer.Write(SabotageMasterSkillLimit);
+            writer.Write(SabotageMasterFixesDoors);
+            writer.Write(SabotageMasterFixesReactors);
+            writer.Write(SabotageMasterFixesOxygens);
+            writer.Write(SabotageMasterFixesCommunications);
+            writer.Write(SabotageMasterFixesElectrical);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
@@ -366,7 +379,6 @@ namespace TownOfHost
             writer.Write(FoxCount);
             writer.Write(TrollCount);
             writer.Write(IgnoreVent);
-            writer.Write(SabotageMasterFixesDoors);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -478,7 +490,12 @@ namespace TownOfHost
 
             VampireKillDelay = 10;
 
+            SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
+            SabotageMasterFixesReactors = true;
+            SabotageMasterFixesOxygens = true;
+            SabotageMasterFixesCommunications = true;
+            SabotageMasterFixesElectrical = true;
 
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
@@ -524,7 +541,12 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "狂人が停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "守護狂人が割れたバリアを見ることができる"},
+                {lang.SabotageMasterSkillLimit, "サボタージュマスターの能力の回数制限（ドアは除く）"},
                 {lang.SabotageMasterFixesDoors, "サボタージュマスターが複数のドアを直せる"},
+                {lang.SabotageMasterFixesReactors, "サボタージュマスターがリアクターを同時に直せる"},
+                {lang.SabotageMasterFixesOxygens, "サボタージュマスターが酸素を同時に直せる"},
+                {lang.SabotageMasterFixesCommunications, "サボタージュマスターがコミュニケーションを同時に直せる（MiraHQのみ）"},
+                {lang.SabotageMasterFixesElectrical, "サボタージュマスターが停電を一度に直せる"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドアを閉めることを許可"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -577,9 +599,14 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.SabotageMasterSkillLimit, "Sabotage master fixes sabotage limit(Ignore Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "Mad Guardian Can See Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "Sabotage master fixes multiple doors"},
+                {lang.SabotageMasterFixesReactors, "Sabotage master fixes both reactors"},
+                {lang.SabotageMasterFixesOxygens, "Sabotage master fixes both oxygens"},
+                {lang.SabotageMasterFixesCommunications, "Sabotage master fixes both communications(MiraHQ only)"},
+                {lang.SabotageMasterFixesElectrical, "Sabotage master fixes electrical all at once"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Close Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor waiting time"},
@@ -668,6 +695,11 @@ namespace TownOfHost
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
+        SabotageMasterSkillLimit,
+        SabotageMasterFixesReactors,
+        SabotageMasterFixesOxygens,
+        SabotageMasterFixesCommunications,
+        SabotageMasterFixesElectrical,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

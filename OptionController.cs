@@ -104,9 +104,14 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.SabotageMasterSkillLimit,
+                            OptionPages.SabotageMasterFixesDoors,
+                            OptionPages.SabotageMasterFixesReactors,
+                            OptionPages.SabotageMasterFixesOxygens,
+                            OptionPages.SabotageMasterFixesCommunications,
+                            OptionPages.SabotageMasterFixesElectrical,
                             OptionPages.MadmateCanFixLightsOut,
-                            OptionPages.MadGuardianCanSeeBarrier,
-                            OptionPages.SabotageMasterFixesDoors
+                            OptionPages.MadGuardianCanSeeBarrier
                         },
                         OptionPages.roles
                     )},
@@ -123,6 +128,54 @@ namespace TownOfHost
                                 main.VampireKillDelay = FixedKillDelay;
                             }
                         )},
+                        {OptionPages.SabotageMasterSkillLimit, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterSkillLimit) + "</color>: " + main.SabotageMasterSkillLimit + main.TextCursor,
+                            true,
+                            () => {main.SabotageMasterSkillLimit = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var SkillLimit = main.SabotageMasterSkillLimit * 10;
+                                SkillLimit += i;
+                                var FixedSkillLimit = Math.Clamp(SkillLimit,0,999);
+                                main.SabotageMasterSkillLimit = FixedSkillLimit;
+                            }
+                        )},
+                        {OptionPages.SabotageMasterFixesDoors, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
+                            true,
+                            () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesReactors, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesReactors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesReactors),
+                            true,
+                            () => {main.SabotageMasterFixesReactors = !main.SabotageMasterFixesReactors;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesOxygens, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesOxygens) + "</color>: " + main.getOnOff(main.SabotageMasterFixesOxygens),
+                            true,
+                            () => {main.SabotageMasterFixesOxygens = !main.SabotageMasterFixesOxygens;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesCommunications, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesCommunications) + "</color>: " + main.getOnOff(main.SabotageMasterFixesCommunications),
+                            true,
+                            () => {main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SabotageMasterFixesElectrical, new PageObject(
+                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesElectrical) + "</color>: " + main.getOnOff(main.SabotageMasterFixesElectrical),
+                            true,
+                            () => {main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
                         {OptionPages.MadmateCanFixLightsOut, new PageObject(
                             () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
                             true,
@@ -134,13 +187,6 @@ namespace TownOfHost
                             () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
                             true,
                             () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
-                        )},
-                        {OptionPages.SabotageMasterFixesDoors, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
-                            true,
-                            () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -476,7 +522,12 @@ namespace TownOfHost
                     VampireKillDelay,
                     MadmateCanFixLightsOut,
                     MadGuardianCanSeeBarrier,
+                    SabotageMasterSkillLimit,
                     SabotageMasterFixesDoors,
+                    SabotageMasterFixesReactors,
+                    SabotageMasterFixesOxygens,
+                    SabotageMasterFixesCommunications,
+                    SabotageMasterFixesElectrical,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,

@@ -69,26 +69,38 @@ namespace TownOfHost
             if(main.isSabotageMaster(player)) {
                 switch(systemType){
                     case SystemTypes.Reactor:
+                        if(!main.SabotageMasterFixesReactors) break;
+                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
                         if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
                         }
+                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Laboratory:
+                        if(!main.SabotageMasterFixesReactors) break;
+                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
                         if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
+                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.LifeSupp:
+                        if(!main.SabotageMasterFixesOxygens) break;
+                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
                         if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
                         if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Comms:
+                        if(!main.SabotageMasterFixesCommunications) break;
+                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
                         }
+                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Doors:
                         if(!main.SabotageMasterFixesDoors) break;
@@ -151,9 +163,12 @@ namespace TownOfHost
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
             if(main.isSabotageMaster(player)) {
+                if(!main.SabotageMasterFixesElectrical) return;
+                if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) return;
                 if(0 <= amount && amount <= 4) {
                     __instance.ActualSwitches = 0;
                     __instance.ExpectedSwitches = 0;
+                    main.SabotageMasterUsedSkillCount++;
                 }
             }
         }

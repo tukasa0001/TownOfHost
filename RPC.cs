@@ -46,6 +46,12 @@ namespace TownOfHost
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    int SabotageMasterSkillLimit = reader.ReadInt32();
+                    bool SabotageMasterFixesDoors = reader.ReadBoolean();
+                    bool SabotageMasterFixesReactors = reader.ReadBoolean();
+                    bool SabotageMasterFixesOxygens = reader.ReadBoolean();
+                    bool SabotageMasterFixesCommunications = reader.ReadBoolean();
+                    bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
@@ -53,7 +59,6 @@ namespace TownOfHost
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
-                    bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
@@ -69,6 +74,12 @@ namespace TownOfHost
                         UploadDataDisabled,
                         StartReactorDisabled,
                         VampireKillDelay,
+                        SabotageMasterSkillLimit,
+                        SabotageMasterFixesDoors,
+                        SabotageMasterFixesReactors,
+                        SabotageMasterFixesOxygens,
+                        SabotageMasterFixesCommunications,
+                        SabotageMasterFixesElectrical,
                         SyncButtonMode,
                         SyncedButtonCount,
                         AllowCloseDoors,
@@ -76,7 +87,6 @@ namespace TownOfHost
                         FoxCount,
                         TrollCount,
                         IgnoreVent,
-                        SabotageMasterFixesDoors,
                         MadmateCanFixLightsOut,
                         MadGuardianCanSeeBarrier
                     );
@@ -119,6 +129,12 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
                 int VampireKillDelay,
+                int SabotageMasterSkillLimit,
+                bool SabotageMasterFixesDoors,
+                bool SabotageMasterFixesReactors,
+                bool SabotageMasterFixesOxygens,
+                bool SabotageMasterFixesCommunications,
+                bool SabotageMasterFixesElectrical,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
@@ -126,7 +142,6 @@ namespace TownOfHost
                 int FoxCount,
                 int TrollCount,
                 bool IgnoreVent,
-                bool SabotageMasterFixesDoors,
                 bool MadmateCanFixLightsOut,
                 bool MadGuardianCanSeeBarrier
             ) {
@@ -150,6 +165,13 @@ namespace TownOfHost
 
             main.VampireKillDelay = VampireKillDelay;
 
+            main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
+            main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
+            main.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
+            main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
+            main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
+            main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
 
@@ -159,7 +181,6 @@ namespace TownOfHost
             main.TrollCount = TrollCount;
             main.IgnoreVent = IgnoreVent;
 
-            main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
         }
