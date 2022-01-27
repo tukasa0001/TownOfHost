@@ -624,7 +624,7 @@ namespace TownOfHost
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor(Scientist):票を複数持っており、まとめて一人に入れることができる。"},
-                {lang.MayorInfoLong, "Oppotunist(Scientist):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
+                {lang.OppotunistInfoLong, "Oppotunist(Scientist):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。。"},
                 //モード名
