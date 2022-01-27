@@ -358,6 +358,9 @@ namespace TownOfHost
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
+
+        public static bool NekomataKillImpostorWhenDeath;
+        public static bool NekomataCanChainDeath;
         public static SuffixModes currentSuffix;
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -391,6 +394,8 @@ namespace TownOfHost
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(NekomataKillImpostorWhenDeath);
+            writer.Write(NekomataCanChainDeath);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -510,6 +515,9 @@ namespace TownOfHost
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
 
+            NekomataKillImpostorWhenDeath = false;
+            NekomataCanChainDeath = true;
+
             currentSuffix = SuffixModes.None;
 
             TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
@@ -561,6 +569,8 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "サボタージュマスターが酸素妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesCommunications, "サボタージュマスターがMIRA HQの通信妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesElectrical, "サボタージュマスターが停電に対して能力を使える"},
+                {lang.NekomataKillImposterWhenDeath, "ネコマタが殺されたときにインポスターを道連れにする"},
+                {lang.NekomataCanChainDeath, "道連れ対象がネコマタの時に連鎖する"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -588,7 +598,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfo, "Finish your tasks and Help the Impostors"},
                 {lang.BaitInfo, "Be a decoy for the Crewmates"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
-                {lang.NekomataInfo, "Die togather"},
+                {lang.NekomataInfo, "Die together"},
                 {lang.SidekickInfo, "Be the successor for the Impostors"},
                 {lang.BeforeSidekickInfo,"You can not kill now"},
                 {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
@@ -625,6 +635,8 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
                 {lang.SabotageMasterFixesCommunications, "SabotageMaster Can Fixes Both Communications In MIRA HQ"},
                 {lang.SabotageMasterFixesElectrical, "SabotageMaster Can Fixes Lights Out All At Once"},
+                {lang.NekomataKillImposterWhenDeath, "Nekomata will kill Impostor When killed"},
+                {lang.NekomataCanChainDeath, "Nekomata can chain death"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
@@ -723,6 +735,8 @@ namespace TownOfHost
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
         SabotageMasterFixesElectrical,
+        NekomataKillImposterWhenDeath,
+        NekomataCanChainDeath,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

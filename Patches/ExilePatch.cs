@@ -35,9 +35,11 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
+            
             //Debug Message
             if (exiled != null)
             {
+
                 if (main.currentScientist == ScientistRoles.Jester && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -58,10 +60,10 @@ namespace TownOfHost
                     var pc = livingPlayers[UnityEngine.Random.Range(0, livingPlayers.Count)];
                     pc.Exiled();
                     Logger.info($"{exiled.PlayerName}はネコマタだったため{GameData.Instance.GetPlayerById(pc.PlayerId).PlayerName}を連れて行きました");
-                    WrapUpPostfix(GameData.Instance.GetPlayerById(pc.PlayerId));
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.Exiled , Hazel.SendOption.Reliable, -1);
                     writer.Write(pc.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    if(main.NekomataCanChainDeath)WrapUpPostfix(GameData.Instance.GetPlayerById(pc.PlayerId));
                 }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)

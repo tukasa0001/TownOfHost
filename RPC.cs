@@ -61,6 +61,8 @@ namespace TownOfHost
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
+                    bool NekomataKillImpostorWhenDeath = reader.ReadBoolean();
+                    bool NekomataCanChainDeath = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
                         scientist,
                         engineer,
@@ -88,7 +90,9 @@ namespace TownOfHost
                         TrollCount,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
-                        MadGuardianCanSeeBarrier
+                        MadGuardianCanSeeBarrier,
+                        NekomataKillImpostorWhenDeath,
+                        NekomataCanChainDeath
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -143,7 +147,9 @@ namespace TownOfHost
                 int TrollCount,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
-                bool MadGuardianCanSeeBarrier
+                bool MadGuardianCanSeeBarrier,
+                bool NekomataKillImpostorWhenDeath,
+                bool NekomataCanChainDeath
             ) {
             main.currentScientist = (ScientistRoles)scientist;
             main.currentEngineer = (EngineerRoles)engineer;
@@ -183,6 +189,9 @@ namespace TownOfHost
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+
+            main.NekomataKillImpostorWhenDeath = NekomataKillImpostorWhenDeath;
+            main.NekomataCanChainDeath = NekomataCanChainDeath;
         }
         public static void JesterExiled(byte jesterID)
         {

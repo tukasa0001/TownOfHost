@@ -119,7 +119,9 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesCommunications,
                             OptionPages.SabotageMasterFixesElectrical,
                             OptionPages.MadmateCanFixLightsOut,
-                            OptionPages.MadGuardianCanSeeBarrier
+                            OptionPages.MadGuardianCanSeeBarrier,
+                            OptionPages.NekomataKillImpostorWhenDeath,
+                            OptionPages.NekomataCanChainDeath
                         },
                         OptionPages.roles
                     )},
@@ -195,6 +197,20 @@ namespace TownOfHost
                             () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
                             true,
                             () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.NekomataKillImpostorWhenDeath, new PageObject(
+                            () => "<color=#ff00ff>" + main.getLang(lang.NekomataKillImposterWhenDeath) + "</color>: " + main.getOnOff(main.NekomataKillImpostorWhenDeath),
+                            true,
+                            () => {main.NekomataKillImpostorWhenDeath = !main.NekomataKillImpostorWhenDeath;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.NekomataCanChainDeath, new PageObject(
+                            () => "<color=#ff00ff>" + main.getLang(lang.NekomataCanChainDeath) + "</color>: " + main.getOnOff(main.NekomataCanChainDeath),
+                            true,
+                            () => {main.NekomataCanChainDeath = !main.NekomataCanChainDeath;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -537,6 +553,8 @@ namespace TownOfHost
                     SabotageMasterFixesOxygens,
                     SabotageMasterFixesCommunications,
                     SabotageMasterFixesElectrical,
+                    NekomataKillImpostorWhenDeath,
+                    NekomataCanChainDeath,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,
