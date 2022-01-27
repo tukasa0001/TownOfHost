@@ -191,7 +191,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 ## 参考など
 
-BaitやVampireの役職とModの作成方法の参考：https://github.com/Eisbison/TheOtherRoles<br>
+ベイトや吸血鬼、オポチュニストなどの役職とModの作成方法の参考：https://github.com/Eisbison/TheOtherRoles<br>
 Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker)：https://github.com/MengTube/Foolers-Mod
 
