@@ -38,6 +38,7 @@ namespace TownOfHost
                         OptionPages.Terrorist,
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
+                        OptionPages.Mayor,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -98,6 +99,13 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
+                    {OptionPages.Mayor, new PageObject(
+                        () => "<color=#ff00ff>" + main.getRoleName(RoleNames.Mayor) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Mayor),
+                        true,
+                        () => {main.ToggleRole(ScientistRoles.Mayor);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles
+                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
                         false,
@@ -111,6 +119,7 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesCommunications,
                             OptionPages.SabotageMasterFixesElectrical,
                             OptionPages.MadmateCanFixLightsOut,
+                            OptionPages.MayorAdditionalVote,
                             OptionPages.MadGuardianCanSeeBarrier
                         },
                         OptionPages.roles
@@ -182,6 +191,19 @@ namespace TownOfHost
                             () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.MayorAdditionalVote, new PageObject(
+                            () => "<color=#ff00ff>" + main.getLang(lang.MayorAdditionalVote) + "</color>: " + main.MayorAdditionalVote + main.TextCursor,
+                            true,
+                            () => {main.MayorAdditionalVote = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var Count = main.MayorAdditionalVote * 10;
+                                Count += i;
+                                var FixedCount = Math.Clamp(Count,0,99);
+                                main.MayorAdditionalVote = FixedCount;
+                            }
                         )},
                         {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
                             () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
@@ -517,6 +539,7 @@ namespace TownOfHost
                 Sidekick,
                 Vampire,
                 SabotageMaster,
+                Mayor,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
@@ -528,6 +551,7 @@ namespace TownOfHost
                     SabotageMasterFixesOxygens,
                     SabotageMasterFixesCommunications,
                     SabotageMasterFixesElectrical,
+                    MayorAdditionalVote,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,
