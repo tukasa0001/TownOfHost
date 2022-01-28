@@ -22,7 +22,7 @@ namespace TownOfHost
             if (__instance.AllowImpostor) return true;
             if (main.isJester(PlayerControl.LocalPlayer) ||
             main.isMadmate(PlayerControl.LocalPlayer) ||
-            main.isOppotunist(PlayerControl.LocalPlayer))
+            main.isOpportunist(PlayerControl.LocalPlayer))
             {
                 return false;
             }

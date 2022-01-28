@@ -114,11 +114,11 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
-            if (main.isOppotunist(PlayerControl.LocalPlayer))
+            if (main.isOpportunist(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Oppotunist);
+                __instance.TeamTitle.text = main.getRoleName(RoleNames.Opportunist);
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.OppotunistInfo);
+                __instance.ImpostorText.text = main.getLang(lang.OpportunistInfo);
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
             }

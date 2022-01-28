@@ -36,7 +36,7 @@ namespace TownOfHost
                         OptionPages.MadGuardian,
                         OptionPages.Jester,
                         OptionPages.Terrorist,
-                        OptionPages.Oppotunist,
+                        OptionPages.Opportunist,
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
@@ -86,10 +86,10 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
-                    {OptionPages.Oppotunist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(RoleNames.Oppotunist) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Oppotunist),
+                    {OptionPages.Opportunist, new PageObject(
+                        () => "<color=#00ff00>" + main.getRoleName(RoleNames.Opportunist) + "</color>: " + main.getOnOff(main.currentScientist == ScientistRoles.Opportunist),
                         true,
-                        () => {main.ToggleRole(ScientistRoles.Oppotunist);},
+                        () => {main.ToggleRole(ScientistRoles.Opportunist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
@@ -548,7 +548,7 @@ namespace TownOfHost
                 Vampire,
                 SabotageMaster,
                 Mayor,
-                Oppotunist,
+                Opportunist,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
