@@ -146,20 +146,24 @@ namespace TownOfHost
                     }
                 }
                 //Assign
-                AssignCustomRolesForList(CustomRoles.Jester, Crewmates);
-                AssignCustomRolesForList(CustomRoles.Madmate, Engineers);
-                AssignCustomRolesForList(CustomRoles.Bait, Crewmates);
-                AssignCustomRolesForList(CustomRoles.MadGuardian, Crewmates);
-                AssignCustomRolesForList(CustomRoles.Mayor, Crewmates);
-                AssignCustomRolesForList(CustomRoles.Opportunist, Crewmates);
-                AssignCustomRolesForList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesForList(CustomRoles.Sidekick, Shapeshifters);
-                AssignCustomRolesForList(CustomRoles.Terrorist, Engineers);
-                AssignCustomRolesForList(CustomRoles.Vampire, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
+                //##TODO##
+                //- 役職通知のカスタムRPCの実装
+                //- 役職を名前で通知するシステムの実装
+
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignCustomRolesForList(CustomRoles role, List<PlayerControl> players, int RawCount = 1) {
+        private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = 1) {
             if(RawCount <= 0 || players.Count <= 0) return;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
