@@ -34,40 +34,40 @@ namespace TownOfHost
                 }
             }
             //Madmate
-            if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate)
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Madmate)
             {
                 TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
                 TaskTextPrefix += FakeTasksText;
             }
             //MadGuardian
-            if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian)
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.MadGuardian)
             {
                 TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>\r\n" +
                 "<color=#ff0000>" + main.getLang(lang.MadGuardianInfo) + "</color>\r\n";
                 TaskTextPrefix += FakeTasksText;
             }
             //Jester
-            if (PlayerControl.LocalPlayer.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester)
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Jester)
             {
                 TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>\r\n" +
                 "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
                 TaskTextPrefix += FakeTasksText;
             }
             //Bait
-            if (main.isBait(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Bait)
             {
                 TaskTextPrefix = "<color=#00bfff>" + main.getRoleName(RoleNames.Bait) + "</color>\r\n" +
                 "<color=#00bfff>" + main.getLang(lang.BaitInfo) + "</color>\r\n";
             }
             //Terrorist
-            if (main.isTerrorist(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Terrorist)
             {
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
             //Sidekick
-            if (main.isSidekick(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sidekick)
             {
                 var ImpostorCount = 0;
                 foreach (var pc in PlayerControl.AllPlayerControls)

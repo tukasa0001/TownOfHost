@@ -61,7 +61,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRoles.Jester)
+            if (main.currentWinner == CustomWinner.Jester && main.EnabledCustomRoles.Contains(CustomRoles.Jester))
             { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -70,7 +70,7 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            if (main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRoles.Terrorist)
+            if (main.currentWinner == CustomWinner.Terrorist && main.EnabledCustomRoles.Contains(CustomRoles.Terrorist))
             { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
