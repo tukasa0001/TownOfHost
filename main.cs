@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
+using System.Linq;
 //herro
 namespace TownOfHost
 {
@@ -462,6 +463,10 @@ namespace TownOfHost
                 }
             }
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+        }
+        public static PlayerControl getPlayerById(int PlayerId) {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            return player;
         }
 
         public override void Load()
