@@ -42,13 +42,16 @@ namespace TownOfHost
                         if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
                     }else{
                         if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                        if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.getLang(lang.VampireInfoLong)); }
-                        if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
-                        if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
-                        if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Vampire)) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Sidekick)) main.SendToAll(main.getLang(lang.SidekickInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Madmate)) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Terrorist)) main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Bait)) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Jester)) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.SabotageMaster)) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Mayor)) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.MadGuardian)) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                     }
                     if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                 }
