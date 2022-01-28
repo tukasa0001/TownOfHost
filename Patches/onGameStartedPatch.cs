@@ -28,19 +28,11 @@ namespace TownOfHost
 
                 main.VisibleTasksCount = true;
                 if(main.IsHideAndSeek) {
-                    main.currentEngineer = EngineerRoles.Default;
-                    main.currentScientist = ScientistRoles.Default;
-                    main.currentImpostor = ImpostorRoles.Default;
-                    main.currentShapeshifter = ShapeshifterRoles.Default;
+                    main.EnabledCustomRoles = new List<CustomRoles>();
                 }
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if (main.currentScientist != ScientistRoles.Default)
-                {//バイタル無効
-                    opt.RoleOptions.ScientistBatteryCharge = 0f;
-                    opt.RoleOptions.ScientistCooldown = 99f;
-                }
-                if (main.currentEngineer != EngineerRoles.Default)
+                if (main.EnabledCustomRoles.Contains(CustomRoles.Madmate) || main.EnabledCustomRoles.Contains(CustomRoles.Terrorist))
                 {//無限ベント
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
