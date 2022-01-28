@@ -12,7 +12,6 @@ using Hazel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-
 namespace TownOfHost {
     static class ExtendedPlayerControl {
         public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
