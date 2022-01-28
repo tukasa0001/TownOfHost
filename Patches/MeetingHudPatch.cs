@@ -22,6 +22,9 @@ namespace TownOfHost
                 if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
                     return false;
             }
+            
+
+            
             MeetingHud.VoterState[] states;
             GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
             bool tie = false;
@@ -70,6 +73,7 @@ namespace TownOfHost
         }
         public static bool isMayor(byte id) {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            if(player == null) return false;
             return main.isMayor(player);
         }
     }
