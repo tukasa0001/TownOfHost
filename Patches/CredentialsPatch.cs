@@ -60,7 +60,7 @@ namespace TownOfHost
         static void Postfix(VersionShower __instance)
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            __instance.text.text = 
+            __instance.text.text =
             __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
             if(main.PluginVersionType == VersionTypes.Beta) __instance.text.text += "\r\n" + main.BetaName;
         }

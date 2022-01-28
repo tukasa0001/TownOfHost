@@ -168,7 +168,7 @@ namespace TownOfHost
                 if(main.SyncButtonMode) {
                     PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
                 }
-                
+
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
             main.ApplySuffix();

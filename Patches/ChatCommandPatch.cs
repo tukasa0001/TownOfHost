@@ -36,7 +36,7 @@ namespace TownOfHost
                     canceled = true;
                     main.SendToAll("現在有効になっている設定の説明:");
                     if(main.IsHideAndSeek)
-                    { 
+                    {
                         main.SendToAll(main.getLang(lang.HideAndSeekInfo));
                         if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                         if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
@@ -57,7 +57,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), fox(fo), troll(tr)");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), mayor(may), fox(fo), troll(tr)");
                     }
                     else if (arg == "jester" || arg == "je")
                     {
@@ -105,7 +105,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数（略称）: hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
                     }
                     else if (arg == "hideandseek" || arg == "has")
                     {

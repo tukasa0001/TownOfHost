@@ -62,7 +62,7 @@ namespace TownOfHost
                 }
                 Logger.info("exileId: " + exileId + ", max: " + max);
             }
-            
+
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
             MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie);

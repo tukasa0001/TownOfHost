@@ -16,7 +16,7 @@ However, please note that the following restrictions will apply as we are using 
 
 - The same additional role or role that is being replaced can not be introduced at the same time.
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
-- If a special role is used, the settings for that special role will be rewritten. (Example:Remove cooldown for vent, Disable vitals for Scientist, etc.)
+- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, Disable vitals for Scientist, etc.)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.
 
@@ -44,9 +44,9 @@ However, The numeric keypad is not supported.
 
 ### Jester
 
-Team：Neutral<br>
-Replace From：Scientist<br>
-Victory Conditions：Voted out<br>
+Team : Neutral<br>
+Replace From : Scientist<br>
+Victory Conditions : Voted Out<br>
 
 They are the neutral role that becomes the sole winner when they are banished by vote.
 If the game ends without being banished, or if they are killed, they are defeated.
@@ -54,8 +54,8 @@ They can not use their vital.<br>
 
 ### Madmate
 
-Team：Impostor
-Replace From：Engineer
+Team : Impostor
+Replace From : Engineer
 
 Belongs to the Impostor team, but Madmate does not know who the Impostor is.
 Impostors also doesn't know who Madmate is.
@@ -65,17 +65,17 @@ They can not kill or sabotage, but they can enter the vent.
 
 ### Bait
 
-Team：Crewmates
-Replace From：Scientist
+Team : Crewmates
+Replace From : Scientist
 
 When they are killed, they can force the person who killed them to report their corpse.
 They can not use their vital.
 
 ### Terrorist
 
-Team：Neutral<br>
-Replace from：Engineer<br>
-Victory conditions：Finish all tasks, then die<br>
+Team : Neutral<br>
+Replace From : Engineer<br>
+Victory Conditions : Finish All Tasks, Then Die<br>
 
 They are the neutral role where they win the game alone if they die with all their tasks completed.
 Any cause of death is acceptable.
@@ -83,8 +83,8 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 ### Sidekick
 
-Team：Impostor<br>
-Replace From：Shapeshifter<br>
+Team : Impostor<br>
+Replace From : Shapeshifter<br>
 
 Can vent, sabotage, and transform initially, but can not kill.
 If all of the Impostors who are not Sidekicks die, the Sidekick will be able to kill.
@@ -93,8 +93,8 @@ They can continue to transform even after the kill is enabled.
 
 ### Vampire
 
-Team：Impostor<br>
-Replace From：Impostor<br>
+Team : Impostor<br>
+Replace From : Impostor<br>
 
 They are the role where the kill actually occurs 10 seconds after they press the kill button.
 Teleportation does not occur when a kill is made.
@@ -105,8 +105,8 @@ However, only if they kill Bait will it be a normal kill and they will be forced
 
 ### SabotageMaster
 
-Team：Crewmates
-Replace From：Scientist
+Team : Crewmates
+Replace From : Scientist
 
 Reactors meltdown, oxygen disturbance and MIRA HQ's communication disturbance can both be fixed by repairing one of them.
 Power failures can all be fixed by touching a single lever.
@@ -116,15 +116,15 @@ Opening a door in Polus or The Airship will open all the doors in that room.
 
 ### MadGuardian
 
-Team：Impostor
-Replace From：Scientist
+Team : Impostor
+Replace From : Scientist
 
 Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.
 Impostors also doesn't know who MadGuardian is.
 However, if they complete all of their own tasks, they will no longer be killed.
 They can not kill, sabotage, and to enter the vent.
 
-## モード
+## Mode
 
 ### HideAndSeek
 
@@ -178,8 +178,10 @@ This is the mode in which all players' button counts are synchronised.
 
 ## Credits
 
-Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
-Jester and Madmate：https://au.libhalt.net<br>
-Terrorist(Trickstar + Joker)：https://github.com/MengTube/Foolers-Mod<br>
+Bait, Vampire, Oppotunist, and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+Jester and Madmate : https://au.libhalt.net<br>
+Terrorist(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
-Twitter：https://twitter.com/XenonBottle
+Twitter : https://twitter.com/XenonBottle
+
+Translated with https://www.deepl.com
