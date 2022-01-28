@@ -11,6 +11,7 @@ using TownOfHost;
 using Hazel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -34,10 +35,7 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    byte scientist = reader.ReadByte();
-                    byte engineer = reader.ReadByte();
-                    byte impostor = reader.ReadByte();
-                    byte shapeshifter = reader.ReadByte();
+                    byte[] EnabledRoles = reader.ReadBytesAndSize();
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
@@ -63,10 +61,7 @@ namespace TownOfHost
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
-                        scientist,
-                        engineer,
-                        impostor,
-                        shapeshifter,
+                        EnabledRoles,
                         IsHideAndSeek,
                         NoGameEnd,
                         SwipeCardDisabled,
@@ -119,10 +114,7 @@ namespace TownOfHost
     }
     static class RPCProcedure {
         public static void SyncCustomSettings(
-                byte scientist,
-                byte engineer,
-                byte impostor,
-                byte shapeshifter,
+                byte[] EnabledRoles,
                 bool isHideAndSeek,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
@@ -148,10 +140,10 @@ namespace TownOfHost
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
-            main.currentScientist = (ScientistRoles)scientist;
-            main.currentEngineer = (EngineerRoles)engineer;
-            main.currentImpostor = (ImpostorRoles)impostor;
-            main.currentShapeshifter = (ShapeshifterRoles)shapeshifter;
+            List<CustomRoles> EnabledRolesList = new List<CustomRoles>();
+            EnabledRoles.ToList().ForEach(roleId => EnabledRolesList.Add((CustomRoles)roleId));
+            main.EnabledCustomRoles = EnabledRolesList;
+            
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
 

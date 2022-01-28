@@ -39,6 +39,12 @@ namespace TownOfHost {
             return client.Id;
         }
 
+        public static CustomRoles getCustomRole(this PlayerControl player) {
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomRoles.Default;
+        }
+
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
             if(target == null) target = killer;
             killer.RpcProtectPlayer(target, 0);

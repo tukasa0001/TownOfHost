@@ -86,7 +86,7 @@ namespace TownOfHost
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
+        public static bool isFixedCooldown => EnabledCustomRoles.Contains(CustomRoles.Vampire);
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -94,189 +94,150 @@ namespace TownOfHost
         public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Jester)
+            if (target.getCustomRole() == CustomRoles.Jester)
                 return true;
             return false;
         }
         public static bool isMadmate(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Madmate)
+            if (target.getCustomRole() == CustomRoles.Madmate)
                 return true;
             return false;
         }
         public static bool isBait(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Bait)
+            if (target.getCustomRole() == CustomRoles.Bait)
                 return true;
             return false;
         }
         public static bool isTerrorist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Terrorist)
+            if (target.getCustomRole() == CustomRoles.Terrorist)
                 return true;
             return false;
         }
         public static bool isSidekick(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
+            if (target.getCustomRole() == CustomRoles.Sidekick)
                 return true;
             return false;
         }
         public static bool isVampire(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Impostor && currentImpostor == ImpostorRoles.Vampire)
+            if (target.getCustomRole() == CustomRoles.Vampire)
                 return true;
             return false;
         }
         public static bool isSabotageMaster(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotageMaster)
+            if (target.getCustomRole() == CustomRoles.SabotageMaster)
                 return true;
             return false;
         }
         public static bool isMadGuardian(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.MadGuardian)
+            if (target.getCustomRole() == CustomRoles.MadGuardian)
                 return true;
             return false;
         }
         public static bool isMayor(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Mayor)
+            if (target.getCustomRole() == CustomRoles.Mayor)
                 return true;
             return false;
         }
         public static bool isOpportunist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Opportunist)
+            if (target.getCustomRole() == CustomRoles.Opportunist)
                 return true;
             return false;
         }
 
-        public static void ToggleRole(ScientistRoles role)
+        public static void ToggleRole(CustomRoles role)
         {
-            currentScientist = role == currentScientist ? ScientistRoles.Default : role;
-        }
-        public static void ToggleRole(EngineerRoles role)
-        {
-            currentEngineer = role == currentEngineer ? EngineerRoles.Default : role;
-        }
-        public static void ToggleRole(ShapeshifterRoles role)
-        {
-            currentShapeshifter = role == currentShapeshifter ? ShapeshifterRoles.Default : role;
-        }
-        public static void ToggleRole(ImpostorRoles role)
-        {
-            currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
+            if(EnabledCustomRoles.Contains(role))
+                EnabledCustomRoles.Remove(role);
+            else EnabledCustomRoles.Add(role);
         }
 
-        public static (string, Color) GetRoleText(RoleTypes role)
+        public static (string, Color) GetRoleText(PlayerControl player)
         {
-            string RoleText = "Invalid";
+            string RoleText = "Invalid Role";
             Color TextColor = Color.red;
-            switch (role)
-            {
-                case RoleTypes.Crewmate:
-                    RoleText = "Crewmate";
-                    TextColor = Color.white;
-                    break;
-                case RoleTypes.Scientist:
-                    switch (currentScientist)
-                    {
-                        case ScientistRoles.Default:
+
+            var cRole = player.getCustomRole();
+            switch (cRole) {
+                case CustomRoles.Default:
+                    RoleText = "Invalid Vanilla Role";
+                    switch(player.Data.Role.Role) {
+                        case RoleTypes.Crewmate:
+                            RoleText = "Crewmate";
+                            TextColor = Color.white;
+                            break;
+                        case RoleTypes.Scientist:
                             RoleText = "Scientist";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case ScientistRoles.Jester:
-                            RoleText = "Jester";
-                            TextColor = JesterColor();
-                            break;
-                        case ScientistRoles.Bait:
-                            RoleText = "Bait";
-                            TextColor = Color.cyan;
-                            break;
-                        case ScientistRoles.SabotageMaster:
-                            RoleText = "Sabotage Master";
-                            TextColor = Color.blue;
-                            break;
-                        case ScientistRoles.MadGuardian:
-                            RoleText = "Mad Guardian";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        case ScientistRoles.Mayor:
-                            RoleText = "Mayor";
-                            TextColor = MayorColor;
-                            break;
-                        case ScientistRoles.Opportunist:
-                            RoleText = "Opportunist";
-                            TextColor = Color.green;
-                            break;
-                        default:
-                            RoleText = "Invalid Scientist";
-                            TextColor = Color.red;
-                            break;
-                    }
-                    break;
-                case RoleTypes.Engineer:
-                    switch (currentEngineer)
-                    {
-                        case EngineerRoles.Default:
+                        case RoleTypes.Engineer:
                             RoleText = "Engineer";
                             TextColor = Palette.CrewmateBlue;
                             break;
-                        case EngineerRoles.Madmate:
-                            RoleText = "Madmate";
-                            TextColor = Palette.ImpostorRed;
+                        case RoleTypes.GuardianAngel:
+                            RoleText = "Guardian Angel";
+                            TextColor = Palette.CrewmateBlue;
                             break;
-                        case EngineerRoles.Terrorist:
-                            RoleText = "Terrorist";
-                            TextColor = Color.green;
-                            break;
-                        default:
-                            RoleText = "Invalid Engineer";
-                            TextColor = Color.red;
-                            break;
-                    }
-                    break;
-                case RoleTypes.Impostor:
-                    switch (currentImpostor)
-                    {
-                        case ImpostorRoles.Default:
+                        case RoleTypes.Impostor:
                             RoleText = "Impostor";
                             TextColor = Palette.ImpostorRed;
                             break;
-                        case ImpostorRoles.Vampire:
-                            RoleText = "Vampire";
-                            TextColor = VampireColor;
-                            break;
-                        default:
-                            RoleText = "Invalid Impostor";
-                            TextColor = Color.red;
-                            break;
-                    }
-                    break;
-                case RoleTypes.Shapeshifter:
-                    switch (currentShapeshifter)
-                    {
-                        case ShapeshifterRoles.Default:
+                        case RoleTypes.Shapeshifter:
                             RoleText = "Shapeshifter";
                             TextColor = Palette.ImpostorRed;
                             break;
-                        case ShapeshifterRoles.Sidekick:
-                            RoleText = "Sidekick";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        default:
-                            RoleText = "Invalid Shapeshifter";
-                            TextColor = Color.red;
-                            break;
                     }
                     break;
-                case RoleTypes.GuardianAngel:
-                    RoleText = "GuardianAngel";
-                    TextColor = Palette.CrewmateBlue;
+                case CustomRoles.Jester:
+                    RoleText = "Jester";
+                    TextColor = JesterColor();
+                    break;
+                case CustomRoles.Madmate:
+                    RoleText = "Madmate";
+                    TextColor = Palette.ImpostorRed;
+                    break;
+                case CustomRoles.MadGuardian:
+                    RoleText = "Mad Guardian";
+                    TextColor = Palette.ImpostorRed;
+                    break;
+                case CustomRoles.Mayor:
+                    RoleText = "Mayor";
+                    TextColor = MayorColor;
+                    break;
+                case CustomRoles.Opportunist:
+                    RoleText = "Opportunist";
+                    TextColor = Color.green;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    RoleText = "Sabotage Master";
+                    TextColor = Color.blue;
+                    break;
+                case CustomRoles.Terrorist:
+                    RoleText = "Terrorist";
+                    TextColor = Color.green;
+                    break;
+                case CustomRoles.Bait:
+                    RoleText = "Bait";
+                    TextColor = Color.cyan;
+                    break;
+                case CustomRoles.Vampire:
+                    RoleText = "Vampire";
+                    TextColor = VampireColor;
+                    break;
+                case CustomRoles.Sidekick:
+                    RoleText = "Sidekick";
+                    TextColor = Palette.ImpostorRed;
                     break;
             }
+
             return (RoleText, TextColor);
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole)
@@ -315,12 +276,6 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian && ForRecompute) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Opportunist) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
-            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
@@ -329,6 +284,17 @@ namespace TownOfHost
                 {
                     if (role == HideAndSeekRoles.Fox ||
                     role == HideAndSeekRoles.Troll) hasTasks = false;
+                }
+            } else {
+                if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+
+                var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
+                if(cRoleFound) {
+                    if (cRole == CustomRoles.Jester) hasTasks = false;
+                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Opportunist) hasTasks = false;
+                    if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                 }
             }
             return hasTasks;
@@ -352,6 +318,7 @@ namespace TownOfHost
         public static float TextCursorTimer;
         //Enabled Role
         public static List<CustomRoles> EnabledCustomRoles;
+        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -375,10 +342,10 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            writer.Write((byte)currentScientist);
-            writer.Write((byte)currentEngineer);
-            writer.Write((byte)currentImpostor);
-            writer.Write((byte)currentShapeshifter);
+            //有効な役職の送信
+            var EnabledCustomRolesIds = new List<byte>();
+            EnabledCustomRoles.ForEach(role => EnabledCustomRolesIds.Add((byte)role));
+            writer.WriteBytesAndSize(EnabledCustomRolesIds.ToArray());
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
             writer.Write(DisableSwipeCard);
@@ -504,6 +471,7 @@ namespace TownOfHost
             MessagesToSend = new List<string>();
 
             EnabledCustomRoles = new List<CustomRoles>();
+            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
@@ -802,7 +770,9 @@ namespace TownOfHost
         Mayor,
         Opportunist,
         Madmate,
-        Terrorist
+        Terrorist,
+        Vampire,
+        Sidekick
     }
     public enum HideAndSeekRoles : byte
     {

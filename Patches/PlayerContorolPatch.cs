@@ -24,8 +24,7 @@ namespace TownOfHost
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
             //When Bait is killed
-            if (target.Data.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Bait && AmongUsClient.Instance.AmHost
-            && __instance.PlayerId != target.PlayerId)
+            if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
                 Logger.SendToFile(target.name + "はBaitだった");
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
@@ -206,7 +205,7 @@ namespace TownOfHost
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null)
             {
-                var RoleTextData = main.GetRoleText(__instance.Data.Role.Role);
+                var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
                     var hasRole = main.HideAndSeekRoleList.TryGetValue(__instance.PlayerId, out var role);
                     if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
@@ -277,7 +276,7 @@ namespace TownOfHost
                         .FirstOrDefault();
                     if (pc == null) return;
 
-                    var RoleTextData = main.GetRoleText(pc.Data.Role.Role);
+                    var RoleTextData = main.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
                     if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
