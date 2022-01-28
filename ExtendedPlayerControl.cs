@@ -11,6 +11,8 @@ using TownOfHost;
 using Hazel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+
 namespace TownOfHost {
     static class ExtendedPlayerControl {
         public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
@@ -27,6 +29,15 @@ namespace TownOfHost {
 
         public static void RpcExile(this PlayerControl player) {
             main.ExileAsync(player);
+        }
+        public static InnerNet.ClientData getClient(this PlayerControl player) {
+            var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
+            return client;
+        }
+        public static int getClientId(this PlayerControl player) {
+            var client = player.getClient();
+            if(client == null) return -1;
+            return client.Id;
         }
 
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
