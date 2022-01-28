@@ -30,7 +30,7 @@ namespace TownOfHost
                     if (main.isMadmate(p)) canWin = false; //Madmate
                     if (main.isMadGuardian(p)) canWin = false; //Mad Guardian
                     if (main.isTerrorist(p)) canWin = false; //Terrorist
-                    if (main.isOppotunist(p)) canWin = false; //Oppotunist
+                    if (main.isOpportunist(p)) canWin = false; //Opportunist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -41,7 +41,7 @@ namespace TownOfHost
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
                     if (main.isMadmate(p)) canWin = true; //Madmate
                     if (main.isMadGuardian(p)) canWin = true; //Mad Guardian
-                    if (main.isOppotunist(p)) canWin = false; //Oppotunist
+                    if (main.isOpportunist(p)) canWin = false; //Opportunist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -79,9 +79,9 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            //Oppotunist
+            //Opportunist
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(main.isOppotunist(pc) && !pc.Data.IsDead)
+                if(main.isOpportunist(pc) && !pc.Data.IsDead)
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
             //HideAndSeek専用
