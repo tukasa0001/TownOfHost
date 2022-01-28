@@ -351,10 +351,7 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static ScientistRoles currentScientist;
-        public static EngineerRoles currentEngineer;
-        public static ImpostorRoles currentImpostor;
-        public static ShapeshifterRoles currentShapeshifter;
+        public static List<CustomRoles> EnabledCustomRoles;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -506,10 +503,7 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            currentScientist = ScientistRoles.Default;
-            currentEngineer = EngineerRoles.Default;
-            currentImpostor = ImpostorRoles.Default;
-            currentShapeshifter = ShapeshifterRoles.Default;
+            EnabledCustomRoles = new List<CustomRoles>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
@@ -795,33 +789,20 @@ namespace TownOfHost
         Draw = 0,
         Default,
         Jester,
-        Terrorist
+        Terrorist,
+        Vampire,
+        Sidekick
     }
-    public enum ScientistRoles
-    {
-        Default = 0,
+    public enum CustomRoles {
+        Default,
         Jester,
         Bait,
         SabotageMaster,
         MadGuardian,
         Mayor,
-        Opportunist
-    }
-    public enum EngineerRoles
-    {
-        Default = 0,
+        Opportunist,
         Madmate,
         Terrorist
-    }
-    public enum ImpostorRoles
-    {
-        Default = 0,
-        Vampire
-    }
-    public enum ShapeshifterRoles
-    {
-        Default = 0,
-        Sidekick
     }
     public enum HideAndSeekRoles : byte
     {
