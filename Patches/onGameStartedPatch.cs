@@ -109,8 +109,64 @@ namespace TownOfHost
                 //通常クルー・インポスター用RPC
                 foreach(var pc in Crewmates) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
                 foreach(var pc in Impostors) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
+            } else {
+                List<PlayerControl> Crewmates = new List<PlayerControl>();
+                List<PlayerControl> Impostors = new List<PlayerControl>();
+                List<PlayerControl> Scientists = new List<PlayerControl>();
+                List<PlayerControl> Engineers = new List<PlayerControl>();
+                List<PlayerControl> GuardianAngels = new List<PlayerControl>();
+                List<PlayerControl> Shapeshifters = new List<PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
+                    main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
+                    switch(pc.Data.Role.Role) {
+                        case RoleTypes.Crewmate:
+                            Crewmates.Add(pc);
+                            break;
+                        case RoleTypes.Impostor:
+                            Impostors.Add(pc);
+                            break;
+                        case RoleTypes.Scientist:
+                            Scientists.Add(pc);
+                            break;
+                        case RoleTypes.Engineer:
+                            Engineers.Add(pc);
+                            break;
+                        case RoleTypes.GuardianAngel:
+                            GuardianAngels.Add(pc);
+                            break;
+                        case RoleTypes.Shapeshifter:
+                            Shapeshifters.Add(pc);
+                            break;
+                        default:
+                            Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
+                            break;
+                    }
+                    //Assign
+                    AssignCustomRolesForList(CustomRoles.Jester, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.Madmate, Engineers);
+                    AssignCustomRolesForList(CustomRoles.Bait, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.MadGuardian, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.Mayor, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.Opportunist, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.SabotageMaster, Crewmates);
+                    AssignCustomRolesForList(CustomRoles.Sidekick, Shapeshifters);
+                    AssignCustomRolesForList(CustomRoles.Terrorist, Engineers);
+                    AssignCustomRolesForList(CustomRoles.Vampire, Impostors);
+                }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
+        }
+        private static void AssignCustomRolesForList(CustomRoles role, List<PlayerControl> players, int RawCount = 1) {
+            if(RawCount <= 0) return;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, players.Count);
+            for(var i = 0; i < count; i++) {
+                var player = players[rand.Next(0, players.Count - 1)];
+                players.Remove(player);
+                main.AllPlayerCustomRoles[player.PlayerId] = role;
+                Logger.info("役職設定:" + player.name + " = " + role.ToString());
+            }
         }
     }
 }
