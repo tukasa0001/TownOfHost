@@ -58,7 +58,7 @@ namespace TownOfHost
                     canceled = true;
                     if (arg == "")
                     {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), mayor(may), oppotunist(op), fox(fo), troll(tr)");
+                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), mayor(may), opportunist(op), fox(fo), troll(tr)");
                     }
                     else if (arg == "jester" || arg == "je")
                     {
@@ -92,7 +92,7 @@ namespace TownOfHost
                     {
                         main.SendToAll(main.getLang(lang.MayorInfoLong));
                     }
-                    else if (arg == "oppotunist" || arg == "op")
+                    else if (arg == "opportunist" || arg == "op")
                     {
                         main.SendToAll(main.getLang(lang.MayorInfoLong));
                     }
