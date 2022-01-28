@@ -94,7 +94,7 @@ namespace TownOfHost
                     }
                     else if (arg == "opportunist" || arg == "op")
                     {
-                        main.SendToAll(main.getLang(lang.MayorInfoLong));
+                        main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                     }
                     else if (arg == "fox" || arg == "fo")
                     {
