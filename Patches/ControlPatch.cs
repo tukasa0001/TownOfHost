@@ -39,6 +39,7 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | オンライン以外 | 自分の投票をClearする |
+            // | N | ホスト | ID1の名前をDesyncさせる |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -47,6 +48,15 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
             {
                 main.SyncCustomSettingsRPC();
+            }
+            if (Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            {
+                var p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                var c1 = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == 1).FirstOrDefault();
+                if(p1 == null) return;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(p1.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, c1.Id);
+                writer.Write("Desync");
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
