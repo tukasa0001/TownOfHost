@@ -145,6 +145,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isOppotunist(PlayerControl target)
+        {
+            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Oppotunist)
+                return true;
+            return false;
+        }
 
         public static void ToggleRole(ScientistRoles role)
         {
@@ -195,6 +201,14 @@ namespace TownOfHost
                         case ScientistRoles.MadGuardian:
                             RoleText = "Mad Guardian";
                             TextColor = Palette.ImpostorRed;
+                            break;
+                        case ScientistRoles.Mayor:
+                            RoleText = "Mayor";
+                            TextColor = MayorColor;
+                            break;
+                        case ScientistRoles.Oppotunist:
+                            RoleText = "Oppotunist";
+                            TextColor = Color.green;
                             break;
                         default:
                             RoleText = "Invalid Scientist";
@@ -301,7 +315,8 @@ namespace TownOfHost
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian && ForRecompute) hasTasks = false;
+            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Oppotunist) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
             if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
             if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
@@ -530,7 +545,8 @@ namespace TownOfHost
                 {lang.AfterSidekickInfo,"クルーメイトに復讐をしろ"},
                 {lang.VampireInfo, "全員を噛んで倒せ"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
-                {lang.MayorInfo, "インポスターを追放しろ"},
+                {lang.MayorInfo, "二回投票できる"},
+                {lang.OppotunistInfo, "とにかく生き残れ"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(科学者):会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -541,6 +557,7 @@ namespace TownOfHost
                 {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー(科学者):票を複数持っており、まとめて一人に入れることができる。"},
+                {lang.OppotunistInfoLong, "オポチュニスト(科学者):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。"},
                 //モード名
@@ -595,7 +612,8 @@ namespace TownOfHost
                 {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
                 {lang.VampireInfo, "Kill Everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
-                {lang.MayorInfo, "Ban the Imposters"},
+                {lang.MayorInfo, "You Can Vote Two Times"},
+                {lang.OppotunistInfo, "Do Whatever It Takes To Survive"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -605,7 +623,8 @@ namespace TownOfHost
                 {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
-                {lang.MayorInfoLong, "Mayor(Scientist):票を複数持っており、まとめて一人に入れることができる。(設定有)"},
+                {lang.MayorInfoLong, "Mayor(Scientist):票を複数持っており、まとめて一人に入れることができる。"},
+                {lang.OppotunistInfoLong, "Oppotunist(Scientist):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。。"},
                 //モード名
@@ -658,6 +677,7 @@ namespace TownOfHost
                 {RoleNames.Vampire, "Vampire"},
                 {RoleNames.SabotageMaster, "SabotageMaster"},
                 {RoleNames.Mayor, "Mayor"},
+                {RoleNames.Oppotunist, "Oppotunist"},
                 {RoleNames.Fox, "Fox"},
                 {RoleNames.Troll, "Troll"},
             };
@@ -671,6 +691,7 @@ namespace TownOfHost
                 {RoleNames.Vampire, "吸血鬼"},
                 {RoleNames.SabotageMaster, "サボタージュマスター"},
                 {RoleNames.Mayor, "メイヤー"},
+                {RoleNames.Oppotunist, "オポチュニスト"},
                 {RoleNames.Fox, "狐"},
                 {RoleNames.Troll, "トロール"},
             };
@@ -693,6 +714,7 @@ namespace TownOfHost
         SabotageMasterInfo,
         MadGuardianInfo,
         MayorInfo,
+        OppotunistInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -705,6 +727,7 @@ namespace TownOfHost
         SabotageMasterInfoLong,
         MadGuardianInfoLong,
         MayorInfoLong,
+        OppotunistInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -757,6 +780,7 @@ namespace TownOfHost
         SabotageMaster,
         MadGuardian,
         Mayor,
+        Oppotunist,
         Fox,
         Troll
     }
@@ -775,7 +799,8 @@ namespace TownOfHost
         Bait,
         SabotageMaster,
         MadGuardian,
-        Mayor
+        Mayor,
+        Oppotunist
     }
     public enum EngineerRoles
     {

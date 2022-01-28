@@ -98,6 +98,18 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>\r\n" +
                 "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
             }
+            //Mayor
+            if (main.isMayor(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#ff00ff>" + main.getRoleName(RoleNames.Mayor) + "</color>\r\n" +
+                "<color=#ff00ff>" + main.getLang(lang.MayorInfo) + "</color>\r\n";
+            }
+            //Oppotunist
+            if (main.isOppotunist(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(RoleNames.Oppotunist) + "</color>\r\n" +
+                "<color=#00ff00>" + main.getLang(lang.OppotunistInfo) + "</color>\r\n";
+            }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
