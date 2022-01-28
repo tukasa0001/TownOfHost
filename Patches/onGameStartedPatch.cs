@@ -61,11 +61,13 @@ namespace TownOfHost
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
+            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
 
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
-                main.HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
+
                 //Hide And Seek時の処理
                 List<PlayerControl> Impostors = new List<PlayerControl>();
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
@@ -142,23 +144,23 @@ namespace TownOfHost
                             Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
                             break;
                     }
-                    //Assign
-                    AssignCustomRolesForList(CustomRoles.Jester, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.Madmate, Engineers);
-                    AssignCustomRolesForList(CustomRoles.Bait, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.MadGuardian, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.Mayor, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.Opportunist, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.SabotageMaster, Crewmates);
-                    AssignCustomRolesForList(CustomRoles.Sidekick, Shapeshifters);
-                    AssignCustomRolesForList(CustomRoles.Terrorist, Engineers);
-                    AssignCustomRolesForList(CustomRoles.Vampire, Impostors);
                 }
+                //Assign
+                AssignCustomRolesForList(CustomRoles.Jester, Crewmates);
+                AssignCustomRolesForList(CustomRoles.Madmate, Engineers);
+                AssignCustomRolesForList(CustomRoles.Bait, Crewmates);
+                AssignCustomRolesForList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesForList(CustomRoles.Mayor, Crewmates);
+                AssignCustomRolesForList(CustomRoles.Opportunist, Crewmates);
+                AssignCustomRolesForList(CustomRoles.SabotageMaster, Crewmates);
+                AssignCustomRolesForList(CustomRoles.Sidekick, Shapeshifters);
+                AssignCustomRolesForList(CustomRoles.Terrorist, Engineers);
+                AssignCustomRolesForList(CustomRoles.Vampire, Impostors);
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
         private static void AssignCustomRolesForList(CustomRoles role, List<PlayerControl> players, int RawCount = 1) {
-            if(RawCount <= 0) return;
+            if(RawCount <= 0 || players.Count <= 0) return;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             for(var i = 0; i < count; i++) {
