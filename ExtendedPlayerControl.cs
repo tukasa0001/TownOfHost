@@ -25,6 +25,30 @@ namespace TownOfHost {
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
+        public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
+            main.HideAndSeekRoleList[player.PlayerId] = role;
+        }
+        public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role) {
+            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            if(AmongUsClient.Instance.AmHost) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
+                writer.Write(player.PlayerId);
+                writer.Write((byte)role);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void RpcSetCustomRole(byte PlayerId, CustomRoles role) {
+            main.AllPlayerCustomRoles[PlayerId] = role;
+            if(AmongUsClient.Instance.AmHost) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
+                writer.Write(PlayerId);
+                writer.Write((byte)role);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void SetCustomRole(this PlayerControl player, CustomRoles role) {
+            main.AllPlayerCustomRoles[player.PlayerId] = role;
+        }
 
         public static void RpcExile(this PlayerControl player) {
             main.ExileAsync(player);

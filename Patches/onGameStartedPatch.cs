@@ -145,7 +145,7 @@ namespace TownOfHost
                             break;
                     }
                 }
-                //Assign
+                //Assign ここが全役職常時ON状態になっている
                 AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
@@ -156,8 +156,13 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                //##TODO##
-                //- 役職通知のカスタムRPCの実装
+
+                //RPCによる同期
+                foreach(var pair in main.AllPlayerCustomRoles) {
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
+                //#TODO#
+                //- 役職割り当て時に設定を参照する
                 //- 役職を名前で通知するシステムの実装
 
             }
