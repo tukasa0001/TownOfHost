@@ -38,14 +38,15 @@ namespace TownOfHost
             //Debug Message
             if (exiled != null)
             {
-                if (main.currentScientist == ScientistRoles.Jester && exiled.Role.Role == RoleTypes.Scientist && AmongUsClient.Instance.AmHost)
+                var role = main.getCustomRole(exiled.PlayerId);
+                if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPCProcedure.JesterExiled(exiled.PlayerId);
                 }
-                if (main.currentEngineer == EngineerRoles.Terrorist && exiled.Role.Role == RoleTypes.Engineer && AmongUsClient.Instance.AmHost)
+                if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     main.CheckTerroristWin(exiled);
                 }

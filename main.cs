@@ -432,6 +432,11 @@ namespace TownOfHost
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
             return player;
         }
+        public static CustomRoles getCustomRole(byte PlayerId) {
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomRoles.Default;
+        }
 
         public override void Load()
         {
