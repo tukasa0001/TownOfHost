@@ -312,6 +312,7 @@ namespace TownOfHost
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
         }
+        public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -436,6 +437,16 @@ namespace TownOfHost
             if(cRoleFound) return cRole;
             else return CustomRoles.Default;
         }
+        public static void NotifyRoles(float revertTime) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            if(PlayerControl.AllPlayerControls == null) return;
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
+                string RoleName = "STRMISS";
+                if(found) RoleName = getRoleName(role);
+                pc.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + pc.name, true);
+            }
+        }
 
         public override void Load()
         {
@@ -449,6 +460,8 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
 
             currentWinner = CustomWinner.Default;
+
+            RealNames = new Dictionary<byte, string>();
 
             IsHideAndSeek = false;
             AllowCloseDoors = false;
@@ -639,6 +652,7 @@ namespace TownOfHost
                 {lang.OFF, "OFF"},
             };
             EnglishRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Default, "Vanilla"},
                 {CustomRoles.Jester, "Jester"},
                 {CustomRoles.Madmate, "Madmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
@@ -653,6 +667,7 @@ namespace TownOfHost
                 {CustomRoles.Troll, "Troll"},
             };
             JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Default, "Vanilla"},
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "狂人"},
                 {CustomRoles.MadGuardian, "守護狂人"},

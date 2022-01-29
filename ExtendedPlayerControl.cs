@@ -54,6 +54,19 @@ namespace TownOfHost {
             else return CustomRoles.Default;
         }
 
+        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
+            //player: 名前の変更対象
+            //seer: 上の変更を確認することができるプレイヤー
+
+            if(player == null || name == null) return;
+            if(seer == null) seer = player;
+            var clientId = seer.getClientId();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
+            writer.Write(name);
+            writer.Write(DontShowOnModdedClient);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
             if(target == null) target = killer;
             killer.RpcProtectPlayer(target, 0);

@@ -62,7 +62,10 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.RealNames = new Dictionary<byte, string>();
+
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                main.RealNames[pc.PlayerId] = pc.name;
 
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
@@ -161,6 +164,9 @@ namespace TownOfHost
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
+
+                main.NotifyRoles(30f);
+
                 //#TODO#
                 //- 役職割り当て時に設定を参照する
                 //- 役職を名前で通知するシステムの実装

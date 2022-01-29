@@ -30,6 +30,18 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+            byte packetID = callId;
+            switch (packetID)
+            {
+                case 6: //SetNameRPC
+                    string name = reader.ReadString();
+                    bool DontShowOnModdedClient = reader.ReadBoolean();
+                    if(!DontShowOnModdedClient) __instance.SetName(name);
+                    return false;
+            }
+            return true;
+        }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
             byte packetID = callId;
             switch (packetID)
