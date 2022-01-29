@@ -83,7 +83,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 GUIUtility.systemCopyBuffer = code;
