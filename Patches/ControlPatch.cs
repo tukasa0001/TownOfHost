@@ -50,13 +50,6 @@ namespace TownOfHost
             {
                 main.SyncCustomSettingsRPC();
             }
-            if (Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
-            {
-                AmongUsClient.Instance.Despawn(ShipStatus.Instance);
-                var MiraHQ = new MiraShipStatus();
-                AmongUsClient.Instance.Spawn(MiraHQ);
-                ShipStatus.Instance = MiraHQ;
-            }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)

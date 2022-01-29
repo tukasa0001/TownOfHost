@@ -209,15 +209,6 @@ namespace TownOfHost
                     Impostors.Add(p);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && false)
-            {
-                Imp.RpcSetColor((byte)Jester.Data.Outfits[PlayerOutfitType.Default].ColorId);
-                Imp.RpcSetHat(Jester.Data.Outfits[PlayerOutfitType.Default].HatId);
-                Imp.RpcSetVisor(Jester.Data.Outfits[PlayerOutfitType.Default].VisorId);
-                Imp.RpcSetSkin(Jester.Data.Outfits[PlayerOutfitType.Default].SkinId);
-                Imp.RpcSetPet(Jester.Data.Outfits[PlayerOutfitType.Default].PetId);
-                Imp.RpcSetName(Jester.Data.Outfits[PlayerOutfitType.Default].PlayerName + "\r\nJester wins");
-            }
             if (AmongUsClient.Instance.AmHost)
             {
                 Task task = Task.Run(() =>
