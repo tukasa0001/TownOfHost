@@ -42,7 +42,6 @@ namespace TownOfHost
             // | N | ホスト | ID1の名前をDesyncさせる |
             // | I | ホスト | プレイヤー全員を自分の名前にする（全視点） |
             // | U | ホスト | 全員自分だけがインポスターだと認識させる |
-            // | C | ロビー | クリップボードにゲームコードをコピーする |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -52,7 +51,7 @@ namespace TownOfHost
             {
                 main.SyncCustomSettingsRPC();
             }
-            if (Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            if (Input.GetKeyDown(KeyCode.N) && !Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
             {
                 var p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
                 var c1 = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == 1).FirstOrDefault();
@@ -88,6 +87,11 @@ namespace TownOfHost
                 string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 GUIUtility.systemCopyBuffer = code;
                 Logger.info($"[ClipBoard]{code}");
+                ChatCommands.seeActiveRolesHelp();
+            }
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                ChatCommands.seeActiveRolesHelp();
             }
             if (Input.GetKeyDown(KeyCode.M))
             {

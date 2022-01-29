@@ -34,24 +34,7 @@ namespace TownOfHost
                 if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
                 {
                     canceled = true;
-                    main.SendToAll("現在有効になっている設定の説明:");
-                    if(main.IsHideAndSeek)
-                    {
-                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                        if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
-                        if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
-                    }else{
-                        if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                        if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.getLang(lang.VampireInfoLong)); }
-                        if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
-                        if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
-                        if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
-                        if(main.currentScientist == ScientistRoles.Mayor) { main.SendToAll(main.getLang(lang.MayorInfoLong)); }
-                    }
-                    if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+                    seeActiveRolesHelp();
                 }
                 if (getCommand("/h r", text, out arg) || getCommand("/h roles", text, out arg))
                 {
@@ -194,6 +177,27 @@ namespace TownOfHost
         {
             if (value) return main.getLang(lang.ON);
             else return main.getLang(lang.OFF);
+        }
+        public static void seeActiveRolesHelp()
+        {
+            main.SendToAll("現在有効になっている設定の説明:");
+            if(main.IsHideAndSeek)
+            {
+                main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+            }else{
+                if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                if(main.currentImpostor == ImpostorRoles.Vampire){ main.SendToAll(main.getLang(lang.VampireInfoLong)); }
+                if(main.currentShapeshifter == ShapeshifterRoles.Sidekick){ main.SendToAll(main.getLang(lang.SidekickInfoLong)); }
+                if(main.currentEngineer == EngineerRoles.Madmate){ main.SendToAll(main.getLang(lang.MadmateInfoLong)); }
+                if(main.currentEngineer == EngineerRoles.Terrorist){ main.SendToAll(main.getLang(lang.TerroristInfoLong)); }
+                if(main.currentScientist == ScientistRoles.Bait){ main.SendToAll(main.getLang(lang.BaitInfoLong)); }
+                if(main.currentScientist == ScientistRoles.Jester){ main.SendToAll(main.getLang(lang.JesterInfoLong)); }
+                if(main.currentScientist == ScientistRoles.SabotageMaster){ main.SendToAll(main.getLang(lang.SabotageMasterInfoLong)); }
+                if(main.currentScientist == ScientistRoles.Mayor) { main.SendToAll(main.getLang(lang.MayorInfoLong)); }
+            }
+            if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
