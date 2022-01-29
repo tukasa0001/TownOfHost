@@ -82,6 +82,12 @@ namespace TownOfHost
                     }
                 }
             }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+                GUIUtility.systemCopyBuffer = code;
+                Logger.info($"[ClipBoard]{code}");
+            }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
