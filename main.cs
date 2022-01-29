@@ -762,9 +762,7 @@ namespace TownOfHost
         Draw = 0,
         Default,
         Jester,
-        Terrorist,
-        Vampire,
-        Sidekick
+        Terrorist
     }
     public enum CustomRoles {
         Default,

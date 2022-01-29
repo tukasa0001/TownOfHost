@@ -39,7 +39,7 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | オンライン以外 | 自分の投票をClearする |
-            // | N | ホスト | ロビーをDespawnさせる |
+            // | N | ホスト | マップを途中からMiraHQに変更する |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -52,7 +52,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
             {
                 AmongUsClient.Instance.Despawn(ShipStatus.Instance);
-                AmongUsClient.Instance.Spawn(MiraShipStatus.Instance);
+                AmongUsClient.Instance.Spawn(new MiraShipStatus());
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
