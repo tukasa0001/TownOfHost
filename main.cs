@@ -438,6 +438,12 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
+        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendto, RoleTypes role)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendto.getClientId());
+            writer.Write((byte)role);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void SendToAll(string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;

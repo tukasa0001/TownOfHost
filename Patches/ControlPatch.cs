@@ -40,6 +40,8 @@ namespace TownOfHost
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | オンライン以外 | 自分の投票をClearする |
             // | N | ホスト | ID1の名前をDesyncさせる |
+            // | I | ホスト | プレイヤー全員を自分の名前にする（全視点） |
+            // | U | ホスト | 全員自分だけがインポスターだと認識させる |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -57,6 +59,28 @@ namespace TownOfHost
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(p1.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, c1.Id);
                 writer.Write("Desync");
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+            if (Input.GetKeyDown(KeyCode.I) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            {
+                foreach(PlayerControl p in PlayerControl.AllPlayerControls){
+                    foreach(PlayerControl p2 in PlayerControl.AllPlayerControls){
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(p2.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, p.getClientId());
+                        writer.Write(p.Data.PlayerName);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.U) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            {
+                foreach(PlayerControl t in PlayerControl.AllPlayerControls){
+                    foreach(PlayerControl p in PlayerControl.AllPlayerControls){
+                        if(t == p){
+                            main.RpcSetRole(p,t,RoleTypes.Impostor);
+                        }else{
+                            main.RpcSetRole(p,t,RoleTypes.Crewmate);
+                        }
+                    }
+                }
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
