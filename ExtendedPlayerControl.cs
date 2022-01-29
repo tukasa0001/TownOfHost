@@ -75,5 +75,11 @@ namespace TownOfHost {
                     killer.RpcMurderPlayer(target);
             }, 0.2f, "GuardAndKill");
         }
+
+        public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role) {
+            if(!dic.ContainsKey(role))
+                dic[role] = 0;
+            return dic[role];
+        }
     }
 }

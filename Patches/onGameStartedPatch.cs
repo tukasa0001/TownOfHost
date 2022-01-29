@@ -27,12 +27,10 @@ namespace TownOfHost
             {
 
                 main.VisibleTasksCount = true;
-                if(main.IsHideAndSeek) {
-                    main.EnabledCustomRoles = new List<CustomRoles>();
-                }
+
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if (main.EnabledCustomRoles.Contains(CustomRoles.Madmate) || main.EnabledCustomRoles.Contains(CustomRoles.Terrorist))
+                if (main.MadmateCount> 0 || main.TerroristCount > 0)
                 {//無限ベント
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;

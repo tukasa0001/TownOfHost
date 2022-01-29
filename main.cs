@@ -29,6 +29,8 @@ namespace TownOfHost
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
+
+        public static LanguageUnit EnglishLang {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
@@ -50,10 +52,8 @@ namespace TownOfHost
         }
         public static string getRoleName(RoleTypes role) {
             var currentLanguage = TranslationController.Instance.CurrentLanguage;
-            if(JapaneseRoleName.Value == false) {
-                var english = TranslationController.Instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
-                if(english != null) currentLanguage = new LanguageUnit(english);
-            }
+            if(JapaneseRoleName.Value == false && EnglishLang != null) 
+                currentLanguage = EnglishLang;
             string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
             return text;
         }
@@ -69,8 +69,7 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
-        public static int FoxCount;
-        public static int TrollCount;
+        
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -95,7 +94,7 @@ namespace TownOfHost
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => EnabledCustomRoles.Contains(CustomRoles.Vampire);
+        public static bool isFixedCooldown => VampireCount > 0;
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -162,11 +161,101 @@ namespace TownOfHost
             return false;
         }
 
-        public static void ToggleRole(CustomRoles role)
+        public static int SetRoleCountToggle(int currentCount)
         {
-            if(EnabledCustomRoles.Contains(role))
-                EnabledCustomRoles.Remove(role);
-            else EnabledCustomRoles.Add(role);
+            if(currentCount > 0) return 0;
+            else return 1;
+        }
+        public static int SetRoleCount(int currentCount, int addCount)
+        {
+            var fixedCount = currentCount * 10;
+            fixedCount += addCount;
+            fixedCount = Math.Clamp(fixedCount, 0, 99);
+            return fixedCount;
+        }
+        public static void SetRoleCountToggle(CustomRoles role)
+        {
+            int count = GetCountFromRole(role);
+            count = SetRoleCountToggle(count);
+            SetCountFromRole(role, count);
+        }
+        public static void SetRoleCount(CustomRoles role, int addCount)
+        {
+            int count = GetCountFromRole(role);
+            count = SetRoleCount(count, addCount);
+            SetCountFromRole(role, count);
+        }
+        public static int GetCountFromRole(CustomRoles role) {
+            int count;
+            switch(role) {
+                case CustomRoles.Jester:
+                    count = JesterCount;
+                    break;
+                case CustomRoles.Madmate:
+                    count = MadmateCount;
+                    break;
+                case CustomRoles.Bait:
+                    count = BaitCount;
+                    break;
+                case CustomRoles.Terrorist:
+                    count = TerroristCount;
+                    break;
+                case CustomRoles.Sidekick:
+                    count = SidekickCount;
+                    break;
+                case CustomRoles.Vampire:
+                    count = VampireCount;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    count = SabotageMasterCount;
+                    break;
+                case CustomRoles.MadGuardian:
+                    count = MadGuardianCount;
+                    break;
+                case CustomRoles.Mayor:
+                    count = MayorCount;
+                    break;
+                case CustomRoles.Opportunist:
+                    count = OpportunistCount;
+                    break;
+                default:
+                    return -1;
+            }
+            return count;
+        }
+        public static void SetCountFromRole(CustomRoles role, int count) {
+            switch(role) {
+                case CustomRoles.Jester:
+                    JesterCount = count;
+                    break;
+                case CustomRoles.Madmate:
+                    MadmateCount = count;
+                    break;
+                case CustomRoles.Bait:
+                    BaitCount = count;
+                    break;
+                case CustomRoles.Terrorist:
+                    TerroristCount = count;
+                    break;
+                case CustomRoles.Sidekick:
+                    SidekickCount = count;
+                    break;
+                case CustomRoles.Vampire:
+                    VampireCount = count;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    SabotageMasterCount = count;
+                    break;
+                case CustomRoles.MadGuardian:
+                    MadGuardianCount = count;
+                    break;
+                case CustomRoles.Mayor:
+                    MayorCount = count;
+                    break;
+                case CustomRoles.Opportunist:
+                    OpportunistCount = count;
+                    break;
+            }
         }
 
         public static (string, Color) GetRoleText(PlayerControl player)
@@ -178,8 +267,9 @@ namespace TownOfHost
             RoleText = getRoleName(cRole);
             switch (cRole) {
                 case CustomRoles.Default:
-                    //RoleText = getRoleName(player.Data.Role.Role);
+                    RoleText = getRoleName(player.Data.Role.Role);
                     switch(player.Data.Role.Role) {
+                        //通常クルー
                         case RoleTypes.Crewmate:
                             TextColor = Color.white;
                             break;
@@ -308,7 +398,19 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static List<CustomRoles> EnabledCustomRoles;
+        public static int JesterCount;
+        public static int MadmateCount;
+        public static int BaitCount;
+        public static int TerroristCount;
+        public static int SidekickCount;
+        public static int VampireCount;
+        public static int SabotageMasterCount;
+        public static int MadGuardianCount;
+        public static int MayorCount;
+        public static int OpportunistCount;
+        public static int FoxCount;
+        public static int TrollCount;
+
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -332,10 +434,20 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            //有効な役職の送信
-            var EnabledCustomRolesIds = new List<byte>();
-            EnabledCustomRoles.ForEach(role => EnabledCustomRolesIds.Add((byte)role));
-            writer.WriteBytesAndSize(EnabledCustomRolesIds.ToArray());
+            writer.Write(JesterCount);
+            writer.Write(MadmateCount);
+            writer.Write(BaitCount);
+            writer.Write(TerroristCount);
+            writer.Write(SidekickCount);
+            writer.Write(VampireCount);
+            writer.Write(SabotageMasterCount);
+            writer.Write(MadGuardianCount);
+            writer.Write(MayorCount);
+            writer.Write(OpportunistCount);
+            writer.Write(FoxCount);
+            writer.Write(TrollCount);
+
+            
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
             writer.Write(DisableSwipeCard);
@@ -354,8 +466,6 @@ namespace TownOfHost
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
-            writer.Write(FoxCount);
-            writer.Write(TrollCount);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
@@ -477,7 +587,8 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            EnabledCustomRoles = new List<CustomRoles>();
+            
+            
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
@@ -673,6 +784,14 @@ namespace TownOfHost
             };
 
             Harmony.PatchAll();
+        }
+
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
+        class TranslationControllerAwakePatch {
+            public static void Postfix(TranslationController __instance) {
+                var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
+                EnglishLang = new LanguageUnit(english);
+            }
         }
     }
     //Lang-enum

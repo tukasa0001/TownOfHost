@@ -47,7 +47,19 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    byte[] EnabledRoles = reader.ReadBytesAndSize();
+                    int JesterCount = reader.ReadInt32();
+                    int MadmateCount = reader.ReadInt32();
+                    int BaitCount = reader.ReadInt32();
+                    int TerroristCount = reader.ReadInt32();
+                    int SidekickCount = reader.ReadInt32();
+                    int VampireCount = reader.ReadInt32();
+                    int SabotageMasterCount = reader.ReadInt32();
+                    int MadGuardianCount = reader.ReadInt32();
+                    int MayorCount = reader.ReadInt32();
+                    int OpportunistCount = reader.ReadInt32();
+                    int FoxCount = reader.ReadInt32();
+                    int TrollCount = reader.ReadInt32();
+
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
@@ -66,14 +78,23 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
-                    int FoxCount = reader.ReadInt32();
-                    int TrollCount = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
-                        EnabledRoles,
+                        JesterCount,
+                        MadmateCount,
+                        BaitCount,
+                        TerroristCount,
+                        SidekickCount,
+                        VampireCount,
+                        SabotageMasterCount,
+                        MadGuardianCount,
+                        MayorCount,
+                        OpportunistCount,
+                        FoxCount,
+                        TrollCount,
                         IsHideAndSeek,
                         NoGameEnd,
                         SwipeCardDisabled,
@@ -92,8 +113,6 @@ namespace TownOfHost
                         SyncedButtonCount,
                         AllowCloseDoors,
                         HaSKillDelay,
-                        FoxCount,
-                        TrollCount,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
                         MadGuardianCanSeeBarrier,
@@ -126,7 +145,18 @@ namespace TownOfHost
     }
     static class RPCProcedure {
         public static void SyncCustomSettings(
-                byte[] EnabledRoles,
+                int JesterCount,
+                int MadmateCount,
+                int BaitCount,
+                int TerroristCount,
+                int SidekickCount,
+                int VampireCount,
+                int SabotageMasterCount,
+                int MadGuardianCount,
+                int MayorCount,
+                int OpportunistCount,
+                int FoxCount,
+                int TrollCount,
                 bool isHideAndSeek,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
@@ -145,16 +175,24 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
-                int FoxCount,
-                int TrollCount,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
-            List<CustomRoles> EnabledRolesList = new List<CustomRoles>();
-            EnabledRoles.ToList().ForEach(roleId => EnabledRolesList.Add((CustomRoles)roleId));
-            main.EnabledCustomRoles = EnabledRolesList;
+            main.JesterCount = JesterCount;
+            main.MadmateCount = MadmateCount;
+            main.BaitCount = BaitCount;
+            main.TerroristCount = TerroristCount;
+            main.SidekickCount= SidekickCount;
+            main.VampireCount= VampireCount;
+            main.SabotageMasterCount= SabotageMasterCount;
+            main.MadGuardianCount = MadGuardianCount;
+            main.MayorCount = MayorCount;
+            main.OpportunistCount= OpportunistCount;
+
+            main.FoxCount = FoxCount;
+            main.TrollCount = TrollCount;
             
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
@@ -184,8 +222,6 @@ namespace TownOfHost
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;
-            main.FoxCount = FoxCount;
-            main.TrollCount = TrollCount;
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;

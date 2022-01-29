@@ -41,7 +41,7 @@ namespace TownOfHost
                         if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                         if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
                     }else{
-                        if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                        /*if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                         if(main.EnabledCustomRoles.Contains(CustomRoles.Vampire)) main.SendToAll(main.getLang(lang.VampireInfoLong));
                         if(main.EnabledCustomRoles.Contains(CustomRoles.Sidekick)) main.SendToAll(main.getLang(lang.SidekickInfoLong));
                         if(main.EnabledCustomRoles.Contains(CustomRoles.Madmate)) main.SendToAll(main.getLang(lang.MadmateInfoLong));
@@ -51,7 +51,7 @@ namespace TownOfHost
                         if(main.EnabledCustomRoles.Contains(CustomRoles.SabotageMaster)) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                         if(main.EnabledCustomRoles.Contains(CustomRoles.Mayor)) main.SendToAll(main.getLang(lang.MayorInfoLong));
                         if(main.EnabledCustomRoles.Contains(CustomRoles.MadGuardian)) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                        if(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)) main.SendToAll(main.getLang(lang.OpportunistInfoLong));*/
                     }
                     if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                 }
