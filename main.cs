@@ -537,7 +537,7 @@ namespace TownOfHost
             if(cRoleFound) return cRole;
             else return CustomRoles.Default;
         }
-        public static void NotifyRoles(float revertTime) {
+        public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
             foreach(var pc in PlayerControl.AllPlayerControls) {
