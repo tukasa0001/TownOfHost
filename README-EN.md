@@ -14,7 +14,6 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 
 However, please note that the following restrictions will apply as we are using a mechanism to replace the official additional roles.
 
-- The same additional role or role that is being replaced can not be introduced at the same time.
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, Disable vitals for Scientist, etc.)
 
