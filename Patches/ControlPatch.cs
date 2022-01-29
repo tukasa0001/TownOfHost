@@ -42,6 +42,7 @@ namespace TownOfHost
             // | N | ホスト | ID1の名前をDesyncさせる |
             // | I | ホスト | プレイヤー全員を自分の名前にする（全視点） |
             // | U | ホスト | 全員自分だけがインポスターだと認識させる |
+            // | C | ロビー | クリップボードにゲームコードをコピーする |
             //====================
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -81,6 +82,12 @@ namespace TownOfHost
                         }
                     }
                 }
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+                GUIUtility.systemCopyBuffer = code;
+                Logger.info($"[ClipBoard]{code}");
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
