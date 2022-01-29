@@ -62,7 +62,7 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            main.HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
+            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();
@@ -73,7 +73,7 @@ namespace TownOfHost
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 //リスト作成兼色設定処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    main.HideAndSeekRoleList.Add(pc.PlayerId,HideAndSeekRoles.Default);
+                    main.AllPlayerCustomRoles.Add(pc.PlayerId,CustomRoles.Default);
                     if(pc.Data.Role.IsImpostor) {
                         Impostors.Add(pc);
                         pc.RpcSetColor(0);
@@ -95,22 +95,22 @@ namespace TownOfHost
                 for(var i = 0; i < FixedFoxCount; i++) {
                     var id = rand.Next(Crewmates.Count);
                     FoxList.Add(Crewmates[id]);
-                    main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Fox;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Fox;
                     Crewmates[id].RpcSetColor(3);
-                    Crewmates[id].RpcSetHideAndSeekRole(HideAndSeekRoles.Fox);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.Fox);
                     Crewmates.RemoveAt(id);
                 }
                 for(var i = 0; i < FixedTrollCount; i++) {
                     var id = rand.Next(Crewmates.Count);
                     TrollList.Add(Crewmates[id]);
-                    main.HideAndSeekRoleList[Crewmates[id].PlayerId] = HideAndSeekRoles.Troll;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Troll;
                     Crewmates[id].RpcSetColor(2);
-                    Crewmates[id].RpcSetHideAndSeekRole(HideAndSeekRoles.Troll);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.Troll);
                     Crewmates.RemoveAt(id);
                 }
                 //通常クルー・インポスター用RPC
-                foreach(var pc in Crewmates) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
-                foreach(var pc in Impostors) pc.RpcSetHideAndSeekRole(HideAndSeekRoles.Default);
+                foreach(var pc in Crewmates) pc.RpcSetCustomRole(CustomRoles.Default);
+                foreach(var pc in Impostors) pc.RpcSetCustomRole(CustomRoles.Default);
             } else {
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 List<PlayerControl> Impostors = new List<PlayerControl>();

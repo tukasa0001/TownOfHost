@@ -207,7 +207,7 @@ namespace TownOfHost
             {
                 var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
-                    var hasRole = main.HideAndSeekRoleList.TryGetValue(__instance.PlayerId, out var role);
+                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
                     if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
                 RoleText.text = RoleTextData.Item1;

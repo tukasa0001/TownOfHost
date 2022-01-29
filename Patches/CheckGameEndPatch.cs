@@ -133,9 +133,9 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
+                var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 if(!hasRole) return false;
-                if(role == HideAndSeekRoles.Troll && pc.Data.IsDead) {
+                if(role == CustomRoles.Troll && pc.Data.IsDead) {
                     __instance.enabled = false;
                     ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -189,7 +189,7 @@ namespace TownOfHost
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
                     GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
-                    var hasHideAndSeekRole = main.HideAndSeekRoleList.TryGetValue((byte)i,out var role);
+                    var hasHideAndSeekRole = main.AllPlayerCustomRoles.TryGetValue((byte)i,out var role);
                     if (!playerInfo.Disconnected)
                     {
                         if (!playerInfo.IsDead)
@@ -197,7 +197,7 @@ namespace TownOfHost
                             if(!main.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
                             else {
                                 //HideAndSeek中
-                                if(role == HideAndSeekRoles.Default) numTotalAlive++;
+                                if(role == CustomRoles.Default) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor)

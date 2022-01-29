@@ -133,7 +133,7 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
             if(main.IsHideAndSeek) {
-                if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Fox) {
+                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
                     __instance.TeamTitle.text = "Fox";
                     __instance.TeamTitle.fontSize -= 0.5f;
                     __instance.ImpostorText.gameObject.SetActive(true);
@@ -143,7 +143,7 @@ namespace TownOfHost
                     __instance.RoleText.text = "狐";
                     __instance.RoleBlurbText.text = "殺されずに逃げきれ";
                 }
-                if (main.HideAndSeekRoleList[PlayerControl.LocalPlayer.PlayerId] == HideAndSeekRoles.Troll) {
+                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Troll) {
                     __instance.TeamTitle.text = "Troll";
                     __instance.TeamTitle.fontSize -= 0.5f;
                     __instance.ImpostorText.gameObject.SetActive(true);

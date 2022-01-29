@@ -22,7 +22,6 @@ namespace TownOfHost
         TerroristWin,
         EndGame,
         PlaySound,
-        SetHideAndSeekRole,
         SetCustomRole
     }
     public enum Sounds
@@ -104,11 +103,6 @@ namespace TownOfHost
                     byte playerID = reader.ReadByte();
                     Sounds sound = (Sounds)reader.ReadByte();
                     RPCProcedure.PlaySound(playerID, sound);
-                    break;
-                case (byte)CustomRPC.SetHideAndSeekRole:
-                    byte target = reader.ReadByte();
-                    HideAndSeekRoles HaSRole = (HideAndSeekRoles)reader.ReadByte();
-                    RPCProcedure.SetHideAndSeekRole(target, HaSRole);
                     break;
                 case (byte)CustomRPC.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
@@ -270,9 +264,6 @@ namespace TownOfHost
                         break;
                 }
             }
-        }
-        public static void SetHideAndSeekRole(byte targetID, HideAndSeekRoles role) {
-            main.HideAndSeekRoleList[targetID] = role;
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;

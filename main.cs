@@ -62,7 +62,7 @@ namespace TownOfHost
         public static float HideAndSeekImpVisionMin;
         public static int FoxCount;
         public static int TrollCount;
-        public static Dictionary<byte, HideAndSeekRoles> HideAndSeekRoleList;
+        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -240,7 +240,7 @@ namespace TownOfHost
 
             return (RoleText, TextColor);
         }
-        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole)
+        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
             Color color = Color.red;
@@ -255,15 +255,15 @@ namespace TownOfHost
                 default:
                     switch (hRole)
                     {
-                        case HideAndSeekRoles.Default:
+                        case CustomRoles.Default:
                             text = "Crewmate";
                             color = Color.white;
                             break;
-                        case HideAndSeekRoles.Fox:
+                        case CustomRoles.Fox:
                             text = "Fox";
                             color = Color.magenta;
                             break;
-                        case HideAndSeekRoles.Troll:
+                        case CustomRoles.Troll:
                             text = "Troll";
                             color = Color.green;
                             break;
@@ -279,11 +279,11 @@ namespace TownOfHost
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
-                var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
+                var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == HideAndSeekRoles.Fox ||
-                    role == HideAndSeekRoles.Troll) hasTasks = false;
+                    if (role == CustomRoles.Fox ||
+                    role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
                 if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
@@ -318,7 +318,6 @@ namespace TownOfHost
         public static float TextCursorTimer;
         //Enabled Role
         public static List<CustomRoles> EnabledCustomRoles;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -460,7 +459,7 @@ namespace TownOfHost
             HideAndSeekImpVisionMin = 0.25f;
             TrollCount = 0;
             FoxCount = 0;
-            HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
+            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
@@ -765,12 +764,12 @@ namespace TownOfHost
         Jester,
         Terrorist
     }
-    public enum HideAndSeekRoles : byte
+    /*public enum CustomRoles : byte
     {
         Default = 0,
         Troll = 1,
         Fox = 2
-    }
+    }*/
     public enum SuffixModes {
         None = 0,
         TOH,
