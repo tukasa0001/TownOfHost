@@ -48,6 +48,15 @@ namespace TownOfHost
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
+        public static string getRoleName(RoleTypes role) {
+            var currentLanguage = TranslationController.Instance.CurrentLanguage;
+            if(JapaneseRoleName.Value == false) {
+                var english = TranslationController.Instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
+                if(english != null) currentLanguage = new LanguageUnit(english);
+            }
+            string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
+            return text;
+        }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor { get; private set; }
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
@@ -166,74 +175,59 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
+            RoleText = getRoleName(cRole);
             switch (cRole) {
                 case CustomRoles.Default:
-                    RoleText = "Invalid Vanilla Role";
+                    RoleText = getRoleName(player.Data.Role.Role);
                     switch(player.Data.Role.Role) {
                         case RoleTypes.Crewmate:
-                            RoleText = "Crewmate";
                             TextColor = Color.white;
                             break;
                         case RoleTypes.Scientist:
-                            RoleText = "Scientist";
                             TextColor = Palette.CrewmateBlue;
                             break;
                         case RoleTypes.Engineer:
-                            RoleText = "Engineer";
                             TextColor = Palette.CrewmateBlue;
                             break;
                         case RoleTypes.GuardianAngel:
-                            RoleText = "Guardian Angel";
                             TextColor = Palette.CrewmateBlue;
                             break;
                         case RoleTypes.Impostor:
-                            RoleText = "Impostor";
                             TextColor = Palette.ImpostorRed;
                             break;
                         case RoleTypes.Shapeshifter:
-                            RoleText = "Shapeshifter";
                             TextColor = Palette.ImpostorRed;
                             break;
                     }
                     break;
                 case CustomRoles.Jester:
-                    RoleText = "Jester";
                     TextColor = JesterColor();
                     break;
                 case CustomRoles.Madmate:
-                    RoleText = "Madmate";
                     TextColor = Palette.ImpostorRed;
                     break;
                 case CustomRoles.MadGuardian:
-                    RoleText = "Mad Guardian";
                     TextColor = Palette.ImpostorRed;
                     break;
                 case CustomRoles.Mayor:
-                    RoleText = "Mayor";
                     TextColor = MayorColor;
                     break;
                 case CustomRoles.Opportunist:
-                    RoleText = "Opportunist";
                     TextColor = Color.green;
                     break;
                 case CustomRoles.SabotageMaster:
-                    RoleText = "Sabotage Master";
                     TextColor = Color.blue;
                     break;
                 case CustomRoles.Terrorist:
-                    RoleText = "Terrorist";
                     TextColor = Color.green;
                     break;
                 case CustomRoles.Bait:
-                    RoleText = "Bait";
                     TextColor = Color.cyan;
                     break;
                 case CustomRoles.Vampire:
-                    RoleText = "Vampire";
                     TextColor = VampireColor;
                     break;
                 case CustomRoles.Sidekick:
-                    RoleText = "Sidekick";
                     TextColor = Palette.ImpostorRed;
                     break;
             }
