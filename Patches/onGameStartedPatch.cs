@@ -171,9 +171,9 @@ namespace TownOfHost
         }
         private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
             if(players.Count <= 0) return;
-            if(RawCount == -1) main.GetCountFromRole(role);
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
+            if(RawCount == -1) count = Math.Clamp(main.GetCountFromRole(role), 0, players.Count);
             for(var i = 0; i < count; i++) {
                 var player = players[rand.Next(0, players.Count - 1)];
                 players.Remove(player);
