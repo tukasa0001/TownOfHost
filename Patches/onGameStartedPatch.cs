@@ -147,16 +147,16 @@ namespace TownOfHost
                     }
                 }
                 //Assign ここが全役職常時ON状態になっている
-                //AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                //AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
-                //AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
-                //AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
-                //AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                //AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
-                //AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
-                //AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -172,8 +172,9 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = 1) {
-            if(RawCount <= 0 || players.Count <= 0) return;
+        private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
+            if(players.Count <= 0) return;
+            if(RawCount == -1) main.GetCountFromRole(role);
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             for(var i = 0; i < count; i++) {
