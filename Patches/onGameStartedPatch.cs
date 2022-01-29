@@ -174,6 +174,7 @@ namespace TownOfHost
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             if(RawCount == -1) count = Math.Clamp(main.GetCountFromRole(role), 0, players.Count);
+            if(count >= 0) return;
             for(var i = 0; i < count; i++) {
                 var player = players[rand.Next(0, players.Count - 1)];
                 players.Remove(player);
