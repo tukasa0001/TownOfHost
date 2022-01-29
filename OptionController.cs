@@ -45,70 +45,70 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.Madmate) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Madmate)),
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Madmate)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Madmate);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.MadGuardian, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.MadGuardian) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.MadGuardian)),
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.MadGuardian) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.MadGuardian)),
                         true,
                         () => {main.ToggleRole(CustomRoles.MadGuardian);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Sidekick, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(RoleNames.Sidekick) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Sidekick)),
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Sidekick)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Sidekick);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        () => "<color=#a757a8>" + main.getRoleName(RoleNames.Vampire) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Vampire)),
+                        () => "<color=#a757a8>" + main.getRoleName(CustomRoles.Vampire) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Vampire)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Vampire);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Jester, new PageObject(
-                        () => "<color=#d161a4>" + main.getRoleName(RoleNames.Jester) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Jester)),
+                        () => "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Jester)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Jester);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(RoleNames.Terrorist) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Terrorist)),
+                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Terrorist)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Terrorist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Opportunist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(RoleNames.Opportunist) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)),
+                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Opportunist);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Bait, new PageObject(
-                        () => "<color=#00bfff>" + main.getRoleName(RoleNames.Bait) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Bait)),
+                        () => "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Bait)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Bait);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.SabotageMaster, new PageObject(
-                        () => "<color=#0000ff>" + main.getRoleName(RoleNames.SabotageMaster) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.SabotageMaster)),
+                        () => "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.SabotageMaster)),
                         true,
                         () => {main.ToggleRole(CustomRoles.SabotageMaster);},
                         new List<OptionPages>(){},
                         OptionPages.roles
                     )},
                     {OptionPages.Mayor, new PageObject(
-                        () => "<color=#ff00ff>" + main.getRoleName(RoleNames.Mayor) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Mayor)),
+                        () => "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.getOnOff(main.EnabledCustomRoles.Contains(CustomRoles.Mayor)),
                         true,
                         () => {main.ToggleRole(CustomRoles.Mayor);},
                         new List<OptionPages>(){},
@@ -298,7 +298,7 @@ namespace TownOfHost
                             OptionPages.HideAndSeekOptions
                         )},
                             {OptionPages.Fox, new PageObject(
-                                () => "<color=#e478ff>" + main.getRoleName(RoleNames.Fox) + "</color>: " + main.FoxCount,
+                                () => "<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
                                 true,
                                 () => {
                                     if(main.FoxCount == 0) main.FoxCount = 1;
@@ -317,7 +317,7 @@ namespace TownOfHost
                                 }
                             )},
                             {OptionPages.Troll, new PageObject(
-                                () => "<color=#00ff00>" + main.getRoleName(RoleNames.Troll) + "</color>: " + main.TrollCount,
+                                () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
                                 true,
                                 () => {
                                     if(main.TrollCount == 0) main.TrollCount = 1;

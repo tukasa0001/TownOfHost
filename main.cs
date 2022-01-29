@@ -31,9 +31,9 @@ namespace TownOfHost
         public static ConfigEntry<bool> AmDebugger {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
-        private static Dictionary<RoleNames, string> JapaneseRoleNames = new Dictionary<RoleNames, string>();
+        private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
-        private static Dictionary<RoleNames, string> EnglishRoleNames = new Dictionary<RoleNames, string>();
+        private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
@@ -42,7 +42,7 @@ namespace TownOfHost
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
-        public static string getRoleName(RoleNames role) {
+        public static string getRoleName(CustomRoles role) {
             var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
@@ -639,33 +639,33 @@ namespace TownOfHost
                 {lang.ON, "ON"},
                 {lang.OFF, "OFF"},
             };
-            EnglishRoleNames = new Dictionary<RoleNames, string>(){
-                {RoleNames.Jester, "Jester"},
-                {RoleNames.Madmate, "Madmate"},
-                {RoleNames.MadGuardian, "MadGuardian"},
-                {RoleNames.Bait, "Bait"},
-                {RoleNames.Terrorist, "Terrorist"},
-                {RoleNames.Sidekick, "Sidekick"},
-                {RoleNames.Vampire, "Vampire"},
-                {RoleNames.SabotageMaster, "SabotageMaster"},
-                {RoleNames.Mayor, "Mayor"},
-                {RoleNames.Opportunist, "Opportunist"},
-                {RoleNames.Fox, "Fox"},
-                {RoleNames.Troll, "Troll"},
+            EnglishRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Jester, "Jester"},
+                {CustomRoles.Madmate, "Madmate"},
+                {CustomRoles.MadGuardian, "MadGuardian"},
+                {CustomRoles.Bait, "Bait"},
+                {CustomRoles.Terrorist, "Terrorist"},
+                {CustomRoles.Sidekick, "Sidekick"},
+                {CustomRoles.Vampire, "Vampire"},
+                {CustomRoles.SabotageMaster, "SabotageMaster"},
+                {CustomRoles.Mayor, "Mayor"},
+                {CustomRoles.Opportunist, "Opportunist"},
+                {CustomRoles.Fox, "Fox"},
+                {CustomRoles.Troll, "Troll"},
             };
-            JapaneseRoleNames = new Dictionary<RoleNames, string>(){
-                {RoleNames.Jester, "ジェスター"},
-                {RoleNames.Madmate, "狂人"},
-                {RoleNames.MadGuardian, "守護狂人"},
-                {RoleNames.Bait, "ベイト"},
-                {RoleNames.Terrorist, "テロリスト"},
-                {RoleNames.Sidekick, "相棒"},
-                {RoleNames.Vampire, "吸血鬼"},
-                {RoleNames.SabotageMaster, "サボタージュマスター"},
-                {RoleNames.Mayor, "メイヤー"},
-                {RoleNames.Opportunist, "オポチュニスト"},
-                {RoleNames.Fox, "狐"},
-                {RoleNames.Troll, "トロール"},
+            JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Jester, "ジェスター"},
+                {CustomRoles.Madmate, "狂人"},
+                {CustomRoles.MadGuardian, "守護狂人"},
+                {CustomRoles.Bait, "ベイト"},
+                {CustomRoles.Terrorist, "テロリスト"},
+                {CustomRoles.Sidekick, "相棒"},
+                {CustomRoles.Vampire, "吸血鬼"},
+                {CustomRoles.SabotageMaster, "サボタージュマスター"},
+                {CustomRoles.Mayor, "メイヤー"},
+                {CustomRoles.Opportunist, "オポチュニスト"},
+                {CustomRoles.Fox, "狐"},
+                {CustomRoles.Troll, "トロール"},
             };
 
             Harmony.PatchAll();
@@ -742,8 +742,9 @@ namespace TownOfHost
         ON,
         OFF,
     }
-    public enum RoleNames {
-        Jester = 0,
+    public enum CustomRoles {
+        Default = 0,
+        Jester,
         Madmate,
         Bait,
         Terrorist,
@@ -763,19 +764,6 @@ namespace TownOfHost
         Default,
         Jester,
         Terrorist
-    }
-    public enum CustomRoles {
-        Default,
-        Jester,
-        Bait,
-        SabotageMaster,
-        MadGuardian,
-        Mayor,
-        Opportunist,
-        Madmate,
-        Terrorist,
-        Vampire,
-        Sidekick
     }
     public enum HideAndSeekRoles : byte
     {

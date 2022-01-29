@@ -41,7 +41,7 @@ namespace TownOfHost
             }
             if (main.isJester(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Jester);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Jester);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.JesterInfo);
                 __instance.TeamTitle.color = main.JesterColor();
@@ -49,7 +49,7 @@ namespace TownOfHost
             }
             if (main.isMadmate(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Madmate);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Madmate);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.MadmateInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
@@ -58,7 +58,7 @@ namespace TownOfHost
             }
             if (main.isBait(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Bait);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Bait);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.BaitInfo);
                 __instance.TeamTitle.color = Color.cyan;
@@ -66,7 +66,7 @@ namespace TownOfHost
             }
             if (main.isTerrorist(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Terrorist);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Terrorist);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.TerroristInfo);
                 __instance.TeamTitle.color = Color.green;
@@ -77,7 +77,7 @@ namespace TownOfHost
             }
             if (main.isSidekick(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Sidekick);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Sidekick);
                 __instance.TeamTitle.fontSize -= 0.5f;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.SidekickInfo);
@@ -86,7 +86,7 @@ namespace TownOfHost
             }
             if (main.isVampire(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Vampire);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Vampire);
                 __instance.TeamTitle.fontSize -= 0.5f;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.VampireInfo);
@@ -96,7 +96,7 @@ namespace TownOfHost
             }
             if (main.isSabotageMaster(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.SabotageMaster);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.SabotageMaster);
                 __instance.TeamTitle.fontSize -= 0.75f;
                 __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -107,7 +107,7 @@ namespace TownOfHost
             }
             if (main.isMadGuardian(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.MadGuardian);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.MadGuardian);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.MadGuardianInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
@@ -116,7 +116,7 @@ namespace TownOfHost
             }
             if (main.isOpportunist(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Opportunist);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Opportunist);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.OpportunistInfo);
                 __instance.TeamTitle.color = Color.green;
@@ -124,7 +124,7 @@ namespace TownOfHost
             }
             if (main.isMayor(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(RoleNames.Mayor);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mayor);
                 __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.MayorInfo);
