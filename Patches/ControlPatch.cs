@@ -39,7 +39,6 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | オンライン以外 | 自分の投票をClearする |
-            // | N | ホスト | マップを途中からMiraHQに変更する |
             //====================
 
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)

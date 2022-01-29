@@ -178,23 +178,19 @@ namespace TownOfHost
             RoleText = getRoleName(cRole);
             switch (cRole) {
                 case CustomRoles.Default:
-                    RoleText = getRoleName(player.Data.Role.Role);
+                    //RoleText = getRoleName(player.Data.Role.Role);
                     switch(player.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             TextColor = Color.white;
                             break;
+                        //クルー陣営役職
                         case RoleTypes.Scientist:
-                            TextColor = Palette.CrewmateBlue;
-                            break;
                         case RoleTypes.Engineer:
-                            TextColor = Palette.CrewmateBlue;
-                            break;
                         case RoleTypes.GuardianAngel:
                             TextColor = Palette.CrewmateBlue;
                             break;
+                        //インポスター陣営役職
                         case RoleTypes.Impostor:
-                            TextColor = Palette.ImpostorRed;
-                            break;
                         case RoleTypes.Shapeshifter:
                             TextColor = Palette.ImpostorRed;
                             break;
