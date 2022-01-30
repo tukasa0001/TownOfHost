@@ -36,27 +36,6 @@ namespace TownOfHost
         private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
-        //Lang-Get
-        //langのenumに対応した値をリストから持ってくる
-        public static string getLang(lang lang)
-        {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
-            var isSuccess = dic.TryGetValue(lang, out var text);
-            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
-        }
-        public static string getRoleName(CustomRoles role) {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
-            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
-            var isSuccess = dic.TryGetValue(role, out var text);
-            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
-        }
-        public static string getRoleName(RoleTypes role) {
-            var currentLanguage = TranslationController.Instance.CurrentLanguage;
-            if(JapaneseRoleName.Value == false && EnglishLang != null)
-                currentLanguage = EnglishLang;
-            string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
-            return text;
-        }
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor { get; private set; }
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
@@ -82,14 +61,7 @@ namespace TownOfHost
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
         public static bool DisableStartReactor;
-        //色がTeruteruモードとJesterモードがある
-        public static Color JesterColor()
-        {
-            if (TeruteruColor.Value)
-                return new Color(0.823f, 0.411f, 0.117f);
-            else
-                return new Color(0.925f, 0.384f, 0.647f);
-        }
+        public static Color JesterColor = new Color(0.925f, 0.384f, 0.647f);
         public static Color MayorColor = new Color(1f, 0f, 1f);
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
@@ -184,6 +156,27 @@ namespace TownOfHost
             int count = GetCountFromRole(role);
             count = SetRoleCount(count, addCount);
             SetCountFromRole(role, count);
+        }
+        //Lang-Get
+        //langのenumに対応した値をリストから持ってくる
+        public static string getLang(lang lang)
+        {
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var isSuccess = dic.TryGetValue(lang, out var text);
+            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
+        }
+        public static string getRoleName(CustomRoles role) {
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
+            var isSuccess = dic.TryGetValue(role, out var text);
+            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+        }
+        public static string getRoleName(RoleTypes role) {
+            var currentLanguage = TranslationController.Instance.CurrentLanguage;
+            if(JapaneseRoleName.Value == false && EnglishLang != null) 
+                currentLanguage = EnglishLang;
+            string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
+            return text;
         }
         public static int GetCountFromRole(CustomRoles role) {
             int count;
@@ -287,7 +280,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Jester:
-                    TextColor = JesterColor();
+                    TextColor = JesterColor;
                     break;
                 case CustomRoles.Madmate:
                     TextColor = Palette.ImpostorRed;
