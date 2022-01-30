@@ -11,6 +11,7 @@ using TownOfHost;
 using Hazel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -21,7 +22,7 @@ namespace TownOfHost
         TerroristWin,
         EndGame,
         PlaySound,
-        SetHideAndSeekRole
+        SetCustomRole
     }
     public enum Sounds
     {
@@ -29,15 +30,36 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+            byte packetID = callId;
+            switch (packetID)
+            {
+                case 6: //SetNameRPC
+                    string name = reader.ReadString();
+                    bool DontShowOnModdedClient = reader.ReadBoolean();
+                    if(!DontShowOnModdedClient) __instance.SetName(name);
+                    return false;
+            }
+            return true;
+        }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
             byte packetID = callId;
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    byte scientist = reader.ReadByte();
-                    byte engineer = reader.ReadByte();
-                    byte impostor = reader.ReadByte();
-                    byte shapeshifter = reader.ReadByte();
+                    int JesterCount = reader.ReadInt32();
+                    int MadmateCount = reader.ReadInt32();
+                    int BaitCount = reader.ReadInt32();
+                    int TerroristCount = reader.ReadInt32();
+                    int SidekickCount = reader.ReadInt32();
+                    int VampireCount = reader.ReadInt32();
+                    int SabotageMasterCount = reader.ReadInt32();
+                    int MadGuardianCount = reader.ReadInt32();
+                    int MayorCount = reader.ReadInt32();
+                    int OpportunistCount = reader.ReadInt32();
+                    int FoxCount = reader.ReadInt32();
+                    int TrollCount = reader.ReadInt32();
+
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
@@ -56,17 +78,23 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
-                    int FoxCount = reader.ReadInt32();
-                    int TrollCount = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
-                        scientist,
-                        engineer,
-                        impostor,
-                        shapeshifter,
+                        JesterCount,
+                        MadmateCount,
+                        BaitCount,
+                        TerroristCount,
+                        SidekickCount,
+                        VampireCount,
+                        SabotageMasterCount,
+                        MadGuardianCount,
+                        MayorCount,
+                        OpportunistCount,
+                        FoxCount,
+                        TrollCount,
                         IsHideAndSeek,
                         NoGameEnd,
                         SwipeCardDisabled,
@@ -85,8 +113,6 @@ namespace TownOfHost
                         SyncedButtonCount,
                         AllowCloseDoors,
                         HaSKillDelay,
-                        FoxCount,
-                        TrollCount,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
                         MadGuardianCanSeeBarrier,
@@ -109,20 +135,28 @@ namespace TownOfHost
                     Sounds sound = (Sounds)reader.ReadByte();
                     RPCProcedure.PlaySound(playerID, sound);
                     break;
-                case (byte)CustomRPC.SetHideAndSeekRole:
-                    byte target = reader.ReadByte();
-                    HideAndSeekRoles HaSRole = (HideAndSeekRoles)reader.ReadByte();
-                    RPCProcedure.SetHideAndSeekRole(target, HaSRole);
+                case (byte)CustomRPC.SetCustomRole:
+                    byte CustomRoleTargetId = reader.ReadByte();
+                    CustomRoles role = (CustomRoles)reader.ReadByte();
+                    RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
             }
         }
     }
     static class RPCProcedure {
         public static void SyncCustomSettings(
-                byte scientist,
-                byte engineer,
-                byte impostor,
-                byte shapeshifter,
+                int JesterCount,
+                int MadmateCount,
+                int BaitCount,
+                int TerroristCount,
+                int SidekickCount,
+                int VampireCount,
+                int SabotageMasterCount,
+                int MadGuardianCount,
+                int MayorCount,
+                int OpportunistCount,
+                int FoxCount,
+                int TrollCount,
                 bool isHideAndSeek,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
@@ -141,17 +175,25 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
-                int FoxCount,
-                int TrollCount,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
-            main.currentScientist = (ScientistRoles)scientist;
-            main.currentEngineer = (EngineerRoles)engineer;
-            main.currentImpostor = (ImpostorRoles)impostor;
-            main.currentShapeshifter = (ShapeshifterRoles)shapeshifter;
+            main.JesterCount = JesterCount;
+            main.MadmateCount = MadmateCount;
+            main.BaitCount = BaitCount;
+            main.TerroristCount = TerroristCount;
+            main.SidekickCount= SidekickCount;
+            main.VampireCount= VampireCount;
+            main.SabotageMasterCount= SabotageMasterCount;
+            main.MadGuardianCount = MadGuardianCount;
+            main.MayorCount = MayorCount;
+            main.OpportunistCount= OpportunistCount;
+
+            main.FoxCount = FoxCount;
+            main.TrollCount = TrollCount;
+            
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
 
@@ -180,8 +222,6 @@ namespace TownOfHost
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;
-            main.FoxCount = FoxCount;
-            main.TrollCount = TrollCount;
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
@@ -204,15 +244,6 @@ namespace TownOfHost
                     if (Imp == null) Imp = p;
                     Impostors.Add(p);
                 }
-            }
-            if (AmongUsClient.Instance.AmHost && false)
-            {
-                Imp.RpcSetColor((byte)Jester.Data.Outfits[PlayerOutfitType.Default].ColorId);
-                Imp.RpcSetHat(Jester.Data.Outfits[PlayerOutfitType.Default].HatId);
-                Imp.RpcSetVisor(Jester.Data.Outfits[PlayerOutfitType.Default].VisorId);
-                Imp.RpcSetSkin(Jester.Data.Outfits[PlayerOutfitType.Default].SkinId);
-                Imp.RpcSetPet(Jester.Data.Outfits[PlayerOutfitType.Default].PetId);
-                Imp.RpcSetName(Jester.Data.Outfits[PlayerOutfitType.Default].PlayerName + "\r\nJester wins");
             }
             if (AmongUsClient.Instance.AmHost)
             {
@@ -273,11 +304,8 @@ namespace TownOfHost
                 }
             }
         }
-        public static void SetHideAndSeekRole(byte targetID, HideAndSeekRoles role) {
-            main.HideAndSeekRoleList[targetID] = role;
-        }
-        public static void SetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
-            main.HideAndSeekRoleList[player.PlayerId] = role;
+        public static void SetCustomRole(byte targetId, CustomRoles role) {
+            main.AllPlayerCustomRoles[targetId] = role;
         }
     }
 }

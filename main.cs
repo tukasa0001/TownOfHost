@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
+using System.Linq;
 //herro
 namespace TownOfHost
 {
@@ -28,25 +29,13 @@ namespace TownOfHost
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
+
+        public static LanguageUnit EnglishLang {get; private set;}
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
-        private static Dictionary<RoleNames, string> JapaneseRoleNames = new Dictionary<RoleNames, string>();
+        private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
-        private static Dictionary<RoleNames, string> EnglishRoleNames = new Dictionary<RoleNames, string>();
-        //Lang-Get
-        //langのenumに対応した値をリストから持ってくる
-        public static string getLang(lang lang)
-        {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
-            var isSuccess = dic.TryGetValue(lang, out var text);
-            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
-        }
-        public static string getRoleName(RoleNames role) {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
-            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
-            var isSuccess = dic.TryGetValue(role, out var text);
-            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
-        }
+        private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
         //Other Configs
         public static ConfigEntry<bool> TeruteruColor { get; private set; }
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
@@ -59,9 +48,8 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
-        public static int FoxCount;
-        public static int TrollCount;
-        public static Dictionary<byte, HideAndSeekRoles> HideAndSeekRoleList;
+
+        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -73,19 +61,12 @@ namespace TownOfHost
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
         public static bool DisableStartReactor;
-        //色がTeruteruモードとJesterモードがある
-        public static Color JesterColor()
-        {
-            if (TeruteruColor.Value)
-                return new Color(0.823f, 0.411f, 0.117f);
-            else
-                return new Color(0.925f, 0.384f, 0.647f);
-        }
+        public static Color JesterColor = new Color(0.925f, 0.384f, 0.647f);
         public static Color MayorColor = new Color(1f, 0f, 1f);
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => currentImpostor == ImpostorRoles.Vampire;
+        public static bool isFixedCooldown => VampireCount > 0;
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -93,192 +74,246 @@ namespace TownOfHost
         public static List<string> MessagesToSend;
         public static bool isJester(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Jester)
+            if (target.getCustomRole() == CustomRoles.Jester)
                 return true;
             return false;
         }
         public static bool isMadmate(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Madmate)
+            if (target.getCustomRole() == CustomRoles.Madmate)
                 return true;
             return false;
         }
         public static bool isBait(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Bait)
+            if (target.getCustomRole() == CustomRoles.Bait)
                 return true;
             return false;
         }
         public static bool isTerrorist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Engineer && currentEngineer == EngineerRoles.Terrorist)
+            if (target.getCustomRole() == CustomRoles.Terrorist)
                 return true;
             return false;
         }
         public static bool isSidekick(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Shapeshifter && currentShapeshifter == ShapeshifterRoles.Sidekick)
+            if (target.getCustomRole() == CustomRoles.Sidekick)
                 return true;
             return false;
         }
         public static bool isVampire(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Impostor && currentImpostor == ImpostorRoles.Vampire)
+            if (target.getCustomRole() == CustomRoles.Vampire)
                 return true;
             return false;
         }
         public static bool isSabotageMaster(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.SabotageMaster)
+            if (target.getCustomRole() == CustomRoles.SabotageMaster)
                 return true;
             return false;
         }
         public static bool isMadGuardian(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.MadGuardian)
+            if (target.getCustomRole() == CustomRoles.MadGuardian)
                 return true;
             return false;
         }
         public static bool isMayor(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Mayor)
+            if (target.getCustomRole() == CustomRoles.Mayor)
                 return true;
             return false;
         }
         public static bool isOpportunist(PlayerControl target)
         {
-            if (target.Data.Role.Role == RoleTypes.Scientist && currentScientist == ScientistRoles.Opportunist)
+            if (target.getCustomRole() == CustomRoles.Opportunist)
                 return true;
             return false;
         }
 
-        public static void ToggleRole(ScientistRoles role)
+        public static int SetRoleCountToggle(int currentCount)
         {
-            currentScientist = role == currentScientist ? ScientistRoles.Default : role;
+            if(currentCount > 0) return 0;
+            else return 1;
         }
-        public static void ToggleRole(EngineerRoles role)
+        public static int SetRoleCount(int currentCount, int addCount)
         {
-            currentEngineer = role == currentEngineer ? EngineerRoles.Default : role;
+            var fixedCount = currentCount * 10;
+            fixedCount += addCount;
+            fixedCount = Math.Clamp(fixedCount, 0, 99);
+            return fixedCount;
         }
-        public static void ToggleRole(ShapeshifterRoles role)
+        public static void SetRoleCountToggle(CustomRoles role)
         {
-            currentShapeshifter = role == currentShapeshifter ? ShapeshifterRoles.Default : role;
+            int count = GetCountFromRole(role);
+            count = SetRoleCountToggle(count);
+            SetCountFromRole(role, count);
         }
-        public static void ToggleRole(ImpostorRoles role)
+        public static void SetRoleCount(CustomRoles role, int addCount)
         {
-            currentImpostor = role == currentImpostor ? ImpostorRoles.Default : role;
+            int count = GetCountFromRole(role);
+            count = SetRoleCount(count, addCount);
+            SetCountFromRole(role, count);
         }
-
-        public static (string, Color) GetRoleText(RoleTypes role)
+        //Lang-Get
+        //langのenumに対応した値をリストから持ってくる
+        public static string getLang(lang lang)
         {
-            string RoleText = "Invalid";
-            Color TextColor = Color.red;
-            switch (role)
-            {
-                case RoleTypes.Crewmate:
-                    RoleText = "Crewmate";
-                    TextColor = Color.white;
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var isSuccess = dic.TryGetValue(lang, out var text);
+            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
+        }
+        public static string getRoleName(CustomRoles role) {
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
+            var isSuccess = dic.TryGetValue(role, out var text);
+            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+        }
+        public static string getRoleName(RoleTypes role) {
+            var currentLanguage = TranslationController.Instance.CurrentLanguage;
+            if(JapaneseRoleName.Value == false && EnglishLang != null) 
+                currentLanguage = EnglishLang;
+            string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
+            return text;
+        }
+        public static int GetCountFromRole(CustomRoles role) {
+            int count;
+            switch(role) {
+                case CustomRoles.Jester:
+                    count = JesterCount;
                     break;
-                case RoleTypes.Scientist:
-                    switch (currentScientist)
-                    {
-                        case ScientistRoles.Default:
-                            RoleText = "Scientist";
-                            TextColor = Palette.CrewmateBlue;
-                            break;
-                        case ScientistRoles.Jester:
-                            RoleText = "Jester";
-                            TextColor = JesterColor();
-                            break;
-                        case ScientistRoles.Bait:
-                            RoleText = "Bait";
-                            TextColor = Color.cyan;
-                            break;
-                        case ScientistRoles.SabotageMaster:
-                            RoleText = "Sabotage Master";
-                            TextColor = Color.blue;
-                            break;
-                        case ScientistRoles.MadGuardian:
-                            RoleText = "Mad Guardian";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        case ScientistRoles.Mayor:
-                            RoleText = "Mayor";
-                            TextColor = MayorColor;
-                            break;
-                        case ScientistRoles.Opportunist:
-                            RoleText = "Opportunist";
-                            TextColor = Color.green;
-                            break;
-                        default:
-                            RoleText = "Invalid Scientist";
-                            TextColor = Color.red;
-                            break;
-                    }
+                case CustomRoles.Madmate:
+                    count = MadmateCount;
                     break;
-                case RoleTypes.Engineer:
-                    switch (currentEngineer)
-                    {
-                        case EngineerRoles.Default:
-                            RoleText = "Engineer";
-                            TextColor = Palette.CrewmateBlue;
-                            break;
-                        case EngineerRoles.Madmate:
-                            RoleText = "Madmate";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        case EngineerRoles.Terrorist:
-                            RoleText = "Terrorist";
-                            TextColor = Color.green;
-                            break;
-                        default:
-                            RoleText = "Invalid Engineer";
-                            TextColor = Color.red;
-                            break;
-                    }
+                case CustomRoles.Bait:
+                    count = BaitCount;
                     break;
-                case RoleTypes.Impostor:
-                    switch (currentImpostor)
-                    {
-                        case ImpostorRoles.Default:
-                            RoleText = "Impostor";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        case ImpostorRoles.Vampire:
-                            RoleText = "Vampire";
-                            TextColor = VampireColor;
-                            break;
-                        default:
-                            RoleText = "Invalid Impostor";
-                            TextColor = Color.red;
-                            break;
-                    }
+                case CustomRoles.Terrorist:
+                    count = TerroristCount;
                     break;
-                case RoleTypes.Shapeshifter:
-                    switch (currentShapeshifter)
-                    {
-                        case ShapeshifterRoles.Default:
-                            RoleText = "Shapeshifter";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        case ShapeshifterRoles.Sidekick:
-                            RoleText = "Sidekick";
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                        default:
-                            RoleText = "Invalid Shapeshifter";
-                            TextColor = Color.red;
-                            break;
-                    }
+                case CustomRoles.Sidekick:
+                    count = SidekickCount;
                     break;
-                case RoleTypes.GuardianAngel:
-                    RoleText = "GuardianAngel";
-                    TextColor = Palette.CrewmateBlue;
+                case CustomRoles.Vampire:
+                    count = VampireCount;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    count = SabotageMasterCount;
+                    break;
+                case CustomRoles.MadGuardian:
+                    count = MadGuardianCount;
+                    break;
+                case CustomRoles.Mayor:
+                    count = MayorCount;
+                    break;
+                case CustomRoles.Opportunist:
+                    count = OpportunistCount;
+                    break;
+                default:
+                    return -1;
+            }
+            return count;
+        }
+        public static void SetCountFromRole(CustomRoles role, int count) {
+            switch(role) {
+                case CustomRoles.Jester:
+                    JesterCount = count;
+                    break;
+                case CustomRoles.Madmate:
+                    MadmateCount = count;
+                    break;
+                case CustomRoles.Bait:
+                    BaitCount = count;
+                    break;
+                case CustomRoles.Terrorist:
+                    TerroristCount = count;
+                    break;
+                case CustomRoles.Sidekick:
+                    SidekickCount = count;
+                    break;
+                case CustomRoles.Vampire:
+                    VampireCount = count;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    SabotageMasterCount = count;
+                    break;
+                case CustomRoles.MadGuardian:
+                    MadGuardianCount = count;
+                    break;
+                case CustomRoles.Mayor:
+                    MayorCount = count;
+                    break;
+                case CustomRoles.Opportunist:
+                    OpportunistCount = count;
                     break;
             }
+        }
+
+        public static (string, Color) GetRoleText(PlayerControl player)
+        {
+            string RoleText = "Invalid Role";
+            Color TextColor = Color.red;
+
+            var cRole = player.getCustomRole();
+            RoleText = getRoleName(cRole);
+            switch (cRole) {
+                case CustomRoles.Default:
+                    RoleText = getRoleName(player.Data.Role.Role);
+                    switch(player.Data.Role.Role) {
+                        //通常クルー
+                        case RoleTypes.Crewmate:
+                            TextColor = Color.white;
+                            break;
+                        //クルー陣営役職
+                        case RoleTypes.Scientist:
+                        case RoleTypes.Engineer:
+                        case RoleTypes.GuardianAngel:
+                            TextColor = Palette.CrewmateBlue;
+                            break;
+                        //インポスター陣営役職
+                        case RoleTypes.Impostor:
+                        case RoleTypes.Shapeshifter:
+                            TextColor = Palette.ImpostorRed;
+                            break;
+                    }
+                    break;
+                case CustomRoles.Jester:
+                    TextColor = JesterColor;
+                    break;
+                case CustomRoles.Madmate:
+                    TextColor = Palette.ImpostorRed;
+                    break;
+                case CustomRoles.MadGuardian:
+                    TextColor = Palette.ImpostorRed;
+                    break;
+                case CustomRoles.Mayor:
+                    TextColor = MayorColor;
+                    break;
+                case CustomRoles.Opportunist:
+                    TextColor = Color.green;
+                    break;
+                case CustomRoles.SabotageMaster:
+                    TextColor = Color.blue;
+                    break;
+                case CustomRoles.Terrorist:
+                    TextColor = Color.green;
+                    break;
+                case CustomRoles.Bait:
+                    TextColor = Color.cyan;
+                    break;
+                case CustomRoles.Vampire:
+                    TextColor = VampireColor;
+                    break;
+                case CustomRoles.Sidekick:
+                    TextColor = Palette.ImpostorRed;
+                    break;
+            }
+
             return (RoleText, TextColor);
         }
-        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, HideAndSeekRoles hRole)
+        public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
             Color color = Color.red;
@@ -293,15 +328,15 @@ namespace TownOfHost
                 default:
                     switch (hRole)
                     {
-                        case HideAndSeekRoles.Default:
+                        case CustomRoles.Default:
                             text = "Crewmate";
                             color = Color.white;
                             break;
-                        case HideAndSeekRoles.Fox:
+                        case CustomRoles.Fox:
                             text = "Fox";
                             color = Color.magenta;
                             break;
-                        case HideAndSeekRoles.Troll:
+                        case CustomRoles.Troll:
                             text = "Troll";
                             color = Color.green;
                             break;
@@ -314,20 +349,25 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Jester) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.MadGuardian && ForRecompute) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Scientist && main.currentScientist == ScientistRoles.Opportunist) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Madmate) hasTasks = false;
-            if (p.Role.Role == RoleTypes.Engineer && main.currentEngineer == EngineerRoles.Terrorist && ForRecompute) hasTasks = false;
-            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
-                var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
+                var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == HideAndSeekRoles.Fox ||
-                    role == HideAndSeekRoles.Troll) hasTasks = false;
+                    if (role == CustomRoles.Fox ||
+                    role == CustomRoles.Troll) hasTasks = false;
+                }
+            } else {
+                if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+
+                var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
+                if(cRoleFound) {
+                    if (cRole == CustomRoles.Jester) hasTasks = false;
+                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Opportunist) hasTasks = false;
+                    if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                 }
             }
             return hasTasks;
@@ -345,15 +385,49 @@ namespace TownOfHost
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
         }
+
+        public static void ShowActiveRoles()
+        {
+            main.SendToAll("現在有効になっている設定の説明:");
+            if(main.IsHideAndSeek)
+            {
+                main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+            }else{
+                if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                if(main.SidekickCount > 0) main.SendToAll(main.getLang(lang.SidekickInfoLong));
+                if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+            }
+            if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+        }
+        public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static ScientistRoles currentScientist;
-        public static EngineerRoles currentEngineer;
-        public static ImpostorRoles currentImpostor;
-        public static ShapeshifterRoles currentShapeshifter;
+        public static int JesterCount;
+        public static int MadmateCount;
+        public static int BaitCount;
+        public static int TerroristCount;
+        public static int SidekickCount;
+        public static int VampireCount;
+        public static int SabotageMasterCount;
+        public static int MadGuardianCount;
+        public static int MayorCount;
+        public static int OpportunistCount;
+        public static int FoxCount;
+        public static int TrollCount;
+
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -377,10 +451,20 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            writer.Write((byte)currentScientist);
-            writer.Write((byte)currentEngineer);
-            writer.Write((byte)currentImpostor);
-            writer.Write((byte)currentShapeshifter);
+            writer.Write(JesterCount);
+            writer.Write(MadmateCount);
+            writer.Write(BaitCount);
+            writer.Write(TerroristCount);
+            writer.Write(SidekickCount);
+            writer.Write(VampireCount);
+            writer.Write(SabotageMasterCount);
+            writer.Write(MadGuardianCount);
+            writer.Write(MayorCount);
+            writer.Write(OpportunistCount);
+            writer.Write(FoxCount);
+            writer.Write(TrollCount);
+
+
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
             writer.Write(DisableSwipeCard);
@@ -399,8 +483,6 @@ namespace TownOfHost
             writer.Write(SyncedButtonCount);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
-            writer.Write(FoxCount);
-            writer.Write(TrollCount);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
@@ -469,6 +551,25 @@ namespace TownOfHost
             }
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
+        public static PlayerControl getPlayerById(int PlayerId) {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+            return player;
+        }
+        public static CustomRoles getCustomRole(byte PlayerId) {
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomRoles.Default;
+        }
+        public static void NotifyRoles() {
+            if(!AmongUsClient.Instance.AmHost) return;
+            if(PlayerControl.AllPlayerControls == null) return;
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
+                string RoleName = "STRMISS";
+                if(found) RoleName = getRoleName(role);
+                pc.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + pc.name, true);
+            }
+        }
 
         public override void Load()
         {
@@ -483,6 +584,8 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
 
+            RealNames = new Dictionary<byte, string>();
+
             IsHideAndSeek = false;
             AllowCloseDoors = false;
             IgnoreVent = false;
@@ -492,7 +595,7 @@ namespace TownOfHost
             HideAndSeekImpVisionMin = 0.25f;
             TrollCount = 0;
             FoxCount = 0;
-            HideAndSeekRoleList = new Dictionary<byte, HideAndSeekRoles>();
+            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
@@ -507,10 +610,9 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            currentScientist = ScientistRoles.Default;
-            currentEngineer = EngineerRoles.Default;
-            currentImpostor = ImpostorRoles.Default;
-            currentShapeshifter = ShapeshifterRoles.Default;
+
+
+            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
@@ -554,18 +656,18 @@ namespace TownOfHost
                 {lang.MayorInfo, "インポスターを追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "ジェスター(科学者):会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "狂人(エンジニア):インポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "守護狂人(科学者):インポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。"},
-                {lang.BaitInfoLong, "ベイト(科学者):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.TerroristInfoLong, "テロリスト(エンジニア):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "相棒(シェイプシフター):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
-                {lang.VampireInfoLong, "吸血鬼(インポスター):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
-                {lang.SabotageMasterInfoLong, "サボタージュマスター(科学者):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
-                {lang.MayorInfoLong, "メイヤー(科学者):票を複数持っており、まとめて一人に入れることができる。(設定有)"},
-                {lang.OpportunistInfoLong, "オポチュニスト(科学者):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利となる。"},
+                {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
+                {lang.MadGuardianInfoLong, "守護狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.SidekickInfoLong, "相棒:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
+                {lang.VampireInfoLong, "吸血鬼:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
+                {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
+                {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。"},
+                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -573,7 +675,7 @@ namespace TownOfHost
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。"},
+                {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
@@ -621,18 +723,18 @@ namespace TownOfHost
                 {lang.MayorInfo, "Ban the Impostors"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "Jester(Scientist):投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "Madmate(Engineer):インポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "MadGuardian(Scientist):インポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。"},
-                {lang.BaitInfoLong, "Bait(Scientist):キルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.TerroristInfoLong, "Terrorist(Engineer):自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "Sidekick(Shapeshifter):初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
-                {lang.VampireInfoLong, "Vampire(Impostor):キルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
-                {lang.SabotageMasterInfoLong, "SabotageMaster(Scientist):原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
-                {lang.MayorInfoLong, "Mayor(Scientist):票を複数持っており、まとめて一人に入れることができる。(設定有)"},
-                {lang.OpportunistInfoLong, "Opportunist(Scientist):第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利となる。"},
+                {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
+                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
+                {lang.SidekickInfoLong, "Sidekick:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。SidekickではないImpostorが全員死亡すると、Sidekickもキルが可能となる。"},
+                {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
+                {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
+                {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "Troll(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。。"},
+                {lang.TrollInfoLong, "Troll(HideAndSeek):Impostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -640,7 +742,7 @@ namespace TownOfHost
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Inpostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"},
+                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
@@ -673,36 +775,46 @@ namespace TownOfHost
                 {lang.ON, "ON"},
                 {lang.OFF, "OFF"},
             };
-            EnglishRoleNames = new Dictionary<RoleNames, string>(){
-                {RoleNames.Jester, "Jester"},
-                {RoleNames.Madmate, "Madmate"},
-                {RoleNames.MadGuardian, "MadGuardian"},
-                {RoleNames.Bait, "Bait"},
-                {RoleNames.Terrorist, "Terrorist"},
-                {RoleNames.Sidekick, "Sidekick"},
-                {RoleNames.Vampire, "Vampire"},
-                {RoleNames.SabotageMaster, "SabotageMaster"},
-                {RoleNames.Mayor, "Mayor"},
-                {RoleNames.Opportunist, "Opportunist"},
-                {RoleNames.Fox, "Fox"},
-                {RoleNames.Troll, "Troll"},
+            EnglishRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Jester, "Jester"},
+                {CustomRoles.Madmate, "Madmate"},
+                {CustomRoles.MadGuardian, "MadGuardian"},
+                {CustomRoles.Bait, "Bait"},
+                {CustomRoles.Terrorist, "Terrorist"},
+                {CustomRoles.Sidekick, "Sidekick"},
+                {CustomRoles.Vampire, "Vampire"},
+                {CustomRoles.SabotageMaster, "SabotageMaster"},
+                {CustomRoles.Mayor, "Mayor"},
+                {CustomRoles.Opportunist, "Opportunist"},
+                {CustomRoles.Fox, "Fox"},
+                {CustomRoles.Troll, "Troll"},
             };
-            JapaneseRoleNames = new Dictionary<RoleNames, string>(){
-                {RoleNames.Jester, "ジェスター"},
-                {RoleNames.Madmate, "狂人"},
-                {RoleNames.MadGuardian, "守護狂人"},
-                {RoleNames.Bait, "ベイト"},
-                {RoleNames.Terrorist, "テロリスト"},
-                {RoleNames.Sidekick, "相棒"},
-                {RoleNames.Vampire, "吸血鬼"},
-                {RoleNames.SabotageMaster, "サボタージュマスター"},
-                {RoleNames.Mayor, "メイヤー"},
-                {RoleNames.Opportunist, "オポチュニスト"},
-                {RoleNames.Fox, "狐"},
-                {RoleNames.Troll, "トロール"},
+            JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Jester, "ジェスター"},
+                {CustomRoles.Madmate, "狂人"},
+                {CustomRoles.MadGuardian, "守護狂人"},
+                {CustomRoles.Bait, "ベイト"},
+                {CustomRoles.Terrorist, "テロリスト"},
+                {CustomRoles.Sidekick, "相棒"},
+                {CustomRoles.Vampire, "吸血鬼"},
+                {CustomRoles.SabotageMaster, "サボタージュマスター"},
+                {CustomRoles.Mayor, "メイヤー"},
+                {CustomRoles.Opportunist, "オポチュニスト"},
+                {CustomRoles.Fox, "狐"},
+                {CustomRoles.Troll, "トロール"},
             };
 
             Harmony.PatchAll();
+        }
+
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
+        class TranslationControllerAwakePatch {
+            public static void Postfix(TranslationController __instance) {
+                var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
+                EnglishLang = new LanguageUnit(english);
+            }
         }
     }
     //Lang-enum
@@ -776,8 +888,9 @@ namespace TownOfHost
         ON,
         OFF,
     }
-    public enum RoleNames {
-        Jester = 0,
+    public enum CustomRoles {
+        Default = 0,
+        Jester,
         Madmate,
         Bait,
         Terrorist,
@@ -798,38 +911,12 @@ namespace TownOfHost
         Jester,
         Terrorist
     }
-    public enum ScientistRoles
-    {
-        Default = 0,
-        Jester,
-        Bait,
-        SabotageMaster,
-        MadGuardian,
-        Mayor,
-        Opportunist
-    }
-    public enum EngineerRoles
-    {
-        Default = 0,
-        Madmate,
-        Terrorist
-    }
-    public enum ImpostorRoles
-    {
-        Default = 0,
-        Vampire
-    }
-    public enum ShapeshifterRoles
-    {
-        Default = 0,
-        Sidekick
-    }
-    public enum HideAndSeekRoles : byte
+    /*public enum CustomRoles : byte
     {
         Default = 0,
         Troll = 1,
         Fox = 2
-    }
+    }*/
     public enum SuffixModes {
         None = 0,
         TOH,

@@ -15,16 +15,25 @@ using System.Linq;
 
 namespace TownOfHost {
     static class ExtendedPlayerControl {
-        public static void RpcSetHideAndSeekRole(this PlayerControl player, HideAndSeekRoles role) {
-            if(AmongUsClient.Instance.AmClient) {
-                player.SetHideAndSeekRole(role);
-            }
+        public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role) {
+            main.AllPlayerCustomRoles[player.PlayerId] = role;
             if(AmongUsClient.Instance.AmHost) {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetHideAndSeekRole, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
                 writer.Write((byte)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
+        }
+        public static void RpcSetCustomRole(byte PlayerId, CustomRoles role) {
+            if(AmongUsClient.Instance.AmHost) {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
+                writer.Write(PlayerId);
+                writer.Write((byte)role);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void SetCustomRole(this PlayerControl player, CustomRoles role) {
+            main.AllPlayerCustomRoles[player.PlayerId] = role;
         }
 
         public static void RpcExile(this PlayerControl player) {
@@ -40,6 +49,25 @@ namespace TownOfHost {
             return client.Id;
         }
 
+        public static CustomRoles getCustomRole(this PlayerControl player) {
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomRoles.Default;
+        }
+
+        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
+            //player: 名前の変更対象
+            //seer: 上の変更を確認することができるプレイヤー
+
+            if(player == null || name == null) return;
+            if(seer == null) seer = player;
+            var clientId = seer.getClientId();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
+            writer.Write(name);
+            writer.Write(DontShowOnModdedClient);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null) {
             if(target == null) target = killer;
             killer.RpcProtectPlayer(target, 0);
@@ -47,6 +75,12 @@ namespace TownOfHost {
                 if(target.protectedByGuardian)
                     killer.RpcMurderPlayer(target);
             }, 0.2f, "GuardAndKill");
+        }
+
+        public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role) {
+            if(!dic.ContainsKey(role))
+                dic[role] = 0;
+            return dic[role];
         }
     }
 }

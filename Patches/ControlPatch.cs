@@ -27,61 +27,6 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            //====================
-            // テスト用キーコマンド
-            // | キー | 条件 | 動作 |
-            // | ---- | ---- | ---- |
-            // | X | フリープレイ中 | キルクール0 |
-            // | Y | ホスト | カスタム設定同期 |
-            // | M | フリープレイ中 | 会議強制終了 |
-            // | O | フリープレイ中 | 全タスク完了 |
-            // | G | フリープレイ中 | 開始画面表示 |
-            // | = | フリープレイ中 | VisibleTaskCountを切り替え |
-            // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | V | オンライン以外 | 自分の投票をClearする |
-            // | N | ホスト | ID1の名前をDesyncさせる |
-            // | I | ホスト | プレイヤー全員を自分の名前にする（全視点） |
-            // | U | ホスト | 全員自分だけがインポスターだと認識させる |
-            //====================
-            if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-            {
-                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
-            }
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
-            {
-                main.SyncCustomSettingsRPC();
-            }
-            if (Input.GetKeyDown(KeyCode.N) && !Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
-            {
-                var p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                var c1 = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == 1).FirstOrDefault();
-                if(p1 == null) return;
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(p1.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, c1.Id);
-                writer.Write("Desync");
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-            if (Input.GetKeyDown(KeyCode.I) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
-            {
-                foreach(PlayerControl p in PlayerControl.AllPlayerControls){
-                    foreach(PlayerControl p2 in PlayerControl.AllPlayerControls){
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(p2.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, p.getClientId());
-                        writer.Write(p.Data.PlayerName);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    }
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.U) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
-            {
-                foreach(PlayerControl t in PlayerControl.AllPlayerControls){
-                    foreach(PlayerControl p in PlayerControl.AllPlayerControls){
-                        if(t == p){
-                            main.RpcSetRole(p,t,RoleTypes.Impostor);
-                        }else{
-                            main.RpcSetRole(p,t,RoleTypes.Crewmate);
-                        }
-                    }
-                }
-            }
             if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
@@ -90,14 +35,32 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
             {
-                ChatCommands.seeActiveRolesHelp();
+                main.ShowActiveRoles();
             }
-            if (Input.GetKeyDown(KeyCode.M))
+            //====================
+            // テスト用キーコマンド
+            // | キー | 条件 | 動作 |
+            // | ---- | ---- | ---- |
+            // | X | フリープレイ中 | キルクール0 |
+            // | Y | ホスト | カスタム設定同期 |
+            // | O | フリープレイ中 | 全タスク完了 |
+            // | G | フリープレイ中 | 開始画面表示 |
+            // | = | フリープレイ中 | VisibleTaskCountを切り替え |
+            // | P | フリープレイ中 | トイレのドアを一気に開ける |
+            // | V | オンライン以外 | 自分の投票をClearする |
+            //====================
+
+            if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-                {
-                    MeetingHud.Instance.RpcClose();
-                }
+                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
+            }
+            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
+            {
+                main.SyncCustomSettingsRPC();
+            }
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            {
+                MeetingHud.Instance.RpcClose();
             }
             if (Input.GetKeyDown(KeyCode.V))
             {

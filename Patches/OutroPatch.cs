@@ -61,7 +61,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (main.currentWinner == CustomWinner.Jester && main.currentScientist == ScientistRoles.Jester)
+            if (main.currentWinner == CustomWinner.Jester && main.JesterCount > 0)
             { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -70,7 +70,7 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
-            if (main.currentWinner == CustomWinner.Terrorist && main.currentEngineer == EngineerRoles.Terrorist)
+            if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
             { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -88,16 +88,16 @@ namespace TownOfHost
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    var hasRole = main.HideAndSeekRoleList.TryGetValue(pc.PlayerId, out var role);
+                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
-                    if(role == HideAndSeekRoles.Default) {
+                    if(role == CustomRoles.Default) {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                         if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                     }
-                    if(role == HideAndSeekRoles.Fox && !pc.Data.IsDead) winners.Add(pc);
-                    if(role == HideAndSeekRoles.Troll && pc.Data.IsDead) {
+                    if(role == CustomRoles.Fox && !pc.Data.IsDead) winners.Add(pc);
+                    if(role == CustomRoles.Troll && pc.Data.IsDead) {
                         winners = new List<PlayerControl>();
                         winners.Add(pc);
                         break;
@@ -124,7 +124,7 @@ namespace TownOfHost
             //特殊勝利
             if (main.currentWinner == CustomWinner.Jester)
             {
-                __instance.BackgroundBar.material.color = main.JesterColor();
+                __instance.BackgroundBar.material.color = main.JesterColor;
             }
             if (main.currentWinner == CustomWinner.Terrorist)
             {
@@ -141,8 +141,8 @@ namespace TownOfHost
             if(main.IsHideAndSeek) {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.Data.IsDead) {
-                        var hasRole = main.HideAndSeekRoleList.TryGetValue(p.PlayerId, out var role);
-                        if(hasRole && role == HideAndSeekRoles.Troll) {
+                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                        if(hasRole && role == CustomRoles.Troll) {
                             __instance.BackgroundBar.material.color = Color.green;
                         }
                     }
