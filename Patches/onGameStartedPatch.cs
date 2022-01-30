@@ -30,7 +30,7 @@ namespace TownOfHost
 
                 main.SyncCustomSettingsRPC();
                 var opt = PlayerControl.GameOptions;
-                if (main.MadmateCount> 0 || main.TerroristCount > 0)
+                if (main.RoleCounts[CustomRoles.Madmate]> 0 || main.RoleCounts[CustomRoles.Terrorist] > 0)
                 {//無限ベント
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
@@ -61,11 +61,11 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum += main.MadmateCount + main.TerroristCount;
+                EngineerNum += main.RoleCounts[CustomRoles.Madmate] + main.RoleCounts[CustomRoles.Terrorist];
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, 100);
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum += main.SidekickCount;
+                ShapeshifterNum += main.RoleCounts[CustomRoles.Sidekick];
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
             }
         }
@@ -101,8 +101,8 @@ namespace TownOfHost
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
-                int FixedFoxCount = Math.Clamp(main.FoxCount,0,Crewmates.Count);
-                int FixedTrollCount = Math.Clamp(main.TrollCount,0,Crewmates.Count - FixedFoxCount);
+                int FixedFoxCount = Math.Clamp(main.RoleCounts[CustomRoles.Fox],0,Crewmates.Count);
+                int FixedTrollCount = Math.Clamp(main.RoleCounts[CustomRoles.Troll],0,Crewmates.Count - FixedFoxCount);
                 List<PlayerControl> FoxList = new List<PlayerControl>();
                 List<PlayerControl> TrollList = new List<PlayerControl>();
                 //役職設定処理
@@ -181,11 +181,11 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum -= main.MadmateCount + main.TerroristCount;
+                EngineerNum -= main.RoleCounts[CustomRoles.Madmate] + main.RoleCounts[CustomRoles.Terrorist];
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.SidekickCount;
+                ShapeshifterNum -= main.RoleCounts[CustomRoles.Sidekick];
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
             SetColorPatch.IsAntiGlitchDisabled = false;

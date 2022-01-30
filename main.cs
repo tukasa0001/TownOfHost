@@ -66,7 +66,7 @@ namespace TownOfHost
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => VampireCount > 0;
+        public static bool isFixedCooldown => RoleCounts[CustomRoles.Vampire] > 0;
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -182,34 +182,34 @@ namespace TownOfHost
             int count;
             switch(role) {
                 case CustomRoles.Jester:
-                    count = JesterCount;
+                    count = RoleCounts[CustomRoles.Jester];
                     break;
                 case CustomRoles.Madmate:
-                    count = MadmateCount;
+                    count = RoleCounts[CustomRoles.Madmate];
                     break;
                 case CustomRoles.Bait:
-                    count = BaitCount;
+                    count = RoleCounts[CustomRoles.Bait];
                     break;
                 case CustomRoles.Terrorist:
-                    count = TerroristCount;
+                    count = RoleCounts[CustomRoles.Terrorist];
                     break;
                 case CustomRoles.Sidekick:
-                    count = SidekickCount;
+                    count = RoleCounts[CustomRoles.Sidekick];
                     break;
                 case CustomRoles.Vampire:
-                    count = VampireCount;
+                    count = RoleCounts[CustomRoles.Vampire];
                     break;
                 case CustomRoles.SabotageMaster:
-                    count = SabotageMasterCount;
+                    count = RoleCounts[CustomRoles.SabotageMaster];
                     break;
                 case CustomRoles.MadGuardian:
-                    count = MadGuardianCount;
+                    count = RoleCounts[CustomRoles.MadGuardian];
                     break;
                 case CustomRoles.Mayor:
-                    count = MayorCount;
+                    count = RoleCounts[CustomRoles.Mayor];
                     break;
                 case CustomRoles.Opportunist:
-                    count = OpportunistCount;
+                    count = RoleCounts[CustomRoles.Opportunist];
                     break;
                 default:
                     return -1;
@@ -219,34 +219,34 @@ namespace TownOfHost
         public static void SetCountFromRole(CustomRoles role, int count) {
             switch(role) {
                 case CustomRoles.Jester:
-                    JesterCount = count;
+                    RoleCounts[CustomRoles.Jester] = count;
                     break;
                 case CustomRoles.Madmate:
-                    MadmateCount = count;
+                    RoleCounts[CustomRoles.Madmate] = count;
                     break;
                 case CustomRoles.Bait:
-                    BaitCount = count;
+                    RoleCounts[CustomRoles.Bait] = count;
                     break;
                 case CustomRoles.Terrorist:
-                    TerroristCount = count;
+                    RoleCounts[CustomRoles.Terrorist] = count;
                     break;
                 case CustomRoles.Sidekick:
-                    SidekickCount = count;
+                    RoleCounts[CustomRoles.Sidekick] = count;
                     break;
                 case CustomRoles.Vampire:
-                    VampireCount = count;
+                    RoleCounts[CustomRoles.Vampire] = count;
                     break;
                 case CustomRoles.SabotageMaster:
-                    SabotageMasterCount = count;
+                    RoleCounts[CustomRoles.SabotageMaster] = count;
                     break;
                 case CustomRoles.MadGuardian:
-                    MadGuardianCount = count;
+                    RoleCounts[CustomRoles.MadGuardian] = count;
                     break;
                 case CustomRoles.Mayor:
-                    MayorCount = count;
+                    RoleCounts[CustomRoles.Mayor] = count;
                     break;
                 case CustomRoles.Opportunist:
-                    OpportunistCount = count;
+                    RoleCounts[CustomRoles.Opportunist] = count;
                     break;
             }
         }
@@ -392,20 +392,20 @@ namespace TownOfHost
             if(main.IsHideAndSeek)
             {
                 main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
-                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+                if(main.RoleCounts[CustomRoles.Fox] > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                if(main.RoleCounts[CustomRoles.Troll] > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
-                if(main.SidekickCount > 0) main.SendToAll(main.getLang(lang.SidekickInfoLong));
-                if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
-                if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
-                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
-                if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
-                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
-                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
-                if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
-                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                if(main.RoleCounts[CustomRoles.Vampire] > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                if(main.RoleCounts[CustomRoles.Sidekick] > 0) main.SendToAll(main.getLang(lang.SidekickInfoLong));
+                if(main.RoleCounts[CustomRoles.Madmate] > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                if(main.RoleCounts[CustomRoles.Terrorist] > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                if(main.RoleCounts[CustomRoles.Bait] > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if(main.RoleCounts[CustomRoles.Jester] > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                if(main.RoleCounts[CustomRoles.SabotageMaster] > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                if(main.RoleCounts[CustomRoles.Mayor] > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                if(main.RoleCounts[CustomRoles.MadGuardian] > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.RoleCounts[CustomRoles.Opportunist] > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -415,19 +415,7 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         //Enabled Role
-        public static int JesterCount;
-        public static int MadmateCount;
-        public static int BaitCount;
-        public static int TerroristCount;
-        public static int SidekickCount;
-        public static int VampireCount;
-        public static int SabotageMasterCount;
-        public static int MadGuardianCount;
-        public static int MayorCount;
-        public static int OpportunistCount;
-        public static int FoxCount;
-        public static int TrollCount;
-
+        public static Dictionary<CustomRoles, int> RoleCounts = new Dictionary<CustomRoles, int>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -451,18 +439,18 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            writer.Write(JesterCount);
-            writer.Write(MadmateCount);
-            writer.Write(BaitCount);
-            writer.Write(TerroristCount);
-            writer.Write(SidekickCount);
-            writer.Write(VampireCount);
-            writer.Write(SabotageMasterCount);
-            writer.Write(MadGuardianCount);
-            writer.Write(MayorCount);
-            writer.Write(OpportunistCount);
-            writer.Write(FoxCount);
-            writer.Write(TrollCount);
+            writer.Write(RoleCounts[CustomRoles.Jester]);
+            writer.Write(RoleCounts[CustomRoles.Madmate]);
+            writer.Write(RoleCounts[CustomRoles.Bait]);
+            writer.Write(RoleCounts[CustomRoles.Terrorist]);
+            writer.Write(RoleCounts[CustomRoles.Sidekick]);
+            writer.Write(RoleCounts[CustomRoles.Vampire]);
+            writer.Write(RoleCounts[CustomRoles.SabotageMaster]);
+            writer.Write(RoleCounts[CustomRoles.MadGuardian]);
+            writer.Write(RoleCounts[CustomRoles.Mayor]);
+            writer.Write(RoleCounts[CustomRoles.Opportunist]);
+            writer.Write(RoleCounts[CustomRoles.Fox]);
+            writer.Write(RoleCounts[CustomRoles.Troll]);
 
 
             writer.Write(IsHideAndSeek);
@@ -593,8 +581,8 @@ namespace TownOfHost
             HideAndSeekKillDelay = 30;
             HideAndSeekKillDelayTimer = 0f;
             HideAndSeekImpVisionMin = 0.25f;
-            TrollCount = 0;
-            FoxCount = 0;
+            RoleCounts[CustomRoles.Troll] = 0;
+            RoleCounts[CustomRoles.Fox] = 0;
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             SyncButtonMode = false;

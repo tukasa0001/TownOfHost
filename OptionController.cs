@@ -45,7 +45,7 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>: " + main.MadmateCount,
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>: " + main.RoleCounts[CustomRoles.Madmate],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Madmate);},
                         new List<OptionPages>(){},
@@ -53,7 +53,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Madmate, i)
                     )},
                     {OptionPages.MadGuardian, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.MadGuardian) + "</color>: " + main.MadGuardianCount,
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.MadGuardian) + "</color>: " + main.RoleCounts[CustomRoles.MadGuardian],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.MadGuardian);},
                         new List<OptionPages>(){},
@@ -61,7 +61,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.MadGuardian, i)
                     )},
                     {OptionPages.Sidekick, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>: " + main.SidekickCount,
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>: " + main.RoleCounts[CustomRoles.Sidekick],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Sidekick);},
                         new List<OptionPages>(){},
@@ -69,7 +69,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Sidekick, i)
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        () => "<color=#a757a8>" + main.getRoleName(CustomRoles.Vampire) + "</color>: " + main.VampireCount,
+                        () => "<color=#a757a8>" + main.getRoleName(CustomRoles.Vampire) + "</color>: " + main.RoleCounts[CustomRoles.Vampire],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Vampire);},
                         new List<OptionPages>(){},
@@ -77,7 +77,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Vampire, i)
                     )},
                     {OptionPages.Jester, new PageObject(
-                        () => "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>: " + main.JesterCount,
+                        () => "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>: " + main.RoleCounts[CustomRoles.Jester],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Jester);},
                         new List<OptionPages>(){},
@@ -85,7 +85,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Jester, i)
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>: " + main.TerroristCount,
+                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>: " + main.RoleCounts[CustomRoles.Terrorist],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Terrorist);},
                         new List<OptionPages>(){},
@@ -93,7 +93,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Terrorist, i)
                     )},
                     {OptionPages.Opportunist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>: " + main.OpportunistCount,
+                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>: " + main.RoleCounts[CustomRoles.Opportunist],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Opportunist);},
                         new List<OptionPages>(){},
@@ -101,7 +101,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Opportunist, i)
                     )},
                     {OptionPages.Bait, new PageObject(
-                        () => "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>: " + main.BaitCount,
+                        () => "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>: " + main.RoleCounts[CustomRoles.Bait],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Bait);},
                         new List<OptionPages>(){},
@@ -109,7 +109,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Bait, i)
                     )},
                     {OptionPages.SabotageMaster, new PageObject(
-                        () => "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>: " + main.SabotageMasterCount,
+                        () => "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>: " + main.RoleCounts[CustomRoles.SabotageMaster],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.SabotageMaster);},
                         new List<OptionPages>(){},
@@ -117,7 +117,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.SabotageMaster, i)
                     )},
                     {OptionPages.Mayor, new PageObject(
-                        () => "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.MayorCount,
+                        () => "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.RoleCounts[CustomRoles.Mayor],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Mayor);},
                         new List<OptionPages>(){},
@@ -308,41 +308,41 @@ namespace TownOfHost
                             OptionPages.HideAndSeekOptions
                         )},
                             {OptionPages.Fox, new PageObject(
-                                () => "<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
+                                () => "<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.RoleCounts[CustomRoles.Fox],
                                 true,
                                 () => {
-                                    if(main.FoxCount == 0) main.FoxCount = 1;
-                                    else main.FoxCount = 0;
+                                    if(main.RoleCounts[CustomRoles.Fox] == 0) main.RoleCounts[CustomRoles.Fox] = 1;
+                                    else main.RoleCounts[CustomRoles.Fox] = 0;
                                 },
                                 new List<OptionPages>(){},
                                 OptionPages.HideAndSeekRoles,
                                 (i) => {
-                                    var Count = main.FoxCount * 10;
+                                    var Count = main.RoleCounts[CustomRoles.Fox] * 10;
                                     Count += i;
                                     var MaxCount =
                                         GameData.Instance.AllPlayers.Count
-                                        - main.TrollCount;
+                                        - main.RoleCounts[CustomRoles.Troll];
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
-                                    main.FoxCount = FixedCount;
+                                    main.RoleCounts[CustomRoles.Fox] = FixedCount;
                                 }
                             )},
                             {OptionPages.Troll, new PageObject(
-                                () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
+                                () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.RoleCounts[CustomRoles.Troll],
                                 true,
                                 () => {
-                                    if(main.TrollCount == 0) main.TrollCount = 1;
-                                    else main.TrollCount = 0;
+                                    if(main.RoleCounts[CustomRoles.Troll] == 0) main.RoleCounts[CustomRoles.Troll] = 1;
+                                    else main.RoleCounts[CustomRoles.Troll] = 0;
                                 },
                                 new List<OptionPages>(){},
                                 OptionPages.HideAndSeekRoles,
                                 (i) => {
-                                    var Count = main.TrollCount * 10;
+                                    var Count = main.RoleCounts[CustomRoles.Troll] * 10;
                                     Count += i;
                                     var MaxCount =
                                         GameData.Instance.AllPlayers.Count
-                                        - main.FoxCount;
+                                        - main.RoleCounts[CustomRoles.Fox];
                                     var FixedCount = Math.Clamp(Count,0,MaxCount);
-                                    main.TrollCount = FixedCount;
+                                    main.RoleCounts[CustomRoles.Troll] = FixedCount;
                                 }
                             )},
                     {OptionPages.SyncButtonMode, new PageObject(

@@ -18,11 +18,11 @@ namespace TownOfHost
         public static void Postfix(RoleOptionSetting __instance) {
             bool forced = false;
             if(__instance.Role.Role == RoleTypes.Engineer) {
-                if(main.MadmateCount > 0) forced = true;
-                if(main.TerroristCount > 0) forced = true;
+                if(main.RoleCounts[CustomRoles.Madmate] > 0) forced = true;
+                if(main.RoleCounts[CustomRoles.Terrorist] > 0) forced = true;
             }
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
-                if(main.SidekickCount > 0) forced = true;
+                if(main.RoleCounts[CustomRoles.Sidekick] > 0) forced = true;
             }
 
             if(forced) {

@@ -47,6 +47,8 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
+                
+                    Dictionary<CustomRoles, int> RoleCounts = new Dictionary<CustomRoles, int>();
                     int JesterCount = reader.ReadInt32();
                     int MadmateCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
@@ -180,19 +182,19 @@ namespace TownOfHost
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
-            main.JesterCount = JesterCount;
-            main.MadmateCount = MadmateCount;
-            main.BaitCount = BaitCount;
-            main.TerroristCount = TerroristCount;
-            main.SidekickCount= SidekickCount;
-            main.VampireCount= VampireCount;
-            main.SabotageMasterCount= SabotageMasterCount;
-            main.MadGuardianCount = MadGuardianCount;
-            main.MayorCount = MayorCount;
-            main.OpportunistCount= OpportunistCount;
+            main.RoleCounts[CustomRoles.Jester] = JesterCount;
+            main.RoleCounts[CustomRoles.Madmate] = MadmateCount;
+            main.RoleCounts[CustomRoles.Bait] = BaitCount;
+            main.RoleCounts[CustomRoles.Terrorist] = TerroristCount;
+            main.RoleCounts[CustomRoles.Sidekick]= SidekickCount;
+            main.RoleCounts[CustomRoles.Vampire]= VampireCount;
+            main.RoleCounts[CustomRoles.SabotageMaster]= SabotageMasterCount;
+            main.RoleCounts[CustomRoles.MadGuardian] = MadGuardianCount;
+            main.RoleCounts[CustomRoles.Mayor] = MayorCount;
+            main.RoleCounts[CustomRoles.Opportunist]= OpportunistCount;
 
-            main.FoxCount = FoxCount;
-            main.TrollCount = TrollCount;
+            main.RoleCounts[CustomRoles.Fox] = FoxCount;
+            main.RoleCounts[CustomRoles.Troll] = TrollCount;
             
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
