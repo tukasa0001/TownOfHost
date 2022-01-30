@@ -209,7 +209,8 @@ This is the mode in which all players' button counts are synchronised.
 
 ## Credits
 
-Bait, Vampire, Oppotunist roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+Bait, Vampire roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+Opportunist role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 Jester and Madmate roles : https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

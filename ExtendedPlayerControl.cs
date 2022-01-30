@@ -12,6 +12,7 @@ using Hazel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+
 namespace TownOfHost {
     static class ExtendedPlayerControl {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role) {
