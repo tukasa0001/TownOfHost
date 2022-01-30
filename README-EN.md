@@ -14,9 +14,8 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 
 However, please note that the following restrictions will apply as we are using a mechanism to replace the official additional roles.
 
-- The same additional role or role that is being replaced can not be introduced at the same time.
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
-- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, Disable vitals for Scientist, etc.)
+- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.
 
@@ -24,8 +23,6 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Display of the normal victory screen for the special role.
 - Add additional settings.
 - etc.
-
-Please note that if a player without the mod gets a special role, it will only be displayed as Scientist/Engineer, so please explain the role before the game starts.
 
 ## Custom Settings Menu
 Pressing the Tab key in the standby lobby will change the room setting screen to a setting screen dedicated to Town Of Host.
@@ -42,10 +39,24 @@ However, The numeric keypad is not supported.
 
 ## Roles
 
+### Roles correspondence chart
+| Name of additional role | Decision |
+| ---- | ---- |
+| Jester | Crewmate |
+| Madmate | Engineer |
+| MadGuardian | Crewmate |
+| Bait | Crewmate |
+| Terrorist | Engineer |
+| Sidekick | ShapeShifter |
+| Vampire | Impostor |
+| SabotageMaster | Crewmate |
+| Mayor | Crewmate |
+| Opportunist | Crewmate |
+
 ### Jester
 
 Team : Neutral<br>
-Replace From : Scientist<br>
+Decision : Crewmate<br>
 Victory Conditions : Voted Out<br>
 
 They are the neutral role that becomes the sole winner when they are banished by vote.
@@ -55,7 +66,7 @@ They can not use their vital.<br>
 ### Madmate
 
 Team : Impostor
-Replace From : Engineer
+Decision : Engineer
 
 Belongs to the Impostor team, but Madmate does not know who the Impostor is.
 Impostors also doesn't know who Madmate is.
@@ -63,10 +74,20 @@ They can not kill or sabotage, but they can enter the vent.
 
 (There are special settings for them.)
 
+### MadGuardian
+
+Team : Impostor
+Decision : Crewmate
+
+Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.
+Impostors also doesn't know who MadGuardian is.
+However, if they complete all of their own tasks, they will no longer be killed.
+They can not kill, sabotage, and to enter the vent.
+
 ### Bait
 
 Team : Crewmates
-Replace From : Scientist
+Decision : Crewmate
 
 When they are killed, they can force the person who killed them to report their corpse.
 They can not use their vital.
@@ -74,7 +95,7 @@ They can not use their vital.
 ### Terrorist
 
 Team : Neutral<br>
-Replace From : Engineer<br>
+Decision : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
 They are the neutral role where they win the game alone if they die with all their tasks completed.
@@ -84,7 +105,7 @@ If they die without completing their tasks, or if the game ends without they dyi
 ### Sidekick
 
 Team : Impostor<br>
-Replace From : Shapeshifter<br>
+Decision : Shapeshifter<br>
 
 Can vent, sabotage, and transform initially, but can not kill.
 If all of the Impostors who are not Sidekicks die, the Sidekick will be able to kill.
@@ -94,7 +115,7 @@ They can continue to transform even after the kill is enabled.
 ### Vampire
 
 Team : Impostor<br>
-Replace From : Impostor<br>
+Decision : Impostor<br>
 
 They are the role where the kill actually occurs 10 seconds after they press the kill button.
 Teleportation does not occur when a kill is made.
@@ -106,7 +127,7 @@ However, only if they kill Bait will it be a normal kill and they will be forced
 ### SabotageMaster
 
 Team : Crewmates
-Replace From : Scientist
+Decision : Crewmate
 
 Reactors meltdown, oxygen disturbance and MIRA HQ's communication disturbance can both be fixed by repairing one of them.
 Power failures can all be fixed by touching a single lever.
@@ -114,15 +135,23 @@ Opening a door in Polus or The Airship will open all the doors in that room.
 
 (There are special settings for them.)
 
-### MadGuardian
+### Mayor
 
-Team : Impostor
-Replace From : Scientist
+Team : Crewmates
+Decision : Crewmate
 
-Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.
-Impostors also doesn't know who MadGuardian is.
-However, if they complete all of their own tasks, they will no longer be killed.
-They can not kill, sabotage, and to enter the vent.
+They have more than one vote and can put them together into one person or skip.
+
+(There are special settings for them.)
+
+### Opportunist
+
+Team : Neutral
+Decision : Crewmate
+Victory Conditions : Aliving when one of the teams wins
+
+This is the neutral position, with an additional win if thay are still alive at the end of the game.
+They don't have tasks.
 
 ## Mode
 
@@ -176,10 +205,12 @@ This is a debug mode where there is no win decision.
 
 This is the mode in which all players' button counts are synchronised.
 
+(There are special settings for them.)
+
 ## Credits
 
-Bait, Vampire, Oppotunist, and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-Jester and Madmate : https://au.libhalt.net<br>
+Bait, Vampire, Oppotunist roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+Jester and Madmate roles : https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter : https://twitter.com/XenonBottle

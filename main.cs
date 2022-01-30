@@ -52,7 +52,7 @@ namespace TownOfHost
         }
         public static string getRoleName(RoleTypes role) {
             var currentLanguage = TranslationController.Instance.CurrentLanguage;
-            if(JapaneseRoleName.Value == false && EnglishLang != null) 
+            if(JapaneseRoleName.Value == false && EnglishLang != null)
                 currentLanguage = EnglishLang;
             string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
             return text;
@@ -69,7 +69,7 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay;
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
-        
+
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -471,7 +471,7 @@ namespace TownOfHost
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
-            
+
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
             writer.Write(DisableSwipeCard);
@@ -611,8 +611,8 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-            
-            
+
+
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
@@ -654,21 +654,21 @@ namespace TownOfHost
                 {lang.AfterSidekickInfo,"クルーメイトに復讐をしろ"},
                 {lang.VampireInfo, "全員を噛んで倒せ"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
-                {lang.MayorInfo, "二回投票できる"},
+                {lang.MayorInfo, "インポスターを追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "守護狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。"},
+                {lang.MadGuardianInfoLong, "守護狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.SidekickInfoLong, "相棒:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
-                {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
-                {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人に入れることができる。"},
-                {lang.OpportunistInfoLong, "オポチュニスト:\n第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
+                {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
+                {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。"},
+                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -676,7 +676,7 @@ namespace TownOfHost
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。"},
+                {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
@@ -713,29 +713,29 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "Get voted out to win"},
                 {lang.MadmateInfo, "Help the Impostors"},
-                {lang.MadGuardianInfo, "Finish your tasks and Help the Impostors"},
+                {lang.MadGuardianInfo, "Finish your tasks and help the Impostors"},
                 {lang.BaitInfo, "Be a decoy for the Crewmates"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.SidekickInfo, "Be the successor for the Impostors"},
                 {lang.BeforeSidekickInfo,"You can not kill now"},
                 {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
-                {lang.VampireInfo, "Kill Everyone with your bites"},
+                {lang.VampireInfo, "Kill everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
-                {lang.MayorInfo, "You Can Vote Two Times"},
-                {lang.OpportunistInfo, "Do Whatever It Takes To Survive"},
+                {lang.MayorInfo, "Ban the Impostors"},
+                {lang.OpportunistInfo, "Do whatever it takes to survive"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "Jester:\n投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。"},
+                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "Sidekick:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。Sidekickではないインポスターが全員死亡すると、Sidekickもキルが可能となる。"},
+                {lang.SidekickInfoLong, "Sidekick:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。SidekickではないImpostorが全員死亡すると、Sidekickもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
-                {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は1箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
-                {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人に入れることができる。"},
-                {lang.OpportunistInfoLong, "Opportunist:\n第三陣営でタスクはなく、ゲーム終了時に生きていれば追加勝利"},
-                {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "Troll(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北する。。"},
+                {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
+                {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
+                {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
+                {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
+                {lang.TrollInfoLong, "Troll(HideAndSeek):Impostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -743,7 +743,7 @@ namespace TownOfHost
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Inpostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
-                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。"},
+                {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
