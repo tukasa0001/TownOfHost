@@ -51,7 +51,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                if (AmongUsClient.Instance.AmHost)
                 {
                     MeetingHud.Instance.RpcClose();
                 }
