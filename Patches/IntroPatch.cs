@@ -44,8 +44,8 @@ namespace TownOfHost
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Jester);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.JesterInfo);
-                __instance.TeamTitle.color = main.JesterColor();
-                __instance.BackgroundBar.material.color = main.JesterColor();
+                __instance.TeamTitle.color = main.JesterColor;
+                __instance.BackgroundBar.material.color = main.JesterColor;
             }
             if (main.isMadmate(PlayerControl.LocalPlayer))
             {
