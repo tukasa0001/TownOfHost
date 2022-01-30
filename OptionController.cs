@@ -117,7 +117,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.SabotageMaster, i)
                     )},
                     {OptionPages.Mayor, new PageObject(
-                        () => "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.RoleCounts[CustomRoles.Mayor],
+                        () => "<color=#a9a9a9>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.RoleCounts[CustomRoles.Mayor],
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Mayor);},
                         new List<OptionPages>(){},
@@ -210,8 +210,15 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
+                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
+                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
+                            true,
+                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
                         {OptionPages.MayorAdditionalVote, new PageObject(
-                            () => "<color=#ff00ff>" + main.getLang(lang.MayorAdditionalVote) + "</color>: " + main.MayorAdditionalVote + main.TextCursor,
+                            () => "<color=#a9a9a9>" + main.getLang(lang.MayorAdditionalVote) + "</color>: " + main.MayorAdditionalVote + main.TextCursor,
                             true,
                             () => {main.MayorAdditionalVote = 0;},
                             new List<OptionPages>(){},
@@ -222,13 +229,6 @@ namespace TownOfHost
                                 var FixedCount = Math.Clamp(Count,0,99);
                                 main.MayorAdditionalVote = FixedCount;
                             }
-                        )},
-                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
-                            true,
-                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
                         )},
                 {OptionPages.modes, new PageObject(
                     "Mode Options",
