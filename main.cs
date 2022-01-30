@@ -349,6 +349,7 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
+            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
@@ -359,7 +360,6 @@ namespace TownOfHost
                     role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
-                if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
 
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if(cRoleFound) {
