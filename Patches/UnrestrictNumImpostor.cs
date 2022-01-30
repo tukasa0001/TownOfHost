@@ -80,9 +80,6 @@ namespace TownOfHost
             {
                 // Reset lobby countdown timer
                 timer = 600f;
-                // Copy lobby code
-                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
-                GUIUtility.systemCopyBuffer = code;
                 lobbyCodehide = $"<color={main.modColor}>Town Of Host</color>";
             }
         }
