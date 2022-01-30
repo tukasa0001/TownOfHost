@@ -56,6 +56,15 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch {
+        public static void Prefix(RoleManager __instance) {
+            if(!main.IsHideAndSeek) {
+                //役職の人数を指定
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                EngineerNum += main.MadmateCount + main.TerroristCount;
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
+            }
+        }
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
@@ -165,7 +174,11 @@ namespace TownOfHost
 
                 main.NotifyRoles();
 
-
+                //役職の人数を戻す
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                EngineerNum += main.MadmateCount + main.TerroristCount;
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
