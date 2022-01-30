@@ -27,13 +27,22 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
+            if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
+                GUIUtility.systemCopyBuffer = code;
+                Logger.info($"[ClipBoard]{code}");
+            }
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                main.ShowActiveRoles();
+            }
             //====================
             // テスト用キーコマンド
             // | キー | 条件 | 動作 |
             // | ---- | ---- | ---- |
             // | X | フリープレイ中 | キルクール0 |
             // | Y | ホスト | カスタム設定同期 |
-            // | M | フリープレイ中 | 会議強制終了 |
             // | O | フリープレイ中 | 全タスク完了 |
             // | G | フリープレイ中 | 開始画面表示 |
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
@@ -72,16 +81,6 @@ namespace TownOfHost
                         }
                     }
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
-                GUIUtility.systemCopyBuffer = code;
-                Logger.info($"[ClipBoard]{code}");
-            }
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                main.ShowActiveRoles();
             }
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {

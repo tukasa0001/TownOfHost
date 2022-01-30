@@ -62,7 +62,11 @@ namespace TownOfHost
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum += main.MadmateCount + main.TerroristCount;
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, 100);
+
+                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                ShapeshifterNum += main.SidekickCount;
+                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
             }
         }
         public static void Postfix(RoleManager __instance) {
@@ -177,8 +181,12 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum += main.MadmateCount + main.TerroristCount;
+                EngineerNum -= main.MadmateCount + main.TerroristCount;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
+
+                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                ShapeshifterNum -= main.SidekickCount;
+                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
