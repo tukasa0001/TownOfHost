@@ -87,7 +87,6 @@ namespace TownOfHost
                 string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 GUIUtility.systemCopyBuffer = code;
                 Logger.info($"[ClipBoard]{code}");
-                ChatCommands.seeActiveRolesHelp();
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
             {
