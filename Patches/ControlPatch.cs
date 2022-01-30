@@ -49,12 +49,9 @@ namespace TownOfHost
             {
                 main.SyncCustomSettingsRPC();
             }
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {
-                if (AmongUsClient.Instance.AmHost)
-                {
-                    MeetingHud.Instance.RpcClose();
-                }
+                MeetingHud.Instance.RpcClose();
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
