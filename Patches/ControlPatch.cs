@@ -76,6 +76,10 @@ namespace TownOfHost
                     }
                 }
             }
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                main.ShowActiveRoles();
+            }
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
