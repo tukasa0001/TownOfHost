@@ -34,26 +34,7 @@ namespace TownOfHost
                 if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
                 {
                     canceled = true;
-                    main.SendToAll("現在有効になっている設定の説明:");
-                    if(main.IsHideAndSeek)
-                    {
-                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                        if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
-                        if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
-                    }else{
-                        /*if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Vampire)) main.SendToAll(main.getLang(lang.VampireInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Sidekick)) main.SendToAll(main.getLang(lang.SidekickInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Madmate)) main.SendToAll(main.getLang(lang.MadmateInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Terrorist)) main.SendToAll(main.getLang(lang.TerroristInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Bait)) main.SendToAll(main.getLang(lang.BaitInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Jester)) main.SendToAll(main.getLang(lang.JesterInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.SabotageMaster)) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Mayor)) main.SendToAll(main.getLang(lang.MayorInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.MadGuardian)) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
-                        if(main.EnabledCustomRoles.Contains(CustomRoles.Opportunist)) main.SendToAll(main.getLang(lang.OpportunistInfoLong));*/
-                    }
-                    if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+                    main.ShowActiveRoles();
                 }
                 if (getCommand("/h r", text, out arg) || getCommand("/h roles", text, out arg))
                 {

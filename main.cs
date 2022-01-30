@@ -392,6 +392,30 @@ namespace TownOfHost
             taskText = CompletedTaskCount + "/" + AllTasksCount;
             return taskText;
         }
+
+        public static void ShowActiveRoles()
+        {
+            main.SendToAll("現在有効になっている設定の説明:");
+            if(main.IsHideAndSeek)
+            {
+                main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+            }else{
+                if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                if(main.SidekickCount > 0) main.SendToAll(main.getLang(lang.SidekickInfoLong));
+                if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+            }
+            if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+        }
         public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
