@@ -246,18 +246,20 @@ namespace TownOfHost
     class CancelAssignPatch {
         public static List<PlayerControl> PreAssignedPlayers = new List<PlayerControl>();
         public static void Prefix(RoleManager __instance, [HarmonyArgument(0)] Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> players) {
-            Logger.msg("CancelAssignPatch.Prefix.Start");
             PreAssignedPlayers.ForEach(pc => {
                 players.Remove(pc.Data);
             });
-            Logger.msg("CancelAssignPatch.Prefix.End");
+            string text = "次のプレイヤーに公式役職を割り当てます:";
+            foreach(var info in players) {
+                text += info.PlayerName + " ";
+            }
+            Logger.info(text);
         }
         public static void Postfix(RoleManager __instance) {
-            Logger.msg("CancelAssignPatch.Postfix.Start");
             PreAssignedPlayers.ForEach(pc => {
                 pc.RpcSetRole(RoleTypes.Crewmate);
+                Logger.info(pc.name + "の他視点からの役職をクルーにしました。");
             });
-            Logger.msg("CancelAssignPatch.Postfix.End");
         }
     }
 }
