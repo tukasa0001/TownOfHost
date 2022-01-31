@@ -57,7 +57,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch {
         public static void Prefix(RoleManager __instance) {
-            Logger.msg("SelectRolesPatch.Prefix.Start");
+            if(!AmongUsClient.Instance.AmHost) return;
             if(!main.IsHideAndSeek) {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -72,31 +72,31 @@ namespace TownOfHost
 
                 CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
 
-                if(main.SheriffCount <= 0) return;
-                List<PlayerControl> AllPlayers = new List<PlayerControl>();
-
-                //Desyncが必要な役職を設定
-                Logger.info("Desyncが必要な役職を設定します");
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.PlayerId != 0)
-                    AllPlayers.Add(pc);
-                }
-
-                List<PlayerControl> SheriffList = new List<PlayerControl>();
-                Logger.info("Sheriff割り当て直前");
-                SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
-
-                if(SheriffList != null)
-                SheriffList.ForEach(sheriff => {
-                    if(sheriff.PlayerId == 0) return;
-                    CancelAssignPatch.PreAssignedPlayers.Add(sheriff);
-                    sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
-                    foreach(var AllPlayers in PlayerControl.AllPlayerControls) {
-                        AllPlayers.RpcSetRoleDesync(RoleTypes.Crewmate, sheriff);
+                if(main.SheriffCount > 0) { //##Desyncが必要な役職を設定##
+                    List<PlayerControl> AllPlayers = new List<PlayerControl>();
+                    
+                    Logger.info("Desyncが必要な役職を設定します");
+                    foreach(var pc in PlayerControl.AllPlayerControls) {
+                        if(pc.PlayerId != 0) //一時的にホストのDesyncを無効化
+                        AllPlayers.Add(pc);
                     }
 
-                    Logger.info(sheriff.name + "の役職をDesyncさせました。");
-                });
+                    List<PlayerControl> SheriffList = new List<PlayerControl>();
+                    Logger.info("Sheriff割り当て直前");
+                    SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
+
+                    if(SheriffList != null)
+                    SheriffList.ForEach(sheriff => {
+                        if(sheriff.PlayerId == 0) return; //一時的にホストのDesyncを無効化
+                        CancelAssignPatch.PreAssignedPlayers.Add(sheriff);
+                        sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                        foreach(var AllPlayers in PlayerControl.AllPlayerControls) {
+                            AllPlayers.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
+                        }
+
+                        Logger.info(sheriff.name + "の役職をDesyncさせました。");
+                    });
+                }
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
         }
@@ -256,6 +256,7 @@ namespace TownOfHost
             Logger.info(text);
         }
         public static void Postfix(RoleManager __instance) {
+            if(!AmongUsClient.Instance.AmHost) return;
             PreAssignedPlayers.ForEach(pc => {
                 pc.RpcSetRole(RoleTypes.Crewmate);
                 Logger.info(pc.name + "の他視点からの役職をクルーにしました。");
