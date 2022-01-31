@@ -132,6 +132,12 @@ namespace TownOfHost
                 return true;
             return false;
         }
+        public static bool isSheriff(PlayerControl target)
+        {
+            if (target.getCustomRole() == CustomRoles.Sheriff)
+                return true;
+            return false;
+        }
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -211,6 +217,9 @@ namespace TownOfHost
                 case CustomRoles.Opportunist:
                     count = OpportunistCount;
                     break;
+                case CustomRoles.Sheriff:
+                    count = SheriffCount;
+                    break;
                 default:
                     return -1;
             }
@@ -247,6 +256,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Opportunist:
                     OpportunistCount = count;
+                    break;
+                case CustomRoles.Sheriff:
+                    SheriffCount = count;
                     break;
             }
         }
@@ -293,6 +305,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Opportunist:
                     TextColor = Color.green;
+                    break;
+                case CustomRoles.Sheriff:
+                    TextColor = Color.yellow;
                     break;
                 case CustomRoles.SabotageMaster:
                     TextColor = Color.blue;
@@ -366,6 +381,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
+                    if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                 }
@@ -482,6 +498,7 @@ namespace TownOfHost
         public static int MadGuardianCount;
         public static int MayorCount;
         public static int OpportunistCount;
+        public static int SheriffCount;
         public static int FoxCount;
         public static int TrollCount;
 
@@ -519,6 +536,7 @@ namespace TownOfHost
             writer.Write(MadGuardianCount);
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
+            writer.Write(SheriffCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -860,6 +878,7 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "SabotageMaster"},
                 {CustomRoles.Mayor, "Mayor"},
                 {CustomRoles.Opportunist, "Opportunist"},
+                {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -875,6 +894,7 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "サボタージュマスター"},
                 {CustomRoles.Mayor, "メイヤー"},
                 {CustomRoles.Opportunist, "オポチュニスト"},
+                {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -973,6 +993,7 @@ namespace TownOfHost
         MadGuardian,
         Mayor,
         Opportunist,
+        Sheriff,
         Fox,
         Troll
     }

@@ -124,6 +124,14 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Mayor, i)
                     )},
+                    {OptionPages.Sheriff, new PageObject(
+                        () => "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>: " + main.SheriffCount,
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Sheriff);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Sheriff, i)
+                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
                         false,
@@ -558,6 +566,7 @@ namespace TownOfHost
                 Vampire,
                 SabotageMaster,
                 Mayor,
+                Sheriff,
                 Opportunist,
                 VampireOptions,
                 AdvancedRoleOptions,

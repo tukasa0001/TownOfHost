@@ -57,6 +57,7 @@ namespace TownOfHost
                     int MadGuardianCount = reader.ReadInt32();
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
+                    int SheriffCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -93,6 +94,7 @@ namespace TownOfHost
                         MadGuardianCount,
                         MayorCount,
                         OpportunistCount,
+                        SheriffCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -155,6 +157,7 @@ namespace TownOfHost
                 int MadGuardianCount,
                 int MayorCount,
                 int OpportunistCount,
+                int SheriffCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -190,6 +193,7 @@ namespace TownOfHost
             main.MadGuardianCount = MadGuardianCount;
             main.MayorCount = MayorCount;
             main.OpportunistCount= OpportunistCount;
+            main.SheriffCount = SheriffCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;

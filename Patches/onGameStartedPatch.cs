@@ -67,6 +67,27 @@ namespace TownOfHost
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 int AdditionalShapeshifterNum = main.SidekickCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+
+
+                //Desyncが必要な役職を設定
+                if(main.SheriffCount > 0) return;
+                List<PlayerControl> AllPlayers = new List<PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    AllPlayers.Add(pc);
+                }
+
+                CancelAssignPatch.PreAssignedPlayers = new List<GameData.PlayerInfo>(); //初期化
+
+                List<PlayerControl> SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
+                SheriffList.ForEach(sheriff => {
+                    CancelAssignPatch.PreAssignedPlayers.Add(sheriff.Data);
+                    sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                    foreach(var AllPlayers in PlayerControl.AllPlayerControls) {
+                        AllPlayers.RpcSetRoleDesync(RoleTypes.Crewmate, sheriff);
+                    }
+                    new LateTask(() => sheriff.RpcSetRole(RoleTypes.Crewmate), 1f, "Sheriff Role Desync Task");
+                    Logger.info(sheriff.name + "の役職をDesyncさせました。");
+                });
             }
         }
         public static void Postfix(RoleManager __instance) {
@@ -190,18 +211,31 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
-            if(players.Count <= 0) return;
+        private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
+            if(players.Count <= 0) return null;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             if(RawCount == -1) count = Math.Clamp(main.GetCountFromRole(role), 0, players.Count);
-            if(count <= 0) return;
+            if(count <= 0) return null;
+            List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
             for(var i = 0; i < count; i++) {
                 var player = players[rand.Next(0, players.Count - 1)];
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
+                AssignedPlayers.Add(player);
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
+            return players;
+        }
+    }
+
+    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRolesForTeam))]
+    class CancelAssignPatch {
+        public static List<GameData.PlayerInfo> PreAssignedPlayers = new List<GameData.PlayerInfo>();
+        public static void Prefix(RoleManager __instance, [HarmonyArgument(0)] Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> players) {
+            PreAssignedPlayers.ForEach(info => {
+                players.Remove(info);
+            });
         }
     }
 }
