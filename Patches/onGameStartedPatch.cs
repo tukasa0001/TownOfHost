@@ -58,6 +58,7 @@ namespace TownOfHost
     class SelectRolesPatch {
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
+            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             if(!main.IsHideAndSeek) {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -70,35 +71,15 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.PlayerId == 1) pc.RpcSetRoleDesync(RoleTypes.Shapeshifter);
-                }
-                /*CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
-
-                if(main.SheriffCount > 0) { //##Desyncが必要な役職を設定##
-                    List<PlayerControl> AllPlayers = new List<PlayerControl>();
-                    
-                    Logger.info("Desyncが必要な役職を設定します");
-                    foreach(var pc in PlayerControl.AllPlayerControls) {
-                        if(pc.PlayerId != 0) //一時的にホストのDesyncを無効化
-                        AllPlayers.Add(pc);
-                    }
-
-                    List<PlayerControl> SheriffList = new List<PlayerControl>();
-                    Logger.info("Sheriff割り当て直前");
-                    SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
-
-                    if(SheriffList != null)
-                    SheriffList.ForEach(sheriff => {
-                        if(sheriff.PlayerId == 0) return; //一時的にホストのDesyncを無効化
-                        CancelAssignPatch.PreAssignedPlayers.Add(sheriff);
-                        sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
-                        foreach(var AllPlayers in PlayerControl.AllPlayerControls) {
-                            AllPlayers.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
+                    if(pc.PlayerId == 1) {
+                        //ここからDesyncが始まる
+                        pc.RpcSetRoleDesync(RoleTypes.Shapeshifter);
+                        foreach(var AllPC in PlayerControl.AllPlayerControls) {
+                            pc.RpcSetRoleDesync(RoleTypes.Scientist, AllPC);
+                            AllPC.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                         }
-
-                        Logger.info(sheriff.name + "の役職をDesyncさせました。");
-                    });
-                }*/
+                    }
+                }
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
         }
@@ -106,7 +87,6 @@ namespace TownOfHost
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
-            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.RealNames = new Dictionary<byte, string>();
 
             foreach(var pc in PlayerControl.AllPlayerControls)
@@ -167,6 +147,7 @@ namespace TownOfHost
                 List<PlayerControl> GuardianAngels = new List<PlayerControl>();
                 List<PlayerControl> Shapeshifters = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
+                    pc.Data.IsDead = false;
                     if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
                     main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
                     switch(pc.Data.Role.Role) {
