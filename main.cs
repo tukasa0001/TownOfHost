@@ -63,6 +63,7 @@ namespace TownOfHost
         public static bool DisableStartReactor;
         public static Color JesterColor = new Color(0.925f, 0.384f, 0.647f);
         public static Color MayorColor = new Color(1f, 0f, 1f);
+        public static Color SnitchColor = new Color(0.65f, 0.92f, 0.65f);
         public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -308,7 +309,7 @@ namespace TownOfHost
                     TextColor = Color.green;
                     break;
                 case CustomRoles.Snitch:
-                    TextColor = new Color(144,238,144);
+                    TextColor = SnitchColor;
                     break;
                 case CustomRoles.SabotageMaster:
                     TextColor = Color.blue;
@@ -460,6 +461,7 @@ namespace TownOfHost
         public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
         public static int MayorAdditionalVote;
+        public static int SnichExposeTaskLeft;
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
@@ -587,12 +589,6 @@ namespace TownOfHost
                 string RoleName = "STRMISS";
                 if(found) RoleName = getRoleName(role);
                 pc.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + pc.name, true);
-                if(main.isSnitch(pc)){
-                    foreach(var t in PlayerControl.AllPlayerControls)
-                    {
-                        if(t.Data.Role.IsImpostor) t.RpcSetNamePrivate("<color=#ff0000>"+ t.name + "</color>" , false, pc);
-                    }
-                }
             }
         }
 
@@ -658,6 +654,8 @@ namespace TownOfHost
             MadGuardianCanSeeBarrier = false;
 
             MayorAdditionalVote = 1;
+
+            SnichExposeTaskLeft = 1;
 
             currentSuffix = SuffixModes.None;
 

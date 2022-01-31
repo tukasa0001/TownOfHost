@@ -127,8 +127,8 @@ namespace TownOfHost
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Snitch);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.SnitchInfo);
-                __instance.TeamTitle.color = new Color(144,238,144);
-                __instance.BackgroundBar.material.color = new Color(144,238,144);
+                __instance.TeamTitle.color = main.SnitchColor;
+                __instance.BackgroundBar.material.color = main.SnitchColor;
             }
             if (main.isMayor(PlayerControl.LocalPlayer))
             {
