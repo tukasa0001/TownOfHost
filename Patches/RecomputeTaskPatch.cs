@@ -44,7 +44,14 @@ namespace TownOfHost
                             {
                                 if(task.IsComplete)ct++;
                             }
-                            if(p.myTasks.Count-ct <= main.SnichExposeTaskLeft)p.RpcSetNamePrivate("<color=#90ee90>"+ p.name + "</color>" , false, t);
+                            if(p.myTasks.Count-ct <= main.SnichExposeTaskLeft)
+                            {
+                                var found = main.AllPlayerCustomRoles.TryGetValue(t.PlayerId, out var role);
+                                string RoleName = "STRMISS";
+                                if(found) RoleName = main.getRoleName(role);
+                                t.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + t.name + "<color=#90ee90>★</color>" , true, t);
+                                p.RpcSetNamePrivate("<color=#90ee90>"+ p.name + "</color>" , false, t);
+                            }
                         }
                     }
                 }
