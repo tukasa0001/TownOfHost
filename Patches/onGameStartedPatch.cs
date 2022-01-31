@@ -69,8 +69,10 @@ namespace TownOfHost
                 int AdditionalShapeshifterNum = main.SidekickCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
-
-                CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.PlayerId == 1) pc.RpcSetRoleDesync(RoleTypes.Shapeshifter);
+                }
+                /*CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
 
                 if(main.SheriffCount > 0) { //##Desyncが必要な役職を設定##
                     List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -96,7 +98,7 @@ namespace TownOfHost
 
                         Logger.info(sheriff.name + "の役職をDesyncさせました。");
                     });
-                }
+                }*/
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
         }
@@ -239,28 +241,6 @@ namespace TownOfHost
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
             return AssignedPlayers;
-        }
-    }
-
-    [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRolesForTeam))]
-    class CancelAssignPatch {
-        public static List<PlayerControl> PreAssignedPlayers = new List<PlayerControl>();
-        public static void Prefix(RoleManager __instance, [HarmonyArgument(0)] Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> players) {
-            PreAssignedPlayers.ForEach(pc => {
-                players.Remove(pc.Data);
-            });
-            string text = "次のプレイヤーに公式役職を割り当てます:";
-            foreach(var info in players) {
-                text += info.PlayerName + " ";
-            }
-            Logger.info(text);
-        }
-        public static void Postfix(RoleManager __instance) {
-            if(!AmongUsClient.Instance.AmHost) return;
-            PreAssignedPlayers.ForEach(pc => {
-                pc.RpcSetRole(RoleTypes.Crewmate);
-                Logger.info(pc.name + "の他視点からの役職をクルーにしました。");
-            });
         }
     }
 }
