@@ -587,6 +587,12 @@ namespace TownOfHost
                 string RoleName = "STRMISS";
                 if(found) RoleName = getRoleName(role);
                 pc.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + pc.name, true);
+                if(main.isSnitch(pc)){
+                    foreach(var t in PlayerControl.AllPlayerControls)
+                    {
+                        if(t.Data.Role.IsImpostor) t.RpcSetNamePrivate("<color=#ff0000>"+ t.name + "</color>" , false, pc);
+                    }
+                }
             }
         }
 
