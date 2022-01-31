@@ -71,16 +71,21 @@ namespace TownOfHost
 
                 CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
 
-                //Desyncが必要な役職を設定
-                if(main.SheriffCount !> 0) return;
+                if(main.SheriffCount <= 0) return;
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
+
+                //Desyncが必要な役職を設定
+                Logger.info("Desyncが必要な役職を設定します");
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.PlayerId != 0)
                     AllPlayers.Add(pc);
                 }
 
+                List<PlayerControl> SheriffList = new List<PlayerControl>();
                 Logger.info("Sheriff割り当て直前");
-                List<PlayerControl> SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
+                SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
+
+                if(SheriffList != null)
                 SheriffList.ForEach(sheriff => {
                     if(sheriff.PlayerId == 0) return;
                     CancelAssignPatch.PreAssignedPlayers.Add(sheriff);
@@ -215,7 +220,7 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
-            if(players.Count <= 0) return null;
+            if(players == null || players.Count <= 0) return null;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             if(RawCount == -1) count = Math.Clamp(main.GetCountFromRole(role), 0, players.Count);
@@ -223,12 +228,12 @@ namespace TownOfHost
             List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
             for(var i = 0; i < count; i++) {
                 var player = players[rand.Next(0, players.Count - 1)];
+                AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                AssignedPlayers.Add(player);
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
-            return players;
+            return AssignedPlayers;
         }
     }
 
