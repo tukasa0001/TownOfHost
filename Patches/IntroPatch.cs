@@ -12,12 +12,104 @@ using System.Linq;
 
 namespace TownOfHost
 {
-    //役職表示変更
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
+    class SetUpRoleTextPatch {
+        public static void Postfix(IntroCutscene __instance) {
+            if (main.isJester(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Jester);
+                __instance.RoleBlurbText.text = main.getLang(lang.JesterInfo);
+                __instance.RoleText.color = main.JesterColor;
+                __instance.RoleBlurbText.color = main.JesterColor;
+            }
+            if (main.isMadmate(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Madmate);
+                __instance.RoleBlurbText.text = main.getLang(lang.MadmateInfo);
+                __instance.RoleText.color = Palette.ImpostorRed;
+                __instance.RoleBlurbText.color = Palette.ImpostorRed;
+            }
+            if (main.isBait(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Bait);
+                __instance.RoleBlurbText.text = main.getLang(lang.BaitInfo);
+                __instance.RoleText.color = Color.cyan;
+                __instance.RoleBlurbText.color = Color.yellow;
+            }
+            if (main.isTerrorist(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Terrorist);
+                __instance.RoleBlurbText.text = main.getLang(lang.TerroristInfo);
+                __instance.RoleText.color = Color.green;
+                __instance.RoleBlurbText.color = Color.green;
+            }
+            if (main.isSidekick(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Sidekick);
+                __instance.RoleText.fontSize -= 0.5f;
+                
+                __instance.RoleBlurbText.text = main.getLang(lang.SidekickInfo);
+                __instance.RoleText.color = Palette.ImpostorRed;
+                __instance.RoleBlurbText.color = Color.red;
+            }
+            if (main.isVampire(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Vampire);
+                __instance.RoleText.fontSize -= 0.5f;
+                __instance.RoleBlurbText.text = main.getLang(lang.VampireInfo);
+                __instance.RoleText.color = Palette.ImpostorRed;
+                __instance.RoleBlurbText.color = main.VampireColor;
+            }
+            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.SabotageMaster);
+                __instance.RoleBlurbText.text = main.getLang(lang.SabotageMasterInfo);
+                __instance.RoleText.color = Color.blue;
+                __instance.RoleBlurbText.color = Color.blue;
+            }
+            if (main.isMadGuardian(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.MadGuardian);
+                __instance.RoleBlurbText.text = main.getLang(lang.MadGuardianInfo);
+                __instance.RoleText.color = Palette.ImpostorRed;
+                __instance.RoleBlurbText.color = Palette.ImpostorRed;
+            }
+            if (main.isOpportunist(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Opportunist);
+                __instance.RoleBlurbText.text = main.getLang(lang.OpportunistInfo);
+                __instance.RoleText.color = Color.green;
+                __instance.RoleBlurbText.color = Color.green;
+            }
+            if (main.isMayor(PlayerControl.LocalPlayer))
+            {
+                __instance.RoleText.text = main.getRoleName(CustomRoles.Mayor);
+                __instance.RoleBlurbText.text = main.getLang(lang.MayorInfo);
+                __instance.RoleText.color = main.MayorColor;
+                __instance.RoleBlurbText.color = main.MayorColor;
+            }
+            if(main.IsHideAndSeek) {
+                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
+                    __instance.RoleText.text = "Fox";
+                    __instance.RoleBlurbText.text = "殺されずに逃げきれ";
+                    __instance.RoleText.color = Color.magenta;
+                    __instance.RoleBlurbText.color = Color.magenta;
+                }
+                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Troll) {
+                    __instance.RoleText.text = "Troll";
+                    __instance.RoleBlurbText.text = "インポスターにキルされろ";
+                    __instance.RoleText.color = Color.green;
+                    __instance.RoleBlurbText.color = Color.green;
+                }
+            }
+        }
+    }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     class BeginCrewmatePatch
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            //チーム変更
             if (main.isJester(PlayerControl.LocalPlayer))
             {
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -27,6 +119,7 @@ namespace TownOfHost
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            //チーム表示変更
             var rand = new System.Random();
             if (Input.GetKey(KeyCode.RightShift))
             {
