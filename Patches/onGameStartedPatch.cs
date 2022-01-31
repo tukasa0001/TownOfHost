@@ -61,12 +61,12 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum += main.MadmateCount + main.TerroristCount;
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, 100);
+                int AdditionalEngineerNum = main.MadmateCount + main.TerroristCount;
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum += main.SidekickCount;
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
+                int AdditionalShapeshifterNum = main.SidekickCount;
+                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
         }
         public static void Postfix(RoleManager __instance) {
