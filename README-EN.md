@@ -47,7 +47,7 @@ However, The numeric keypad is not supported.
 | MadGuardian | Crewmate |
 | Bait | Crewmate |
 | Terrorist | Engineer |
-| Sidekick | ShapeShifter |
+| Mafia | ShapeShifter |
 | Vampire | Impostor |
 | SabotageMaster | Crewmate |
 | Mayor | Crewmate |
@@ -102,14 +102,14 @@ They are the neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.
 If they die without completing their tasks, or if the game ends without they dying, they lose.
 
-### Sidekick
+### Mafia
 
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
 Can vent, sabotage, and transform initially, but can not kill.
-If all of the Impostors who are not Sidekicks die, the Sidekick will be able to kill.
-If the Sidekick is not killable, they will still have a kill button, but they can not be killable.
+If all of the Impostors who are not Mafias die, the Mafia will be able to kill.
+If the Mafia is not killable, they will still have a kill button, but they can not be killable.
 They can continue to transform even after the kill is enabled.
 
 ### Vampire

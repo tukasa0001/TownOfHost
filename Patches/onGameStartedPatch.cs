@@ -65,7 +65,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, 100);
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum += main.SidekickCount;
+                ShapeshifterNum += main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
             }
         }
@@ -167,7 +167,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
 
@@ -185,7 +185,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.SidekickCount;
+                ShapeshifterNum -= main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
             SetColorPatch.IsAntiGlitchDisabled = false;

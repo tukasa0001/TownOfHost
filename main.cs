@@ -96,9 +96,9 @@ namespace TownOfHost
                 return true;
             return false;
         }
-        public static bool isSidekick(PlayerControl target)
+        public static bool isMafia(PlayerControl target)
         {
-            if (target.getCustomRole() == CustomRoles.Sidekick)
+            if (target.getCustomRole() == CustomRoles.Mafia)
                 return true;
             return false;
         }
@@ -173,7 +173,7 @@ namespace TownOfHost
         }
         public static string getRoleName(RoleTypes role) {
             var currentLanguage = TranslationController.Instance.CurrentLanguage;
-            if(JapaneseRoleName.Value == false && EnglishLang != null) 
+            if(JapaneseRoleName.Value == false && EnglishLang != null)
                 currentLanguage = EnglishLang;
             string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
             return text;
@@ -193,8 +193,8 @@ namespace TownOfHost
                 case CustomRoles.Terrorist:
                     count = TerroristCount;
                     break;
-                case CustomRoles.Sidekick:
-                    count = SidekickCount;
+                case CustomRoles.Mafia:
+                    count = MafiaCount;
                     break;
                 case CustomRoles.Vampire:
                     count = VampireCount;
@@ -230,8 +230,8 @@ namespace TownOfHost
                 case CustomRoles.Terrorist:
                     TerroristCount = count;
                     break;
-                case CustomRoles.Sidekick:
-                    SidekickCount = count;
+                case CustomRoles.Mafia:
+                    MafiaCount = count;
                     break;
                 case CustomRoles.Vampire:
                     VampireCount = count;
@@ -306,7 +306,7 @@ namespace TownOfHost
                 case CustomRoles.Vampire:
                     TextColor = VampireColor;
                     break;
-                case CustomRoles.Sidekick:
+                case CustomRoles.Mafia:
                     TextColor = Palette.ImpostorRed;
                     break;
             }
@@ -397,7 +397,7 @@ namespace TownOfHost
             }else{
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
-                if(main.SidekickCount > 0) main.SendToAll(main.getLang(lang.SidekickInfoLong));
+                if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
@@ -419,7 +419,7 @@ namespace TownOfHost
         public static int MadmateCount;
         public static int BaitCount;
         public static int TerroristCount;
-        public static int SidekickCount;
+        public static int MafiaCount;
         public static int VampireCount;
         public static int SabotageMasterCount;
         public static int MadGuardianCount;
@@ -455,7 +455,7 @@ namespace TownOfHost
             writer.Write(MadmateCount);
             writer.Write(BaitCount);
             writer.Write(TerroristCount);
-            writer.Write(SidekickCount);
+            writer.Write(MafiaCount);
             writer.Write(VampireCount);
             writer.Write(SabotageMasterCount);
             writer.Write(MadGuardianCount);
@@ -648,9 +648,9 @@ namespace TownOfHost
                 {lang.MadGuardianInfo, "タスクを完了させ、インポスターを助けろ"},
                 {lang.BaitInfo, "クルーのおとりになれ"},
                 {lang.TerroristInfo, "タスクを完了させ、自爆しろ"},
-                {lang.SidekickInfo, "インポスターの後継者となれ"},
-                {lang.BeforeSidekickInfo,"今はキルをすることができない"},
-                {lang.AfterSidekickInfo,"クルーメイトに復讐をしろ"},
+                {lang.MafiaInfo, "インポスターの後継者となれ"},
+                {lang.BeforeMafiaInfo,"今はキルをすることができない"},
+                {lang.AfterMafiaInfo,"クルーメイトに復讐をしろ"},
                 {lang.VampireInfo, "全員を噛んで倒せ"},
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
                 {lang.MayorInfo, "インポスターを追放しろ"},
@@ -661,7 +661,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "守護狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも守護狂人が誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "相棒:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
+                {lang.MafiaInfoLong, "相棒:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。相棒ではないインポスターが全員死亡すると、相棒もキルが可能となる。"},
                 {lang.VampireInfoLong, "吸血鬼:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
@@ -715,9 +715,9 @@ namespace TownOfHost
                 {lang.MadGuardianInfo, "Finish your tasks and help the Impostors"},
                 {lang.BaitInfo, "Be a decoy for the Crewmates"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
-                {lang.SidekickInfo, "Be the successor for the Impostors"},
-                {lang.BeforeSidekickInfo,"You can not kill now"},
-                {lang.AfterSidekickInfo,"Revenge to the Crewmates"},
+                {lang.MafiaInfo, "Be the successor for the Impostors"},
+                {lang.BeforeMafiaInfo,"You can not kill now"},
+                {lang.AfterMafiaInfo,"Revenge to the Crewmates"},
                 {lang.VampireInfo, "Kill everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the Impostors"},
@@ -728,7 +728,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.SidekickInfoLong, "Sidekick:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。SidekickではないImpostorが全員死亡すると、Sidekickもキルが可能となる。"},
+                {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
@@ -782,7 +782,7 @@ namespace TownOfHost
                 {CustomRoles.MadGuardian, "MadGuardian"},
                 {CustomRoles.Bait, "Bait"},
                 {CustomRoles.Terrorist, "Terrorist"},
-                {CustomRoles.Sidekick, "Sidekick"},
+                {CustomRoles.Mafia, "Mafia"},
                 {CustomRoles.Vampire, "Vampire"},
                 {CustomRoles.SabotageMaster, "SabotageMaster"},
                 {CustomRoles.Mayor, "Mayor"},
@@ -797,7 +797,7 @@ namespace TownOfHost
                 {CustomRoles.MadGuardian, "守護狂人"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
-                {CustomRoles.Sidekick, "相棒"},
+                {CustomRoles.Mafia, "相棒"},
                 {CustomRoles.Vampire, "吸血鬼"},
                 {CustomRoles.SabotageMaster, "サボタージュマスター"},
                 {CustomRoles.Mayor, "メイヤー"},
@@ -825,9 +825,9 @@ namespace TownOfHost
         MadmateInfo,
         BaitInfo,
         TerroristInfo,
-        SidekickInfo,
-        BeforeSidekickInfo,
-        AfterSidekickInfo,
+        MafiaInfo,
+        BeforeMafiaInfo,
+        AfterMafiaInfo,
         VampireInfo,
         SabotageMasterInfo,
         MadGuardianInfo,
@@ -840,7 +840,7 @@ namespace TownOfHost
         MadmateInfoLong,
         BaitInfoLong,
         TerroristInfoLong,
-        SidekickInfoLong,
+        MafiaInfoLong,
         VampireInfoLong,
         SabotageMasterInfoLong,
         MadGuardianInfoLong,
@@ -894,7 +894,7 @@ namespace TownOfHost
         Madmate,
         Bait,
         Terrorist,
-        Sidekick,
+        Mafia,
         Vampire,
         SabotageMaster,
         MadGuardian,
