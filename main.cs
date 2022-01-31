@@ -390,6 +390,7 @@ namespace TownOfHost
         }
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
         {
+            if(tasks == null) return "null";
             string taskText = "";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
