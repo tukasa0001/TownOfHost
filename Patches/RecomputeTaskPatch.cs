@@ -17,7 +17,6 @@ namespace TownOfHost
     {
         public static bool Prefix(GameData __instance)
         {
-            Logger.msg("CustomTaskCountsPatch.Prefix.Start");
             __instance.TotalTasks = 0;
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
@@ -37,7 +36,6 @@ namespace TownOfHost
                     }
                 }
             }
-            Logger.msg("CustomTaskCountsPatch.Prefix.End");
             return false;
         }
     }
