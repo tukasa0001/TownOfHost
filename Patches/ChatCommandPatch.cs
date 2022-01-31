@@ -38,7 +38,7 @@ namespace TownOfHost
                 if (getCommand("/h", text, out arg))
                 {
                     canceled = true;
-                    main.ShowHelp();
+                    if(arg == "")main.ShowHelp();
                 }
                 if (getCommand("/n", text, out arg) || getCommand("/now", text, out arg))
                 {
