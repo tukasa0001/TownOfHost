@@ -375,7 +375,6 @@ namespace TownOfHost
                     role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
-
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if(cRoleFound) {
                     if (cRole == CustomRoles.Jester) hasTasks = false;

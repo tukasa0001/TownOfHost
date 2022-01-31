@@ -73,6 +73,7 @@ namespace TownOfHost
                 if(main.SheriffCount > 0) return;
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.PlayerId != 0)
                     AllPlayers.Add(pc);
                 }
 
@@ -80,6 +81,7 @@ namespace TownOfHost
 
                 List<PlayerControl> SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
                 SheriffList.ForEach(sheriff => {
+                    if(sheriff.PlayerId == 0) return;
                     CancelAssignPatch.PreAssignedPlayers.Add(sheriff.Data);
                     sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                     foreach(var AllPlayers in PlayerControl.AllPlayerControls) {

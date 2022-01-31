@@ -21,6 +21,7 @@ namespace TownOfHost
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
             {
+                if(p == null) continue;
                 var hasTasks = main.hasTasks(p);
                 if (hasTasks)
                 {
