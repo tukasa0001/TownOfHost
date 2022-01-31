@@ -40,6 +40,7 @@ namespace TownOfHost
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
+                        OptionPages.Sheriff,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
