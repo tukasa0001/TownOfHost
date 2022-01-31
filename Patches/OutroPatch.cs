@@ -171,7 +171,7 @@ namespace TownOfHost
 
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
-            main.ApplySuffix();
+            //main.ApplySuffix();
         }
     }
 }

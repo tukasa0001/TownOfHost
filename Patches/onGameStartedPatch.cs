@@ -100,7 +100,7 @@ namespace TownOfHost
         }
         public static void Postfix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
-            main.ApplySuffix();
+            //main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.RealNames = new Dictionary<byte, string>();
 
