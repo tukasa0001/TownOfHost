@@ -17,6 +17,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameData __instance)
         {
+            Logger.msg("CustomTaskCountsPatch.Prefix.Start");
             __instance.TotalTasks = 0;
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
@@ -25,7 +26,7 @@ namespace TownOfHost
                 var hasTasks = main.hasTasks(p);
                 if (hasTasks)
                 {
-                    if(p.Tasks != null) {
+                    if(p.Tasks == null) {
                         Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
                         continue;//これより下を実行しない
                     }
@@ -36,6 +37,7 @@ namespace TownOfHost
                     }
                 }
             }
+            Logger.msg("CustomTaskCountsPatch.Prefix.End");
             return false;
         }
     }

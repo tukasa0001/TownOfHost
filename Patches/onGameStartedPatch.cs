@@ -57,6 +57,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch {
         public static void Prefix(RoleManager __instance) {
+            Logger.msg("SelectRolesPatch.Prefix.Start");
             if(!main.IsHideAndSeek) {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -97,8 +98,10 @@ namespace TownOfHost
                     Logger.info(sheriff.name + "の役職をDesyncさせました。");
                 });
             }
+            Logger.msg("SelectRolesPatch.Prefix.End");
         }
         public static void Postfix(RoleManager __instance) {
+            Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
@@ -218,6 +221,8 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
+
+            Logger.msg("SelectRolesPatch.Postfix.End");
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
             if(players == null || players.Count <= 0) return null;
@@ -241,14 +246,18 @@ namespace TownOfHost
     class CancelAssignPatch {
         public static List<PlayerControl> PreAssignedPlayers = new List<PlayerControl>();
         public static void Prefix(RoleManager __instance, [HarmonyArgument(0)] Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> players) {
+            Logger.msg("CancelAssignPatch.Prefix.Start");
             PreAssignedPlayers.ForEach(pc => {
                 players.Remove(pc.Data);
             });
+            Logger.msg("CancelAssignPatch.Prefix.End");
         }
         public static void Postfix(RoleManager __instance) {
+            Logger.msg("CancelAssignPatch.Postfix.Start");
             PreAssignedPlayers.ForEach(pc => {
                 pc.RpcSetRole(RoleTypes.Crewmate);
             });
+            Logger.msg("CancelAssignPatch.Postfix.End");
         }
     }
 }
