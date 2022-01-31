@@ -69,16 +69,17 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
+                CancelAssignPatch.PreAssignedPlayers = new List<GameData.PlayerInfo>(); //初期化
+
                 //Desyncが必要な役職を設定
-                if(main.SheriffCount > 0) return;
+                if(main.SheriffCount !> 0) return;
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.PlayerId != 0)
                     AllPlayers.Add(pc);
                 }
 
-                CancelAssignPatch.PreAssignedPlayers = new List<GameData.PlayerInfo>(); //初期化
-
+                Logger.info("Sheriff割り当て直前");
                 List<PlayerControl> SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
                 SheriffList.ForEach(sheriff => {
                     if(sheriff.PlayerId == 0) return;
