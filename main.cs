@@ -449,6 +449,7 @@ namespace TownOfHost
                 if(main.MayorCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
+                if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -612,14 +613,11 @@ namespace TownOfHost
             string tmp = "";
             foreach(string t in textList)
             {
-                Logger.LogInfo(t.Length);
-                Logger.LogInfo(t);
-
                 if(tmp.Length+t.Length < 100 ){
-                    tmp += "\n"+t;
+                    tmp += t+"\n";
                 }else{
                     MessagesToSend.Add(tmp);
-                    tmp = t;
+                    tmp = t+"\n";
                 }
             }
             if(tmp.Length != 0) MessagesToSend.Add(tmp);
