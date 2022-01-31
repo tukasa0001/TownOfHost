@@ -69,7 +69,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
-                CancelAssignPatch.PreAssignedPlayers = new List<GameData.PlayerInfo>(); //初期化
+                CancelAssignPatch.PreAssignedPlayers = new List<PlayerControl>(); //初期化
 
                 //Desyncが必要な役職を設定
                 if(main.SheriffCount !> 0) return;
@@ -83,12 +83,12 @@ namespace TownOfHost
                 List<PlayerControl> SheriffList = AssignCustomRolesFromList(CustomRoles.Sheriff, AllPlayers, -1);
                 SheriffList.ForEach(sheriff => {
                     if(sheriff.PlayerId == 0) return;
-                    CancelAssignPatch.PreAssignedPlayers.Add(sheriff.Data);
+                    CancelAssignPatch.PreAssignedPlayers.Add(sheriff);
                     sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                     foreach(var AllPlayers in PlayerControl.AllPlayerControls) {
                         AllPlayers.RpcSetRoleDesync(RoleTypes.Crewmate, sheriff);
                     }
-                    new LateTask(() => sheriff.RpcSetRole(RoleTypes.Crewmate), 1f, "Sheriff Role Desync Task");
+
                     Logger.info(sheriff.name + "の役職をDesyncさせました。");
                 });
             }
@@ -234,10 +234,15 @@ namespace TownOfHost
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.AssignRolesForTeam))]
     class CancelAssignPatch {
-        public static List<GameData.PlayerInfo> PreAssignedPlayers = new List<GameData.PlayerInfo>();
+        public static List<PlayerControl> PreAssignedPlayers = new List<PlayerControl>();
         public static void Prefix(RoleManager __instance, [HarmonyArgument(0)] Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> players) {
-            PreAssignedPlayers.ForEach(info => {
-                players.Remove(info);
+            PreAssignedPlayers.ForEach(pc => {
+                players.Remove(pc.Data);
+            });
+        }
+        public static void Postfix(RoleManager __instance) {
+            PreAssignedPlayers.ForEach(pc => {
+                pc.RpcSetRole(RoleTypes.Crewmate);
             });
         }
     }
