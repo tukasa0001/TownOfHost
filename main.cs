@@ -761,7 +761,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
-                {lang.SnitchInfoLong, "スニッチ:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
+                {lang.SnitchInfoLong, "スニッチ:\nタスクを終わらせると人外プレイヤーの名前が赤く変わる。タスクが残り少なくなるとスニッチの名前に色が付き人外からわかるようになる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -830,7 +830,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
-                {lang.SnitchInfoLong, "Snitch:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
+                {lang.SnitchInfoLong, "Snitch:\nタスクを終わらせると人外プレイヤーの名前が赤く変わる。タスクが残り少なくなるとスニッチの名前に色が付き人外からわかるようになる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
