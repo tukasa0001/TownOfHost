@@ -415,41 +415,41 @@ namespace TownOfHost
             var text = "役職:";
             if(main.IsHideAndSeek)
             {
-                if(main.FoxCount > 0 ) text += String.Format("\n{0,-5}：{1}",main.getRoleName(CustomRoles.Fox),main.FoxCount);
-                if(main.TrollCount > 0 ) text += String.Format("\n{0,-5}：{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
+                if(main.FoxCount > 0 ) text += String.Format("\n{0,-5}:{1}",main.getRoleName(CustomRoles.Fox),main.FoxCount);
+                if(main.TrollCount > 0 ) text += String.Format("\n{0,-5}:{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
                 main.SendToAll(text);
                 text = "設定:";
                 text += main.getLang(lang.HideAndSeek);
             }else{
-                if(main.VampireCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
-                if(main.SidekickCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Sidekick),main.SidekickCount);
-                if(main.MadmateCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
-                if(main.TerroristCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
-                if(main.BaitCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Bait),main.BaitCount);
-                if(main.JesterCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
-                if(main.SabotageMasterCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
-                if(main.MayorCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
-                if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
-                if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
+                if(main.VampireCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
+                if(main.MafiaCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
+                if(main.MadmateCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
+                if(main.TerroristCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
+                if(main.BaitCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Bait),main.BaitCount);
+                if(main.JesterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
+                if(main.SabotageMasterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
+                if(main.MayorCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
+                if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 main.SendToAll(text);
                 text = "設定:";
-                if(main.VampireCount > 0) text += String.Format("\n{0}：{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
+                if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
                 if(main.SabotageMasterCount > 0) {
-                    if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterSkillLimit),main.SabotageMasterSkillLimit);
-                    if(main.SabotageMasterFixesDoors) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterFixesDoors),getOnOff(main.SabotageMasterFixesDoors));
-                    if(main.SabotageMasterFixesReactors) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterFixesReactors),getOnOff(main.SabotageMasterFixesReactors));
-                    if(main.SabotageMasterFixesOxygens) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterFixesOxygens),getOnOff(main.SabotageMasterFixesOxygens));
-                    if(main.SabotageMasterFixesCommunications) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterFixesCommunications),getOnOff(main.SabotageMasterFixesCommunications));
-                    if(main.SabotageMasterFixesElectrical) text += String.Format("\n{0}：{1}",main.getLang(lang.SabotageMasterFixesElectrical),getOnOff(main.SabotageMasterFixesElectrical));
+                    if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterSkillLimit),main.SabotageMasterSkillLimit);
+                    if(main.SabotageMasterFixesDoors) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesDoors),getOnOff(main.SabotageMasterFixesDoors));
+                    if(main.SabotageMasterFixesReactors) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesReactors),getOnOff(main.SabotageMasterFixesReactors));
+                    if(main.SabotageMasterFixesOxygens) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesOxygens),getOnOff(main.SabotageMasterFixesOxygens));
+                    if(main.SabotageMasterFixesCommunications) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesCommunications),getOnOff(main.SabotageMasterFixesCommunications));
+                    if(main.SabotageMasterFixesElectrical) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesElectrical),getOnOff(main.SabotageMasterFixesElectrical));
                 }
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0){
-                    if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}：{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
+                    if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
                 }
                 if(main.MadGuardianCount > 0) {
-                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}：{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
+                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
-                if(main.MayorCount > 0) text += String.Format("\n{0}：{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
-                if(main.SyncButtonMode) text += String.Format("\n{0}：{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
+                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
+                if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -458,13 +458,13 @@ namespace TownOfHost
         public static void ShowHelp()
         {
             main.SendToAll(
-                "コマンド一覧："
+                "コマンド一覧:"
                 +"\n/now - 現在有効な設定を表示"
                 +"\n/h now - 現在有効な設定の説明を表示"
                 +"\n/h roles <役職名> - 役職の説明を表示"
                 +"\n/h modes <モード名> - モードの説明を表示"
                 );
-            
+
         }
         public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
