@@ -30,13 +30,21 @@ namespace TownOfHost
                     canceled = true;
                     main.SendToAll(main.winnerList);
                 }
-
                 if (getCommand("/r", text, out arg) || getCommand("/rename", text, out arg))
                 {
                     canceled = true;
                     main.nickName = arg;
                 }
-
+                if (getCommand("/h", text, out arg))
+                {
+                    canceled = true;
+                    main.ShowHelp();
+                }
+                if (getCommand("/n", text, out arg) || getCommand("/now", text, out arg))
+                {
+                    canceled = true;
+                    main.ShowActiveSettings();
+                }
                 if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
                 {
                     canceled = true;
