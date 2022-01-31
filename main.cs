@@ -419,7 +419,7 @@ namespace TownOfHost
                 if(main.TrollCount > 0 ) text += String.Format("\n{0,-5}：{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
                 main.SendToAll(text);
                 text = "設定:";
-                main.SendToAll(main.getLang(lang.HideAndSeek));
+                text += main.getLang(lang.HideAndSeek);
             }else{
                 if(main.VampireCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.SidekickCount > 0) text += String.Format("\n{0,-14}：{1}",main.getRoleName(CustomRoles.Sidekick),main.SidekickCount);
@@ -449,7 +449,7 @@ namespace TownOfHost
                     if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}：{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}：{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
-                if(main.SyncButtonMode) text += String.Format("\n{0}：{1}",main.getLang(lang.SyncButtonMode),main.SyncedButtonCount);
+                if(main.SyncButtonMode) text += String.Format("\n{0}：{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -586,7 +586,21 @@ namespace TownOfHost
         public static void SendToAll(string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            MessagesToSend.Add(text);
+            string[] textList = text.Split('\n');
+            string tmp = "";
+            foreach(string t in textList)
+            {
+                Logger.LogInfo(t.Length);
+                Logger.LogInfo(t);
+
+                if(tmp.Length+t.Length < 100 ){
+                    tmp += "\n"+t;
+                }else{
+                    MessagesToSend.Add(tmp);
+                    tmp = t;
+                }
+            }
+            if(tmp.Length != 0) MessagesToSend.Add(tmp);
         }
         public static void ApplySuffix() {
             if(!AmongUsClient.Instance.AmHost) return;
