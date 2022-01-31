@@ -31,6 +31,16 @@ namespace TownOfHost
                     main.SendToAll(main.winnerList);
                 }
 
+                if (getCommand("/h", text, out arg))
+                {
+                    canceled = true;
+                    main.ShowHelp();
+                }
+                if (getCommand("/n", text, out arg) || getCommand("/now", text, out arg))
+                {
+                    canceled = true;
+                    main.ShowActiveSettings();
+                }
                 if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
                 {
                     canceled = true;
