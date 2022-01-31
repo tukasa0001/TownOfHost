@@ -613,7 +613,7 @@ namespace TownOfHost
             string tmp = "";
             foreach(string t in textList)
             {
-                if(tmp.Length+t.Length < 100 ){
+                if(tmp.Length+t.Length < 200 ){
                     tmp += t+"\n";
                 }else{
                     MessagesToSend.Add(tmp);
@@ -762,8 +762,8 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
-                {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
+                {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
+                {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -831,8 +831,8 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
-                {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
-                {lang.TrollInfoLong, "Troll(HideAndSeek):Impostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
+                {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
+                {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
