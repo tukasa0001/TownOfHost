@@ -51,7 +51,7 @@ namespace TownOfHost
                     int MadmateCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
-                    int SidekickCount = reader.ReadInt32();
+                    int MafiaCount = reader.ReadInt32();
                     int VampireCount = reader.ReadInt32();
                     int SabotageMasterCount = reader.ReadInt32();
                     int MadGuardianCount = reader.ReadInt32();
@@ -88,7 +88,7 @@ namespace TownOfHost
                         MadmateCount,
                         BaitCount,
                         TerroristCount,
-                        SidekickCount,
+                        MafiaCount,
                         VampireCount,
                         SabotageMasterCount,
                         MadGuardianCount,
@@ -151,7 +151,7 @@ namespace TownOfHost
                 int MadmateCount,
                 int BaitCount,
                 int TerroristCount,
-                int SidekickCount,
+                int MafiaCount,
                 int VampireCount,
                 int SabotageMasterCount,
                 int MadGuardianCount,
@@ -187,7 +187,7 @@ namespace TownOfHost
             main.MadmateCount = MadmateCount;
             main.BaitCount = BaitCount;
             main.TerroristCount = TerroristCount;
-            main.SidekickCount= SidekickCount;
+            main.MafiaCount= MafiaCount;
             main.VampireCount= VampireCount;
             main.SabotageMasterCount= SabotageMasterCount;
             main.MadGuardianCount = MadGuardianCount;
@@ -197,7 +197,7 @@ namespace TownOfHost
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
-            
+
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
 

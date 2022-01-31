@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace TownOfHost
-{//参考：https://github.com/NuclearPowered/Reactor/blob/master/Reactor.Debugger/Patches.cs
+{//参考:https://github.com/NuclearPowered/Reactor/blob/master/Reactor.Debugger/Patches.cs
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
     public static class GameStartManagerUpdatePatch
     {

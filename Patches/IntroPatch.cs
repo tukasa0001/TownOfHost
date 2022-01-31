@@ -75,12 +75,12 @@ namespace TownOfHost
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
             }
-            if (main.isSidekick(PlayerControl.LocalPlayer))
+            if (main.isMafia(PlayerControl.LocalPlayer))
             {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Sidekick);
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mafia);
                 __instance.TeamTitle.fontSize -= 0.5f;
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.SidekickInfo);
+                __instance.ImpostorText.text = main.getLang(lang.MafiaInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Color.red;
             }

@@ -49,7 +49,7 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-            if (main.isSidekick(__instance))
+            if (main.isMafia(__instance))
             {
                 var ImpostorCount = 0;
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -60,11 +60,11 @@ namespace TownOfHost
                 Logger.SendToFile("ImpostorCount: " + ImpostorCount);
                 if (ImpostorCount > 0)
                 {
-                    Logger.SendToFile(__instance.name + "はSidekickだったので、キルはキャンセルされました。");
+                    Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
                 }
                 else
-                    Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
+                    Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
             }
             if(main.isMadGuardian(target)) {
                 var isTaskFinished = true;
@@ -172,9 +172,9 @@ namespace TownOfHost
                 //Vampireの処理
                 if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                 {
-                    //__instance：キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1：キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2：キルするまでの秒数
+                    //__instance:キルされる予定のプレイヤー
+                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
                     if (main.BitPlayers[__instance.PlayerId].Item2 >= main.VampireKillDelay)
                     {
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;

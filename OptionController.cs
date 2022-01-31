@@ -30,7 +30,7 @@ namespace TownOfHost
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
-                        OptionPages.Sidekick,
+                        OptionPages.Mafia,
                         OptionPages.Vampire,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -61,13 +61,13 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.MadGuardian, i)
                     )},
-                    {OptionPages.Sidekick, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>: " + main.SidekickCount,
+                    {OptionPages.Mafia, new PageObject(
+                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Mafia) + "</color>: " + main.MafiaCount,
                         true,
-                        () => {main.SetRoleCountToggle(CustomRoles.Sidekick);},
+                        () => {main.SetRoleCountToggle(CustomRoles.Mafia);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
-                        i => main.SetRoleCount(CustomRoles.Sidekick, i)
+                        i => main.SetRoleCount(CustomRoles.Mafia, i)
                     )},
                     {OptionPages.Vampire, new PageObject(
                         () => "<color=#a757a8>" + main.getRoleName(CustomRoles.Vampire) + "</color>: " + main.VampireCount,
@@ -563,7 +563,7 @@ namespace TownOfHost
                 MadGuardian,
                 Bait,
                 Terrorist,
-                Sidekick,
+                Mafia,
                 Vampire,
                 SabotageMaster,
                 Mayor,

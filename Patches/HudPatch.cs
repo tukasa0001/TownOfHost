@@ -66,8 +66,8 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
             }
-            //Sidekick
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sidekick)
+            //Mafia
+            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Mafia)
             {
                 var ImpostorCount = 0;
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -77,13 +77,13 @@ namespace TownOfHost
                 }
                 if (ImpostorCount > 0)
                 {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.BeforeSidekickInfo) + "</color>\r\n";
+                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Mafia) + "</color>\r\n" +
+                    "<color=#ff0000>" + main.getLang(lang.BeforeMafiaInfo) + "</color>\r\n";
                 }
                 else
                 {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.AfterSidekickInfo) + "</color>\r\n";
+                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Mafia) + "</color>\r\n" +
+                    "<color=#ff0000>" + main.getLang(lang.AfterMafiaInfo) + "</color>\r\n";
                 }
             }
             //Vampire
