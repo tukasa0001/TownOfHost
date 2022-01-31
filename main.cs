@@ -446,6 +446,7 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
+        public static string nickName = "";
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
         {
@@ -534,6 +535,7 @@ namespace TownOfHost
         public static void ApplySuffix() {
             if(!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
+            if(nickName != "") name = nickName;
             if(!AmongUsClient.Instance.IsGameStarted) {
                 switch(currentSuffix) {
                     case SuffixModes.None:
