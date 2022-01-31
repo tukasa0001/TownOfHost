@@ -388,7 +388,7 @@ namespace TownOfHost
 
         public static void ShowActiveRoles()
         {
-            main.SendToAll("現在有効になっている設定の説明:");
+            main.SendToAll("現在有効な設定の説明:");
             if(main.IsHideAndSeek)
             {
                 main.SendToAll(main.getLang(lang.HideAndSeekInfo));
@@ -408,6 +408,17 @@ namespace TownOfHost
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+        }
+
+        public static void ShowHelp()
+        {
+            main.SendToAll(
+                "コマンド一覧："
+                +"\n\r/h now - 現在有効な設定の説明を表示"
+                +"\n\r/h roles <役職名> - 役職の説明を表示"
+                +"\n\r/h modes <モード名> - モードの説明を表示"
+                );
+            
         }
         public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
