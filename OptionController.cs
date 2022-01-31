@@ -40,6 +40,7 @@ namespace TownOfHost
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
+                        OptionPages.Snitch,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -123,6 +124,14 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Mayor, i)
+                    )},
+                    {OptionPages.Snitch, new PageObject(
+                        () => "<color=#90ee90>" + main.getRoleName(CustomRoles.Snitch) + "</color>: " + main.SnitchCount,
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Snitch);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Snitch, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -559,6 +568,7 @@ namespace TownOfHost
                 SabotageMaster,
                 Mayor,
                 Opportunist,
+                Snitch,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

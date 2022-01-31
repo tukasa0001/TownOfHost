@@ -133,6 +133,13 @@ namespace TownOfHost
             return false;
         }
 
+        public static bool isSnitch(PlayerControl target)
+        {
+            if (target.getCustomRole() == CustomRoles.Snitch)
+                return true;
+            return false;
+        }
+
         public static int SetRoleCountToggle(int currentCount)
         {
             if(currentCount > 0) return 0;
@@ -211,6 +218,9 @@ namespace TownOfHost
                 case CustomRoles.Opportunist:
                     count = OpportunistCount;
                     break;
+                case CustomRoles.Snitch:
+                    count = SnitchCount;
+                    break;
                 default:
                     return -1;
             }
@@ -247,6 +257,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Opportunist:
                     OpportunistCount = count;
+                    break;
+                case CustomRoles.Snitch:
+                    SnitchCount = count;
                     break;
             }
         }
@@ -293,6 +306,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Opportunist:
                     TextColor = Color.green;
+                    break;
+                case CustomRoles.Snitch:
+                    TextColor = new Color(144,238,144);
                     break;
                 case CustomRoles.SabotageMaster:
                     TextColor = Color.blue;
@@ -406,6 +422,7 @@ namespace TownOfHost
                 if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -425,6 +442,7 @@ namespace TownOfHost
         public static int MadGuardianCount;
         public static int MayorCount;
         public static int OpportunistCount;
+        public static int SnitchCount;
         public static int FoxCount;
         public static int TrollCount;
 
@@ -461,6 +479,7 @@ namespace TownOfHost
             writer.Write(MadGuardianCount);
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
+            writer.Write(SnitchCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -655,6 +674,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
                 {lang.MayorInfo, "インポスターを追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
+                {lang.SnitchInfo, "タスクを完了させ人外を暴け"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -666,6 +686,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
+                {lang.SnitchInfoLong, "スニッチ:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -722,6 +743,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the Impostors"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
+                {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -733,6 +755,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
+                {lang.SnitchInfoLong, "Snitch:\nタスクを終わらせると人外の名前の後ろにマークがついてわかる。タスクが残り少なくなると人外からスニッチの名前にマークがついて分かるようになる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):Impostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -787,6 +810,7 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "SabotageMaster"},
                 {CustomRoles.Mayor, "Mayor"},
                 {CustomRoles.Opportunist, "Opportunist"},
+                {CustomRoles.Snitch, "Snitch"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -802,6 +826,7 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "サボタージュマスター"},
                 {CustomRoles.Mayor, "メイヤー"},
                 {CustomRoles.Opportunist, "オポチュニスト"},
+                {CustomRoles.Snitch, "スニッチ"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -833,6 +858,7 @@ namespace TownOfHost
         MadGuardianInfo,
         MayorInfo,
         OpportunistInfo,
+        SnitchInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -846,6 +872,7 @@ namespace TownOfHost
         MadGuardianInfoLong,
         MayorInfoLong,
         OpportunistInfoLong,
+        SnitchInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -900,6 +927,7 @@ namespace TownOfHost
         MadGuardian,
         Mayor,
         Opportunist,
+        Snitch,
         Fox,
         Troll
     }
