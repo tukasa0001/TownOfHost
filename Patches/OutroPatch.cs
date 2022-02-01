@@ -124,7 +124,7 @@ namespace TownOfHost
             //特殊勝利
             if (main.currentWinner == CustomWinner.Jester)
             {
-                __instance.BackgroundBar.material.color = main.JesterColor;
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
             }
             if (main.currentWinner == CustomWinner.Terrorist)
             {

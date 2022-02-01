@@ -61,10 +61,7 @@ namespace TownOfHost
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
         public static bool DisableStartReactor;
-        public static Color JesterColor = new Color(0.925f, 0.384f, 0.647f);
-        public static Color MayorColor = new Color(1f, 0f, 1f);
-        public static Color SnitchColor = new Color(0.65f, 0.92f, 0.65f);
-        public static Color VampireColor = new Color(0.65f, 0.34f, 0.65f);
+        public static Dictionary<CustomRoles,String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => VampireCount > 0;
@@ -118,6 +115,15 @@ namespace TownOfHost
                 currentLanguage = EnglishLang;
             string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
             return text;
+        }
+
+        public static Color getRoleColor(CustomRoles role)
+        {
+            string hexColor;
+            Color result;
+            roleColors.TryGetValue(role, out hexColor);
+            ColorUtility.TryParseHtmlString(hexColor,out result);
+            return result;
         }
         public static int GetCountFromRole(CustomRoles role) {
             int count;
@@ -227,7 +233,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Jester:
-                    TextColor = JesterColor;
+                    TextColor = main.getRoleColor(CustomRoles.Jester);
                     break;
                 case CustomRoles.Madmate:
                     TextColor = Palette.ImpostorRed;
@@ -236,13 +242,13 @@ namespace TownOfHost
                     TextColor = Palette.ImpostorRed;
                     break;
                 case CustomRoles.Mayor:
-                    TextColor = MayorColor;
+                    TextColor = main.getRoleColor(CustomRoles.Mayor);
                     break;
                 case CustomRoles.Opportunist:
                     TextColor = Color.green;
                     break;
                 case CustomRoles.Snitch:
-                    TextColor = SnitchColor;
+                    TextColor = main.getRoleColor(CustomRoles.Snitch);
                     break;
                 case CustomRoles.SabotageMaster:
                     TextColor = Color.blue;
@@ -254,7 +260,7 @@ namespace TownOfHost
                     TextColor = Color.cyan;
                     break;
                 case CustomRoles.Vampire:
-                    TextColor = VampireColor;
+                    TextColor = main.getRoleColor(CustomRoles.Vampire);
                     break;
                 case CustomRoles.Mafia:
                     TextColor = Palette.ImpostorRed;
@@ -667,6 +673,22 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
+
+            roleColors = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Vampire, "#a757a8"},
+                {CustomRoles.Mafia, "#ff0000"},
+                {CustomRoles.Madmate, "#ff0000"},
+                {CustomRoles.MadGuardian, "#ff0000"},
+                {CustomRoles.Jester, "#d161a4"},
+                {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Opportunist, "#00ff00"},
+                {CustomRoles.Bait, "#00bfff"},
+                {CustomRoles.SabotageMaster, "#0000ff"},
+                {CustomRoles.Snitch, "#90ee90"},
+                {CustomRoles.Mayor, "#a9a9a9"},
+                {CustomRoles.Fox, "#e478ff"},
+                {CustomRoles.Troll, "#00ff00"}
+            };
 
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)

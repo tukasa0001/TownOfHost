@@ -44,8 +44,8 @@ namespace TownOfHost
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Jester);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.JesterInfo);
-                __instance.TeamTitle.color = main.JesterColor;
-                __instance.BackgroundBar.material.color = main.JesterColor;
+                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Jester);
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
             }
             if (PlayerControl.LocalPlayer.isMadmate())
             {
@@ -91,7 +91,7 @@ namespace TownOfHost
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.VampireInfo);
                 __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = main.VampireColor;
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Vampire);
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
             }
             if (PlayerControl.LocalPlayer.isSabotageMaster())
@@ -127,8 +127,8 @@ namespace TownOfHost
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Snitch);
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.SnitchInfo);
-                __instance.TeamTitle.color = main.SnitchColor;
-                __instance.BackgroundBar.material.color = main.SnitchColor;
+                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Snitch);
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Snitch);
             }
             if (PlayerControl.LocalPlayer.isMayor())
             {
@@ -136,8 +136,8 @@ namespace TownOfHost
                 __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = main.getLang(lang.MayorInfo);
-                __instance.TeamTitle.color = main.MayorColor;
-                __instance.BackgroundBar.material.color = main.MayorColor;
+                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Mayor);
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Mayor);
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
             if(main.IsHideAndSeek) {
