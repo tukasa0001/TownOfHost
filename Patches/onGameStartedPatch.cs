@@ -59,6 +59,7 @@ namespace TownOfHost
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            var rand = new System.Random();
             if(!main.IsHideAndSeek) {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -70,15 +71,27 @@ namespace TownOfHost
                 int AdditionalShapeshifterNum = main.SidekickCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
+                List<PlayerControl> AllPlayers = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.PlayerId == 1) {
-                        //ここからDesyncが始まる
-                        pc.RpcSetRoleDesync(RoleTypes.Shapeshifter);
-                        foreach(var AllPC in PlayerControl.AllPlayerControls) {
-                            pc.RpcSetRoleDesync(RoleTypes.Scientist, AllPC);
-                            AllPC.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                    AllPlayers.Add(pc);
+                }
+
+                if(main.SheriffCount > 0)
+                for(var i = 0; i < main.SheriffCount; i++) {
+                    if(AllPlayers.Count <= 0) break;
+                    var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count - 1)];
+                    AllPlayers.Remove(sheriff);
+                    main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
+                    //ここからDesyncが始まる
+                    if(sheriff.PlayerId == 0) {
+                        //ただしホスト、お前はDesyncするな。
+                        sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                        foreach(var pc in PlayerControl.AllPlayerControls) {
+                            sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                            pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                         }
                     }
+                    sheriff.Data.IsDead = true;
                 }
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
