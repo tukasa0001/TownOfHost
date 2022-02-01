@@ -83,7 +83,7 @@ namespace TownOfHost
                     AllPlayers.Remove(sheriff);
                     main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
                     //ここからDesyncが始まる
-                    if(sheriff.PlayerId == 0) {
+                    if(sheriff.PlayerId != 0) {
                         //ただしホスト、お前はDesyncするな。
                         sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                         foreach(var pc in PlayerControl.AllPlayerControls) {
