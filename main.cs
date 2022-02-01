@@ -9,7 +9,7 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
 using System.Linq;
-//herro
+
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
