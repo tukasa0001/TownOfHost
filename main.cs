@@ -335,11 +335,10 @@ namespace TownOfHost
             switch (oRole)
             {
                 case RoleTypes.Impostor:
+                case RoleTypes.Shapeshifter:
                     text = "Impostor";
                     color = Palette.ImpostorRed;
                     break;
-                case RoleTypes.Shapeshifter:
-                    goto case RoleTypes.Impostor;
                 default:
                     switch (hRole)
                     {
@@ -867,7 +866,7 @@ namespace TownOfHost
                 {lang.OFF, "OFF"},
             };
             EnglishRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Default, "Crewmate"},
                 {CustomRoles.Jester, "Jester"},
                 {CustomRoles.Madmate, "Madmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
@@ -883,7 +882,7 @@ namespace TownOfHost
                 {CustomRoles.Troll, "Troll"},
             };
             JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Default, "クルー"},
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "狂人"},
                 {CustomRoles.MadGuardian, "守護狂人"},
