@@ -170,6 +170,9 @@ namespace TownOfHost
             ShipStatus.RpcEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
+        private static void EndGame(GameOverReason reason) {
+            
+        }
         //プレイヤー統計
         internal class PlayerStatistics
         {
@@ -211,6 +214,16 @@ namespace TownOfHost
 
                 TeamImpostorsAlive = numImpostorsAlive;
                 TotalAlive = numTotalAlive;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RpcEndGame))]
+    class OnEndGamePatch {
+        public static void Prefix(ShipStatus __instance, [HarmonyArgument(0)] GameOverReason endReason) {
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.getCustomRole() == CustomRoles.Sheriff) {
+                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
             }
         }
     }
