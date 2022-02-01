@@ -273,8 +273,9 @@ namespace TownOfHost
             RoleText = getRoleName(cRole);
             switch (cRole) {
                 case CustomRoles.Default:
-                    RoleText = getRoleName(player.Data.Role.Role);
-                    switch(player.Data.Role.Role) {
+                    var oRole = player.getSyncedRoleTypes();
+                    RoleText = getRoleName(oRole);
+                    switch(oRole) {
                         //通常クルー
                         case RoleTypes.Crewmate:
                             TextColor = Color.white;
