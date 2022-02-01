@@ -172,6 +172,17 @@ namespace TownOfHost
             }
             return count;
         }
+        public static int GetCountFromSubRole(CustomSubRoles role) {
+            int count;
+            switch(role) {
+                case CustomSubRoles.Lovers:
+                    count = LoversCount;
+                    break;
+                default:
+                    return -1;
+            }
+            return count;
+        }
         public static void SetCountFromRole(CustomRoles role, int count) {
             switch(role) {
                 case CustomRoles.Jester:
@@ -407,6 +418,7 @@ namespace TownOfHost
         public static int WarlockCount;
         public static int FoxCount;
         public static int TrollCount;
+        public static int LoversCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
         public static List <PlayerControl> WarlockTarget = new List<PlayerControl>();
@@ -992,13 +1004,18 @@ namespace TownOfHost
         Fox,
         Troll
     }
+    public enum CustomSubRoles {
+        Default = 0,
+        Lovers,
+    }
     //WinData
     public enum CustomWinner
     {
         Draw = 0,
         Default,
         Jester,
-        Terrorist
+        Terrorist,
+        Lovers,
     }
     /*public enum CustomRoles : byte
     {
