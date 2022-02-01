@@ -159,6 +159,8 @@ namespace TownOfHost
                 List<PlayerControl> Engineers = new List<PlayerControl>();
                 List<PlayerControl> GuardianAngels = new List<PlayerControl>();
                 List<PlayerControl> Shapeshifters = new List<PlayerControl>();
+
+                List<byte> ImpostorIDList = new List<byte>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.Data.IsDead = false;
                     if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
@@ -169,6 +171,7 @@ namespace TownOfHost
                             break;
                         case RoleTypes.Impostor:
                             Impostors.Add(pc);
+                            ImpostorIDList.Add(pc.PlayerId);
                             break;
                         case RoleTypes.Scientist:
                             Scientists.Add(pc);
@@ -181,6 +184,7 @@ namespace TownOfHost
                             break;
                         case RoleTypes.Shapeshifter:
                             Shapeshifters.Add(pc);
+                            ImpostorIDList.Add(pc.PlayerId);
                             break;
                         default:
                             Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
@@ -205,6 +209,8 @@ namespace TownOfHost
                 }
 
                 main.NotifyRoles();
+                var ImpostorIdArray = ImpostorIDList.ToArray();
+                main.RpcSyncImpostorIds(ImpostorIdArray);
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
