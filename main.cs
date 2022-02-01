@@ -364,7 +364,11 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff)
+                //自身がSheriffの時、インポスター判定をImpostorPlayerIDsにゆだねる
+                if(ImpostorPlayerIDs.Contains(p.PlayerId)) hasTasks = false;
+            else 
+                if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
