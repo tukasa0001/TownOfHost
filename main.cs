@@ -125,6 +125,12 @@ namespace TownOfHost
             ColorUtility.TryParseHtmlString(hexColor,out result);
             return result;
         }
+        public static string getRoleColorCode(CustomRoles role)
+        {
+            string hexColor;
+            if(!roleColors.TryGetValue(role, out hexColor))hexColor = "#ffffff";
+            return hexColor;
+        }
         public static int GetCountFromRole(CustomRoles role) {
             int count;
             switch(role) {
@@ -598,7 +604,7 @@ namespace TownOfHost
                 var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 string RoleName = "STRMISS";
                 if(found) RoleName = getRoleName(role);
-                pc.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + pc.name, true);
+                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}", true);
             }
         }
 
