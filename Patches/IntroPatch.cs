@@ -18,7 +18,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (main.isJester(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isJester())
             {
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
@@ -39,7 +39,7 @@ namespace TownOfHost
                 __instance.RoleText.text = "役職名";
                 __instance.RoleBlurbText.text = "役職の説明";
             }
-            if (main.isJester(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isJester())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Jester);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -47,7 +47,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = main.JesterColor;
                 __instance.BackgroundBar.material.color = main.JesterColor;
             }
-            if (main.isMadmate(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isMadmate())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Madmate);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -56,7 +56,7 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
-            if (main.isBait(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isBait())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Bait);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -64,7 +64,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.cyan;
                 __instance.BackgroundBar.material.color = Color.yellow;
             }
-            if (main.isTerrorist(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isTerrorist())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Terrorist);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -75,7 +75,7 @@ namespace TownOfHost
                 .MinigamePrefab.OpenSound;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
             }
-            if (main.isMafia(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isMafia())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mafia);
                 __instance.TeamTitle.fontSize -= 0.5f;
@@ -84,7 +84,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Palette.ImpostorRed;
                 __instance.BackgroundBar.material.color = Color.red;
             }
-            if (main.isVampire(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isVampire())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Vampire);
                 __instance.TeamTitle.fontSize -= 0.5f;
@@ -94,7 +94,7 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = main.VampireColor;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
             }
-            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isSabotageMaster())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.SabotageMaster);
                 __instance.TeamTitle.fontSize -= 0.75f;
@@ -105,7 +105,7 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = Color.blue;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
             }
-            if (main.isMadGuardian(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isMadGuardian())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.MadGuardian);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -114,7 +114,7 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = Palette.ImpostorRed;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
             }
-            if (main.isOpportunist(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isOpportunist())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Opportunist);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -122,7 +122,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.green;
                 __instance.BackgroundBar.material.color = Color.green;
             }
-            if (main.isSnitch(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isSnitch())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Snitch);
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -130,7 +130,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = main.SnitchColor;
                 __instance.BackgroundBar.material.color = main.SnitchColor;
             }
-            if (main.isMayor(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isMayor())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mayor);
                 __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;

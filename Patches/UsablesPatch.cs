@@ -20,9 +20,9 @@ namespace TownOfHost
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
             if (__instance.AllowImpostor) return true;
-            if (main.isJester(PlayerControl.LocalPlayer) ||
-            main.isMadmate(PlayerControl.LocalPlayer) ||
-            main.isOpportunist(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isJester() ||
+            PlayerControl.LocalPlayer.isMadmate() ||
+            PlayerControl.LocalPlayer.isOpportunist())
             {
                 return false;
             }

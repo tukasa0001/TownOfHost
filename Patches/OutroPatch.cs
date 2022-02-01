@@ -26,11 +26,11 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
-                    if (main.isJester(p)) canWin = false; //Jester
-                    if (main.isMadmate(p)) canWin = false; //Madmate
-                    if (main.isMadGuardian(p)) canWin = false; //Mad Guardian
-                    if (main.isTerrorist(p)) canWin = false; //Terrorist
-                    if (main.isOpportunist(p)) canWin = false; //Opportunist
+                    if (p.isJester()) canWin = false; //Jester
+                    if (p.isMadmate()) canWin = false; //Madmate
+                    if (p.isMadGuardian()) canWin = false; //Mad Guardian
+                    if (p.isTerrorist()) canWin = false; //Terrorist
+                    if (p.isOpportunist()) canWin = false; //Opportunist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -39,9 +39,9 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
-                    if (main.isMadmate(p)) canWin = true; //Madmate
-                    if (main.isMadGuardian(p)) canWin = true; //Mad Guardian
-                    if (main.isOpportunist(p)) canWin = false; //Opportunist
+                    if (p.isMadmate()) canWin = true; //Madmate
+                    if (p.isMadGuardian()) canWin = true; //Mad Guardian
+                    if (p.isOpportunist()) canWin = false; //Opportunist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -81,7 +81,7 @@ namespace TownOfHost
             }
             //Opportunist
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(main.isOpportunist(pc) && !pc.Data.IsDead)
+                if(pc.isOpportunist() && !pc.Data.IsDead)
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
             //HideAndSeek専用
