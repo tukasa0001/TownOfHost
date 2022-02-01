@@ -200,7 +200,8 @@ namespace TownOfHost
                                 if(role == CustomRoles.Default) numTotalAlive++;
                             }
 
-                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor)
+                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 
+                            main.getCustomRole(playerInfo.PlayerId) != CustomRoles.Sheriff)
                             {
                                 numImpostorsAlive++;
                             }
