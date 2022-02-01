@@ -49,7 +49,7 @@ namespace TownOfHost
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | V | オンライン以外 | 自分の投票をClearする |
             // | T | ホストデバッガ― | 全員をインポスターにするRPCを送る |
-            // | I | デバッガ― | ImpostorPlayerIdsの中身を表示 |
+            // | I | デバッガ― | SyncedPlayerRoleTypesの中身を表示 |
             //====================
 
             if (Input.GetKeyDown(KeyCode.V) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
@@ -62,8 +62,8 @@ namespace TownOfHost
             {
                 if (main.AmDebugger.Value)
                 {
-                    foreach(var id in main.ImpostorPlayerIDs) {
-                        Logger.SendInGame(id + "is an Impostor.");
+                    foreach(var data in main.SyncedPlayerRoleTypes) {
+                        Logger.SendInGame(data.Key + ":" + data.Value.ToString());
                     }
                 }
             }

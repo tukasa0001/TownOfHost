@@ -23,7 +23,7 @@ namespace TownOfHost
         EndGame,
         PlaySound,
         SetCustomRole,
-        SyncRealImpostors
+        SyncRoleTypes
     }
     public enum Sounds
     {
@@ -143,9 +143,10 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case (byte)CustomRPC.SyncRealImpostors:
-                    byte[] ImpostorIDs = reader.ReadBytesAndSize();
-                    RPCProcedure.SyncRealImpostors(ImpostorIDs);
+                case (byte)CustomRPC.SyncRoleTypes:
+                    byte targetId = reader.ReadByte();
+                    RoleTypes RoleToSync = (RoleTypes)reader.ReadByte();
+                    RPCProcedure.SyncRoleTypes(targetId, RoleToSync);
                     break;
             }
         }
@@ -316,11 +317,8 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
         }
-        public static void SyncRealImpostors(byte[] RealImpostors) {
-            main.ImpostorPlayerIDs = RealImpostors;
-            foreach(var id in RealImpostors) {
-                Logger.SendInGame("Impostor:" + id);
-            }
+        public static void SyncRoleTypes(byte target, RoleTypes role) {
+            main.SyncedPlayerRoleTypes[target] = role;
         }
     }
 }

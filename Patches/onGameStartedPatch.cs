@@ -165,9 +165,10 @@ namespace TownOfHost
 
                 List<byte> ImpostorIDList = new List<byte>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    pc.Data.IsDead = false;
-                    if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
-                    main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
+                    pc.Data.IsDead = false; //プレイヤーの死を解除する
+                    pc.RpcSyncRoleTypes(); //公式役職の判定を同期
+                    if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
+                    main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default); //Default役職を割り当てる
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
@@ -213,7 +214,6 @@ namespace TownOfHost
 
                 main.NotifyRoles();
                 var ImpostorIdArray = ImpostorIDList.ToArray();
-                main.RpcSyncImpostorIds(ImpostorIdArray);
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;

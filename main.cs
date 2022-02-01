@@ -50,7 +50,7 @@ namespace TownOfHost
         public static float HideAndSeekImpVisionMin;
 
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static byte[] ImpostorPlayerIDs;
+        public static Dictionary<byte, RoleTypes> SyncedPlayerRoleTypes;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -364,11 +364,8 @@ namespace TownOfHost
         {
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff)
-                //自身がSheriffの時、インポスター判定をImpostorPlayerIDsにゆだねる
-                if(ImpostorPlayerIDs.Contains(p.PlayerId)) hasTasks = false;
-            else 
-                if (p.Role.TeamType == RoleTeamTypes.Impostor) hasTasks = false;
+            if(p.getSyncedRoleTypes() == RoleTypes.Impostor || p.getSyncedRoleTypes() == RoleTypes.Shapeshifter)
+                hasTasks = false; //タスクはSyncedPlayerRoleTypesを元に判定する
             if (main.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
@@ -606,12 +603,7 @@ namespace TownOfHost
             writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSyncImpostorIds(byte[] ImpostorIds) {
-            main.ImpostorPlayerIDs = ImpostorIds;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncRealImpostors, Hazel.SendOption.Reliable, -1);
-            writer.WriteBytesAndSize(ImpostorIds);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
+
         public static void SendToAll(string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -714,7 +706,7 @@ namespace TownOfHost
 
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            ImpostorPlayerIDs = new byte[0];
+            SyncedPlayerRoleTypes = new Dictionary<byte, RoleTypes>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
