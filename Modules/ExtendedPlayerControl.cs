@@ -82,5 +82,16 @@ namespace TownOfHost {
                 dic[role] = 0;
             return dic[role];
         }
+        public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
+        public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
+        public static bool isBait(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bait;}
+        public static bool isTerrorist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Terrorist;}
+        public static bool isMafia(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mafia;}
+        public static bool isVampire(this PlayerControl target){return target.getCustomRole() == CustomRoles.Vampire;}
+        public static bool isSabotageMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.SabotageMaster;}
+        public static bool isMadGuardian(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadGuardian;}
+        public static bool isMayor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mayor;}
+        public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
+        public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
     }
 }
