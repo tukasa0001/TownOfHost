@@ -90,6 +90,9 @@ namespace TownOfHost
                             sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                             pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                         }
+                    } else {
+                        //ホストは代わりに普通のクルーにする
+                        sheriff.RpcSetRole(RoleTypes.Crewmate);
                     }
                     sheriff.Data.IsDead = true;
                 }
