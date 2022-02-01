@@ -816,7 +816,7 @@ namespace TownOfHost
                 {lang.AfterMafiaInfo,"Revenge to the Crewmates"},
                 {lang.VampireInfo, "Kill everyone with your bites"},
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
-                {lang.MayorInfo, "Ban evildoer"},
+                {lang.MayorInfo, "Ban the extraperson"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
                 {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 //役職解説(長)

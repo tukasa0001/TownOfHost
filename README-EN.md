@@ -52,6 +52,7 @@ However, The numeric keypad is not supported.
 | SabotageMaster | Crewmate |
 | Mayor | Crewmate |
 | Opportunist | Crewmate |
+| Snitch | Crewmate |
 
 ### Jester
 
@@ -152,6 +153,14 @@ Victory Conditions : Aliving when one of the teams wins
 
 This is the neutral position, with an additional win if thay are still alive at the end of the game.
 They don't have tasks.
+
+### Snitch
+
+Team : Crewmates
+Decision : Crewmate
+
+When the Snitch completes a task, the name of the extraperson will change to red.
+However, when tasks in the Snitch becomes low, the name of the Snitch will appear to change from the extraperson.
 
 ## Mode
 
