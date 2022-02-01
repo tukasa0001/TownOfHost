@@ -34,7 +34,7 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return false;
             foreach(PlayerControl p in PlayerControl.AllPlayerControls)
             {
-                if(main.isSnitch(p)){
+                if(p.isSnitch()){
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
                         if(t.Data.Role.IsImpostor)
