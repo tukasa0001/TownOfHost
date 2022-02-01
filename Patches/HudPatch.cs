@@ -87,31 +87,31 @@ namespace TownOfHost
                 }
             }
             //Vampire
-            if (main.isVampire(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isVampire())
             {
                 TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(CustomRoles.Vampire) + "</color>\r\n" +
                 "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
             }
             //SabotageMaster
-            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isSabotageMaster())
             {
                 TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>\r\n" +
                 "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
             }
             //Mayor
-            if (main.isMayor(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isMayor())
             {
                 TaskTextPrefix = "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>\r\n" +
                 "<color=#ff00ff>" + main.getLang(lang.MayorInfo) + "</color>\r\n";
             }
             //Opportunist
-            if (main.isOpportunist(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isOpportunist())
             {
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.OpportunistInfo) + "</color>\r\n";
             }
             //Snitch
-            if (main.isSnitch(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isSnitch())
             {
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Snitch) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.SnitchInfo) + "</color>\r\n";

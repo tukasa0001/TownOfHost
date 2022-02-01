@@ -31,7 +31,7 @@ namespace TownOfHost
             }
             else
             //Terrorist
-            if (main.isTerrorist(target))
+            if (target.isTerrorist())
             {
                 Logger.SendToFile(target.name + "はTerroristだった");
                 main.CheckTerroristWin(target.Data);
@@ -49,7 +49,7 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-            if (main.isMafia(__instance))
+            if (__instance.isMafia())
             {
                 var ImpostorCount = 0;
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -66,7 +66,7 @@ namespace TownOfHost
                 else
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
             }
-            if(main.isMadGuardian(target)) {
+            if(target.isMadGuardian()) {
                 var isTaskFinished = true;
                 foreach(var task in target.Data.Tasks) {
                     if(!task.Complete) {
@@ -83,7 +83,7 @@ namespace TownOfHost
                     return false;
                 }
             }
-            if (main.isVampire(__instance) && !main.isBait(target))
+            if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
