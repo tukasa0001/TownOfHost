@@ -20,165 +20,189 @@ namespace TownOfHost
         public static bool Prefix(ChatController __instance)
         {
             var text = __instance.TextArea.text;
-            string arg;
+            string[] args = text.Split(' ');
             var canceled = false;
             var cancelVal = "";
             if (AmongUsClient.Instance.AmHost)
             {
-                if (getCommand("/winner", text, out arg) || getCommand("/win", text, out arg))
+                switch(args[0])
                 {
-                    canceled = true;
-                    main.SendToAll(main.winnerList);
-                }
-                if (getCommand("/r", text, out arg) || getCommand("/rename", text, out arg))
-                {
-                    canceled = true;
-                    main.nickName = arg;
-                }
-                if (getCommand("/h", text, out arg))
-                {
-                    canceled = true;
-                    if(arg == "")main.ShowHelp();
-                }
-                if (getCommand("/n", text, out arg) || getCommand("/now", text, out arg))
-                {
-                    canceled = true;
-                    main.ShowActiveSettings();
-                }
-                if (getCommand("/h n", text, out arg) || getCommand("/h now", text, out arg))
-                {
-                    canceled = true;
-                    main.ShowActiveRoles();
-                }
-                if (getCommand("/h r", text, out arg) || getCommand("/h roles", text, out arg))
-                {
-                    canceled = true;
-                    if (arg == "")
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va), sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
-                    }
-                    else if (arg == "jester" || arg == "je")
-                    {
-                        main.SendToAll(main.getLang(lang.JesterInfoLong));
-                    }
-                    else if (arg == "madmate" || arg == "ma")
-                    {
-                        main.SendToAll(main.getLang(lang.MadmateInfoLong));
-                    }
-                    else if (arg == "bait" || arg == "ba")
-                    {
-                        main.SendToAll(main.getLang(lang.BaitInfoLong));
-                    }
-                    else if (arg == "terrorist" || arg == "te")
-                    {
-                        main.SendToAll(main.getLang(lang.TerroristInfoLong));
-                    }
-                    else if (arg == "mafia" || arg == "si")
-                    {
-                        main.SendToAll(main.getLang(lang.MafiaInfoLong));
-                    }
-                    else if (arg == "vampire" || arg == "va")
-                    {
-                        main.SendToAll(main.getLang(lang.VampireInfoLong));
-                    }
-                    else if (arg == "sabotagemaster" || arg == "sa")
-                    {
-                        main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
-                    }
-                    else if (arg == "mayor" || arg == "may")
-                    {
-                        main.SendToAll(main.getLang(lang.MayorInfoLong));
-                    }
-                    else if (arg == "madguardian" || arg == "mad")
-                    {
-                        main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
-                    }
-                    else if (arg == "opportunist" || arg == "op")
-                    {
-                        main.SendToAll(main.getLang(lang.OpportunistInfoLong));
-                    }
-                    else if (arg == "snitch" || arg == "sn")
-                    {
-                        main.SendToAll(main.getLang(lang.SnitchInfoLong));
-                    }
-                    else if (arg == "fox" || arg == "fo")
-                    {
-                        main.SendToAll(main.getLang(lang.FoxInfoLong));
-                    }
-                    else if (arg == "troll" || arg == "tr")
-                    {
-                        main.SendToAll(main.getLang(lang.TrollInfoLong));
-                    }
-                    else
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
-                    }
-                }
-                if (getCommand("/h m", text, out arg) || getCommand("/h modes", text, out arg))
-                {
-                    canceled = true;
-                    if (arg == "")
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
-                    }
-                    else if (arg == "hideandseek" || arg == "has")
-                    {
-                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                    }
-                    else if (arg == "nogameend" || arg == "nge")
-                    {
-                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
-                    }
-                    else if (arg == "syncbuttonmode" || arg == "sbm")
-                    {
-                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
-                    }
-                    else
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
-                    }
-                }
-                if (getCommand("/endgame", text, out arg))
-                {
-                    canceled = true;
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCProcedure.EndGame();
-                }
-                if (getCommand("/dis", text, out arg))
-                {
-                    canceled = true;
-                    if (arg == "crewmate")
-                    {
-                        ShipStatus.Instance.enabled = false;
-                        ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
-                    }
-                    else
-                    if (arg == "impostor")
-                    {
-                        ShipStatus.Instance.enabled = false;
-                        ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
-                    }
-                    else
-                    if (arg == "")
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
-                        cancelVal = "/dis";
-                    }
-                    else
-                    {
-                        __instance.AddChat(PlayerControl.LocalPlayer, CommandReturn(lang.commandError, lang.InvalidArgs));
-                    }
-                    ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
+                    case "/win":
+                    case "/winner":
+                        canceled = true;
+                        main.SendToAll(main.winnerList);
+                        break;
+                    
+                    case "/r":
+                    case "/rename":
+                        canceled = true;
+                        main.nickName = args[1];
+                        break;
+                    
+                    case "/n":
+                    case "/now":
+                        canceled = true;
+                        main.ShowActiveSettings();
+                        break;
+                    
+                    case "/dis":
+                        canceled = true;
+                        if(args.Length < 2){__instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");cancelVal = "/dis";}
+                        switch(args[1]){
+                            case "crewmate":
+                                ShipStatus.Instance.enabled = false;
+                                ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                break;
+
+                            case "impostor":
+                                ShipStatus.Instance.enabled = false;
+                                ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                                break;
+
+                            default:
+                                __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
+                                cancelVal = "/dis";
+                                break;
+                        }
+                        ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
+                        break;
+                    
+                    case "/h":
+                    case "/help":
+                        canceled = true;
+                        if(args.Length < 2)
+                        {
+                            main.ShowHelp();
+                            break;
+                        }
+                        switch (args[1])
+                        {
+                            case "r":
+                            case "roles":
+                                if(args.Length < 3){getRolesInfo("");break;}
+                                getRolesInfo(args[2]);
+                                break;
+
+                            case "m":
+                            case "modes":
+                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");break;}
+                                switch (args[2])
+                                {
+                                    case "hideandseek":
+                                    case "has":
+                                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                                        break;
+
+                                    case "nogameend":
+                                    case "nge":
+                                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
+                                        break;
+
+                                    case "syncbuttonmode":
+                                    case "sbm":
+                                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
+                                        break;
+                                    
+                                    default:
+                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
+                                        break;
+                                }
+                                break;
+
+                            default:
+                                main.ShowHelp();
+                                break;
+                            }
+                            break;
+
+                    default:
+                        break;
                 }
             }
             if (canceled)
             {
+                Logger.info("Command Canceled");
                 __instance.TextArea.Clear();
                 __instance.TextArea.SetText(cancelVal);
                 __instance.quickChatMenu.ResetGlyphs();
             }
             return !canceled;
+        }
+
+        public static void getRolesInfo(string role)
+        {
+            switch (role)
+            {
+                case "jester":
+                case "je":
+                    main.SendToAll(main.getLang(lang.JesterInfoLong));
+                    break;
+                    
+                case "madmate":
+                case "ma":
+                    main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                    break;
+                    
+                case "bait":
+                case "ba":
+                    main.SendToAll(main.getLang(lang.BaitInfoLong));
+                    break;
+                    
+                case "terrorist":
+                case "te":
+                    main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                    break;
+                    
+                case "mafia":
+                case "maf":
+                    main.SendToAll(main.getLang(lang.MafiaInfoLong));
+                    break;
+                    
+                case "vampire":
+                case "va":
+                    main.SendToAll(main.getLang(lang.VampireInfoLong));
+                    break;
+                    
+                case "sabotagemaster":
+                case "sa":
+                    main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                    break;
+                    
+                case "mayor":
+                case "may":
+                    main.SendToAll(main.getLang(lang.MayorInfoLong));
+                    break;
+                    
+                case "madguardian":
+                case "mad":
+                    main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                    break;
+                    
+                case "opportunist":
+                case "op":
+                    main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                    break;
+                    
+                case "snitch":
+                case "sn":
+                    main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                    break;
+                    
+                case "fox":
+                case "fo":
+                    main.SendToAll(main.getLang(lang.FoxInfoLong));
+                    break;
+                    
+                case "troll":
+                case "tr":
+                    main.SendToAll(main.getLang(lang.TrollInfoLong));
+                    break;
+
+                default:
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
+                    break;
+            }
+
         }
         public static bool getCommand(string command, string text, out string arg)
         {
@@ -199,18 +223,6 @@ namespace TownOfHost
         {
             if (value) return main.getLang(lang.ON);
             else return main.getLang(lang.OFF);
-        }
-    }
-    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
-    class AddChatPatch
-    {
-        public static void Postfix(ChatController __instance, [HarmonyArgument(1)] string chatText)
-        {
-            Logger.SendToFile(__instance.name + ":" + chatText, LogLevel.Message);
-            if ((chatText == "/winner" || chatText == "/win") && AmongUsClient.Instance.AmHost && main.IgnoreWinnerCommand.Value == false)
-            {
-                main.SendToAll(main.winnerList);
-            }
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
