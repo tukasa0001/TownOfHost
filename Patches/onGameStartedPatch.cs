@@ -21,6 +21,10 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.BountyTargetPlayer = new List<PlayerControl>();
+            main.WarlockTarget = new List<PlayerControl>();
+            main.BountyCheck = false;
+            main.WarlockCheck = false;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             if (__instance.AmHost)
@@ -176,6 +180,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
+                AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {

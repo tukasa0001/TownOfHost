@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Text.RegularExpressions;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using System;
@@ -112,10 +113,9 @@ namespace TownOfHost
         public static Color getRoleColor(CustomRoles role)
         {
             string hexColor;
-            Color result;
             roleColors.TryGetValue(role, out hexColor);
-            ColorUtility.TryParseHtmlString(hexColor,out result);
-            return result;
+            MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
+            return new Color(Convert.ToInt32(matches[0].Value,16),Convert.ToInt32(matches[1].Value,16),Convert.ToInt32(matches[2].Value,16));
         }
         public static string getRoleColorCode(CustomRoles role)
         {
@@ -159,6 +159,12 @@ namespace TownOfHost
                 case CustomRoles.Snitch:
                     count = SnitchCount;
                     break;
+                case CustomRoles.BountyHunter:
+                    count = BountyHunterCount;
+                    break;
+                case CustomRoles.Warlock:
+                    count = WarlockCount;
+                    break;
                 default:
                     return -1;
             }
@@ -198,6 +204,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Snitch:
                     SnitchCount = count;
+                    break;
+                case CustomRoles.BountyHunter:
+                    BountyHunterCount = count;
+                    break;
+                case CustomRoles.Warlock:
+                    WarlockCount = count;
                     break;
             }
         }
@@ -306,6 +318,8 @@ namespace TownOfHost
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -332,6 +346,8 @@ namespace TownOfHost
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
+                if(main.BountyHunterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
+                if(main.WarlockCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Warlock),main.WarlockCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -384,10 +400,16 @@ namespace TownOfHost
         public static int MayorCount;
         public static int OpportunistCount;
         public static int SnitchCount;
+        public static int BountyHunterCount;
+        public static int WarlockCount;
         public static int FoxCount;
         public static int TrollCount;
-
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
+        public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
+        public static List <PlayerControl> WarlockTarget = new List<PlayerControl>();
+        public static bool WarlockCheck;
+        public static bool BountyCheck;
+        public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -423,6 +445,8 @@ namespace TownOfHost
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
             writer.Write(SnitchCount);
+            writer.Write(BountyHunterCount);
+            writer.Write(WarlockCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -630,6 +654,8 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "#0000ff"},
                 {CustomRoles.Snitch, "#b8fb4f"},
                 {CustomRoles.Mayor, "#204d42"},
+                {CustomRoles.BountyHunter, "#ff0000"},
+                {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -649,6 +675,7 @@ namespace TownOfHost
                 {lang.MayorInfo, "人外を追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 {lang.SnitchInfo, "タスクを完了させ、人外を暴け"},
+                {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -661,6 +688,8 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが2分の1になる。それ以外の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身をしている間に誰かをキルするとキルした人に呪いがかかる。その後にキルボタンを押すとキルされた人に１番近い人が（インポスターであろうと）呪われた人によりキルされる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -717,7 +746,8 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the extraperson"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
-                {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
+                {lang.BountyHunterInfo, "Hunt your Bounty down"},
+                {lang.WarlockInfo, "Curse other players and kill everyone"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -730,6 +760,8 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが2分の1になる。それ以外の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身をしている間に誰かをキルするとキルした人に呪いがかかる。その後にキルボタンを押すとキルされた人に１番近い人が（インポスターであろうと）呪われた人によりキルされる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -790,6 +822,8 @@ namespace TownOfHost
                 {CustomRoles.Mayor, "Mayor"},
                 {CustomRoles.Opportunist, "Opportunist"},
                 {CustomRoles.Snitch, "Snitch"},
+                {CustomRoles.BountyHunter, "BountyHunter"},
+                {CustomRoles.Warlock, "Warlock"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -811,6 +845,8 @@ namespace TownOfHost
                 {CustomRoles.Mayor, "メイヤー"},
                 {CustomRoles.Opportunist, "オポチュニスト"},
                 {CustomRoles.Snitch, "スニッチ"},
+                {CustomRoles.BountyHunter, "バウンティハンター"},
+                {CustomRoles.Warlock, "ウォーロック"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -843,6 +879,8 @@ namespace TownOfHost
         MayorInfo,
         OpportunistInfo,
         SnitchInfo,
+        BountyHunterInfo,
+        WarlockInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -857,6 +895,8 @@ namespace TownOfHost
         MayorInfoLong,
         OpportunistInfoLong,
         SnitchInfoLong,
+        BountyHunterInfoLong,
+        WarlockInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -917,6 +957,8 @@ namespace TownOfHost
         Mayor,
         Opportunist,
         Snitch,
+        BountyHunter,
+        Warlock,
         Fox,
         Troll
     }
