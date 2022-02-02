@@ -72,6 +72,7 @@ namespace TownOfHost
 
             //Sheriff用RPCの送信
             foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(exiledPlayer == null) break;
                 if(tie) break;
                 if(pc.getCustomRole() != CustomRoles.Sheriff) continue;
                 if(exiledPlayer.PlayerId != pc.PlayerId) continue;
