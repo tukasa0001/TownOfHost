@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -48,11 +49,42 @@ namespace TownOfHost {
             if(client == null) return -1;
             return client.Id;
         }
+        public static CustomRoles getCustomRole(this GameData.PlayerInfo player)
+        {
+            return main.getPlayerById(player.PlayerId).getCustomRole();
+        }
 
         public static CustomRoles getCustomRole(this PlayerControl player) {
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
-            if(cRoleFound) return cRole;
-            else return CustomRoles.Default;
+            if(!cRoleFound)
+            {
+                Logger.info($"{player.name}:{player.Data.Role.Role.ToString()}");
+                switch(player.Data.Role.Role)
+                {
+                    case RoleTypes.Crewmate:
+                        cRole = CustomRoles.Default;
+                        break;
+                    case RoleTypes.Engineer:
+                        cRole = CustomRoles.Engineer;
+                        break;
+                    case RoleTypes.Scientist:
+                        cRole = CustomRoles.Scientist;
+                        break;
+                    case RoleTypes.GuardianAngel:
+                        cRole = CustomRoles.GuardianAngel;
+                        break;
+                    case RoleTypes.Impostor:
+                        cRole = CustomRoles.Impostor;
+                        break;
+                    case RoleTypes.Shapeshifter:
+                        cRole = CustomRoles.Shapeshifter;
+                        break;
+                    default:
+                        cRole = CustomRoles.Default;
+                        break;
+                }
+            }
+            return cRole;
         }
 
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {

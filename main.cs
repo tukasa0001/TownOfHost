@@ -209,63 +209,8 @@ namespace TownOfHost
 
             var cRole = player.getCustomRole();
             RoleText = getRoleName(cRole);
-            switch (cRole) {
-                case CustomRoles.Default:
-                    RoleText = getRoleName(player.Data.Role.Role);
-                    switch(player.Data.Role.Role) {
-                        //通常クルー
-                        case RoleTypes.Crewmate:
-                            TextColor = Color.white;
-                            break;
-                        //クルー陣営役職
-                        case RoleTypes.Scientist:
-                        case RoleTypes.Engineer:
-                        case RoleTypes.GuardianAngel:
-                            TextColor = Palette.CrewmateBlue;
-                            break;
-                        //インポスター陣営役職
-                        case RoleTypes.Impostor:
-                        case RoleTypes.Shapeshifter:
-                            TextColor = Palette.ImpostorRed;
-                            break;
-                    }
-                    break;
-                case CustomRoles.Jester:
-                    TextColor = main.getRoleColor(CustomRoles.Jester);
-                    break;
-                case CustomRoles.Madmate:
-                    TextColor = Palette.ImpostorRed;
-                    break;
-                case CustomRoles.MadGuardian:
-                    TextColor = Palette.ImpostorRed;
-                    break;
-                case CustomRoles.Mayor:
-                    TextColor = main.getRoleColor(CustomRoles.Mayor);
-                    break;
-                case CustomRoles.Opportunist:
-                    TextColor = Color.green;
-                    break;
-                case CustomRoles.Snitch:
-                    TextColor = main.getRoleColor(CustomRoles.Snitch);
-                    break;
-                case CustomRoles.SabotageMaster:
-                    TextColor = Color.blue;
-                    break;
-                case CustomRoles.Terrorist:
-                    TextColor = Color.green;
-                    break;
-                case CustomRoles.Bait:
-                    TextColor = Color.cyan;
-                    break;
-                case CustomRoles.Vampire:
-                    TextColor = main.getRoleColor(CustomRoles.Vampire);
-                    break;
-                case CustomRoles.Mafia:
-                    TextColor = Palette.ImpostorRed;
-                    break;
-            }
 
-            return (RoleText, TextColor);
+            return (RoleText, getRoleColor(cRole));
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
@@ -456,7 +401,7 @@ namespace TownOfHost
         public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
         public static int MayorAdditionalVote;
-        public static int SnichExposeTaskLeft;
+        public static int SnitchExposeTaskLeft;
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
@@ -584,11 +529,6 @@ namespace TownOfHost
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
             return player;
         }
-        public static CustomRoles getCustomRole(byte PlayerId) {
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(PlayerId, out var cRole);
-            if(cRoleFound) return cRole;
-            else return CustomRoles.Default;
-        }
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
@@ -663,7 +603,7 @@ namespace TownOfHost
 
             MayorAdditionalVote = 1;
 
-            SnichExposeTaskLeft = 1;
+            SnitchExposeTaskLeft = 1;
 
             currentSuffix = SuffixModes.None;
 
@@ -673,17 +613,23 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
             roleColors = new Dictionary<CustomRoles, string>(){
+                {CustomRoles.Default, "#ffffff"},
+                {CustomRoles.Engineer, "#00ffff"},
+                {CustomRoles.Scientist, "#00ffff"},
+                {CustomRoles.GuardianAngel, "#ffffff"},
+                {CustomRoles.Impostor, "#ff0000"},
+                {CustomRoles.Shapeshifter, "#ff0000"},
                 {CustomRoles.Vampire, "#a757a8"},
                 {CustomRoles.Mafia, "#ff0000"},
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
-                {CustomRoles.Jester, "#d161a4"},
+                {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.Bait, "#00bfff"},
                 {CustomRoles.SabotageMaster, "#0000ff"},
-                {CustomRoles.Snitch, "#90ee90"},
-                {CustomRoles.Mayor, "#a9a9a9"},
+                {CustomRoles.Snitch, "#b8fb4f"},
+                {CustomRoles.Mayor, "#204d42"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };

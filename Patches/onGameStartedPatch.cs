@@ -134,25 +134,30 @@ namespace TownOfHost
                 List<PlayerControl> Shapeshifters = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
-                    main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
                             break;
                         case RoleTypes.Impostor:
                             Impostors.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
                             break;
                         case RoleTypes.Scientist:
                             Scientists.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
                             break;
                         case RoleTypes.Engineer:
                             Engineers.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
                             break;
                         case RoleTypes.GuardianAngel:
                             GuardianAngels.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
                             break;
                         case RoleTypes.Shapeshifter:
                             Shapeshifters.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                             break;
                         default:
                             Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");

@@ -45,7 +45,7 @@ namespace TownOfHost
                             {
                                 if(task.IsComplete)ct++;
                             }
-                            if(p.myTasks.Count-ct <= main.SnichExposeTaskLeft && !p.Data.IsDead)
+                            if(p.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !p.Data.IsDead)
                             {
                                 var found = main.AllPlayerCustomRoles.TryGetValue(t.PlayerId, out var role);
                                 string RoleName = "STRMISS";
