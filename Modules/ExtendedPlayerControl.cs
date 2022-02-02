@@ -58,7 +58,6 @@ namespace TownOfHost {
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
             if(!cRoleFound)
             {
-                Logger.info($"{player.name}:{player.Data.Role.Role.ToString()}");
                 switch(player.Data.Role.Role)
                 {
                     case RoleTypes.Crewmate:
@@ -114,6 +113,12 @@ namespace TownOfHost {
                 dic[role] = 0;
             return dic[role];
         }
+        public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
+        public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
+        public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
+        public static bool isGurdianAngel(this PlayerControl target){return target.getCustomRole() == CustomRoles.GuardianAngel;}
+        public static bool isImpostor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Impostor;}
+        public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
         public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
         public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
         public static bool isBait(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bait;}

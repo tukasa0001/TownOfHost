@@ -34,24 +34,30 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return false;
             foreach(PlayerControl p in PlayerControl.AllPlayerControls)
             {
-                if(p.isSnitch()){
-                    foreach(var t in PlayerControl.AllPlayerControls)
-                    {
-                        if(t.Data.Role.IsImpostor)
+                string taskText = main.getTaskText(p.Data.Tasks);
+                if(main.hasTasks(p.Data))
+                {
+                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color>({taskText})" , true, p);
+                    if(p.AllTasksCompleted() && p.isSnitch()){
+                        foreach(var t in PlayerControl.AllPlayerControls)
                         {
-                            if(p.AllTasksCompleted()) t.RpcSetNamePrivate("<color=#ff0000>"+ t.name + "</color>" , false, p);
-                            var ct = 0;
-                            foreach(var task in p.myTasks)
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
                             {
-                                if(task.IsComplete)ct++;
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(t.getCustomRole())}>{t.name}</color>" , false, p);
                             }
-                            if(p.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !p.Data.IsDead)
+                        }
+                    }
+                }else{
+                    if(p.isImpostor() || p.isShapeshifter() || p.isVampire())
+                    {
+                        foreach(var t in PlayerControl.AllPlayerControls)
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
-                                var found = main.AllPlayerCustomRoles.TryGetValue(t.PlayerId, out var role);
-                                string RoleName = "STRMISS";
-                                if(found) RoleName = main.getRoleName(role);
-                                t.RpcSetNamePrivate($"<size=1.5>{RoleName}</size>\r\n{t.name}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , true, t);
-                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{p.name}</color>" , false, t);
+                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , true, p);
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{t.name}</color>" , false, p);
                             }
                         }
                     }
