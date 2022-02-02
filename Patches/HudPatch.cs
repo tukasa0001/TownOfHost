@@ -172,6 +172,23 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
+    class ToggleHighlightPatch {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff) {
+                ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+            }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
+    class FindClosestTargetPatch {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && 
+            __instance.Data.Role.Role != RoleTypes.GuardianAngel) {
+                protecting = true;
+            }
+        }
+    }
     class RepairSender {
         public static bool enabled = false;
         public static bool TypingAmount = false;
