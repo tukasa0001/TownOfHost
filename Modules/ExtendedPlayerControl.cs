@@ -87,14 +87,6 @@ namespace TownOfHost {
             return cRole;
         }
 
-        public static void RpcSyncRoleTypes(this PlayerControl player) {
-            if(!AmongUsClient.Instance.AmHost) return;
-            var role = player.Data.Role.Role;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncRoleTypes, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write((byte)role);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
 
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象

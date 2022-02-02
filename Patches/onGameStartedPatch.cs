@@ -166,7 +166,6 @@ namespace TownOfHost
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.Data.IsDead = false; //プレイヤーの死を解除する
                     if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
-                    main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default); //Default役職を割り当てる
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
