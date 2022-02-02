@@ -72,14 +72,16 @@ namespace TownOfHost
 
             //Sheriff用RPCの送信
             foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(tie) break;
                 if(pc.getCustomRole() != CustomRoles.Sheriff) continue;
+                if(exiledPlayer.PlayerId != pc.PlayerId) continue;
                 var clientId = pc.getClientId();
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)23, SendOption.Reliable, clientId);
                 writer.WritePacked(states.Length);
                 foreach(var state in states) {
                     state.Serialize(writer);
                 }
-                writer.Write(exiledPlayer != null && exiledPlayer.PlayerId != pc.PlayerId ? exiledPlayer.PlayerId : byte.MaxValue);
+                writer.Write(byte.MaxValue);
                 writer.Write(tie);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
