@@ -68,6 +68,7 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はSidekickですが、他のインポスターがいないのでキルが許可されました。");
             }
             if(main.isSheriff(__instance)) {
+                if(__instance.Data.IsDead) return false;
                 if(!target.canBeKilledBySheriff()) {
                     __instance.RpcMurderPlayer(__instance);
                     return false;
