@@ -165,7 +165,6 @@ namespace TownOfHost
 
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.Data.IsDead = false; //プレイヤーの死を解除する
-                    pc.RpcSyncRoleTypes(); //公式役職の判定を同期
                     if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
                     main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default); //Default役職を割り当てる
                     switch(pc.Data.Role.Role) {
