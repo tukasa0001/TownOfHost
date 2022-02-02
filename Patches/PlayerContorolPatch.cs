@@ -267,6 +267,11 @@ namespace TownOfHost
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.getCustomRole() == CustomRoles.Sheriff && pc.Data.IsDead) {
+                    //ここにメッセージ送信コードを入力
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]

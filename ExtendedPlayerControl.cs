@@ -128,5 +128,13 @@ namespace TownOfHost {
             }
             return canBeKilled;
         }
+
+        public static void SendDM(this PlayerControl target, string text, PlayerControl sender = null) {
+            if(sender == null) sender = target;
+            int clientId = target.getClientId();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(sender.NetId, (byte) RpcCalls.SendChat, SendOption.Reliable, clientId);
+            writer.Write(text);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
 }
