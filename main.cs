@@ -376,7 +376,7 @@ namespace TownOfHost
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
-                if(main.LoversCount == 0) main.SendToAll(main.getLang(lang.LoversInfoLong));
+                if(main.LoversCount > 0) main.SendToAll(main.getLang(lang.LoversInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
