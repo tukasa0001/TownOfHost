@@ -153,12 +153,16 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Warlock, i)
                     )},
                     {OptionPages.Lovers, new PageObject(
-                        () => "<color=#90ee90>" + main.getRoleName(CustomSubRoles.Lovers) + "</color>: " + main.LoversCount,
+                        () => "<color=#90ee90>" + main.getRoleName(CustomSubRoles.Lovers) + "</color>: " + (main.isLovers == true ? "ON" : "OFF"),
                         true,
-                        () => {main.SetSubRoleCountToggle(CustomSubRoles.Lovers);},
+                        () => {
+                            main.SetSubRoleCountToggle(CustomSubRoles.Lovers);
+                            main.isLovers = !main.isLovers;
+                            if(main.isLovers){main.LoversCount = 2;}else{main.LoversCount = 0;}
+                        },
                         new List<OptionPages>(){},
                         OptionPages.roles,
-                        i => main.SetSubRoleCount(CustomSubRoles.Lovers, i)
+                        i => main.SetSubRoleCount(CustomSubRoles.Lovers, main.LoversCount)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,

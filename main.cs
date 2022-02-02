@@ -464,6 +464,11 @@ namespace TownOfHost
         public static int FoxCount;
         public static int TrollCount;
         public static int LoversCount;
+<<<<<<< HEAD
+=======
+        public static bool isLovers = false;
+
+>>>>>>> b329445 (option Lovers set count)
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
         public static List <PlayerControl> WarlockTarget = new List<PlayerControl>();
