@@ -108,5 +108,24 @@ namespace TownOfHost {
                 dic[role] = 0;
             return dic[role];
         }
+
+        public static bool canBeKilledBySheriff(this PlayerControl player) {
+            var cRole = player.getCustomRole();
+            bool canBeKilled = false;
+            switch(cRole) {
+                case CustomRoles.Jester:
+                case CustomRoles.MadGuardian:
+                case CustomRoles.Madmate:
+                case CustomRoles.Terrorist:
+                case CustomRoles.Sidekick:
+                case CustomRoles.Vampire:
+                    canBeKilled = true;
+                    break;
+                case CustomRoles.Default:
+                    canBeKilled = player.Data.Role.TeamType == RoleTeamTypes.Impostor;
+                    break;
+            }
+            return canBeKilled;
+        }
     }
 }
