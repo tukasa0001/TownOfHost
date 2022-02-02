@@ -38,7 +38,6 @@ namespace TownOfHost
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
         //Other Configs
-        public static ConfigEntry<bool> TeruteruColor { get; private set; }
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
@@ -607,7 +606,6 @@ namespace TownOfHost
 
             currentSuffix = SuffixModes.None;
 
-            TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
