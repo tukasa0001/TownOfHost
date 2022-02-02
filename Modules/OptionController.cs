@@ -30,7 +30,7 @@ namespace TownOfHost
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
-                        OptionPages.Sidekick,
+                        OptionPages.Mafia,
                         OptionPages.Vampire,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -40,13 +40,14 @@ namespace TownOfHost
                         OptionPages.Bait,
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
+                        OptionPages.Snitch,
                         OptionPages.Sheriff,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
                 )},
                     {OptionPages.Madmate, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>: " + main.MadmateCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getRoleName(CustomRoles.Madmate)}</color>: {main.MadmateCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Madmate);},
                         new List<OptionPages>(){},
@@ -54,23 +55,23 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Madmate, i)
                     )},
                     {OptionPages.MadGuardian, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.MadGuardian) + "</color>: " + main.MadGuardianCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>: {main.MadGuardianCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.MadGuardian);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.MadGuardian, i)
                     )},
-                    {OptionPages.Sidekick, new PageObject(
-                        () => "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>: " + main.SidekickCount,
+                    {OptionPages.Mafia, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>: {main.MafiaCount}",
                         true,
-                        () => {main.SetRoleCountToggle(CustomRoles.Sidekick);},
+                        () => {main.SetRoleCountToggle(CustomRoles.Mafia);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
-                        i => main.SetRoleCount(CustomRoles.Sidekick, i)
+                        i => main.SetRoleCount(CustomRoles.Mafia, i)
                     )},
                     {OptionPages.Vampire, new PageObject(
-                        () => "<color=#a757a8>" + main.getRoleName(CustomRoles.Vampire) + "</color>: " + main.VampireCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getRoleName(CustomRoles.Vampire)}</color>: {main.VampireCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Vampire);},
                         new List<OptionPages>(){},
@@ -78,7 +79,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Vampire, i)
                     )},
                     {OptionPages.Jester, new PageObject(
-                        () => "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>: " + main.JesterCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}</color>: {main.JesterCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Jester);},
                         new List<OptionPages>(){},
@@ -86,7 +87,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Jester, i)
                     )},
                     {OptionPages.Terrorist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>: " + main.TerroristCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>: {main.TerroristCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Terrorist);},
                         new List<OptionPages>(){},
@@ -94,7 +95,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Terrorist, i)
                     )},
                     {OptionPages.Opportunist, new PageObject(
-                        () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>: " + main.OpportunistCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>: {main.OpportunistCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Opportunist);},
                         new List<OptionPages>(){},
@@ -102,7 +103,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Opportunist, i)
                     )},
                     {OptionPages.Bait, new PageObject(
-                        () => "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>: " + main.BaitCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Bait)}>{main.getRoleName(CustomRoles.Bait)}</color>: {main.BaitCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Bait);},
                         new List<OptionPages>(){},
@@ -110,7 +111,7 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.Bait, i)
                     )},
                     {OptionPages.SabotageMaster, new PageObject(
-                        () => "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>: " + main.SabotageMasterCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getRoleName(CustomRoles.SabotageMaster)}</color>: {main.SabotageMasterCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.SabotageMaster);},
                         new List<OptionPages>(){},
@@ -118,12 +119,20 @@ namespace TownOfHost
                         i => main.SetRoleCount(CustomRoles.SabotageMaster, i)
                     )},
                     {OptionPages.Mayor, new PageObject(
-                        () => "<color=#a9a9a9>" + main.getRoleName(CustomRoles.Mayor) + "</color>: " + main.MayorCount,
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getRoleName(CustomRoles.Mayor)}</color>: {main.MayorCount}",
                         true,
                         () => {main.SetRoleCountToggle(CustomRoles.Mayor);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Mayor, i)
+                    )},
+                    {OptionPages.Snitch, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>: {main.SnitchCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Snitch);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Snitch, i)
                     )},
                     {OptionPages.Sheriff, new PageObject(
                         () => "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>: " + main.SheriffCount,
@@ -152,7 +161,7 @@ namespace TownOfHost
                         OptionPages.roles
                     )},
                         {OptionPages.VampireKillDelay, new PageObject(
-                            () => "<color=#a757a8>" + main.getLang(lang.VampireKillDelay) + "</color>(s): " + main.VampireKillDelay + main.TextCursor,
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}",
                             true,
                             () => {main.VampireKillDelay = 0;},
                             new List<OptionPages>(){},
@@ -165,7 +174,7 @@ namespace TownOfHost
                             }
                         )},
                         {OptionPages.SabotageMasterSkillLimit, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterSkillLimit) + "</color>: " + main.SabotageMasterSkillLimit + main.TextCursor,
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterSkillLimit)}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}",
                             true,
                             () => {main.SabotageMasterSkillLimit = 0;},
                             new List<OptionPages>(){},
@@ -178,56 +187,56 @@ namespace TownOfHost
                             }
                         )},
                         {OptionPages.SabotageMasterFixesDoors, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesDoors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesDoors),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesDoors)}</color>: {main.getOnOff(main.SabotageMasterFixesDoors)}",
                             true,
                             () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesReactors, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesReactors) + "</color>: " + main.getOnOff(main.SabotageMasterFixesReactors),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesReactors)}</color>: {main.getOnOff(main.SabotageMasterFixesReactors)}",
                             true,
                             () => {main.SabotageMasterFixesReactors = !main.SabotageMasterFixesReactors;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesOxygens, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesOxygens) + "</color>: " + main.getOnOff(main.SabotageMasterFixesOxygens),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesOxygens)}</color>: {main.getOnOff(main.SabotageMasterFixesOxygens)}",
                             true,
                             () => {main.SabotageMasterFixesOxygens = !main.SabotageMasterFixesOxygens;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesCommunications, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesCommunications) + "</color>: " + main.getOnOff(main.SabotageMasterFixesCommunications),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesCommunications)}</color>: {main.getOnOff(main.SabotageMasterFixesCommunications)}",
                             true,
                             () => {main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesElectrical, new PageObject(
-                            () => "<color=#0000ff>" + main.getLang(lang.SabotageMasterFixesElectrical) + "</color>: " + main.getOnOff(main.SabotageMasterFixesElectrical),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesElectrical)}</color>: {main.getOnOff(main.SabotageMasterFixesElectrical)}",
                             true,
                             () => {main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.MadmateCanFixLightsOut, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.MadmateCanFixLightsOut) + "</color>: " + main.getOnOff(main.MadmateCanFixLightsOut),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}",
                             true,
                             () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
-                            () => "<color=#ff0000>" + main.getLang(lang.MadGuardianCanSeeBarrier) + "</color>: " + main.getOnOff(main.MadGuardianCanSeeBarrier),
+                            () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}",
                             true,
                             () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.MayorAdditionalVote, new PageObject(
-                            () => "<color=#a9a9a9>" + main.getLang(lang.MayorAdditionalVote) + "</color>: " + main.MayorAdditionalVote + main.TextCursor,
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}",
                             true,
                             () => {main.MayorAdditionalVote = 0;},
                             new List<OptionPages>(){},
@@ -317,7 +326,7 @@ namespace TownOfHost
                             OptionPages.HideAndSeekOptions
                         )},
                             {OptionPages.Fox, new PageObject(
-                                () => "<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
+                                () => $"<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
                                 true,
                                 () => {
                                     if(main.FoxCount == 0) main.FoxCount = 1;
@@ -336,7 +345,7 @@ namespace TownOfHost
                                 }
                             )},
                             {OptionPages.Troll, new PageObject(
-                                () => "<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
+                                () => $"<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
                                 true,
                                 () => {
                                     if(main.TrollCount == 0) main.TrollCount = 1;
@@ -563,12 +572,13 @@ namespace TownOfHost
                 MadGuardian,
                 Bait,
                 Terrorist,
-                Sidekick,
+                Mafia,
                 Vampire,
                 SabotageMaster,
                 Mayor,
                 Sheriff,
                 Opportunist,
+                Snitch,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

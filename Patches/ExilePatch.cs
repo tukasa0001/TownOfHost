@@ -38,7 +38,7 @@ namespace TownOfHost
             //Debug Message
             if (exiled != null)
             {
-                var role = main.getCustomRole(exiled.PlayerId);
+                var role = exiled.getCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);

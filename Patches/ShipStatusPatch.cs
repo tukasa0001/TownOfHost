@@ -66,7 +66,7 @@ namespace TownOfHost
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
-            if(main.isSabotageMaster(player)) {
+            if(player.isSabotageMaster()) {
                 switch(systemType){
                     case SystemTypes.Reactor:
                         if(!main.SabotageMasterFixesReactors) break;
@@ -134,7 +134,7 @@ namespace TownOfHost
             if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (main.isMadmate(player) || main.isMadGuardian(player))) //実行者がMadmateかMadGuardian)
+               (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
             return true;
         }
@@ -162,7 +162,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
-            if(main.isSabotageMaster(player)) {
+            if(player.isSabotageMaster()) {
                 if(!main.SabotageMasterFixesElectrical) return;
                 if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) return;
                 if(0 <= amount && amount <= 4) {

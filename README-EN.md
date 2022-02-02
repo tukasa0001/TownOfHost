@@ -47,11 +47,12 @@ However, The numeric keypad is not supported.
 | MadGuardian | Crewmate |
 | Bait | Crewmate |
 | Terrorist | Engineer |
-| Sidekick | ShapeShifter |
+| Mafia | ShapeShifter |
 | Vampire | Impostor |
 | SabotageMaster | Crewmate |
 | Mayor | Crewmate |
 | Opportunist | Crewmate |
+| Snitch | Crewmate |
 
 ### Jester
 
@@ -102,14 +103,14 @@ They are the neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.
 If they die without completing their tasks, or if the game ends without they dying, they lose.
 
-### Sidekick
+### Mafia
 
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
 Can vent, sabotage, and transform initially, but can not kill.
-If all of the Impostors who are not Sidekicks die, the Sidekick will be able to kill.
-If the Sidekick is not killable, they will still have a kill button, but they can not be killable.
+If all of the Impostors who are not Mafias die, the Mafia will be able to kill.
+If the Mafia is not killable, they will still have a kill button, but they can not be killable.
 They can continue to transform even after the kill is enabled.
 
 ### Vampire
@@ -152,6 +153,14 @@ Victory Conditions : Aliving when one of the teams wins
 
 This is the neutral position, with an additional win if thay are still alive at the end of the game.
 They don't have tasks.
+
+### Snitch
+
+Team : Crewmates
+Decision : Crewmate
+
+When the Snitch completes a task, the name of the extraperson will change to red.
+However, when tasks in the Snitch becomes low, the name of the Snitch will appear to change from the extraperson.
 
 ## Mode
 

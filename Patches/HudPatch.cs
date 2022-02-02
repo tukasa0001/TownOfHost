@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -33,85 +34,59 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }
-            //Madmate
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Madmate)
+            switch(PlayerControl.LocalPlayer.getCustomRole())
             {
-                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>\r\n" +
-                "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //MadGuardian
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.MadGuardian)
-            {
-                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>\r\n" +
-                "<color=#ff0000>" + main.getLang(lang.MadGuardianInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //Jester
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Jester)
-            {
-                TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>\r\n" +
-                "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //Bait
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Bait)
-            {
-                TaskTextPrefix = "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>\r\n" +
-                "<color=#00bfff>" + main.getLang(lang.BaitInfo) + "</color>\r\n";
-            }
-            //Terrorist
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Terrorist)
-            {
-                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>\r\n" +
-                "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
-            }
-            //Sidekick
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sidekick)
-            {
-                var ImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor &&
-                       !pc.Data.IsDead) ImpostorCount++;
-                }
-                if (ImpostorCount > 0)
-                {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.BeforeSidekickInfo) + "</color>\r\n";
-                }
-                else
-                {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.AfterSidekickInfo) + "</color>\r\n";
-                }
-            }
-            //Vampire
-            if (main.isVampire(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(CustomRoles.Vampire) + "</color>\r\n" +
-                "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
-            }
-            //SabotageMaster
-            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>\r\n" +
-                "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
-            }
-            //Mayor
-            if (main.isMayor(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>\r\n" +
-                "<color=#ff00ff>" + main.getLang(lang.MayorInfo) + "</color>\r\n";
-            }
-            //Opportunist
-            if (main.isOpportunist(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>\r\n" +
-                "<color=#00ff00>" + main.getLang(lang.OpportunistInfo) + "</color>\r\n";
+                case CustomRoles.Madmate:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.MadGuardian:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.Jester:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getLang(lang.JesterInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.Bait:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Bait)}>{main.getRoleName(CustomRoles.Bait)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Bait)}>{main.getLang(lang.BaitInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Terrorist:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getLang(lang.TerroristInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Mafia:
+                    var ImpostorCount = 0;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
+                    }
+                    if (ImpostorCount > 0)
+                    {
+                        TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
+                    }
+                    else
+                    {
+                        TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
+                    }
+                    break;
+                case CustomRoles.Vampire:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getRoleName(CustomRoles.Vampire)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.SabotageMaster:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getRoleName(CustomRoles.SabotageMaster)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Mayor:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getRoleName(CustomRoles.Mayor)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Opportunist:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getLang(lang.OpportunistInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Snitch:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
+                    break;
             }
             //Sheriff
-            if (main.isSheriff(PlayerControl.LocalPlayer))
+            if (PlayerControl.LocalPlayer.isSheriff())
             {
                 TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
                 "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";

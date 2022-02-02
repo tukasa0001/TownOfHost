@@ -23,7 +23,6 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
-            main.SyncedPlayerRoleTypes = new Dictionary<byte, RoleTypes>();
             if (__instance.AmHost)
             {
 
@@ -69,7 +68,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.SidekickCount;
+                int AdditionalShapeshifterNum = main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -164,7 +163,6 @@ namespace TownOfHost
                 List<PlayerControl> GuardianAngels = new List<PlayerControl>();
                 List<PlayerControl> Shapeshifters = new List<PlayerControl>();
 
-                List<byte> ImpostorIDList = new List<byte>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.Data.IsDead = false; //プレイヤーの死を解除する
                     pc.RpcSyncRoleTypes(); //公式役職の判定を同期
@@ -173,23 +171,27 @@ namespace TownOfHost
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
                             break;
                         case RoleTypes.Impostor:
                             Impostors.Add(pc);
-                            ImpostorIDList.Add(pc.PlayerId);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
                             break;
                         case RoleTypes.Scientist:
                             Scientists.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
                             break;
                         case RoleTypes.Engineer:
                             Engineers.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
                             break;
                         case RoleTypes.GuardianAngel:
                             GuardianAngels.Add(pc);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
                             break;
                         case RoleTypes.Shapeshifter:
                             Shapeshifters.Add(pc);
-                            ImpostorIDList.Add(pc.PlayerId);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                             break;
                         default:
                             Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
@@ -203,8 +205,9 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Sidekick, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
 
@@ -214,7 +217,6 @@ namespace TownOfHost
                 }
 
                 main.NotifyRoles();
-                var ImpostorIdArray = ImpostorIDList.ToArray();
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -223,7 +225,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.SidekickCount;
+                ShapeshifterNum -= main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

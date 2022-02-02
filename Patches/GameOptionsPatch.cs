@@ -22,7 +22,7 @@ namespace TownOfHost
                 if(main.TerroristCount > 0) forced = true;
             }
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
-                if(main.SidekickCount > 0) forced = true;
+                if(main.MafiaCount > 0) forced = true;
             }
 
             if(forced) {

@@ -52,12 +52,13 @@ namespace TownOfHost
                     int MadmateCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
-                    int SidekickCount = reader.ReadInt32();
+                    int MafiaCount = reader.ReadInt32();
                     int VampireCount = reader.ReadInt32();
                     int SabotageMasterCount = reader.ReadInt32();
                     int MadGuardianCount = reader.ReadInt32();
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
+                    int SnitchCount = reader.ReadInt32();
                     int SheriffCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
@@ -89,12 +90,13 @@ namespace TownOfHost
                         MadmateCount,
                         BaitCount,
                         TerroristCount,
-                        SidekickCount,
+                        MafiaCount,
                         VampireCount,
                         SabotageMasterCount,
                         MadGuardianCount,
                         MayorCount,
                         OpportunistCount,
+                        SnitchCount,
                         SheriffCount,
                         FoxCount,
                         TrollCount,
@@ -143,11 +145,6 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case (byte)CustomRPC.SyncRoleTypes:
-                    byte targetId = reader.ReadByte();
-                    RoleTypes RoleToSync = (RoleTypes)reader.ReadByte();
-                    RPCProcedure.SyncRoleTypes(targetId, RoleToSync);
-                    break;
             }
         }
     }
@@ -157,12 +154,13 @@ namespace TownOfHost
                 int MadmateCount,
                 int BaitCount,
                 int TerroristCount,
-                int SidekickCount,
+                int MafiaCount,
                 int VampireCount,
                 int SabotageMasterCount,
                 int MadGuardianCount,
                 int MayorCount,
                 int OpportunistCount,
+                int SnitchCount,
                 int SheriffCount,
                 int FoxCount,
                 int TrollCount,
@@ -193,17 +191,18 @@ namespace TownOfHost
             main.MadmateCount = MadmateCount;
             main.BaitCount = BaitCount;
             main.TerroristCount = TerroristCount;
-            main.SidekickCount= SidekickCount;
+            main.MafiaCount= MafiaCount;
             main.VampireCount= VampireCount;
             main.SabotageMasterCount= SabotageMasterCount;
             main.MadGuardianCount = MadGuardianCount;
             main.MayorCount = MayorCount;
             main.OpportunistCount= OpportunistCount;
+            main.SnitchCount= SnitchCount;
             main.SheriffCount = SheriffCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
-            
+
             main.IsHideAndSeek = isHideAndSeek;
             main.NoGameEnd = NoGameEnd;
 
@@ -316,9 +315,6 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
-        }
-        public static void SyncRoleTypes(byte target, RoleTypes role) {
-            main.SyncedPlayerRoleTypes[target] = role;
         }
     }
 }

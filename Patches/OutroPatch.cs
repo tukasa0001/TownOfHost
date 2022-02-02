@@ -25,17 +25,17 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    RoleTypes role = p.getSyncedRoleTypes();
-                    bool canWin = role == RoleTypes.Crewmate ||
-                    role == RoleTypes.Scientist ||
-                    role == RoleTypes.Engineer ||
-                    role == RoleTypes.GuardianAngel;
-                    if (main.isJester(p)) canWin = false; //Jester
-                    if (main.isMadmate(p)) canWin = false; //Madmate
-                    if (main.isMadGuardian(p)) canWin = false; //Mad Guardian
-                    if (main.isTerrorist(p)) canWin = false; //Terrorist
-                    if (main.isOpportunist(p)) canWin = false; //Opportunist
-                    if (main.isSheriff(p)) canWin = true; //Sheriff
+                    CustomRoles role = p.getCustomRole();
+                    bool canWin = role == CustomRoles.Default ||
+                    role == CustomRoles.Scientist ||
+                    role == CustomRoles.Engineer ||
+                    role == CustomRoles.GuardianAngel;
+                    if (p.isJester()) canWin = false; //Jester
+                    if (p.isMadmate()) canWin = false; //Madmate
+                    if (p.isMadGuardian()) canWin = false; //Mad Guardian
+                    if (p.isTerrorist()) canWin = false; //Terrorist
+                    if (p.isOpportunist()) canWin = false; //Opportunist
+                    if (p.isSheriff()) canWin = true; //Sheriff
                     if(canWin) winner.Add(p);
                 }
             }
@@ -43,13 +43,13 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    RoleTypes role = p.getSyncedRoleTypes();
-                    bool canWin = role == RoleTypes.Impostor ||
-                    role == RoleTypes.Shapeshifter;
-                    if (main.isMadmate(p)) canWin = true; //Madmate
-                    if (main.isMadGuardian(p)) canWin = true; //Mad Guardian
-                    if (main.isOpportunist(p)) canWin = false; //Opportunist
-                    if (main.isSheriff(p)) canWin = false; //Sheriff
+                    CustomRoles role = p.getCustomRole();
+                    bool canWin = role == CustomRoles.Impostor ||
+                    role == CustomRoles.Shapeshifter;
+                    if (p.isMadmate()) canWin = true; //Madmate
+                    if (p.isMadGuardian()) canWin = true; //Mad Guardian
+                    if (p.isOpportunist()) canWin = false; //Opportunist
+                    if (p.isSheriff()) canWin = false;
                     if(canWin) winner.Add(p);
                 }
             }
@@ -89,7 +89,7 @@ namespace TownOfHost
             }
             //Opportunist
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(main.isOpportunist(pc) && !pc.Data.IsDead)
+                if(pc.isOpportunist() && !pc.Data.IsDead)
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
             //HideAndSeek専用
@@ -132,7 +132,7 @@ namespace TownOfHost
             //特殊勝利
             if (main.currentWinner == CustomWinner.Jester)
             {
-                __instance.BackgroundBar.material.color = main.JesterColor;
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
             }
             if (main.currentWinner == CustomWinner.Terrorist)
             {
