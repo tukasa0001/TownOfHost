@@ -835,7 +835,12 @@ namespace TownOfHost
                 {lang.OFF, "OFF"},
             };
             EnglishRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Default, "Crewmate"},
+                {CustomRoles.Engineer, "Engineer"},
+                {CustomRoles.Scientist, "Scientist"},
+                {CustomRoles.GuardianAngel, "GuardianAngel"},
+                {CustomRoles.Impostor, "Impostor"},
+                {CustomRoles.Shapeshifter, "Shapeshifter"},
                 {CustomRoles.Jester, "Jester"},
                 {CustomRoles.Madmate, "Madmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
@@ -851,7 +856,12 @@ namespace TownOfHost
                 {CustomRoles.Troll, "Troll"},
             };
             JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Vanilla"},
+                {CustomRoles.Default, "クルーメイト"},
+                {CustomRoles.Engineer, "エンジニア"},
+                {CustomRoles.Scientist, "科学者"},
+                {CustomRoles.GuardianAngel, "守護天使"},
+                {CustomRoles.Impostor, "インポスター"},
+                {CustomRoles.Shapeshifter, "シェイプシフター"},
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "狂人"},
                 {CustomRoles.MadGuardian, "守護狂人"},
@@ -953,6 +963,11 @@ namespace TownOfHost
     }
     public enum CustomRoles {
         Default = 0,
+        Engineer,
+        Scientist,
+        Impostor,
+        Shapeshifter,
+        GuardianAngel,
         Jester,
         Madmate,
         Bait,
