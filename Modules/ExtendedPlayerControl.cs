@@ -98,6 +98,9 @@ namespace TownOfHost {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if(AmongUsClient.Instance.AmHost && seer.AmOwner) {
+                player.nameText.text = name;
+            }
         }
         public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null) {
             //player: 名前の変更対象
