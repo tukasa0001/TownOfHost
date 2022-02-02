@@ -110,6 +110,12 @@ namespace TownOfHost
                 TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>\r\n" +
                 "<color=#00ff00>" + main.getLang(lang.OpportunistInfo) + "</color>\r\n";
             }
+            //Opportunist
+            if (main.isSheriff(PlayerControl.LocalPlayer))
+            {
+                TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
+                "<color=#ffff00>" + main.getLang(lang.SheriffInfoLong) + "</color>\r\n";
+            }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {

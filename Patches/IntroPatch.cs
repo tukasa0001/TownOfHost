@@ -132,6 +132,15 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = main.MayorColor;
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
+            if (main.isMayor(PlayerControl.LocalPlayer))
+            {
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Sheriff);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.SheriffInfo);
+                __instance.TeamTitle.color = Color.yellow;
+                __instance.BackgroundBar.material.color = Color.yellow;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
+            }
             if(main.IsHideAndSeek) {
                 if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
                     __instance.TeamTitle.text = "Fox";

@@ -97,6 +97,10 @@ namespace TownOfHost
                     {
                         main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                     }
+                    else if (arg == "sheriff" || arg == "sh")
+                    {
+                        main.SendToAll(main.getLang(lang.SheriffInfoLong));
+                    }
                     else if (arg == "fox" || arg == "fo")
                     {
                         main.SendToAll(main.getLang(lang.FoxInfoLong));

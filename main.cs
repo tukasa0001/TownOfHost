@@ -424,6 +424,7 @@ namespace TownOfHost
                 if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -750,6 +751,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "より早くサボタージュを直せ"},
                 {lang.MayorInfo, "インポスターを追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
+                {lang.SheriffInfo, "インポスターをキルしろ"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -761,6 +763,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
+                {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):トロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):インポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -817,6 +820,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the Impostors"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
+                {lang.SheriffInfo, "Shoot Impostors"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -828,6 +832,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
+                {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、クルーをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):Trollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):Impostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -930,6 +935,7 @@ namespace TownOfHost
         MadGuardianInfo,
         MayorInfo,
         OpportunistInfo,
+        SheriffInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -943,6 +949,7 @@ namespace TownOfHost
         MadGuardianInfoLong,
         MayorInfoLong,
         OpportunistInfoLong,
+        SheriffInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
