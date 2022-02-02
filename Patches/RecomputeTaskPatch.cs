@@ -50,8 +50,8 @@ namespace TownOfHost
                                 var found = main.AllPlayerCustomRoles.TryGetValue(t.PlayerId, out var role);
                                 string RoleName = "STRMISS";
                                 if(found) RoleName = main.getRoleName(role);
-                                t.RpcSetNamePrivate("<size=1.5>" + RoleName + "</size>\r\n" + t.name + "<color=#90ee90>★</color>" , true, t);
-                                p.RpcSetNamePrivate("<color=#90ee90>"+ p.name + "</color>" , false, t);
+                                t.RpcSetNamePrivate($"<size=1.5>{RoleName}</size>\r\n{t.name}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , true, t);
+                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{p.name}</color>" , false, t);
                             }
                         }
                     }
