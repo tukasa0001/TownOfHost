@@ -711,6 +711,7 @@ namespace TownOfHost
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
                 {lang.SuffixMode, "名前の二行目"},
                 //その他
+                {lang.SheriffDeadMessage, "あなたは死にました\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -784,6 +785,7 @@ namespace TownOfHost
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
                 {lang.SuffixMode, "Suffix"},
                 //その他
+                {lang.SheriffDeadMessage, "You Are Dead\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -915,6 +917,7 @@ namespace TownOfHost
         DisableStartReactorTask,
         SuffixMode,
         //その他
+        SheriffDeadMessage,
         commandError,
         InvalidArgs,
         ON,

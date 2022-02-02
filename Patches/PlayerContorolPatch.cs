@@ -223,7 +223,7 @@ namespace TownOfHost
             }
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(pc.getCustomRole() == CustomRoles.Sheriff && pc.Data.IsDead) {
-                    //ここにメッセージ送信コードを入力
+                    pc.SendDM(main.getLang(lang.SheriffDeadMessage));
                 }
             }
         }
