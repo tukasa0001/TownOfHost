@@ -24,9 +24,6 @@ namespace TownOfHost
                 soloTeam.Add(PlayerControl.LocalPlayer);
                 yourTeam = soloTeam;
             }
-            if (main.isSheriff(PlayerControl.LocalPlayer)) {
-                yourTeam = PlayerControl.AllPlayerControls;
-            }
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
@@ -176,6 +173,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            //TODO:シェリフ時にプレイヤーの間隔とかをクルーの場合と同じにする
             BeginCrewmatePatch.Prefix(__instance, ref yourTeam);
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
