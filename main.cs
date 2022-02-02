@@ -69,7 +69,7 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
-        public static List<string> MessagesToSend;
+        public static List<(string, byte)> MessagesToSend;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -500,7 +500,7 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void SendToAll(string text)
+        public static void SendToAll(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             string[] textList = text.Split('\n');
@@ -510,11 +510,11 @@ namespace TownOfHost
                 if(tmp.Length+t.Length < 120 ){
                     tmp += t+"\n";
                 }else{
-                    MessagesToSend.Add(tmp);
+                    MessagesToSend.Add((tmp, sendTo));
                     tmp = t+"\n";
                 }
             }
-            if(tmp.Length != 0) MessagesToSend.Add(tmp);
+            if(tmp.Length != 0) MessagesToSend.Add((tmp, sendTo));
         }
         public static void ApplySuffix() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -589,7 +589,7 @@ namespace TownOfHost
             BitPlayers = new Dictionary<byte, (byte, float)>();
             winnerList = "";
             VisibleTasksCount = false;
-            MessagesToSend = new List<string>();
+            MessagesToSend = new List<(string, byte)>();
 
 
 
