@@ -115,6 +115,15 @@ namespace TownOfHost
             {
                 TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
                 "<color=#ffff00>" + main.getLang(lang.SheriffInfoLong) + "</color>\r\n";
+                if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
+                    PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                    __instance.KillButton.enabled = true;
+                    __instance.KillButton.Show();
+                } else {
+                    PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
+                    __instance.KillButton.enabled = false;
+                    __instance.KillButton.Hide();
+                }
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
