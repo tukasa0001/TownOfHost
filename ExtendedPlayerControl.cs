@@ -128,15 +128,5 @@ namespace TownOfHost {
             }
             return canBeKilled;
         }
-        public static void RpcSuicideDesync(this PlayerControl player) {
-            if(!AmongUsClient.Instance.AmHost) return;
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.PlayerId == player.PlayerId) continue;
-                var clientId = pc.getClientId();
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.MurderPlayer, Hazel.SendOption.Reliable, clientId);
-                MessageExtensions.WriteNetObject(writer, player); //writer.WriteNetObject(player);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-        }
     }
 }

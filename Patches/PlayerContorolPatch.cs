@@ -69,7 +69,7 @@ namespace TownOfHost
             }
             if(main.isSheriff(__instance)) {
                 if(!target.canBeKilledBySheriff()) {
-                    __instance.RpcSuicideDesync();
+                    __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
             }

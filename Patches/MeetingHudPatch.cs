@@ -11,6 +11,7 @@ using UnhollowerBaseLib;
 using TownOfHost;
 using System.Linq;
 using Il2CppSystem.Linq;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -68,7 +69,22 @@ namespace TownOfHost
 
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-            MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie);
+
+            //Sheriff用RPCの送信
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.getCustomRole() != CustomRoles.Sheriff) continue;
+                var clientId = pc.getClientId();
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)23, SendOption.Reliable, clientId);
+                writer.WritePacked(states.Length);
+                foreach(var state in states) {
+                    state.Serialize(writer);
+                }
+                writer.Write(exiledPlayer != null && exiledPlayer.PlayerId != pc.PlayerId ? exiledPlayer.PlayerId : byte.MaxValue);
+                writer.Write(tie);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+            //実際のRPC
+            new LateTask(() => MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie), 0.5f, "RpcVotingCompleteTask");
             return false;
         }
         public static bool isMayor(byte id) {
