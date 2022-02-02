@@ -295,28 +295,28 @@ namespace TownOfHost
 
         public static void ShowActiveRoles()
         {
-            main.SendTo("現在有効な設定の説明:");
+            main.SendToAll("現在有効な設定の説明:");
             if(main.IsHideAndSeek)
             {
-                main.SendTo(main.getLang(lang.HideAndSeekInfo));
-                if(main.FoxCount > 0 ){ main.SendTo(main.getLang(lang.FoxInfoLong)); }
-                if(main.TrollCount > 0 ){ main.SendTo(main.getLang(lang.TrollInfoLong)); }
+                main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
+                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
-                if(main.SyncButtonMode){ main.SendTo(main.getLang(lang.SyncButtonModeInfo)); }
-                if(main.VampireCount > 0) main.SendTo(main.getLang(lang.VampireInfoLong));
-                if(main.MafiaCount > 0) main.SendTo(main.getLang(lang.MafiaInfoLong));
-                if(main.MadmateCount > 0) main.SendTo(main.getLang(lang.MadmateInfoLong));
-                if(main.TerroristCount > 0) main.SendTo(main.getLang(lang.TerroristInfoLong));
-                if(main.BaitCount > 0) main.SendTo(main.getLang(lang.BaitInfoLong));
-                if(main.JesterCount > 0) main.SendTo(main.getLang(lang.JesterInfoLong));
-                if(main.SabotageMasterCount > 0) main.SendTo(main.getLang(lang.SabotageMasterInfoLong));
-                if(main.MayorCount > 0) main.SendTo(main.getLang(lang.MayorInfoLong));
-                if(main.MadGuardianCount > 0) main.SendTo(main.getLang(lang.MadGuardianInfoLong));
-                if(main.OpportunistCount > 0) main.SendTo(main.getLang(lang.OpportunistInfoLong));
-                if(main.SheriffCount > 0) main.SendTo(main.getLang(lang.SheriffInfoLong));
-                if(main.SnitchCount > 0) main.SendTo(main.getLang(lang.SnitchInfoLong));
+                if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
+                if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
+                if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
             }
-            if(main.NoGameEnd){ main.SendTo(main.getLang(lang.NoGameEndInfo)); }
+            if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
 
         public static void ShowActiveSettings()
@@ -326,7 +326,7 @@ namespace TownOfHost
             {
                 if(main.FoxCount > 0 ) text += String.Format("\n{0,-5}:{1}",main.getRoleName(CustomRoles.Fox),main.FoxCount);
                 if(main.TrollCount > 0 ) text += String.Format("\n{0,-5}:{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
-                main.SendTo(text);
+                main.SendToAll(text);
                 text = "設定:";
                 text += main.getLang(lang.HideAndSeek);
             }else{
@@ -341,7 +341,7 @@ namespace TownOfHost
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
-                main.SendTo(text);
+                main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
                 if(main.SabotageMasterCount > 0) {
@@ -362,12 +362,12 @@ namespace TownOfHost
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
-            main.SendTo(text);
+            main.SendToAll(text);
         }
 
         public static void ShowHelp()
         {
-            main.SendTo(
+            main.SendToAll(
                 "コマンド一覧:"
                 +"\n/now - 現在有効な設定を表示"
                 +"\n/h now - 現在有効な設定の説明を表示"
@@ -499,8 +499,8 @@ namespace TownOfHost
             writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-
-        public static void SendTo(string text, byte sendTo = byte.MaxValue)
+        public static void SendToAll(string text) => SendMessage(text);
+        public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             string[] textList = text.Split('\n');

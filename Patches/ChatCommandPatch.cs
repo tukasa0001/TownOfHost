@@ -30,7 +30,7 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendTo(main.winnerList);
+                        main.SendToAll(main.winnerList);
                         break;
                     
                     case "/r":
@@ -85,26 +85,26 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendTo("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");break;}
+                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");break;}
                                 switch (args[2])
                                 {
                                     case "hideandseek":
                                     case "has":
-                                        main.SendTo(main.getLang(lang.HideAndSeekInfo));
+                                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
                                         break;
 
                                     case "nogameend":
                                     case "nge":
-                                        main.SendTo(main.getLang(lang.NoGameEndInfo));
+                                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
                                         break;
 
                                     case "syncbuttonmode":
                                     case "sbm":
-                                        main.SendTo(main.getLang(lang.SyncButtonModeInfo));
+                                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                                         break;
                                     
                                     default:
-                                        main.SendTo("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
+                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
                                         break;
                                 }
                                 break;
@@ -135,76 +135,76 @@ namespace TownOfHost
             {
                 case "jester":
                 case "je":
-                    main.SendTo(main.getLang(lang.JesterInfoLong));
+                    main.SendToAll(main.getLang(lang.JesterInfoLong));
                     break;
                     
                 case "madmate":
                 case "ma":
-                    main.SendTo(main.getLang(lang.MadmateInfoLong));
+                    main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     break;
                     
                 case "bait":
                 case "ba":
-                    main.SendTo(main.getLang(lang.BaitInfoLong));
+                    main.SendToAll(main.getLang(lang.BaitInfoLong));
                     break;
                     
                 case "terrorist":
                 case "te":
-                    main.SendTo(main.getLang(lang.TerroristInfoLong));
+                    main.SendToAll(main.getLang(lang.TerroristInfoLong));
                     break;
                     
                 case "mafia":
                 case "maf":
-                    main.SendTo(main.getLang(lang.MafiaInfoLong));
+                    main.SendToAll(main.getLang(lang.MafiaInfoLong));
                     break;
                     
                 case "vampire":
                 case "va":
-                    main.SendTo(main.getLang(lang.VampireInfoLong));
+                    main.SendToAll(main.getLang(lang.VampireInfoLong));
                     break;
                     
                 case "sabotagemaster":
                 case "sa":
-                    main.SendTo(main.getLang(lang.SabotageMasterInfoLong));
+                    main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                     break;
                     
                 case "mayor":
                 case "may":
-                    main.SendTo(main.getLang(lang.MayorInfoLong));
+                    main.SendToAll(main.getLang(lang.MayorInfoLong));
                     break;
                     
                 case "madguardian":
                 case "mad":
-                    main.SendTo(main.getLang(lang.MadGuardianInfoLong));
+                    main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                     break;
                     
                 case "opportunist":
                 case "op":
-                    main.SendTo(main.getLang(lang.OpportunistInfoLong));
+                    main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                     break;
                     
                 case "snitch":
                 case "sn":
-                    main.SendTo(main.getLang(lang.SnitchInfoLong));
+                    main.SendToAll(main.getLang(lang.SnitchInfoLong));
                     break;
 
                 case "sheriff":
                 case "sh":
-                    main.SendTo(main.getLang(lang.SheriffInfoLong));
+                    main.SendToAll(main.getLang(lang.SheriffInfoLong));
                     break;
                     
                 case "fox":
                 case "fo":
-                    main.SendTo(main.getLang(lang.FoxInfoLong));
+                    main.SendToAll(main.getLang(lang.FoxInfoLong));
                     break;
                     
                 case "troll":
                 case "tr":
-                    main.SendTo(main.getLang(lang.TrollInfoLong));
+                    main.SendToAll(main.getLang(lang.TrollInfoLong));
                     break;
 
                 default:
-                    main.SendTo("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
                     break;
             }
 

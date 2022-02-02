@@ -218,7 +218,7 @@ namespace TownOfHost
             if (main.SyncButtonMode)
             {
                 if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                main.SendTo("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
+                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
             foreach(var pc in PlayerControl.AllPlayerControls) {
