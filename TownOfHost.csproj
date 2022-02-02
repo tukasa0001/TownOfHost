@@ -5,6 +5,7 @@
     <Version>1.4-beta3</Version>
     <Description>Town Of Host</Description>
     <Authors>tukasa0001(EmptyBottle), integral0131</Authors>
+    <langVersion>preview</langVersion>
   </PropertyGroup>
 
     <ItemGroup>
