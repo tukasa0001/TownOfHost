@@ -25,12 +25,17 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
+                    RoleTypes role = p.getSyncedRoleTypes();
+                    bool canWin = role == RoleTypes.Crewmate ||
+                    role == RoleTypes.Scientist ||
+                    role == RoleTypes.Engineer ||
+                    role == RoleTypes.GuardianAngel;
                     if (main.isJester(p)) canWin = false; //Jester
                     if (main.isMadmate(p)) canWin = false; //Madmate
                     if (main.isMadGuardian(p)) canWin = false; //Mad Guardian
                     if (main.isTerrorist(p)) canWin = false; //Terrorist
                     if (main.isOpportunist(p)) canWin = false; //Opportunist
+                    if (main.isSheriff(p)) canWin = true; //Sheriff
                     if(canWin) winner.Add(p);
                 }
             }
@@ -38,10 +43,13 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
+                    RoleTypes role = p.getSyncedRoleTypes();
+                    bool canWin = role == RoleTypes.Impostor ||
+                    role == RoleTypes.Shapeshifter;
                     if (main.isMadmate(p)) canWin = true; //Madmate
                     if (main.isMadGuardian(p)) canWin = true; //Mad Guardian
                     if (main.isOpportunist(p)) canWin = false; //Opportunist
+                    if (main.isSheriff(p)) canWin = false; //Sheriff
                     if(canWin) winner.Add(p);
                 }
             }

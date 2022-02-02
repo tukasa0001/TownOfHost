@@ -23,6 +23,7 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
+            main.SyncedPlayerRoleTypes = new Dictionary<byte, RoleTypes>();
             if (__instance.AmHost)
             {
 
