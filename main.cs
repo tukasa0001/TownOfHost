@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Text.RegularExpressions;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using System;
@@ -112,10 +113,9 @@ namespace TownOfHost
         public static Color getRoleColor(CustomRoles role)
         {
             string hexColor;
-            Color result;
             roleColors.TryGetValue(role, out hexColor);
-            ColorUtility.TryParseHtmlString(hexColor,out result);
-            return result;
+            MatchCollection matches = Regex.Matches(hexColor, "[0-9a-fA-F]{2}");
+            return new Color(Convert.ToInt32(matches[0].Value,16),Convert.ToInt32(matches[1].Value,16),Convert.ToInt32(matches[2].Value,16));
         }
         public static string getRoleColorCode(CustomRoles role)
         {
