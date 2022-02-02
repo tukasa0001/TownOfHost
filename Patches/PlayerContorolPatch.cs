@@ -69,7 +69,7 @@ namespace TownOfHost
             }
             if(main.isSheriff(__instance)) {
                 if(!target.canBeKilledBySheriff()) {
-                    __instance.RpcMurderPlayer(__instance);
+                    __instance.RpcSuicideDesync();
                     return false;
                 }
             }
@@ -201,9 +201,7 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
-                //死んだSheriffを守護天使に上書きする
-                if(__instance.Data.IsDead && __instance.Data.Role.Role != RoleTypes.GuardianAngel &&
-                __instance.getCustomRole() == CustomRoles.Sheriff) __instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
+
                 if(__instance.AmOwner) main.ApplySuffix();
             }
             if(main.IsHideAndSeek && main.IgnoreVent) {
