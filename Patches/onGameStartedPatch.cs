@@ -225,6 +225,8 @@ namespace TownOfHost
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= main.SidekickCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+
+                //サーバーの役職判定をだます
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
 
