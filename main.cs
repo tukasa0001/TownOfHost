@@ -109,14 +109,6 @@ namespace TownOfHost
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
-        public static string getRoleName(RoleTypes role) {
-            var currentLanguage = TranslationController.Instance.CurrentLanguage;
-            if(JapaneseRoleName.Value == false && EnglishLang != null)
-                currentLanguage = EnglishLang;
-            string text = currentLanguage.GetString(RoleTypeHelpers.RoleToName[role], "Invalid Role", new Il2CppSystem.Object[0]{});
-            return text;
-        }
-
         public static Color getRoleColor(CustomRoles role)
         {
             string hexColor;
