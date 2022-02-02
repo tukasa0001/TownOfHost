@@ -463,12 +463,12 @@ namespace TownOfHost
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var isAllConpleted = true;
+            var isAllCompleted = true;
             foreach (var task in Terrorist.Tasks)
             {
-                if (!task.Complete) isAllConpleted = false;
+                if (!task.Complete) isAllCompleted = false;
             }
-            if (isAllConpleted)
+            if (isAllCompleted)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
