@@ -830,7 +830,7 @@ namespace TownOfHost
                 {lang.SuffixMode, "Suffix"},
                 //その他
                 {lang.commandError, "Error:%1$"},
-                {lang.InvalidArgs, "Invalis Args"},
+                {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
                 {lang.OFF, "OFF"},
             };
