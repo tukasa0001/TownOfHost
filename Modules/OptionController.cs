@@ -43,6 +43,7 @@ namespace TownOfHost
                         OptionPages.Snitch,
                         OptionPages.BountyHunter,
                         OptionPages.Warlock,
+                        OptionPages.Lovers,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -150,6 +151,14 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Warlock, i)
+                    )},
+                    {OptionPages.Lovers, new PageObject(
+                        () => "<color=#90ee90>" + main.getRoleName(CustomSubRoles.Lovers) + "</color>: " + main.LoversCount,
+                        true,
+                        () => {main.SetSubRoleCountToggle(CustomSubRoles.Lovers);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetSubRoleCount(CustomSubRoles.Lovers, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -589,6 +598,7 @@ namespace TownOfHost
                 Snitch,
                 BountyHunter,
                 Warlock,
+                Lovers,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
