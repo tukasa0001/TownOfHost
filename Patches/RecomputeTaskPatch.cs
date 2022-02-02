@@ -56,7 +56,7 @@ namespace TownOfHost
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
-                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , true, p);
+                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , false, p);
                                 t.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{t.name}</color>" , false, p);
                             }
                         }
