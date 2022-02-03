@@ -328,7 +328,7 @@ namespace TownOfHost
             if(me.PlayerId == targetId) {
                 if(KilledById == byte.MaxValue) {
                     //ローカル追放
-                    me.Exiled();
+                    new LateTask(() => me.Exiled(), 10f, "ExileForSheriff");
                 } else {
                     //ローカル殺害
                     KilledBy.MurderPlayer(me);

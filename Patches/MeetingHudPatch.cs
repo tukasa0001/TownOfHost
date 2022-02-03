@@ -85,6 +85,7 @@ namespace TownOfHost
                 writer.Write(byte.MaxValue);
                 writer.Write(tie);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
+                pc.RpcBeKilled();
             }
             //実際のRPC
             new LateTask(() => MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie), 0.5f, "RpcVotingCompleteTask");
