@@ -660,7 +660,7 @@ namespace TownOfHost
                 {lang.MayorInfo, "人外を追放しろ"},
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 {lang.SnitchInfo, "タスクを完了させ、人外を暴け"},
-                {lang.SheriffInfo, "インポスターをキルしろ"},
+                {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -673,7 +673,7 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
-                {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーをキルしようとすると自爆してしまう役職。タスクはない。"},
+                {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -711,7 +711,7 @@ namespace TownOfHost
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
                 {lang.SuffixMode, "名前の二行目"},
                 //その他
-                {lang.SheriffDeadMessage, "あなたは死にました\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
+                {lang.SheriffDeadMessage, "あなたは死亡しました\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -732,7 +732,7 @@ namespace TownOfHost
                 {lang.MayorInfo, "Ban the extraperson"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
                 {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
-                {lang.SheriffInfo, "Shoot Impostors"},
+                {lang.SheriffInfo, "Shoot the Impostors"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
