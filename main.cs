@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
@@ -705,6 +705,7 @@ namespace TownOfHost
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 {lang.SnitchInfo, "タスクを完了させ、人外を暴け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
+                {lang.WarlockInfo, "みんなを呪い殺そう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},

@@ -187,7 +187,17 @@ namespace TownOfHost
                 case "sn":
                     main.SendToAll(main.getLang(lang.SnitchInfoLong));
                     break;
-                    
+                
+                case "bountyhunter":
+                case "bo":
+                    main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                    break;
+
+                case "warlock":
+                case "wa":
+                    main.SendToAll(main.getLang(lang.WarlockInfoLong));
+                    break;
+                   
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));

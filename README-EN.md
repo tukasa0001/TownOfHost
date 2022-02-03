@@ -53,6 +53,8 @@ However, The numeric keypad is not supported.
 | Mayor | Crewmate |
 | Opportunist | Crewmate |
 | Snitch | Crewmate |
+| BountyHunter | Impostor |
+| Warlock | Shapeshifter |
 
 ### Jester
 
@@ -161,6 +163,22 @@ Decision : Crewmate
 
 When the Snitch completes a task, the name of the extraperson will change to red.
 However, when tasks in the Snitch becomes low, the name of the Snitch will appear to change from the extraperson.
+
+### BountyHunter
+
+Team : Impostor<br>
+Decision : Impostor<br>
+
+Bountyhunter's first kill chooses the target.
+When BountyHunter killed the target, the next killcooldown would haived.
+
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If Warlock kills when Warlock shapeshifted, he curses a crewmate.
+If Warlock kills another crewmate, the cursed crewmate will kill the nearest crewmate.
 
 ## Mode
 
