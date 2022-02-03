@@ -85,7 +85,7 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (__instance.CurrentOutfitType == PlayerOutfitType.Shapeshifted)
+                if (__instance.CurrentOutfitType == PlayerOutfitType.Shapeshifted && main.WarlockCheck == false)
                 {
                     __instance.RpcGuardAndKill(target);
                     main.WarlockTarget.Add(target);
