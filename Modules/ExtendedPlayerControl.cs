@@ -137,10 +137,9 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
+                case CustomRoles.Shapeshifter:
+                case CustomRoles.Impostor:
                     canBeKilled = true;
-                    break;
-                case CustomRoles.Default:
-                    canBeKilled = player.Data.Role.TeamType == RoleTeamTypes.Impostor;
                     break;
             }
             return canBeKilled;
