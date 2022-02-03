@@ -136,6 +136,10 @@ namespace TownOfHost
                0 <= amount && amount <= 4 && //配電盤操作のamount
                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
+            if(player.isSheriff() && player.Data.IsDead) {
+                //死んだSheriffには何もさせない
+                return false;
+            }
             return true;
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
