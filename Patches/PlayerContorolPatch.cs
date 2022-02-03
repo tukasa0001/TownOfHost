@@ -139,8 +139,8 @@ namespace TownOfHost
                 {
                     var rand = new System.Random();
                     main.BountyTargetPlayer = new List<PlayerControl>();
-                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead || p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-                    main.b_target = main.BountyTargetPlayer[rand.Next(0,PlayerControl.AllPlayerControls.Count - 1)];
+                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                    main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
                     main.BountyCheck = true;
                 }
                 return false;

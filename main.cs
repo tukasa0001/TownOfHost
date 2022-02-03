@@ -776,6 +776,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the extraperson"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
+                {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 {lang.BountyHunterInfo, "Hunt your Bounty down"},
                 {lang.WarlockInfo, "Curse other players and kill everyone"},
                 //役職解説(長)
