@@ -45,6 +45,14 @@ namespace TownOfHost
                     if(canWin) winner.Add(p);
                 }
             }
+
+            //Opportunist
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.isOpportunist() && !pc.Data.IsDead)
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+            }
+
+            //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
             endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect ||
             main.currentWinner == CustomWinner.Draw)
@@ -78,11 +86,6 @@ namespace TownOfHost
                     if (p.PlayerId == main.WonTerroristID)
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
-            }
-            //Opportunist
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead)
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
             //HideAndSeek専用
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
