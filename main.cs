@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -38,7 +39,6 @@ namespace TownOfHost
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
         //Other Configs
-        public static ConfigEntry<bool> TeruteruColor { get; private set; }
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
@@ -115,7 +115,8 @@ namespace TownOfHost
             string hexColor;
             roleColors.TryGetValue(role, out hexColor);
             MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
-            return new Color(Convert.ToInt32(matches[0].Value,16),Convert.ToInt32(matches[1].Value,16),Convert.ToInt32(matches[2].Value,16));
+            //return new Color(Convert.ToInt32(matches[0].Value,16),Convert.ToInt32(matches[1].Value,16),Convert.ToInt32(matches[2].Value,16));
+            return new Color(Convert.ToInt32(matches[0].Value,16)/255f,Convert.ToInt32(matches[1].Value,16)/255f,Convert.ToInt32(matches[2].Value,16)/255f);
         }
         public static string getRoleColorCode(CustomRoles role)
         {
@@ -384,6 +385,7 @@ namespace TownOfHost
 
         }
         public static Dictionary<byte, string> RealNames;
+        public static Dictionary<byte, string> tmpNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -556,11 +558,43 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                string RoleName = "STRMISS";
-                if(found) RoleName = getRoleName(role);
-                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}", true);
+            foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+            {
+                string taskText = main.getTaskText(p.Data.Tasks);
+                string tmp;
+                if(main.hasTasks(p.Data))//タスク持ちの陣営
+                {
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color=#ffff00>({taskText})</color>";
+                    if(main.tmpNames[p.PlayerId] != tmp){p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    foreach(var t in PlayerControl.AllPlayerControls)
+                    {
+                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate(tmp, true, t);
+                        if(p.AllTasksCompleted() && p.isSnitch()){
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
+                            {
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                            }
+                        }
+                    }
+                }else{//タスクなしの陣営
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire())
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
+                            }else{
+                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                            }
+                        }
+                        if(main.tmpNames[p.PlayerId] != tmp) {p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    }
+                }
             }
         }
 
@@ -603,10 +637,6 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
 
-
-
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-
             DisableSwipeCard = false;
             DisableSubmitScan = false;
             DisableUnlockSafe = false;
@@ -631,7 +661,6 @@ namespace TownOfHost
 
             currentSuffix = SuffixModes.None;
 
-            TeruteruColor = Config.Bind("Other", "TeruteruColor", false);
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
@@ -705,9 +734,9 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "狂人が停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "守護狂人が自身の割れたバリアを見ることができる"},
-                {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがサボタージュに対して能力を使用できる回数(ドア閉鎖は除く)"},
-                {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のドアを開けることを許可する"},
-                {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉メルトダウンに対して能力を"},
+                {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
+                {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
+                {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
                 {lang.SabotageMasterFixesOxygens, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesCommunications, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesElectrical, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える"},
@@ -769,7 +798,7 @@ namespace TownOfHost
                 {lang.NoGameEnd, "NoGameEnd"},
                 {lang.SyncButtonMode, "SyncButtonMode"},
                 //モード解説
-                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Inpostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
+                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 //オプション項目
