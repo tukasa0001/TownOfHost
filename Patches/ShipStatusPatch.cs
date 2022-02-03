@@ -136,9 +136,9 @@ namespace TownOfHost
                0 <= amount && amount <= 4 && //配電盤操作のamount
                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
-            if(player.isSheriff() && player.Data.IsDead) {
-                //死んだSheriffには何もさせない
-                return false;
+            if(player.isSheriff()) {
+                if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
+                if(systemType == SystemTypes.Sabotage) return false;
             }
             return true;
         }
