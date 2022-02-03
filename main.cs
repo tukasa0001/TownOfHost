@@ -565,28 +565,21 @@ namespace TownOfHost
                 string tmp;
                 if(main.hasTasks(p.Data))//タスク持ちの陣営
                 {
-                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color=#ffff00>({taskText})</color>";
-                    if(p == main.b_target){
-                        foreach(var t in PlayerControl.AllPlayerControls){
-                            if(t.isBountyHunter()){
-                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}><size=1.5>{t.getRoleName()}</size>\r\n{main.RealNames[t.PlayerId]}</color>\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}<size>" , false, t);
-                            }
-                        }
-                    }
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
                     p.RpcSetNamePrivate(tmp,true);
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
-                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate(tmp, true, t);
+                        if(t.Data.IsDead) p.RpcSetNamePrivate(tmp, true, t);
                         if(p.AllTasksCompleted() && p.isSnitch()){
-                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
                             {
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
                     }
                 }else{//タスクなしの陣営
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
-                        tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
                         if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
                         if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
                         {
@@ -595,13 +588,12 @@ namespace TownOfHost
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
-                            }else{
-                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
-                        p.RpcSetNamePrivate(tmp,true);
                     }
+                    if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    p.RpcSetNamePrivate(tmp,true);
                 }
             }
         }
