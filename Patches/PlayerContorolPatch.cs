@@ -43,7 +43,6 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            Logger.SendInGame("CheckMurderを受信");
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
@@ -312,12 +311,6 @@ namespace TownOfHost
                 __instance.RpcMurderPlayer(__instance);
             }
             return true;
-        }
-    }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CmdCheckMurder))]
-    class OnSendCheckMurder {
-        public static void Postfix() {
-            Logger.SendInGame("CmdCheckMurderを送信");
         }
     }
 }
