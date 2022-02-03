@@ -23,7 +23,7 @@ namespace TownOfHost
         EndGame,
         PlaySound,
         SetCustomRole,
-        SyncRoleTypes
+        BeKilled
     }
     public enum Sounds
     {
@@ -144,6 +144,11 @@ namespace TownOfHost
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
+                    break;
+                case (byte)CustomRPC.BeKilled:
+                    byte targetId = reader.ReadByte();
+                    byte KilledBy = reader.ReadByte();
+                    RPCProcedure.BeKilled(targetId, KilledBy);
                     break;
             }
         }
@@ -315,6 +320,20 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
+        }
+        public static void BeKilled(byte targetId, byte KilledById) {
+            PlayerControl me = PlayerControl.LocalPlayer;
+            PlayerControl KilledBy = KilledById == byte.MaxValue ? null : main.getPlayerById(KilledById);
+            if((KilledBy == null && KilledById != byte.MaxValue) || me == null) return;
+            if(me.PlayerId == targetId) {
+                if(KilledById == byte.MaxValue) {
+                    //ローカル追放
+                    me.Exiled();
+                } else {
+                    //ローカル殺害
+                    KilledBy.MurderPlayer(me);
+                }
+            }
         }
     }
 }

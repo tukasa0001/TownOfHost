@@ -149,6 +149,16 @@ namespace TownOfHost {
         public static void SendDM(this PlayerControl target, string text) {
             main.SendMessage(text, target.PlayerId);
         }
+
+        public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy) {
+            if(!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.BeKilled, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(KilledBy.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            RPCProcedure.BeKilled(player.PlayerId, KilledBy.PlayerId);
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
