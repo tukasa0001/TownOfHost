@@ -41,6 +41,8 @@ namespace TownOfHost
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
                         OptionPages.Snitch,
+                        OptionPages.BountyHunter,
+                        OptionPages.Warlock,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -132,6 +134,22 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Snitch, i)
+                    )},
+                    {OptionPages.BountyHunter, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>: {main.BountyHunterCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.BountyHunter);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.BountyHunter, i)
+                    )},
+                    {OptionPages.Warlock, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>: {main.WarlockCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Warlock);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Warlock, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -569,6 +587,8 @@ namespace TownOfHost
                 Mayor,
                 Opportunist,
                 Snitch,
+                BountyHunter,
+                Warlock,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

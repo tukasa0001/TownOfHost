@@ -83,6 +83,68 @@ namespace TownOfHost
                     return false;
                 }
             }
+            if (__instance.isWarlock())
+            {
+                if (__instance.CurrentOutfitType == PlayerOutfitType.Shapeshifted)
+                {
+                    __instance.RpcGuardAndKill(target);
+                    main.WarlockTarget.Add(target);
+                    main.WarlockCheck = true;
+                    return false;
+                }
+                if (main.WarlockCheck == true)
+                {
+                    var target1 = main.WarlockTarget[0];
+                    Vector2 target1pos = target1.transform.position;
+                    Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
+                    float dis;
+                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                    {
+                        if(p != target1 && !p.Data.IsDead)
+                        {
+                            dis = Vector2.Distance(target1pos,p.transform.position);
+                            playerDistance.Add(p,dis);
+                        }
+                    }
+                    var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
+                    PlayerControl target2 = min.Key;
+                    target1.RpcMurderPlayer(target2);
+                    __instance.RpcGuardAndKill(target);
+                    main.WarlockTarget.Clear();
+                    main.WarlockCheck = false;
+                    return false;
+                }
+                else
+                {
+                    __instance.RpcMurderPlayer(target);
+                    return false;
+                }
+            }
+            if (__instance.isBountyHunter())
+            {
+                if (main.BountyCheck)
+                {
+                    if (target != main.b_target)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                    }
+                    else
+                    {
+                        __instance.RpcMurderPlayer(main.b_target);
+                        __instance.RpcGuardAndKill(main.b_target);
+                        main.BountyCheck = false;
+                    }
+                }
+                else
+                {
+                    var rand = new System.Random();
+                    main.BountyTargetPlayer = new List<PlayerControl>();
+                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead || p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                    main.b_target = main.BountyTargetPlayer[rand.Next(0,PlayerControl.AllPlayerControls.Count - 1)];
+                    main.BountyCheck = true;
+                }
+                return false;
+            }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);

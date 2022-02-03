@@ -32,6 +32,44 @@ namespace TownOfHost
                 }
             }
             if(!AmongUsClient.Instance.AmHost) return false;
+            foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+            {
+                string taskText = main.getTaskText(p.Data.Tasks);
+                if(p == main.b_target){
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        if(t.isBountyHunter()){
+                            t.RpcSetNamePrivate($"<color={main.getRoleColorCode(t.getCustomRole())}><size=1.5>{main.getRoleName(t.getCustomRole())}</size>\r\n{t.name}</color>\r\n<size=1.5>{main.b_target.name}<size>" , false, t);
+                        }
+                    }
+                }
+                if(main.hasTasks(p.Data))
+                {
+                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color=#ffff00>({taskText})</color>" , true, p);
+                    if(p.AllTasksCompleted() && p.isSnitch()){
+                        foreach(var t in PlayerControl.AllPlayerControls)
+                        {
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                            {
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(t.getCustomRole())}>{t.name}</color>" , false, p);
+                            }
+                        }
+                    }
+                }else{
+                    if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
+                    {
+                        foreach(var t in PlayerControl.AllPlayerControls)
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>" , true, p);
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{t.name}</color>" , false, p);
+                            }
+                        }
+                    }
+                }
+            }
             return false;
         }
     }
