@@ -152,7 +152,11 @@ namespace TownOfHost {
         public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
             if(!AmongUsClient.Instance.AmHost) return;
             byte KilledById;
-            KilledById = KilledBy == null ? byte.MaxValue : KilledBy.PlayerId;
+            if(KilledBy == null)
+                KilledById = byte.MaxValue;
+            else
+                KilledById = KilledBy.PlayerId;
+            
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.BeKilled, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(KilledById);
