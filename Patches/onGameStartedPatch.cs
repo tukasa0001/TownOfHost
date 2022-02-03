@@ -74,9 +74,13 @@ namespace TownOfHost
             main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.RealNames = new Dictionary<byte, string>();
+            main.tmpNames = new Dictionary<byte, string>();
 
             foreach(var pc in PlayerControl.AllPlayerControls)
+            {
                 main.RealNames[pc.PlayerId] = pc.name;
+                main.tmpNames[pc.PlayerId] = pc.name;
+            }
 
             if(main.IsHideAndSeek) {
                 var rand = new System.Random();

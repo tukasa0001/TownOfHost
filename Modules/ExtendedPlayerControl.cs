@@ -89,9 +89,9 @@ namespace TownOfHost {
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
-
             if(player == null || name == null) return;
             if(seer == null) seer = player;
+            Logger.info($"{player.name}:{name} => {seer.name}");
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
@@ -112,6 +112,12 @@ namespace TownOfHost {
             if(!dic.ContainsKey(role))
                 dic[role] = 0;
             return dic[role];
+        }
+        public static string getRoleName(this PlayerControl player) {
+            return main.getRoleName(player.getCustomRole());
+        }
+        public static string getRoleColorCode(this PlayerControl player) {
+            return main.getRoleColorCode(player.getCustomRole());
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}

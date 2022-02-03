@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -367,6 +368,7 @@ namespace TownOfHost
 
         }
         public static Dictionary<byte, string> RealNames;
+        public static Dictionary<byte, string> tmpNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -531,11 +533,43 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                string RoleName = "STRMISS";
-                if(found) RoleName = getRoleName(role);
-                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}", true);
+            foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+            {
+                string taskText = main.getTaskText(p.Data.Tasks);
+                string tmp;
+                if(main.hasTasks(p.Data))//タスク持ちの陣営
+                {
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color=#ffff00>({taskText})</color>";
+                    if(main.tmpNames[p.PlayerId] != tmp){p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    foreach(var t in PlayerControl.AllPlayerControls)
+                    {
+                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate(tmp, true, t);
+                        if(p.AllTasksCompleted() && p.isSnitch()){
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
+                            {
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                            }
+                        }
+                    }
+                }else{//タスクなしの陣営
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire())
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
+                            }else{
+                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                            }
+                        }
+                        if(main.tmpNames[p.PlayerId] != tmp) {p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    }
+                }
             }
         }
 
@@ -577,10 +611,6 @@ namespace TownOfHost
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<string>();
-
-
-
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
