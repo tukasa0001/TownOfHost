@@ -95,4 +95,14 @@ namespace TownOfHost
             return dic;
         }
     }
+
+    
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+    class MeetingStartPatch
+    {
+        public static void Prefix()
+        {
+            main.NotifyRoles();
+        }
+    }
 }

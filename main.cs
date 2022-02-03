@@ -70,6 +70,7 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
+        public static int lastTaskComplete = 0;
         public static List<string> MessagesToSend;
 
         public static int SetRoleCountToggle(int currentCount)
@@ -565,7 +566,14 @@ namespace TownOfHost
                 if(main.hasTasks(p.Data))//タスク持ちの陣営
                 {
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color=#ffff00>({taskText})</color>";
-                    if(main.tmpNames[p.PlayerId] != tmp){p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    if(p == main.b_target){
+                        foreach(var t in PlayerControl.AllPlayerControls){
+                            if(t.isBountyHunter()){
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}><size=1.5>{t.getRoleName()}</size>\r\n{main.RealNames[t.PlayerId]}</color>\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}<size>" , false, t);
+                            }
+                        }
+                    }
+                    p.RpcSetNamePrivate(tmp,true);
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
                         if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate(tmp, true, t);
@@ -579,8 +587,8 @@ namespace TownOfHost
                 }else{//タスクなしの陣営
                     foreach(var t in PlayerControl.AllPlayerControls){
                         tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
-                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire())
+                        if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
@@ -592,7 +600,7 @@ namespace TownOfHost
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
                             }
                         }
-                        if(main.tmpNames[p.PlayerId] != tmp) {p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                        p.RpcSetNamePrivate(tmp,true);
                     }
                 }
             }

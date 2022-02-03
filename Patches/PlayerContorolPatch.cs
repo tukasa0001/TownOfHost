@@ -265,7 +265,7 @@ namespace TownOfHost
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-            if (RoleText != null)
+            if (RoleText != null && __instance != null)
             {
                 var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
@@ -362,4 +362,14 @@ namespace TownOfHost
             return true;
         }
     }
+
+    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.RpcMurderPlayer))]
+    class RpcMurderPlayerPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            main.NotifyRoles();
+        }
+    }
+
 }
