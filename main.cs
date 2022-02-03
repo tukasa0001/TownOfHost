@@ -641,6 +641,7 @@ namespace TownOfHost
                 {CustomRoles.SabotageMaster, "#0000ff"},
                 {CustomRoles.Snitch, "#b8fb4f"},
                 {CustomRoles.Mayor, "#204d42"},
+                {CustomRoles.Mayor, "#ffff00"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
