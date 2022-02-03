@@ -42,13 +42,13 @@ namespace TownOfHost
                 string taskText = main.getTaskText(p.Data.Tasks);
                 if(main.hasTasks(p.Data))
                 {
-                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color=#ffff00>({taskText})</color>", p);
+                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color=#ffff00>({taskText})</color>", true, p);
                     if(p.AllTasksCompleted() && p.isSnitch()){
                         foreach(var t in PlayerControl.AllPlayerControls)
                         {
                             if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
                             {
-                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(t.getCustomRole())}>{t.name}</color>", p);
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(t.getCustomRole())}>{t.name}</color>", false, p);
                             }
                         }
                     }
@@ -61,8 +61,8 @@ namespace TownOfHost
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
-                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>", p);
-                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{t.name}</color>", p);
+                                p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>", false, p);
+                                t.RpcSetNamePrivate($"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{t.name}</color>", false, p);
                             }
                         }
                     }

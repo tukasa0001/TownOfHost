@@ -88,7 +88,7 @@ namespace TownOfHost {
         }
 
 
-        public static void RpcSetNamePrivate(this PlayerControl player, string name, PlayerControl seer = null) {
+        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
 
@@ -97,10 +97,8 @@ namespace TownOfHost {
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
+            writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            if(AmongUsClient.Instance.AmHost && seer.AmOwner) {
-                player.nameText.text = name;
-            }
         }
         public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null) {
             //player: 名前の変更対象

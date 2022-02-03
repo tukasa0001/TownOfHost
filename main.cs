@@ -548,7 +548,7 @@ namespace TownOfHost
                 var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 string RoleName = "STRMISS";
                 if(found) RoleName = getRoleName(role);
-                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}");
+                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}", true);
             }
         }
 
