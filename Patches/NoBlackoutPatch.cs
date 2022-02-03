@@ -27,6 +27,7 @@ namespace TownOfHost {
                     MessageExtensions.WriteNetObject(writer, target); //writer.WriteNetObject(player);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
+                target.RpcBeKilled(__instance);
                 return false;
             }
             return true;
