@@ -204,9 +204,6 @@ namespace TownOfHost
 
                 if(__instance.AmOwner) main.ApplySuffix();
             }
-            if(main.IsHideAndSeek && main.IgnoreVent) {
-                if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
-            }
             //各クライアントが全員分実行
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
@@ -311,6 +308,14 @@ namespace TownOfHost
                 __instance.RpcMurderPlayer(__instance);
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+    class EnterVentPatch {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc) {
+            if(main.IsHideAndSeek && main.IgnoreVent)
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
 }

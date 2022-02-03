@@ -47,11 +47,11 @@ namespace TownOfHost
             // | G | フリープレイ中 | 開始画面表示 |
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | V | オンライン以外 | 自分の投票をClearする |
+            // | U | オンライン以外 | 自分の投票をClearする |
             // | T | ホストデバッガ― | 全員をインポスターにするRPCを送る |
             //====================
 
-            if (Input.GetKeyDown(KeyCode.V) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.T) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
             {
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.RpcSetRole(RoleTypes.Impostor);
