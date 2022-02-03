@@ -74,6 +74,7 @@ namespace TownOfHost
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(exiledPlayer == null) break;
                 if(tie) break;
+                if(pc.AmOwner && AmongUsClient.Instance.AmHost) continue;
                 if(pc.getCustomRole() != CustomRoles.Sheriff) continue;
                 if(exiledPlayer.PlayerId != pc.PlayerId) continue;
                 var clientId = pc.getClientId();
