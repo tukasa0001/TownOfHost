@@ -208,6 +208,42 @@ namespace TownOfHost
             if(main.IsHideAndSeek && main.IgnoreVent) {
                 if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
             }
+            //各クライアントが全員分実行
+            //役職テキストの表示
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            if (RoleText != null)
+            {
+                var RoleTextData = main.GetRoleText(__instance);
+                if(main.IsHideAndSeek) {
+                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                    if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
+                }
+                RoleText.text = RoleTextData.Item1;
+                RoleText.color = RoleTextData.Item2;
+                if (__instance.AmOwner) RoleText.enabled = true;
+                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
+                else RoleText.enabled = false;
+                if (!AmongUsClient.Instance.IsGameStarted &&
+                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    RoleText.enabled = false;
+                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
+                    RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.Data.Tasks) + ")</color>";
+            }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
+    class PlayerStartPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
+            roleText.transform.SetParent(__instance.nameText.transform);
+            roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
+            roleText.fontSize = 0.55f;
+            roleText.text = "RoleText";
+            roleText.gameObject.name = "RoleText";
+            roleText.enabled = false;
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
@@ -215,6 +251,16 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
+            foreach (var pva in __instance.playerStates)
+            {
+                var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
+                roleTextMeeting.transform.SetParent(pva.NameText.transform);
+                roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
+                roleTextMeeting.fontSize = 1.5f;
+                roleTextMeeting.text = "RoleTextMeeting";
+                roleTextMeeting.gameObject.name = "RoleTextMeeting";
+                roleTextMeeting.enabled = false;
+            }
             if (main.SyncButtonMode)
             {
                 if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
@@ -224,6 +270,33 @@ namespace TownOfHost
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(pc.getCustomRole() == CustomRoles.Sheriff && pc.Data.IsDead) {
                     pc.SendDM(main.getLang(lang.SheriffDeadMessage));
+                }
+            }
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
+    class MeetingHudUpdatePatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            foreach (var pva in __instance.playerStates)
+            {
+                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
+                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
+                if (RoleTextMeeting != null)
+                {
+                    var pc = PlayerControl.AllPlayerControls.ToArray()
+                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
+                        .FirstOrDefault();
+                    if (pc == null) return;
+
+                    var RoleTextData = main.GetRoleText(pc);
+                    RoleTextMeeting.text = RoleTextData.Item1;
+                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
+                    RoleTextMeeting.color = RoleTextData.Item2;
+                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
+                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
+                    else RoleTextMeeting.enabled = false;
                 }
             }
         }
