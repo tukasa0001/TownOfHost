@@ -162,7 +162,7 @@ namespace TownOfHost {
             writer.Write(KilledById);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPCProcedure.BeKilled(player.PlayerId, KilledBy.PlayerId);
+            RPCProcedure.BeKilled(player.PlayerId, KilledById);
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
