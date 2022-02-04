@@ -79,6 +79,8 @@ namespace TownOfHost
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
+                    int whenSkipVote = reader.ReadInt32();
+                    int whenNonVote = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -117,6 +119,8 @@ namespace TownOfHost
                         SabotageMasterFixesElectrical,
                         SyncButtonMode,
                         SyncedButtonCount,
+                        whenSkipVote,
+                        whenNonVote,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -182,6 +186,8 @@ namespace TownOfHost
                 bool SabotageMasterFixesElectrical,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
+                int whenSkipVote,
+                int whenNonVote,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -231,6 +237,9 @@ namespace TownOfHost
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
+
+            main.whenSkipVote = (VoteMode)whenSkipVote;
+            main.whenNonVote = (VoteMode)whenNonVote;
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;

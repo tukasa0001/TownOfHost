@@ -266,7 +266,9 @@ namespace TownOfHost
                         OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
-                        OptionPages.NoGameEnd
+                        OptionPages.NoGameEnd,
+                        OptionPages.WhenSkipVote,
+                        OptionPages.WhenNonVote
                     },
                     OptionPages.basepage
                 )},
@@ -459,6 +461,28 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
+                    {OptionPages.WhenSkipVote, new PageObject(
+                        () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(),
+                        false,
+                        () => {
+                            var next = main.whenSkipVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenSkipVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
+                    )},
+                    {OptionPages.WhenNonVote, new PageObject(
+                        () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(),
+                        false,
+                        () => {
+                            var next = main.whenNonVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenNonVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
+                    )},
                 {OptionPages.Suffix, new PageObject(
                     () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(),
                     false,
@@ -621,6 +645,8 @@ namespace TownOfHost
                     UploadData,
                     StartReactor,
                 NoGameEnd,
+                WhenSkipVote,
+                WhenNonVote,
             Suffix
     }
 }
