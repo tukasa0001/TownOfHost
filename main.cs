@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Globalization;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
@@ -69,6 +70,8 @@ namespace TownOfHost
         public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static VoteMode whenSkipVote = VoteMode.Default;
+        public static VoteMode whenNonVote = VoteMode.Default;
         public static string winnerList;
         public static int lastTaskComplete = 0;
         public static List<string> MessagesToSend;
@@ -756,6 +759,8 @@ namespace TownOfHost
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化する"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
                 {lang.SuffixMode, "名前の二行目"},
+                {lang.WhenSkipVote, "スキップ時"},
+                {lang.WhenNonVote, "無投票時"},
                 //その他
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
@@ -829,6 +834,8 @@ namespace TownOfHost
                 {lang.DisableUploadDataTask, "Disable UploadData Tasks"},
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
                 {lang.SuffixMode, "Suffix"},
+                {lang.WhenSkipVote, "When Skip Vote"},
+                {lang.WhenNonVote, "When Non-Vote"},
                 //その他
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
@@ -964,6 +971,8 @@ namespace TownOfHost
         DisableUploadDataTask,
         DisableStartReactorTask,
         SuffixMode,
+        WhenSkipVote,
+        WhenNonVote,
         //その他
         commandError,
         InvalidArgs,
@@ -1017,5 +1026,12 @@ namespace TownOfHost
     {
         Released = 0,
         Beta = 1
+    }
+
+    public enum VoteMode
+    {
+        Default,
+        Kill,
+        SelfVote
     }
 }
