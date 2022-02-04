@@ -177,7 +177,7 @@ When BountyHunter killed the target, the next killcooldown would haived.
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
-If Warlock kills when Warlock shapeshifted, he curses a crewmate.
+If Warlock shapeshifts and kills, he curses a crewmate.
 If Warlock kills another crewmate, the cursed crewmate will kill the nearest crewmate.
 
 ## Mode

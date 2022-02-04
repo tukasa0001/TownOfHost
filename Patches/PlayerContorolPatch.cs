@@ -95,24 +95,31 @@ namespace TownOfHost
                 if (main.WarlockCheck == true)
                 {
                     var target1 = main.WarlockTarget[0];
-                    Vector2 target1pos = target1.transform.position;
-                    Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
-                    float dis;
-                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                    if (target1.Data.IsDead)
                     {
-                        if(p != target1 && !p.Data.IsDead)
-                        {
-                            dis = Vector2.Distance(target1pos,p.transform.position);
-                            playerDistance.Add(p,dis);
-                        }
+                        main.WarlockCheck = false;
+                        main.WarlockTarget.Clear();
                     }
-                    var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
-                    PlayerControl target2 = min.Key;
-                    target1.RpcMurderPlayer(target2);
-                    __instance.RpcGuardAndKill(target);
-                    main.WarlockTarget.Clear();
-                    main.WarlockCheck = false;
-                    return false;
+                    else{
+                        Vector2 target1pos = target1.transform.position;
+                        Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
+                        float dis;
+                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                        {
+                            if(p != target1 && !p.Data.IsDead)
+                            {
+                                dis = Vector2.Distance(target1pos,p.transform.position);
+                                playerDistance.Add(p,dis);
+                            }
+                        }
+                        var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
+                        PlayerControl target2 = min.Key;
+                        target1.RpcMurderPlayer(target2);
+                        __instance.RpcGuardAndKill(target);
+                        main.WarlockTarget.Clear();
+                        main.WarlockCheck = false;
+                        return false;
+                    }
                 }
                 else
                 {
@@ -127,6 +134,11 @@ namespace TownOfHost
                     if (target != main.b_target)
                     {
                         __instance.RpcMurderPlayer(target);
+                    }
+                    if (main.b_target.Data.IsDead)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                        main.BountyCheck = false;
                     }
                     else
                     {
