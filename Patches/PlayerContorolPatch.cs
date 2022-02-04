@@ -203,6 +203,41 @@ namespace TownOfHost
                 }
 
                 if(__instance.AmOwner) main.ApplySuffix();
+
+                //Sheriffのベント対策処理
+                if(__instance.isSheriff()) {
+                    var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
+                    if(system != null) { //null対策
+                        var sw = new System.Diagnostics.Stopwatch();
+                        sw.Start();
+                        Logger.info("ベント対策処理開始:" + sw.ElapsedMilliseconds + "ms");
+                        (int, float) VentToUseData = (-1, 0f);
+                        //掃除するベントを指定
+                        foreach(var vent in ShipStatus.Instance.AllVents) {
+                            var distance = vent.CanUse(__instance.Data, out var canUse, out var couldUse);
+                            if((VentToUseData.Item2 > distance || VentToUseData.Item1 == -1) && distance < 1.25f) {
+                                VentToUseData = (vent.Id, distance);
+                            }
+                        }
+                        Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
+
+                        SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
+                        Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
+                            system.SeqBuffers, __instance.PlayerId, 
+                            (Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+                        );
+                        valueOrSetDefault.BumpSid();
+                        Logger.info("辞書改変処理開始:" + sw.ElapsedMilliseconds + "ms");
+                        if(VentToUseData.Item1 == -1)
+                            system.PlayersCleaningVents.Remove(__instance.PlayerId);
+                        else
+                            system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentToUseData.Item1;
+                        system.IsDirty = true;
+                        system.UpdateVentArrows();
+                        sw.Stop();
+                        Logger.info("ベント対策処理終了:" + sw.ElapsedMilliseconds + "ms");
+                    }
+                }
             }
             //各クライアントが全員分実行
             //役職テキストの表示

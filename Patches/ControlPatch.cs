@@ -49,28 +49,12 @@ namespace TownOfHost
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
             // | T | ホストデバッガ― | 全員をインポスターにするRPCを送る |
-            // | V | ホストデバッガ― | プレイヤー1にベント0を掃除させる |
             //====================
 
             if (Input.GetKeyDown(KeyCode.T) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
             {
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.RpcSetRole(RoleTypes.Impostor);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.V) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
-            {
-                var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-                if(system != null) {
-                    SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
-                    Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
-                        system.SeqBuffers, 0, 
-                        (Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
-                    );
-                    valueOrSetDefault.BumpSid();
-                    system.PlayersCleaningVents[0] = 0;
-                    system.IsDirty = true;
-                    system.UpdateVentArrows();
                 }
             }
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
