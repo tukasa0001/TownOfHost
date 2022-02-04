@@ -207,7 +207,7 @@ namespace TownOfHost
                 //Sheriffのベント対策処理
                 if(__instance.isSheriff()) {
                     var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-                    if(system != null) { //null対策
+                    if(system != null && system.SeqBuffers != null) { //null対策
                         var sw = new System.Diagnostics.Stopwatch();
                         sw.Start();
                         Logger.info("ベント対策処理開始:" + sw.ElapsedMilliseconds + "ms");
@@ -221,7 +221,6 @@ namespace TownOfHost
                         }
                         Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
 
-                        try{
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
                             system.SeqBuffers, __instance.PlayerId, 
@@ -235,9 +234,6 @@ namespace TownOfHost
                             system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentToUseData.Item1;
                         system.IsDirty = true;
                         system.UpdateVentArrows();
-                        } catch(System.Reflection.TargetInvocationException ex) {
-                            throw ex.InnerException;
-                        }
                         sw.Stop();
                         Logger.info("ベント対策処理終了:" + sw.ElapsedMilliseconds + "ms");
                     }
