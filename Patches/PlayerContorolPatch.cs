@@ -219,22 +219,24 @@ namespace TownOfHost
                                 VentToUseData = (vent.Id, distance);
                             }
                         }
-                        Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
+                        Logger.info("ベント列挙処理終了(" + VentToUseData.Item1 + ", " + VentToUseData.Item2 + "):" + sw.ElapsedMilliseconds + "ms");
 
                         /*SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
                             system.SeqBuffers, __instance.PlayerId,
                             (Il2CppSystem.Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
                         );*/
+                        Logger.info("コメントエリアを通過:" + sw.ElapsedMilliseconds + "ms");
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
-                        if(!system.SeqBuffers.TryGetValue(__instance.PlayerId, out valueOrSetDefault)) {
+                        Logger.info("valueOrSetDefault変数を定義:" + sw.ElapsedMilliseconds + "ms");
+                        if(!system.SeqBuffers.ContainsKey(__instance.PlayerId)) {
                             Logger.info("TryGetValueに失敗:" + sw.ElapsedMilliseconds + "ms");
                             valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
                             Logger.info("SequenceBufferを作成:" + sw.ElapsedMilliseconds + "ms");
                             system.SeqBuffers[__instance.PlayerId] = valueOrSetDefault;
                             Logger.info("SeqBuffers!新しいSequenceBufferよ!:" + sw.ElapsedMilliseconds + "ms");
-                        }
-                        Logger.info("valueOrSetDefault変数を作成:" + sw.ElapsedMilliseconds + "ms");
+                        } else valueOrSetDefault = system.SeqBuffers[__instance.PlayerId];
+                        Logger.info("valueOrSetDefault変数の準備を完了:" + sw.ElapsedMilliseconds + "ms");
                         valueOrSetDefault.BumpSid();
                         Logger.info("辞書改変処理開始:" + sw.ElapsedMilliseconds + "ms");
                         if(VentToUseData.Item1 == -1)
