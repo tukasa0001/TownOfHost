@@ -212,7 +212,7 @@ namespace TownOfHost
                         float VentDistance = 0f;
                         //掃除するベントを指定
                         foreach(var vent in ShipStatus.Instance.AllVents) {
-                            var distance = vent.CanUse(__instance.Data, out var canUse, out var couldUse);
+                            var distance = vent.CanUse(__instance.Data, out _, out _);
                             Logger.info("ID:" + vent.Id + ", Distance: " + distance);
                             if((VentDistance > distance || VentID == -1) && distance < 1.25f) {
                                 VentID = vent.Id;
