@@ -32,6 +32,35 @@ namespace TownOfHost
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
+                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
+                if(ps.VotedFor == 253 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//スキップ
+                {
+                    switch (main.whenSkipVote)
+                    {
+                        case VoteMode.Kill:
+                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            break;
+                        case VoteMode.SelfVote:
+                            ps.VotedFor = ps.TargetPlayerId;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if(ps.VotedFor == 254 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//無投票
+                {
+                    switch (main.whenNonVote)
+                    {
+                        case VoteMode.Kill:
+                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            break;
+                        case VoteMode.SelfVote:
+                            ps.VotedFor = ps.TargetPlayerId;
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 statesList.Add(new MeetingHud.VoterState() {
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
@@ -52,13 +81,13 @@ namespace TownOfHost
             Logger.info("===追放者確認処理開始===");
             foreach(var data in VotingData) {
                 Logger.info(data.Key + ": " + data.Value);
-                if(data.Value > max) {
+                if(data.Value > max)
+                {
                     Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
-                } else
-                if(data.Value == max) {
+                } else if(data.Value == max) {
                     Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                     exileId = byte.MaxValue;
                     tie = true;
