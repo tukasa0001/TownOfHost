@@ -221,7 +221,6 @@ namespace TownOfHost
                         }
                         Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
 
-                        try {
                         /*SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
                             system.SeqBuffers, __instance.PlayerId,
@@ -229,8 +228,11 @@ namespace TownOfHost
                         );*/
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
                         if(!system.SeqBuffers.TryGetValue(__instance.PlayerId, out valueOrSetDefault)) {
+                            Logger.info("TryGetValueに失敗:" + sw.ElapsedMilliseconds + "ms");
                             valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
+                            Logger.info("SequenceBufferを作成:" + sw.ElapsedMilliseconds + "ms");
                             system.SeqBuffers[__instance.PlayerId] = valueOrSetDefault;
+                            Logger.info("SeqBuffers!新しいSequenceBufferよ!:" + sw.ElapsedMilliseconds + "ms");
                         }
                         Logger.info("valueOrSetDefault変数を作成:" + sw.ElapsedMilliseconds + "ms");
                         valueOrSetDefault.BumpSid();
@@ -241,9 +243,6 @@ namespace TownOfHost
                             system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentToUseData.Item1;
                         system.IsDirty = true;
                         system.UpdateVentArrows();
-                        } catch (System.Reflection.TargetInvocationException ex){
-                            throw ex.InnerException.InnerException;
-                        }
                         sw.Stop();
                         Logger.info("ベント対策処理終了:" + sw.ElapsedMilliseconds + "ms");
                     }
