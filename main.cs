@@ -70,6 +70,7 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
+        public static int lastTaskComplete = 0;
         public static List<string> MessagesToSend;
 
         public static int SetRoleCountToggle(int currentCount)
@@ -564,36 +565,35 @@ namespace TownOfHost
                 string tmp;
                 if(main.hasTasks(p.Data))//タスク持ちの陣営
                 {
-                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color=#ffff00>({taskText})</color>";
-                    if(main.tmpNames[p.PlayerId] != tmp){p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                    p.RpcSetNamePrivate(tmp,true);
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
-                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate(tmp, true, t);
+                        if(t.Data.IsDead) p.RpcSetNamePrivate(tmp, true, t);
                         if(p.AllTasksCompleted() && p.isSnitch()){
-                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire())
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
                             {
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
                     }
                 }else{//タスクなしの陣営
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
-                        tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
-                        if(t.Data.IsDead && p.name != tmp) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire())
+                        if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
-                            }else{
-                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
-                        if(main.tmpNames[p.PlayerId] != tmp) {p.RpcSetNamePrivate(tmp,true);main.tmpNames[p.PlayerId] = tmp;}
                     }
+                    if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    p.RpcSetNamePrivate(tmp,true);
                 }
             }
         }
@@ -776,6 +776,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Ban the extraperson"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
+                {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 {lang.BountyHunterInfo, "Hunt your Bounty down"},
                 {lang.WarlockInfo, "Curse other players and kill everyone"},
                 //役職解説(長)

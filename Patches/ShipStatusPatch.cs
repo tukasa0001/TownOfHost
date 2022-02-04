@@ -50,7 +50,6 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                 }
             }
-            main.NotifyRoles();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]

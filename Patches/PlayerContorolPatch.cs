@@ -151,8 +151,8 @@ namespace TownOfHost
                 {
                     var rand = new System.Random();
                     main.BountyTargetPlayer = new List<PlayerControl>();
-                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead || p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-                    main.b_target = main.BountyTargetPlayer[rand.Next(0,PlayerControl.AllPlayerControls.Count - 1)];
+                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                    main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
                     main.BountyCheck = true;
                 }
                 return false;
@@ -277,7 +277,7 @@ namespace TownOfHost
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-            if (RoleText != null)
+            if (RoleText != null && __instance != null)
             {
                 var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
@@ -311,56 +311,6 @@ namespace TownOfHost
             roleText.enabled = false;
         }
     }
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-    class MeetingHudStartPatch
-    {
-        public static void Postfix(MeetingHud __instance)
-        {
-            foreach (var pva in __instance.playerStates)
-            {
-                var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
-                roleTextMeeting.transform.SetParent(pva.NameText.transform);
-                roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
-                roleTextMeeting.fontSize = 1.5f;
-                roleTextMeeting.text = "RoleTextMeeting";
-                roleTextMeeting.gameObject.name = "RoleTextMeeting";
-                roleTextMeeting.enabled = false;
-            }
-            if (main.SyncButtonMode)
-            {
-                if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
-            }
-        }
-    }
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-    class MeetingHudUpdatePatch
-    {
-        public static void Postfix(MeetingHud __instance)
-        {
-            foreach (var pva in __instance.playerStates)
-            {
-                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleTextMeeting != null)
-                {
-                    var pc = PlayerControl.AllPlayerControls.ToArray()
-                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
-                        .FirstOrDefault();
-                    if (pc == null) return;
-
-                    var RoleTextData = main.GetRoleText(pc);
-                    RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
-                    RoleTextMeeting.color = RoleTextData.Item2;
-                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
-                    else RoleTextMeeting.enabled = false;
-                }
-            }
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
     class SetColorPatch {
         public static bool IsAntiGlitchDisabled = false;
@@ -374,4 +324,14 @@ namespace TownOfHost
             return true;
         }
     }
+
+    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.RpcMurderPlayer))]
+    class RpcMurderPlayerPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            main.NotifyRoles();
+        }
+    }
+
 }

@@ -57,6 +57,7 @@ namespace TownOfHost
                 PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
+            main.NotifyRoles();
         }
     }
 }

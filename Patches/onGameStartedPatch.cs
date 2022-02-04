@@ -80,6 +80,12 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.tmpNames = new Dictionary<byte, string>();
 
+            var rand = new System.Random();
+            main.BountyTargetPlayer = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+            main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
+            main.BountyCheck = true;
+
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 main.RealNames[pc.PlayerId] = pc.name;
@@ -87,7 +93,7 @@ namespace TownOfHost
             }
 
             if(main.IsHideAndSeek) {
-                var rand = new System.Random();
+                rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
 
                 //Hide And Seek時の処理
