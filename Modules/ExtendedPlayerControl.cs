@@ -164,6 +164,51 @@ namespace TownOfHost {
 
             RPCProcedure.BeKilled(player.PlayerId, KilledById);
         }
+
+        public static void UpdateVentilationSystemDesync(this PlayerControl player, VentilationSystem.Operation op, int ventId, PlayerControl seer)
+        {
+            if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Ventilation)) return;
+            if(player == null) return;
+            var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
+            if(system == null) {
+                Logger.error("VentilationSystemへのCastに失敗しました");
+                return;
+            }
+            byte playerId = player.PlayerId;
+            int seerId;
+
+            if(seer == null) seerId = -1;
+            else seerId = seer.getClientId();
+
+            SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
+            Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
+                system.SeqBuffers, playerId, 
+                (Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+            );
+            ushort num = (ushort) ((uint) valueOrSetDefault.LastSid + 1U);
+            MessageWriter msgWriter = MessageWriter.Get((SendOption) 1);
+            msgWriter.Write(num);
+            msgWriter.Write((byte) op);
+            msgWriter.Write((byte) ventId);
+
+            //送信
+            if(seerId == -1)
+                ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Ventilation, msgWriter);
+            else {
+                if (AmongUsClient.Instance.AmHost && seer == PlayerControl.LocalPlayer) {
+                    MessageReader msgReader = MessageReader.Get(msgWriter.ToByteArray(false));
+                    ShipStatus.Instance.UpdateSystem(SystemTypes.Ventilation, PlayerControl.LocalPlayer, msgReader);
+                } else {
+                    MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte) 35, (SendOption) 1, seerId);
+                    messageWriter.Write((byte) SystemTypes.Ventilation);
+                    MessageExtensions.WriteNetObject(messageWriter, (InnerNetObject) player);
+                    messageWriter.Write(msgWriter, false);
+                    AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+                }
+            }
+            msgWriter.Recycle();
+            valueOrSetDefault.LastSid = num;
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
