@@ -208,15 +208,18 @@ namespace TownOfHost
                 if(__instance.isSheriff()) {
                     var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
                     if(system != null && system.SeqBuffers != null) { //null対策
-                        (int, float) VentToBlockData = (-1, 0f);
+                        int VentID = -1;
+                        float VentDistance = 0f;
                         //掃除するベントを指定
                         foreach(var vent in ShipStatus.Instance.AllVents) {
                             var distance = vent.CanUse(__instance.Data, out var canUse, out var couldUse);
-                            if((VentToBlockData.Item2 > distance || VentToBlockData.Item1 == -1) && distance < 1.25f) {
-                                VentToBlockData = (vent.Id, distance);
+                            Logger.info("ID:" + vent.Id + ", Distance: " + distance);
+                            if((VentDistance > distance || VentID == -1) && distance < 1.25f) {
+                                VentID = vent.Id;
+                                VentDistance = distance;
                             }
                         }
-                        Logger.info("VentToBlockData:(" + VentToBlockData.Item1 + ", " + VentToBlockData.Item2 + ")");
+                        Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
 
                         /*SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
@@ -230,10 +233,10 @@ namespace TownOfHost
                             system.SeqBuffers[__instance.PlayerId] = valueOrSetDefault;
                         } else valueOrSetDefault = system.SeqBuffers[__instance.PlayerId];
                         valueOrSetDefault.BumpSid();
-                        if(VentToBlockData.Item1 == -1)
+                        if(VentID == -1)
                             system.PlayersCleaningVents.Remove(__instance.PlayerId);
                         else
-                            system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentToBlockData.Item1;
+                            system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentID;
                         system.IsDirty = true;
                         system.UpdateVentArrows();
                     }
