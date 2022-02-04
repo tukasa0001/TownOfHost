@@ -35,17 +35,18 @@ namespace TownOfHost {
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcStartMeeting))]
-    class StartMeetingRPCPatch {
+    class StartMeetingRPCPatch { //そもそも呼び出されてない？
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo info) {
-            if(!AmongUsClient.Instance.AmHost) return true;
             if (AmongUsClient.Instance.AmClient)
                 __instance.StartCoroutine(__instance.CoStartMeeting(info));
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(pc.Data.IsDead && pc.isSheriff()) continue;
+                if(pc.Data.IsDead) Logger.SendInGame(pc.name + "は死んでいますが、Sheriffではないので問題ありません");
+                if(pc.isSheriff()) Logger.SendInGame(pc.name + "はSheriffですが、死んではいないので問題ありません");
                 int clientId = pc.getClientId();
-                MessageWriter msg = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte) 14, SendOption.Reliable, clientId);
-                msg.Write(info != null ? info.PlayerId : byte.MaxValue);
-                AmongUsClient.Instance.FinishRpcImmediately(msg);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte) 14, SendOption.Reliable, clientId);
+                writer.Write(info != null ? info.PlayerId : byte.MaxValue);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
             return false;
         }
