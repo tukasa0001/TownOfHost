@@ -222,12 +222,16 @@ namespace TownOfHost
                         Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
 
                         try {
-                        SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
+                        /*SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
-                            system.SeqBuffers, __instance.PlayerId, 
-                          //(Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
-                            (Il2CppSystem.Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>((ushort)0))
-                        );
+                            system.SeqBuffers, __instance.PlayerId,
+                            (Il2CppSystem.Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+                        );*/
+                        SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
+                        if(!system.SeqBuffers.TryGetValue(__instance.PlayerId, out valueOrSetDefault)) {
+                            valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
+                            system.SeqBuffers[__instance.PlayerId] = valueOrSetDefault;
+                        }
                         Logger.info("valueOrSetDefault変数を作成:" + sw.ElapsedMilliseconds + "ms");
                         valueOrSetDefault.BumpSid();
                         Logger.info("辞書改変処理開始:" + sw.ElapsedMilliseconds + "ms");
