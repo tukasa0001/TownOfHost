@@ -60,9 +60,17 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.V) && main.AmDebugger.Value && AmongUsClient.Instance.AmHost)
             {
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.PlayerId == 1)
-                    pc.UpdateVentilationSystemDesync(VentilationSystem.Operation.StartCleaning, 0, pc);
+                var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
+                if(system != null) {
+                    SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
+                    Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
+                        system.SeqBuffers, 0, 
+                        (Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+                    );
+                    valueOrSetDefault.BumpSid();
+                    system.PlayersCleaningVents[0] = 0;
+                    system.IsDirty = true;
+                    system.UpdateVentArrows();
                 }
             }
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
