@@ -34,6 +34,23 @@ namespace TownOfHost {
         }
     }
 
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcStartMeeting))]
+    class StartMeetingRPCPatch {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo info) {
+            if(!AmongUsClient.Instance.AmHost) return true;
+            if (AmongUsClient.Instance.AmClient)
+                __instance.StartCoroutine(__instance.CoStartMeeting(info));
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.Data.IsDead && pc.isSheriff()) continue;
+                int clientId = pc.getClientId();
+                MessageWriter msg = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte) 14, SendOption.Reliable, clientId);
+                msg.Write(info != null ? info.PlayerId : byte.MaxValue);
+                AmongUsClient.Instance.FinishRpcImmediately(msg);
+            }
+            return false;
+        }
+    }
+
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.IsGameOverDueToDeath))]
     class DontBlackoutPatch {
         public static void Postfix(ShipStatus __instance, ref bool __result) {
