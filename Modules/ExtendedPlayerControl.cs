@@ -168,7 +168,7 @@ namespace TownOfHost {
         public static void UpdateVentilationSystemDesync(this PlayerControl player, VentilationSystem.Operation op, int ventId, PlayerControl seer)
         {
             if (!ShipStatus.Instance.Systems.ContainsKey(SystemTypes.Ventilation)) return;
-            if(player == null) return;
+            if(player == null || seer ==  null) return;
             var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
             if(system == null) {
                 Logger.error("VentilationSystemへのCastに失敗しました");
@@ -191,14 +191,17 @@ namespace TownOfHost {
             msgWriter.Write((byte) op);
             msgWriter.Write((byte) ventId);
 
+            Logger.SendInGame("送信処理開始");
             //送信
             if(seerId == -1)
                 ShipStatus.Instance.RpcUpdateSystem(SystemTypes.Ventilation, msgWriter);
             else {
                 if (AmongUsClient.Instance.AmHost && seer == PlayerControl.LocalPlayer) {
+                    Logger.SendInGame("ホストに対する操作");
                     MessageReader msgReader = MessageReader.Get(msgWriter.ToByteArray(false));
                     ShipStatus.Instance.UpdateSystem(SystemTypes.Ventilation, PlayerControl.LocalPlayer, msgReader);
                 } else {
+                    Logger.SendInGame("他プレイヤーに対する操作");
                     MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte) 35, (SendOption) 1, seerId);
                     messageWriter.Write((byte) SystemTypes.Ventilation);
                     MessageExtensions.WriteNetObject(messageWriter, (InnerNetObject) player);
@@ -206,8 +209,10 @@ namespace TownOfHost {
                     AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
                 }
             }
+            Logger.SendInGame("送信処理終了");
             msgWriter.Recycle();
             valueOrSetDefault.LastSid = num;
+            Logger.SendInGame("ALL END");
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
