@@ -118,8 +118,9 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(target);
                         main.WarlockTarget.Clear();
                         main.WarlockCheck = false;
-                        return false;
                     }
+                    return false;
+                    
                 }
                 else
                 {
@@ -129,7 +130,7 @@ namespace TownOfHost
             }
             if (__instance.isBountyHunter())
             {
-                if (main.BountyCheck)
+                if (main.BountyCheck == true)
                 {
                     if (target != main.b_target)
                     {
