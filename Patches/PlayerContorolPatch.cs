@@ -221,11 +221,14 @@ namespace TownOfHost
                         }
                         Logger.info("ベント列挙処理終了:" + sw.ElapsedMilliseconds + "ms");
 
+                        try {
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
                         Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
                             system.SeqBuffers, __instance.PlayerId, 
-                            (Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+                          //(Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
+                            (Il2CppSystem.Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>((ushort)0))
                         );
+                        Logger.info("valueOrSetDefault変数を作成:" + sw.ElapsedMilliseconds + "ms");
                         valueOrSetDefault.BumpSid();
                         Logger.info("辞書改変処理開始:" + sw.ElapsedMilliseconds + "ms");
                         if(VentToUseData.Item1 == -1)
@@ -234,6 +237,9 @@ namespace TownOfHost
                             system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentToUseData.Item1;
                         system.IsDirty = true;
                         system.UpdateVentArrows();
+                        } catch (System.Reflection.TargetInvocationException ex){
+                            throw ex.InnerException.InnerException;
+                        }
                         sw.Stop();
                         Logger.info("ベント対策処理終了:" + sw.ElapsedMilliseconds + "ms");
                     }
