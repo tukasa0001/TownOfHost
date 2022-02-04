@@ -56,7 +56,6 @@ namespace TownOfHost
 
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomSubRoles> AllPlayerCustomSubRoles;
-
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -466,6 +465,8 @@ namespace TownOfHost
         public static int FoxCount;
         public static int TrollCount;
         public static int LoversCount;
+
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
         public static bool isLovers = false;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
@@ -627,6 +628,7 @@ namespace TownOfHost
                 if(main.hasTasks(p.Data))//タスク持ちの陣営
                 {
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                    if(p.isLovers()) tmp += $"<color=#ffaaaa>♡</color>";
                     p.RpcSetNamePrivate(tmp,true);
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
@@ -637,9 +639,15 @@ namespace TownOfHost
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
+                        if(p.isLovers() && t.isLovers())
+                        {
+                            t.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, p);
+                            p.FixedUpdate();
+                        }
                     }
                 }else{//タスクなしの陣営
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                    if(p.isLovers()) tmp += $"<color=#ffaaaa>♡</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
                         if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
                         if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
@@ -651,6 +659,11 @@ namespace TownOfHost
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
+                        }
+                        if(p.isLovers() && t.isLovers())
+                        {
+                            t.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, p);
+                            p.FixedUpdate();
                         }
                     }
                     if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";

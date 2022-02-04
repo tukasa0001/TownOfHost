@@ -27,6 +27,7 @@ namespace TownOfHost
             main.WarlockCheck = false;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
+            //TODO:LoversWinTrigger
             if (__instance.AmHost)
             {
 
@@ -77,6 +78,7 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             main.ApplySuffix();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomSubRoles>();
             main.RealNames = new Dictionary<byte, string>();
             main.tmpNames = new Dictionary<byte, string>();
 
@@ -186,6 +188,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
+                AssignCustomSubRolesFromList(CustomSubRoles.Lovers);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -206,7 +209,7 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
+        private static void AssignCustomRolesFromList(CustomRoles role,List<PlayerControl> players, int RawCount = -1) {
             if(players.Count <= 0) return;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
@@ -217,6 +220,23 @@ namespace TownOfHost
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
+            }
+        }
+
+        private static void AssignCustomSubRolesFromList(CustomSubRoles subRoles , int RawCount = -1) {
+            if(main.isLovers) {
+                main.LoversPlayers.Clear();//TODO:使わなくなるかもしれないが一旦置き
+                
+                var rand = new System.Random();
+                var count = 2;
+
+                for(var i = 0; i < count; i++) {
+                    var player = PlayerControl.AllPlayerControls[rand.Next(0, PlayerControl.AllPlayerControls.Count - 1)];
+                
+                    main.AllPlayerCustomSubRoles[player.PlayerId] = subRoles;
+                    main.LoversPlayers.Add(player);
+                    Logger.info("サブ役職設定:" + player.name + " = " + subRoles.ToString());
+                }
             }
         }
     }
