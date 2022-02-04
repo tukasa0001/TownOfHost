@@ -83,7 +83,14 @@ namespace TownOfHost {
                         break;
                 }
             }
-            return cRole;
+            if(cRoleFound) return cRole;
+            else return CustomRoles.Default;
+        }
+        public static CustomSubRoles getCustomSubRole(this PlayerControl player) {
+            // TODO:要動作確認
+            var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomSubRoles.Default;
         }
 
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
@@ -138,5 +145,6 @@ namespace TownOfHost {
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
+        public static bool isLovers(this PlayerControl target){return target.getCustomSubRole() == CustomSubRoles.Lovers;}
     }
 }
