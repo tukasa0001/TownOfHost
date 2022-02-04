@@ -54,17 +54,16 @@ namespace TownOfHost
                 var ImpostorCount = 0;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor &&
-                         !pc.Data.IsDead) ImpostorCount++;
+                    if (pc.Data.Role.Role == RoleTypes.Impostor &&　!pc.Data.IsDead) ImpostorCount++;
                 }
                 Logger.SendToFile("ImpostorCount: " + ImpostorCount);
                 if (ImpostorCount > 0)
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
-                }
-                else
+                } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
+                }
             }
             if(target.isMadGuardian()) {
                 var isTaskFinished = true;
@@ -99,8 +98,7 @@ namespace TownOfHost
                     {
                         main.WarlockCheck = false;
                         main.WarlockTarget.Clear();
-                    }
-                    else{
+                    } else {
                         Vector2 target1pos = target1.transform.position;
                         Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
                         float dis;
@@ -120,10 +118,7 @@ namespace TownOfHost
                         main.WarlockCheck = false;
                     }
                     return false;
-                    
-                }
-                else
-                {
+                } else {
                     __instance.RpcMurderPlayer(target);
                     return false;
                 }
@@ -147,9 +142,7 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(main.b_target);
                         main.BountyCheck = false;
                     }
-                }
-                else
-                {
+                } else {
                     var rand = new System.Random();
                     main.BountyTargetPlayer = new List<PlayerControl>();
                     foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
@@ -290,9 +283,7 @@ namespace TownOfHost
                 if (__instance.AmOwner) RoleText.enabled = true;
                 else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
                 else RoleText.enabled = false;
-                if (!AmongUsClient.Instance.IsGameStarted &&
-                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-                    RoleText.enabled = false;
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false;
                 if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
                     RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.Data.Tasks) + ")</color>";
             }

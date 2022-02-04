@@ -533,8 +533,10 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if(nickName != "") name = nickName;
-            if(!AmongUsClient.Instance.IsGameStarted) {
-                switch(currentSuffix) {
+            if(!AmongUsClient.Instance.IsGameStarted)
+            {
+                switch(currentSuffix)
+                {
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
