@@ -220,13 +220,6 @@ namespace TownOfHost
                             }
                         }
                         Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
-
-                        /*SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault = 
-                        Extensions.GetValueOrSetDefault<byte, SequenceBuffer<VentilationSystem.VentMoveInfo>>(
-                            system.SeqBuffers, __instance.PlayerId,
-                            (Il2CppSystem.Func<SequenceBuffer<VentilationSystem.VentMoveInfo>>) (() => new SequenceBuffer<VentilationSystem.VentMoveInfo>())
-                        );*/
-
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
                         if(!system.SeqBuffers.ContainsKey(__instance.PlayerId)) {
                             valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
