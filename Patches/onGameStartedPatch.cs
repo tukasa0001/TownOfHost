@@ -213,6 +213,7 @@ namespace TownOfHost
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
+                HudManager.Instance.SetHudActive(true);
 
                 main.NotifyRoles();
 

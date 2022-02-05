@@ -321,6 +321,7 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
+            HudManager.Instance.SetHudActive(true);
         }
         public static void BeKilled(byte targetId, byte KilledById) {
             PlayerControl me = PlayerControl.LocalPlayer;
