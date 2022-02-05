@@ -27,8 +27,7 @@ namespace TownOfHost {
                     MessageExtensions.WriteNetObject(writer, target); //writer.WriteNetObject(player);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
-                target.RpcGuardAndKill(__instance);
-                new LateTask(() => target.RpcBeKilled(__instance), 0.4f, "SheriffKillDesyncTask");
+                target.RpcBeKilled(__instance);
                 return false;
             }
             return true;
