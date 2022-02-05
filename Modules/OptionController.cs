@@ -42,7 +42,7 @@ namespace TownOfHost
                         OptionPages.Mayor,
                         OptionPages.Snitch,
                         OptionPages.BountyHunter,
-                        OptionPages.Warlock,
+                        // OptionPages.Warlock,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage

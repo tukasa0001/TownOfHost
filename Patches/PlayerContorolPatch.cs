@@ -38,6 +38,17 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (__instance.isWarlock())
+            {
+                main.WarlockShapeshiftCheck++;
+            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -85,12 +96,24 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (__instance.CurrentOutfitType == PlayerOutfitType.Shapeshifted && main.WarlockCheck == false)
+                Logger.info($"WarlockShapeshiftCheck:{main.WarlockShapeshiftCheck}");
+                Logger.info($"WarlockCheck:{main.WarlockCheck}");
+                if (main.WarlockCheck == false)
                 {
-                    __instance.RpcGuardAndKill(target);
-                    main.WarlockTarget.Add(target);
-                    main.WarlockCheck = true;
-                    return false;
+                    int whitch = main.WarlockShapeshiftCheck % 2;
+                    Logger.info($"whitch:{whitch}");
+                    if (1 == whitch)
+                    {
+                        __instance.RpcGuardAndKill(target);
+                        main.WarlockTarget.Add(target);
+                        main.WarlockCheck = true;
+                        return false;
+                    }
+                    if (0 == whitch)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                        return false;
+                    }
                 }
                 if (main.WarlockCheck == true)
                 {
@@ -115,40 +138,34 @@ namespace TownOfHost
                         var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
                         PlayerControl target2 = min.Key;
                         target1.RpcMurderPlayer(target2);
-                        __instance.RpcGuardAndKill(target);
+                        __instance.RpcMurderPlayer(target);
                         main.WarlockTarget.Clear();
                         main.WarlockCheck = false;
                     }
                     return false;
                     
                 }
-                else
-                {
-                    __instance.RpcMurderPlayer(target);
-                    return false;
-                }
             }
             if (__instance.isBountyHunter())
             {
                 if (main.BountyCheck == true)
                 {
+                    if (main.b_target.Data.IsDead)
+                    {
+                        main.BountyCheck = false;
+                    }
                     if (target != main.b_target)
                     {
                         __instance.RpcMurderPlayer(target);
                     }
-                    if (main.b_target.Data.IsDead)
+                    else if (target == main.b_target)
                     {
                         __instance.RpcMurderPlayer(target);
-                        main.BountyCheck = false;
-                    }
-                    else
-                    {
-                        __instance.RpcMurderPlayer(main.b_target);
-                        __instance.RpcGuardAndKill(main.b_target);
+                        __instance.RpcGuardAndKill(target);
                         main.BountyCheck = false;
                     }
                 }
-                else
+                if (main.BountyCheck == false)
                 {
                     var rand = new System.Random();
                     main.BountyTargetPlayer = new List<PlayerControl>();

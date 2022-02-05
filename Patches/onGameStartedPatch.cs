@@ -23,8 +23,8 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargetPlayer = new List<PlayerControl>();
             main.WarlockTarget = new List<PlayerControl>();
-            main.BountyCheck = false;
             main.WarlockCheck = false;
+            main.WarlockShapeshiftCheck = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             if (__instance.AmHost)

@@ -417,6 +417,7 @@ namespace TownOfHost
         public static List <PlayerControl> WarlockTarget = new List<PlayerControl>();
         public static bool WarlockCheck;
         public static bool BountyCheck;
+        public static int WarlockShapeshiftCheck;
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
