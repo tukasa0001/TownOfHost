@@ -89,12 +89,6 @@ namespace TownOfHost
                     "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
                     if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                        __instance.KillButton.enabled = true;
-                        __instance.KillButton.Show();
-                    } else {
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
-                        __instance.KillButton.enabled = false;
-                        __instance.KillButton.Hide();
                     }
                     break;
             }
@@ -159,6 +153,16 @@ namespace TownOfHost
             if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && 
             __instance.Data.Role.Role != RoleTypes.GuardianAngel) {
                 protecting = true;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    class SetHudActivePatch {
+        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                __instance.SabotageButton.ToggleVisible(false);
+                __instance.ImpostorVentButton.ToggleVisible(false);
             }
         }
     }
