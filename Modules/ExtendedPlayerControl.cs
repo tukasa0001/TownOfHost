@@ -91,7 +91,7 @@ namespace TownOfHost {
             //seer: 上の変更を確認することができるプレイヤー
             if(player == null || name == null) return;
             if(seer == null) seer = player;
-            Logger.info($"{player.name}:{name} => {seer.name}");
+            //Logger.info($"{player.name}:{name} => {seer.name}");
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
