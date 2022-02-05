@@ -94,9 +94,6 @@ namespace TownOfHost
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
             }
 
-            if(Input.GetKeyDown(KeyCode.Alpha9)) __instance.KillButton.graphic.sprite = TranslationController.Instance.GetImage(ImageNames.AdminMapButton);
-            if(Input.GetKeyDown(KeyCode.Alpha0)) __instance.KillButton.graphic.sprite = TranslationController.Instance.GetImage(ImageNames.KillButton);
-
             if (main.OptionControllerIsEnable)
             {
                 __instance.GameSettings.text = CustomOptionController.GetOptionText();
