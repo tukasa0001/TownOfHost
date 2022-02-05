@@ -274,14 +274,15 @@ namespace TownOfHost
                 }
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
-                if (__instance.AmOwner) RoleText.enabled = true;
-                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
-                else RoleText.enabled = false;
-                if (!AmongUsClient.Instance.IsGameStarted &&
-                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-                    RoleText.enabled = false;
-                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
-                    RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.Data.Tasks) + ")</color>";
+
+                if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
+                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
+                else RoleText.enabled = false; //そうでなければロールを非表示
+
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                if (__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{main.nameSuffix}"; //自分なら名前に接尾詞を追加
             }
         }
     }

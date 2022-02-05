@@ -77,6 +77,7 @@ namespace TownOfHost
         public static string winnerList;
         public static int lastTaskComplete = 0;
         public static List<string> MessagesToSend;
+        public static string nameSuffix;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -657,6 +658,8 @@ namespace TownOfHost
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                if(p.AmOwner) main.nameSuffix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                if(p.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
