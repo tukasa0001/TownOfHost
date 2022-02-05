@@ -34,25 +34,6 @@ namespace TownOfHost {
         }
     }
 
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcStartMeeting))]
-    class StartMeetingRPCPatch { //そもそも呼び出されてない？
-        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo info) {
-            Logger.SendInGame("RpcStartMeeting が実行されました");
-            if (AmongUsClient.Instance.AmClient)
-                __instance.StartCoroutine(__instance.CoStartMeeting(info));
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.Data.IsDead && pc.isSheriff()) continue;
-                if(pc.Data.IsDead) Logger.SendInGame(pc.name + "は死んでいますが、Sheriffではないので問題ありません");
-                if(pc.isSheriff()) Logger.SendInGame(pc.name + "はSheriffですが、死んではいないので問題ありません");
-                int clientId = pc.getClientId();
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte) 14, SendOption.Reliable, clientId);
-                writer.Write(info != null ? info.PlayerId : byte.MaxValue);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-            return false;
-        }
-    }
-
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.IsGameOverDueToDeath))]
     class DontBlackoutPatch {
         public static void Postfix(ShipStatus __instance, ref bool __result) {
