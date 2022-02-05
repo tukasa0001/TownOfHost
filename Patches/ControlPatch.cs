@@ -48,7 +48,7 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
-            // | H | フリープレイ中 | 自分をシェリフにする |
+            // | H | フリープレイ中 | 自分をマフィアにする |
             //====================
 
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
@@ -57,7 +57,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.H) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
-                PlayerControl.LocalPlayer.SetCustomRole(CustomRoles.Sheriff);
+                PlayerControl.LocalPlayer.SetCustomRole(CustomRoles.Mafia);
             }
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
             {

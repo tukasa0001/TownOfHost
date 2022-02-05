@@ -41,7 +41,7 @@ namespace TownOfHost {
                 int AliveImpostorCount = 0;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     CustomRoles pc_role = pc.getCustomRole();
-                    if(role.isImpostor() && !pc.Data.IsDead && role != CustomRoles.Mafia) AliveImpostorCount++;
+                    if(pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
                 }
                 if(AliveImpostorCount > 0) canUse = false; 
             }
