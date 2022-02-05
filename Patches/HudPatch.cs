@@ -55,7 +55,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getLang(lang.TerroristInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
-                    if (CustomRoles.Mafia.CanUseKillButton())
+                    if (!CustomRoles.Mafia.CanUseKillButton())
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;

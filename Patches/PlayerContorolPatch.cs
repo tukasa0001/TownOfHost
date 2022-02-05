@@ -51,14 +51,7 @@ namespace TownOfHost
             }
             if (__instance.isMafia())
             {
-                var ImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor &&
-                         !pc.Data.IsDead) ImpostorCount++;
-                }
-                Logger.SendToFile("ImpostorCount: " + ImpostorCount);
-                if (ImpostorCount > 0)
+                if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
