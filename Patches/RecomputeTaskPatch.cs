@@ -42,7 +42,8 @@ namespace TownOfHost
                 string taskText = main.getTaskText(p.Data.Tasks);
                 if(main.hasTasks(p.Data))
                 {
-                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole())}</size>\r\n{p.name}</color><color=#ffff00>({taskText})</color>", true, p);
+                    string SheriffDeadMark = p.getCustomRole() == CustomRoles.Sheriff && p.Data.IsDead ? "<color=red>(DEAD)</color>" : "";
+                    p.RpcSetNamePrivate($"<color={main.getRoleColorCode(p.getCustomRole())}><size=1.5>{main.getRoleName(p.getCustomRole()) + SheriffDeadMark}</size>\r\n{p.name}</color><color=#ffff00>({taskText})</color>", true, p);
                     if(p.AllTasksCompleted() && p.isSnitch()){
                         foreach(var t in PlayerControl.AllPlayerControls)
                         {
