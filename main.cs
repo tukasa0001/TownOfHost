@@ -293,7 +293,7 @@ namespace TownOfHost
                 AllTasksCount++;
                 if (task.Complete) CompletedTaskCount++;
             }
-            return $"{CompletedTaskCount/AllTasksCount}";
+            return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
         public static void ShowActiveRoles()
