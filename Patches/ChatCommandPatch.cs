@@ -36,7 +36,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        main.nickName = args[1];
+                        if(args.Length > 1){main.nickName = args[1];}
                         break;
                     
                     case "/n":
@@ -102,7 +102,7 @@ namespace TownOfHost
                                     case "sbm":
                                         main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                                         break;
-                                    
+
                                     default:
                                         main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
                                         break;
@@ -137,57 +137,57 @@ namespace TownOfHost
                 case "je":
                     main.SendToAll(main.getLang(lang.JesterInfoLong));
                     break;
-                    
+
                 case "madmate":
                 case "ma":
                     main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     break;
-                    
+
                 case "bait":
                 case "ba":
                     main.SendToAll(main.getLang(lang.BaitInfoLong));
                     break;
-                    
+
                 case "terrorist":
                 case "te":
                     main.SendToAll(main.getLang(lang.TerroristInfoLong));
                     break;
-                    
+
                 case "mafia":
                 case "maf":
                     main.SendToAll(main.getLang(lang.MafiaInfoLong));
                     break;
-                    
+
                 case "vampire":
                 case "va":
                     main.SendToAll(main.getLang(lang.VampireInfoLong));
                     break;
-                    
+
                 case "sabotagemaster":
                 case "sa":
                     main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                     break;
-                    
+
                 case "mayor":
                 case "may":
                     main.SendToAll(main.getLang(lang.MayorInfoLong));
                     break;
-                    
+
                 case "madguardian":
                 case "mad":
                     main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                     break;
-                    
+
                 case "opportunist":
                 case "op":
                     main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                     break;
-                    
+
                 case "snitch":
                 case "sn":
                     main.SendToAll(main.getLang(lang.SnitchInfoLong));
                     break;
-                
+
                 case "bountyhunter":
                 case "bo":
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
@@ -197,12 +197,12 @@ namespace TownOfHost
                 case "wa":
                     main.SendToAll(main.getLang(lang.WarlockInfoLong));
                     break;
-                   
+
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
                     break;
-                    
+
                 case "troll":
                 case "tr":
                     main.SendToAll(main.getLang(lang.TrollInfoLong));
@@ -213,26 +213,6 @@ namespace TownOfHost
                     break;
             }
 
-        }
-        public static bool getCommand(string command, string text, out string arg)
-        {
-            arg = "";
-            var isValid = text.StartsWith(command + " ");
-            if (isValid)
-                arg = text.Substring(command.Length + 1);
-            if (text == command) isValid = true;
-            return isValid;
-        }
-        public static string CommandReturn(lang prefixID, lang textID)
-        {
-            var text = "";
-            text = main.getLang(prefixID);
-            return text.Replace("%1$", main.getLang(textID));
-        }
-        public static string getOnOff(bool value)
-        {
-            if (value) return main.getLang(lang.ON);
-            else return main.getLang(lang.OFF);
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]

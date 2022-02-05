@@ -56,16 +56,11 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Mafia:
                     var ImpostorCount = 0;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
-                    }
+                    foreach (var pc in PlayerControl.AllPlayerControls)if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
                     if (ImpostorCount > 0)
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
-                    }
-                    else
-                    {
+                    } else {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
                     }
                     break;
@@ -92,10 +87,7 @@ namespace TownOfHost
                     break;
             }
 
-            if (!__instance.TaskText.text.Contains(TaskTextPrefix))
-            {
-                __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
-            }
+            if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
             if (main.OptionControllerIsEnable)
             {
@@ -108,21 +100,25 @@ namespace TownOfHost
                 __instance.GameSettings.fontSizeMax = 1.3f;
             }
 
-            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
-                if (PlayerControl.LocalPlayer.AmOwner) {
+                if (PlayerControl.LocalPlayer.AmOwner)
+                {
                     PlayerControl.LocalPlayer.MyPhysics.inputHandler.enabled = true;
                     ConsoleJoystick.SetMode_Task();
                 }
             }
 
             if(AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
-            if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
+            if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
+            if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
                 if(Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if(Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
                 if(Input.GetKeyDown(KeyCode.Alpha2)) RepairSender.Input(2);
@@ -138,15 +134,18 @@ namespace TownOfHost
             }
         }
     }
-    class RepairSender {
+    class RepairSender
+    {
         public static bool enabled = false;
         public static bool TypingAmount = false;
 
         public static int SystemType;
         public static int amount;
 
-        public static void Input(int num) {
-            if(!TypingAmount) {
+        public static void Input(int num)
+        {
+            if(!TypingAmount)
+            {
                 //SystemType入力中
                 SystemType = SystemType * 10;
                 SystemType += num;
@@ -156,8 +155,10 @@ namespace TownOfHost
                 amount += num;
             }
         }
-        public static void InputEnter() {
-            if(!TypingAmount) {
+        public static void InputEnter()
+        {
+            if(!TypingAmount)
+            {
                 //SystemType入力中
                 TypingAmount = true;
             } else {
@@ -165,16 +166,19 @@ namespace TownOfHost
                 send();
             }
         }
-        public static void send() {
+        public static void send()
+        {
             ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
             Reset();
         }
-        public static void Reset() {
+        public static void Reset()
+        {
             TypingAmount = false;
             SystemType = 0;
             amount = 0;
         }
-        public static string getText() {
+        public static string getText()
+        {
             return SystemType.ToString() + "(" + ((SystemTypes)SystemType).ToString() + ")\r\n" + amount;
         }
     }

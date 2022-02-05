@@ -75,6 +75,7 @@ namespace TownOfHost
         public static string winnerList;
         public static int lastTaskComplete = 0;
         public static List<string> MessagesToSend;
+        public static string nameSuffix;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -119,13 +120,11 @@ namespace TownOfHost
             string hexColor;
             roleColors.TryGetValue(role, out hexColor);
             MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
-            //return new Color(Convert.ToInt32(matches[0].Value,16),Convert.ToInt32(matches[1].Value,16),Convert.ToInt32(matches[2].Value,16));
             return new Color(Convert.ToInt32(matches[0].Value,16)/255f,Convert.ToInt32(matches[1].Value,16)/255f,Convert.ToInt32(matches[2].Value,16)/255f);
         }
         public static string getRoleColorCode(CustomRoles role)
         {
-            string hexColor;
-            if(!roleColors.TryGetValue(role, out hexColor))hexColor = "#ffffff";
+            if(!roleColors.TryGetValue(role, out var hexColor))hexColor = "#ffffff";
             return hexColor;
         }
         public static int GetCountFromRole(CustomRoles role) {
@@ -272,11 +271,9 @@ namespace TownOfHost
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == CustomRoles.Fox ||
-                    role == CustomRoles.Troll) hasTasks = false;
+                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
-
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if(cRoleFound) {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
@@ -290,7 +287,6 @@ namespace TownOfHost
         }
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
         {
-            string taskText = "";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
             foreach (var task in tasks)
@@ -298,8 +294,7 @@ namespace TownOfHost
                 AllTasksCount++;
                 if (task.Complete) CompletedTaskCount++;
             }
-            taskText = CompletedTaskCount + "/" + AllTasksCount;
-            return taskText;
+            return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
         public static void ShowActiveRoles()
@@ -391,7 +386,6 @@ namespace TownOfHost
 
         }
         public static Dictionary<byte, string> RealNames;
-        public static Dictionary<byte, string> tmpNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
@@ -541,8 +535,10 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if(nickName != "") name = nickName;
-            if(!AmongUsClient.Instance.IsGameStarted) {
-                switch(currentSuffix) {
+            if(!AmongUsClient.Instance.IsGameStarted)
+            {
+                switch(currentSuffix)
+                {
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
@@ -559,8 +555,7 @@ namespace TownOfHost
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public static PlayerControl getPlayerById(int PlayerId) {
-            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
-            return player;
+            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -594,11 +589,14 @@ namespace TownOfHost
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                if(p.AmOwner) main.nameSuffix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                if(p.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
                                 t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
                             }
                         }
                     }
                     if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    if(p.isBountyHunter() && p.AmOwner)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     p.RpcSetNamePrivate(tmp,true);
                 }
             }
