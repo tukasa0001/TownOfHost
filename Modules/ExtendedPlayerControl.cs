@@ -165,6 +165,10 @@ namespace TownOfHost {
             RPCProcedure.BeKilled(player.PlayerId, KilledById);
         }
 
+        public static GameOptionsData DeepCopy(this GameOptionsData opt) {
+            var optByte = opt.ToBytes(5);
+            return GameOptionsData.FromBytes(optByte);
+        }
 
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
