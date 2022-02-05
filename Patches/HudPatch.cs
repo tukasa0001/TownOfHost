@@ -84,21 +84,19 @@ namespace TownOfHost
                 case CustomRoles.Snitch:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
                     break;
-            }
-            //Sheriff
-            if (PlayerControl.LocalPlayer.isSheriff())
-            {
-                TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
-                "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
-                if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
-                    PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    __instance.KillButton.enabled = true;
-                    __instance.KillButton.Show();
-                } else {
-                    PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
-                    __instance.KillButton.enabled = false;
-                    __instance.KillButton.Hide();
-                }
+                case CustomRoles.Sheriff:
+                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
+                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                        __instance.KillButton.enabled = true;
+                        __instance.KillButton.Show();
+                    } else {
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
+                        __instance.KillButton.enabled = false;
+                        __instance.KillButton.Hide();
+                    }
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
