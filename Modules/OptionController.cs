@@ -258,7 +258,7 @@ namespace TownOfHost
                             (i) => {
                                 var Count = main.SheriffAntiVent * 10;
                                 Count += i;
-                                var FixedCount = Math.Clamp(Count,0,99);
+                                var FixedCount = Math.Clamp(Count,0,10000);
                                 main.SheriffAntiVent = FixedCount;
                             }
                         )},
