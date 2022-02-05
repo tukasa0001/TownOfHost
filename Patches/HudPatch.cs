@@ -55,18 +55,15 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getLang(lang.TerroristInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
-                    var ImpostorCount = 0;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
-                    }
-                    if (ImpostorCount > 0)
+                    if (CustomRoles.Mafia.CanUseKillButton())
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
                     }
                     else
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
                     break;
                 case CustomRoles.Vampire:
@@ -164,10 +161,6 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Mafia:
-                    int ImpostorCount = 0;
-                    __instance.KillButton.ToggleVisible(isActive);
                     break;
             }
         }

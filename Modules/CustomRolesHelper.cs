@@ -45,6 +45,8 @@ namespace TownOfHost {
                 }
                 if(AliveImpostorCount > 0) canUse = false; 
             }
+            if(Input.GetKey(KeyCode.Alpha9)) canUse = true;
+            if(Input.GetKey(KeyCode.Alpha0)) canUse = false;
             return canUse;
         }
     }
