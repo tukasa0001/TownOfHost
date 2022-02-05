@@ -17,7 +17,7 @@ namespace TownOfHost
     class TextureManager {
         internal delegate bool LoadImageDelegate(IntPtr tex, IntPtr data, bool markNonReadable);
         internal static LoadImageDelegate LoadImage;
-        public static Sprite loadCustomButtonSprite(string path) {
+        public static Sprite loadSprite(string path) {
             //画像サイズは150*150
             if(LoadImage == null)
                 LoadImage = IL2CPP.ResolveICall<LoadImageDelegate>("UnityEngine.ImageConversion::LoadImage");
