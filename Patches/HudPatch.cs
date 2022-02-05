@@ -91,7 +91,7 @@ namespace TownOfHost
 
             if(Input.GetKeyDown(KeyCode.Alpha0))
                 __instance.KillButton.graphic.sprite = 
-                TextureManager.loadCustomButtonSprite("Resources\\CustomKillButton.png");
+                TextureManager.loadCustomButtonSprite("Resources\\SheriffKillButton.png");
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
