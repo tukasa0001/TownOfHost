@@ -37,6 +37,7 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcStartMeeting))]
     class StartMeetingRPCPatch { //そもそも呼び出されてない？
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo info) {
+            Logger.SendInGame("RpcStartMeeting が実行されました");
             if (AmongUsClient.Instance.AmClient)
                 __instance.StartCoroutine(__instance.CoStartMeeting(info));
             foreach(var pc in PlayerControl.AllPlayerControls) {

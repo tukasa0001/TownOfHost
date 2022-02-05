@@ -213,13 +213,14 @@ namespace TownOfHost
                         //掃除するベントを指定
                         foreach(var vent in ShipStatus.Instance.AllVents) {
                             var distance = vent.CanUse(__instance.Data, out _, out _);
-                            Logger.info("ID:" + vent.Id + ", Distance: " + distance);
+                            //Logger.info("ID:" + vent.Id + ", Distance: " + distance);
                             if((VentDistance > distance || VentID == -1) && distance < 1.25f) {
                                 VentID = vent.Id;
                                 VentDistance = distance;
                             }
                         }
-                        Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
+                        VentID = 0;
+                        //Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
                         if(!system.SeqBuffers.ContainsKey(__instance.PlayerId)) {
                             valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
