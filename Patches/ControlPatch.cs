@@ -49,6 +49,7 @@ namespace TownOfHost
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
             // | H | フリープレイ中 | 自分をマフィアにする |
+            // https://github.dev/ からのアクセス&編集テスト
             //====================
 
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
