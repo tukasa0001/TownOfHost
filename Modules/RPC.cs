@@ -33,12 +33,12 @@ namespace TownOfHost
     class RPCHandlerPatch {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
             byte packetID = callId;
-            Logger.SendInGame("RPC:" + packetID);
             switch (packetID)
             {
                 case 6: //SetNameRPC
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
+                    Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
                     if(!DontShowOnModdedClient) __instance.SetName(name);
                     return false;
             }
