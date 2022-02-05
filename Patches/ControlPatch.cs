@@ -174,4 +174,11 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.TrueSpeed), MethodType.Getter)]
+    class TrueSpeedPatch {
+        public static void Postfix(ref float speed) {
+            if(AmongUsClient.Instance.GameMode == GameModes.FreePlay &&
+            Input.GetKey(KeyCode.LeftShift)) speed = speed * 3;
+        }
+    }
 }

@@ -89,6 +89,10 @@ namespace TownOfHost
                     break;
             }
 
+            if(Input.GetKeyDown(KeyCode.Alpha0))
+                __instance.KillButton.graphic.sprite = 
+                TextureManager.loadCustomButtonSprite("Resources\\CustomKillButton.png");
+
             if (!__instance.TaskText.text.Contains(TaskTextPrefix))
             {
                 __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
