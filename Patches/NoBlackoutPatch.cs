@@ -28,6 +28,7 @@ namespace TownOfHost {
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
                 target.RpcBeKilled(__instance);
+                //new LateTask(() => target.RpcGuardAndKill(__instance), 0.2f, "SheriffGuardAndKillTask");
                 return false;
             }
             return true;
