@@ -123,5 +123,23 @@ namespace TownOfHost
                 if(__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
             }
         }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+    public class GameStartRandomMap
+        {
+            public static bool Prefix(GameStartRandomMap __instance)
+            {
+                bool continueStart = true;
+                var rand = new System.Random();
+                System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
+                RandomMaps.Add(0);
+                RandomMaps.Add(1);
+                RandomMaps.Add(2);
+                RandomMaps.Add(3);
+                RandomMaps.Add(4);
+                var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+                PlayerControl.GameOptions.MapId = MapsId;
+                return continueStart;
+            }
+        }
     }
 }
