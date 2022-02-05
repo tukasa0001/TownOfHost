@@ -165,7 +165,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
     class FixedUpdatePatch
     {
-        public static ShapeshifterEvidence pointer;
         public static void Postfix(PlayerControl __instance)
         {
             if (AmongUsClient.Instance.AmHost)
