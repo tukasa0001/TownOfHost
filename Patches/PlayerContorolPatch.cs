@@ -365,4 +365,17 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
+    class CoEnterVentPatch {
+        public static void Postfix(PlayerPhysics __instance) {
+            if(AmongUsClient.Instance.AmHost){
+                if(__instance.myPlayer.isSheriff()) {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
+                    writer.WritePacked(127);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    __instance.StopAllCoroutines();
+                }
+            }
+        }
+    }
 }
