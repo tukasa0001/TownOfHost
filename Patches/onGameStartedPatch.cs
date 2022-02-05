@@ -227,7 +227,11 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます
-                
+                new LateTask(() => {
+                    foreach(var pc in PlayerControl.AllPlayerControls) {
+                        pc.RpcSetRole(RoleTypes.Shapeshifter);
+                    }
+                }, 3f, "SetImpostorForServer");
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
 
