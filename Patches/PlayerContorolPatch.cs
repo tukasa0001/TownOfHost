@@ -204,52 +204,6 @@ namespace TownOfHost
                 }
 
                 if(__instance.AmOwner) main.ApplySuffix();
-
-                //Sheriffのベント対策処理
-                if(__instance.isSheriff() && false) {
-                    var system = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-                    if(system != null && system.SeqBuffers != null) { //null対策
-                        int VentID = -1;
-                        float VentDistance = 0f;
-                        Vector2 playerPos = __instance.NetTransform.transform.position;
-                        playerPos += __instance.NetTransform.targetSyncVelocity / 3f;
-                        playerPos += Vector2.up * 0.5f;
-                        if(pointer == null) {
-                            pointer = UnityEngine.Object.Instantiate(
-                                RoleManager.Instance.AllRoles.Where(
-                                (role) => role.Role == RoleTypes.Shapeshifter)
-                                .FirstOrDefault().Cast<ShapeshifterRole>().EvidencePrefab
-                            );
-                        }
-                        if(pointer != null) {
-                            Vector3 pointerPos = new Vector3(playerPos.x, playerPos.y, 0);
-                            pointer.transform.position = pointerPos;
-                        }
-                        //掃除するベントを指定
-                        foreach(var vent in ShipStatus.Instance.AllVents) {
-                            Vector2 ventPos = vent.transform.position;
-                            float distance = (playerPos - ventPos).magnitude;
-                            //Logger.info("ID:" + vent.Id + ", Distance: " + distance);
-                            if((VentDistance > distance || VentID == -1) && distance < (float)main.SheriffAntiVent * 0.01f) {
-                                VentID = vent.Id;
-                                VentDistance = distance;
-                            }
-                        }
-                        //Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
-                        SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
-                        if(!system.SeqBuffers.ContainsKey(__instance.PlayerId)) {
-                            valueOrSetDefault = new SequenceBuffer<VentilationSystem.VentMoveInfo>();
-                            system.SeqBuffers[__instance.PlayerId] = valueOrSetDefault;
-                        } else valueOrSetDefault = system.SeqBuffers[__instance.PlayerId];
-                        valueOrSetDefault.BumpSid();
-                        if(VentID == -1)
-                            system.PlayersCleaningVents.Remove(__instance.PlayerId);
-                        else
-                            system.PlayersCleaningVents[__instance.PlayerId] = (byte) VentID;
-                        system.IsDirty = true;
-                        system.UpdateVentArrows();
-                    }
-                }
             }
             //各クライアントが全員分実行
             //役職テキストの表示
