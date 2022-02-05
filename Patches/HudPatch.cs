@@ -159,10 +159,16 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch {
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive) {
-            if(PlayerControl.LocalPlayer.isSheriff()) {
-                __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
-                __instance.SabotageButton.ToggleVisible(false);
-                __instance.ImpostorVentButton.ToggleVisible(false);
+            switch(PlayerControl.LocalPlayer.getCustomRole()) {
+                case CustomRoles.Sheriff:
+                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Mafia:
+                    int ImpostorCount = 0;
+                    __instance.KillButton.ToggleVisible(isActive);
+                    break;
             }
         }
     }
