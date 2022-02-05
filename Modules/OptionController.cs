@@ -156,8 +156,7 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesElectrical,
                             OptionPages.MadmateCanFixLightsOut,
                             OptionPages.MadGuardianCanSeeBarrier,
-                            OptionPages.MayorAdditionalVote,
-                            OptionPages.SheriffAntiVent
+                            OptionPages.MayorAdditionalVote
                         },
                         OptionPages.roles
                     )},
@@ -247,19 +246,6 @@ namespace TownOfHost
                                 Count += i;
                                 var FixedCount = Math.Clamp(Count,0,99);
                                 main.MayorAdditionalVote = FixedCount;
-                            }
-                        )},
-                        {OptionPages.SheriffAntiVent, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>シェリフのしきい値</color>: {main.SheriffAntiVent}{main.TextCursor}",
-                            true,
-                            () => {main.SheriffAntiVent = 0;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions,
-                            (i) => {
-                                var Count = main.SheriffAntiVent * 10;
-                                Count += i;
-                                var FixedCount = Math.Clamp(Count,0,10000);
-                                main.SheriffAntiVent = FixedCount;
                             }
                         )},
                 {OptionPages.modes, new PageObject(
@@ -605,7 +591,6 @@ namespace TownOfHost
                     SabotageMasterFixesCommunications,
                     SabotageMasterFixesElectrical,
                     MayorAdditionalVote,
-                    SheriffAntiVent,
             modes,
                 HideAndSeek,
                 HideAndSeekOptions,
