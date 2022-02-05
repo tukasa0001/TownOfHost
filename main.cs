@@ -415,6 +415,7 @@ namespace TownOfHost
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
+        public static int SheriffAntiVent = 125;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender

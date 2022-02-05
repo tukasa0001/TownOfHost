@@ -210,16 +210,17 @@ namespace TownOfHost
                     if(system != null && system.SeqBuffers != null) { //null対策
                         int VentID = -1;
                         float VentDistance = 0f;
+                        Vector2 playerPos = __instance.NetTransform.transform.position;
                         //掃除するベントを指定
                         foreach(var vent in ShipStatus.Instance.AllVents) {
-                            var distance = vent.CanUse(__instance.Data, out _, out _);
+                            Vector2 ventPos = vent.transform.position;
+                            float distance = (playerPos - ventPos).magnitude;
                             //Logger.info("ID:" + vent.Id + ", Distance: " + distance);
-                            if((VentDistance > distance || VentID == -1) && distance < 1.25f) {
+                            if((VentDistance > distance || VentID == -1) && distance < (float)main.SheriffAntiVent * 0.01f) {
                                 VentID = vent.Id;
                                 VentDistance = distance;
                             }
                         }
-                        VentID = 0;
                         //Logger.info("VentToBlockData:(" + VentID + ", " + VentDistance + ")");
                         SequenceBuffer<VentilationSystem.VentMoveInfo> valueOrSetDefault;
                         if(!system.SeqBuffers.ContainsKey(__instance.PlayerId)) {
