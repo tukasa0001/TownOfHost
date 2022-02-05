@@ -142,7 +142,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
     class ToggleHighlightPatch {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team) {
-            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead) {
                 ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
             }
         }
