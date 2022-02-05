@@ -545,11 +545,15 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                string RoleName = "STRMISS";
-                if(found) RoleName = getRoleName(role);
-                pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color></size>\r\n{pc.name}", true);
+                NotifyRole(pc);
             }
+        }
+        public static void NotifyRole(PlayerControl pc) {
+            var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
+            string RoleName = "STRMISS";
+            string SheriffDeadMark = role == CustomRoles.Sheriff && pc.Data.IsDead ? "<color=red>(DEAD)</color>" : "";
+            if(found) RoleName = getRoleName(role);
+            pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color>{SheriffDeadMark}</size>\r\n{pc.name}", true);
         }
 
         public override void Load()

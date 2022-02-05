@@ -36,6 +36,7 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 main.CheckTerroristWin(target.Data);
             }
+            if(target.isSheriff()) main.NotifyRole(target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]

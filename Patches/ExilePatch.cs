@@ -50,6 +50,7 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
+                if(role == CustomRoles.Sheriff && AmongUsClient.Instance.AmHost) main.NotifyRole(main.getPlayerById(exiled.PlayerId));
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
