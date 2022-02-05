@@ -58,12 +58,11 @@ namespace TownOfHost
                     if (!CustomRoles.Mafia.CanUseKillButton())
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = false;
+                        __instance.KillButton.SetDisabled();
                     }
                     else
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
                     break;
                 case CustomRoles.Vampire:
