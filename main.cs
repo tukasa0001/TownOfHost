@@ -783,7 +783,6 @@ namespace TownOfHost
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
                 //その他
-                {lang.SheriffDeadMessage, "あなたは死亡しました\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -861,7 +860,6 @@ namespace TownOfHost
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
                 //その他
-                {lang.SheriffDeadMessage, "You Are Dead\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -1003,7 +1001,6 @@ namespace TownOfHost
         WhenSkipVote,
         WhenNonVote,
         //その他
-        SheriffDeadMessage,
         commandError,
         InvalidArgs,
         ON,
