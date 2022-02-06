@@ -483,6 +483,8 @@ namespace TownOfHost
             writer.Write(SabotageMasterFixesElectrical);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
+            writer.Write((int)whenSkipVote);
+            writer.Write((int)whenNonVote);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
@@ -649,6 +651,8 @@ namespace TownOfHost
             SyncedButtonCount = 10;
             UsedButtonCount = 0;
 
+            whenSkipVote = VoteMode.Default;
+            whenNonVote = VoteMode.Default;
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -1059,7 +1063,7 @@ namespace TownOfHost
     public enum VoteMode
     {
         Default,
-        Kill,
+        Suicide,
         SelfVote
     }
 }

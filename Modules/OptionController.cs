@@ -469,7 +469,7 @@ namespace TownOfHost
                     )},
                     {OptionPages.WhenSkipVote, new PageObject(
                         () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(),
-                        false,
+                        true,
                         () => {
                             var next = main.whenSkipVote + 1;
                             if(next > VoteMode.SelfVote) next = VoteMode.Default;
@@ -480,7 +480,7 @@ namespace TownOfHost
                     )},
                     {OptionPages.WhenNonVote, new PageObject(
                         () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(),
-                        false,
+                        true,
                         () => {
                             var next = main.whenNonVote + 1;
                             if(next > VoteMode.SelfVote) next = VoteMode.Default;
