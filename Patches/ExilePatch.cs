@@ -54,10 +54,9 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
-                main.RefixCooldownDelay = main.BeforeFixCooldown - 3f;
-                PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
+            main.CustomSyncAllSettings();
         }
     }
 }

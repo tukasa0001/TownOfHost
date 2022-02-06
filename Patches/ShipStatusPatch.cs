@@ -22,32 +22,22 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if (main.isFixedCooldown && PlayerControl.GameOptions.KillCooldown == main.BeforeFixCooldown)
+            if (main.isFixedCooldown && main.RefixCooldownDelay >= 0)
             {
-                if (main.RefixCooldownDelay <= 0)
-                {
-                    PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown * 2;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions); ;
-                }
-                else
-                {
-                    main.RefixCooldownDelay -= Time.fixedDeltaTime;
-                }
+                main.RefixCooldownDelay -= Time.fixedDeltaTime;
+            } else if(!float.IsNaN(main.RefixCooldownDelay)) {
+                main.RefixCooldownDelay = float.NaN;
+                Logger.info("Refix Cooldown");
+                main.CustomSyncAllSettings();
             }
             if(main.IsHideAndSeek) {
                 if(main.HideAndSeekKillDelayTimer > 0) {
                     main.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
                     Logger.SendToFile("HaSKillDelayTimer: " + main.HideAndSeekKillDelayTimer);
-                    //インポスター行動解禁までの処理
-                    foreach(var pc in PlayerControl.AllPlayerControls) {
-                        if(pc.Data.Role.IsImpostor) {
-                        }
-                    }
                 } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
-                    Logger.info("キル能力解禁");
                     main.HideAndSeekKillDelayTimer = float.NaN;
-                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                    Logger.info("キル能力解禁");
+                    main.CustomSyncAllSettings();
                 }
             }
         }

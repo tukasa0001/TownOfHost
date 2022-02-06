@@ -118,9 +118,7 @@ namespace TownOfHost
                 else main.UsedButtonCount++;
                 if (main.SyncedButtonCount == main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大数に達したため、ボタンクールダウンが1時間に設定されました。");
-                    PlayerControl.GameOptions.EmergencyCooldown = 3600;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                    Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
                 }
             }
 
@@ -153,6 +151,7 @@ namespace TownOfHost
                 );
             }
 
+            main.CustomSyncAllSettings();
             return true;
         }
         public static async void ChangeLocalNameAndRevert(string name, int time) {

@@ -159,28 +159,10 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.isFixedCooldown && AmongUsClient.Instance.AmHost)
-            {
-                PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
-            }
-            if (main.SyncButtonMode)
-            {
-                PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
-            }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
-                if(main.IsHideAndSeek) {
-                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
-                }
-                if(main.isFixedCooldown) {
-                    PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
-                }
-                if(main.SyncButtonMode) {
-                    PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
-                }
-
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
             //main.ApplySuffix();
         }

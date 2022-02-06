@@ -375,9 +375,6 @@ namespace TownOfHost
                             true,
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
-                                //一人当たりのボタン数を9に設定
-                                //PlayerControl.GameOptions.NumEmergencyMeetings = 9;
-                                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                             },
                             new List<OptionPages>(){},
                             OptionPages.SyncButtonMode

@@ -164,6 +164,38 @@ namespace TownOfHost {
 
             RPCProcedure.BeKilled(player.PlayerId, KilledById);
         }
+        public static void CustomSyncSettings(this PlayerControl player) {
+            if(player == null || !AmongUsClient.Instance.AmHost) return;
+            var clientId = player.getClientId();
+            var opt = main.RealOptionsData.DeepCopy();
+            
+            switch(player.getCustomRole()) {
+                case CustomRoles.Madmate:
+                    goto InfinityVent;
+                case CustomRoles.Terrorist:
+                    goto InfinityVent;
+                case CustomRoles.Vampire:
+                    if(main.RefixCooldownDelay <= 0)
+                        opt.KillCooldown *= 2;
+                    break;
+
+                
+                InfinityVent:
+                    opt.RoleOptions.EngineerCooldown = 0;
+                    opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+            }
+            if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
+                opt.EmergencyCooldown = 3600;
+            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
+                opt.ImpostorLightMod = 0f;
+            }
+
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
+            writer.Write(opt.ToBytes(5));
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            if(player.AmOwner) PlayerControl.GameOptions = opt;
+        }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt) {
             var optByte = opt.ToBytes(5);

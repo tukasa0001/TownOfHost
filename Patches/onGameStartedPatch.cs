@@ -23,34 +23,18 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
+            main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             if (__instance.AmHost)
             {
 
                 main.VisibleTasksCount = true;
 
                 main.SyncCustomSettingsRPC();
-                var opt = PlayerControl.GameOptions;
-                if (main.MadmateCount> 0 || main.TerroristCount > 0)
-                {//無限ベント
-                    opt.RoleOptions.EngineerCooldown = 0.2f;
-                    opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
-                }
-                if (main.isFixedCooldown)
-                {
-                    main.BeforeFixCooldown = opt.KillCooldown;
-                    opt.KillCooldown = main.BeforeFixCooldown * 2;
-                }
-
-                if(main.SyncButtonMode) main.BeforeFixMeetingCooldown = PlayerControl.GameOptions.EmergencyCooldown;
 
                 if(main.IsHideAndSeek) {
                     main.HideAndSeekKillDelayTimer = main.HideAndSeekKillDelay;
-                    main.HideAndSeekImpVisionMin = opt.ImpostorLightMod;
-                    opt.ImpostorLightMod = 0f;
-                    Logger.SendToFile("HideAndSeekImpVisionMinを" + main.HideAndSeekImpVisionMin + "に変更");
+                    main.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
-
-                PlayerControl.LocalPlayer.RpcSyncSettings(opt);
             }
         }
     }
@@ -234,6 +218,7 @@ namespace TownOfHost
                     }
                 }, 3f, "SetImpostorForServer");
             }
+            main.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 
             Logger.msg("SelectRolesPatch.Postfix.End");

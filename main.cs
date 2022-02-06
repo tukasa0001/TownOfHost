@@ -41,6 +41,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
+        public static GameOptionsData RealOptionsData;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreVent;
@@ -65,7 +66,6 @@ namespace TownOfHost
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => VampireCount > 0;
-        public static float BeforeFixCooldown = 15f;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static string winnerList;
@@ -554,6 +554,11 @@ namespace TownOfHost
             string SheriffDeadMark = role == CustomRoles.Sheriff && pc.Data.IsDead ? "<color=red>(DEAD)</color>" : "";
             if(found) RoleName = getRoleName(role);
             pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color>{SheriffDeadMark}</size>\r\n{pc.name}", true);
+        }
+        public static void CustomSyncAllSettings() {
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                pc.CustomSyncSettings();
+            }
         }
 
         public override void Load()
