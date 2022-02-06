@@ -180,6 +180,13 @@ namespace TownOfHost {
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
                     break;
+                case CustomRoles.Sheriff:
+                    opt.ImpostorLightMod = opt.CrewLightMod;
+                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(switchSystem != null && switchSystem.IsActive) {
+                        opt.ImpostorLightMod /= 5;
+                    }
+                    break;
 
                 
                 InfinityVent:
