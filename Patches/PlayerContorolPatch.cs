@@ -314,7 +314,32 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                     RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
-                if(__instance.isBountyHunter() && __instance.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                if(main.hasTasks(__instance.Data))//タスク持ちの陣営
+                {
+                    foreach(var t in PlayerControl.AllPlayerControls)
+                    {
+                        if(__instance.AllTasksCompleted() && __instance.isSnitch()){
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                            {
+                                t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                            }
+                        }
+                    }
+                }else{//タスクなしの陣営
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter() || __instance.isWarlock())
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                main.nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                            }
+                        }
+                    }
+                    if(__instance.isBountyHunter() && __instance.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                }
                 if (__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{main.nameSuffix}"; //自分なら名前に接尾詞を追加
             }
         }
