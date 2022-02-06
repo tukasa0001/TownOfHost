@@ -596,7 +596,7 @@ namespace TownOfHost
                         }
                     }
                     if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                    if(p.isBountyHunter() && p.AmOwner)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    if(p.isBountyHunter() && p.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     p.RpcSetNamePrivate(tmp,true);
                 }
             }
