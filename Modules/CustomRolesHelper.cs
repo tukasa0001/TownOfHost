@@ -18,7 +18,7 @@ using InnerNet;
 namespace TownOfHost {
     static class CustomRolesHelper {
         public static bool isImpostor(this CustomRoles role) {
-            bool isImpostor = 
+            bool isImpostor =
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.Vampire ||
@@ -26,7 +26,7 @@ namespace TownOfHost {
             return isImpostor;
         }
         public static bool isImpostorTeam(this CustomRoles role) {
-            bool isImpostor = 
+            bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.MadGuardian;
@@ -36,14 +36,14 @@ namespace TownOfHost {
             bool canUse =
                 role.isImpostor() ||
                 role == CustomRoles.Sheriff;
-            
+
             if(role == CustomRoles.Mafia) {
                 int AliveImpostorCount = 0;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     CustomRoles pc_role = pc.getCustomRole();
                     if(pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
                 }
-                if(AliveImpostorCount > 0) canUse = false; 
+                if(AliveImpostorCount > 0) canUse = false;
             }
             return canUse;
         }
@@ -55,10 +55,9 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                 case CustomRoles.Mafia:
                 case CustomRoles.BountyHunter:
-                case CustomRoles.Warlock:
                     type = IntroTypes.Impostor;
                     break;
-                
+
                 case CustomRoles.Jester:
                 case CustomRoles.Opportunist:
                 case CustomRoles.Terrorist:
