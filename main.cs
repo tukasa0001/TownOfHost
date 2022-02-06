@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BepInEx;
@@ -55,6 +55,7 @@ namespace TownOfHost
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
+        public static bool RandomMapsMode;
         public static bool NoGameEnd;
         public static bool OptionControllerIsEnable;
         //タスク無効化
@@ -63,6 +64,12 @@ namespace TownOfHost
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
         public static bool DisableStartReactor;
+        //ランダムマップ
+        public static bool AddedTheSkeld;
+        public static bool AddedMIRAHQ;
+        public static bool AddedPolus;
+        public static bool AddedDleks;
+        public static bool AddedTheAirShip;
         public static Dictionary<CustomRoles,String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -307,6 +314,7 @@ namespace TownOfHost
                 if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
+                if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
                 if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
@@ -730,10 +738,12 @@ namespace TownOfHost
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
                 {lang.SyncButtonMode, "ボタン回数同期モード"},
+                {lang.RandomMapsMode, "ランダムマップモード"},
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
+                {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "吸血鬼の殺害までの時間(秒)"},
@@ -759,6 +769,11 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "金庫タスクを無効化する"},
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化する"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
+                {lang.AddedTheSkeld, "TheSkeldを追加"},
+                {lang.AddedMIRAHQ, "MIRAHQを追加"},
+                {lang.AddedPolus, "Polusを追加"},
+                {lang.AddedDleks, "Dleksを追加"},
+                {lang.AddedTheAirShip, "TheAirShipを追加"},
                 {lang.SuffixMode, "名前の二行目"},
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
@@ -805,10 +820,12 @@ namespace TownOfHost
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
                 {lang.SyncButtonMode, "SyncButtonMode"},
+                {lang.RandomMapsMode, "RandomMapsMode"},
                 //モード解説
                 {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
+                {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
@@ -834,6 +851,11 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "Disable UnlockSafe Tasks"},
                 {lang.DisableUploadDataTask, "Disable UploadData Tasks"},
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
+                {lang.AddedTheSkeld, "Added TheSkeld"},
+                {lang.AddedMIRAHQ, "Added MIRAHQ"},
+                {lang.AddedPolus, "Added Polus"},
+                {lang.AddedDleks, "Added Dleks"},
+                {lang.AddedTheAirShip, "Added TheAirShip"},
                 {lang.SuffixMode, "Suffix"},
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
@@ -943,10 +965,12 @@ namespace TownOfHost
         SyncButtonMode,
         NoGameEnd,
         DisableTasks,
+        RandomMapsMode,
         //モード解説
         HideAndSeekInfo,
         SyncButtonModeInfo,
         NoGameEndInfo,
+        RandomMapsModeInfo,
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
@@ -974,6 +998,11 @@ namespace TownOfHost
         SuffixMode,
         WhenSkipVote,
         WhenNonVote,
+        AddedTheSkeld,
+        AddedMIRAHQ,
+        AddedPolus,
+        AddedDleks,
+        AddedTheAirShip,
         //その他
         commandError,
         InvalidArgs,
