@@ -35,13 +35,14 @@ namespace TownOfHost
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
+                        OptionPages.Jester,
+                        OptionPages.Opportunist,
+                        OptionPages.Terrorist,
                         OptionPages.Bait,
                         OptionPages.Mayor,
                         OptionPages.SabotageMaster,
                         OptionPages.Snitch,
-                        OptionPages.Jester,
-                        OptionPages.Opportunist,
-                        OptionPages.Terrorist,
+                        OptionPages.Sheriff,
                         // OptionPages.Warlock,
                         OptionPages.AdvancedRoleOptions
                     },
@@ -134,6 +135,14 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Snitch, i)
+                    )},
+                    {OptionPages.Sheriff, new PageObject(
+                        () => "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>: " + main.SheriffCount,
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Sheriff);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Sheriff, i)
                     )},
                     {OptionPages.BountyHunter, new PageObject(
                         () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>: {main.BountyHunterCount}",
@@ -386,9 +395,6 @@ namespace TownOfHost
                             true,
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
-                                //一人当たりのボタン数を9に設定
-                                //PlayerControl.GameOptions.NumEmergencyMeetings = 9;
-                                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                             },
                             new List<OptionPages>(){},
                             OptionPages.SyncButtonMode
@@ -609,6 +615,7 @@ namespace TownOfHost
                 Vampire,
                 SabotageMaster,
                 Mayor,
+                Sheriff,
                 Opportunist,
                 Snitch,
                 BountyHunter,

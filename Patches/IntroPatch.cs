@@ -140,6 +140,15 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Mayor);
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
+            if (PlayerControl.LocalPlayer.isSheriff())
+            {
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Sheriff);
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.SheriffInfo);
+                __instance.TeamTitle.color = Color.yellow;
+                __instance.BackgroundBar.material.color = Color.yellow;
+                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
+            }
             if (PlayerControl.LocalPlayer.isBountyHunter())
             {
                 __instance.TeamTitle.text = main.getRoleName(CustomRoles.BountyHunter);
@@ -190,6 +199,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            //TODO:シェリフ時にプレイヤーの間隔とかをクルーの場合と同じにする
             BeginCrewmatePatch.Prefix(__instance, ref yourTeam);
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
