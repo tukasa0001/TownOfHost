@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -68,8 +70,12 @@ namespace TownOfHost
         public static bool isFixedCooldown => VampireCount > 0;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static VoteMode whenSkipVote = VoteMode.Default;
+        public static VoteMode whenNonVote = VoteMode.Default;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
+        public static int lastTaskComplete = 0;
+        public static string nameSuffix;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -112,14 +118,13 @@ namespace TownOfHost
         public static Color getRoleColor(CustomRoles role)
         {
             string hexColor;
-            if(!roleColors.TryGetValue(role, out hexColor)) hexColor = "#ffffff";
-            MatchCollection matches = Regex.Matches(hexColor, "[0-9a-fA-F]{2}");
+            roleColors.TryGetValue(role, out hexColor);
+            MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
             return new Color(Convert.ToInt32(matches[0].Value,16)/255f,Convert.ToInt32(matches[1].Value,16)/255f,Convert.ToInt32(matches[2].Value,16)/255f);
         }
         public static string getRoleColorCode(CustomRoles role)
         {
-            string hexColor;
-            if(!roleColors.TryGetValue(role, out hexColor))hexColor = "#ffffff";
+            if(!roleColors.TryGetValue(role, out var hexColor))hexColor = "#ffffff";
             return hexColor;
         }
         public static int GetCountFromRole(CustomRoles role) {
@@ -160,6 +165,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Snitch:
                     count = SnitchCount;
+                    break;
+                case CustomRoles.BountyHunter:
+                    count = BountyHunterCount;
+                    break;
+                case CustomRoles.Warlock:
+                    count = WarlockCount;
                     break;
                 default:
                     return -1;
@@ -203,6 +214,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Snitch:
                     SnitchCount = count;
+                    break;
+                case CustomRoles.BountyHunter:
+                    BountyHunterCount = count;
+                    break;
+                case CustomRoles.Warlock:
+                    WarlockCount = count;
                     break;
             }
         }
@@ -260,8 +277,7 @@ namespace TownOfHost
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == CustomRoles.Fox ||
-                    role == CustomRoles.Troll) hasTasks = false;
+                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
@@ -281,7 +297,6 @@ namespace TownOfHost
         public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
         {
             if(tasks == null) return "null";
-            string taskText = "";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
             foreach (var task in tasks)
@@ -289,8 +304,7 @@ namespace TownOfHost
                 AllTasksCount++;
                 if (task.Complete) CompletedTaskCount++;
             }
-            taskText = CompletedTaskCount + "/" + AllTasksCount;
-            return taskText;
+            return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
         public static void ShowActiveRoles()
@@ -315,6 +329,8 @@ namespace TownOfHost
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -341,6 +357,8 @@ namespace TownOfHost
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
+                if(main.BountyHunterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
+                if(main.WarlockCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Warlock),main.WarlockCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -360,6 +378,8 @@ namespace TownOfHost
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
+                if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
+                if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -394,10 +414,17 @@ namespace TownOfHost
         public static int OpportunistCount;
         public static int SheriffCount;
         public static int SnitchCount;
+        public static int BountyHunterCount;
+        public static int WarlockCount;
         public static int FoxCount;
         public static int TrollCount;
-
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
+        public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
+        public static List <PlayerControl> WarlockTarget = new List<PlayerControl>();
+        public static bool WarlockCheck;
+        public static bool BountyCheck;
+        public static int WarlockShapeshiftCheck;
+        public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -434,6 +461,8 @@ namespace TownOfHost
             writer.Write(OpportunistCount);
             writer.Write(SnitchCount);
             writer.Write(SheriffCount);
+            writer.Write(BountyHunterCount);
+            writer.Write(WarlockCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -520,8 +549,10 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if(nickName != "") name = nickName;
-            if(!AmongUsClient.Instance.IsGameStarted) {
-                switch(currentSuffix) {
+            if(!AmongUsClient.Instance.IsGameStarted)
+            {
+                switch(currentSuffix)
+                {
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
@@ -538,8 +569,7 @@ namespace TownOfHost
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
         public static PlayerControl getPlayerById(int PlayerId) {
-            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
-            return player;
+            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -548,12 +578,45 @@ namespace TownOfHost
                 NotifyRole(pc);
             }
         }
-        public static void NotifyRole(PlayerControl pc) {
-            var found = AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-            string RoleName = "STRMISS";
-            string SheriffDeadMark = role == CustomRoles.Sheriff && pc.Data.IsDead ? "<color=red>(DEAD)</color>" : "";
-            if(found) RoleName = getRoleName(role);
-            pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color>{SheriffDeadMark}</size>\r\n{pc.name}", true);
+        public static void NotifyRole(PlayerControl p) {
+            string taskText = main.getTaskText(p.Data.Tasks);
+            string SheriffDeadMessage = p.isSheriff() ? "<color=red>(DEAD)</color>" : ""; 
+            string tmp;
+            if(main.hasTasks(p.Data))//タスク持ちの陣営
+            {
+                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                p.RpcSetNamePrivate(tmp,true);
+                foreach(var t in PlayerControl.AllPlayerControls)
+                {
+                    if(t.Data.IsDead) p.RpcSetNamePrivate(tmp, true, t);
+                    if(p.AllTasksCompleted() && p.isSnitch()){
+                        if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                        {
+                            t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                        }
+                    }
+                }
+            }else{//タスクなしの陣営
+                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}{SheriffDeadMessage}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                foreach(var t in PlayerControl.AllPlayerControls){
+                    if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                    if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
+                    {
+                        var ct = 0;
+                        foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                        if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                        {
+                            tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                            if(p.AmOwner) main.nameSuffix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                            if(p.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                            t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                        }
+                    }
+                }
+                if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                if(p.isBountyHunter() && p.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                p.RpcSetNamePrivate(tmp,true);
+            }
         }
         public static void CustomSyncAllSettings() {
             TownOfHost.Logger.SendInGame("同期");
@@ -600,10 +663,6 @@ namespace TownOfHost
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
-
-
-
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
@@ -652,6 +711,8 @@ namespace TownOfHost
                 {CustomRoles.Snitch, "#b8fb4f"},
                 {CustomRoles.Mayor, "#204d42"},
                 {CustomRoles.Sheriff, "#ffff00"},
+                {CustomRoles.BountyHunter, "#ff0000"},
+                {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -672,6 +733,8 @@ namespace TownOfHost
                 {lang.OpportunistInfo, "とにかく生き残れ"},
                 {lang.SnitchInfo, "タスクを完了させ、人外を暴け"},
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
+                {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
+                {lang.WarlockInfo, "みんなを呪い殺そう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "狂人:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからも狂人が誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -685,6 +748,8 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが2分の1になる。それ以外の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身をしている間に誰かをキルするとキルした人に呪いがかかる。その後にキルボタンを押すとキルされた人に１番近い人が（インポスターであろうと）呪われた人によりキルされる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -721,6 +786,8 @@ namespace TownOfHost
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化する"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
                 {lang.SuffixMode, "名前の二行目"},
+                {lang.WhenSkipVote, "スキップ時"},
+                {lang.WhenNonVote, "無投票時"},
                 //その他
                 {lang.SheriffDeadMessage, "あなたは死亡しました\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "エラー:%1$"},
@@ -744,6 +811,8 @@ namespace TownOfHost
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
                 {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 {lang.SheriffInfo, "Shoot the Impostors"},
+                {lang.BountyHunterInfo, "Hunt your Bounty down"},
+                {lang.WarlockInfo, "Curse other players and kill everyone"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
@@ -757,6 +826,8 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、クルーをキルしようとすると自爆してしまう役職。タスクはない。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが2分の1になる。それ以外の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身をしている間に誰かをキルするとキルした人に呪いがかかる。その後にキルボタンを押すとキルされた人に１番近い人が（インポスターであろうと）呪われた人によりキルされる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -793,6 +864,8 @@ namespace TownOfHost
                 {lang.DisableUploadDataTask, "Disable UploadData Tasks"},
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
                 {lang.SuffixMode, "Suffix"},
+                {lang.WhenSkipVote, "When Skip Vote"},
+                {lang.WhenNonVote, "When Non-Vote"},
                 //その他
                 {lang.SheriffDeadMessage, "You Are Dead\n以降、キル・通報などはできません。\n他のプレイヤーからはあなたは死んでいるものとして見えています。"},
                 {lang.commandError, "Error:%1$"},
@@ -819,6 +892,8 @@ namespace TownOfHost
                 {CustomRoles.Opportunist, "Opportunist"},
                 {CustomRoles.Snitch, "Snitch"},
                 {CustomRoles.Sheriff, "Sheriff"},
+                {CustomRoles.BountyHunter, "BountyHunter"},
+                {CustomRoles.Warlock, "Warlock"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -841,6 +916,8 @@ namespace TownOfHost
                 {CustomRoles.Opportunist, "オポチュニスト"},
                 {CustomRoles.Snitch, "スニッチ"},
                 {CustomRoles.Sheriff, "シェリフ"},
+                {CustomRoles.BountyHunter, "バウンティハンター"},
+                {CustomRoles.Warlock, "ウォーロック"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -874,6 +951,8 @@ namespace TownOfHost
         OpportunistInfo,
         SnitchInfo,
         SheriffInfo,
+        BountyHunterInfo,
+        WarlockInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -889,6 +968,8 @@ namespace TownOfHost
         OpportunistInfoLong,
         SnitchInfoLong,
         SheriffInfoLong,
+        BountyHunterInfoLong,
+        WarlockInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -925,6 +1006,8 @@ namespace TownOfHost
         DisableUploadDataTask,
         DisableStartReactorTask,
         SuffixMode,
+        WhenSkipVote,
+        WhenNonVote,
         //その他
         SheriffDeadMessage,
         commandError,
@@ -951,6 +1034,8 @@ namespace TownOfHost
         Opportunist,
         Snitch,
         Sheriff,
+        BountyHunter,
+        Warlock,
         Fox,
         Troll
     }
@@ -978,5 +1063,12 @@ namespace TownOfHost
     {
         Released = 0,
         Beta = 1
+    }
+
+    public enum VoteMode
+    {
+        Default,
+        Kill,
+        SelfVote
     }
 }

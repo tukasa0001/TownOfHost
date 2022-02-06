@@ -91,9 +91,9 @@ namespace TownOfHost {
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
-
             if(player == null || name == null) return;
             if(seer == null) seer = player;
+            //Logger.info($"{player.name}:{name} => {seer.name}");
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
@@ -213,6 +213,12 @@ namespace TownOfHost {
             return GameOptionsData.FromBytes(optByte);
         }
 
+        public static string getRoleName(this PlayerControl player) {
+            return main.getRoleName(player.getCustomRole());
+        }
+        public static string getRoleColorCode(this PlayerControl player) {
+            return main.getRoleColorCode(player.getCustomRole());
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
@@ -231,5 +237,7 @@ namespace TownOfHost {
         public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
+        public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
+        public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
     }
 }

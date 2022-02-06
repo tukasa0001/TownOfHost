@@ -32,6 +32,11 @@ namespace TownOfHost {
             }
             return true;
         }
+
+        public static void Postfix(PlayerControl __instance)
+        {
+            main.NotifyRoles();
+        }
     }
 
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.IsGameOverDueToDeath))]

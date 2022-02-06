@@ -30,18 +30,20 @@ namespace TownOfHost
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
-                        OptionPages.Mafia,
                         OptionPages.Vampire,
+                        OptionPages.BountyHunter,
+                        OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
                         OptionPages.Jester,
-                        OptionPages.Terrorist,
                         OptionPages.Opportunist,
+                        OptionPages.Terrorist,
                         OptionPages.Bait,
-                        OptionPages.SabotageMaster,
                         OptionPages.Mayor,
+                        OptionPages.SabotageMaster,
                         OptionPages.Snitch,
                         OptionPages.Sheriff,
+                        // OptionPages.Warlock,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -141,6 +143,22 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Sheriff, i)
+                    )},
+                    {OptionPages.BountyHunter, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>: {main.BountyHunterCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.BountyHunter);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.BountyHunter, i)
+                    )},
+                    {OptionPages.Warlock, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>: {main.WarlockCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Warlock);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Warlock, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -257,7 +275,9 @@ namespace TownOfHost
                         OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
-                        OptionPages.NoGameEnd
+                        OptionPages.NoGameEnd,
+                        OptionPages.WhenSkipVote,
+                        OptionPages.WhenNonVote
                     },
                     OptionPages.basepage
                 )},
@@ -447,6 +467,28 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.modes
                     )},
+                    {OptionPages.WhenSkipVote, new PageObject(
+                        () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(),
+                        false,
+                        () => {
+                            var next = main.whenSkipVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenSkipVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
+                    )},
+                    {OptionPages.WhenNonVote, new PageObject(
+                        () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(),
+                        false,
+                        () => {
+                            var next = main.whenNonVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenNonVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
+                    )},
                 {OptionPages.Suffix, new PageObject(
                     () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(),
                     false,
@@ -576,6 +618,8 @@ namespace TownOfHost
                 Sheriff,
                 Opportunist,
                 Snitch,
+                BountyHunter,
+                Warlock,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
@@ -608,6 +652,8 @@ namespace TownOfHost
                     UploadData,
                     StartReactor,
                 NoGameEnd,
+                WhenSkipVote,
+                WhenNonVote,
             Suffix
     }
 }

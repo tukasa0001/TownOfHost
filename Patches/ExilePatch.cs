@@ -57,6 +57,7 @@ namespace TownOfHost
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             main.CustomSyncAllSettings();
+            main.NotifyRoles();
         }
     }
 }

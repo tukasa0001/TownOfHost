@@ -61,6 +61,8 @@ namespace TownOfHost
                     int OpportunistCount = reader.ReadInt32();
                     int SnitchCount = reader.ReadInt32();
                     int SheriffCount = reader.ReadInt32();
+                    int BountyHunterCount = reader.ReadInt32();
+                    int WarlockCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -80,6 +82,8 @@ namespace TownOfHost
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
+                    int whenSkipVote = reader.ReadInt32();
+                    int whenNonVote = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -99,6 +103,8 @@ namespace TownOfHost
                         OpportunistCount,
                         SnitchCount,
                         SheriffCount,
+                        BountyHunterCount,
+                        WarlockCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -117,6 +123,8 @@ namespace TownOfHost
                         SabotageMasterFixesElectrical,
                         SyncButtonMode,
                         SyncedButtonCount,
+                        whenSkipVote,
+                        whenNonVote,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -168,6 +176,8 @@ namespace TownOfHost
                 int OpportunistCount,
                 int SnitchCount,
                 int SheriffCount,
+                int BountyHunterCount,
+                int WarlockCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -186,6 +196,8 @@ namespace TownOfHost
                 bool SabotageMasterFixesElectrical,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
+                int whenSkipVote,
+                int whenNonVote,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -205,6 +217,8 @@ namespace TownOfHost
             main.OpportunistCount= OpportunistCount;
             main.SnitchCount= SnitchCount;
             main.SheriffCount = SheriffCount;
+            main.BountyHunterCount= BountyHunterCount;
+            main.WarlockCount= WarlockCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
@@ -234,6 +248,9 @@ namespace TownOfHost
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
+
+            main.whenSkipVote = (VoteMode)whenSkipVote;
+            main.whenNonVote = (VoteMode)whenNonVote;
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;

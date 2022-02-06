@@ -169,4 +169,17 @@ namespace TownOfHost
             main.CustomSyncAllSettings();
         }
     }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
+    class StartPatch {
+        public static void Postfix() {
+            Logger.info("ShipStatus.Start");
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
+    class BeginPatch {
+        public static void Postfix() {
+            Logger.info("ShipStatus.Begin");
+            main.NotifyRoles();
+        }
+    }
 }

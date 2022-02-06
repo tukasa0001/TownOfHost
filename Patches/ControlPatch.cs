@@ -27,11 +27,13 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
-                GUIUtility.systemCopyBuffer = code;
-                Logger.info($"[ClipBoard]{code}");
+                GameStartManager.Instance.countDownTimer = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                GameStartManager.Instance.ResetStartState();
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
             {

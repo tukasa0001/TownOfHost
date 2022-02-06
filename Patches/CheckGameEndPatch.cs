@@ -19,15 +19,16 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance)
         {
             if (!GameData.Instance) return false;
-            if (DestroyableSingleton<TutorialManager>.InstanceExists) // InstanceExists | Don't check Custom Criteria when in Tutorial
-                return true;
+            if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
             if (main.NoGameEnd) return false;
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if(main.currentWinner == CustomWinner.Default) {
-                if(main.IsHideAndSeek) {
+            if(main.currentWinner == CustomWinner.Default)
+            {
+                if(main.IsHideAndSeek)
+                {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
@@ -77,7 +78,6 @@ namespace TownOfHost
         {
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
-
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
                 return true;

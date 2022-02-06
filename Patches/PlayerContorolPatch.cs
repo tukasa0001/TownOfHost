@@ -39,6 +39,17 @@ namespace TownOfHost
             if(target.isSheriff()) main.NotifyRole(target);
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (__instance.isWarlock())
+            {
+                main.WarlockShapeshiftCheck++;
+            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -56,9 +67,9 @@ namespace TownOfHost
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
-                }
-                else
+                } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
+                }
             }
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) return false;
@@ -83,6 +94,90 @@ namespace TownOfHost
                     }
                     return false;
                 }
+            }
+            if (__instance.isWarlock())
+            {
+                Logger.info($"WarlockShapeshiftCheck:{main.WarlockShapeshiftCheck}");
+                Logger.info($"WarlockCheck:{main.WarlockCheck}");
+                if (main.WarlockCheck == false)
+                {
+                    int whitch = main.WarlockShapeshiftCheck % 2;
+                    Logger.info($"whitch:{whitch}");
+                    if (1 == whitch)
+                    {
+                        __instance.RpcGuardAndKill(target);
+                        main.WarlockTarget.Add(target);
+                        main.WarlockCheck = true;
+                        return false;
+                    }
+                    if (0 == whitch)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                        return false;
+                    }
+                }
+                if (main.WarlockCheck == true)
+                {
+                    var target1 = main.WarlockTarget[0];
+                    if (target1.Data.IsDead)
+                    {
+                        main.WarlockCheck = false;
+                        main.WarlockTarget.Clear();
+                    } else {
+                        Vector2 target1pos = target1.transform.position;
+                        Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
+                        float dis;
+                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                        {
+                            if(p != target1 && !p.Data.IsDead)
+                            {
+                                dis = Vector2.Distance(target1pos,p.transform.position);
+                                playerDistance.Add(p,dis);
+                            }
+                        }
+                        var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
+                        PlayerControl target2 = min.Key;
+                        target1.RpcMurderPlayer(target2);
+                        __instance.RpcMurderPlayer(target);
+                        main.WarlockTarget.Clear();
+                        main.WarlockCheck = false;
+                    }
+                    return false;
+                    
+                }
+            }
+            if (__instance.isBountyHunter())
+            {
+                if (main.BountyCheck == true)
+                {
+                    if (main.b_target.Data.IsDead)
+                    {
+                        var rand = new System.Random();
+                        main.BountyTargetPlayer = new List<PlayerControl>();
+                        foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                        main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
+                        main.BountyCheck = true;
+                    }
+                    if (target != main.b_target)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                    }
+                    else if (target == main.b_target)
+                    {
+                        __instance.RpcMurderPlayer(target);
+                        __instance.RpcGuardAndKill(target);
+                        main.BountyCheck = false;
+                    }
+                }
+                if (main.BountyCheck == false)
+                {
+                    var rand = new System.Random();
+                    main.BountyTargetPlayer = new List<PlayerControl>();
+                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                    main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
+                    main.BountyCheck = true;
+                }
+                return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
@@ -197,7 +292,7 @@ namespace TownOfHost
             //役職テキストの表示
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-            if (RoleText != null)
+            if (RoleText != null && __instance != null)
             {
                 var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
@@ -206,14 +301,14 @@ namespace TownOfHost
                 }
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
-                if (__instance.AmOwner) RoleText.enabled = true;
-                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true;
-                else RoleText.enabled = false;
-                if (!AmongUsClient.Instance.IsGameStarted &&
-                AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-                    RoleText.enabled = false;
-                if (!__instance.AmOwner && main.VisibleTasksCount && main.hasTasks(__instance.Data, false))
-                    RoleText.text += " <color=#e6b422>(" + main.getTaskText(__instance.Data.Tasks) + ")</color>";
+                if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
+                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
+                else RoleText.enabled = false; //そうでなければロールを非表示
+
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                if (__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{main.nameSuffix}"; //自分なら名前に接尾詞を追加
             }
         }
     }
@@ -229,61 +324,6 @@ namespace TownOfHost
             roleText.text = "RoleText";
             roleText.gameObject.name = "RoleText";
             roleText.enabled = false;
-        }
-    }
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
-    class MeetingHudStartPatch
-    {
-        public static void Postfix(MeetingHud __instance)
-        {
-            foreach (var pva in __instance.playerStates)
-            {
-                var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
-                roleTextMeeting.transform.SetParent(pva.NameText.transform);
-                roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
-                roleTextMeeting.fontSize = 1.5f;
-                roleTextMeeting.text = "RoleTextMeeting";
-                roleTextMeeting.gameObject.name = "RoleTextMeeting";
-                roleTextMeeting.enabled = false;
-            }
-            if (main.SyncButtonMode)
-            {
-                if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
-            }
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.getCustomRole() == CustomRoles.Sheriff && pc.Data.IsDead) {
-                    pc.SendDM(main.getLang(lang.SheriffDeadMessage));
-                }
-            }
-        }
-    }
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
-    class MeetingHudUpdatePatch
-    {
-        public static void Postfix(MeetingHud __instance)
-        {
-            foreach (var pva in __instance.playerStates)
-            {
-                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleTextMeeting != null)
-                {
-                    var pc = PlayerControl.AllPlayerControls.ToArray()
-                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
-                        .FirstOrDefault();
-                    if (pc == null) return;
-
-                    var RoleTextData = main.GetRoleText(pc);
-                    RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
-                    RoleTextMeeting.color = RoleTextData.Item2;
-                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
-                    else RoleTextMeeting.enabled = false;
-                }
-            }
         }
     }
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]

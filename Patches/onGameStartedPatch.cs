@@ -21,6 +21,10 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.BountyTargetPlayer = new List<PlayerControl>();
+            main.WarlockTarget = new List<PlayerControl>();
+            main.WarlockCheck = false;
+            main.WarlockShapeshiftCheck = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -52,7 +56,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.WarlockCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -89,11 +93,19 @@ namespace TownOfHost
             //main.ApplySuffix();
             main.RealNames = new Dictionary<byte, string>();
 
+            var rand = new System.Random();
+            main.BountyTargetPlayer = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+            main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
+            main.BountyCheck = true;
+
             foreach(var pc in PlayerControl.AllPlayerControls)
+            {
                 main.RealNames[pc.PlayerId] = pc.name;
+            }
 
             if(main.IsHideAndSeek) {
-                var rand = new System.Random();
+                rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
 
                 //Hide And Seek時の処理
@@ -192,6 +204,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
+                AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -208,7 +222,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount;
+                ShapeshifterNum -= main.MafiaCount + main.WarlockCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます
