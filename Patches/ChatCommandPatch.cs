@@ -85,7 +85,7 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");break;}
+                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
                                 switch (args[2])
                                 {
                                     case "hideandseek":
@@ -103,8 +103,13 @@ namespace TownOfHost
                                         main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                                         break;
 
+                                    case "randommapsmode":
+                                    case "rmm":
+                                        main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
+                                        break;
+
                                     default:
-                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
+                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
