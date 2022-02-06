@@ -30,7 +30,7 @@ namespace TownOfHost
                 main.VisibleTasksCount = true;
 
                 main.SyncCustomSettingsRPC();
-
+                main.RefixCooldownDelay = 0;
                 if(main.IsHideAndSeek) {
                     main.HideAndSeekKillDelayTimer = main.HideAndSeekKillDelay;
                     main.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;

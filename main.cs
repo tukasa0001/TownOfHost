@@ -556,6 +556,7 @@ namespace TownOfHost
             pc.RpcSetNamePrivate($"<size=1.5><color={getRoleColorCode(role)}>{RoleName}</color>{SheriffDeadMark}</size>\r\n{pc.name}", true);
         }
         public static void CustomSyncAllSettings() {
+            TownOfHost.Logger.SendInGame("同期");
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 pc.CustomSyncSettings();
             }

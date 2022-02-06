@@ -92,10 +92,6 @@ namespace TownOfHost
             }
 
             __instance.RpcMurderPlayer(target);
-            if (main.isFixedCooldown)
-            {
-                __instance.RpcGuardAndKill(target);
-            }
             return false;
         }
     }

@@ -26,18 +26,18 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay -= Time.fixedDeltaTime;
             } else if(!float.IsNaN(main.RefixCooldownDelay)) {
+                main.CustomSyncAllSettings();
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
-                main.CustomSyncAllSettings();
             }
             if(main.IsHideAndSeek) {
                 if(main.HideAndSeekKillDelayTimer > 0) {
                     main.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
                     Logger.SendToFile("HaSKillDelayTimer: " + main.HideAndSeekKillDelayTimer);
                 } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
+                    main.CustomSyncAllSettings();
                     main.HideAndSeekKillDelayTimer = float.NaN;
                     Logger.info("キル能力解禁");
-                    main.CustomSyncAllSettings();
                 }
             }
         }
