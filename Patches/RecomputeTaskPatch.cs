@@ -21,9 +21,14 @@ namespace TownOfHost
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
             {
+                if(p == null) continue;
                 var hasTasks = main.hasTasks(p);
                 if (hasTasks)
                 {
+//                    if(p.Tasks == null) {
+//                        Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
+//                        continue;//これより下を実行しない
+//                    }
                     foreach (var task in p.Tasks)
                     {
                         __instance.TotalTasks++;
@@ -31,6 +36,13 @@ namespace TownOfHost
                     }
                 }
             }
+            if(!AmongUsClient.Instance.AmHost) return false;
+            if(main.lastTaskComplete != __instance.CompletedTasks)
+            {
+                main.NotifyRoles();
+                main.lastTaskComplete = __instance.CompletedTasks;
+            }
+
             return false;
         }
     }

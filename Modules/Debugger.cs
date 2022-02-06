@@ -44,26 +44,27 @@ namespace TownOfHost
         public static void SendToFile(string text, LogLevel level = LogLevel.Normal)
         {
             var logger = main.Logger;
+            string t = DateTime.Now.ToString("HH:mm:ss");
             switch (level)
             {
                 case LogLevel.Normal:
-                    logger.LogInfo(text);
+                    logger.LogInfo($"[{t}]{text}");
                     break;
                 case LogLevel.Warning:
-                    logger.LogWarning(text);
+                    logger.LogWarning($"[{t}]{text}");
                     break;
                 case LogLevel.Error:
-                    logger.LogError(text);
+                    logger.LogError($"[{t}]{text}");
                     break;
                 case LogLevel.Fatal:
-                    logger.LogFatal(text);
+                    logger.LogFatal($"[{t}]{text}");
                     break;
                 case LogLevel.Message:
-                    logger.LogMessage(text);
+                    logger.LogMessage($"[{t}]{text}");
                     break;
                 default:
                     logger.LogWarning("Error:Invalid LogLevel");
-                    logger.LogInfo(text);
+                    logger.LogInfo($"[{t}]{text}");
                     break;
             }
         }

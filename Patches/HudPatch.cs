@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -33,88 +34,68 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }
-            //Madmate
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Madmate)
+            switch(PlayerControl.LocalPlayer.getCustomRole())
             {
-                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>\r\n" +
-                "<color=#ff0000>" + main.getLang(lang.MadmateInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //MadGuardian
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.MadGuardian)
-            {
-                TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Madmate) + "</color>\r\n" +
-                "<color=#ff0000>" + main.getLang(lang.MadGuardianInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //Jester
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Jester)
-            {
-                TaskTextPrefix = "<color=#d161a4>" + main.getRoleName(CustomRoles.Jester) + "</color>\r\n" +
-                "<color=#d161a4>" + main.getLang(lang.JesterInfo) + "</color>\r\n";
-                TaskTextPrefix += FakeTasksText;
-            }
-            //Bait
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Bait)
-            {
-                TaskTextPrefix = "<color=#00bfff>" + main.getRoleName(CustomRoles.Bait) + "</color>\r\n" +
-                "<color=#00bfff>" + main.getLang(lang.BaitInfo) + "</color>\r\n";
-            }
-            //Terrorist
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Terrorist)
-            {
-                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Terrorist) + "</color>\r\n" +
-                "<color=#00ff00>" + main.getLang(lang.TerroristInfo) + "</color>\r\n";
-            }
-            //Sidekick
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sidekick)
-            {
-                var ImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor &&
-                       !pc.Data.IsDead) ImpostorCount++;
-                }
-                if (ImpostorCount > 0)
-                {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.BeforeSidekickInfo) + "</color>\r\n";
-                }
-                else
-                {
-                    TaskTextPrefix = "<color=#ff0000>" + main.getRoleName(CustomRoles.Sidekick) + "</color>\r\n" +
-                    "<color=#ff0000>" + main.getLang(lang.AfterSidekickInfo) + "</color>\r\n";
-                }
-            }
-            //Vampire
-            if (main.isVampire(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#a557a5>" + main.getRoleName(CustomRoles.Vampire) + "</color>\r\n" +
-                "<color=#a557a5>" + main.getLang(lang.VampireInfo) + "</color>\r\n";
-            }
-            //SabotageMaster
-            if (main.isSabotageMaster(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#0000ff>" + main.getRoleName(CustomRoles.SabotageMaster) + "</color>\r\n" +
-                "<color=#0000ff>" + main.getLang(lang.SabotageMasterInfo) + "</color>\r\n";
-            }
-            //Mayor
-            if (main.isMayor(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#ff00ff>" + main.getRoleName(CustomRoles.Mayor) + "</color>\r\n" +
-                "<color=#ff00ff>" + main.getLang(lang.MayorInfo) + "</color>\r\n";
-            }
-            //Opportunist
-            if (main.isOpportunist(PlayerControl.LocalPlayer))
-            {
-                TaskTextPrefix = "<color=#00ff00>" + main.getRoleName(CustomRoles.Opportunist) + "</color>\r\n" +
-                "<color=#00ff00>" + main.getLang(lang.OpportunistInfo) + "</color>\r\n";
+                case CustomRoles.Madmate:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.MadGuardian:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.Jester:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getLang(lang.JesterInfo)}</color>\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.Bait:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Bait)}>{main.getRoleName(CustomRoles.Bait)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Bait)}>{main.getLang(lang.BaitInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Terrorist:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getLang(lang.TerroristInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Mafia:
+                    if (!CustomRoles.Mafia.CanUseKillButton())
+                    {
+                        TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
+                        __instance.KillButton.SetDisabled();
+                    }
+                    else
+                    {
+                        TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
+                    }
+                    break;
+                case CustomRoles.Vampire:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getRoleName(CustomRoles.Vampire)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.SabotageMaster:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getRoleName(CustomRoles.SabotageMaster)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Mayor:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getRoleName(CustomRoles.Mayor)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Opportunist:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getLang(lang.OpportunistInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Snitch:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Sheriff:
+                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
+                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                    }
+                    break;
+                case CustomRoles.BountyHunter:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyHunterInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Warlock:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getLang(lang.WarlockInfo)}</color>\r\n";
+                    break;
             }
 
-            if (!__instance.TaskText.text.Contains(TaskTextPrefix))
-            {
-                __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
-            }
+            if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
             if (main.OptionControllerIsEnable)
             {
@@ -127,21 +108,25 @@ namespace TownOfHost
                 __instance.GameSettings.fontSizeMax = 1.3f;
             }
 
-            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if(Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
-                if (PlayerControl.LocalPlayer.AmOwner) {
+                if (PlayerControl.LocalPlayer.AmOwner)
+                {
                     PlayerControl.LocalPlayer.MyPhysics.inputHandler.enabled = true;
                     ConsoleJoystick.SetMode_Task();
                 }
             }
 
             if(AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
-            if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
+            if(Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
                 RepairSender.enabled = !RepairSender.enabled;
                 RepairSender.Reset();
             }
-            if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame) {
+            if(RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
                 if(Input.GetKeyDown(KeyCode.Alpha0)) RepairSender.Input(0);
                 if(Input.GetKeyDown(KeyCode.Alpha1)) RepairSender.Input(1);
                 if(Input.GetKeyDown(KeyCode.Alpha2)) RepairSender.Input(2);
@@ -157,6 +142,35 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
+    class ToggleHighlightPatch {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead) {
+                ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+            }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
+    class FindClosestTargetPatch {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && 
+            __instance.Data.Role.Role != RoleTypes.GuardianAngel) {
+                protecting = true;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    class SetHudActivePatch {
+        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive) {
+            switch(PlayerControl.LocalPlayer.getCustomRole()) {
+                case CustomRoles.Sheriff:
+                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
+            }
+        }
+    }
     class RepairSender {
         public static bool enabled = false;
         public static bool TypingAmount = false;
@@ -164,8 +178,10 @@ namespace TownOfHost
         public static int SystemType;
         public static int amount;
 
-        public static void Input(int num) {
-            if(!TypingAmount) {
+        public static void Input(int num)
+        {
+            if(!TypingAmount)
+            {
                 //SystemType入力中
                 SystemType = SystemType * 10;
                 SystemType += num;
@@ -175,8 +191,10 @@ namespace TownOfHost
                 amount += num;
             }
         }
-        public static void InputEnter() {
-            if(!TypingAmount) {
+        public static void InputEnter()
+        {
+            if(!TypingAmount)
+            {
                 //SystemType入力中
                 TypingAmount = true;
             } else {
@@ -184,16 +202,19 @@ namespace TownOfHost
                 send();
             }
         }
-        public static void send() {
+        public static void send()
+        {
             ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
             Reset();
         }
-        public static void Reset() {
+        public static void Reset()
+        {
             TypingAmount = false;
             SystemType = 0;
             amount = 0;
         }
-        public static string getText() {
+        public static string getText()
+        {
             return SystemType.ToString() + "(" + ((SystemTypes)SystemType).ToString() + ")\r\n" + amount;
         }
     }

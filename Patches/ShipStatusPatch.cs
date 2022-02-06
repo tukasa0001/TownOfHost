@@ -22,32 +22,22 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if (main.isFixedCooldown && PlayerControl.GameOptions.KillCooldown == main.BeforeFixCooldown)
+            if (main.isFixedCooldown && main.RefixCooldownDelay >= 0)
             {
-                if (main.RefixCooldownDelay <= 0)
-                {
-                    PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown * 2;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions); ;
-                }
-                else
-                {
-                    main.RefixCooldownDelay -= Time.fixedDeltaTime;
-                }
+                main.RefixCooldownDelay -= Time.fixedDeltaTime;
+            } else if(!float.IsNaN(main.RefixCooldownDelay)) {
+                main.CustomSyncAllSettings();
+                main.RefixCooldownDelay = float.NaN;
+                Logger.info("Refix Cooldown");
             }
             if(main.IsHideAndSeek) {
                 if(main.HideAndSeekKillDelayTimer > 0) {
                     main.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
                     Logger.SendToFile("HaSKillDelayTimer: " + main.HideAndSeekKillDelayTimer);
-                    //インポスター行動解禁までの処理
-                    foreach(var pc in PlayerControl.AllPlayerControls) {
-                        if(pc.Data.Role.IsImpostor) {
-                        }
-                    }
                 } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
-                    Logger.info("キル能力解禁");
+                    main.CustomSyncAllSettings();
                     main.HideAndSeekKillDelayTimer = float.NaN;
-                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                    Logger.info("キル能力解禁");
                 }
             }
         }
@@ -66,7 +56,7 @@ namespace TownOfHost
             if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
-            if(main.isSabotageMaster(player)) {
+            if(player.isSabotageMaster()) {
                 switch(systemType){
                     case SystemTypes.Reactor:
                         if(!main.SabotageMasterFixesReactors) break;
@@ -134,8 +124,13 @@ namespace TownOfHost
             if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (main.isMadmate(player) || main.isMadGuardian(player))) //実行者がMadmateかMadGuardian)
+               (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
+            if(player.isSheriff()) {
+                if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
+                if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
+            }
+            main.CustomSyncAllSettings();
             return true;
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
@@ -162,7 +157,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
-            if(main.isSabotageMaster(player)) {
+            if(player.isSabotageMaster()) {
                 if(!main.SabotageMasterFixesElectrical) return;
                 if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) return;
                 if(0 <= amount && amount <= 4) {
@@ -171,6 +166,20 @@ namespace TownOfHost
                     main.SabotageMasterUsedSkillCount++;
                 }
             }
+            main.CustomSyncAllSettings();
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]
+    class StartPatch {
+        public static void Postfix() {
+            Logger.info("ShipStatus.Start");
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
+    class BeginPatch {
+        public static void Postfix() {
+            Logger.info("ShipStatus.Begin");
+            main.NotifyRoles();
         }
     }
 }
