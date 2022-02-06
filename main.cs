@@ -901,7 +901,7 @@ namespace TownOfHost
                 {CustomRoles.Impostor, "インポスター"},
                 {CustomRoles.Shapeshifter, "シェイプシフター"},
                 {CustomRoles.Jester, "ジェスター"},
-                {CustomRoles.Madmate, "狂人"},
+                {CustomRoles.Madmate, "マッドメイト"},
                 {CustomRoles.MadGuardian, "守護狂人"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
