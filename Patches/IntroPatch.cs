@@ -169,24 +169,20 @@ namespace TownOfHost
             }
             if(main.IsHideAndSeek) {
                 if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
-                    __instance.TeamTitle.text = "Fox";
+                    __instance.TeamTitle.text = main.getRoleName(CustomRoles.Fox);
                     __instance.TeamTitle.fontSize -= 0.5f;
                     __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = "殺されずに逃げきれ";
+                    __instance.ImpostorText.text = main.getLang(lang.FoxInfo);
                     __instance.TeamTitle.color = Color.magenta;
                     __instance.BackgroundBar.material.color = Color.magenta;
-                    __instance.RoleText.text = "狐";
-                    __instance.RoleBlurbText.text = "殺されずに逃げきれ";
                 }
                 if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Troll) {
-                    __instance.TeamTitle.text = "Troll";
+                    __instance.TeamTitle.text = main.getRoleName(CustomRoles.Troll);
                     __instance.TeamTitle.fontSize -= 0.5f;
                     __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = "インポスターにキルされろ";
+                    __instance.ImpostorText.text = main.getLang(lang.TrollInfo);
                     __instance.TeamTitle.color = Color.green;
                     __instance.BackgroundBar.material.color = Color.green;
-                    __instance.RoleText.text = "トロール";
-                    __instance.RoleBlurbText.text = "インポスターにキルされろ";
                 }
             }
         }

@@ -32,19 +32,19 @@ namespace TownOfHost
                         canceled = true;
                         main.SendToAll(main.winnerList);
                         break;
-                    
+
                     case "/r":
                     case "/rename":
                         canceled = true;
                         if(args.Length > 1){main.nickName = args[1];}
                         break;
-                    
+
                     case "/n":
                     case "/now":
                         canceled = true;
                         main.ShowActiveSettings();
                         break;
-                    
+
                     case "/dis":
                         canceled = true;
                         if(args.Length < 2){__instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");cancelVal = "/dis";}
@@ -66,7 +66,7 @@ namespace TownOfHost
                         }
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                         break;
-                    
+
                     case "/h":
                     case "/help":
                         canceled = true;
@@ -139,7 +139,7 @@ namespace TownOfHost
                     break;
 
                 case "madmate":
-                case "ma":
+                case "mm":
                     main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     break;
 
@@ -154,7 +154,7 @@ namespace TownOfHost
                     break;
 
                 case "mafia":
-                case "maf":
+                case "mf":
                     main.SendToAll(main.getLang(lang.MafiaInfoLong));
                     break;
 
@@ -169,12 +169,12 @@ namespace TownOfHost
                     break;
 
                 case "mayor":
-                case "may":
+                case "my":
                     main.SendToAll(main.getLang(lang.MayorInfoLong));
                     break;
 
                 case "madguardian":
-                case "mad":
+                case "mg":
                     main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                     break;
 
@@ -214,7 +214,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), warlock(wa), fox(fo), troll(tr)");
                     break;
             }
 
