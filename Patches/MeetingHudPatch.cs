@@ -99,29 +99,8 @@ namespace TownOfHost
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-            //Sheriff用RPCの送信
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                var stat = new CheckGameEndPatch.PlayerStatistics(ShipStatus.Instance);
-                if(stat == null) break;
-                if(stat.TotalAlive - stat.TeamImpostorsAlive - 1 <= stat.TeamImpostorsAlive) break;
-                if(exiledPlayer == null) break;
-                if(tie) break;
-                if(pc.AmOwner && AmongUsClient.Instance.AmHost) continue;
-                if(pc.getCustomRole() != CustomRoles.Sheriff) continue;
-                if(exiledPlayer.PlayerId != pc.PlayerId) continue;
-                var clientId = pc.getClientId();
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)23, SendOption.Reliable, clientId);
-                writer.WritePacked(states.Length);
-                foreach(var state in states) {
-                    state.Serialize(writer);
-                }
-                writer.Write(byte.MaxValue);
-                writer.Write(tie);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                pc.RpcBeKilled();
-            }
             //実際のRPC
-            new LateTask(() => MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie), 0.5f, "RpcVotingCompleteTask");
+            __instance.RpcVotingComplete(states, exiledPlayer, tie);
             return false;
         }
         public static bool isMayor(byte id) {
