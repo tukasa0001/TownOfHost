@@ -53,6 +53,7 @@ However, The numeric keypad is not supported.
 | Mayor | Crewmate |
 | Opportunist | Crewmate |
 | Snitch | Crewmate |
+| Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
 | Warlock | Shapeshifter |
 
@@ -161,24 +162,33 @@ They don't have tasks.
 Team : Crewmates
 Decision : Crewmate
 
-When the Snitch completes a task, the name of the extraperson will change to red.
-However, when tasks in the Snitch becomes low, the name of the Snitch will appear to change from the extraperson.
+When they completes a task, the name of the evildoer will change to red.
+However, when their tasks becomes low, their name will appear to change from the evildoer.
+
+### Sheriff
+
+Team : Crewmates
+Decision : Crewmate(Only host is the Crewmate)
+
+They can kill the evildoers.
+However, if they kill the Crewmate, they will die.
 
 ### BountyHunter
 
 Team : Impostor<br>
 Decision : Impostor<br>
 
-Bountyhunter's first kill chooses the target.
-When BountyHunter killed the target, the next killcooldown would haived.
+When they first tries to make a kill, a target will be chosen.
+Killing the indicated target will halve the next killcool.
+If they kill someone who is not their target, they will still keep their kill rule.
 
 ### Warlock
 
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
-If Warlock shapeshifts and kills, he curses a crewmate.
-If Warlock kills another crewmate, the cursed crewmate will kill the nearest crewmate.
+If they kill while they are undergoing a transformation, a curse will be placed on that player.
+If they then press the kill button, the player closest to the killed player (including the Imposters) will be killed by the cursed player.
 
 ## Mode
 
