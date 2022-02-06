@@ -166,10 +166,8 @@ namespace TownOfHost {
         }
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
-            string log = main.RealOptionsData.PlayerSpeedMod + ", ";
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
-            log += opt.PlayerSpeedMod + ", ";
             
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
@@ -200,12 +198,10 @@ namespace TownOfHost {
                 opt.ImpostorLightMod = 0f;
             }
 
-            log += opt.PlayerSpeedMod;
             if(player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            Logger.SendInGame(log);
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt) {

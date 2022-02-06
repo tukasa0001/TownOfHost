@@ -615,7 +615,6 @@ namespace TownOfHost
             }
         }
         public static void CustomSyncAllSettings() {
-            TownOfHost.Logger.SendInGame("同期");
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 pc.CustomSyncSettings();
             }
