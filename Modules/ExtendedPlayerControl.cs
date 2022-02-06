@@ -219,6 +219,33 @@ namespace TownOfHost {
         public static string getRoleColorCode(this PlayerControl player) {
             return main.getRoleColorCode(player.getCustomRole());
         }
+        public static void ResetPlayerCam(this PlayerControl pc) {
+            if(pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
+            int clientId = pc.getClientId();
+
+            byte reactorId = 3;
+            if(PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+
+            MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+            SabotageWriter.Write(reactorId);
+            MessageExtensions.WriteNetObject(SabotageWriter, pc);
+            SabotageWriter.Write((byte)128);
+            AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
+
+            new LateTask(() => {
+                MessageWriter MurderWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, clientId);
+                MessageExtensions.WriteNetObject(MurderWriter, pc);
+                AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
+            }, 0.2f, "Murder To Reset Cam");
+
+            new LateTask(() => {
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageFixWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                SabotageFixWriter.Write((byte)16);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            }, 0.4f, "Fix Desync Reactor");
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}

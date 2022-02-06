@@ -12,6 +12,7 @@ using Hazel;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using InnerNet;
 
 namespace TownOfHost
 {
@@ -50,8 +51,6 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
-            // | H | いつでも | 設定同期テスト |
-            // | J | いつでも | 設定同期テスト |
             //====================
 
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
