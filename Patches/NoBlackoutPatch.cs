@@ -20,6 +20,9 @@ namespace TownOfHost {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target) {
             if(!AmongUsClient.Instance.AmHost) return false;
             if(target.getCustomRole() == CustomRoles.Sheriff) {
+                var stat = new CheckGameEndPatch.PlayerStatistics(ShipStatus.Instance);
+                if(stat == null) return true;
+                if(stat.TotalAlive - stat.TeamImpostorsAlive - 1 <= stat.TeamImpostorsAlive) return true;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.PlayerId == target.PlayerId) continue;
                     var clientId = pc.getClientId();

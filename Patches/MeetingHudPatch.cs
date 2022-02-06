@@ -101,6 +101,9 @@ namespace TownOfHost
 
             //Sheriff用RPCの送信
             foreach(var pc in PlayerControl.AllPlayerControls) {
+                var stat = new CheckGameEndPatch.PlayerStatistics(ShipStatus.Instance);
+                if(stat == null) break;
+                if(stat.TotalAlive - stat.TeamImpostorsAlive - 1 <= stat.TeamImpostorsAlive) break;
                 if(exiledPlayer == null) break;
                 if(tie) break;
                 if(pc.AmOwner && AmongUsClient.Instance.AmHost) continue;
