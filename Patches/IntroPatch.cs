@@ -4,6 +4,7 @@ using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
@@ -12,14 +13,42 @@ using System.Linq;
 
 namespace TownOfHost
 {
-    //役職表示変更
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
+    class SetUpRoleTextPatch {
+        static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
+            {CustomRoles.Jester, lang.JesterInfo},
+            {CustomRoles.Madmate, lang.MadmateInfo},
+            {CustomRoles.Bait, lang.BaitInfo},
+            {CustomRoles.Terrorist, lang.TerroristInfo},
+            {CustomRoles.Mafia, lang.MafiaInfo},
+            {CustomRoles.Vampire, lang.VampireInfo},
+            {CustomRoles.SabotageMaster, lang.SabotageMasterInfo},
+            {CustomRoles.MadGuardian, lang.MadGuardianInfo},
+            {CustomRoles.Mayor, lang.MayorInfo},
+            {CustomRoles.Opportunist, lang.OpportunistInfo},
+            {CustomRoles.Snitch, lang.SnitchInfo},
+            {CustomRoles.Sheriff, lang.SheriffInfo},
+            {CustomRoles.BountyHunter, lang.BountyHunterInfo},
+            {CustomRoles.Warlock, lang.WarlockInfo},
+            {CustomRoles.Fox, lang.FoxInfo},
+            {CustomRoles.Troll, lang.TrollInfo}
+        };
+        public static void Postfix(IntroCutscene __instance) {
+            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+            __instance.RoleText.text = main.getRoleName(role);
+            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.getLang(info);
+            __instance.RoleText.color = main.getRoleColor(role);
+            __instance.RoleBlurbText.color = main.getRoleColor(role);
+        }
+    }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     class BeginCrewmatePatch
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.isJester())
-            {
+            var role = PlayerControl.LocalPlayer.getCustomRole();
+            if (role.GetIntroType() == IntroTypes.Neutral) {
+                //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
                 yourTeam = soloTeam;
@@ -27,7 +56,48 @@ namespace TownOfHost
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
+            //チーム表示変更
             var rand = new System.Random();
+            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+            IntroTypes introType = role.GetIntroType();
+
+            switch(introType) {
+                case IntroTypes.Neutral:
+                    __instance.TeamTitle.text = main.getRoleName(role);
+                    __instance.TeamTitle.color = main.getRoleColor(role);
+                    __instance.BackgroundBar.material.color = main.getRoleColor(role);
+                    break;
+                case IntroTypes.Madmate:
+                    StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                    break;
+            }
+            switch(role) {
+                case CustomRoles.Madmate:
+                case CustomRoles.MadGuardian:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+                    break;
+
+                case CustomRoles.Terrorist:
+                    var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
+                    .MinigamePrefab.OpenSound;
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
+                    break;
+                
+                case CustomRoles.Vampire:
+                case CustomRoles.Warlock:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                    break;
+                
+                case CustomRoles.SabotageMaster:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
+                    break;
+                
+                case CustomRoles.Sheriff:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                    break;
+
+            }
+
             if (Input.GetKey(KeyCode.RightShift))
             {
                 __instance.TeamTitle.text = "Town Of Host";
@@ -35,159 +105,26 @@ namespace TownOfHost
                 __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
                 "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
-                __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
-                __instance.RoleText.text = "役職名";
-                __instance.RoleBlurbText.text = "役職の説明";
-            }
-            if (PlayerControl.LocalPlayer.isJester())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Jester);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.JesterInfo);
-                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Jester);
-                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
-            }
-            if (PlayerControl.LocalPlayer.isMadmate())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Madmate);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.MadmateInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Palette.ImpostorRed;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-            }
-            if (PlayerControl.LocalPlayer.isBait())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Bait);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.BaitInfo);
-                __instance.TeamTitle.color = Color.cyan;
-                __instance.BackgroundBar.material.color = Color.yellow;
-            }
-            if (PlayerControl.LocalPlayer.isTerrorist())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Terrorist);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.TerroristInfo);
-                __instance.TeamTitle.color = Color.green;
-                __instance.BackgroundBar.material.color = Color.green;
-                var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
-                .MinigamePrefab.OpenSound;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
-            }
-            if (PlayerControl.LocalPlayer.isMafia())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mafia);
-                __instance.TeamTitle.fontSize -= 0.5f;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.MafiaInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Color.red;
-            }
-            if (PlayerControl.LocalPlayer.isVampire())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Vampire);
-                __instance.TeamTitle.fontSize -= 0.5f;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.VampireInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Vampire);
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-            }
-            if (PlayerControl.LocalPlayer.isSabotageMaster())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.SabotageMaster);
-                __instance.TeamTitle.fontSize -= 0.75f;
-                __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.SabotageMasterInfo);
-                __instance.TeamTitle.color = Color.blue;
-                __instance.BackgroundBar.material.color = Color.blue;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
-            }
-            if (PlayerControl.LocalPlayer.isMadGuardian())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.MadGuardian);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.MadGuardianInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Palette.ImpostorRed;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-            }
-            if (PlayerControl.LocalPlayer.isOpportunist())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Opportunist);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.OpportunistInfo);
-                __instance.TeamTitle.color = Color.green;
-                __instance.BackgroundBar.material.color = Color.green;
-            }
-            if (PlayerControl.LocalPlayer.isSnitch())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Snitch);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.SnitchInfo);
-                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Snitch);
-                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Snitch);
-            }
-            if (PlayerControl.LocalPlayer.isMayor())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Mayor);
-                __instance.TeamTitle.fontSizeMin = __instance.TeamTitle.fontSize;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.MayorInfo);
-                __instance.TeamTitle.color = main.getRoleColor(CustomRoles.Mayor);
-                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Mayor);
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
-            }
-            if (PlayerControl.LocalPlayer.isSheriff())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Sheriff);
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.SheriffInfo);
-                __instance.TeamTitle.color = Color.yellow;
-                __instance.BackgroundBar.material.color = Color.yellow;
-                PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Scientist);
-            }
-            if (PlayerControl.LocalPlayer.isBountyHunter())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.BountyHunter);
-                __instance.TeamTitle.fontSize -= 0.5f;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.BountyHunterInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Color.red;
-            }
-            if (PlayerControl.LocalPlayer.isWarlock())
-            {
-                __instance.TeamTitle.text = main.getRoleName(CustomRoles.Warlock);
-                __instance.TeamTitle.fontSize -= 0.5f;
-                __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = main.getLang(lang.WarlockInfo);
-                __instance.TeamTitle.color = Palette.ImpostorRed;
-                __instance.BackgroundBar.material.color = Color.red;
-            }
-            if(main.IsHideAndSeek) {
-                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
-                    __instance.TeamTitle.text = main.getRoleName(CustomRoles.Fox);
-                    __instance.TeamTitle.fontSize -= 0.5f;
-                    __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = main.getLang(lang.FoxInfo);
-                    __instance.TeamTitle.color = Color.magenta;
-                    __instance.BackgroundBar.material.color = Color.magenta;
-                }
-                if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Troll) {
-                    __instance.TeamTitle.text = main.getRoleName(CustomRoles.Troll);
-                    __instance.TeamTitle.fontSize -= 0.5f;
-                    __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = main.getLang(lang.TrollInfo);
-                    __instance.TeamTitle.color = Color.green;
-                    __instance.BackgroundBar.material.color = Color.green;
-                }
+                StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
         }
         private static AudioClip GetIntroSound(RoleTypes roleType) {
             return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
+        }
+        private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end) {
+            await Task.Delay(1000);
+            int miliseconds = 0;
+            while(true) {
+                await Task.Delay(20);
+                miliseconds += 20;
+                float time = (float)miliseconds / (float)500;
+                Color LerpingColor = Color.Lerp(start, end, time);
+                if(__instance == null || miliseconds > 500) {
+                    Logger.info("ループを終了します");
+                    break;
+                }
+                __instance.BackgroundBar.material.color = LerpingColor;
+            }
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]

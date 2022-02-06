@@ -47,5 +47,38 @@ namespace TownOfHost {
             }
             return canUse;
         }
+        public static IntroTypes GetIntroType(this CustomRoles role) {
+            IntroTypes type = IntroTypes.Crewmate;
+            switch(role) {
+                case CustomRoles.Impostor:
+                case CustomRoles.Shapeshifter:
+                case CustomRoles.Vampire:
+                case CustomRoles.Mafia:
+                case CustomRoles.BountyHunter:
+                case CustomRoles.Warlock:
+                    type = IntroTypes.Impostor;
+                    break;
+                
+                case CustomRoles.Jester:
+                case CustomRoles.Opportunist:
+                case CustomRoles.Terrorist:
+                case CustomRoles.Troll:
+                case CustomRoles.Fox:
+                    type = IntroTypes.Neutral;
+                    break;
+
+                case CustomRoles.Madmate:
+                case CustomRoles.MadGuardian:
+                    type = IntroTypes.Madmate;
+                    break;
+            }
+            return type;
+        }
+    }
+    public enum IntroTypes {
+        Crewmate,
+        Impostor,
+        Neutral,
+        Madmate
     }
 }
