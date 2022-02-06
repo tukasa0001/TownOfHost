@@ -188,6 +188,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.SnitchInfoLong));
                     break;
 
+                case "sheriff":
+                case "sh":
+                    main.SendToAll(main.getLang(lang.SheriffInfoLong));
+                    break;
+
                 case "bountyhunter":
                 case "bo":
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
@@ -224,10 +229,21 @@ namespace TownOfHost
             float num = 3f - __instance.TimeSinceLastMessage;
             if (main.MessagesToSend.Count > 0 && num <= 0.0f)
             {
-                string msg = main.MessagesToSend[0];
+                (string, byte) msgData = main.MessagesToSend[0];
+                string msg = msgData.Item1;
+                byte sendTo = msgData.Item2;
                 main.MessagesToSend.RemoveAt(0);
                 __instance.TimeSinceLastMessage = 0.0f;
-                PlayerControl.LocalPlayer.RpcSendChat(msg);
+                if(sendTo == byte.MaxValue) {
+                    PlayerControl.LocalPlayer.RpcSendChat(msg);
+                } else {
+                    PlayerControl target = main.getPlayerById(sendTo);
+                    if(target == null) return;
+                    int clientId = target.getClientId();
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);
+                    writer.Write(msg);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                }
             }
         }
     }

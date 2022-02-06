@@ -55,12 +55,13 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getLang(lang.TerroristInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
-                    var ImpostorCount = 0;
-                    foreach (var pc in PlayerControl.AllPlayerControls)if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
-                    if (ImpostorCount > 0)
+                    if (!CustomRoles.Mafia.CanUseKillButton())
                     {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.BeforeMafiaInfo)}</color>\r\n";
-                    } else {
+                        __instance.KillButton.SetDisabled();
+                    }
+                    else
+                    {
                         TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Mafia)}>{main.getLang(lang.AfterMafiaInfo)}</color>\r\n";
                     }
                     break;
@@ -78,6 +79,13 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Snitch:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Sheriff:
+                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
+                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                    }
                     break;
                 case CustomRoles.BountyHunter:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyHunterInfo)}</color>\r\n";
@@ -134,8 +142,36 @@ namespace TownOfHost
             }
         }
     }
-    class RepairSender
-    {
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
+    class ToggleHighlightPatch {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead) {
+                ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+            }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
+    class FindClosestTargetPatch {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting) {
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && 
+            __instance.Data.Role.Role != RoleTypes.GuardianAngel) {
+                protecting = true;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    class SetHudActivePatch {
+        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive) {
+            switch(PlayerControl.LocalPlayer.getCustomRole()) {
+                case CustomRoles.Sheriff:
+                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
+            }
+        }
+    }
+    class RepairSender {
         public static bool enabled = false;
         public static bool TypingAmount = false;
 

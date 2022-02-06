@@ -62,18 +62,19 @@ namespace TownOfHost
             }
             if (__instance.isMafia())
             {
-                var ImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor && !pc.Data.IsDead) ImpostorCount++;
-                }
-                Logger.SendToFile("ImpostorCount: " + ImpostorCount);
-                if (ImpostorCount > 0)
+                if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
                 } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
+                }
+            }
+            if(__instance.isSheriff()) {
+                if(__instance.Data.IsDead) return false;
+                if(!target.canBeKilledBySheriff()) {
+                    __instance.RpcMurderPlayer(__instance);
+                    return false;
                 }
             }
             if(target.isMadGuardian()) {
@@ -185,10 +186,6 @@ namespace TownOfHost
             }
 
             __instance.RpcMurderPlayer(target);
-            if (main.isFixedCooldown)
-            {
-                __instance.RpcGuardAndKill(target);
-            }
             return false;
         }
     }
@@ -211,9 +208,7 @@ namespace TownOfHost
                 else main.UsedButtonCount++;
                 if (main.SyncedButtonCount == main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大数に達したため、ボタンクールダウンが1時間に設定されました。");
-                    PlayerControl.GameOptions.EmergencyCooldown = 3600;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                    Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
                 }
             }
 
@@ -246,6 +241,7 @@ namespace TownOfHost
                 );
             }
 
+            main.CustomSyncAllSettings();
             return true;
         }
         public static async void ChangeLocalNameAndRevert(string name, int time) {
@@ -288,10 +284,8 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+
                 if(__instance.AmOwner) main.ApplySuffix();
-            }
-            if(main.IsHideAndSeek && main.IgnoreVent) {
-                if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
             }
             //各クライアントが全員分実行
             //役職テキストの表示
@@ -372,13 +366,31 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.RpcMurderPlayer))]
-    class RpcMurderPlayerPatch
-    {
-        public static void Postfix(PlayerControl __instance)
-        {
-            main.NotifyRoles();
+    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+    class EnterVentPatch {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc) {
+            if(main.IsHideAndSeek && main.IgnoreVent)
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
-
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
+    class CoEnterVentPatch {
+        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
+            if(AmongUsClient.Instance.AmHost){
+                if(__instance.myPlayer.isSheriff()) {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
+                    writer.WritePacked(127);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    new LateTask(() => {
+                        int clientId = __instance.myPlayer.getClientId();
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
+                        writer2.Write(id);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    }, 0.5f, "Fix Sheriff Stuck");
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

@@ -56,6 +56,10 @@ namespace TownOfHost
                 {
                     ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
                 }
+                if(ob.Title == StringNames.GameRecommendedSettings) {
+                    ob.enabled = false;
+                    ob.gameObject.SetActive(false);
+                }
             }
         }
     }
