@@ -188,6 +188,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.SnitchInfoLong));
                     break;
                     
+                case "darkscientist":
+                case "da":
+                    main.SendToAll(main.getLang(lang.DarkScientistInfoLong));
+                    break;
+
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
@@ -199,7 +204,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(ma), bait(ba), terrorist(te), sidekick(si), vampire(va),\n sabotagemaster(sa), mayor(may), madguardian(mad), opportunist(op), snitch(sn), darkScientist(da)fox(fo), troll(tr)");
                     break;
             }
 

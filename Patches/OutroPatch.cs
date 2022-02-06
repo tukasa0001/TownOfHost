@@ -28,6 +28,7 @@ namespace TownOfHost
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
                     if (p.isJester()) canWin = false; //Jester
                     if (p.isMadmate()) canWin = false; //Madmate
+                    if (p.isDarkScientist()) canWin = false; //DarkScientist
                     if (p.isMadGuardian()) canWin = false; //Mad Guardian
                     if (p.isTerrorist()) canWin = false; //Terrorist
                     if (p.isOpportunist()) canWin = false; //Opportunist
@@ -41,6 +42,7 @@ namespace TownOfHost
                     bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
                     if (p.isMadmate()) canWin = true; //Madmate
                     if (p.isMadGuardian()) canWin = true; //Mad Guardian
+                    if (p.isDarkScientist()) canWin = true; //DarkScientist
                     if (p.isOpportunist()) canWin = false; //Opportunist
                     if(canWin) winner.Add(p);
                 }

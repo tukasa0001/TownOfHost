@@ -41,6 +41,7 @@ namespace TownOfHost
                         OptionPages.SabotageMaster,
                         OptionPages.Mayor,
                         OptionPages.Snitch,
+                        OptionPages.DarkScientist,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -132,6 +133,14 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Snitch, i)
+                    )},
+                    {OptionPages.DarkScientist, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.DarkScientist)}>{main.getRoleName(CustomRoles.DarkScientist)}</color>: {main.DarkScientistCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.DarkScientist);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.DarkScientist, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -569,6 +578,7 @@ namespace TownOfHost
                 Mayor,
                 Opportunist,
                 Snitch,
+                DarkScientist,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

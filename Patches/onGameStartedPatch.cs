@@ -35,6 +35,11 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerCooldown = 0.2f;
                     opt.RoleOptions.EngineerInVentMaxTime = float.PositiveInfinity;
                 }
+                if (main.DarkScientistCount > 0)
+                {//無限バイタル
+                opt.RoleOptions.ScientistBatteryCharge = float.PositiveInfinity;
+                opt.RoleOptions.ScientistCooldown = 0.25f;
+                }
                 if (main.isFixedCooldown)
                 {
                     main.BeforeFixCooldown = opt.KillCooldown;
@@ -50,7 +55,7 @@ namespace TownOfHost
                     Logger.SendToFile("HideAndSeekImpVisionMinを" + main.HideAndSeekImpVisionMin + "に変更");
                 }
 
-                PlayerControl.LocalPlayer.RpcSyncSettings(opt);
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
             }
         }
     }
@@ -67,6 +72,10 @@ namespace TownOfHost
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum += main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
+
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                ScientistNum += main.DarkScientistCount;
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, 100);
             }
         }
         public static void Postfix(RoleManager __instance) {
@@ -180,6 +189,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
+                AssignCustomRolesFromList(CustomRoles.DarkScientist, Scientists);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -193,6 +203,10 @@ namespace TownOfHost
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= main.MadmateCount + main.TerroristCount;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
+
+                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                ScientistNum -= main.DarkScientistCount;
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= main.MafiaCount;

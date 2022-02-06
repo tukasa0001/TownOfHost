@@ -140,6 +140,15 @@ namespace TownOfHost
                 __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Mayor);
                 PlayerControl.LocalPlayer.Data.Role.IntroSound = MeetingHud.Instance.VoteEndingSound;
             }
+            if (PlayerControl.LocalPlayer.isDarkScientist())
+            {
+                __instance.TeamTitle.text = main.getRoleName(CustomRoles.DarkScientist);
+                __instance.TeamTitle.fontSize -= 0.5f;
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = main.getLang(lang.DarkScientistInfo);
+                __instance.TeamTitle.color = Palette.ImpostorRed;
+                __instance.BackgroundBar.material.color = Color.red;
+            }
             if(main.IsHideAndSeek) {
                 if (main.AllPlayerCustomRoles[PlayerControl.LocalPlayer.PlayerId] == CustomRoles.Fox) {
                     __instance.TeamTitle.text = "Fox";
