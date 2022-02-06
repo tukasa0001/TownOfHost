@@ -170,6 +170,7 @@ Decision : Crewmate(Only host is the Crewmate)<br>
 
 They can kill the evildoers.<br>
 However, if they kill the Crewmate, they will die.<br>
+They don't have tasks.<br>
 
 ### BountyHunter
 
