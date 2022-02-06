@@ -36,7 +36,6 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 main.CheckTerroristWin(target.Data);
             }
-            if(target.isSheriff()) main.NotifyRole(target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -301,6 +300,7 @@ namespace TownOfHost
                 }
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
+                main.nameSuffix = "";
                 if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                 else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                 else RoleText.enabled = false; //そうでなければロールを非表示
@@ -308,6 +308,32 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                     RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                if(main.hasTasks(__instance.Data))//タスク持ちの陣営
+                {
+                    foreach(var t in PlayerControl.AllPlayerControls)
+                    {
+                        if(__instance.AllTasksCompleted() && __instance.isSnitch()){
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                            {
+                                t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                            }
+                        }
+                    }
+                }else{//タスクなしの陣営
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter() || __instance.isWarlock())
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                main.nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                            }
+                        }
+                    }
+                    if(__instance.isBountyHunter() && __instance.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                }
                 if (__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{main.nameSuffix}"; //自分なら名前に接尾詞を追加
             }
         }

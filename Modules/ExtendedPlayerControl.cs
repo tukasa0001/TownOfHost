@@ -91,7 +91,7 @@ namespace TownOfHost {
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
-            if(player == null || name == null) return;
+            if(player == null || name == null || !AmongUsClient.Instance.AmHost) return;
             if(seer == null) seer = player;
             //Logger.info($"{player.name}:{name} => {seer.name}");
             var clientId = seer.getClientId();

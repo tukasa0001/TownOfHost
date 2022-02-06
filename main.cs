@@ -574,48 +574,42 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                NotifyRole(pc);
-            }
-        }
-        public static void NotifyRole(PlayerControl p) {
-            string taskText = main.getTaskText(p.Data.Tasks);
-            string SheriffDeadMessage = p.isSheriff() ? "<color=red>(DEAD)</color>" : ""; 
-            string tmp;
-            if(main.hasTasks(p.Data))//タスク持ちの陣営
+            foreach(PlayerControl p in PlayerControl.AllPlayerControls)
             {
-                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
-                p.RpcSetNamePrivate(tmp,true);
-                foreach(var t in PlayerControl.AllPlayerControls)
+                string taskText = main.getTaskText(p.Data.Tasks);
+                string tmp;
+                if(main.hasTasks(p.Data))//タスク持ちの陣営
                 {
-                    if(t.Data.IsDead) p.RpcSetNamePrivate(tmp, true, t);
-                    if(p.AllTasksCompleted() && p.isSnitch()){
-                        if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
-                        {
-                            t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
-                        }
-                    }
-                }
-            }else{//タスクなしの陣営
-                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}{SheriffDeadMessage}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
-                foreach(var t in PlayerControl.AllPlayerControls){
-                    if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
-                    if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}<color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                    p.RpcSetNamePrivate(tmp,true);
+                    foreach(var t in PlayerControl.AllPlayerControls)
                     {
-                        var ct = 0;
-                        foreach(var task in t.myTasks) if(task.IsComplete)ct++;
-                        if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
-                        {
-                            tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                            if(p.AmOwner) main.nameSuffix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                            if(p.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
-                            t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                        if(t.Data.IsDead) p.RpcSetNamePrivate(tmp, true, t);
+                        if(p.AllTasksCompleted() && p.isSnitch()){
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                            {
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                            }
                         }
                     }
+                }else{//タスクなしの陣営
+                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>";
+                    foreach(var t in PlayerControl.AllPlayerControls){
+                        if(t.Data.IsDead) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color>" , true, t);
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWarlock())
+                        {
+                            var ct = 0;
+                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
+                            {
+                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size>\r\n{main.RealNames[p.PlayerId]}</color><color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                                t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , true, p);
+                            }
+                        }
+                    }
+                    if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    p.RpcSetNamePrivate(tmp,true);
                 }
-                if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                if(p.isBountyHunter() && p.AmOwner && main.BountyCheck == true)main.nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                p.RpcSetNamePrivate(tmp,true);
             }
         }
         public static void CustomSyncAllSettings() {
