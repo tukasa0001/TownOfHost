@@ -99,7 +99,12 @@ namespace TownOfHost
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-            __instance.RpcVotingComplete(states, exiledPlayer, tie);
+            __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+
+            //霊界用暗転バグ対処
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
+            
             return false;
         }
         public static bool isMayor(byte id) {
