@@ -67,7 +67,7 @@ namespace TownOfHost
                 if(main.SheriffCount > 0)
                 for(var i = 0; i < main.SheriffCount; i++) {
                     if(AllPlayers.Count <= 0) break;
-                    var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count - 1)];
+                    var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count)];
                     AllPlayers.Remove(sheriff);
                     main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
                     //ここからDesyncが始まる

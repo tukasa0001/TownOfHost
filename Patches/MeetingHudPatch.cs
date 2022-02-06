@@ -99,7 +99,6 @@ namespace TownOfHost
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-            //実際のRPC
             __instance.RpcVotingComplete(states, exiledPlayer, tie);
             return false;
         }
