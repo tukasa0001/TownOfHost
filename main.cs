@@ -694,7 +694,7 @@ namespace TownOfHost
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},
-                {CustomRoles.Vampire, "#a757a8"},
+                {CustomRoles.Vampire, "#ff0000"},
                 {CustomRoles.Mafia, "#ff0000"},
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
