@@ -244,7 +244,11 @@ namespace TownOfHost
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    {
+                        RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                        if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                    }
                     if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
                     if(main.hasTasks(__instance.Data))//タスク持ちの陣営
