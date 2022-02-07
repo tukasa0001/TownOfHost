@@ -157,15 +157,15 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.MadmateCanFixLightsOut,
+                            OptionPages.MadGuardianCanSeeBarrier,
+                            OptionPages.MayorAdditionalVote,
                             OptionPages.SabotageMasterSkillLimit,
                             OptionPages.SabotageMasterFixesDoors,
                             OptionPages.SabotageMasterFixesReactors,
                             OptionPages.SabotageMasterFixesOxygens,
                             OptionPages.SabotageMasterFixesCommunications,
-                            OptionPages.SabotageMasterFixesElectrical,
-                            OptionPages.MadmateCanFixLightsOut,
-                            OptionPages.MadGuardianCanSeeBarrier,
-                            OptionPages.MayorAdditionalVote
+                            OptionPages.SabotageMasterFixesElectrical
                         },
                         OptionPages.roles
                     )},
