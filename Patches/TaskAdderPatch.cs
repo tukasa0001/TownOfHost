@@ -87,10 +87,13 @@ namespace TownOfHost {
             {CustomRoles.Engineer, RoleTypes.Engineer},
             {CustomRoles.Scientist, RoleTypes.Scientist},
             {CustomRoles.Shapeshifter, RoleTypes.Shapeshifter},
+            {CustomRoles.Impostor, RoleTypes.Impostor},
             {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
             {CustomRoles.Mafia, RoleTypes.Shapeshifter},
             {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.Vampire, RoleTypes.Impostor},
             {CustomRoles.Madmate, RoleTypes.Engineer},
+            {CustomRoles.Warlock, RoleTypes.Shapeshifter},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
         };
         public static bool Prefix(TaskAddButton __instance) {
