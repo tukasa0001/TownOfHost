@@ -19,14 +19,6 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
     class ShowFolderPatch {
         private static TaskFolder CustomRolesFolder;
-        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
-            //デフォルトでクルーなので、クルー判定役職は書かなくてOK
-            {CustomRoles.Vampire, RoleTypes.Impostor},
-            {CustomRoles.Mafia, RoleTypes.Shapeshifter},
-            {CustomRoles.BountyHunter, RoleTypes.Impostor},
-            {CustomRoles.Madmate, RoleTypes.Engineer},
-            {CustomRoles.Terrorist, RoleTypes.Engineer},
-        };
         public static void Prefix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder) {
             if(__instance.Root == taskFolder && CustomRolesFolder == null) {
                 TaskFolder rolesFolder = UnityEngine.Object.Instantiate<TaskFolder>(
@@ -48,13 +40,13 @@ namespace TownOfHost {
                 var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
                 foreach(var cRoleID in Enum.GetValues(typeof(CustomRoles))) {
                     CustomRoles cRole = (CustomRoles)cRoleID;
-                    if(cRole == CustomRoles.Default ||
+                    /*if(cRole == CustomRoles.Default ||
                     cRole == CustomRoles.Impostor ||
                     cRole == CustomRoles.Scientist ||
                     cRole == CustomRoles.Engineer ||
                     cRole == CustomRoles.GuardianAngel ||
                     cRole == CustomRoles.Shapeshifter
-                    ) continue;
+                    ) continue;*/
 
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
                     button.Text.text = main.getRoleName(cRole);
@@ -62,6 +54,14 @@ namespace TownOfHost {
                     var roleBehaviour = new RoleBehaviour();
                     roleBehaviour.Role = ((RoleTypes)cRole + 1000);
                     button.Role = roleBehaviour;
+
+                    Color IconColor = Color.white;
+                    var roleColor = main.getRoleColor(cRole);
+                    var IntroType = cRole.GetIntroType();
+
+                    button.FileImage.color = roleColor;
+                    button.RolloverHandler.OutColor = roleColor;
+                    button.RolloverHandler.OverColor = new Color(roleColor.r * 0.5f, roleColor.g * 0.5f, roleColor.b * 0.5f);
                 }
             }
         }
@@ -69,10 +69,41 @@ namespace TownOfHost {
 
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.Update))]
     class TaskAddButtonUpdatePatch {
-        public static void Prefix(TaskAddButton __instance) {
-            ((Renderer) __instance.Overlay).enabled = Input.GetKey(KeyCode.Space);
-            if(__instance.Role != null && (ushort)__instance.Role.Role >= 1000) {
-            }
+        public static bool Prefix(TaskAddButton __instance) {
+            try {
+                if((int)__instance.Role.Role >= 1000) {
+                    var PlayerCustomRole = PlayerControl.LocalPlayer.getCustomRole();
+                    CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
+                    ((Renderer)__instance.Overlay).enabled = PlayerCustomRole == FileCustomRole;
+                }
+            } catch{}
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
+    class AddTaskButtonPatch {
+        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
+            //デフォルトでクルーなので、クルー判定役職は書かなくてOK
+            {CustomRoles.Engineer, RoleTypes.Engineer},
+            {CustomRoles.Scientist, RoleTypes.Scientist},
+            {CustomRoles.Shapeshifter, RoleTypes.Shapeshifter},
+            {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
+            {CustomRoles.Mafia, RoleTypes.Shapeshifter},
+            {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.Madmate, RoleTypes.Engineer},
+            {CustomRoles.Terrorist, RoleTypes.Engineer},
+        };
+        public static bool Prefix(TaskAddButton __instance) {
+            try {
+                if((int)__instance.Role.Role >= 1000) {
+                    CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
+                    PlayerControl.LocalPlayer.RpcSetCustomRole(FileCustomRole);
+                    RoleTypes oRole;
+                    if(!RolePairs.TryGetValue(FileCustomRole, out oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                    else PlayerControl.LocalPlayer.RpcSetRole(oRole);
+                }
+            } catch{}
+            return true;
         }
     }
 }
