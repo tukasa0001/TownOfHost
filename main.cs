@@ -396,6 +396,9 @@ namespace TownOfHost
         {
             main.SendToAll(
                 "コマンド一覧:"
+                +"\n/winner - 勝者を表示"
+                +"\n/lastroles - 最後の役職割り当てを表示"
+                +"\n/rename - ホストの名前を変更"
                 +"\n/now - 現在有効な設定を表示"
                 +"\n/h now - 現在有効な設定の説明を表示"
                 +"\n/h roles <役職名> - 役職の説明を表示"
