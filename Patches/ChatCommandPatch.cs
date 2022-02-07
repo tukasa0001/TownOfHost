@@ -33,6 +33,12 @@ namespace TownOfHost
                         main.SendToAll(main.winnerList);
                         break;
 
+                    case "/l":
+                    case "/lastroles":
+                        canceled = true;
+                        main.ShowLastRoles();
+                        break;
+
                     case "/r":
                     case "/rename":
                         canceled = true;

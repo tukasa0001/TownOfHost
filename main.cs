@@ -382,6 +382,16 @@ namespace TownOfHost
             main.SendToAll(text);
         }
 
+        public static void ShowLastRoles()
+        {
+            var text = "ロール割り当て：";
+            foreach(KeyValuePair<byte, CustomRoles> kvp in AllPlayerCustomRoles)
+            {
+                text += $"\n{RealNames[kvp.Key]}:{main.getRoleName(kvp.Value)}";
+            }
+            main.SendToAll(text);
+        }
+
         public static void ShowHelp()
         {
             main.SendToAll(
