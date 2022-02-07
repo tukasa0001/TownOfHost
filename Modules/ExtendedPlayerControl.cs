@@ -245,6 +245,15 @@ namespace TownOfHost {
                 SabotageFixWriter.Write((byte)16);
                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
             }, 0.4f + delay, "Fix Desync Reactor");
+
+            if(PlayerControl.GameOptions.MapId == 4) //Airship用
+            new LateTask(() => {
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageFixWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                SabotageFixWriter.Write((byte)17);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            }, 0.4f + delay, "Fix Desync Reactor 2");
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
