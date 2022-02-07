@@ -597,6 +597,20 @@ namespace TownOfHost
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
 
+                //他人用の変数定義
+                bool SeerKnowsImpostors = false;
+                if(seer.isSnitch()) {
+                    int CompletedTaskCount = 0;
+                    int AllTaskCount = 0;
+                    foreach(var task in seer.Data.Tasks) {
+                        AllTaskCount++;
+                        if(task.Complete) CompletedTaskCount++;
+                    }
+                    if(AllTaskCount - CompletedTaskCount <= 0)
+                        SeerKnowsImpostors = true;
+
+                }
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead
                 //|| seer.isSnitch()
