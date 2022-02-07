@@ -90,9 +90,6 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyHunterInfo)}</color>\r\n";
                     break;
-                case CustomRoles.Warlock:
-                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getLang(lang.WarlockInfo)}</color>\r\n";
-                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
@@ -153,7 +150,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
     class FindClosestTargetPatch {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting) {
-            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && 
+            if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff &&
             __instance.Data.Role.Role != RoleTypes.GuardianAngel) {
                 protecting = true;
             }

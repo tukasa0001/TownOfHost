@@ -38,17 +38,6 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
-    class ShapeshiftPatch
-    {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-        {
-            if (__instance.isWarlock())
-            {
-                main.WarlockShapeshiftCheck++;
-            }
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -92,57 +81,6 @@ namespace TownOfHost
                         target.RpcGuardAndKill(target);
                     }
                     return false;
-                }
-            }
-            if (__instance.isWarlock())
-            {
-                Logger.info($"WarlockShapeshiftCheck:{main.WarlockShapeshiftCheck}");
-                Logger.info($"WarlockCheck:{main.WarlockCheck}");
-                if (main.WarlockCheck == false)
-                {
-                    int whitch = main.WarlockShapeshiftCheck % 2;
-                    Logger.info($"whitch:{whitch}");
-                    if (1 == whitch)
-                    {
-                        __instance.RpcGuardAndKill(target);
-                        main.WarlockTarget.Add(target);
-                        main.WarlockCheck = true;
-                        return false;
-                    }
-                    if (0 == whitch)
-                    {
-                        __instance.RpcMurderPlayer(target);
-                        return false;
-                    }
-                }
-                if (main.WarlockCheck == true)
-                {
-                    var target1 = main.WarlockTarget[0];
-                    if (target1.Data.IsDead)
-                    {
-                        main.WarlockCheck = false;
-                        main.WarlockTarget.Clear();
-                    } else {
-                        Vector2 target1pos = target1.transform.position;
-                        Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
-                        float dis;
-                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                        {
-                            if(p != target1 && !p.Data.IsDead)
-                            {
-                                dis = Vector2.Distance(target1pos,p.transform.position);
-                                playerDistance.Add(p,dis);
-                            }
-                        }
-                        var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
-                        PlayerControl target2 = min.Key;
-                        target1.RpcMurderPlayer(target2);
-                        __instance.RpcMurderPlayer(target);
-                        main.WarlockTarget.Clear();
-                        main.WarlockCheck = false;
-                    }
-                    return false;
-                    
                 }
             }
             if (__instance.isBountyHunter())
@@ -315,7 +253,7 @@ namespace TownOfHost
                         {
                             if(__instance.AllTasksCompleted() && __instance.isSnitch())
                             {
-                                if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                                if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                                 {
                                     if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
                                 }
@@ -324,7 +262,7 @@ namespace TownOfHost
                     }else{//タスクなしの陣営
                         foreach(var t in PlayerControl.AllPlayerControls)
                         {
-                            if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter() || __instance.isWarlock())
+                            if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter())
                             {
                                 var ct = 0;
                                 foreach(var task in t.myTasks) if(task.IsComplete)ct++;

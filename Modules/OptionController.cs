@@ -43,7 +43,6 @@ namespace TownOfHost
                         OptionPages.SabotageMaster,
                         OptionPages.Snitch,
                         OptionPages.Sheriff,
-                        // OptionPages.Warlock,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -151,14 +150,6 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.BountyHunter, i)
-                    )},
-                    {OptionPages.Warlock, new PageObject(
-                        () => $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>: {main.WarlockCount}",
-                        true,
-                        () => {main.SetRoleCountToggle(CustomRoles.Warlock);},
-                        new List<OptionPages>(){},
-                        OptionPages.roles,
-                        i => main.SetRoleCount(CustomRoles.Warlock, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -619,7 +610,6 @@ namespace TownOfHost
                 Opportunist,
                 Snitch,
                 BountyHunter,
-                Warlock,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

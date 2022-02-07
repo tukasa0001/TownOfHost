@@ -29,7 +29,6 @@ namespace TownOfHost
             {CustomRoles.Snitch, lang.SnitchInfo},
             {CustomRoles.Sheriff, lang.SheriffInfo},
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
-            {CustomRoles.Warlock, lang.WarlockInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };
@@ -82,16 +81,15 @@ namespace TownOfHost
                     .MinigamePrefab.OpenSound;
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
-                
+
                 case CustomRoles.Vampire:
-                case CustomRoles.Warlock:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
-                
+
                 case CustomRoles.SabotageMaster:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                     break;
-                
+
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;

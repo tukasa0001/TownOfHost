@@ -55,7 +55,6 @@ However, The numeric keypad is not supported.<br>
 | Snitch | Crewmate |
 | Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
-| Warlock | Shapeshifter |
 
 ### Jester
 
@@ -180,14 +179,6 @@ Decision : Impostor<br>
 When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
-
-### Warlock
-
-Team : Impostor<br>
-Decision : Shapeshifter<br>
-
-If they kill while they are undergoing a transformation, a curse will be placed on that player.<br>
-If they then press the kill button, the player closest to the killed player (including the Imposters) will be killed by the cursed player.<br>
 
 ## Mode
 

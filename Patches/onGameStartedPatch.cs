@@ -22,9 +22,6 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargetPlayer = new List<PlayerControl>();
-            main.WarlockTarget = new List<PlayerControl>();
-            main.WarlockCheck = false;
-            main.WarlockShapeshiftCheck = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -56,7 +53,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.WarlockCount;
+                int AdditionalShapeshifterNum = main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -206,7 +203,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -223,7 +219,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount + main.WarlockCount;
+                ShapeshifterNum -= main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

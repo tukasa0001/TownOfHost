@@ -198,11 +198,6 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                     break;
 
-                case "warlock":
-                case "wa":
-                    main.SendToAll(main.getLang(lang.WarlockInfoLong));
-                    break;
-
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
@@ -214,7 +209,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), warlock(wa), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), fox(fo), troll(tr)");
                     break;
             }
 

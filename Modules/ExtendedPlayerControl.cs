@@ -156,7 +156,7 @@ namespace TownOfHost {
                 KilledById = byte.MaxValue;
             else
                 KilledById = KilledBy.PlayerId;
-            
+
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)CustomRPC.BeKilled, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(KilledById);
@@ -168,7 +168,7 @@ namespace TownOfHost {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
-            
+
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
                     goto InfinityVent;
@@ -186,7 +186,7 @@ namespace TownOfHost {
                     }
                     break;
 
-                
+
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
@@ -263,6 +263,5 @@ namespace TownOfHost {
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
-        public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
     }
 }
