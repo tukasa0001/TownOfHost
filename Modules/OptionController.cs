@@ -30,18 +30,20 @@ namespace TownOfHost
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
-                        OptionPages.Mafia,
                         OptionPages.Vampire,
+                        OptionPages.BountyHunter,
+                        OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
                         OptionPages.Jester,
-                        OptionPages.Terrorist,
                         OptionPages.Opportunist,
+                        OptionPages.Terrorist,
                         OptionPages.Bait,
-                        OptionPages.SabotageMaster,
                         OptionPages.Mayor,
+                        OptionPages.SabotageMaster,
                         OptionPages.Snitch,
                         OptionPages.DarkScientist,
+                        OptionPages.Sheriff,
                         OptionPages.AdvancedRoleOptions
                     },
                     OptionPages.basepage
@@ -141,6 +143,22 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.DarkScientist, i)
+                    )},
+                    {OptionPages.Sheriff, new PageObject(
+                        () => "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>: " + main.SheriffCount,
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Sheriff);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Sheriff, i)
+                    )},
+                    {OptionPages.BountyHunter, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getRoleName(CustomRoles.BountyHunter)}</color>: {main.BountyHunterCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.BountyHunter);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.BountyHunter, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -257,7 +275,9 @@ namespace TownOfHost
                         OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
-                        OptionPages.NoGameEnd
+                        OptionPages.NoGameEnd,
+                        OptionPages.WhenSkipVote,
+                        OptionPages.WhenNonVote
                     },
                     OptionPages.basepage
                 )},
@@ -375,9 +395,6 @@ namespace TownOfHost
                             true,
                             () => {
                                 main.SyncButtonMode = !main.SyncButtonMode;
-                                //一人当たりのボタン数を9に設定
-                                //PlayerControl.GameOptions.NumEmergencyMeetings = 9;
-                                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
                             },
                             new List<OptionPages>(){},
                             OptionPages.SyncButtonMode
@@ -449,6 +466,28 @@ namespace TownOfHost
                         () => {main.NoGameEnd = !main.NoGameEnd;},
                         new List<OptionPages>(){},
                         OptionPages.modes
+                    )},
+                    {OptionPages.WhenSkipVote, new PageObject(
+                        () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(),
+                        true,
+                        () => {
+                            var next = main.whenSkipVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenSkipVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
+                    )},
+                    {OptionPages.WhenNonVote, new PageObject(
+                        () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(),
+                        true,
+                        () => {
+                            var next = main.whenNonVote + 1;
+                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                            main.whenNonVote = next;
+                        },
+                        new List<OptionPages>(){},
+                        OptionPages.basepage
                     )},
                 {OptionPages.Suffix, new PageObject(
                     () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(),
@@ -576,9 +615,11 @@ namespace TownOfHost
                 Vampire,
                 SabotageMaster,
                 Mayor,
+                Sheriff,
                 Opportunist,
                 Snitch,
                 DarkScientist,
+                BountyHunter,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
@@ -611,6 +652,8 @@ namespace TownOfHost
                     UploadData,
                     StartReactor,
                 NoGameEnd,
+                WhenSkipVote,
+                WhenNonVote,
             Suffix
     }
 }

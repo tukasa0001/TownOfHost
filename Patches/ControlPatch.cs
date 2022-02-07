@@ -12,6 +12,7 @@ using Hazel;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using InnerNet;
 
 namespace TownOfHost
 {
@@ -27,11 +28,13 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                string code = InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId);
-                GUIUtility.systemCopyBuffer = code;
-                Logger.info($"[ClipBoard]{code}");
+                GameStartManager.Instance.countDownTimer = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                GameStartManager.Instance.ResetStartState();
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -47,7 +50,7 @@ namespace TownOfHost
             // | G | フリープレイ中 | 開始画面表示 |
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | V | オンライン以外 | 自分の投票をClearする |
+            // | U | オンライン以外 | 自分の投票をClearする |
             //====================
 
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)

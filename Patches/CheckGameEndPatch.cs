@@ -19,15 +19,16 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance)
         {
             if (!GameData.Instance) return false;
-            if (DestroyableSingleton<TutorialManager>.InstanceExists) // InstanceExists | Don't check Custom Criteria when in Tutorial
-                return true;
+            if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
             if (main.NoGameEnd) return false;
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if(main.currentWinner == CustomWinner.Default) {
-                if(main.IsHideAndSeek) {
+            if(main.currentWinner == CustomWinner.Default)
+            {
+                if(main.IsHideAndSeek)
+                {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
@@ -77,9 +78,8 @@ namespace TownOfHost
         {
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
-
                 __instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.HumansByTask, false);
+                ResetRoleAndEndGame(GameOverReason.HumansByTask, false);
                 return true;
             }
             return false;
@@ -103,7 +103,7 @@ namespace TownOfHost
                         endReason = GameOverReason.ImpostorByVote;
                         break;
                 }
-                ShipStatus.RpcEndGame(endReason, false);
+                ResetRoleAndEndGame(endReason, false);
                 return true;
             }
             return false;
@@ -114,7 +114,7 @@ namespace TownOfHost
             if (statistics.TeamImpostorsAlive == 0)
             {
                 __instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.HumansByVote, false);
+                ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
                 return true;
             }
             return false;
@@ -125,7 +125,7 @@ namespace TownOfHost
             if (0 == statistics.TotalAlive - statistics.TeamImpostorsAlive)
             {
                 __instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
             }
             return false;
@@ -137,7 +137,7 @@ namespace TownOfHost
                 if(!hasRole) return false;
                 if(role == CustomRoles.Troll && pc.Data.IsDead) {
                     __instance.enabled = false;
-                    ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                    ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
                 }
             }
@@ -147,7 +147,7 @@ namespace TownOfHost
         private static bool CheckAndEndGameForJester(ShipStatus __instance) {
             if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger) {
                 __instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
             }
             return false;
@@ -157,7 +157,7 @@ namespace TownOfHost
             if (main.currentWinner == CustomWinner.Terrorist && main.CustomWinTrigger)
             {
                 __instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
             }
             return false;
@@ -167,8 +167,18 @@ namespace TownOfHost
         private static void EndGameForSabotage(ShipStatus __instance)
         {
             __instance.enabled = false;
-            ShipStatus.RpcEndGame(GameOverReason.ImpostorBySabotage, false);
+            ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
+        }
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd) {
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.getCustomRole() == CustomRoles.Sheriff) {
+                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+            }
+            new LateTask(() => {
+                ShipStatus.RpcEndGame(reason, showAd);
+            }, 0.5f, "EndGameTask");
         }
         //プレイヤー統計
         internal class PlayerStatistics
@@ -200,7 +210,8 @@ namespace TownOfHost
                                 if(role == CustomRoles.Default) numTotalAlive++;
                             }
 
-                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor)
+                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 
+                            playerInfo.getCustomRole() != CustomRoles.Sheriff)
                             {
                                 numImpostorsAlive++;
                             }

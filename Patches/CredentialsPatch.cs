@@ -42,14 +42,10 @@ namespace TownOfHost
                 if (PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
-                }
-                else
-                {
+                } else {
                     __instance.transform.localPosition = new Vector3(4.2f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                 }
-            }
-            else
-            {
+            } else {
                 __instance.transform.localPosition = new Vector3(3.5f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
             }
         }
