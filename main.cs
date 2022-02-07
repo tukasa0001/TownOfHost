@@ -584,6 +584,24 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
+            foreach(var seer in PlayerControl.AllPlayerControls) {
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                string SelfMark = "";
+                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}{SelfMark}</size>\r\n{main.RealNames[seer.PlayerId]}";
+                seer.RpcSetNamePrivate(SelfName, true);
+
+                if(seer.Data.IsDead)
+                foreach(var target in PlayerControl.AllPlayerControls) {
+                    if(target == seer) continue;
+                    string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                    string TargetMark = "";
+                    string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                    string TargetName = $"{TargetRoleText}{main.RealNames[seer.PlayerId]}{TargetMark}";
+                    target.RpcSetNamePrivate(TargetName, true, seer);
+                }
+            }
+            /*
+
             foreach(PlayerControl p in PlayerControl.AllPlayerControls)
             {
                 string taskText = main.getTaskText(p.Data.Tasks);
@@ -623,7 +641,7 @@ namespace TownOfHost
                     if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
-            }
+            }//*/
         }
         public static void CustomSyncAllSettings() {
             foreach(var pc in PlayerControl.AllPlayerControls) {
