@@ -584,19 +584,35 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
+            //seer:ここで行われた変更を見ることができるプレイヤー
+            //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
+                //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
+                //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
-                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}{SelfMark}</size>\r\n{main.RealNames[seer.PlayerId]}";
+                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{main.RealNames[seer.PlayerId]}{SelfMark}";
+                //適用
                 seer.RpcSetNamePrivate(SelfName, true);
 
-                if(seer.Data.IsDead)
-                foreach(var target in PlayerControl.AllPlayerControls) {
+                //seerが死んでいる場合など、必要なときのみ第二ループを実行する
+                if(seer.Data.IsDead
+                //|| seer.isSnitch()
+                //|| seer.isLovers()
+                ) foreach(var target in PlayerControl.AllPlayerControls) {
+                    //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
+                    //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                    //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
+                    //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                    //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{main.RealNames[seer.PlayerId]}{TargetMark}";
+                    //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                 }
             }
