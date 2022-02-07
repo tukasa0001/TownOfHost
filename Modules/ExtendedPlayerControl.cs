@@ -166,6 +166,8 @@ namespace TownOfHost {
         }
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
+            if(main.RealOptionsData == null)
+                main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
             
