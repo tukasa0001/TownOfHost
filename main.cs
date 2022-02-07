@@ -594,7 +594,7 @@ namespace TownOfHost
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                     foreach(var t in PlayerControl.AllPlayerControls)
                     {
-                        if(t.Data.IsDead && !p.AmOwner) p.RpcSetNamePrivate(tmp, false, t);
+                        if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate(tmp, false, t);
                         if(p.AllTasksCompleted() && p.isSnitch()){
                             if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                             {
@@ -606,7 +606,7 @@ namespace TownOfHost
                 }else{//タスクなしの陣営
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
-                        if(t.Data.IsDead && !p.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
+                        if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
                         if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter())
                         {
                             var ct = 0;
