@@ -28,6 +28,7 @@ namespace TownOfHost
             {CustomRoles.Opportunist, lang.OpportunistInfo},
             {CustomRoles.Snitch, lang.SnitchInfo},
             {CustomRoles.Sheriff, lang.SheriffInfo},
+            {CustomRoles.DarkScientist, lang.DarkScientistInfo},
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
@@ -73,6 +74,7 @@ namespace TownOfHost
             switch(role) {
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.DarkScientist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
