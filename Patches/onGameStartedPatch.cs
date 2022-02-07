@@ -210,8 +210,6 @@ namespace TownOfHost
                 }
                 HudManager.Instance.SetHudActive(true);
 
-                main.NotifyRoles();
-
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);

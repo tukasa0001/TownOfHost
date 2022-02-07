@@ -581,6 +581,7 @@ namespace TownOfHost
                         if(p.AllTasksCompleted() && p.isSnitch()){
                             if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                             {
+                                TownOfHost.Logger.info($"インポスター色に変更：{t.name}:{p.AllTasksCompleted()}");
                                 if(!p.AmOwner) t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
                             }
                         }
@@ -593,14 +594,16 @@ namespace TownOfHost
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
+                            TownOfHost.Logger.info($"{t.name}:{ct}/{t.myTasks.Count}");
                             if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                             {
+                                TownOfHost.Logger.info($"スニッチ色に変更：{t.name}:{t.myTasks.Count-ct}");
                                 tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                                 if(!p.AmOwner) t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
                             }
                         }
                     }
-                    if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
             }
