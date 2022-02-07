@@ -642,8 +642,9 @@ namespace TownOfHost
                         }
                         if(p.isLovers() && t.isLovers())
                         {
-                            t.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, p);
-                            p.FixedUpdate();
+                            if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
+                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
+                            p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
                         }
                     }
                 }else{//タスクなしの陣営
@@ -665,8 +666,13 @@ namespace TownOfHost
                         }
                         if(p.isLovers() && t.isLovers())
                         {
-                            t.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, p);
-                            p.FixedUpdate();
+                            if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
+                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
+                            p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
+                            //TODO:ロビーに戻った時にホストの❤がリセットされてない
+                            //TODO:ラバーズが一人になってることがある。(役職2が正しく割り当てられているか要確認)
+                            //TODO:ホストに必ずついている。
+                            //TODO:シェイプシフターの変身後に❤消える
                         }
                     }
                     if(p.isBountyHunter())tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
