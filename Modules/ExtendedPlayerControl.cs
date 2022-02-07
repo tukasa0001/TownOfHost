@@ -139,6 +139,7 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Impostor:
+                case CustomRoles.BountyHunter:
                     canBeKilled = true;
                     break;
             }
