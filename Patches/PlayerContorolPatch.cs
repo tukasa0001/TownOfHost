@@ -255,7 +255,6 @@ namespace TownOfHost
                             {
                                 if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                                 {
-                                    TownOfHost.Logger.info($"{__instance.name}:{__instance.AllTasksCompleted()}");
                                     if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
                                 }
                             }
