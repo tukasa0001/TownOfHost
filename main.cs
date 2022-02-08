@@ -663,7 +663,7 @@ namespace TownOfHost
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
-                    if(target == target.isSnitch()) {
+                    if(target.isSnitch()) {
                         var taskState = target.getPlayerTaskState();
                         if(taskState.doExpose)
                             TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
