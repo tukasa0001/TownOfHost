@@ -99,7 +99,9 @@ namespace TownOfHost
 
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
+                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
+                pc.nameText.text = pc.name; 
             }
 
             if(main.IsHideAndSeek) {

@@ -259,7 +259,7 @@ namespace TownOfHost
                             {
                                 if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                 }
                             }
                         }
@@ -272,12 +272,12 @@ namespace TownOfHost
                                 foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                                 if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                     nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                                 }
                             }
                         }
-                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.b_target.name}</size>";
                     }
                     if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
                 }
