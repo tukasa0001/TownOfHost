@@ -131,6 +131,15 @@ namespace TownOfHost {
             var cRole = player.getCustomRole();
             bool canBeKilled = false;
             switch(cRole) {
+                case CustomRoles.Jester:
+                    canBeKilled = main.SheriffCanKillJester;
+                    break;
+                case CustomRoles.Terrorist:
+                    canBeKilled = main.SheriffCanKillTerrorist;
+                    break;
+                case CustomRoles.Opportunist:
+                    canBeKilled = main.SheriffCanKillOpportunist;
+                    break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
                 case CustomRoles.Mafia:
@@ -141,26 +150,6 @@ namespace TownOfHost {
                     canBeKilled = true;
                     break;
             }
-            if (!main.SheriffCanKillJester)
-            switch(cRole) {
-                    case CustomRoles.Jester:
-                        canBeKilled = true;
-                        break;
-                }
-            if (!main.SheriffCanKillTerrorist)
-                switch (cRole)
-                {
-                    case CustomRoles.Terrorist:
-                        canBeKilled = true;
-                        break;
-                }
-            if (!main.SheriffCanKillOpportunist)
-                switch (cRole)
-                {
-                    case CustomRoles.Opportunist:
-                        canBeKilled = true;
-                        break;
-                }
             return canBeKilled;
         }
 
