@@ -8,6 +8,8 @@
 This mod is unofficial, and Innersloth, the developer of Among Us, has no involvement in the development of this mod.<br>
 Please do not contact the official team regarding any issues with this mod.<br>
 
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
+
 ## Features
 This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
 Unlike mods that use custom servers, there is no need to add servers by editing URLs or files.<br>
