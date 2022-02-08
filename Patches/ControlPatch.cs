@@ -53,7 +53,6 @@ namespace TownOfHost
             // | U | オンライン以外 | 自分の投票をClearする |
             //====================
 
-            
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);

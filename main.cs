@@ -12,6 +12,7 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace TownOfHost
 {
@@ -585,6 +586,13 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
 
+            var caller = new System.Diagnostics.StackFrame(1, false);
+            var callerMethod = caller.GetMethod();
+            string callerMethodName = callerMethod.Name;
+            string callerClassName = callerMethod.DeclaringType.FullName;
+            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            HudManagerPatch.NowCallNotifyRolesCount++;
+
             //Snitch警告表示のON/OFF
             bool ShowSnitchWarning = false;
             if(SnitchCount > 0) foreach(var snitch in PlayerControl.AllPlayerControls) {
@@ -600,7 +608,7 @@ namespace TownOfHost
             foreach(var seer in PlayerControl.AllPlayerControls) {
                 //seerが落ちているときに何もしない
                 if(seer.Data.Disconnected) continue;
-                
+
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
@@ -616,6 +624,7 @@ namespace TownOfHost
                 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
+                HudManagerPatch.LastSetNameDesyncCount++;
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
@@ -632,6 +641,7 @@ namespace TownOfHost
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
+                    
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
                     
@@ -656,6 +666,7 @@ namespace TownOfHost
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
+                    HudManagerPatch.LastSetNameDesyncCount++;
                 }
             }
             /*
