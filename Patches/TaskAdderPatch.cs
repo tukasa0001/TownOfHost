@@ -103,6 +103,7 @@ namespace TownOfHost {
                     RoleTypes oRole;
                     if(!RolePairs.TryGetValue(FileCustomRole, out oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     else PlayerControl.LocalPlayer.RpcSetRole(oRole);
+                    return false;
                 }
             } catch{}
             return true;
