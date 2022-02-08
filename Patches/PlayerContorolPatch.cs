@@ -225,7 +225,7 @@ namespace TownOfHost
 
                 if(__instance.AmOwner) main.ApplySuffix();
             }
-            //各クライアントが全員分実行
+
             //役職テキストの表示
             if(AmongUsClient.Instance.AmHost)
             {
