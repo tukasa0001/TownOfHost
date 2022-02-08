@@ -290,6 +290,7 @@ namespace TownOfHost
                         OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
+                        OptionPages.RandomMapsMode,
                         OptionPages.NoGameEnd,
                         OptionPages.WhenSkipVote,
                         OptionPages.WhenNonVote
@@ -472,6 +473,62 @@ namespace TownOfHost
                             () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor),
                             true,
                             () => {main.DisableStartReactor = !main.DisableStartReactor;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                    {OptionPages.RandomMapsMode, new PageObject(
+                        lang.RandomMapsMode,
+                        false,
+                        () => {SetPage(OptionPages.RandomMapsMode);},
+                        new List<OptionPages>(){
+                            OptionPages.RandomMapsModeEnabled,
+                            OptionPages.AddedTheSkeld,
+                            OptionPages.AddedMIRAHQ,
+                            OptionPages.AddedPolus,
+                            OptionPages.AddedDleks,
+                            OptionPages.AddedTheAirShip
+                        },
+                        OptionPages.modes
+                    )},
+                        {OptionPages.RandomMapsModeEnabled, new PageObject(
+                            () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode),
+                            true,
+                            () => {main.RandomMapsMode = !main.RandomMapsMode;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedTheSkeld, new PageObject(
+                            () => main.getLang(lang.AddedTheSkeld) + ": " + main.getOnOff(main.AddedTheSkeld),
+                            true,
+                            () => {main.AddedTheSkeld = !main.AddedTheSkeld;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedMIRAHQ, new PageObject(
+                            () => main.getLang(lang.AddedMIRAHQ) + ": " + main.getOnOff(main.AddedMIRAHQ),
+                            true,
+                            () => {main.AddedMIRAHQ = !main.AddedMIRAHQ;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedPolus, new PageObject(
+                            () => main.getLang(lang.AddedPolus) + ": " + main.getOnOff(main.AddedPolus),
+                            true,
+                            () => {main.AddedPolus = !main.AddedPolus;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedDleks, new PageObject(
+                            () => main.getLang(lang.AddedDleks) + ": " + main.getOnOff(main.AddedDleks),
+                            true,
+                            () => {main.AddedDleks = !main.AddedDleks;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedTheAirShip, new PageObject(
+                            () => main.getLang(lang.AddedTheAirShip) + ": " + main.getOnOff(main.AddedTheAirShip),
+                            true,
+                            () => {main.AddedTheAirShip = !main.AddedTheAirShip;},
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
@@ -668,6 +725,13 @@ namespace TownOfHost
                     UnlockSafe,
                     UploadData,
                     StartReactor,
+                RandomMapsMode,
+                    RandomMapsModeEnabled,
+                    AddedTheSkeld,
+                    AddedMIRAHQ,
+                    AddedPolus,
+                    AddedDleks,
+                    AddedTheAirShip,
                 NoGameEnd,
                 WhenSkipVote,
                 WhenNonVote,

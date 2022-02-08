@@ -128,4 +128,31 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+    public class GameStartRandomMap
+    {
+        public static bool Prefix(GameStartRandomMap __instance)
+        {
+            bool continueStart = true;
+            if (main.RandomMapsMode == true)
+            {
+                var rand = new System.Random();
+                System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
+                /*TheSkeld   = 0
+                  MIRAHQ     = 1
+                  Polus      = 2
+                  Dleks      = 3
+                  TheAirShip = 4*/
+                if (main.AddedTheSkeld == true) RandomMaps.Add(0);
+                if (main.AddedMIRAHQ == true) RandomMaps.Add(1);
+                if (main.AddedPolus == true) RandomMaps.Add(2);
+                if (main.AddedDleks == true) RandomMaps.Add(3);
+                if (main.AddedTheAirShip == true) RandomMaps.Add(4);
+                var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+                PlayerControl.GameOptions.MapId = MapsId;
+            
+            }
+            return continueStart;
+        }
+    } 
 }
