@@ -216,6 +216,7 @@ namespace TownOfHost {
                 AllTasksCount++;
                 if(task.Complete) CompletedTaskCount++;
             }
+            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
             return new TaskState(AllTasksCount, CompletedTaskCount);
         }
 

@@ -642,15 +642,16 @@ namespace TownOfHost
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
                 if(seer.isSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
-                    if(TaskState.doExpose)
+                    if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
 
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if(seer.Data.IsDead
-                //|| seer.isSnitch()
+                if(seer.Data.IsDead //seerが死んでいる
+                || SeerKnowsImpostors //seerがインポスターを知っている状態
+                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
                 //|| seer.isLovers()
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
@@ -663,7 +664,7 @@ namespace TownOfHost
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
-                    if(target.isSnitch()) {
+                    if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
                         var taskState = target.getPlayerTaskState();
                         if(taskState.doExpose)
                             TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";

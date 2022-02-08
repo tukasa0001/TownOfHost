@@ -51,8 +51,12 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
+            // | N | ホスト | NotifyRolesを実行 |
             //====================
 
+            if(Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost) {
+                main.NotifyRoles();
+            }
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
