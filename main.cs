@@ -646,8 +646,6 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
-
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
@@ -675,14 +673,16 @@ namespace TownOfHost
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName;
-                    if(!RealNames.TryGetValue(seer.PlayerId, out TargetPlayerName)) {
+                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
                         TargetPlayerName = target.name;
                         RealNames[seer.PlayerId] = TargetPlayerName;
                         TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
                     }
+
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+
                     //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                     //適用
@@ -691,6 +691,7 @@ namespace TownOfHost
 
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
                 }
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
             }
             /*
 
