@@ -165,7 +165,10 @@ namespace TownOfHost
                             OptionPages.SabotageMasterFixesReactors,
                             OptionPages.SabotageMasterFixesOxygens,
                             OptionPages.SabotageMasterFixesCommunications,
-                            OptionPages.SabotageMasterFixesElectrical
+                            OptionPages.SabotageMasterFixesElectrical,
+                            OptionPages.SheriffCanKillJester,
+                            OptionPages.SheriffCanKillTerrorist,
+                            OptionPages.SheriffCanKillOpportunist,
                         },
                         OptionPages.roles
                     )},
@@ -227,6 +230,27 @@ namespace TownOfHost
                             () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesElectrical)}</color>: {main.getOnOff(main.SabotageMasterFixesElectrical)}",
                             true,
                             () => {main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SheriffCanKillJester, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillJester)}</color>: {main.getOnOff(main.SheriffCanKillJester)}",
+                            true,
+                            () => {main.SheriffCanKillJester = !main.SheriffCanKillJester;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                                                {OptionPages.SheriffCanKillTerrorist, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}",
+                            true,
+                            () => {main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                                                                        {OptionPages.SheriffCanKillOpportunist, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}",
+                            true,
+                            () => {main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -621,6 +645,9 @@ namespace TownOfHost
                     SabotageMasterFixesOxygens,
                     SabotageMasterFixesCommunications,
                     SabotageMasterFixesElectrical,
+                    SheriffCanKillJester,
+                    SheriffCanKillTerrorist,
+                    SheriffCanKillOpportunist,
                     MayorAdditionalVote,
             modes,
                 HideAndSeek,

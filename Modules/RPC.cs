@@ -79,6 +79,9 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    bool SheriffCanKillJester = reader.ReadBoolean();
+                    bool SheriffCanKillTerrorist = reader.ReadBoolean();
+                    bool SheriffCanKillOpportunist = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -119,6 +122,9 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffCanKillJester,
+                        SheriffCanKillTerrorist,
+                        SheriffCanKillOpportunist,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -191,6 +197,9 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                bool SheriffCanKillJester,
+                bool SheriffCanKillTerrorist,
+                bool SheriffCanKillOpportunist,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -241,6 +250,10 @@ namespace TownOfHost
             main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+
+            main.SheriffCanKillJester = SheriffCanKillJester;
+            main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
+            main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;

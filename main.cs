@@ -365,6 +365,12 @@ namespace TownOfHost
                     if(main.SabotageMasterFixesCommunications) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesCommunications),getOnOff(main.SabotageMasterFixesCommunications));
                     if(main.SabotageMasterFixesElectrical) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesElectrical),getOnOff(main.SabotageMasterFixesElectrical));
                 }
+                if (main.SheriffCount > 0)
+                {
+                    if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillJester), getOnOff(main.SheriffCanKillJester));
+                    if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
+                    if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
+                }
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0)
                 {
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
@@ -384,7 +390,7 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = "ロール割り当て：";
+            var text = "ロール割り当て:";
             foreach(KeyValuePair<byte, CustomRoles> kvp in AllPlayerCustomRoles)
             {
                 text += $"\n{RealNames[kvp.Key]}:{main.getRoleName(kvp.Value)}";
@@ -443,6 +449,9 @@ namespace TownOfHost
         public static bool SabotageMasterFixesCommunications;
         public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
+        public static bool SheriffCanKillJester;
+        public static bool SheriffCanKillTerrorist;
+        public static bool SheriffCanKillOpportunist;
         public static int MayorAdditionalVote;
         public static int SnitchExposeTaskLeft;
 
@@ -486,6 +495,9 @@ namespace TownOfHost
             writer.Write(SabotageMasterFixesOxygens);
             writer.Write(SabotageMasterFixesCommunications);
             writer.Write(SabotageMasterFixesElectrical);
+            writer.Write(SheriffCanKillJester);
+            writer.Write(SheriffCanKillTerrorist);
+            writer.Write(SheriffCanKillOpportunist);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write((int)whenSkipVote);
@@ -687,6 +699,10 @@ namespace TownOfHost
             SabotageMasterFixesCommunications = true;
             SabotageMasterFixesElectrical = true;
 
+            SheriffCanKillJester = true;
+            SheriffCanKillTerrorist = true;
+            SheriffCanKillOpportunist = false;
+
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
 
@@ -778,6 +794,9 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesCommunications, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesElectrical, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える"},
+                {lang.SheriffCanKillJester, "シェリフがジェスターをキルできる"},
+                {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
+                {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
@@ -855,6 +874,9 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
                 {lang.SabotageMasterFixesCommunications, "SabotageMaster Can Fixes Both Communications In MIRA HQ"},
                 {lang.SabotageMasterFixesElectrical, "SabotageMaster Can Fixes Lights Out All At Once"},
+                {lang.SheriffCanKillJester, "Sheriff Can Kill Jester"},
+                {lang.SheriffCanKillTerrorist, "Sheriff Can Kill Terrorist"},
+                {lang.SheriffCanKillOpportunist, "Sheriff Can Kill Opportunist"},
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
@@ -993,6 +1015,9 @@ namespace TownOfHost
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
         SabotageMasterFixesElectrical,
+        SheriffCanKillJester,
+        SheriffCanKillTerrorist,
+        SheriffCanKillOpportunist,
         MayorAdditionalVote,
         HideAndSeekOptions,
         AllowCloseDoors,

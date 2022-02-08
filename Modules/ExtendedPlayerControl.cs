@@ -131,10 +131,8 @@ namespace TownOfHost {
             var cRole = player.getCustomRole();
             bool canBeKilled = false;
             switch(cRole) {
-                case CustomRoles.Jester:
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
-                case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -143,6 +141,26 @@ namespace TownOfHost {
                     canBeKilled = true;
                     break;
             }
+            if (!main.SheriffCanKillJester)
+            switch(cRole) {
+                    case CustomRoles.Jester:
+                        canBeKilled = true;
+                        break;
+                }
+            if (!main.SheriffCanKillTerrorist)
+                switch (cRole)
+                {
+                    case CustomRoles.Terrorist:
+                        canBeKilled = true;
+                        break;
+                }
+            if (!main.SheriffCanKillOpportunist)
+                switch (cRole)
+                {
+                    case CustomRoles.Opportunist:
+                        canBeKilled = true;
+                        break;
+                }
             return canBeKilled;
         }
 
