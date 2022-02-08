@@ -592,6 +592,7 @@ namespace TownOfHost
             string callerClassName = callerMethod.DeclaringType.FullName;
             TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
             HudManagerPatch.NowCallNotifyRolesCount++;
+            HudManagerPatch.LastSetNameDesyncCount = 0;
 
             //Snitch警告表示のON/OFF
             bool ShowSnitchWarning = false;
