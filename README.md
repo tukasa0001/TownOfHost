@@ -1,5 +1,5 @@
 # Town Of Host
-![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
+![TownOfHost-Title](./Images/TownOfHost-Title.png)
 
 ## このModについて
 このModは非公式のものであり、このModの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
