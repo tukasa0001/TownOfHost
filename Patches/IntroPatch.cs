@@ -96,7 +96,7 @@ namespace TownOfHost
 
             }
 
-            if (Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetKey(KeyCode.RightShift))
             {
                 __instance.TeamTitle.text = "Town Of Host";
                 __instance.ImpostorText.gameObject.SetActive(true);
@@ -105,7 +105,7 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
-            if (Input.GetKeyDown(KeyCode.RightControl))
+            if (Input.GetKey(KeyCode.RightControl))
             {
                 __instance.TeamTitle.text = "Discord Server";
                 __instance.ImpostorText.gameObject.SetActive(true);
