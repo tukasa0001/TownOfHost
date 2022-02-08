@@ -111,6 +111,7 @@ namespace TownOfHost
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
                 __instance.TeamTitle.color = Color.magenta;
+                StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
         }
         private static AudioClip GetIntroSound(RoleTypes roleType) {
