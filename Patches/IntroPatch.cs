@@ -109,9 +109,8 @@ namespace TownOfHost
             {
                 __instance.TeamTitle.text = "Discord Server";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz" +
-                "\r\nCheck Out Our Server";
-                __instance.TeamTitle.color = new Color(192, 48, 192);
+                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.TeamTitle.color = Color.magenta;
             }
         }
         private static AudioClip GetIntroSound(RoleTypes roleType) {
