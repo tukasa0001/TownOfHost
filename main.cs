@@ -601,11 +601,13 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
-                //Snitch警告
+                //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{main.RealNames[seer.PlayerId]}{SelfMark}";
                 
@@ -613,15 +615,10 @@ namespace TownOfHost
                 seer.RpcSetNamePrivate(SelfName, true);
 
                 //他人用の変数定義
-                bool SeerKnowsImpostors = false;
+                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
                 if(seer.isSnitch()) {
-                    int CompletedTaskCount = 0;
-                    int AllTaskCount = 0;
-                    foreach(var task in seer.Data.Tasks) {
-                        AllTaskCount++;
-                        if(task.Complete) CompletedTaskCount++;
-                    }
-                    if(AllTaskCount - CompletedTaskCount <= 0)
+                    var TaskState = seer.getPlayerTaskState();
+                    if(TaskState.doExpose)
                         SeerKnowsImpostors = true;
                 }
 
@@ -634,12 +631,26 @@ namespace TownOfHost
                     if(target == seer) continue;
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                    
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
+                    //タスク完了直前のSnitchにマークを表示
+                    if(target == target.isSnitch()) {
+                        var taskState = target.getPlayerTaskState();
+                        if(taskState.doExpose)
+                            TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                    }
+
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                    
+                    //ターゲットのプレイヤー名です
+                    string TargetPlayerName = main.RealNames[seer.PlayerId];
+                    //ターゲットのプレイヤー名の色を書き換えます。
+                    if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
                     //全てのテキストを合成します。
-                    string TargetName = $"{TargetRoleText}{main.RealNames[seer.PlayerId]}{TargetMark}";
+                    string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                 }
