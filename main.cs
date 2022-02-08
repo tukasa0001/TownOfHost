@@ -598,6 +598,9 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
+                //seerが落ちているときに何もしない
+                if(seer.Data.Disconnected) continue;
+                
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
