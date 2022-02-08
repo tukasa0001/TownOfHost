@@ -606,6 +606,8 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START");
+                //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
                 if(seer.Data.Disconnected) continue;
 
@@ -619,8 +621,17 @@ namespace TownOfHost
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 
+                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                string SeerRealName;
+                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
+                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
+                    else SeerRealName = seer.name;
+                    RealNames[seer.PlayerId] = SeerRealName;
+                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
+                }
+
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{main.RealNames[seer.PlayerId]}{SelfMark}";
+                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
                 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
@@ -634,6 +645,8 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead
                 //|| seer.isSnitch()
@@ -641,6 +654,7 @@ namespace TownOfHost
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
@@ -657,8 +671,13 @@ namespace TownOfHost
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
-                    //ターゲットのプレイヤー名です
-                    string TargetPlayerName = main.RealNames[seer.PlayerId];
+                    //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                    string TargetPlayerName;
+                    if(!RealNames.TryGetValue(seer.PlayerId, out TargetPlayerName)) {
+                        TargetPlayerName = target.name;
+                        RealNames[seer.PlayerId] = TargetPlayerName;
+                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
+                    }
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
@@ -667,6 +686,8 @@ namespace TownOfHost
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
+
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
                 }
             }
             /*
