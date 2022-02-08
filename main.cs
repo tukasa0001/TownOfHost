@@ -584,6 +584,17 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
+
+            //Snitch警告表示のON/OFF
+            bool ShowSnitchWarning = false;
+            if(SnitchCount > 0) foreach(var snitch in PlayerControl.AllPlayerControls) {
+                if(snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected) {
+                    var taskState = snitch.getPlayerTaskState();
+                    if(taskState.doExpose)
+                        ShowSnitchWarning = true;
+                }
+            }
+
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
@@ -592,8 +603,12 @@ namespace TownOfHost
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
+                //Snitch警告
+                if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
+                    SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{main.RealNames[seer.PlayerId]}{SelfMark}";
+                
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
 
@@ -608,7 +623,6 @@ namespace TownOfHost
                     }
                     if(AllTaskCount - CompletedTaskCount <= 0)
                         SeerKnowsImpostors = true;
-
                 }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する

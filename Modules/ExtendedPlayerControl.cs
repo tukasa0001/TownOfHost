@@ -207,6 +207,18 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
+        public static TaskState getPlayerTaskState(this PlayerControl player) {
+            if(player == null || player.Data == null || player.Data.Tasks == null) return new TaskState();
+            if(!main.hasTasks(player.Data, false)) return new TaskState();
+            int AllTasksCount = 0;
+            int CompletedTaskCount = 0;
+            foreach(var task in player.Data.Tasks) {
+                AllTasksCount++;
+                if(task.Complete) CompletedTaskCount++;
+            }
+            return new TaskState(AllTasksCount, CompletedTaskCount);
+        }
+
         public static GameOptionsData DeepCopy(this GameOptionsData opt) {
             var optByte = opt.ToBytes(5);
             return GameOptionsData.FromBytes(optByte);
