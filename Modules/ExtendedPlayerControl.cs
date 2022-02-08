@@ -132,9 +132,16 @@ namespace TownOfHost {
             bool canBeKilled = false;
             switch(cRole) {
                 case CustomRoles.Jester:
+                    canBeKilled = main.SheriffCanKillJester;
+                    break;
+                case CustomRoles.Terrorist:
+                    canBeKilled = main.SheriffCanKillTerrorist;
+                    break;
+                case CustomRoles.Opportunist:
+                    canBeKilled = main.SheriffCanKillOpportunist;
+                    break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
-                case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:

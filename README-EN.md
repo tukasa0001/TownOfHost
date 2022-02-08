@@ -1,5 +1,5 @@
 # Town Of Host
-![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
+[![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
 このREADMEは英語版です。<br>
 ! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !<br>
@@ -7,6 +7,8 @@
 ## Regarding this mod
 This mod is unofficial, and Innersloth, the developer of Among Us, has no involvement in the development of this mod.<br>
 Please do not contact the official team regarding any issues with this mod.<br>
+
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
 
 ## Features
 This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
@@ -170,6 +172,8 @@ Decision : Crewmate(Only host is the Crewmate)<br>
 They can kill the evildoers.<br>
 However, if they kill the Crewmate, they will die.<br>
 They don't have tasks.<br>
+
+(There are special settings for them.)
 
 ### BountyHunter
 

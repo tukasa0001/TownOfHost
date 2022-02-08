@@ -105,6 +105,14 @@ namespace TownOfHost
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
+            if (Input.GetKey(KeyCode.RightControl))
+            {
+                __instance.TeamTitle.text = "Discord Server";
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.TeamTitle.color = Color.magenta;
+                StartFadeIntro(__instance, Color.magenta, Color.magenta);
+            }
         }
         private static AudioClip GetIntroSound(RoleTypes roleType) {
             return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
