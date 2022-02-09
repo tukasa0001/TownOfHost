@@ -227,100 +227,80 @@ namespace TownOfHost
             }
 
             //役職テキストの表示
-            if(AmongUsClient.Instance.AmHost)
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            if (RoleText != null && __instance != null)
             {
-                var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
-                var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleText != null && __instance != null)
-                {
-                    var RoleTextData = main.GetRoleText(__instance);
-                    if(main.IsHideAndSeek) {
-                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
-                        if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
-                    }
-                    RoleText.text = RoleTextData.Item1;
-                    RoleText.color = RoleTextData.Item2;
-                    var nameSuffix = "";
-                    if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                    else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
-                    {
-                        RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                        if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
-                    }
-                    if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                        RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
-                    
-                    //名前変更
-                    string RealName;
-                    if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
-                        RealName = __instance.name;
-                        main.RealNames[__instance.PlayerId] = RealName;
-                        TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
-                    }
-
-                    //タスクを終わらせたSnitchがインポスターを確認できる
-                    if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
-                        __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                        PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
-                    ) {
-                        __instance.nameText.text = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
-                    }
-
-                    //インポスターがタスクが終わりそうなSnitchを確認できる
-                    if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
-                    __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
-                    ) {
-                        __instance.nameText.text = $"{RealName}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
-                    }
-
-                    //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                    if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) {//__instanceがインポスターかつ自分自身
-                        foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
-                            if(!pc.isSnitch()) continue; //スニッチ以外に用はない
-                            if(pc.getPlayerTaskState().doExpose) { //タスクが終わりそうなSnitchが見つかった時
-                                __instance.nameText.text = $"{RealName}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
-                                break; //無駄なループは行わない
-                            }
-                        }
-                    }
-
-                    //==TODO==
-                    //- BountyHunter用のターゲット通知
-                    //- これらのコードがホスト視点以外でも実行されるように
-                    //- 下のコードを削除
-
-                    if(main.hasTasks(__instance.Data))//タスク持ちの陣営
-                    {
-                        foreach(var t in PlayerControl.AllPlayerControls)
-                        {
-                            if(__instance.AllTasksCompleted() && __instance.isSnitch())
-                            {
-                                if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
-                                {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
-                                }
-                            }
-                        }
-                    }else{//タスクなしの陣営
-                        foreach(var t in PlayerControl.AllPlayerControls)
-                        {
-                            if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter())
-                            {
-                                var ct = 0;
-                                foreach(var task in t.myTasks) if(task.IsComplete)ct++;
-                                if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
-                                {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
-                                    nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                                }
-                            }
-                        }
-                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                    }
-                    if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
+                var RoleTextData = main.GetRoleText(__instance);
+                if(main.IsHideAndSeek) {
+                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                    if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
+                RoleText.text = RoleTextData.Item1;
+                RoleText.color = RoleTextData.Item2;
+                if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
+                else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
+                else RoleText.enabled = false; //そうでなければロールを非表示
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                {
+                    RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                    if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                }
+                if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                
+                //変数定義
+                string RealName;
+                string Mark = "";
+                string Suffix = "";
+
+                //名前変更
+                if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
+                    RealName = __instance.name;
+                    main.RealNames[__instance.PlayerId] = RealName;
+                    TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                }
+
+                //タスクを終わらせたSnitchがインポスターを確認できる
+                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
+                ) {
+                    __instance.nameText.text = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+
+                //インポスターがタスクが終わりそうなSnitchを確認できる
+                if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
+                ) {
+                    Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
+                }
+
+                //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
+                if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) {//__instanceがインポスターかつ自分自身
+                    foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
+                        if(!pc.isSnitch()) continue; //スニッチ以外に用はない
+                        if(pc.getPlayerTaskState().doExpose) { //タスクが終わりそうなSnitchが見つかった時
+                            Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
+                            break; //無駄なループは行わない
+                        }
+                    }
+                }
+                if(__instance.AmOwner && __instance.isBountyHunter()) {
+                    if(main.b_target != null) {
+                        string targetName;
+                        if(!main.RealNames.TryGetValue(main.b_target.PlayerId, out targetName)) {
+                            targetName = main.b_target.name;
+                            main.RealNames[main.b_target.PlayerId] = targetName;
+                            TownOfHost.Logger.warn("プレイヤー" + main.b_target.PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
+                        }
+                        Suffix = $"<size=1.5>Target:{targetName}</size>";
+                    }
+                }
+
+                //Mark・Suffixの適用
+                __instance.nameText.text = $"{RealName}{Mark}";
+                __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
             }
         }
     }
