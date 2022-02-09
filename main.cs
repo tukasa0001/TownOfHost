@@ -675,7 +675,7 @@ namespace TownOfHost
                     string TargetPlayerName;
                     if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
                         TargetPlayerName = target.name;
-                        RealNames[seer.PlayerId] = TargetPlayerName;
+                        RealNames[target.PlayerId] = TargetPlayerName;
                         TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
                     }
 
