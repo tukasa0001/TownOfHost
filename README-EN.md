@@ -55,6 +55,7 @@ However, The numeric keypad is not supported.<br>
 | Snitch | Crewmate |
 | Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
+| DarkScientist | Scientist |
 
 ### Jester
 
@@ -179,6 +180,16 @@ Decision : Impostor<br>
 When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
+
+### DarkScientist
+
+Team : Impostor<br>
+Decision : Scientist<br>
+
+It belongs to the Imposter camp, but the Dark Scientist does not know who the Imposter is. <br>
+The Imposter also does not know who the Dark Scientist is. <br>
+However, you can see the vitals without time limit. <br>
+You cannot kill or sabotage, and you cannot enter the vents. <br>
 
 ## Mode
 
