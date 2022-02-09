@@ -288,17 +288,6 @@ namespace TownOfHost
                         }
                     }
                 }
-                if(__instance.AmOwner && __instance.isBountyHunter()) {
-                    if(main.b_target != null) {
-                        string targetName;
-                        if(!main.RealNames.TryGetValue(main.b_target.PlayerId, out targetName)) {
-                            targetName = main.b_target.name;
-                            main.RealNames[main.b_target.PlayerId] = targetName;
-                            TownOfHost.Logger.warn("プレイヤー" + main.b_target.PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
-                        }
-                        Suffix = $"<size=1.5>Target:{targetName}</size>";
-                    }
-                }
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
