@@ -29,6 +29,7 @@ namespace TownOfHost
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
+        public static bool hasArgumentException = false;
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
@@ -811,6 +812,10 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
+            hasArgumentException = false;
+            try {
+            
+
             roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Default, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
@@ -1035,6 +1040,13 @@ namespace TownOfHost
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
+
+
+            } catch(ArgumentException ex) {
+                TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
+                TownOfHost.Logger.error(ex.ToString());
+                hasArgumentException = true;
+            }
 
             Harmony.PatchAll();
         }
