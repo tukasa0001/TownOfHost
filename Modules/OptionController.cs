@@ -26,7 +26,7 @@ namespace TownOfHost
                 OptionPages.basepage
             )},
                 {OptionPages.roles, new PageObject(
-                    "Role Options",
+                    "Role Optionskihi",
                     false,
                     () => {SetPage(OptionPages.roles);},
                     new List<OptionPages>(){
