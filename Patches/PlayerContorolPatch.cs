@@ -266,7 +266,7 @@ namespace TownOfHost
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
                 ) {
-                    __instance.nameText.text = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる

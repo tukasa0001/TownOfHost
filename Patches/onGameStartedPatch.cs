@@ -25,6 +25,11 @@ namespace TownOfHost
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            main.RealNames = new Dictionary<byte, string>();
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                main.RealNames[pc.PlayerId] = pc.name;
+            }
             if (__instance.AmHost)
             {
 
@@ -88,7 +93,6 @@ namespace TownOfHost
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
-            main.RealNames = new Dictionary<byte, string>();
 
             var rand = new System.Random();
             main.BountyTargetPlayer = new List<PlayerControl>();
@@ -96,11 +100,6 @@ namespace TownOfHost
             if(main.BountyTargetPlayer.Count > 0)
             main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
             main.BountyCheck = true;
-
-            foreach(var pc in PlayerControl.AllPlayerControls)
-            {
-                main.RealNames[pc.PlayerId] = pc.name;
-            }
 
             if(main.IsHideAndSeek) {
                 rand = new System.Random();
