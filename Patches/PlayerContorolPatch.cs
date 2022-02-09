@@ -249,6 +249,7 @@ namespace TownOfHost
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                     RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
                 
+
                 //変数定義
                 string RealName;
                 string Mark = "";
@@ -257,6 +258,7 @@ namespace TownOfHost
                 //名前変更
                 if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
                     RealName = __instance.name;
+                    if(RealName == "Player(Clone)") return;
                     main.RealNames[__instance.PlayerId] = RealName;
                     TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
                 }
