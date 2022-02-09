@@ -1039,12 +1039,13 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
+                {CustomRoles.Sheriff, "重複"}
             };
 
 
             } catch(ArgumentException ex) {
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
-                TownOfHost.Logger.error(ex.ToString());
+                TownOfHost.Logger.error(ex.Message);
                 hasArgumentException = true;
             }
 
