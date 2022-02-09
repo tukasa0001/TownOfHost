@@ -625,6 +625,20 @@ namespace TownOfHost
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 
+                //Markとは違い、改行してから追記されます。
+                string SelfSuffix = "";
+
+                if(seer.isBountyHunter() && main.b_target != null) {
+                    string targetName;
+                    if(!RealNames.TryGetValue(main.b_target.PlayerId, out targetName)) {
+                        if(main.b_target.AmOwner) targetName = SaveManager.PlayerName;
+                        else targetName = seer.name;
+                        RealNames[main.b_target.PlayerId] = targetName;
+                        TownOfHost.Logger.warn("プレイヤー" + main.b_target.PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
+                    }
+                    SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
+                }
+                
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName;
                 if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
@@ -636,7 +650,8 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
-                
+                SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
                 HudManagerPatch.LastSetNameDesyncCount++;
