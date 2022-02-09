@@ -18,6 +18,8 @@ using InnerNet;
 namespace TownOfHost {
     static class CustomRolesHelper {
         public static bool isImpostor(this CustomRoles role) {
+            if(!AmongUsClient.Instance.IsGameStarted && 
+            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             bool isImpostor =
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
@@ -27,6 +29,8 @@ namespace TownOfHost {
             return isImpostor;
         }
         public static bool isImpostorTeam(this CustomRoles role) {
+            if(!AmongUsClient.Instance.IsGameStarted && 
+            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
