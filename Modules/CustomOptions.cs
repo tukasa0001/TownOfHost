@@ -37,19 +37,33 @@ namespace TownOfHost
         {
             foreach (var ob in __instance.Children)
             {
-                if (ob.Title == StringNames.GameShortTasks ||
-                ob.Title == StringNames.GameLongTasks ||
-                ob.Title == StringNames.GameCommonTasks)
+                switch(ob.Title)
                 {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
-                }
-                if (ob.Title == StringNames.GameKillCooldown)
-                {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
-                }
-                if(ob.Title == StringNames.GameRecommendedSettings) {
-                    ob.enabled = false;
-                    ob.gameObject.SetActive(false);
+                    case StringNames.GameShortTasks:
+                    case StringNames.GameLongTasks:
+                    case StringNames.GameCommonTasks:
+                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
+                        break;
+                    case StringNames.GameKillCooldown:
+                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                        break;
+                    case StringNames.GameRecommendedSettings:
+                        ob.enabled = false;
+                        ob.gameObject.SetActive(false);
+                        break;
+                    case StringNames.GameMapName:
+                        var options = new Il2CppSystem.Collections.Generic.List<Il2CppSystem.Collections.Generic.KeyValuePair<string, int>>();
+                        for (int i = 0; i < Constants.MapNames.Length; i++)
+                        {
+                            var kvp = new Il2CppSystem.Collections.Generic.KeyValuePair<string, int>();
+                            kvp.key = Constants.MapNames[i];
+                            kvp.value = i;
+                            options.Add(kvp);
+                        }
+                        ob.GetComponent<KeyValueOption>().Values = options;
+                        break;
+                    default:
+                        break;
                 }
             }
         }
