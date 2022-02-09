@@ -57,6 +57,7 @@ namespace TownOfHost
 
 
             if(Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value) {
+                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
                 if(bot == null) {
                     bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
                     bot.PlayerId = 15;
