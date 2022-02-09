@@ -108,5 +108,14 @@ namespace TownOfHost
             }
             return continueStart;
         }
-    } 
+    }
+    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
+    class UnrestrictNumImpostorsPatch
+    {
+        public static bool Prefix(ref int __result)
+        {
+            __result = PlayerControl.GameOptions.NumImpostors;
+            return false;
+        }
+    }
 }
