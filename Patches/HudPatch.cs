@@ -22,6 +22,7 @@ namespace TownOfHost
         public static int LastFPS = 0;
         public static int NowFrameCount = 0;
         public static float FrameRateTimer = 0.0f;
+        public static TMPro.TextMeshPro BountyTargetText;
         public static void Postfix(HudManager __instance)
         {
             var TaskTextPrefix = "";
@@ -41,6 +42,26 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f,-0.3636f);
                 }
             }
+            //バウンティハンターのターゲットテキスト
+            if(BountyTargetText == null) {
+                BountyTargetText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                BountyTargetText.transform.parent = __instance.transform;
+                BountyTargetText.transform.localPosition = new Vector3(0, -2f, 0);
+                BountyTargetText.alignment = TMPro.TextAlignmentOptions.Center;
+                BountyTargetText.overflowMode = TMPro.TextOverflowModes.Overflow;
+                BountyTargetText.enableWordWrapping = false;
+                BountyTargetText.color = Palette.EnabledColor;
+            }
+            if(PlayerControl.LocalPlayer.isBountyHunter() && main.b_target != null) {//else使いたいのでここはif文
+                BountyTargetText.text = "現在のターゲット:" + main.b_target.name;
+                BountyTargetText.enabled = true;
+            } else {
+                BountyTargetText.enabled = false;
+            }
+            //TODO:RPCでターゲットを同期する
+            //複数のBountyHunter間でターゲットが同期されている？
+
+
             switch(PlayerControl.LocalPlayer.getCustomRole())
             {
                 case CustomRoles.Madmate:
