@@ -281,7 +281,7 @@ namespace TownOfHost
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
                 if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) {//__instanceがインポスターかつ自分自身
                     foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
-                        if(!pc.isSnitch()) continue; //スニッチ以外に用はない
+                        if(!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
                         if(pc.getPlayerTaskState().doExpose) { //タスクが終わりそうなSnitchが見つかった時
                             Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
                             break; //無駄なループは行わない
