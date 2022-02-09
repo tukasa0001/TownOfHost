@@ -635,7 +635,7 @@ namespace TownOfHost
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
                 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, false);
+                seer.RpcSetNamePrivate(SelfName, true);
                 HudManagerPatch.LastSetNameDesyncCount++;
 
                 //他人用の変数定義
@@ -686,7 +686,7 @@ namespace TownOfHost
                     //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                     //適用
-                    target.RpcSetNamePrivate(TargetName, false, seer);
+                    target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
 
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
