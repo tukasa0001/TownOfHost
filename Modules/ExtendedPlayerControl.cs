@@ -176,7 +176,7 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                  case CustomRoles.DarkScientist:
-                    goto InfinityVent;
+                    goto InfinityVital;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -193,8 +193,10 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
-                    opt.RoleOptions.ScientistBatteryCharge = 999999999999;
-                    opt.RoleOptions.ScientistCooldown = 0;
+                    break;
+                 InfinityVital:
+                    opt.RoleOptions.ScientistBatteryCharge = float.PositiveInfinity;
+                    opt.RoleOptions.ScientistCooldown = 0.1f;
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
