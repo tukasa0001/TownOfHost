@@ -808,7 +808,6 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Your vote counts twice"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
-                {lang.SnitchInfo, "Finish your tasks and uncover evildoer"},
                 {lang.DarkScientistInfo, "Use your vitals to help the Imposter"},
                 {lang.SnitchInfo, "Finish your tasks to find the Impostors"},
                 {lang.SheriffInfo, "Shoot the Impostors"},
