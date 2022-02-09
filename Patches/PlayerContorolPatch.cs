@@ -251,6 +251,42 @@ namespace TownOfHost
                     }
                     if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                    
+                    //名前変更
+                    string RealName;
+                    if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
+                        RealName = __instance.name;
+                        main.RealNames[__instance.PlayerId] = RealName;
+                        TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                    }
+
+                    //タスクを終わらせたSnitchがインポスターを確認できる
+                    if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                        __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                        PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
+                    ) {
+                        __instance.nameText.text = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    }
+
+                    //インポスターがタスクが終わりそうなSnitchを確認できる
+                    if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                    __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
+                    ) {
+                        __instance.nameText.text = "{RealName}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
+                    }
+
+                    //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
+                    if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) {//__instanceがインポスターかつ自分自身
+                        foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
+                            if(!pc.isSnitch()) continue; //スニッチ以外に用はない
+                        }
+                    }
+
+                    //==TODO==
+                    //- BountyHunter用のターゲット通知
+                    //- これらのコードがホスト視点以外でも実行されるように
+                    //- 下のコードを削除
+
                     if(main.hasTasks(__instance.Data))//タスク持ちの陣営
                     {
                         foreach(var t in PlayerControl.AllPlayerControls)
