@@ -133,6 +133,7 @@ namespace TownOfHost {
             switch(cRole) {
                 case CustomRoles.Jester:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.DarkScientist:
                 case CustomRoles.Madmate:
                 case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
@@ -174,6 +175,8 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
+                 case CustomRoles.DarkScientist:
+                    goto InfinityVent;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -190,6 +193,8 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    opt.RoleOptions.ScientistBatteryCharge = 999999999999;
+                    opt.RoleOptions.ScientistCooldown = 0;
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)

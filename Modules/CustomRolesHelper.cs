@@ -29,7 +29,7 @@ namespace TownOfHost {
             bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
-                role == CustomRoles.MadGuardian;
+                role == CustomRoles.MadGuardian ||
                 role == CustomRoles.DarkScientist;
             return isImpostor;
         }
