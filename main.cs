@@ -30,6 +30,8 @@ namespace TownOfHost
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
         public static bool hasArgumentException = false;
+        public static string ExceptionMessage;
+        public static bool ExceptionMessageIsShown = false;
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
@@ -813,6 +815,7 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
             hasArgumentException = false;
+            ExceptionMessage = "";
             try {
             
 
@@ -1039,7 +1042,6 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
-                {CustomRoles.Sheriff, "重複"}
             };
 
 
@@ -1047,6 +1049,8 @@ namespace TownOfHost
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
                 TownOfHost.Logger.error(ex.Message);
                 hasArgumentException = true;
+                ExceptionMessage = ex.Message;
+                ExceptionMessageIsShown = false;
             }
 
             Harmony.PatchAll();
