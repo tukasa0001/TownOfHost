@@ -91,6 +91,7 @@ namespace TownOfHost {
             {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
             {CustomRoles.Mafia, RoleTypes.Shapeshifter},
             {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.Witch, RoleTypes.Impostor},
             {CustomRoles.Vampire, RoleTypes.Impostor},
             {CustomRoles.Madmate, RoleTypes.Engineer},
             {CustomRoles.Terrorist, RoleTypes.Engineer},

@@ -147,6 +147,7 @@ namespace TownOfHost {
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
+                case CustomRoles.Witch:
                     canBeKilled = true;
                     break;
             }
@@ -341,5 +342,6 @@ namespace TownOfHost {
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
+        public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
     }
 }

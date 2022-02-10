@@ -180,6 +180,9 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     count = BountyHunterCount;
                     break;
+                case CustomRoles.Witch:
+                    count = WitchCount;
+                    break;
                 default:
                     return -1;
             }
@@ -225,6 +228,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunterCount = count;
+                    break;
+                case CustomRoles.Witch:
+                    WitchCount = count;
                     break;
             }
         }
@@ -325,6 +331,7 @@ namespace TownOfHost
                 if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
                 if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
@@ -354,6 +361,7 @@ namespace TownOfHost
             }else{
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
+                if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
@@ -443,10 +451,15 @@ namespace TownOfHost
         public static int SheriffCount;
         public static int SnitchCount;
         public static int BountyHunterCount;
+        public static int WitchCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
+
+        public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
+        public static bool KillOrSpell;
+        public static bool witchMeeting;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -487,6 +500,7 @@ namespace TownOfHost
             writer.Write(SnitchCount);
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
+            writer.Write(WitchCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -656,6 +670,10 @@ namespace TownOfHost
                     }
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
+                if(seer.isWitch()) {
+                    if(KillOrSpell == true) SelfSuffix = "Kill";
+                    if(KillOrSpell == false) SelfSuffix = "Spell";
+                }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName;
@@ -728,7 +746,12 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
+                /*foreach(var w_target in SpelledPlayer)
+                {
+                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
+                }*/
             }
+            main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings() {
             foreach(var pc in PlayerControl.AllPlayerControls) {
@@ -835,6 +858,7 @@ namespace TownOfHost
                 {CustomRoles.Mayor, "#204d42"},
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
+                {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -856,6 +880,7 @@ namespace TownOfHost
                 {lang.SnitchInfo, "タスクを早く済ませよう"},
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
+                {lang.WitchInfo, "敵に魔術をかけよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -872,6 +897,7 @@ namespace TownOfHost
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WitchInfoLong, "魔女:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -943,6 +969,7 @@ namespace TownOfHost
                 {lang.SnitchInfo, "Finish your tasks to find the Impostors"},
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
+                {lang.WitchInfo, "Spell your enemies"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -959,6 +986,7 @@ namespace TownOfHost
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1033,6 +1061,7 @@ namespace TownOfHost
                 {CustomRoles.Snitch, "Snitch"},
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
+                {CustomRoles.Witch, "Witch"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1056,6 +1085,7 @@ namespace TownOfHost
                 {CustomRoles.Snitch, "スニッチ"},
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
+                {CustomRoles.Witch, "魔女"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1099,6 +1129,7 @@ namespace TownOfHost
         SnitchInfo,
         SheriffInfo,
         BountyHunterInfo,
+        WitchInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1115,6 +1146,7 @@ namespace TownOfHost
         SnitchInfoLong,
         SheriffInfoLong,
         BountyHunterInfoLong,
+        WitchInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1189,6 +1221,7 @@ namespace TownOfHost
         Snitch,
         Sheriff,
         BountyHunter,
+        Witch,
         Fox,
         Troll
     }

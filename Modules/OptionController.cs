@@ -32,6 +32,7 @@ namespace TownOfHost
                     new List<OptionPages>(){
                         OptionPages.Vampire,
                         OptionPages.BountyHunter,
+                        OptionPages.Witch,
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -150,6 +151,14 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.BountyHunter, i)
+                    )},
+                    {OptionPages.Witch, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>: {main.WitchCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Witch);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Witch, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -691,6 +700,7 @@ namespace TownOfHost
                 Opportunist,
                 Snitch,
                 BountyHunter,
+                Witch,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
