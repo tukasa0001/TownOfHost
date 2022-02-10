@@ -55,18 +55,20 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if(PlayerControl.LocalPlayer.isBountyHunter() && PlayerControl.LocalPlayer.getBountyTarget() != null) {//else使いたいのでここはif文
-                //バウンティハンターでターゲットがnullじゃない
-                LowerInfoText.text = "現在のターゲット:" + PlayerControl.LocalPlayer.getBountyTarget().name;
-                LowerInfoText.enabled = true;
-            } else if(PlayerControl.LocalPlayer.isBountyHunter()) {
-                //バウンティハンターだけどターゲットがnull
-                LowerInfoText.text = "null";
+            if(PlayerControl.LocalPlayer.isBountyHunter()) {//else使いたいのでここはif文
+                //バウンティハンター用処理
+                var target = PlayerControl.LocalPlayer.getBountyTarget();
+                LowerInfoText.text = target == null ? "null" : "現在のターゲット:" + PlayerControl.LocalPlayer.getBountyTarget().name;
+                LowerInfoText.enabled = target != null || main.AmDebugger.Value;
+            } else if(PlayerControl.LocalPlayer.isWitch()) {
+                //魔女用処理
+                LowerInfoText.text = main.KillOrSpell ? "現在のモード:キル" : "現在のモード:スペル";
                 LowerInfoText.enabled = true;
             } else {
                 //バウンティハンターじゃない
                 LowerInfoText.enabled = false;
             }
+            //TODO:"現在のターゲット"や"現在のモード"の文字列を多言語対応化
 
 
             switch(PlayerControl.LocalPlayer.getCustomRole())
