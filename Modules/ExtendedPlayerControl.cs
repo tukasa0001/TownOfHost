@@ -276,6 +276,17 @@ namespace TownOfHost {
                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
             }, 0.4f + delay, "Fix Desync Reactor 2");
         }
+
+        public static string getRealName(this PlayerControl player) {
+            string RealName;
+            if(!main.RealNames.TryGetValue(player.PlayerId, out RealName)) {
+                RealName = player.name;
+                if(RealName == "Player(Clone)") return RealName;
+                main.RealNames[player.PlayerId] = RealName;
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+            }
+            return RealName;
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}

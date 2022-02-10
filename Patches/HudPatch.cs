@@ -55,7 +55,7 @@ namespace TownOfHost
                 BountyTargetText.fontSizeMax = 2.0f;
             }
             if(PlayerControl.LocalPlayer.isBountyHunter() && main.b_target != null) {//else使いたいのでここはif文
-                BountyTargetText.text = "現在のターゲット:" + main.b_target.name;
+                BountyTargetText.text = "現在のターゲット:" + main.b_target.getRealName();
                 BountyTargetText.enabled = true;
             } else {
                 BountyTargetText.enabled = false;
