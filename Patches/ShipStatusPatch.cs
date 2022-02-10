@@ -40,6 +40,21 @@ namespace TownOfHost
                     Logger.info("キル能力解禁");
                 }
             }
+            //BountyHunterのターゲットが無効な場合にリセット
+            if(main.BountyHunterCount > 0) {
+                bool DoNotifyRoles = false;
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(!pc.isBountyHunter()) continue; //BountHutner以外おことわり
+                    var target = pc.getBountyTarget();
+                    //BountyHunterのターゲット更新
+                    if(target.Data.IsDead || target.Data.Disconnected) {
+                        pc.ResetBountyTarget();
+                        Logger.info($"{pc.name}のターゲットが無効だったため、ターゲットを更新しました");
+                        DoNotifyRoles = true;
+                    }
+                }
+                if(DoNotifyRoles) main.NotifyRoles();
+            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]

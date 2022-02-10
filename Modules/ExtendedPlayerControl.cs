@@ -313,6 +313,7 @@ namespace TownOfHost {
             main.BountyTargets[player.PlayerId] = target;
             Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
             //TODO:RPCによる同期
+            //※NotifyRolesは不要 更新するイベントでは必ずと言っていいほどNotifyRolesが実行されるため
             return target;
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
