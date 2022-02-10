@@ -23,6 +23,13 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
+            //BountyHunter
+            if(__instance.isBountyHunter()) {
+                if(target == __instance.getBountyTarget()) {
+                    __instance.RpcGuardAndKill(target);
+                    __instance.ResetBountyTarget();
+                }
+            }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
@@ -82,39 +89,6 @@ namespace TownOfHost
                     }
                     return false;
                 }
-            }
-            if (__instance.isBountyHunter())
-            {
-                if (main.BountyCheck == true)
-                {
-                    if (main.b_target.Data.IsDead)
-                    {
-                        var rand = new System.Random();
-                        main.BountyTargetPlayer = new List<PlayerControl>();
-                        foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-                        main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
-                        main.BountyCheck = true;
-                    }
-                    if (target != main.b_target)
-                    {
-                        __instance.RpcMurderPlayer(target);
-                    }
-                    else if (target == main.b_target)
-                    {
-                        __instance.RpcMurderPlayer(target);
-                        __instance.RpcGuardAndKill(target);
-                        main.BountyCheck = false;
-                    }
-                }
-                if (main.BountyCheck == false)
-                {
-                    var rand = new System.Random();
-                    main.BountyTargetPlayer = new List<PlayerControl>();
-                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-                    main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
-                    main.BountyCheck = true;
-                }
-                return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理

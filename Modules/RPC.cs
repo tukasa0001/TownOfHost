@@ -22,7 +22,8 @@ namespace TownOfHost
         TerroristWin,
         EndGame,
         PlaySound,
-        SetCustomRole
+        SetCustomRole,
+        SetBountyTarget
     }
     public enum Sounds
     {
@@ -342,20 +343,6 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
-        }
-        public static void BeKilled(byte targetId, byte KilledById) {
-            PlayerControl me = PlayerControl.LocalPlayer;
-            PlayerControl KilledBy = KilledById == byte.MaxValue ? null : main.getPlayerById(KilledById);
-            if((KilledBy == null && KilledById != byte.MaxValue) || me == null) return;
-            if(me.PlayerId == targetId) {
-                if(KilledById == byte.MaxValue) {
-                    //ローカル追放
-                    new LateTask(() => me.Exiled(), 10f, "ExileForSheriff");
-                } else {
-                    //ローカル殺害
-                    KilledBy.MurderPlayer(me);
-                }
-            }
         }
     }
 }

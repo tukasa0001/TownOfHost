@@ -21,7 +21,7 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            main.BountyTargetPlayer = new List<PlayerControl>();
+            main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -97,11 +97,6 @@ namespace TownOfHost
             //main.ApplySuffix();
 
             var rand = new System.Random();
-            main.BountyTargetPlayer = new List<PlayerControl>();
-            foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-            if(main.BountyTargetPlayer.Count > 0)
-            main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
-            main.BountyCheck = true;
 
             if(main.IsHideAndSeek) {
                 rand = new System.Random();
@@ -210,6 +205,12 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 HudManager.Instance.SetHudActive(true);
+
+                //BountyHunterのターゲットを初期化
+                main.BountyTargets = new Dictionary<byte, PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.isBountyHunter()) pc.ResetBountyTarget();
+                }
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;

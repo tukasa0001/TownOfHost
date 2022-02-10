@@ -446,9 +446,7 @@ namespace TownOfHost
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
-        public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
-        public static bool BountyCheck;
-        public static PlayerControl b_target;
+        public static Dictionary<byte, PlayerControl> BountyTargets;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -648,13 +646,13 @@ namespace TownOfHost
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
-                if(seer.isBountyHunter() && main.b_target != null) {
+                if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
                     string targetName;
-                    if(!RealNames.TryGetValue(main.b_target.PlayerId, out targetName)) {
-                        if(main.b_target.AmOwner) targetName = SaveManager.PlayerName;
+                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
+                        if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
                         else targetName = seer.name;
-                        RealNames[main.b_target.PlayerId] = targetName;
-                        TownOfHost.Logger.warn("プレイヤー" + main.b_target.PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
+                        RealNames[seer.getBountyTarget().PlayerId] = targetName;
+                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
                     }
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }

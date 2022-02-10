@@ -287,6 +287,34 @@ namespace TownOfHost {
             }
             return RealName;
         }
+
+        public static PlayerControl getBountyTarget(this PlayerControl player) {
+            PlayerControl target;
+            if(!main.BountyTargets.TryGetValue(player.PlayerId, out target)) {
+                target = player.ResetBountyTarget();
+            }
+            if(target == null) Logger.warn($"警告:{player.name}のターゲットを要求されましたが、取得・設定に失敗しました。");
+            return target;
+        }
+        public static PlayerControl ResetBountyTarget(this PlayerControl player) {
+            List<PlayerControl> cTargets = new List<PlayerControl>();
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                if(!pc.Data.IsDead && //死者を除外
+                !pc.Data.Disconnected && //切断者を除外
+                !pc.getCustomRole().isImpostor() //インポスターを除外
+                ) cTargets.Add(pc);
+            
+            var rand = new System.Random();
+            if(cTargets.Count <= 0) {
+                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                return null;
+            }
+            var target = cTargets[rand.Next(0, cTargets.Count - 1)];
+            main.BountyTargets[player.PlayerId] = target;
+            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+            //TODO:RPCによる同期
+            return target;
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
