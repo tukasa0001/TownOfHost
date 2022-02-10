@@ -22,7 +22,7 @@ namespace TownOfHost
         public static int LastFPS = 0;
         public static int NowFrameCount = 0;
         public static float FrameRateTimer = 0.0f;
-        public static TMPro.TextMeshPro BountyTargetText;
+        public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
             var TaskTextPrefix = "";
@@ -43,29 +43,29 @@ namespace TownOfHost
                 }
             }
             //バウンティハンターのターゲットテキスト
-            if(BountyTargetText == null) {
-                BountyTargetText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
-                BountyTargetText.transform.parent = __instance.transform;
-                BountyTargetText.transform.localPosition = new Vector3(0, -2f, 0);
-                BountyTargetText.alignment = TMPro.TextAlignmentOptions.Center;
-                BountyTargetText.overflowMode = TMPro.TextOverflowModes.Overflow;
-                BountyTargetText.enableWordWrapping = false;
-                BountyTargetText.color = Palette.EnabledColor;
-                BountyTargetText.fontSizeMin = 2.0f;
-                BountyTargetText.fontSizeMax = 2.0f;
+            if(LowerInfoText == null) {
+                LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                LowerInfoText.transform.parent = __instance.transform;
+                LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
+                LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
+                LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
+                LowerInfoText.enableWordWrapping = false;
+                LowerInfoText.color = Palette.EnabledColor;
+                LowerInfoText.fontSizeMin = 2.0f;
+                LowerInfoText.fontSizeMax = 2.0f;
             }
 
             if(PlayerControl.LocalPlayer.isBountyHunter() && PlayerControl.LocalPlayer.getBountyTarget() != null) {//else使いたいのでここはif文
                 //バウンティハンターでターゲットがnullじゃない
-                BountyTargetText.text = "現在のターゲット:" + PlayerControl.LocalPlayer.getBountyTarget().name;
-                BountyTargetText.enabled = true;
+                LowerInfoText.text = "現在のターゲット:" + PlayerControl.LocalPlayer.getBountyTarget().name;
+                LowerInfoText.enabled = true;
             } else if(PlayerControl.LocalPlayer.isBountyHunter()) {
                 //バウンティハンターだけどターゲットがnull
-                BountyTargetText.text = "null";
-                BountyTargetText.enabled = true;
+                LowerInfoText.text = "null";
+                LowerInfoText.enabled = true;
             } else {
                 //バウンティハンターじゃない
-                BountyTargetText.enabled = false;
+                LowerInfoText.enabled = false;
             }
 
 
