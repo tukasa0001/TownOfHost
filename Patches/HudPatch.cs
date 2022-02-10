@@ -62,7 +62,7 @@ namespace TownOfHost
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             } else if(PlayerControl.LocalPlayer.isWitch()) {
                 //魔女用処理
-                LowerInfoText.text = main.KillOrSpell ? "現在のモード:キル" : "現在のモード:スペル";
+                LowerInfoText.text = main.KillOrSpell ? "現在のモード:スペル" : "現在のモード:キル";
                 LowerInfoText.enabled = true;
             } else {
                 //バウンティハンターじゃない

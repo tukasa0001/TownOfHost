@@ -671,8 +671,8 @@ namespace TownOfHost
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
                 if(seer.isWitch()) {
-                    if(KillOrSpell == true) SelfSuffix = "Kill";
-                    if(KillOrSpell == false) SelfSuffix = "Spell";
+                    if(KillOrSpell == false) SelfSuffix = "Kill";
+                    if(KillOrSpell == true) SelfSuffix = "Spell";
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -746,10 +746,6 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
-                /*foreach(var w_target in SpelledPlayer)
-                {
-                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
-                }*/
             }
             main.witchMeeting = false;
         }
