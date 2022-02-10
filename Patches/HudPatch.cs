@@ -51,6 +51,8 @@ namespace TownOfHost
                 BountyTargetText.overflowMode = TMPro.TextOverflowModes.Overflow;
                 BountyTargetText.enableWordWrapping = false;
                 BountyTargetText.color = Palette.EnabledColor;
+                BountyTargetText.fontSizeMin = 2.0f;
+                BountyTargetText.fontSizeMax = 2.0f;
             }
             if(PlayerControl.LocalPlayer.isBountyHunter() && main.b_target != null) {//else使いたいのでここはif文
                 BountyTargetText.text = "現在のターゲット:" + main.b_target.name;
