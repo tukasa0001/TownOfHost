@@ -289,6 +289,8 @@ namespace TownOfHost {
         }
 
         public static PlayerControl getBountyTarget(this PlayerControl player) {
+            if(player == null) return null;
+            if(main.BountyTargets == null) main.BountyTargets = new Dictionary<byte, PlayerControl>();
             PlayerControl target;
             if(!main.BountyTargets.TryGetValue(player.PlayerId, out target)) {
                 target = player.ResetBountyTarget();
@@ -296,7 +298,7 @@ namespace TownOfHost {
             return target;
         }
         public static PlayerControl ResetBountyTarget(this PlayerControl player) {
-            if(!AmongUsClient.Instance.AmHost) return null;
+            if(!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
             List<PlayerControl> cTargets = new List<PlayerControl>();
             foreach(var pc in PlayerControl.AllPlayerControls)
                 if(!pc.Data.IsDead && //死者を除外

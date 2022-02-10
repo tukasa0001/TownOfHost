@@ -773,6 +773,7 @@ namespace TownOfHost
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            BountyTargets = new Dictionary<byte, PlayerControl>();
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
