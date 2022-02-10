@@ -55,6 +55,7 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                 case CustomRoles.Mafia:
                 case CustomRoles.BountyHunter:
+                case CustomRoles.Witch:
                     type = IntroTypes.Impostor;
                     break;
 
