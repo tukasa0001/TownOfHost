@@ -22,7 +22,6 @@ namespace TownOfHost
             if (__instance.AllowImpostor) return true;
             if (PlayerControl.LocalPlayer.isJester() ||
             PlayerControl.LocalPlayer.isMadmate() ||
-            PlayerControl.LocalPlayer.isDarkScientist() ||
             PlayerControl.LocalPlayer.isOpportunist())
             {
                 return false;
