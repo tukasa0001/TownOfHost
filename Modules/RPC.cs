@@ -158,6 +158,12 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
+                case (byte)CustomRPC.SetBountyTarget:
+                    byte HunterId = reader.ReadByte();
+                    byte TargetId = reader.ReadByte();
+                    var target = main.getPlayerById(TargetId);
+                    if(target != null) main.BountyTargets[HunterId] = target;
+                    break;
             }
         }
     }

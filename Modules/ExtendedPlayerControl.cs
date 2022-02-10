@@ -297,6 +297,7 @@ namespace TownOfHost {
             return target;
         }
         public static PlayerControl ResetBountyTarget(this PlayerControl player) {
+            if(!AmongUsClient.Instance.AmHost) return null;
             List<PlayerControl> cTargets = new List<PlayerControl>();
             foreach(var pc in PlayerControl.AllPlayerControls)
                 if(!pc.Data.IsDead && //死者を除外
@@ -312,8 +313,11 @@ namespace TownOfHost {
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
             Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
-            //TODO:RPCによる同期
-            //※NotifyRolesは不要 更新するイベントでは必ずと言っていいほどNotifyRolesが実行されるため
+            //RPCによる同期
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(target.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
             return target;
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
