@@ -60,8 +60,6 @@ namespace TownOfHost
             } else {
                 BountyTargetText.enabled = false;
             }
-            //TODO:RPCでターゲットを同期する
-            //複数のBountyHunter間でターゲットが同期されている？
 
 
             switch(PlayerControl.LocalPlayer.getCustomRole())

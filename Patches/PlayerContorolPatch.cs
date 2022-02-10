@@ -23,13 +23,6 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
-            //BountyHunter
-            if(__instance.isBountyHunter()) {
-                if(target == __instance.getBountyTarget()) {
-                    __instance.RpcGuardAndKill(target);
-                    __instance.ResetBountyTarget();
-                }
-            }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
@@ -95,6 +88,13 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
+            }
+            //BountyHunter
+            if(__instance.isBountyHunter()) {
+                if(target == __instance.getBountyTarget()) {
+                    __instance.RpcGuardAndKill(target);
+                    __instance.ResetBountyTarget();
+                }
             }
 
             __instance.RpcMurderPlayer(target);

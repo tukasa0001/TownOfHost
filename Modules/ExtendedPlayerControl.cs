@@ -293,7 +293,6 @@ namespace TownOfHost {
             if(!main.BountyTargets.TryGetValue(player.PlayerId, out target)) {
                 target = player.ResetBountyTarget();
             }
-            if(target == null) Logger.warn($"警告:{player.name}のターゲットを要求されましたが、取得・設定に失敗しました。");
             return target;
         }
         public static PlayerControl ResetBountyTarget(this PlayerControl player) {
