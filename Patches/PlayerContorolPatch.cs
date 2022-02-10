@@ -311,6 +311,12 @@ namespace TownOfHost
                         }
                         if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     }
+                    
+                    
+                    //TODO:LoversCountCheck
+                    // Logger.SendInGame("Log:" + main.LoversPlayers[0].PlayerId);
+                    Logger.SendInGame("Log:" + main.LoversPlayers[1].PlayerId);
+
                     if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
                 }
             }
