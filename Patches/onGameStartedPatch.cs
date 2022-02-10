@@ -22,6 +22,8 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargetPlayer = new List<PlayerControl>();
+            main.SpelledPlayer = new List<PlayerControl>();
+            main.witchMeeting = false;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -96,6 +98,7 @@ namespace TownOfHost
             if(main.BountyTargetPlayer.Count > 0)
             main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
             main.BountyCheck = true;
+            main.KillOrSpell = false;
 
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
@@ -205,6 +208,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {

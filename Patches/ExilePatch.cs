@@ -36,9 +36,21 @@ namespace TownOfHost
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
             //Debug Message
+            foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
+                if (role == CustomRoles.Witch)
+                {
+                    main.SpelledPlayer.Clear();
+                }
+                if (role != CustomRoles.Witch)
+                {
+                    foreach(var p in main.SpelledPlayer)
+                    {
+                        p.RpcMurderPlayer(p);
+                    }
+                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -51,12 +63,20 @@ namespace TownOfHost
                     main.CheckTerroristWin(exiled);
                 }
             }
+            if (exiled == null)
+            {
+                foreach(var p in main.SpelledPlayer)
+                {
+                    p.RpcMurderPlayer(p);
+                }
+            }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             main.CustomSyncAllSettings();
             main.NotifyRoles();
+            main.witchMeeting = false;
         }
     }
 }
