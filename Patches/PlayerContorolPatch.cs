@@ -176,6 +176,9 @@ namespace TownOfHost
                     1000
                 );
             }
+            foreach(var sp in main.SpelledPlayer) {
+                sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
+            }
 
             main.CustomSyncAllSettings();
             return true;
