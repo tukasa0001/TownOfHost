@@ -656,7 +656,7 @@ namespace TownOfHost
                     if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
                     if(p.isWitch() && KillOrSpell == false) tmp += $"\r\n<size=1.5>Kill</size>";
                     if(p.isWitch() && KillOrSpell == true) tmp += $"\r\n<size=1.5>Spell</size>";
-                    
+
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
                 foreach(var w_target in SpelledPlayer)
@@ -793,7 +793,7 @@ namespace TownOfHost
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -803,8 +803,8 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "魔女:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WitchInfoLong, "魔女:\n一回の会議ごとにキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すとその人に魔術がかかる。魔術がかかった人には会議で<s>が付き、その会議中に魔女を吊らなければ死亡してしまう。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -893,7 +893,7 @@ namespace TownOfHost
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "Witch:\n一回の会議ごとにキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すとその人に魔術がかかる。魔術がかかった人には会議で<s>が付き、その会議中に魔女を吊らなければ死亡してしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
