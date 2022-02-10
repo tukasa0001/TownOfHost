@@ -157,7 +157,7 @@ namespace TownOfHost {
             main.SendMessage(text, target.PlayerId);
         }
 
-        public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
+        /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
             if(!AmongUsClient.Instance.AmHost) return;
             byte KilledById;
             if(KilledBy == null)
@@ -171,7 +171,7 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
             RPCProcedure.BeKilled(player.PlayerId, KilledById);
-        }
+        }*/
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
             if(main.RealOptionsData == null)

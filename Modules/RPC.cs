@@ -22,8 +22,7 @@ namespace TownOfHost
         TerroristWin,
         EndGame,
         PlaySound,
-        SetCustomRole,
-        BeKilled
+        SetCustomRole
     }
     public enum Sounds
     {
@@ -157,11 +156,6 @@ namespace TownOfHost
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
-                    break;
-                case (byte)CustomRPC.BeKilled:
-                    byte targetId = reader.ReadByte();
-                    byte KilledBy = reader.ReadByte();
-                    RPCProcedure.BeKilled(targetId, KilledBy);
                     break;
             }
         }
