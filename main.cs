@@ -452,7 +452,10 @@ namespace TownOfHost
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
+        public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static bool BountyCheck;
+        public static bool KillOrSpell;
+        public static bool witchMeeting;
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -651,9 +654,17 @@ namespace TownOfHost
                         }
                     }
                     if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                    if(p.isWitch() && KillOrSpell == false) tmp += $"\r\n<size=1.5>Kill</size>";
+                    if(p.isWitch() && KillOrSpell == true) tmp += $"\r\n<size=1.5>Spell</size>";
+                    
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
+                foreach(var w_target in SpelledPlayer)
+                {
+                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
+                }
             }
+            main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings() {
             foreach(var pc in PlayerControl.AllPlayerControls) {

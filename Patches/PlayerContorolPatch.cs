@@ -116,6 +116,17 @@ namespace TownOfHost
                 }
                 return false;
             }
+            if (__instance.isWitch())
+            {
+                if(main.KillOrSpell)
+                {
+                    __instance.RpcGuardAndKill(target);
+                    main.SpelledPlayer.Add(target);
+                } else {
+                    __instance.RpcMurderPlayer(target);
+                }
+                return false;
+            }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
@@ -134,6 +145,14 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            if (target != null)
+            {
+                Logger.info($"{__instance.name} => {target.PlayerName}");
+                foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
+                {
+                    return false;
+                }
+            }
 
             if (main.SyncButtonMode && target == null)
             {

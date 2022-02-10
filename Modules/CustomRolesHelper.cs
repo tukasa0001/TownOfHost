@@ -22,6 +22,8 @@ namespace TownOfHost {
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.Vampire ||
+                role == CustomRoles.BountyHunter ||
+                role == CustomRoles.Witch ||
                 role == CustomRoles.Mafia;
             return isImpostor;
         }
