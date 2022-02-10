@@ -104,7 +104,7 @@ namespace TownOfHost
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
+                pc.nameText.text = pc.name;
             }
 
             if(main.IsHideAndSeek) {
@@ -208,7 +208,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Witch, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
