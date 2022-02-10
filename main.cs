@@ -797,6 +797,7 @@ namespace TownOfHost
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
+            SpelledPlayer = new List<PlayerControl>();
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
