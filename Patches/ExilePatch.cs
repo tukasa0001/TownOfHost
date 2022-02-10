@@ -50,6 +50,7 @@ namespace TownOfHost
                     {
                         p.RpcMurderPlayer(p);
                     }
+                    //ここでSpelledPlayerをClearしたらいいのでは？
                 }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
