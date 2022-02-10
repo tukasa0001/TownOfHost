@@ -89,6 +89,11 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+
+            //==キル処理==
+            __instance.RpcMurderPlayer(target);
+            //============
+
             //BountyHunter
             if(__instance.isBountyHunter()) {
                 if(target == __instance.getBountyTarget()) {
@@ -97,7 +102,7 @@ namespace TownOfHost
                 }
             }
 
-            __instance.RpcMurderPlayer(target);
+
             return false;
         }
     }
