@@ -162,6 +162,9 @@ namespace TownOfHost
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
                     var target = main.getPlayerById(TargetId);
+                    if(target != null) Logger.SendInGame(HunterId + ":" + target.name);
+                    else Logger.SendInGame(HunterId + ":" + TargetId);
+                    
                     if(target != null) main.BountyTargets[HunterId] = target;
                     break;
             }

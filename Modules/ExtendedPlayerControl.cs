@@ -312,6 +312,7 @@ namespace TownOfHost {
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
             Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
