@@ -43,6 +43,7 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            Logger.info("キル可能");
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
@@ -51,6 +52,7 @@ namespace TownOfHost
             }
             if(main.CancreateMadmate == true && main.SKMadmateCheck == false && !__instance.isSheriff())
             {
+                Logger.info("マッドメイト生成");
                 main.SKMadmateCheck = true;
                 __instance.RpcGuardAndKill(target);
                 target.RpcSetCustomRole(CustomRoles.SKMadmate);
