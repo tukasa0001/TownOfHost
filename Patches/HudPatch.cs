@@ -68,6 +68,8 @@ namespace TownOfHost
                 //バウンティハンターじゃない
                 LowerInfoText.enabled = false;
             }
+            if(!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                LowerInfoText.enabled = false;
             //TODO:"現在のターゲット"や"現在のモード"の文字列を多言語対応化
 
 
