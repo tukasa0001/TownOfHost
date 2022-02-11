@@ -582,29 +582,38 @@ namespace TownOfHost
                     OptionPages.basepage
                 )},
         };
-        public static OptionPages currentPage = OptionPages.basepage;
+        public static PageObject basePage;
+        public static PageObject currentPage = basePage;
         public static int currentCursor = 0;
-        public static void SetPage(OptionPages page)
+        public static void begin() {
+            basePage = new PageObject(
+                null,
+                () => "Town Of Host Settings",
+                () => Logger.SendInGame("このテキストが出るのはバグです。開発者にご報告ください。"),
+                false
+            );
+            currentPage = basePage;
+
+            //ページ追加など
+        }
+        public static void SetPage(PageObject page)
         {
             currentCursor = 0;
             currentPage = page;
         }
         public static void Up()
         {
-            var currentPageObj = PageObjects[currentPage];
             if (currentCursor <= 0) currentCursor = 0;
             else currentCursor--;
         }
         public static void Down()
         {
-            var currentPageObj = PageObjects[currentPage];
-            if (currentCursor >= currentPageObj.PagesInThis.Count - 1) currentCursor = currentPageObj.PagesInThis.Count - 1;
+            if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = currentPage.ChildPages.Count - 1;
             else currentCursor++;
         }
         public static void Enter()
         {
-            var currentPageObj = PageObjects[currentPage];
-            var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
+            var selectingObj = currentPage.ChildPages[currentCursor];
 
             if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onEnter();
@@ -612,16 +621,14 @@ namespace TownOfHost
         }
         public static void Return()
         {
-            var currentPageObj = PageObjects[currentPage];
-            SetPage(currentPageObj.pageToReturn);
+            SetPage(currentPage.parent);
         }
         public static void Input(int num)
         {
-            var currentPageObj = PageObjects[currentPage];
-            var selectingObj = PageObjects[currentPageObj.PagesInThis[currentCursor]];
+            var selectingObj = currentPage.ChildPages[currentCursor];
 
             if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
-            selectingObj.onInput(num);
+            selectingObj.onInput(ref num);
             main.SyncCustomSettingsRPC();
         }
         public static string GetOptionText()
@@ -647,40 +654,46 @@ namespace TownOfHost
             return text;
         }
     }
+    
     class PageObject {
+        public PageObject parent;
         public string name => getName();
         private Func<string> getName;
-        public bool isHostOnly;
         public Action onEnter;
-        public List<OptionPages> PagesInThis;
-        public OptionPages pageToReturn;
         public Action<int> onInput;
-        public PageObject(string name, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
+        public bool isHostOnly;
+        public List<PageObject> ChildPages;
+        public PageObject(
+            PageObject parent,
+            Func<string> name,
+            Action onEnter,
+            bool isHostOnly)
         {
-            this.getName = () => name;
-            this.isHostOnly = isHostOnly;
+            this.parent = parent;
+            this.getName = name;
             this.onEnter = onEnter;
-            this.PagesInThis = PageInThis;
-            this.pageToReturn = PageToReturn;
-            this.onInput = onInput == null ? (i) => {return;} : onInput;
+            this.onInput = (i) => {};
+            this.isHostOnly = isHostOnly;
+
+            parent?.ChildPages.Add(this);
         }
-        public PageObject(Func<string> getName, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
+        public PageObject(
+            PageObject parent,
+            Func<string> name,
+            Action onEnter,
+            bool isHostOnly,
+            ref int numToChange)
         {
-            this.getName = getName;
-            this.isHostOnly = isHostOnly;
+            this.parent = parent;
+            this.getName = name;
             this.onEnter = onEnter;
-            this.PagesInThis = PageInThis;
-            this.pageToReturn = PageToReturn;
-            this.onInput = onInput == null ? (i) => {return;} : onInput;
+            this.onInput = (int num) => {ChangeNum(ref numToChange, num);}; //TODO:どうやって参照を保存して好きなときに書き換えれるようにしようか
+            this.isHostOnly = isHostOnly;
+
+            parent?.ChildPages.Add(this);
         }
-        public PageObject(lang lang, bool isHostOnly, Action onEnter, List<OptionPages> PageInThis, OptionPages PageToReturn, Action<int> onInput = null)
-        {
-            this.getName = () => main.getLang(lang);
-            this.isHostOnly = isHostOnly;
-            this.onEnter = onEnter;
-            this.PagesInThis = PageInThis;
-            this.pageToReturn = PageToReturn;
-            this.onInput = onInput == null ? (i) => {return;} : onInput;
+
+        private void ChangeNum(ref int NumToChange, int inputNum) {
         }
     }
     public enum OptionPages
