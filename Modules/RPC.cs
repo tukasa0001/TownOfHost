@@ -23,7 +23,8 @@ namespace TownOfHost
         EndGame,
         PlaySound,
         SetCustomRole,
-        SetBountyTarget
+        SetBountyTarget,
+        SetKillOrSpell,
     }
     public enum Sounds
     {
@@ -168,6 +169,9 @@ namespace TownOfHost
                     else Logger.SendInGame(HunterId + ":" + TargetId);
                     
                     if(target != null) main.BountyTargets[HunterId] = target;
+                    break;
+                case (byte)CustomRPC.SetKillOrSpell:
+                    main.KillOrSpell = reader.ReadBoolean();
                     break;
             }
         }

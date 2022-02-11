@@ -323,6 +323,12 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             return target;
         }
+        public static void SyncKillOrSpell(this PlayerControl player) {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
+            //writer.Write(player.PlayerId);
+            writer.Write(main.KillOrSpell);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}

@@ -91,7 +91,8 @@ namespace TownOfHost
                     main.SpelledPlayer.Add(target);
                 }
                 main.KillOrSpell = !main.KillOrSpell;
-                //TODO:KillOrSpellを同期するRPC
+                main.NotifyRoles();
+                __instance.SyncKillOrSpell();
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
