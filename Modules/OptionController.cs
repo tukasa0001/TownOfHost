@@ -28,20 +28,27 @@ namespace TownOfHost
             //ページ追加など
             var RoleOptions = new PageObject(basePage, "Role Options");
             //役職数変更
-            var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
-            var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
+            ///インポスター役職
+            var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
             var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
-            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
-            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
-            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
-            var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
-            var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
-            var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
-            var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
-            var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            ///Madmate系役職
+            var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
+            var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
+            ///第三陣営役職
+            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
+            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
+            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
+            ///クルー役職
+            var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
+            var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
+            var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
+            var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
+            var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
+            
+            
+            
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
