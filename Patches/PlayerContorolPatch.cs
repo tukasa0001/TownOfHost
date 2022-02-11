@@ -87,14 +87,10 @@ namespace TownOfHost
             {
                 if(main.KillOrSpell)
                 {
-                    main.KillOrSpell = false;
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
-                } else {
-                    main.KillOrSpell = true;
-                    __instance.RpcMurderPlayer(target);
                 }
-                return false;
+                main.KillOrSpell = !main.KillOrSpell;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
