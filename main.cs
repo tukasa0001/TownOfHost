@@ -25,7 +25,7 @@ namespace TownOfHost
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
         public const string BetaVersion = "3";
-        public const string BetaName = "Mad Guardian Beta";
+        public const string BetaName = "Name Revolution Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -458,7 +458,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> BountyTargets;
 
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
-        public static bool KillOrSpell;
+        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -671,8 +671,8 @@ namespace TownOfHost
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
                 if(seer.isWitch()) {
-                    if(KillOrSpell == false) SelfSuffix = "Kill";
-                    if(KillOrSpell == true) SelfSuffix = "Spell";
+                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Kill";
+                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Spell";
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む

@@ -323,10 +323,18 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             return target;
         }
+        public static bool GetKillOrSpell(this PlayerControl player) {
+            bool KillOrSpell;
+            if(!main.KillOrSpell.TryGetValue(player.PlayerId, out KillOrSpell)) {
+                main.KillOrSpell[player.PlayerId] = false;
+                KillOrSpell = false;
+            }
+            return KillOrSpell;
+        }
         public static void SyncKillOrSpell(this PlayerControl player) {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
-            //writer.Write(player.PlayerId);
-            writer.Write(main.KillOrSpell);
+            writer.Write(player.PlayerId);
+            writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}

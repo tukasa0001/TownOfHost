@@ -85,12 +85,12 @@ namespace TownOfHost
             }
             if (__instance.isWitch())
             {
-                if(main.KillOrSpell && !main.SpelledPlayer.Contains(target))
+                if(__instance.GetKillOrSpell() && !main.SpelledPlayer.Contains(target))
                 {
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
                 }
-                main.KillOrSpell = !main.KillOrSpell;
+                main.KillOrSpell[__instance.PlayerId] = !__instance.GetKillOrSpell();
                 main.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }

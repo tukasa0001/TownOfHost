@@ -101,7 +101,7 @@ namespace TownOfHost
             //main.ApplySuffix();
 
             var rand = new System.Random();
-            main.KillOrSpell = false;
+            main.KillOrSpell = new Dictionary<byte, bool>();
 
             if(main.IsHideAndSeek) {
                 rand = new System.Random();
@@ -211,6 +211,10 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 HudManager.Instance.SetHudActive(true);
+                main.KillOrSpell = new Dictionary<byte, bool>();
+                foreach (var pc in PlayerControl.AllPlayerControls){
+                    if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
+                }
 
                 //BountyHunterのターゲットを初期化
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
