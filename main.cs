@@ -673,7 +673,7 @@ namespace TownOfHost
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max) {
-            var tmp = input * 10;
+            var tmp = ChangeTo * 10;
             tmp += input;
             ChangeTo = Math.Clamp(tmp,0,max);
         }
