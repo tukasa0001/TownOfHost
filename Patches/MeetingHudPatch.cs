@@ -136,7 +136,6 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
-            main.KillOrSpell = !main.KillOrSpell;
             main.witchMeeting = true;
             main.NotifyRoles();
             main.witchMeeting = false;
