@@ -242,6 +242,8 @@ namespace TownOfHost
             }
             main.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
+            var sc = PlayerControl.LocalPlayer.Data.Role.Cast<ScientistRole>();
+            sc.CurrentCharge = 30;
 
             Logger.msg("SelectRolesPatch.Postfix.End");
         }
