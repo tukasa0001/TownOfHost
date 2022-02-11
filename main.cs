@@ -454,7 +454,7 @@ namespace TownOfHost
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static bool BountyCheck;
-        public static bool KillOrSpell;
+        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
@@ -654,8 +654,8 @@ namespace TownOfHost
                         }
                     }
                     if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                    if(p.isWitch() && KillOrSpell == false) tmp += $"\r\n<size=1.5>Kill</size>";
-                    if(p.isWitch() && KillOrSpell == true) tmp += $"\r\n<size=1.5>Spell</size>";
+                    if(p.isWitch() && KillOrSpell[p.PlayerId] == false) tmp += $"\r\n<size=1.5>Kill</size>";
+                    if(p.isWitch() && KillOrSpell[p.PlayerId] == true) tmp += $"\r\n<size=1.5>Spell</size>";
                     
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
