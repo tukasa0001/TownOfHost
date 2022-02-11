@@ -30,7 +30,7 @@ namespace TownOfHost {
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.MadGuardian ||
-                role == CustomRoles.DarkScientist;
+                role == CustomRoles.MadScientist;
             return isImpostor;
         }
         public static bool CanUseKillButton(this CustomRoles role) {
@@ -69,7 +69,7 @@ namespace TownOfHost {
 
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
-                case CustomRoles.DarkScientist:
+                case CustomRoles.MadScientist:
                     type = IntroTypes.Madmate;
                     break;
             }

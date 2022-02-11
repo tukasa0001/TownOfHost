@@ -166,8 +166,8 @@ namespace TownOfHost
                 case CustomRoles.Snitch:
                     count = SnitchCount;
                     break;
-                case CustomRoles.DarkScientist:
-                    count = DarkScientistCount;
+                case CustomRoles.MadScientist:
+                    count = MadScientistCount;
                     break;
                 case CustomRoles.BountyHunter:
                     count = BountyHunterCount;
@@ -215,8 +215,8 @@ namespace TownOfHost
                 case CustomRoles.Snitch:
                     SnitchCount = count;
                     break;
-                case CustomRoles.DarkScientist:
-                    DarkScientistCount = count;
+                case CustomRoles.MadScientist:
+                    MadScientistCount = count;
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunterCount = count;
@@ -287,7 +287,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
-                    if (cRole == CustomRoles.DarkScientist) hasTasks = false;
+                    if (cRole == CustomRoles.MadScientist) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
@@ -331,7 +331,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
-                if(main.DarkScientistCount > 0) main.SendToAll(main.getLang(lang.DarkScientistInfoLong));
+                if(main.MadScientistCount > 0) main.SendToAll(main.getLang(lang.MadScientistInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -359,7 +359,7 @@ namespace TownOfHost
                 if(main.MayorCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
-                if(main.DarkScientistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.DarkScientist),main.DarkScientistCount);
+                if(main.MadScientistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadScientist),main.MadScientistCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -418,7 +418,7 @@ namespace TownOfHost
         public static int OpportunistCount;
         public static int SheriffCount;
         public static int SnitchCount;
-        public static int DarkScientistCount;
+        public static int MadScientistCount;
         public static int BountyHunterCount;
         public static int FoxCount;
         public static int TrollCount;
@@ -461,7 +461,7 @@ namespace TownOfHost
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
             writer.Write(SnitchCount);
-            writer.Write(DarkScientistCount);
+            writer.Write(MadScientistCount);
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(FoxCount);
@@ -699,7 +699,7 @@ namespace TownOfHost
                 {CustomRoles.Shapeshifter, "#ff0000"},
                 {CustomRoles.Vampire, "#a757a8"},
                 {CustomRoles.Mafia, "#ff0000"},
-                {CustomRoles.DarkScientist, "#ff0000"},
+                {CustomRoles.MadScientist, "#ff0000"},
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -730,7 +730,7 @@ namespace TownOfHost
                 {lang.MayorInfo, "自分の票が何倍もの力を持っている"},
                 {lang.OpportunistInfo, "とにかく生き残りましょう"},
                 {lang.SnitchInfo, "タスクを早く済ませよう"},
-                {lang.DarkScientistInfo, "バイタルを使い、インポスターの援助をしよう"},
+                {lang.MadScientistInfo, "バイタルを使い、インポスターの援助をしよう"},
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
@@ -747,7 +747,7 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
-                {lang.DarkScientistInfoLong, "ダークサイエンティスト:\nインポスター陣営に属するが、インポスターが誰かわからない。インポスターからもダークサイエンティストが誰かわからないが、バイタルを使うことができる。"},
+                {lang.MadScientistInfoLong, "マッドサイエンティスト:\nインポスター陣営に属するが、インポスターが誰かわからない。インポスターからもマッドサイエンティストが誰かわからないが、バイタルを使うことができる。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
@@ -808,7 +808,7 @@ namespace TownOfHost
                 {lang.SabotageMasterInfo, "Fix sabotages faster"},
                 {lang.MayorInfo, "Your vote counts twice"},
                 {lang.OpportunistInfo, "Do whatever it takes to survive"},
-                {lang.DarkScientistInfo, "Use your vitals to help the Imposters"},
+                {lang.MadScientistInfo, "Use your vitals to help the Imposters"},
                 {lang.SnitchInfo, "Finish your tasks to find the Impostors"},
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
@@ -826,7 +826,7 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
-                {lang.DarkScientistInfoLong, "DarkScientist:\nインポスター陣営に属するが、インポスターが誰かわからない。インポスターからもダークサイエンティストが誰かわからないが、バイタルを使うことができる。"},
+                {lang.MadScientistInfoLong, "MadScientist:\nインポスター陣営に属するが、インポスターが誰かわからない。ImpostorからもMadScientistが誰かわからないが、バイタルを使うことができる。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
@@ -891,7 +891,7 @@ namespace TownOfHost
                 {CustomRoles.Mayor, "Mayor"},
                 {CustomRoles.Opportunist, "Opportunist"},
                 {CustomRoles.Snitch, "Snitch"},
-                {CustomRoles.DarkScientist, "DarkScientist"},
+                {CustomRoles.MadScientist, "MadScientist"},
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Fox, "Fox"},
@@ -915,7 +915,7 @@ namespace TownOfHost
                 {CustomRoles.Mayor, "メイヤー"},
                 {CustomRoles.Opportunist, "オポチュニスト"},
                 {CustomRoles.Snitch, "スニッチ"},
-                {CustomRoles.DarkScientist, "ダークサイエンティスト"},
+                {CustomRoles.MadScientist, "マッドサイエンティスト"},
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Fox, "狐"},
@@ -950,7 +950,7 @@ namespace TownOfHost
         MayorInfo,
         OpportunistInfo,
         SnitchInfo,
-        DarkScientistInfo,
+        MadScientistInfo,
         SheriffInfo,
         BountyHunterInfo,
         FoxInfo,
@@ -967,7 +967,7 @@ namespace TownOfHost
         MayorInfoLong,
         OpportunistInfoLong,
         SnitchInfoLong,
-        DarkScientistInfoLong,
+        MadScientistInfoLong,
         SheriffInfoLong,
         BountyHunterInfoLong,
         FoxInfoLong,
@@ -1032,7 +1032,7 @@ namespace TownOfHost
         Mayor,
         Opportunist,
         Snitch,
-        DarkScientist,
+        MadScientist,
         Sheriff,
         BountyHunter,
         Fox,

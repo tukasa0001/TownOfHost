@@ -57,7 +57,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, 100);
 
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum += main.DarkScientistCount;
+                ScientistNum += main.MadScientistCount;
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, 100);
                 int AdditionalShapeshifterNum = main.MafiaCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
@@ -208,7 +208,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.DarkScientist, Scientists);
+                AssignCustomRolesFromList(CustomRoles.MadScientist, Scientists);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
 
                 //RPCによる同期
@@ -226,7 +226,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                  int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum -= main.DarkScientistCount;
+                ScientistNum -= main.MadScientistCount;
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -243,7 +243,7 @@ namespace TownOfHost
             main.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
             var sc = PlayerControl.LocalPlayer.Data.Role.Cast<ScientistRole>();
-            sc.CurrentCharge = 30;
+            sc.currentCharge = 30;
 
             Logger.msg("SelectRolesPatch.Postfix.End");
         }

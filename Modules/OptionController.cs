@@ -42,7 +42,7 @@ namespace TownOfHost
                         OptionPages.Mayor,
                         OptionPages.SabotageMaster,
                         OptionPages.Snitch,
-                        OptionPages.DarkScientist,
+                        OptionPages.MadScientist,
                         OptionPages.Sheriff,
                         OptionPages.AdvancedRoleOptions
                     },
@@ -136,13 +136,13 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Snitch, i)
                     )},
-                    {OptionPages.DarkScientist, new PageObject(
-                        () => $"<color={main.getRoleColorCode(CustomRoles.DarkScientist)}>{main.getRoleName(CustomRoles.DarkScientist)}</color>: {main.DarkScientistCount}",
+                    {OptionPages.MadScientist, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.MadScientist)}>{main.getRoleName(CustomRoles.MadScientist)}</color>: {main.MadScientistCount}",
                         true,
-                        () => {main.SetRoleCountToggle(CustomRoles.DarkScientist);},
+                        () => {main.SetRoleCountToggle(CustomRoles.MadScientist);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
-                        i => main.SetRoleCount(CustomRoles.DarkScientist, i)
+                        i => main.SetRoleCount(CustomRoles.MadScientist, i)
                     )},
                     {OptionPages.Sheriff, new PageObject(
                         () => "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>: " + main.SheriffCount,
@@ -618,7 +618,7 @@ namespace TownOfHost
                 Sheriff,
                 Opportunist,
                 Snitch,
-                DarkScientist,
+                MadScientist,
                 BountyHunter,
                 VampireOptions,
                 AdvancedRoleOptions,

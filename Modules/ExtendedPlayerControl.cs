@@ -133,7 +133,7 @@ namespace TownOfHost {
             switch(cRole) {
                 case CustomRoles.Jester:
                 case CustomRoles.MadGuardian:
-                case CustomRoles.DarkScientist:
+                case CustomRoles.MadScientist:
                 case CustomRoles.Madmate:
                 case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
@@ -175,7 +175,7 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
-                 case CustomRoles.DarkScientist:
+                 case CustomRoles.MadScientist:
                     goto InfinityVital;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
@@ -268,7 +268,7 @@ namespace TownOfHost {
         public static bool isMayor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mayor;}
         public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
-        public static bool isDarkScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.DarkScientist;}
+        public static bool isMadScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadScientist;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
     }
