@@ -171,7 +171,9 @@ namespace TownOfHost
                     if(target != null) main.BountyTargets[HunterId] = target;
                     break;
                 case (byte)CustomRPC.SetKillOrSpell:
-                    main.KillOrSpell = reader.ReadBoolean();
+                    byte playerId = reader.ReadByte();
+                    bool KoS = reader.ReadBoolean();
+                    main.KillOrSpell[playerId] = KoS;
                     break;
             }
         }
