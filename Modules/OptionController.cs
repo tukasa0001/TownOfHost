@@ -133,6 +133,7 @@ namespace TownOfHost
                 if(next > SuffixModes.Recording) next = SuffixModes.None;
                 main.currentSuffix = next;
             });
+            Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
         }
         public static void SetPage(PageObject page)
         {
@@ -148,6 +149,7 @@ namespace TownOfHost
         {
             if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = currentPage.ChildPages.Count - 1;
             else currentCursor++;
+            if(!currentPage.ChildPages[currentCursor].amVisible()) currentCursor--;
         }
         public static void Enter()
         {
@@ -176,7 +178,7 @@ namespace TownOfHost
             for (var i = 0; i < currentPage.ChildPages.Count; i++)
             {
                 var obj = currentPage.ChildPages[i];
-
+                if(!obj.amVisible()) continue;
                 text += currentCursor == i ? ">" : "";
                 text += obj.name + "\r\n";
             }
@@ -192,6 +194,7 @@ namespace TownOfHost
         public Action onEnter;
         public Action<int> onInput;
         public List<PageObject> ChildPages;
+        public Func<bool> amVisible = () => true;
         public PageObject( //フォルダー
             PageObject parent,
             string text,
