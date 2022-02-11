@@ -118,11 +118,15 @@ namespace TownOfHost
             }
             if (__instance.isWitch())
             {
-                if(main.KillOrSpell)
+                if(main.KillOrSpell[__instance.PlayerId])
                 {
+                    main.KillOrSpell.Remove(__instance.PlayerId);
+                    main.KillOrSpell.Add(__instance.PlayerId,false);
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
                 } else {
+                    main.KillOrSpell.Remove(__instance.PlayerId);
+                    main.KillOrSpell.Add(__instance.PlayerId,true);
                     __instance.RpcMurderPlayer(target);
                 }
                 return false;

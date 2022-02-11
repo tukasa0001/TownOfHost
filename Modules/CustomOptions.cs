@@ -51,7 +51,7 @@ namespace TownOfHost
                         ob.enabled = false;
                         ob.gameObject.SetActive(false);
                         break;
-                    case StringNames.GameMapName:
+                    /* case StringNames.GameMapName:
                         var options = new Il2CppSystem.Collections.Generic.List<Il2CppSystem.Collections.Generic.KeyValuePair<string, int>>();
                         for (int i = 0; i < Constants.MapNames.Length; i++)
                         {
@@ -61,7 +61,7 @@ namespace TownOfHost
                             options.Add(kvp);
                         }
                         ob.GetComponent<KeyValueOption>().Values = options;
-                        break;
+                        break; */
                     default:
                         break;
                 }
