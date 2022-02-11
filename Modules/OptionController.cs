@@ -67,14 +67,6 @@ namespace TownOfHost
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, "Mode Options");
-            /*OptionPages.HideAndSeek,
-            OptionPages.HideAndSeekOptions,
-            OptionPages.SyncButtonMode,
-            OptionPages.DisableTasks,
-            OptionPages.RandomMapsMode,
-            OptionPages.NoGameEnd,
-            OptionPages.WhenSkipVote,
-            OptionPages.WhenNonVote*/
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
