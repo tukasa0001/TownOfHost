@@ -64,6 +64,7 @@ namespace TownOfHost
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
+                    int EgoistCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -84,6 +85,7 @@ namespace TownOfHost
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
+                    bool SheriffCanKillEgoist = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -110,6 +112,7 @@ namespace TownOfHost
                         SheriffCount,
                         BountyHunterCount,
                         WitchCount,
+                        EgoistCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -149,6 +152,10 @@ namespace TownOfHost
                     byte wonTerrorist = reader.ReadByte();
                     RPCProcedure.TerroristWin(wonTerrorist);
                     break;
+                case (byte)CustomRPC.EgoistWin:
+                    byte wonEgoist = reader.ReadByte();
+                    RPCProcedure.TerroristWin(wonEgoist);
+                    break;
                 case (byte)CustomRPC.EndGame:
                     RPCProcedure.EndGame();
                     break;
@@ -187,6 +194,7 @@ namespace TownOfHost
                 int SheriffCount,
                 int BountyHunterCount,
                 int WitchCount,
+                int EgoistCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -206,6 +214,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
+                bool SheriffCanKillEgoist,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -232,6 +241,7 @@ namespace TownOfHost
             main.SheriffCount = SheriffCount;
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
+            main.EgoistCount = EgoistCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;

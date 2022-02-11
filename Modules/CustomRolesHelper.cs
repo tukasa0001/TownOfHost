@@ -65,6 +65,7 @@ namespace TownOfHost {
                 case CustomRoles.Jester:
                 case CustomRoles.Opportunist:
                 case CustomRoles.Terrorist:
+                case CustomRoles.Egoist:
                 case CustomRoles.Troll:
                 case CustomRoles.Fox:
                     type = IntroTypes.Neutral;

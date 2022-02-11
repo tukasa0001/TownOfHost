@@ -182,6 +182,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     count = WitchCount;
                     break;
+                case CustomRoles.Egoist:
+                    count = EgoistCount;
+                    break;
                 default:
                     return -1;
             }
@@ -233,6 +236,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     WitchCount = count;
+                    break;
+                case CustomRoles.Egoist:
+                    EgoistCount = count;
                     break;
             }
         }
@@ -304,6 +310,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.Egoist) hasTasks = false;
                 }
             }
             return hasTasks;
@@ -347,6 +354,7 @@ namespace TownOfHost
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
                 if(main.MadScientistCount > 0) main.SendToAll(main.getLang(lang.MadScientistInfoLong));
+                if(main.EgoistCount > 0) main.SendToAll(main.getLang(lang.EgoistInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -375,6 +383,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
                 if(main.MadScientistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.MadScientist),main.MadScientistCount);
+                if(main.EgoistCount > 0) text += String.Format("\n{0,-14}:{1}",main.getRoleName(CustomRoles.Egoist),main.EgoistCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -392,6 +401,7 @@ namespace TownOfHost
                     if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillJester), getOnOff(main.SheriffCanKillJester));
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
+                    if (main.SheriffCanKillEgoist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillEgoist), getOnOff(main.SheriffCanKillEgoist));
                 }
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0)
                 {
@@ -455,6 +465,7 @@ namespace TownOfHost
         public static int MadScientistCount;
         public static int BountyHunterCount;
         public static int WitchCount;
+        public static int EgoistCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -479,6 +490,7 @@ namespace TownOfHost
         public static bool SheriffCanKillJester;
         public static bool SheriffCanKillTerrorist;
         public static bool SheriffCanKillOpportunist;
+        public static bool SheriffCanKillEgoist;
         public static int MayorAdditionalVote;
         public static int SnitchExposeTaskLeft;
 
@@ -506,6 +518,7 @@ namespace TownOfHost
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
+            writer.Write(EgoistCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -527,6 +540,7 @@ namespace TownOfHost
             writer.Write(SheriffCanKillJester);
             writer.Write(SheriffCanKillTerrorist);
             writer.Write(SheriffCanKillOpportunist);
+            writer.Write(SheriffCanKillEgoist);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write((int)whenSkipVote);
@@ -648,7 +662,7 @@ namespace TownOfHost
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
                         if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || t.isWitch())
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWitch() || t.isEgoist())
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
@@ -739,6 +753,7 @@ namespace TownOfHost
             SheriffCanKillJester = true;
             SheriffCanKillTerrorist = true;
             SheriffCanKillOpportunist = false;
+            SheriffCanKillEgoist = true;
 
             MadmateCanFixLightsOut = false;
             MadGuardianCanSeeBarrier = false;
@@ -775,6 +790,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.Egoist, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -798,6 +814,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
+                {lang.EgoistInfo, "インポスターを裏切り全員殺そう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -816,6 +833,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.EgoistInfoLong, "エゴイスト:\n味方のインポスターを裏切る第3陣営。味方がすべて死んだ状態でインポスターが勝つと単独勝利する。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -889,6 +907,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
+                {lang.EgoistInfo, "{Let's betray the Imposters and kill them all"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -907,6 +926,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.EgoistInfoLong, "Egoist:\n味方のImpostorを裏切る第3陣営。味方がすべて死んだ状態でImpostorが勝つと単独勝利する。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -983,6 +1003,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
+                {CustomRoles.Witch, "Egoist"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1008,6 +1029,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
+                {CustomRoles.Egoist, "エゴイスト"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1044,6 +1066,8 @@ namespace TownOfHost
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
+
+        EgoistInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1062,6 +1086,8 @@ namespace TownOfHost
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
+
+        EgoistInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1138,6 +1164,8 @@ namespace TownOfHost
         Sheriff,
         BountyHunter,
         Witch,
+
+        Egoist,
         Fox,
         Troll
     }

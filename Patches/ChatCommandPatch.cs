@@ -219,6 +219,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.WitchInfoLong));
                     break;
 
+                case "egoist":
+                case "eg":
+                    main.SendToAll(main.getLang(lang.EgoistInfoLong));
+                    break;
+
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
@@ -230,7 +235,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), madscientist(ms),sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), madscientist(ms),sheriff(sh), bountyhunter(bo), witch(wi), egoist(eg),fox(fo), troll(tr)");
                     break;
             }
 

@@ -169,6 +169,14 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Witch, i)
                     )},
+                    {OptionPages.Egoist, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Egoist)}>{main.getRoleName(CustomRoles.Egoist)}</color>: {main.EgoistCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Witch);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Egoist, i)
+                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
                         false,
@@ -711,6 +719,7 @@ namespace TownOfHost
                 MadScientist,
                 BountyHunter,
                 Witch,
+                Egoist,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,

@@ -99,6 +99,15 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
+            if (main.currentWinner == CustomWinner.Egoist && main.EgoistCount> 0)
+            { //Egoist単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == main.WonEgoistID)
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                }
+            }
             //HideAndSeek専用
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
@@ -145,6 +154,10 @@ namespace TownOfHost
             {
                 __instance.Foreground.material.color = Color.red;
                 __instance.BackgroundBar.material.color = Color.green;
+            }
+            if (main.currentWinner == CustomWinner.Egoist)
+            {
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Egoist);
             }
             //引き分け処理
             if (main.currentWinner == CustomWinner.Draw)

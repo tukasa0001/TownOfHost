@@ -162,6 +162,16 @@ namespace TownOfHost
             }
             return false;
         }
+        private static bool CheckAndEndGameForEgoist(ShipStatus __instance)
+        {
+            if (main.currentWinner == CustomWinner.Egoist && main.CustomWinTrigger)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
 
 
         private static void EndGameForSabotage(ShipStatus __instance)

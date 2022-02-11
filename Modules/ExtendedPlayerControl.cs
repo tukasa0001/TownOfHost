@@ -140,6 +140,9 @@ namespace TownOfHost {
                 case CustomRoles.Opportunist:
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
+                case CustomRoles.Egoist:
+                    canBeKilled = main.SheriffCanKillEgoist;
+                    break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.MadScientist:
                 case CustomRoles.Madmate:
@@ -292,5 +295,6 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isEgoist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Egoist;}
     }
 }
