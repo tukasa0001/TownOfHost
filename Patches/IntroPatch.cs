@@ -30,6 +30,7 @@ namespace TownOfHost
             {CustomRoles.Sheriff, lang.SheriffInfo},
             {CustomRoles.MadScientist, lang.MadScientistInfo},
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
+            {CustomRoles.Witch, lang.WitchInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };
@@ -106,6 +107,14 @@ namespace TownOfHost
                 "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
+            }
+            if (Input.GetKey(KeyCode.RightControl))
+            {
+                __instance.TeamTitle.text = "Discord Server";
+                __instance.ImpostorText.gameObject.SetActive(true);
+                __instance.ImpostorText.text = "https://discord.gg/v8SFfdebpz";
+                __instance.TeamTitle.color = Color.magenta;
+                StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
         }
         private static AudioClip GetIntroSound(RoleTypes roleType) {

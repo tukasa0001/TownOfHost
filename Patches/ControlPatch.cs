@@ -28,15 +28,17 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
             {
+                Logger.info("CountDownTimer set to 0");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
             {
+                Logger.info("Reset CountDownTimer");
                 GameStartManager.Instance.ResetStartState();
             }
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
             {
                 main.ShowActiveRoles();
             }
@@ -53,6 +55,7 @@ namespace TownOfHost
             // | U | オンライン以外 | 自分の投票をClearする |
             //====================
 
+            
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);

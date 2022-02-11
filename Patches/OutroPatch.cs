@@ -51,7 +51,9 @@ namespace TownOfHost
                     if (p.isMadGuardian()) canWin = true; //Mad Guardian
                     if (p.isMadScientist()) canWin = true; //MadScientist
                     if (p.isOpportunist()) canWin = false; //Opportunist
-                    if (p.isSheriff()) canWin = false;
+                    if (p.isSheriff()) canWin = false; //Sheriff
+                    if (p.isBountyHunter()) canWin = true; //BountyHunter
+                    if (p.isWitch()) canWin = true; //Witch
                     if(canWin) winner.Add(p);
                 }
             }

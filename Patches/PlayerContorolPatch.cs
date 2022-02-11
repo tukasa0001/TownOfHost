@@ -116,6 +116,17 @@ namespace TownOfHost
                 }
                 return false;
             }
+            if (__instance.isWitch())
+            {
+                if(main.KillOrSpell)
+                {
+                    __instance.RpcGuardAndKill(target);
+                    main.SpelledPlayer.Add(target);
+                } else {
+                    __instance.RpcMurderPlayer(target);
+                }
+                return false;
+            }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
@@ -134,6 +145,14 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            if (target != null)
+            {
+                Logger.info($"{__instance.name} => {target.PlayerName}");
+                foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
+                {
+                    return false;
+                }
+            }
 
             if (main.SyncButtonMode && target == null)
             {
@@ -244,7 +263,11 @@ namespace TownOfHost
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    {
+                        RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                        if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                    }
                     if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
                     if(main.hasTasks(__instance.Data))//タスク持ちの陣営
@@ -255,7 +278,7 @@ namespace TownOfHost
                             {
                                 if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                 }
                             }
                         }
@@ -268,12 +291,12 @@ namespace TownOfHost
                                 foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                                 if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                     nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                                 }
                             }
                         }
-                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.b_target.name}</size>";
                     }
                     if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
                 }

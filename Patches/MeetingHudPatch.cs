@@ -136,7 +136,10 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            main.KillOrSpell = !main.KillOrSpell;
+            main.witchMeeting = true;
             main.NotifyRoles();
+            main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -163,10 +166,12 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
+            if(AmongUsClient.Instance.GameMode == GameModes.FreePlay || !AmongUsClient.Instance.AmHost) return;
             foreach (var pva in __instance.playerStates)
             {
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
+                TMPro.TextMeshPro RoleTextMeeting = null;
+                if(RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if (RoleTextMeeting != null)
                 {
                     var pc = PlayerControl.AllPlayerControls.ToArray()

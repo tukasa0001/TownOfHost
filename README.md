@@ -1,9 +1,11 @@
 # Town Of Host
-![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
+[![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
 ## このModについて
 このModは非公式のものであり、このModの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
 このModの問題などに関して公式に問い合わせないでください。<br>
+
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
 
 ## 特徴
 このModはホスト(部屋主)のクライアントに導入するだけで動作し、他のクライアントのModの導入/未導入及び端末の種類に関係なく動作します。<br>
@@ -171,6 +173,8 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 シェリフは人外をキルすることができます。<br>
 しかし、クルーメイトをキルした場合、自身が死亡してしまいます。<br>
 タスクはありません。<br>
+
+(専用の設定があります。)
 
 ### BountyHunter/バウンティハンター
 

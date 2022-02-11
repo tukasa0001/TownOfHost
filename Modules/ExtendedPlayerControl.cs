@@ -132,14 +132,23 @@ namespace TownOfHost {
             bool canBeKilled = false;
             switch(cRole) {
                 case CustomRoles.Jester:
+                    canBeKilled = main.SheriffCanKillJester;
+                    break;
+                case CustomRoles.Terrorist:
+                    canBeKilled = main.SheriffCanKillTerrorist;
+                    break;
+                case CustomRoles.Opportunist:
+                    canBeKilled = main.SheriffCanKillOpportunist;
+                    break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.MadScientist:
                 case CustomRoles.Madmate:
-                case CustomRoles.Terrorist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Impostor:
+                case CustomRoles.BountyHunter:
+                case CustomRoles.Witch:
                     canBeKilled = true;
                     break;
             }
@@ -167,6 +176,8 @@ namespace TownOfHost {
         }
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
+            if(main.RealOptionsData == null)
+                main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
 
@@ -250,6 +261,15 @@ namespace TownOfHost {
                 SabotageFixWriter.Write((byte)16);
                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
             }, 0.4f + delay, "Fix Desync Reactor");
+
+            if(PlayerControl.GameOptions.MapId == 4) //Airship用
+            new LateTask(() => {
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageFixWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                SabotageFixWriter.Write((byte)17);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            }, 0.4f + delay, "Fix Desync Reactor 2");
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
@@ -271,5 +291,6 @@ namespace TownOfHost {
         public static bool isMadScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadScientist;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
+        public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
     }
 }

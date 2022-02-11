@@ -63,6 +63,7 @@ namespace TownOfHost
                     int MadScientistCount = reader.ReadInt32();
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
+                    int WitchCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -80,6 +81,9 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    bool SheriffCanKillJester = reader.ReadBoolean();
+                    bool SheriffCanKillTerrorist = reader.ReadBoolean();
+                    bool SheriffCanKillOpportunist = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -105,6 +109,7 @@ namespace TownOfHost
                         MadScientistCount,
                         SheriffCount,
                         BountyHunterCount,
+                        WitchCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -121,6 +126,9 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffCanKillJester,
+                        SheriffCanKillTerrorist,
+                        SheriffCanKillOpportunist,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -178,6 +186,7 @@ namespace TownOfHost
                 int MadScientistCount,
                 int SheriffCount,
                 int BountyHunterCount,
+                int WitchCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -194,6 +203,9 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                bool SheriffCanKillJester,
+                bool SheriffCanKillTerrorist,
+                bool SheriffCanKillOpportunist,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -219,6 +231,7 @@ namespace TownOfHost
             main.MadScientistCount= MadScientistCount;
             main.SheriffCount = SheriffCount;
             main.BountyHunterCount= BountyHunterCount;
+            main.WitchCount = WitchCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
@@ -245,6 +258,10 @@ namespace TownOfHost
             main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+
+            main.SheriffCanKillJester = SheriffCanKillJester;
+            main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
+            main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;

@@ -22,6 +22,8 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargetPlayer = new List<PlayerControl>();
+            main.SpelledPlayer = new List<PlayerControl>();
+            main.witchMeeting = false;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -49,7 +51,7 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                int AdditionalEngineerNum = main.MadmateCount + main.TerroristCount;
+                int AdditionalEngineerNum = main.MadmateCount + main.TerroristCount - EngineerNum;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -59,7 +61,7 @@ namespace TownOfHost
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 ScientistNum += main.MadScientistCount;
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, 100);
-                int AdditionalShapeshifterNum = main.MafiaCount;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.WitchCount - ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -102,10 +104,13 @@ namespace TownOfHost
             if(main.BountyTargetPlayer.Count > 0)
             main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
             main.BountyCheck = true;
+            main.KillOrSpell = false;
 
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
+                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
+                pc.nameText.text = pc.name; 
             }
 
             if(main.IsHideAndSeek) {
@@ -210,14 +215,13 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.MadScientist, Scientists);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Witch, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 HudManager.Instance.SetHudActive(true);
-
-                main.NotifyRoles();
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -231,6 +235,7 @@ namespace TownOfHost
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= main.MafiaCount;
+                ShapeshifterNum -= main.WitchCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

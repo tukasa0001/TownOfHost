@@ -33,6 +33,12 @@ namespace TownOfHost
                         main.SendToAll(main.winnerList);
                         break;
 
+                    case "/l":
+                    case "/lastroles":
+                        canceled = true;
+                        main.ShowLastRoles();
+                        break;
+
                     case "/r":
                     case "/rename":
                         canceled = true;
@@ -85,7 +91,7 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");break;}
+                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
                                 switch (args[2])
                                 {
                                     case "hideandseek":
@@ -103,8 +109,13 @@ namespace TownOfHost
                                         main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
                                         break;
 
+                                    case "randommapsmode":
+                                    case "rmm":
+                                        main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
+                                        break;
+
                                     default:
-                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm)");
+                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -202,6 +213,11 @@ namespace TownOfHost
                 case "bo":
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                     break;
+                
+                case "witch":
+                case "wi":
+                    main.SendToAll(main.getLang(lang.WitchInfoLong));
+                    break;
 
                 case "fox":
                 case "fo":
@@ -214,7 +230,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), madscientist(ms), sheriff(sh), bountyhunter(bo), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), madscientist(ms),sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
                     break;
             }
 

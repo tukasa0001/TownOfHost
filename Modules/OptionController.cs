@@ -32,6 +32,7 @@ namespace TownOfHost
                     new List<OptionPages>(){
                         OptionPages.Vampire,
                         OptionPages.BountyHunter,
+                        OptionPages.Witch,
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -160,21 +161,32 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.BountyHunter, i)
                     )},
+                    {OptionPages.Witch, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>: {main.WitchCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Witch);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Witch, i)
+                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
                         false,
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.MadmateCanFixLightsOut,
+                            OptionPages.MadGuardianCanSeeBarrier,
+                            OptionPages.MayorAdditionalVote,
                             OptionPages.SabotageMasterSkillLimit,
                             OptionPages.SabotageMasterFixesDoors,
                             OptionPages.SabotageMasterFixesReactors,
                             OptionPages.SabotageMasterFixesOxygens,
                             OptionPages.SabotageMasterFixesCommunications,
                             OptionPages.SabotageMasterFixesElectrical,
-                            OptionPages.MadmateCanFixLightsOut,
-                            OptionPages.MadGuardianCanSeeBarrier,
-                            OptionPages.MayorAdditionalVote
+                            OptionPages.SheriffCanKillJester,
+                            OptionPages.SheriffCanKillTerrorist,
+                            OptionPages.SheriffCanKillOpportunist,
                         },
                         OptionPages.roles
                     )},
@@ -239,6 +251,27 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
+                        {OptionPages.SheriffCanKillJester, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillJester)}</color>: {main.getOnOff(main.SheriffCanKillJester)}",
+                            true,
+                            () => {main.SheriffCanKillJester = !main.SheriffCanKillJester;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                                                {OptionPages.SheriffCanKillTerrorist, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}",
+                            true,
+                            () => {main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                                                                        {OptionPages.SheriffCanKillOpportunist, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}",
+                            true,
+                            () => {main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
                         {OptionPages.MadmateCanFixLightsOut, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}",
                             true,
@@ -275,6 +308,7 @@ namespace TownOfHost
                         OptionPages.HideAndSeekOptions,
                         OptionPages.SyncButtonMode,
                         OptionPages.DisableTasks,
+                        OptionPages.RandomMapsMode,
                         OptionPages.NoGameEnd,
                         OptionPages.WhenSkipVote,
                         OptionPages.WhenNonVote
@@ -460,6 +494,62 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.modes
                         )},
+                    {OptionPages.RandomMapsMode, new PageObject(
+                        lang.RandomMapsMode,
+                        false,
+                        () => {SetPage(OptionPages.RandomMapsMode);},
+                        new List<OptionPages>(){
+                            OptionPages.RandomMapsModeEnabled,
+                            OptionPages.AddedTheSkeld,
+                            OptionPages.AddedMIRAHQ,
+                            OptionPages.AddedPolus,
+                            OptionPages.AddedDleks,
+                            OptionPages.AddedTheAirShip
+                        },
+                        OptionPages.modes
+                    )},
+                        {OptionPages.RandomMapsModeEnabled, new PageObject(
+                            () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode),
+                            true,
+                            () => {main.RandomMapsMode = !main.RandomMapsMode;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedTheSkeld, new PageObject(
+                            () => main.getLang(lang.AddedTheSkeld) + ": " + main.getOnOff(main.AddedTheSkeld),
+                            true,
+                            () => {main.AddedTheSkeld = !main.AddedTheSkeld;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedMIRAHQ, new PageObject(
+                            () => main.getLang(lang.AddedMIRAHQ) + ": " + main.getOnOff(main.AddedMIRAHQ),
+                            true,
+                            () => {main.AddedMIRAHQ = !main.AddedMIRAHQ;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedPolus, new PageObject(
+                            () => main.getLang(lang.AddedPolus) + ": " + main.getOnOff(main.AddedPolus),
+                            true,
+                            () => {main.AddedPolus = !main.AddedPolus;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedDleks, new PageObject(
+                            () => main.getLang(lang.AddedDleks) + ": " + main.getOnOff(main.AddedDleks),
+                            true,
+                            () => {main.AddedDleks = !main.AddedDleks;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
+                        {OptionPages.AddedTheAirShip, new PageObject(
+                            () => main.getLang(lang.AddedTheAirShip) + ": " + main.getOnOff(main.AddedTheAirShip),
+                            true,
+                            () => {main.AddedTheAirShip = !main.AddedTheAirShip;},
+                            new List<OptionPages>(){},
+                            OptionPages.modes
+                        )},
                     {OptionPages.NoGameEnd, new PageObject(
                         () => main.getLang(lang.NoGameEnd) + "<DEBUG>: " + main.getOnOff(main.NoGameEnd),
                         true,
@@ -620,6 +710,7 @@ namespace TownOfHost
                 Snitch,
                 MadScientist,
                 BountyHunter,
+                Witch,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
@@ -631,6 +722,9 @@ namespace TownOfHost
                     SabotageMasterFixesOxygens,
                     SabotageMasterFixesCommunications,
                     SabotageMasterFixesElectrical,
+                    SheriffCanKillJester,
+                    SheriffCanKillTerrorist,
+                    SheriffCanKillOpportunist,
                     MayorAdditionalVote,
             modes,
                 HideAndSeek,
@@ -651,6 +745,13 @@ namespace TownOfHost
                     UnlockSafe,
                     UploadData,
                     StartReactor,
+                RandomMapsMode,
+                    RandomMapsModeEnabled,
+                    AddedTheSkeld,
+                    AddedMIRAHQ,
+                    AddedPolus,
+                    AddedDleks,
+                    AddedTheAirShip,
                 NoGameEnd,
                 WhenSkipVote,
                 WhenNonVote,
