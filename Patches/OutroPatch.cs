@@ -32,6 +32,7 @@ namespace TownOfHost
                     role == CustomRoles.GuardianAngel;
                     if (p.isJester()) canWin = false; //Jester
                     if (p.isMadmate()) canWin = false; //Madmate
+                    if (p.isSKMadmate()) canWin = false; //SidekickMadmate
                     if (p.isMadGuardian()) canWin = false; //Mad Guardian
                     if (p.isTerrorist()) canWin = false; //Terrorist
                     if (p.isOpportunist()) canWin = false; //Opportunist
@@ -47,6 +48,7 @@ namespace TownOfHost
                     bool canWin = role == CustomRoles.Impostor ||
                     role == CustomRoles.Shapeshifter;
                     if (p.isMadmate()) canWin = true; //Madmate
+                    if (p.isSKMadmate()) canWin = true; //SidekickMadmate
                     if (p.isMadGuardian()) canWin = true; //Mad Guardian
                     if (p.isOpportunist()) canWin = false; //Opportunist
                     if (p.isSheriff()) canWin = false; //Sheriff

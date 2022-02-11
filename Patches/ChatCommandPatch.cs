@@ -154,6 +154,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     break;
 
+                case "sidekickmadmate":
+                case "si":
+                    main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
+                    break;
+
                 case "bait":
                 case "ba":
                     main.SendToAll(main.getLang(lang.BaitInfoLong));
@@ -225,7 +230,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), sidekickmadmate(si), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
                     break;
             }
 

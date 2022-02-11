@@ -24,6 +24,7 @@ namespace TownOfHost
             main.BountyTargetPlayer = new List<PlayerControl>();
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
+            main.SKMadmateCheck = false;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -200,6 +201,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.SKMadmate, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);

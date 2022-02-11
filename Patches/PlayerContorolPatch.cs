@@ -49,6 +49,13 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+            if(main.CancreateMadmate == true && main.SKMadmateCheck == false && !__instance.isSheriff())
+            {
+                main.SKMadmateCheck = true;
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.SKMadmate);
+                return false;
+            }
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
@@ -59,6 +66,7 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
+            if(__instance.isSKMadmate())return false;
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) return false;
                 if(!target.canBeKilledBySheriff()) {
@@ -346,7 +354,7 @@ namespace TownOfHost
     class CoEnterVentPatch {
         public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
             if(AmongUsClient.Instance.AmHost){
-                if(__instance.myPlayer.isSheriff()) {
+                if(__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate()){
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);

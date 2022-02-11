@@ -51,6 +51,7 @@ namespace TownOfHost
                 case (byte)CustomRPC.SyncCustomSettings:
                     int JesterCount = reader.ReadInt32();
                     int MadmateCount = reader.ReadInt32();
+                    int SKMadmateCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
                     int MafiaCount = reader.ReadInt32();
@@ -74,6 +75,7 @@ namespace TownOfHost
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    bool CancreateMadmate = reader.ReadBoolean();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -96,6 +98,7 @@ namespace TownOfHost
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
+                        SKMadmateCount,
                         BaitCount,
                         TerroristCount,
                         MafiaCount,
@@ -118,6 +121,7 @@ namespace TownOfHost
                         UploadDataDisabled,
                         StartReactorDisabled,
                         VampireKillDelay,
+                        CancreateMadmate,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
                         SabotageMasterFixesReactors,
@@ -172,6 +176,7 @@ namespace TownOfHost
         public static void SyncCustomSettings(
                 int JesterCount,
                 int MadmateCount,
+                int SKMadmateCount,
                 int BaitCount,
                 int TerroristCount,
                 int MafiaCount,
@@ -194,6 +199,7 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
                 int VampireKillDelay,
+                bool CancreateMadmate,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
                 bool SabotageMasterFixesReactors,
@@ -216,6 +222,7 @@ namespace TownOfHost
             ) {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
+            main.SKMadmateCount = SKMadmateCount;
             main.BaitCount = BaitCount;
             main.TerroristCount = TerroristCount;
             main.MafiaCount= MafiaCount;
@@ -247,6 +254,8 @@ namespace TownOfHost
             main.VisibleTasksCount = true;
 
             main.VampireKillDelay = VampireKillDelay;
+
+            main.CancreateMadmate = CancreateMadmate;
 
             main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
             main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;

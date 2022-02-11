@@ -166,6 +166,7 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.CancreateMadmate,
                             OptionPages.MadmateCanFixLightsOut,
                             OptionPages.MadGuardianCanSeeBarrier,
                             OptionPages.MayorAdditionalVote,
@@ -193,6 +194,13 @@ namespace TownOfHost
                                 var FixedKillDelay = Math.Clamp(KillDelay,0,999);
                                 main.VampireKillDelay = FixedKillDelay;
                             }
+                        )},
+                        {OptionPages.CancreateMadmate, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CancreateMadmate)}</color>: {main.CancreateMadmate}{main.TextCursor}",
+                            true,
+                            () => {main.CancreateMadmate = !main.CancreateMadmate;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterSkillLimit, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterSkillLimit)}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}",
@@ -704,6 +712,7 @@ namespace TownOfHost
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    CancreateMadmate,
                     MadmateCanFixLightsOut,
                     MadGuardianCanSeeBarrier,
                     SabotageMasterSkillLimit,

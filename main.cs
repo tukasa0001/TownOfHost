@@ -143,6 +143,9 @@ namespace TownOfHost
                 case CustomRoles.Madmate:
                     count = MadmateCount;
                     break;
+                case CustomRoles.SKMadmate:
+                    count = SKMadmateCount;
+                    break;
                 case CustomRoles.Bait:
                     count = BaitCount;
                     break;
@@ -191,6 +194,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Madmate:
                     MadmateCount = count;
+                    break;
+                case CustomRoles.SKMadmate:
+                    SKMadmateCount = count;
                     break;
                 case CustomRoles.Bait:
                     BaitCount = count;
@@ -294,6 +300,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
@@ -330,6 +337,7 @@ namespace TownOfHost
                 if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
@@ -360,6 +368,7 @@ namespace TownOfHost
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
+                if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
@@ -372,6 +381,7 @@ namespace TownOfHost
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
+                if(main.CancreateMadmate) text += String.Format("\n{0}:{1}",main.getLang(lang.CancreateMadmate),getOnOff(main.CancreateMadmate));
                 if(main.SabotageMasterCount > 0)
                 {
                     if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterSkillLimit),main.SabotageMasterSkillLimit);
@@ -387,7 +397,7 @@ namespace TownOfHost
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
                 }
-                if(main.MadGuardianCount > 0 || main.MadmateCount > 0)
+                if(main.MadGuardianCount > 0 || main.MadmateCount > 0 || main.SKMadmateCount > 0)
                 {
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
                 }
@@ -436,6 +446,7 @@ namespace TownOfHost
         //Enabled Role
         public static int JesterCount;
         public static int MadmateCount;
+        public static int SKMadmateCount;
         public static int BaitCount;
         public static int TerroristCount;
         public static int MafiaCount;
@@ -462,6 +473,8 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
+        public static bool CancreateMadmate;
+        public static bool SKMadmateCheck;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
         public static bool SabotageMasterFixesReactors;
@@ -486,6 +499,7 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             writer.Write(JesterCount);
             writer.Write(MadmateCount);
+            writer.Write(SKMadmateCount);
             writer.Write(BaitCount);
             writer.Write(TerroristCount);
             writer.Write(MafiaCount);
@@ -510,6 +524,7 @@ namespace TownOfHost
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
+            writer.Write(CancreateMadmate);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
             writer.Write(SabotageMasterFixesReactors);
@@ -721,6 +736,8 @@ namespace TownOfHost
 
             VampireKillDelay = 10;
 
+            CancreateMadmate = false;
+
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
             SabotageMasterFixesReactors = true;
@@ -755,6 +772,7 @@ namespace TownOfHost
                 {CustomRoles.Vampire, "#ff0000"},
                 {CustomRoles.Mafia, "#ff0000"},
                 {CustomRoles.Madmate, "#ff0000"},
+                {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
@@ -774,6 +792,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "追放されよう"},
                 {lang.MadmateInfo, "インポスターの援助をしよう"},
+                {lang.SKMadmateInfo, "インポスターの援助をしよう"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
@@ -793,6 +812,7 @@ namespace TownOfHost
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
+                {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nゲームが始まり、インポスターに味方するように変化する役職。インポスターの最初のキルでなることができる。キルやサボタージュは使えない。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
@@ -820,6 +840,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
+                {lang.CancreateMadmate, "インポスターはマッドメイトを作ることができる"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
@@ -863,6 +884,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "Get voted out"},
                 {lang.MadmateInfo, "Help the Impostors"},
+                {lang.SKMadmateInfo, "Help the Impostors"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
@@ -882,6 +904,7 @@ namespace TownOfHost
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
+                {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nゲームが始まり、インポスターに味方するように変化する役職。インポスターの最初のキルでなることができる。キルやサボタージュは使えない。"},
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
@@ -909,6 +932,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.CancreateMadmate, "Immpostors can create Madmate"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
@@ -957,6 +981,7 @@ namespace TownOfHost
                 {CustomRoles.Shapeshifter, "Shapeshifter"},
                 {CustomRoles.Jester, "Jester"},
                 {CustomRoles.Madmate, "Madmate"},
+                {CustomRoles.SKMadmate, "SideKickMadmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
                 {CustomRoles.Bait, "Bait"},
                 {CustomRoles.Terrorist, "Terrorist"},
@@ -981,6 +1006,7 @@ namespace TownOfHost
                 {CustomRoles.Shapeshifter, "シェイプシフター"},
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "マッドメイト"},
+                {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.MadGuardian, "マッドガーディアン"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
@@ -1014,6 +1040,7 @@ namespace TownOfHost
         //役職解説(短)
         JesterInfo = 0,
         MadmateInfo,
+        SKMadmateInfo,
         BaitInfo,
         TerroristInfo,
         MafiaInfo,
@@ -1033,6 +1060,7 @@ namespace TownOfHost
         //役職解説(長)
         JesterInfoLong,
         MadmateInfoLong,
+        SKMadmateInfoLong,
         BaitInfoLong,
         TerroristInfoLong,
         MafiaInfoLong,
@@ -1061,6 +1089,7 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
+        CancreateMadmate,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
@@ -1108,6 +1137,7 @@ namespace TownOfHost
         GuardianAngel,
         Jester,
         Madmate,
+        SKMadmate,
         Bait,
         Terrorist,
         Mafia,
