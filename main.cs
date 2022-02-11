@@ -751,6 +751,8 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
+            CustomOptionController.begin();
+
             roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Default, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},

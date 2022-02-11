@@ -58,297 +58,74 @@ namespace TownOfHost
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
 
-                {OptionPages.modes, new PageObject(
-                    "Mode Options",
-                    false,
-                    () => {SetPage(OptionPages.modes);},
-                    new List<OptionPages>(){
-                        OptionPages.HideAndSeek,
-                        OptionPages.HideAndSeekOptions,
-                        OptionPages.SyncButtonMode,
-                        OptionPages.DisableTasks,
-                        OptionPages.RandomMapsMode,
-                        OptionPages.NoGameEnd,
-                        OptionPages.WhenSkipVote,
-                        OptionPages.WhenNonVote
-                    },
-                    OptionPages.basepage
-                )},
-                    {OptionPages.HideAndSeek, new PageObject(
-                        () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek),
-                        true,
-                        () => {main.IsHideAndSeek = !main.IsHideAndSeek;},
-                        new List<OptionPages>(){},
-                        OptionPages.modes
-                    )},
-                    {OptionPages.HideAndSeekOptions, new PageObject(
-                        lang.HideAndSeekOptions,
-                        false,
-                        () => {SetPage(OptionPages.HideAndSeekOptions);},
-                        new List<OptionPages>(){
-                            OptionPages.AllowCloseDoors,
-                            OptionPages.HideAndSeekWaitingTime,
-                            OptionPages.IgnoreCosmetics,
-                            OptionPages.IgnoreVent,
-                            OptionPages.HideAndSeekRoles
-                        },
-                        OptionPages.modes
-                    )},
-                        {OptionPages.AllowCloseDoors, new PageObject(
-                            () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors),
-                            true,
-                            () => {main.AllowCloseDoors = !main.AllowCloseDoors;},
-                            new List<OptionPages>(){},
-                            OptionPages.HideAndSeekOptions
-                        )},
-                        {OptionPages.HideAndSeekWaitingTime, new PageObject(
-                            () => main.getLang(lang.HideAndSeekWaitingTime) + ": " + main.HideAndSeekKillDelay,
-                            true,
-                            () => {main.HideAndSeekKillDelay = 0;},
-                            new List<OptionPages>(){},
-                            OptionPages.HideAndSeekOptions,
-                            (i) => {
-                                var Count = main.HideAndSeekKillDelay * 10;
-                                Count += i;
-                                var FixedDelay = Math.Clamp(Count,0,180);
-                                main.HideAndSeekKillDelay = FixedDelay;
-                            }
-                        )},
-                        {OptionPages.IgnoreCosmetics, new PageObject(
-                            () => main.getLang(lang.IgnoreCosmetics) + ": " + main.getOnOff(main.IgnoreCosmetics),
-                            true,
-                            () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;},
-                            new List<OptionPages>(){},
-                            OptionPages.HideAndSeekOptions
-                        )},
-                        {OptionPages.IgnoreVent, new PageObject(
-                            () => main.getLang(lang.IgnoreVent) + ": " + main.getOnOff(main.IgnoreVent),
-                            true,
-                            () => {main.IgnoreVent = !main.IgnoreVent;},
-                            new List<OptionPages>(){},
-                            OptionPages.HideAndSeekOptions
-                        )},
-                        {OptionPages.HideAndSeekRoles, new PageObject(
-                            lang.HideAndSeekRoles,
-                            false,
-                            () => {SetPage(OptionPages.HideAndSeekRoles);},
-                            new List<OptionPages>(){
-                                OptionPages.Fox,
-                                OptionPages.Troll
-                            },
-                            OptionPages.HideAndSeekOptions
-                        )},
-                            {OptionPages.Fox, new PageObject(
-                                () => $"<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
-                                true,
-                                () => {
-                                    if(main.FoxCount == 0) main.FoxCount = 1;
-                                    else main.FoxCount = 0;
-                                },
-                                new List<OptionPages>(){},
-                                OptionPages.HideAndSeekRoles,
-                                (i) => {
-                                    var Count = main.FoxCount * 10;
-                                    Count += i;
-                                    var MaxCount =
-                                        GameData.Instance.AllPlayers.Count
-                                        - main.TrollCount;
-                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
-                                    main.FoxCount = FixedCount;
-                                }
-                            )},
-                            {OptionPages.Troll, new PageObject(
-                                () => $"<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
-                                true,
-                                () => {
-                                    if(main.TrollCount == 0) main.TrollCount = 1;
-                                    else main.TrollCount = 0;
-                                },
-                                new List<OptionPages>(){},
-                                OptionPages.HideAndSeekRoles,
-                                (i) => {
-                                    var Count = main.TrollCount * 10;
-                                    Count += i;
-                                    var MaxCount =
-                                        GameData.Instance.AllPlayers.Count
-                                        - main.FoxCount;
-                                    var FixedCount = Math.Clamp(Count,0,MaxCount);
-                                    main.TrollCount = FixedCount;
-                                }
-                            )},
-                    {OptionPages.SyncButtonMode, new PageObject(
-                        lang.SyncButtonMode,
-                        false,
-                        () => {SetPage(OptionPages.SyncButtonMode);},
-                        new List<OptionPages>(){OptionPages.SyncButtonModeEnabled, OptionPages.SyncedButtonCount},
-                        OptionPages.modes
-                    )},
-                        {OptionPages.SyncButtonModeEnabled, new PageObject(
-                            () => main.getLang(lang.SyncButtonMode) + ": " + main.getOnOff(main.SyncButtonMode),
-                            true,
-                            () => {
-                                main.SyncButtonMode = !main.SyncButtonMode;
-                            },
-                            new List<OptionPages>(){},
-                            OptionPages.SyncButtonMode
-                        )},
-                        {OptionPages.SyncedButtonCount, new PageObject(
-                            () => main.getLang(lang.SyncedButtonCount) + ": " + main.SyncedButtonCount + main.TextCursor,
-                            true,
-                            () => {main.SyncedButtonCount = 0;},
-                            new List<OptionPages>(){},
-                            OptionPages.SyncButtonMode,
-                            (i) => {
-                                var Count = main.SyncedButtonCount * 10;
-                                Count += i;
-                                var FixedCount = Math.Clamp(Count,0,100);
-                                main.SyncedButtonCount = FixedCount;
-                            }
-                        )},
-                    {OptionPages.DisableTasks, new PageObject(
-                        lang.DisableTasks,
-                        false,
-                        () => {SetPage(OptionPages.DisableTasks);},
-                        new List<OptionPages>(){
-                            OptionPages.SwipeCard,
-                            OptionPages.SubmitScan,
-                            OptionPages.UnlockSafe,
-                            OptionPages.UploadData,
-                            OptionPages.StartReactor
-                        },
-                        OptionPages.modes
-                    )},
-                        {OptionPages.SwipeCard, new PageObject(
-                            () => main.getLang(lang.DisableSwipeCardTask) + ": " + main.getOnOff(main.DisableSwipeCard),
-                            true,
-                            () => {main.DisableSwipeCard = !main.DisableSwipeCard;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.SubmitScan, new PageObject(
-                            () => main.getLang(lang.DisableSubmitScanTask) + ": " + main.getOnOff(main.DisableSubmitScan),
-                            true,
-                            () => {main.DisableSubmitScan = !main.DisableSubmitScan;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.UnlockSafe, new PageObject(
-                            () => main.getLang(lang.DisableUnlockSafeTask) + ": " + main.getOnOff(main.DisableUnlockSafe),
-                            true,
-                            () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.UploadData, new PageObject(
-                            () => main.getLang(lang.DisableUploadDataTask) + ": " + main.getOnOff(main.DisableUploadData),
-                            true,
-                            () => {main.DisableUploadData = !main.DisableUploadData;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.StartReactor, new PageObject(
-                            () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor),
-                            true,
-                            () => {main.DisableStartReactor = !main.DisableStartReactor;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                    {OptionPages.RandomMapsMode, new PageObject(
-                        lang.RandomMapsMode,
-                        false,
-                        () => {SetPage(OptionPages.RandomMapsMode);},
-                        new List<OptionPages>(){
-                            OptionPages.RandomMapsModeEnabled,
-                            OptionPages.AddedTheSkeld,
-                            OptionPages.AddedMIRAHQ,
-                            OptionPages.AddedPolus,
-                            OptionPages.AddedDleks,
-                            OptionPages.AddedTheAirShip
-                        },
-                        OptionPages.modes
-                    )},
-                        {OptionPages.RandomMapsModeEnabled, new PageObject(
-                            () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode),
-                            true,
-                            () => {main.RandomMapsMode = !main.RandomMapsMode;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.AddedTheSkeld, new PageObject(
-                            () => main.getLang(lang.AddedTheSkeld) + ": " + main.getOnOff(main.AddedTheSkeld),
-                            true,
-                            () => {main.AddedTheSkeld = !main.AddedTheSkeld;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.AddedMIRAHQ, new PageObject(
-                            () => main.getLang(lang.AddedMIRAHQ) + ": " + main.getOnOff(main.AddedMIRAHQ),
-                            true,
-                            () => {main.AddedMIRAHQ = !main.AddedMIRAHQ;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.AddedPolus, new PageObject(
-                            () => main.getLang(lang.AddedPolus) + ": " + main.getOnOff(main.AddedPolus),
-                            true,
-                            () => {main.AddedPolus = !main.AddedPolus;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.AddedDleks, new PageObject(
-                            () => main.getLang(lang.AddedDleks) + ": " + main.getOnOff(main.AddedDleks),
-                            true,
-                            () => {main.AddedDleks = !main.AddedDleks;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                        {OptionPages.AddedTheAirShip, new PageObject(
-                            () => main.getLang(lang.AddedTheAirShip) + ": " + main.getOnOff(main.AddedTheAirShip),
-                            true,
-                            () => {main.AddedTheAirShip = !main.AddedTheAirShip;},
-                            new List<OptionPages>(){},
-                            OptionPages.modes
-                        )},
-                    {OptionPages.NoGameEnd, new PageObject(
-                        () => main.getLang(lang.NoGameEnd) + "<DEBUG>: " + main.getOnOff(main.NoGameEnd),
-                        true,
-                        () => {main.NoGameEnd = !main.NoGameEnd;},
-                        new List<OptionPages>(){},
-                        OptionPages.modes
-                    )},
-                    {OptionPages.WhenSkipVote, new PageObject(
-                        () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(),
-                        true,
-                        () => {
-                            var next = main.whenSkipVote + 1;
-                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
-                            main.whenSkipVote = next;
-                        },
-                        new List<OptionPages>(){},
-                        OptionPages.basepage
-                    )},
-                    {OptionPages.WhenNonVote, new PageObject(
-                        () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(),
-                        true,
-                        () => {
-                            var next = main.whenNonVote + 1;
-                            if(next > VoteMode.SelfVote) next = VoteMode.Default;
-                            main.whenNonVote = next;
-                        },
-                        new List<OptionPages>(){},
-                        OptionPages.basepage
-                    )},
-                {OptionPages.Suffix, new PageObject(
-                    () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(),
-                    false,
-                    () => {
-                        var next = main.currentSuffix + 1;
-                        if(next > SuffixModes.Recording) next = SuffixModes.None;
-                        main.currentSuffix = next;
-                    },
-                    new List<OptionPages>(){},
-                    OptionPages.basepage
-                )}
+            //Mode Options
+            var ModeOptions = new PageObject(basePage, "Mode Options");
+            /*OptionPages.HideAndSeek,
+            OptionPages.HideAndSeekOptions,
+            OptionPages.SyncButtonMode,
+            OptionPages.DisableTasks,
+            OptionPages.RandomMapsMode,
+            OptionPages.NoGameEnd,
+            OptionPages.WhenSkipVote,
+            OptionPages.WhenNonVote*/
+            var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
+            var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
+            var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
+            var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => main.getLang(lang.HideAndSeekWaitingTime) + ": " + main.HideAndSeekKillDelay, true, () => {main.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref main.HideAndSeekKillDelay, i, 180));
+            var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => main.getLang(lang.IgnoreCosmetics) + ": " + main.getOnOff(main.IgnoreCosmetics), true, () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;});
+            var IgnoreVent = new PageObject(HideAndSeekOptions, () => main.getLang(lang.IgnoreVent) + ": " + main.getOnOff(main.IgnoreVent), true, () => {main.IgnoreVent = !main.IgnoreVent;});
+            var HideAndSeekRoles = new PageObject(HideAndSeekOptions, lang.HideAndSeekRoles);
+            var Fox = new PageObject(HideAndSeekRoles, () => $"<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
+                true,
+                () => {
+                    if(main.FoxCount == 0) main.FoxCount = 1;
+                    else main.FoxCount = 0;
+                },
+                i => main.ChangeInt(ref main.FoxCount, i, GameData.Instance.AllPlayers.Count - main.TrollCount)
+            );
+            var Troll = new PageObject(HideAndSeekRoles, () => $"<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
+                true,
+                () => {
+                    if(main.TrollCount == 0) main.TrollCount = 1;
+                    else main.TrollCount = 0;
+                },
+                i => main.ChangeInt(ref main.TrollCount, i, GameData.Instance.AllPlayers.Count - main.FoxCount)
+            );
+
+            var SyncButtonMode = new PageObject(ModeOptions, lang.SyncButtonMode);
+            var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => main.getLang(lang.SyncButtonMode) + ": " + main.getOnOff(main.SyncButtonMode), true, () => main.SyncButtonMode = !main.SyncButtonMode);
+            var SyncedButtonCount = new PageObject(SyncButtonMode, () => main.getLang(lang.SyncedButtonCount) + ": " + main.SyncedButtonCount + main.TextCursor, true, () => {main.SyncedButtonCount = 0;}, i => main.ChangeInt(ref main.SyncedButtonCount, i, 100));
+
+            var DisableTasks = new PageObject(ModeOptions, lang.DisableTasks);
+            var dSwipeCard = new PageObject(DisableTasks, () => main.getLang(lang.DisableSwipeCardTask) + ": " + main.getOnOff(main.DisableSwipeCard), true, () => {main.DisableSwipeCard = !main.DisableSwipeCard;});
+            var dSubmitScan = new PageObject(DisableTasks, () => main.getLang(lang.DisableSubmitScanTask) + ": " + main.getOnOff(main.DisableSubmitScan), true, () => {main.DisableSubmitScan = !main.DisableSubmitScan;});
+            var dUnlockSafe = new PageObject(DisableTasks, () => main.getLang(lang.DisableUnlockSafeTask) + ": " + main.getOnOff(main.DisableUnlockSafe), true, () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;});
+            var dUploadData = new PageObject(DisableTasks, () => main.getLang(lang.DisableUploadDataTask) + ": " + main.getOnOff(main.DisableUploadData), true, () => {main.DisableUploadData = !main.DisableUploadData;});
+            var dStartReactor = new PageObject(DisableTasks, () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor), true, () => {main.DisableStartReactor = !main.DisableStartReactor;});
+
+            var RandomMapsMode = new PageObject(ModeOptions, lang.RandomMapsMode);
+            var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode), true, () => main.RandomMapsMode = !main.RandomMapsMode);
+            var rmSkeld = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedTheSkeld) + ": " + main.getOnOff(main.AddedTheSkeld), true, () => main.AddedTheSkeld = !main.AddedTheSkeld);
+            var rmMiraHQ = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedMIRAHQ) + ": " + main.getOnOff(main.AddedMIRAHQ), true, () => main.AddedMIRAHQ = !main.AddedMIRAHQ);
+            var rmPolus = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedPolus) + ": " + main.getOnOff(main.AddedPolus), true, () => main.AddedPolus = !main.AddedPolus);
+            //var rmDleks = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedDleks) + ": " + main.getOnOff(main.AddedDleks), true, () => main.AddedDleks = !main.AddedDleks);
+            var rmAirship = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedTheAirShip) + ": " + main.getOnOff(main.AddedTheAirShip), true, () => main.AddedTheAirShip = !main.AddedTheAirShip);
+            var NoGameEnd = new PageObject(ModeOptions, () => main.getLang(lang.NoGameEnd) + ": " + main.getOnOff(main.NoGameEnd), true, () => main.NoGameEnd = !main.NoGameEnd);
+            var WhenSkipVote = new PageObject(ModeOptions, () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(), true, () => {
+                var next = main.whenSkipVote + 1;
+                if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                main.whenSkipVote = next;
+            });
+            var WhenNonVote = new PageObject(ModeOptions, () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(), true, () => {
+                var next = main.whenNonVote + 1;
+                if(next > VoteMode.SelfVote) next = VoteMode.Default;
+                main.whenNonVote = next;
+            });
+            var Suffix = new PageObject(basePage, () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(), true, () => {
+                var next = main.currentSuffix + 1;
+                if(next > SuffixModes.Recording) next = SuffixModes.None;
+                main.currentSuffix = next;
+            });
         }
         public static void SetPage(PageObject page)
         {
