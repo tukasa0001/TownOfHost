@@ -22,7 +22,8 @@ namespace TownOfHost
         TerroristWin,
         EndGame,
         PlaySound,
-        SetCustomRole
+        SetCustomRole,
+        BeKilled
     }
     public enum Sounds
     {
@@ -37,6 +38,7 @@ namespace TownOfHost
                 case 6: //SetNameRPC
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
+                    Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
                     if(!DontShowOnModdedClient) __instance.SetName(name);
                     return false;
             }
@@ -58,8 +60,9 @@ namespace TownOfHost
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
                     int SnitchCount = reader.ReadInt32();
+                    int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
-                    int WarlockCount = reader.ReadInt32();
+                    int WitchCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -77,8 +80,13 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    bool SheriffCanKillJester = reader.ReadBoolean();
+                    bool SheriffCanKillTerrorist = reader.ReadBoolean();
+                    bool SheriffCanKillOpportunist = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
+                    int whenSkipVote = reader.ReadInt32();
+                    int whenNonVote = reader.ReadInt32();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -97,8 +105,9 @@ namespace TownOfHost
                         MayorCount,
                         OpportunistCount,
                         SnitchCount,
+                        SheriffCount,
                         BountyHunterCount,
-                        WarlockCount,
+                        WitchCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -115,8 +124,13 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffCanKillJester,
+                        SheriffCanKillTerrorist,
+                        SheriffCanKillOpportunist,
                         SyncButtonMode,
                         SyncedButtonCount,
+                        whenSkipVote,
+                        whenNonVote,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -146,6 +160,11 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
+                case (byte)CustomRPC.BeKilled:
+                    byte targetId = reader.ReadByte();
+                    byte KilledBy = reader.ReadByte();
+                    RPCProcedure.BeKilled(targetId, KilledBy);
+                    break;
             }
         }
     }
@@ -162,8 +181,9 @@ namespace TownOfHost
                 int MayorCount,
                 int OpportunistCount,
                 int SnitchCount,
+                int SheriffCount,
                 int BountyHunterCount,
-                int WarlockCount,
+                int WitchCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -180,8 +200,13 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                bool SheriffCanKillJester,
+                bool SheriffCanKillTerrorist,
+                bool SheriffCanKillOpportunist,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
+                int whenSkipVote,
+                int whenNonVote,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -200,8 +225,9 @@ namespace TownOfHost
             main.MayorCount = MayorCount;
             main.OpportunistCount= OpportunistCount;
             main.SnitchCount= SnitchCount;
+            main.SheriffCount = SheriffCount;
             main.BountyHunterCount= BountyHunterCount;
-            main.WarlockCount= WarlockCount;
+            main.WitchCount = WitchCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
@@ -229,8 +255,15 @@ namespace TownOfHost
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
+            main.SheriffCanKillJester = SheriffCanKillJester;
+            main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
+            main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
+
+            main.whenSkipVote = (VoteMode)whenSkipVote;
+            main.whenNonVote = (VoteMode)whenNonVote;
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;
@@ -318,6 +351,21 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
+            HudManager.Instance.SetHudActive(true);
+        }
+        public static void BeKilled(byte targetId, byte KilledById) {
+            PlayerControl me = PlayerControl.LocalPlayer;
+            PlayerControl KilledBy = KilledById == byte.MaxValue ? null : main.getPlayerById(KilledById);
+            if((KilledBy == null && KilledById != byte.MaxValue) || me == null) return;
+            if(me.PlayerId == targetId) {
+                if(KilledById == byte.MaxValue) {
+                    //ローカル追放
+                    new LateTask(() => me.Exiled(), 10f, "ExileForSheriff");
+                } else {
+                    //ローカル殺害
+                    KilledBy.MurderPlayer(me);
+                }
+            }
         }
     }
 }

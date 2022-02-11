@@ -51,20 +51,20 @@ namespace TownOfHost
             }
             if (__instance.isMafia())
             {
-                var ImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Data.Role.Role == RoleTypes.Impostor &&
-                         !pc.Data.IsDead) ImpostorCount++;
-                }
-                Logger.SendToFile("ImpostorCount: " + ImpostorCount);
-                if (ImpostorCount > 0)
+                if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     return false;
-                }
-                else
+                } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
+                }
+            }
+            if(__instance.isSheriff()) {
+                if(__instance.Data.IsDead) return false;
+                if(!target.canBeKilledBySheriff()) {
+                    __instance.RpcMurderPlayer(__instance);
+                    return false;
+                }
             }
             if(target.isMadGuardian()) {
                 var isTaskFinished = true;
@@ -83,65 +83,47 @@ namespace TownOfHost
                     return false;
                 }
             }
-            if (__instance.isWarlock())
-            {
-                if (__instance.CurrentOutfitType == PlayerOutfitType.Shapeshifted && main.WarlockCheck == false)
-                {
-                    __instance.RpcGuardAndKill(target);
-                    main.WarlockTarget.Add(target);
-                    main.WarlockCheck = true;
-                    return false;
-                }
-                if (main.WarlockCheck == true)
-                {
-                    var target1 = main.WarlockTarget[0];
-                    Vector2 target1pos = target1.transform.position;
-                    Dictionary <PlayerControl, float> playerDistance = new Dictionary<PlayerControl, float>();
-                    float dis;
-                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                    {
-                        if(p != target1 && !p.Data.IsDead)
-                        {
-                            dis = Vector2.Distance(target1pos,p.transform.position);
-                            playerDistance.Add(p,dis);
-                        }
-                    }
-                    var min = playerDistance.OrderBy(c => c.Value).FirstOrDefault();
-                    PlayerControl target2 = min.Key;
-                    target1.RpcMurderPlayer(target2);
-                    __instance.RpcGuardAndKill(target);
-                    main.WarlockTarget.Clear();
-                    main.WarlockCheck = false;
-                    return false;
-                }
-                else
-                {
-                    __instance.RpcMurderPlayer(target);
-                    return false;
-                }
-            }
             if (__instance.isBountyHunter())
             {
-                if (main.BountyCheck)
+                if (main.BountyCheck == true)
                 {
+                    if (main.b_target.Data.IsDead)
+                    {
+                        var rand = new System.Random();
+                        main.BountyTargetPlayer = new List<PlayerControl>();
+                        foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                        main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
+                        main.BountyCheck = true;
+                    }
                     if (target != main.b_target)
                     {
                         __instance.RpcMurderPlayer(target);
                     }
-                    else
+                    else if (target == main.b_target)
                     {
-                        __instance.RpcMurderPlayer(main.b_target);
-                        __instance.RpcGuardAndKill(main.b_target);
+                        __instance.RpcMurderPlayer(target);
+                        __instance.RpcGuardAndKill(target);
                         main.BountyCheck = false;
                     }
                 }
-                else
+                if (main.BountyCheck == false)
                 {
                     var rand = new System.Random();
                     main.BountyTargetPlayer = new List<PlayerControl>();
-                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead || p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-                    main.b_target = main.BountyTargetPlayer[rand.Next(0,PlayerControl.AllPlayerControls.Count - 1)];
+                    foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
+                    main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
                     main.BountyCheck = true;
+                }
+                return false;
+            }
+            if (__instance.isWitch())
+            {
+                if(main.KillOrSpell)
+                {
+                    __instance.RpcGuardAndKill(target);
+                    main.SpelledPlayer.Add(target);
+                } else {
+                    __instance.RpcMurderPlayer(target);
                 }
                 return false;
             }
@@ -153,10 +135,6 @@ namespace TownOfHost
             }
 
             __instance.RpcMurderPlayer(target);
-            if (main.isFixedCooldown)
-            {
-                __instance.RpcGuardAndKill(target);
-            }
             return false;
         }
     }
@@ -167,6 +145,14 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            if (target != null)
+            {
+                Logger.info($"{__instance.name} => {target.PlayerName}");
+                foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
+                {
+                    return false;
+                }
+            }
 
             if (main.SyncButtonMode && target == null)
             {
@@ -179,9 +165,7 @@ namespace TownOfHost
                 else main.UsedButtonCount++;
                 if (main.SyncedButtonCount == main.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大数に達したため、ボタンクールダウンが1時間に設定されました。");
-                    PlayerControl.GameOptions.EmergencyCooldown = 3600;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                    Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
                 }
             }
 
@@ -214,6 +198,7 @@ namespace TownOfHost
                 );
             }
 
+            main.CustomSyncAllSettings();
             return true;
         }
         public static async void ChangeLocalNameAndRevert(string name, int time) {
@@ -256,10 +241,8 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+
                 if(__instance.AmOwner) main.ApplySuffix();
-            }
-            if(main.IsHideAndSeek && main.IgnoreVent) {
-                if(__instance.inVent) __instance.MyPhysics.RpcBootFromVent(0);
             }
             //各クライアントが全員分実行
             //役職テキストの表示
@@ -280,7 +263,11 @@ namespace TownOfHost
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay) RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    {
+                        RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                        if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                    }
                     if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
                     if(main.hasTasks(__instance.Data))//タスク持ちの陣営
@@ -289,34 +276,29 @@ namespace TownOfHost
                         {
                             if(__instance.AllTasksCompleted() && __instance.isSnitch())
                             {
-                                if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWarlock())
+                                if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                 }
                             }
                         }
                     }else{//タスクなしの陣営
                         foreach(var t in PlayerControl.AllPlayerControls)
                         {
-                            if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter() || __instance.isWarlock())
+                            if(__instance.isImpostor() || __instance.isShapeshifter() || __instance.isVampire() || __instance.isBountyHunter())
                             {
                                 var ct = 0;
                                 foreach(var task in t.myTasks) if(task.IsComplete)ct++;
                                 if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
                                 {
-                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>";
+                                    if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>";
                                     nameSuffix += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                                 }
                             }
                         }
-                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
+                        //TODO:LoversCountCheck
+                        if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.b_target.name}</size>";
                     }
-                    
-                    
-                    //TODO:LoversCountCheck
-                    // Logger.SendInGame("Log:" + main.LoversPlayers[0].PlayerId);
-                    Logger.SendInGame("Log:" + main.LoversPlayers[1].PlayerId);
-
                     if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
                 }
             }
@@ -350,13 +332,31 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.RpcMurderPlayer))]
-    class RpcMurderPlayerPatch
-    {
-        public static void Postfix(PlayerControl __instance)
-        {
-            main.NotifyRoles();
+    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+    class EnterVentPatch {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc) {
+            if(main.IsHideAndSeek && main.IgnoreVent)
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
-
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
+    class CoEnterVentPatch {
+        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
+            if(AmongUsClient.Instance.AmHost){
+                if(__instance.myPlayer.isSheriff()) {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
+                    writer.WritePacked(127);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    new LateTask(() => {
+                        int clientId = __instance.myPlayer.getClientId();
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
+                        writer2.Write(id);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    }, 0.5f, "Fix Sheriff Stuck");
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

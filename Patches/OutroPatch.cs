@@ -25,12 +25,17 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Crewmate;
+                    CustomRoles role = p.getCustomRole();
+                    bool canWin = role == CustomRoles.Default ||
+                    role == CustomRoles.Scientist ||
+                    role == CustomRoles.Engineer ||
+                    role == CustomRoles.GuardianAngel;
                     if (p.isJester()) canWin = false; //Jester
                     if (p.isMadmate()) canWin = false; //Madmate
                     if (p.isMadGuardian()) canWin = false; //Mad Guardian
                     if (p.isTerrorist()) canWin = false; //Terrorist
                     if (p.isOpportunist()) canWin = false; //Opportunist
+                    if (p.isSheriff()) canWin = true; //Sheriff
                     if(canWin) winner.Add(p);
                 }
             }
@@ -38,10 +43,15 @@ namespace TownOfHost
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    bool canWin = p.Data.Role.TeamType == RoleTeamTypes.Impostor;
+                    CustomRoles role = p.getCustomRole();
+                    bool canWin = role == CustomRoles.Impostor ||
+                    role == CustomRoles.Shapeshifter;
                     if (p.isMadmate()) canWin = true; //Madmate
                     if (p.isMadGuardian()) canWin = true; //Mad Guardian
                     if (p.isOpportunist()) canWin = false; //Opportunist
+                    if (p.isSheriff()) canWin = false; //Sheriff
+                    if (p.isBountyHunter()) canWin = true; //BountyHunter
+                    if (p.isWitch()) canWin = true; //Witch
                     if(canWin) winner.Add(p);
                 }
             }
@@ -151,30 +161,12 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.isFixedCooldown && AmongUsClient.Instance.AmHost)
-            {
-                PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
-            }
-            if (main.SyncButtonMode)
-            {
-                PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
-            }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
-                if(main.IsHideAndSeek) {
-                    PlayerControl.GameOptions.ImpostorLightMod = main.HideAndSeekImpVisionMin;
-                }
-                if(main.isFixedCooldown) {
-                    PlayerControl.GameOptions.KillCooldown = main.BeforeFixCooldown;
-                }
-                if(main.SyncButtonMode) {
-                    PlayerControl.GameOptions.EmergencyCooldown = main.BeforeFixMeetingCooldown;
-                }
-
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
-            main.ApplySuffix();
+            //main.ApplySuffix();
         }
     }
 }

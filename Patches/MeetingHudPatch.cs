@@ -11,6 +11,7 @@ using UnhollowerBaseLib;
 using TownOfHost;
 using System.Linq;
 using Il2CppSystem.Linq;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -32,6 +33,35 @@ namespace TownOfHost
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
+                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
+                if(ps.VotedFor == 253 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//スキップ
+                {
+                    switch (main.whenSkipVote)
+                    {
+                        case VoteMode.Suicide:
+                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            break;
+                        case VoteMode.SelfVote:
+                            ps.VotedFor = ps.TargetPlayerId;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if(ps.VotedFor == 254 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//無投票
+                {
+                    switch (main.whenNonVote)
+                    {
+                        case VoteMode.Suicide:
+                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            break;
+                        case VoteMode.SelfVote:
+                            ps.VotedFor = ps.TargetPlayerId;
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 statesList.Add(new MeetingHud.VoterState() {
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
@@ -52,13 +82,13 @@ namespace TownOfHost
             Logger.info("===追放者確認処理開始===");
             foreach(var data in VotingData) {
                 Logger.info(data.Key + ": " + data.Value);
-                if(data.Value > max) {
+                if(data.Value > max)
+                {
                     Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
-                } else
-                if(data.Value == max) {
+                } else if(data.Value == max) {
                     Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                     exileId = byte.MaxValue;
                     tie = true;
@@ -68,7 +98,13 @@ namespace TownOfHost
 
             Logger.info("追放者決定: " + exileId);
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-            MeetingHud.Instance.RpcVotingComplete(states, exiledPlayer, tie);
+
+            __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+
+            //霊界用暗転バグ対処
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
+            
             return false;
         }
         public static bool isMayor(byte id) {
@@ -100,7 +136,10 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            main.KillOrSpell = !main.KillOrSpell;
+            main.witchMeeting = true;
             main.NotifyRoles();
+            main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -127,10 +166,12 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
+            if(AmongUsClient.Instance.GameMode == GameModes.FreePlay || !AmongUsClient.Instance.AmHost) return;
             foreach (var pva in __instance.playerStates)
             {
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                var RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
+                TMPro.TextMeshPro RoleTextMeeting = null;
+                if(RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if (RoleTextMeeting != null)
                 {
                     var pc = PlayerControl.AllPlayerControls.ToArray()

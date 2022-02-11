@@ -12,6 +12,7 @@ using Hazel;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using InnerNet;
 
 namespace TownOfHost
 {
@@ -27,15 +28,17 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
             {
+                Logger.info("CountDownTimer set to 0");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
             {
+                Logger.info("Reset CountDownTimer");
                 GameStartManager.Instance.ResetStartState();
             }
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
             {
                 main.ShowActiveRoles();
             }
@@ -49,9 +52,10 @@ namespace TownOfHost
             // | G | フリープレイ中 | 開始画面表示 |
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | V | オンライン以外 | 自分の投票をClearする |
+            // | U | オンライン以外 | 自分の投票をClearする |
             //====================
 
+            
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);

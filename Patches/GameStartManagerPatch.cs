@@ -17,55 +17,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace TownOfHost
-{//参考:https://github.com/NuclearPowered/Reactor/blob/master/Reactor.Debugger/Patches.cs
+{
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
     public static class GameStartManagerUpdatePatch
     {
         public static void Prefix(GameStartManager __instance)
         {
             __instance.MinPlayers = 1;
-        }
-    }
-
-    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
-    public static class GameSettingMenuPatch
-    {
-        public static void Prefix(GameSettingMenu __instance)
-        {
-            // Unlocks map/impostor amount changing in online (for testing on your custom servers)
-            // オンラインモードで部屋を立て直さなくてもマップを変更できるように変更
-            __instance.HideForOnline = new Il2CppReferenceArray<Transform>(0);
-        }
-    }
-
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
-    [HarmonyPriority(Priority.First)]
-    public static class GameOptionsMenuPatch
-    {
-        public static void Postfix(GameOptionsMenu __instance)
-        {
-            foreach (var ob in __instance.Children)
-            {
-                if (ob.Title == StringNames.GameShortTasks ||
-                ob.Title == StringNames.GameLongTasks ||
-                ob.Title == StringNames.GameCommonTasks)
-                {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
-                }
-                if (ob.Title == StringNames.GameKillCooldown)
-                {
-                    ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
-                }
-            }
-        }
-    }
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-    class UnrestrictNumImpostorsPatch
-    {
-        public static bool Prefix(ref int __result)
-        {
-            __result = PlayerControl.GameOptions.NumImpostors;
-            return false;
         }
     }
     //タイマーとコード隠し
@@ -122,6 +80,42 @@ namespace TownOfHost
             {
                 if(__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
             }
+        }
+    }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
+    public class GameStartRandomMap
+    {
+        public static bool Prefix(GameStartRandomMap __instance)
+        {
+            bool continueStart = true;
+            if (main.RandomMapsMode == true)
+            {
+                var rand = new System.Random();
+                System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
+                /*TheSkeld   = 0
+                  MIRAHQ     = 1
+                  Polus      = 2
+                  Dleks      = 3
+                  TheAirShip = 4*/
+                if (main.AddedTheSkeld == true) RandomMaps.Add(0);
+                if (main.AddedMIRAHQ == true) RandomMaps.Add(1);
+                if (main.AddedPolus == true) RandomMaps.Add(2);
+                if (main.AddedDleks == true) RandomMaps.Add(3);
+                if (main.AddedTheAirShip == true) RandomMaps.Add(4);
+                var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
+                PlayerControl.GameOptions.MapId = MapsId;
+            
+            }
+            return continueStart;
+        }
+    }
+    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
+    class UnrestrictNumImpostorsPatch
+    {
+        public static bool Prefix(ref int __result)
+        {
+            __result = PlayerControl.GameOptions.NumImpostors;
+            return false;
         }
     }
 }
