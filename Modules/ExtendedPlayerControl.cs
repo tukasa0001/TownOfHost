@@ -195,7 +195,7 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 InfinityVital:
-                    opt.RoleOptions.ScientistBatteryCharge = float.PositiveInfinity;
+                    opt.RoleOptions.ScientistBatteryCharge = 9999999999999999;
                     opt.RoleOptions.ScientistCooldown = 10;
                     break;
             }
