@@ -88,6 +88,7 @@ namespace TownOfHost
                 if(main.KillOrSpell)
                 {
                     __instance.RpcGuardAndKill(target);
+                    if(!main.SpelledPlayer.Contains(target))
                     main.SpelledPlayer.Add(target);
                 }
                 main.KillOrSpell = !main.KillOrSpell;
