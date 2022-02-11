@@ -98,7 +98,7 @@ namespace TownOfHost
             if(main.BountyTargetPlayer.Count > 0)
             main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
             main.BountyCheck = true;
-            main.KillOrSpell = false;
+            main.KillOrSpell = new Dictionary<byte, bool>();
 
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
@@ -215,6 +215,10 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 HudManager.Instance.SetHudActive(true);
+                main.KillOrSpell = new Dictionary<byte, bool>();
+                foreach (var pc in PlayerControl.AllPlayerControls){
+                    if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
+                }
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
