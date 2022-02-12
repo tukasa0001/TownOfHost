@@ -76,6 +76,9 @@ namespace TownOfHost {
             }
             return type;
         }
+        public static void SetCount(this CustomRoles role, int num) {
+            main.SetRoleCount(role, num);
+        }
     }
     public enum IntroTypes {
         Crewmate,
