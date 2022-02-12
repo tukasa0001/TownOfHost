@@ -77,7 +77,9 @@ namespace TownOfHost
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
-                    bool CancreateMadmate = reader.ReadBoolean();
+                    bool BribbercanKill = reader.ReadBoolean();
+                    int BribbersBride = reader.ReadInt32();
+                    int CancreateMadmate = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -125,6 +127,8 @@ namespace TownOfHost
                         UploadDataDisabled,
                         StartReactorDisabled,
                         VampireKillDelay,
+                        BribbercanKill,
+                        BribbersBride,
                         CancreateMadmate,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
@@ -205,7 +209,9 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
                 int VampireKillDelay,
-                bool CancreateMadmate,
+                bool BribbercanKill,
+                int BribbersBride,
+                int CancreateMadmate,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
                 bool SabotageMasterFixesReactors,
@@ -262,6 +268,9 @@ namespace TownOfHost
             main.VisibleTasksCount = true;
 
             main.VampireKillDelay = VampireKillDelay;
+
+            main.BribbercanKill = BribbercanKill;
+            main.BribbersBride = BribbersBride;
 
             main.CancreateMadmate = CancreateMadmate;
 

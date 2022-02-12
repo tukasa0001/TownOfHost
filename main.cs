@@ -397,7 +397,11 @@ namespace TownOfHost
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
-                if(main.CancreateMadmate) text += String.Format("\n{0}:{1}",main.getLang(lang.CancreateMadmate),getOnOff(main.CancreateMadmate));
+                if(main.BribberCount > 0){
+                    if(main.BribbersBride > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.BribbersBride),main.BribbersBride);
+                    if(main.BribbercanKill) text += String.Format("\n{0}:{1}",main.getLang(lang.BribbercanKill),getOnOff(main.BribbercanKill));
+                }
+                if(main.SolicitorCount > 0)if(main.CancreateMadmate > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.CancreateMadmate),main.CancreateMadmate);
                 if(main.SabotageMasterCount > 0)
                 {
                     if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterSkillLimit),main.SabotageMasterSkillLimit);
@@ -491,7 +495,9 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
-        public static bool CancreateMadmate;
+        public static bool BribbercanKill;
+        public static int BribbersBride = 15;
+        public static int CancreateMadmate = 1;
         public static bool SKMadmateCheck;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
@@ -544,6 +550,8 @@ namespace TownOfHost
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
+            writer.Write(BribbercanKill);
+            writer.Write(BribbersBride);
             writer.Write(CancreateMadmate);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
@@ -756,7 +764,10 @@ namespace TownOfHost
 
             VampireKillDelay = 10;
 
-            CancreateMadmate = false;
+            BribbercanKill = false;
+            BribbersBride = 15;
+
+            CancreateMadmate = 1;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -866,7 +877,9 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.CancreateMadmate, "インポスターはマッドメイトを作ることができる"},
+                {lang.BribbercanKill, "ブリバーはキルができる"},
+                {lang.BribbersBride, "ブリバーの奪える票数"},
+                {lang.CancreateMadmate, "作れるマッドメイトの人数"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
@@ -962,7 +975,9 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
-                {lang.CancreateMadmate, "Immpostors can create Madmate"},
+                {lang.BribbercanKill, "Bribbers can kill"},
+                {lang.BribbersBride, "Bribber's Briding times"},
+                {lang.CancreateMadmate, "Creating Madmates times"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
@@ -1127,6 +1142,8 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
+        BribbercanKill,
+        BribbersBride,
         CancreateMadmate,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,

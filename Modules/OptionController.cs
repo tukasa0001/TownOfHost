@@ -184,6 +184,8 @@ namespace TownOfHost
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
+                            OptionPages.BribbercanKill,
+                            OptionPages.BribbersBride,
                             OptionPages.CancreateMadmate,
                             OptionPages.MadmateCanFixLightsOut,
                             OptionPages.MadGuardianCanSeeBarrier,
@@ -213,12 +215,38 @@ namespace TownOfHost
                                 main.VampireKillDelay = FixedKillDelay;
                             }
                         )},
-                        {OptionPages.CancreateMadmate, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CancreateMadmate)}</color>: {main.CancreateMadmate}{main.TextCursor}",
+                        {OptionPages.BribbercanKill, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.BribbercanKill)}</color>: {main.BribbercanKill}{main.TextCursor}",
                             true,
-                            () => {main.CancreateMadmate = !main.CancreateMadmate;},
+                            () => {main.BribbercanKill = !main.BribbercanKill;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.BribbersBride, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Bribber)}>{main.getLang(lang.BribbersBride)}</color>: {main.BribbersBride}{main.TextCursor}",
+                            true,
+                            () => {main.BribbersBride = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var Bride = main.BribbersBride * 10;
+                                Bride += i;
+                                var Bridelimit = Math.Clamp(Bride,0,999);
+                                main.BribbersBride = Bridelimit;
+                            }
+                        )},
+                        {OptionPages.CancreateMadmate, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Solicitor)}>{main.getLang(lang.CancreateMadmate)}</color>: {main.CancreateMadmate}{main.TextCursor}",
+                            true,
+                            () => {main.CancreateMadmate = 0;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions,
+                            (i) => {
+                                var SideKick = main.CancreateMadmate * 10;
+                                SideKick += i;
+                                var FixedMadmates = Math.Clamp(SideKick,0,999);
+                                main.CancreateMadmate = FixedMadmates;
+                            }
                         )},
                         {OptionPages.SabotageMasterSkillLimit, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterSkillLimit)}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}",
@@ -732,6 +760,8 @@ namespace TownOfHost
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
+                    BribbercanKill,
+                    BribbersBride,
                     CancreateMadmate,
                     MadmateCanFixLightsOut,
                     MadGuardianCanSeeBarrier,
