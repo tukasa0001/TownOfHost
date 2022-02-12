@@ -671,8 +671,8 @@ namespace TownOfHost
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
                 if(seer.isWitch()) {
-                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Kill";
-                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Spell";
+                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
+                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeSpell);
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
