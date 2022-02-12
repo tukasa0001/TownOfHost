@@ -944,6 +944,10 @@ namespace TownOfHost
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
                 //その他
+                {lang.WitchCurrentMode, "現在のモード"},
+                {lang.WitchModeKill, "キル"},
+                {lang.WitchModeSpell, "スペル"},
+                {lang.BountyCurrentTarget, "現在のターゲット"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -1033,6 +1037,10 @@ namespace TownOfHost
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
                 //その他
+                {lang.WitchCurrentMode, "Current Mode"},
+                {lang.WitchModeKill, "Kill"},
+                {lang.WitchModeSpell, "Spell"},
+                {lang.BountyCurrentTarget, "Current Target"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -1193,6 +1201,10 @@ namespace TownOfHost
         AddedDleks,
         AddedTheAirShip,
         //その他
+        WitchCurrentMode,
+        WitchModeKill,
+        WitchModeSpell,
+        BountyCurrentTarget,
         commandError,
         InvalidArgs,
         ON,
