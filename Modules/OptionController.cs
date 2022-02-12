@@ -195,6 +195,7 @@ namespace TownOfHost
                             OptionPages.SheriffCanKillJester,
                             OptionPages.SheriffCanKillTerrorist,
                             OptionPages.SheriffCanKillOpportunist,
+                            OptionPages.SheriffCanKillEgoist,
                         },
                         OptionPages.roles
                     )},
@@ -270,6 +271,13 @@ namespace TownOfHost
                             () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}",
                             true,
                             () => {main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
+                        {OptionPages.SheriffCanKillEgoist, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillEgoist)}</color>: {main.getOnOff(main.SheriffCanKillEgoist)}",
+                            true,
+                            () => {main.SheriffCanKillEgoist = !main.SheriffCanKillEgoist;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -734,6 +742,7 @@ namespace TownOfHost
                     SheriffCanKillJester,
                     SheriffCanKillTerrorist,
                     SheriffCanKillOpportunist,
+                    SheriffCanKillEgoist,
                     MayorAdditionalVote,
             modes,
                 HideAndSeek,

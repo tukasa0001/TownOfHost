@@ -132,6 +132,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
+                        SheriffCanKillEgoist,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -272,6 +273,7 @@ namespace TownOfHost
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+            main.SheriffCanKillEgoist = SheriffCanKillEgoist;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
@@ -327,6 +329,30 @@ namespace TownOfHost
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 if (p.PlayerId == terroristID) Terrorist = p;
+                if (p.Data.Role.IsImpostor)
+                {
+                    Impostors.Add(p);
+                }
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var imp in Impostors)
+                {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                Thread.Sleep(100);
+                main.CustomWinTrigger = true;
+            }
+        }
+        public static void EgoistWin(byte EgoistID)
+        {
+            main.WonEgoistID = EgoistID;
+            main.currentWinner = CustomWinner.Egoist;
+            PlayerControl Egoist = null;
+            List<PlayerControl> Impostors = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p.PlayerId == EgoistID) Egoist = p;
                 if (p.Data.Role.IsImpostor)
                 {
                     Impostors.Add(p);

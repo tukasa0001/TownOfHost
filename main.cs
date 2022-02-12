@@ -860,6 +860,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillJester, "シェリフがジェスターをキルできる"},
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
+                {lang.SheriffCanKillEgoist, "シェリフがエゴイストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
@@ -926,7 +927,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
-                {lang.EgoistInfoLong, "Egoist:\n味方のImpostorを裏切る第3陣営。味方がすべて死んだ状態でImpostorが勝つと単独勝利する。"},
+                {lang.EgoistInfoLong, "Egoist:\n味方のImpostorを裏切る第三陣営。味方がすべて死んだ状態でImpostor陣営が勝つと単独勝利する。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -953,6 +954,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillJester, "Sheriff Can Kill Jester"},
                 {lang.SheriffCanKillTerrorist, "Sheriff Can Kill Terrorist"},
                 {lang.SheriffCanKillOpportunist, "Sheriff Can Kill Opportunist"},
+                {lang.SheriffCanKillEgoist, "Sheriff Can Kill Egoist"},
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
@@ -1003,7 +1005,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
-                {CustomRoles.Witch, "Egoist"},
+                {CustomRoles.Egoist, "Egoist"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1066,7 +1068,6 @@ namespace TownOfHost
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
-
         EgoistInfo,
         FoxInfo,
         TrollInfo,
@@ -1086,7 +1087,6 @@ namespace TownOfHost
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
-
         EgoistInfoLong,
         FoxInfoLong,
         TrollInfoLong,
@@ -1115,6 +1115,7 @@ namespace TownOfHost
         SheriffCanKillJester,
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
+        SheriffCankillEgoist,
         MayorAdditionalVote,
         HideAndSeekOptions,
         AllowCloseDoors,
@@ -1164,7 +1165,6 @@ namespace TownOfHost
         Sheriff,
         BountyHunter,
         Witch,
-
         Egoist,
         Fox,
         Troll
@@ -1175,7 +1175,8 @@ namespace TownOfHost
         Draw = 0,
         Default,
         Jester,
-        Terrorist
+        Terrorist,
+        Egoist
     }
     /*public enum CustomRoles : byte
     {
