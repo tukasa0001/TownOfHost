@@ -54,6 +54,8 @@ namespace TownOfHost
                     if (p.isSheriff()) canWin = false; //Sheriff
                     if (p.isBountyHunter()) canWin = true; //BountyHunter
                     if (p.isWitch()) canWin = true; //Witch
+                    if (p.isSolicitor()) canWin = true;
+                    if (p.isBribber()) canWin = true;
                     if(canWin) winner.Add(p);
                 }
             }

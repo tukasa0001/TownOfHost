@@ -33,6 +33,8 @@ namespace TownOfHost
                         OptionPages.Vampire,
                         OptionPages.BountyHunter,
                         OptionPages.Witch,
+                        OptionPages.Solicitor,
+                        OptionPages.Bribber,
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -159,6 +161,22 @@ namespace TownOfHost
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Witch, i)
+                    )},
+                    {OptionPages.Solicitor, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Solicitor)}>{main.getRoleName(CustomRoles.Solicitor)}</color>: {main.SolicitorCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Solicitor);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Solicitor, i)
+                    )},
+                    {OptionPages.Bribber, new PageObject(
+                        () => $"<color={main.getRoleColorCode(CustomRoles.Bribber)}>{main.getRoleName(CustomRoles.Bribber)}</color>: {main.BribberCount}",
+                        true,
+                        () => {main.SetRoleCountToggle(CustomRoles.Bribber);},
+                        new List<OptionPages>(){},
+                        OptionPages.roles,
+                        i => main.SetRoleCount(CustomRoles.Bribber, i)
                     )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
@@ -709,6 +727,8 @@ namespace TownOfHost
                 Snitch,
                 BountyHunter,
                 Witch,
+                Solicitor,
+                Bribber,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
