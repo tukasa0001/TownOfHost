@@ -488,6 +488,7 @@ namespace TownOfHost
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static bool BountyCheck;
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
+        public static Dictionary<byte, PlayerControl> Bridedplayer = new Dictionary<byte, PlayerControl>();
         public static bool witchMeeting;
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
@@ -498,7 +499,8 @@ namespace TownOfHost
         public static bool BribbercanKill;
         public static int BribbersBride = 15;
         public static int CancreateMadmate = 1;
-        public static bool SKMadmateCheck;
+        public static int SKMadmateCheck = 0;
+        public static int Bribbercheck = 0;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
         public static bool SabotageMasterFixesReactors;

@@ -23,8 +23,10 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargetPlayer = new List<PlayerControl>();
             main.SpelledPlayer = new List<PlayerControl>();
+            main.Bridedplayer = new Dictionary<byte, PlayerControl>();
             main.witchMeeting = false;
-            main.SKMadmateCheck = false;
+            main.SKMadmateCheck = 0;
+            main.Bribbercheck = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();

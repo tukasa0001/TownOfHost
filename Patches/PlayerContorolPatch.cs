@@ -38,6 +38,55 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if(__instance.isSolicitor())
+            {
+                if(main.SKMadmateCheck < main.CancreateMadmate)
+                {
+                    Vector2 __instancepos = __instance.transform.position;
+                    Dictionary<PlayerControl, float> playerdistance = new Dictionary<PlayerControl, float>();
+                    float dis;
+                    foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                    {
+                        if(p.isImpostor() && !p.Data.IsDead)
+                        {
+                            dis = Vector2.Distance(__instancepos,p.transform.position);
+                            playerdistance.Add(p,dis);
+                        }
+                    }
+                    var min = playerdistance.OrderBy(c => c.Value).FirstOrDefault();
+                    PlayerControl targetm = min.Key;
+                    Logger.info($"{targetm.name}");
+                    main.SKMadmateCheck++;
+                    targetm.SetCustomRole(CustomRoles.SKMadmate);
+                }
+            }
+            if(__instance.isBribber())
+            {
+                if(main.Bribbercheck < main.BribbersBride)
+                {
+                    Vector2 __instancepos = __instance.transform.position;
+                    Dictionary<PlayerControl, float> playerdistance = new Dictionary<PlayerControl, float>();
+                    float dis;
+                    foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                    {
+                        if(p.isImpostor() && !p.Data.IsDead)
+                        {
+                            dis = Vector2.Distance(__instancepos,p.transform.position);
+                            playerdistance.Add(p,dis);
+                        }
+                    }
+                    var min = playerdistance.OrderBy(c => c.Value).FirstOrDefault();
+                    PlayerControl targetm = min.Key;
+                    main.Bridedplayer.Add(__instance.PlayerId,targetm);
+                }
+            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -48,14 +97,6 @@ namespace TownOfHost
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
-                return false;
-            }
-            if(main.CancreateMadmate == true && main.SKMadmateCheck == false && !__instance.isSheriff())
-            {
-                Logger.info("マッドメイト生成");
-                main.SKMadmateCheck = true;
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.SKMadmate);
                 return false;
             }
             if (__instance.isMafia())

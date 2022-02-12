@@ -66,6 +66,13 @@ namespace TownOfHost
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
                 });
+                if(isBribber(ps.TargetPlayerId))
+                for(var i3 = 0; i3 < main.Bridedplayer.Count;){
+                    statesList.Add(new MeetingHud.VoterState() {
+                        VoterId = ps.TargetPlayerId,
+                        VotedForId = ps.VotedFor
+                    });
+                }
                 if(isMayor(ps.TargetPlayerId))//Mayorの投票数
                 for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
                     statesList.Add(new MeetingHud.VoterState() {
@@ -112,6 +119,11 @@ namespace TownOfHost
             if(player == null) return false;
             return player.isMayor();
         }
+        public static bool isBribber(byte id) {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            if(player == null) return false;
+            return player.isBribber();
+        }
     }
 
     static class ExtendedMeetingHud {
@@ -125,6 +137,7 @@ namespace TownOfHost
                     int VoteNum = 1;
                     if(CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = main.MayorAdditionalVote + 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
+                    if(CheckForEndVotingPatch.isBribber(ps.TargetPlayerId)) VoteNum = main.Bridedplayer.Count + 1;
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
             }
