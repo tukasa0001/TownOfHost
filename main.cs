@@ -86,7 +86,7 @@ namespace TownOfHost
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static int lastTaskComplete = 0;
-        public static string nameSuffix;
+        
 
         public static int SetRoleCountToggle(int currentCount)
         {
