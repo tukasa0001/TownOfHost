@@ -165,7 +165,7 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
-            if(AmongUsClient.Instance.GameMode == GameModes.FreePlay || !AmongUsClient.Instance.AmHost) return;
+            if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
             foreach (var pva in __instance.playerStates)
             {
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");

@@ -23,7 +23,8 @@ namespace TownOfHost
         EndGame,
         PlaySound,
         SetCustomRole,
-        BeKilled
+        SetBountyTarget,
+        SetKillOrSpell,
     }
     public enum Sounds
     {
@@ -39,7 +40,9 @@ namespace TownOfHost
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
-                    if(!DontShowOnModdedClient) __instance.SetName(name);
+                    if(!DontShowOnModdedClient){
+                        __instance.SetName(name);
+                    }
                     return false;
             }
             return true;
@@ -160,10 +163,16 @@ namespace TownOfHost
                     CustomRoles role = (CustomRoles)reader.ReadByte();
                     RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case (byte)CustomRPC.BeKilled:
-                    byte targetId = reader.ReadByte();
-                    byte KilledBy = reader.ReadByte();
-                    RPCProcedure.BeKilled(targetId, KilledBy);
+                case (byte)CustomRPC.SetBountyTarget:
+                    byte HunterId = reader.ReadByte();
+                    byte TargetId = reader.ReadByte();
+                    var target = main.getPlayerById(TargetId);
+                    if(target != null) main.BountyTargets[HunterId] = target;
+                    break;
+                case (byte)CustomRPC.SetKillOrSpell:
+                    byte playerId = reader.ReadByte();
+                    bool KoS = reader.ReadBoolean();
+                    main.KillOrSpell[playerId] = KoS;
                     break;
             }
         }
@@ -352,20 +361,6 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
-        }
-        public static void BeKilled(byte targetId, byte KilledById) {
-            PlayerControl me = PlayerControl.LocalPlayer;
-            PlayerControl KilledBy = KilledById == byte.MaxValue ? null : main.getPlayerById(KilledById);
-            if((KilledBy == null && KilledById != byte.MaxValue) || me == null) return;
-            if(me.PlayerId == targetId) {
-                if(KilledById == byte.MaxValue) {
-                    //ローカル追放
-                    new LateTask(() => me.Exiled(), 10f, "ExileForSheriff");
-                } else {
-                    //ローカル殺害
-                    KilledBy.MurderPlayer(me);
-                }
-            }
         }
     }
 }
