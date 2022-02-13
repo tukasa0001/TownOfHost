@@ -130,8 +130,7 @@ namespace TownOfHost
                 main.currentSuffix = next;
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
-            var forceJapanese = new PageObject(basePage, () => main.getLang(lang.ForceJapanese) + ": " + main.getOnOff(main.forceJapanese), true, () => main.forceJapanese = !main.forceJapanese);
-            forceJapanese.amVisible = () => AmongUsClient.Instance.AmHost;
+            var forceJapanese = new PageObject(basePage, () => main.getLang(lang.ForceJapanese) + ": " + main.getOnOff(main.forceJapanese), false, () => main.forceJapanese = !main.forceJapanese);
         }
         public static void SetPage(PageObject page)
         {
