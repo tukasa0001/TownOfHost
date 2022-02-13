@@ -82,6 +82,10 @@ namespace TownOfHost
             Logger.info("===追放者確認処理開始===");
             foreach(var data in VotingData) {
                 Logger.info(data.Key + ": " + data.Value);
+                if(data.Equals(default(KeyValuePair<byte, int>))) {
+                    Logger.info("VotingDataのKeyValuePairが不正なためスキップします");
+                    continue;
+                }
                 if(data.Value > max)
                 {
                     Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")");
