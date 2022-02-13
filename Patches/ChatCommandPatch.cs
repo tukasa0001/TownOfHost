@@ -189,7 +189,7 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                     break;
 
-                    case "madsnitch":
+                case "madsnitch":
                 case "ms":
                     main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
                     break;
