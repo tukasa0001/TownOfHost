@@ -84,6 +84,7 @@ namespace TownOfHost
         public static bool forceJapanese = false;
         public static VoteMode whenSkipVote = VoteMode.Default;
         public static VoteMode whenNonVote = VoteMode.Default;
+        public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static int lastTaskComplete = 0;
@@ -963,6 +964,7 @@ namespace TownOfHost
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
                 {lang.SelfVote, "自投票"},
+                {lang.CanTerroristSuicideWin, "テロリストの自殺勝ち"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -1063,6 +1065,7 @@ namespace TownOfHost
                 {lang.Default, "Default"},
                 {lang.Suicide, "Suicide"},
                 {lang.SelfVote, "SelfVote"},
+                {lang.CanTerroristSuicideWin, "Can Terrorist Suicide Win"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -1234,6 +1237,7 @@ namespace TownOfHost
         Default,
         Suicide,
         SelfVote,
+        CanTerroristSuicideWin,
         commandError,
         InvalidArgs,
         ON,

@@ -117,11 +117,12 @@ namespace TownOfHost
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenSkipVote = next;
             });
-            var WhenNonVote = new PageObject(voteMode, () => main.getLang(lang.WhenNonVote) + ": " + main.getLang(lang.Default + (int)main.whenSkipVote), true, () => {
+            var WhenNonVote = new PageObject(voteMode, () => main.getLang(lang.WhenNonVote) + ": " + main.getLang(lang.Default + (int)main.whenNonVote), true, () => {
                 var next = main.whenNonVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenNonVote = next;
             });
+            var canTerroristSuicideWin = new PageObject(voteMode, () => main.getLang(lang.CanTerroristSuicideWin) + ": " + main.getOnOff(main.canTerroristSuicideWin), true, () => main.canTerroristSuicideWin = !main.canTerroristSuicideWin);
 
             var Suffix = new PageObject(basePage, () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(), true, () => {
                 var next = main.currentSuffix + 1;
