@@ -18,6 +18,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch {
         public static bool Prefix(MeetingHud __instance) {
+            try {
+            
+            
             if(!AmongUsClient.Instance.AmHost) return true;
             foreach(var ps in __instance.playerStates) {
                 if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
@@ -110,6 +113,13 @@ namespace TownOfHost
                 if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
             
             return false;
+
+
+            }
+            catch(Exception ex) {
+                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                throw;
+            }
         }
         public static bool isMayor(byte id) {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
