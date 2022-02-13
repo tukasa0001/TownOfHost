@@ -81,6 +81,7 @@ namespace TownOfHost
         public static bool isFixedCooldown => VampireCount > 0;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static bool forceJapanese = false;
         public static VoteMode whenSkipVote = VoteMode.Default;
         public static VoteMode whenNonVote = VoteMode.Default;
         public static string winnerList;
@@ -116,12 +117,12 @@ namespace TownOfHost
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
@@ -955,6 +956,7 @@ namespace TownOfHost
                 {lang.WitchModeKill, "キル"},
                 {lang.WitchModeSpell, "スペル"},
                 {lang.BountyCurrentTarget, "現在のターゲット"},
+                {lang.ForceJapanese, "日本語に強制"},
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
                 {lang.SelfVote, "自投票"},
@@ -1051,6 +1053,7 @@ namespace TownOfHost
                 {lang.WitchModeKill, "Kill"},
                 {lang.WitchModeSpell, "Spell"},
                 {lang.BountyCurrentTarget, "Current Target"},
+                {lang.ForceJapanese, "Force Japanese"},
                 {lang.Default, "Default"},
                 {lang.Suicide, "Suicide"},
                 {lang.SelfVote, "SelfVote"},
@@ -1218,6 +1221,7 @@ namespace TownOfHost
         WitchModeKill,
         WitchModeSpell,
         BountyCurrentTarget,
+        ForceJapanese,
         Default,
         Suicide,
         SelfVote,
