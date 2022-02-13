@@ -185,9 +185,6 @@ namespace TownOfHost
                 case CustomRoles.Solicitor:
                     count = SolicitorCount;
                     break;
-                case CustomRoles.Bribber:
-                    count = BribberCount;
-                    break;
                 default:
                     return -1;
             }
@@ -242,9 +239,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Solicitor:
                     SolicitorCount = count;
-                    break;
-                case CustomRoles.Bribber:
-                    BribberCount = count;
                     break;
             }
         }
@@ -348,7 +342,6 @@ namespace TownOfHost
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
                 if(main.SolicitorCount > 0) main.SendToAll(main.getLang(lang.SolicitorInfoLong));
-                if(main.BribberCount > 0) main.SendToAll(main.getLang(lang.BribberInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
@@ -381,7 +374,6 @@ namespace TownOfHost
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
                 if(main.SolicitorCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Solicitor),main.SolicitorCount);
-                if(main.BribberCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Bribber),main.BribberCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
@@ -397,10 +389,6 @@ namespace TownOfHost
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
-                if(main.BribberCount > 0){
-                    if(main.BribbersBride > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.BribbersBride),main.BribbersBride);
-                    if(main.BribbercanKill) text += String.Format("\n{0}:{1}",main.getLang(lang.BribbercanKill),getOnOff(main.BribbercanKill));
-                }
                 if(main.SolicitorCount > 0)if(main.CancreateMadmate > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.CancreateMadmate),main.CancreateMadmate);
                 if(main.SabotageMasterCount > 0)
                 {
@@ -419,6 +407,7 @@ namespace TownOfHost
                 }
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0 || main.SKMadmateCount > 0)
                 {
+                    if(main.MadmateVision) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateVision),getOnOff(main.MadmateVision));
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
                 }
                 if(main.MadGuardianCount > 0)
@@ -480,7 +469,6 @@ namespace TownOfHost
         public static int BountyHunterCount;
         public static int WitchCount;
         public static int SolicitorCount;
-        public static int BribberCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -496,11 +484,9 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
-        public static bool BribbercanKill;
-        public static int BribbersBride = 15;
         public static int CancreateMadmate = 1;
+        public static bool MadmateVision;
         public static int SKMadmateCheck = 0;
-        public static int Bribbercheck = 0;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
         public static bool SabotageMasterFixesReactors;
@@ -539,7 +525,6 @@ namespace TownOfHost
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
             writer.Write(SolicitorCount);
-            writer.Write(BribberCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -552,9 +537,8 @@ namespace TownOfHost
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
             writer.Write(VampireKillDelay);
-            writer.Write(BribbercanKill);
-            writer.Write(BribbersBride);
             writer.Write(CancreateMadmate);
+            writer.Write(MadmateVision);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
             writer.Write(SabotageMasterFixesReactors);
@@ -674,7 +658,7 @@ namespace TownOfHost
                     {
                         if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate(tmp, false, t);
                         if(p.AllTasksCompleted() && p.isSnitch()){
-                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWitch() || t.isSolicitor() || t.isBribber())
+                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWitch() || t.isSolicitor())
                             {
                                 TownOfHost.Logger.info($"インポスター色に変更：{t.name}:{p.AllTasksCompleted()}");
                                 if(!p.AmOwner) t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
@@ -685,7 +669,7 @@ namespace TownOfHost
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
                         if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || t.isWitch() || t.isSolicitor() || t.isBribber())
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || t.isWitch() || t.isSolicitor())
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
@@ -766,10 +750,8 @@ namespace TownOfHost
 
             VampireKillDelay = 10;
 
-            BribbercanKill = false;
-            BribbersBride = 15;
-
             CancreateMadmate = 1;
+            MadmateVision = true;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -818,7 +800,6 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.Solicitor, "#ff0000"},
-                {CustomRoles.Bribber, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -843,7 +824,6 @@ namespace TownOfHost
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
                 {lang.SolicitorInfo, "誰かを仲間に勧誘しよう"},
-                {lang.BribberInfo, "相手の票を奪おう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -863,7 +843,6 @@ namespace TownOfHost
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.SolicitorInfoLong, "ソリスター:\n変身すると、変身したときに一番近くにいた人がサイドキックマッドメイトになる。"},
-                {lang.BribberInfoLong,"ブリバー:\n変身すると近くにいる人の投票権を奪うことができる。(設定有)また、設定によってはキルができない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -879,9 +858,8 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.BribbercanKill, "ブリバーはキルができる"},
-                {lang.BribbersBride, "ブリバーの奪える票数"},
                 {lang.CancreateMadmate, "作れるマッドメイトの人数"},
+                {lang.MadmateVision, "マッドメイトの視界の広さ"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
@@ -941,7 +919,6 @@ namespace TownOfHost
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
                 {lang.SolicitorInfo, "Make a SidekickMadmate"},
-                {lang.BribberInfo, "Bride for more your authority"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -961,7 +938,6 @@ namespace TownOfHost
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.SolicitorInfoLong, "Solicitor:\n変身すると、変身したときに一番近くにいた人がサイドキックマッドメイトになる。"},
-                {lang.BribberInfoLong,"Bribber:\n変身すると近くにいる人の投票権を奪うことができる。(設定有)また、設定によってはキルができない。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -977,9 +953,8 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
-                {lang.BribbercanKill, "Bribbers can kill"},
-                {lang.BribbersBride, "Bribber's Briding times"},
                 {lang.CancreateMadmate, "Creating Madmates times"},
+                {lang.MadmateVision , "Madmate vision (crewmate or impostor)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
@@ -1042,7 +1017,6 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
                 {CustomRoles.Solicitor, "Solicitor"},
-                {CustomRoles.Bribber, "Bribber"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1069,7 +1043,6 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
                 {CustomRoles.Solicitor, "ソリスター"},
-                {CustomRoles.Bribber, "ブリバー"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1107,7 +1080,6 @@ namespace TownOfHost
         BountyHunterInfo,
         WitchInfo,
         SolicitorInfo,
-        BribberInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1127,7 +1099,6 @@ namespace TownOfHost
         BountyHunterInfoLong,
         WitchInfoLong,
         SolicitorInfoLong,
-        BribberInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1144,9 +1115,8 @@ namespace TownOfHost
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,
-        BribbercanKill,
-        BribbersBride,
         CancreateMadmate,
+        MadmateVision,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
@@ -1208,7 +1178,6 @@ namespace TownOfHost
         BountyHunter,
         Witch,
         Solicitor,
-        Bribber,
         Fox,
         Troll
     }

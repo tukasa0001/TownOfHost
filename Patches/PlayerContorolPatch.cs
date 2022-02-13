@@ -52,37 +52,18 @@ namespace TownOfHost
                     float dis;
                     foreach(PlayerControl p in PlayerControl.AllPlayerControls)
                     {
-                        if(p.isImpostor() && !p.Data.IsDead)
+                        if(!p.isSolicitor() && !p.isShapeshifter() && !p.isVampire() && !p.isBountyHunter() && !p.isWitch() && !p.isMafia() && !p.isImpostor() && !p.Data.IsDead)
                         {
                             dis = Vector2.Distance(__instancepos,p.transform.position);
                             playerdistance.Add(p,dis);
+                            Logger.info($"{p.name}の位置{dis}");
                         }
                     }
                     var min = playerdistance.OrderBy(c => c.Value).FirstOrDefault();
                     PlayerControl targetm = min.Key;
-                    Logger.info($"{targetm.name}");
+                    Logger.info($"{targetm.name}is a Madmate");
                     main.SKMadmateCheck++;
                     targetm.SetCustomRole(CustomRoles.SKMadmate);
-                }
-            }
-            if(__instance.isBribber())
-            {
-                if(main.Bribbercheck < main.BribbersBride)
-                {
-                    Vector2 __instancepos = __instance.transform.position;
-                    Dictionary<PlayerControl, float> playerdistance = new Dictionary<PlayerControl, float>();
-                    float dis;
-                    foreach(PlayerControl p in PlayerControl.AllPlayerControls)
-                    {
-                        if(p.isImpostor() && !p.Data.IsDead)
-                        {
-                            dis = Vector2.Distance(__instancepos,p.transform.position);
-                            playerdistance.Add(p,dis);
-                        }
-                    }
-                    var min = playerdistance.OrderBy(c => c.Value).FirstOrDefault();
-                    PlayerControl targetm = min.Key;
-                    main.Bridedplayer.Add(__instance.PlayerId,targetm);
                 }
             }
         }

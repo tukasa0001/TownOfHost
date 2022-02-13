@@ -150,7 +150,6 @@ namespace TownOfHost {
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
                 case CustomRoles.Solicitor:
-                case CustomRoles.Bribber:
                     canBeKilled = true;
                     break;
             }
@@ -185,7 +184,32 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
+                    if(main.MadmateVision){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var SwitchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(SwitchSystem != null && SwitchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
+                        }
+                    }
                     goto InfinityVent;
+                case CustomRoles.MadGuardian:
+                    if(main.MadmateVision){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var SwitchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(SwitchSystem != null && SwitchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
+                case CustomRoles.SKMadmate:
+                    if(main.MadmateVision){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var SwitchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(SwitchSystem != null && SwitchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
@@ -289,6 +313,5 @@ namespace TownOfHost {
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
         public static bool isSolicitor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Solicitor;}
-        public static bool isBribber(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bribber;}
     }
 }

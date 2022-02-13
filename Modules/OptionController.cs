@@ -34,7 +34,6 @@ namespace TownOfHost
                         OptionPages.BountyHunter,
                         OptionPages.Witch,
                         OptionPages.Solicitor,
-                        OptionPages.Bribber,
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
@@ -170,23 +169,14 @@ namespace TownOfHost
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Solicitor, i)
                     )},
-                    {OptionPages.Bribber, new PageObject(
-                        () => $"<color={main.getRoleColorCode(CustomRoles.Bribber)}>{main.getRoleName(CustomRoles.Bribber)}</color>: {main.BribberCount}",
-                        true,
-                        () => {main.SetRoleCountToggle(CustomRoles.Bribber);},
-                        new List<OptionPages>(){},
-                        OptionPages.roles,
-                        i => main.SetRoleCount(CustomRoles.Bribber, i)
-                    )},
                     {OptionPages.AdvancedRoleOptions, new PageObject(
                         lang.AdvancedRoleOptions,
                         false,
                         () => {SetPage(OptionPages.AdvancedRoleOptions);},
                         new List<OptionPages>(){
                             OptionPages.VampireKillDelay,
-                            OptionPages.BribbercanKill,
-                            OptionPages.BribbersBride,
                             OptionPages.CancreateMadmate,
+                            OptionPages.MadmateVision,
                             OptionPages.MadmateCanFixLightsOut,
                             OptionPages.MadGuardianCanSeeBarrier,
                             OptionPages.MayorAdditionalVote,
@@ -215,26 +205,6 @@ namespace TownOfHost
                                 main.VampireKillDelay = FixedKillDelay;
                             }
                         )},
-                        {OptionPages.BribbercanKill, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.BribbercanKill)}</color>: {main.BribbercanKill}{main.TextCursor}",
-                            true,
-                            () => {main.BribbercanKill = !main.BribbercanKill;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
-                        )},
-                        {OptionPages.BribbersBride, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.Bribber)}>{main.getLang(lang.BribbersBride)}</color>: {main.BribbersBride}{main.TextCursor}",
-                            true,
-                            () => {main.BribbersBride = 0;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions,
-                            (i) => {
-                                var Bride = main.BribbersBride * 10;
-                                Bride += i;
-                                var Bridelimit = Math.Clamp(Bride,0,999);
-                                main.BribbersBride = Bridelimit;
-                            }
-                        )},
                         {OptionPages.CancreateMadmate, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.Solicitor)}>{main.getLang(lang.CancreateMadmate)}</color>: {main.CancreateMadmate}{main.TextCursor}",
                             true,
@@ -247,26 +217,6 @@ namespace TownOfHost
                                 var FixedMadmates = Math.Clamp(SideKick,0,999);
                                 main.CancreateMadmate = FixedMadmates;
                             }
-                        )},
-                        {OptionPages.SabotageMasterSkillLimit, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterSkillLimit)}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}",
-                            true,
-                            () => {main.SabotageMasterSkillLimit = 0;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions,
-                            (i) => {
-                                var SkillLimit = main.SabotageMasterSkillLimit * 10;
-                                SkillLimit += i;
-                                var FixedSkillLimit = Math.Clamp(SkillLimit,0,999);
-                                main.SabotageMasterSkillLimit = FixedSkillLimit;
-                            }
-                        )},
-                        {OptionPages.SabotageMasterFixesDoors, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesDoors)}</color>: {main.getOnOff(main.SabotageMasterFixesDoors)}",
-                            true,
-                            () => {main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors;},
-                            new List<OptionPages>(){},
-                            OptionPages.AdvancedRoleOptions
                         )},
                         {OptionPages.SabotageMasterFixesReactors, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesReactors)}</color>: {main.getOnOff(main.SabotageMasterFixesReactors)}",
@@ -317,6 +267,13 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
+                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}",
+                            true,
+                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
+                            new List<OptionPages>(){},
+                            OptionPages.AdvancedRoleOptions
+                        )},
                         {OptionPages.MadmateCanFixLightsOut, new PageObject(
                             () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}",
                             true,
@@ -324,10 +281,10 @@ namespace TownOfHost
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
-                        {OptionPages.MadGuardianCanSeeBarrier, new PageObject(
-                            () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}",
+                        {OptionPages.MadmateVision, new PageObject(
+                            () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateVision)}</color>: {main.getOnOff(main.MadmateVision)}",
                             true,
-                            () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;},
+                            () => {main.MadmateVision = !main.MadmateVision;},
                             new List<OptionPages>(){},
                             OptionPages.AdvancedRoleOptions
                         )},
@@ -756,13 +713,11 @@ namespace TownOfHost
                 BountyHunter,
                 Witch,
                 Solicitor,
-                Bribber,
                 VampireOptions,
                 AdvancedRoleOptions,
                     VampireKillDelay,
-                    BribbercanKill,
-                    BribbersBride,
                     CancreateMadmate,
+                    MadmateVision,
                     MadmateCanFixLightsOut,
                     MadGuardianCanSeeBarrier,
                     SabotageMasterSkillLimit,

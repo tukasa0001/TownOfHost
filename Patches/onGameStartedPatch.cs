@@ -26,7 +26,6 @@ namespace TownOfHost
             main.Bridedplayer = new Dictionary<byte, PlayerControl>();
             main.witchMeeting = false;
             main.SKMadmateCheck = 0;
-            main.Bribbercheck = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -58,7 +57,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.SolicitorCount + main.BribberCount - ShapeshifterNum;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.SolicitorCount - ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -214,7 +213,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Solicitor, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Bribber, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -225,7 +223,6 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls){
                     if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
                 }
-
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
@@ -233,7 +230,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount + main.SolicitorCount + main.BribberCount;
+                ShapeshifterNum -= main.MafiaCount + main.SolicitorCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

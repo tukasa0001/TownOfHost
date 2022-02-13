@@ -65,7 +65,6 @@ namespace TownOfHost
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
                     int SolicitorCount = reader.ReadInt32();
-                    int BribberCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -77,9 +76,8 @@ namespace TownOfHost
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
-                    bool BribbercanKill = reader.ReadBoolean();
-                    int BribbersBride = reader.ReadInt32();
                     int CancreateMadmate = reader.ReadInt32();
+                    bool MadmateVision = reader.ReadBoolean();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -116,7 +114,6 @@ namespace TownOfHost
                         BountyHunterCount,
                         WitchCount,
                         SolicitorCount,
-                        BribberCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -127,9 +124,8 @@ namespace TownOfHost
                         UploadDataDisabled,
                         StartReactorDisabled,
                         VampireKillDelay,
-                        BribbercanKill,
-                        BribbersBride,
                         CancreateMadmate,
+                        MadmateVision,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
                         SabotageMasterFixesReactors,
@@ -198,7 +194,6 @@ namespace TownOfHost
                 int BountyHunterCount,
                 int WitchCount,
                 int SolicitorCount,
-                int BribberCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -209,9 +204,8 @@ namespace TownOfHost
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
                 int VampireKillDelay,
-                bool BribbercanKill,
-                int BribbersBride,
                 int CancreateMadmate,
+                bool MadmateVision,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
                 bool SabotageMasterFixesReactors,
@@ -248,7 +242,6 @@ namespace TownOfHost
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
             main.SolicitorCount = SolicitorCount;
-            main.BribberCount = BribberCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
@@ -269,10 +262,8 @@ namespace TownOfHost
 
             main.VampireKillDelay = VampireKillDelay;
 
-            main.BribbercanKill = BribbercanKill;
-            main.BribbersBride = BribbersBride;
-
             main.CancreateMadmate = CancreateMadmate;
+            main.MadmateVision = MadmateVision;
 
             main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
             main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;

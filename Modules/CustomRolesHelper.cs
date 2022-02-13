@@ -25,7 +25,6 @@ namespace TownOfHost {
                 role == CustomRoles.BountyHunter ||
                 role == CustomRoles.Witch ||
                 role == CustomRoles.Solicitor ||
-                role == CustomRoles.Bribber ||
                 role == CustomRoles.Mafia;
             return isImpostor;
         }
@@ -62,7 +61,6 @@ namespace TownOfHost {
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
                 case CustomRoles.Solicitor:
-                case CustomRoles.Bribber:
                     type = IntroTypes.Impostor;
                     break;
 
