@@ -36,6 +36,7 @@ namespace TownOfHost
                         OptionPages.Mafia,
                         OptionPages.Madmate,
                         OptionPages.MadGuardian,
+                        OptionPages.MadScientist,
                         OptionPages.Jester,
                         OptionPages.Opportunist,
                         OptionPages.Terrorist,
@@ -43,7 +44,6 @@ namespace TownOfHost
                         OptionPages.Mayor,
                         OptionPages.SabotageMaster,
                         OptionPages.Snitch,
-                        OptionPages.MadScientist,
                         OptionPages.Sheriff,
                         OptionPages.AdvancedRoleOptions
                     },
