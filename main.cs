@@ -24,7 +24,7 @@ namespace TownOfHost
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
         public const string BetaVersion = "3";
-        public const string BetaName = "Mad Guardian Beta";
+        public const string BetaName = "Name Revolution Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -461,7 +461,7 @@ namespace TownOfHost
         public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static bool BountyCheck;
-        public static bool KillOrSpell;
+        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
@@ -662,14 +662,14 @@ namespace TownOfHost
                         }
                     }
                     if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                    if(p.isWitch() && KillOrSpell == false) tmp += $"\r\n<size=1.5>Kill</size>";
-                    if(p.isWitch() && KillOrSpell == true) tmp += $"\r\n<size=1.5>Spell</size>";
+                    if(p.isWitch() && KillOrSpell[p.PlayerId] == false) tmp += $"\r\n<size=1.5>Kill</size>";
+                    if(p.isWitch() && KillOrSpell[p.PlayerId] == true) tmp += $"\r\n<size=1.5>Spell</size>";
                     
                     if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
                 }
                 foreach(var w_target in SpelledPlayer)
                 {
-                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
+                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<color=#ff0000><size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
                 }
             }
             main.witchMeeting = false;
@@ -678,6 +678,12 @@ namespace TownOfHost
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 pc.CustomSyncSettings();
             }
+        }
+
+        public static void ChangeInt(ref int ChangeTo, int input, int max) {
+            var tmp = ChangeTo * 10;
+            tmp += input;
+            ChangeTo = Math.Clamp(tmp,0,max);
         }
 
         public override void Load()
@@ -753,6 +759,8 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
+            CustomOptionController.begin();
+
             roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Default, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
@@ -815,7 +823,7 @@ namespace TownOfHost
                 {lang.MadScientistInfoLong, "マッドサイエンティスト:\nインポスター陣営に属するが、インポスターが誰かわからない。インポスターからもマッドサイエンティストが誰かわからないが、バイタルを使うことができる。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "魔女:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -906,7 +914,7 @@ namespace TownOfHost
                 {lang.MadScientistInfoLong, "MadScientist:\nインポスター陣営に属するが、インポスターが誰かわからない。ImpostorからもMadScientistが誰かわからないが、バイタルを使うことができる。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
