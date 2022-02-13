@@ -13,23 +13,23 @@ using TownOfHost;
 using Hazel;
 
 namespace TownOfHost {
-    class PlayerState {
+    public class PlayerState {
         
         public PlayerState()
         {
             foreach(var p in PlayerControl.AllPlayerControls)
             {
-                players.Add(p);
-                isDead.Add(p,false);
-                deathReasons.Add(p,DeathReason.etc);
+                players.Add(p.PlayerId);
+                isDead.Add(p.PlayerId,false);
+                deathReasons.Add(p.PlayerId,DeathReason.etc);
             }
         }
-        public List<PlayerControl> players = new List<PlayerControl>();
-        public Dictionary<PlayerControl,bool> isDead = new Dictionary<PlayerControl, bool>();
-        public Dictionary<PlayerControl,DeathReason> deathReasons = new Dictionary<PlayerControl, DeathReason>();
-        public void setDeathReason(PlayerControl p, DeathReason reason) { deathReasons[p] = reason; }
-        public DeathReason getDeathReason(PlayerControl p) { return deathReasons[p]; }
-        public bool isSuicide(PlayerControl p) { return deathReasons[p] == DeathReason.Suicide; }
+        public List<byte> players = new List<byte>();
+        public Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
+        public Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
+        public void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
+        public DeathReason getDeathReason(byte p) { return deathReasons[p]; }
+        public bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
         
         public enum DeathReason
         {
@@ -39,7 +39,7 @@ namespace TownOfHost {
             etc = -1
         }
     }
-    class TaskState {
+    public class TaskState {
         public int AllTasksCount;
         public int CompletedTasksCount;
         public bool hasTasks;

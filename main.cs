@@ -48,6 +48,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
         public static GameOptionsData RealOptionsData;
+        public static PlayerState ps;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreVent;
@@ -553,7 +554,7 @@ namespace TownOfHost
             {
                 if (!task.Complete) isAllCompleted = false;
             }
-            if (isAllCompleted)
+            if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
