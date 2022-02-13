@@ -36,7 +36,7 @@ namespace TownOfHost
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text = __instance.text.text + "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
-            if(main.PluginVersionType == VersionTypes.Beta) __instance.text.text += "\r\n" + main.BetaName;
+            if(main.PluginVersionType == VersionTypes.Beta) __instance.text.text += $"\r\n{main.BetaName}\r\n{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
             {
                 if (PlayerControl.LocalPlayer.Data.IsDead)
@@ -60,7 +60,7 @@ namespace TownOfHost
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
             credentials.transform.position = new Vector3(4.3f,__instance.transform.localPosition.y+0.3f,0);
             credentials.text = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
-            if(main.PluginVersionType == VersionTypes.Beta) credentials.text += "\r\n" + main.BetaName;
+            if(main.PluginVersionType == VersionTypes.Beta) credentials.text += $"\r\n{main.BetaName}\r\n{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
 
             if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
                 main.ExceptionMessageIsShown = true;
