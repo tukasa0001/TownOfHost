@@ -86,7 +86,7 @@ namespace TownOfHost
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static int lastTaskComplete = 0;
-        
+
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -650,13 +650,13 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
-                
+
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                
+
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -674,7 +674,7 @@ namespace TownOfHost
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
                     if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeSpell);
                 }
-                
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName;
                 if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
@@ -709,10 +709,10 @@ namespace TownOfHost
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
-                    
+
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
-                    
+
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
@@ -724,7 +724,7 @@ namespace TownOfHost
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
-                    
+
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName;
                     if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
@@ -888,20 +888,20 @@ namespace TownOfHost
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.JesterInfoLong, "ジェスター:\n投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュはできないが、通気口に入ることができる。"},
+                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口を使うことはできない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
+                {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となる。"},
+                {lang.MafiaInfoLong, "マフィア:\n初期状態で通気口やサボタージュ、変身は可能だが、キルをすることはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
                 {lang.VampireInfoLong, "ヴァンパイア:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルすると次のキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すとその対象に魔術がかかる。魔術がかかった人は会議で特殊なマークがつき、その会議中に魔女を吊らなければ死亡してしまう。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -917,7 +917,7 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
+                {lang.MadmateCanFixLightsOut, "マッドメイト(マッドガーディアン)が停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
@@ -942,11 +942,11 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "金庫タスクを無効化する"},
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化する"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
-                {lang.AddedTheSkeld, "TheSkeldを追加"},
-                {lang.AddedMIRAHQ, "MIRAHQを追加"},
+                {lang.AddedTheSkeld, "The Skeldを追加"},
+                {lang.AddedMIRAHQ, "MIRA HQを追加"},
                 {lang.AddedPolus, "Polusを追加"},
                 {lang.AddedDleks, "Dleksを追加"},
-                {lang.AddedTheAirShip, "TheAirShipを追加"},
+                {lang.AddedTheAirShip, "The Airshipを追加"},
                 {lang.SuffixMode, "名前の二行目"},
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
@@ -993,7 +993,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルすると次のキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
@@ -1011,7 +1011,7 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
-                {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
+                {lang.MadmateCanFixLightsOut, "Madmate(MadGuardian) Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
@@ -1035,11 +1035,11 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "Disable UnlockSafe Tasks"},
                 {lang.DisableUploadDataTask, "Disable UploadData Tasks"},
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
-                {lang.AddedTheSkeld, "Added TheSkeld"},
-                {lang.AddedMIRAHQ, "Added MIRAHQ"},
+                {lang.AddedTheSkeld, "Added The Skeld"},
+                {lang.AddedMIRAHQ, "Added MIRA HQ"},
                 {lang.AddedPolus, "Added Polus"},
                 {lang.AddedDleks, "Added Dleks"},
-                {lang.AddedTheAirShip, "Added TheAirShip"},
+                {lang.AddedTheAirShip, "Added The Airship"},
                 {lang.SuffixMode, "Suffix"},
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
