@@ -12,6 +12,7 @@ using UnityEngine;
 using UnhollowerBaseLib;
 using Hazel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace TownOfHost
 {
@@ -24,10 +25,13 @@ namespace TownOfHost
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
         public const string BetaVersion = "3";
-        public const string BetaName = "Mad Guardian Beta";
+        public const string BetaName = "Name Revolution Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
+        public static bool hasArgumentException = false;
+        public static string ExceptionMessage;
+        public static bool ExceptionMessageIsShown = false;
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
@@ -514,12 +518,11 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
         public static bool isLovers = false;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
-        public static List <PlayerControl> BountyTargetPlayer = new List<PlayerControl>();
+        public static Dictionary<byte, PlayerControl> BountyTargets;
+
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
-        public static bool BountyCheck;
-        public static bool KillOrSpell;
+        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
-        public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -681,66 +684,132 @@ namespace TownOfHost
         public static void NotifyRoles() {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
-            foreach(PlayerControl p in PlayerControl.AllPlayerControls)
-            {
-                string taskText = main.getTaskText(p.Data.Tasks);
-                string tmp;
-                if(main.hasTasks(p.Data))//タスク持ちの陣営
-                {
-                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</color><color=#ffff00>({taskText})</color></size>\r\n{main.RealNames[p.PlayerId]}</color>";
-                    if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
-                    foreach(var t in PlayerControl.AllPlayerControls)
-                    {
-                        if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate(tmp, false, t);
-                        if(p.AllTasksCompleted() && p.isSnitch()){
-                            if(t.isImpostor() || t.isShapeshifter() || t.isVampire() || t.isBountyHunter() || t.isWitch())
-                            {
-                                TownOfHost.Logger.info($"インポスター色に変更：{t.name}:{p.AllTasksCompleted()}");
-                                if(!p.AmOwner) t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
-                            }
-                        }
-                        if(p.isLovers() && t.isLovers())
-                        {
-                            if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
-                            // if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
-                            p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
-                        }
-                    }
-                }else{//タスクなしの陣営
-                    tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}</color>";
-                    foreach(var t in PlayerControl.AllPlayerControls){
-                        if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || t.isWitch())
-                        {
-                            var ct = 0;
-                            foreach(var task in t.myTasks) if(task.IsComplete)ct++;
-                            TownOfHost.Logger.info($"{t.name}:{ct}/{t.myTasks.Count}");
-                            if(t.myTasks.Count-ct <= main.SnitchExposeTaskLeft && !t.Data.IsDead && t.isSnitch())
-                            {
-                                TownOfHost.Logger.info($"スニッチ色に変更：{t.name}:{t.myTasks.Count-ct}");
-                                tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                                if(!p.AmOwner) t.RpcSetNamePrivate($"<color={t.getRoleColorCode()}>{main.RealNames[t.PlayerId]}</color>" , false, p);
-                            }
-                        }
-                        if(p.isLovers() && t.isLovers())
-                        {
-                            if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
-                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa>{main.RealNames[t.PlayerId]}</color>" + "<color=#ffaaaa>♡</color>";
-                            p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
-                            //TODO:ホストにハートが付かない
-                            //TODO:インポスター時に自分に❤が付かない
-                            //TODO:シェイプシフターの変身後に❤消える
-                        }
-                    }
-                    if(p.isBountyHunter()) tmp += $"\r\n<size=1.5>{main.RealNames[main.b_target.PlayerId]}</size>";
-                    if(p.isWitch() && KillOrSpell == false) tmp += $"\r\n<size=1.5>Kill</size>";
-                    if(p.isWitch() && KillOrSpell == true) tmp += $"\r\n<size=1.5>Spell</size>";
-                    if(!p.AmOwner) p.RpcSetNamePrivate(tmp,false);
+
+            var caller = new System.Diagnostics.StackFrame(1, false);
+            var callerMethod = caller.GetMethod();
+            string callerMethodName = callerMethod.Name;
+            string callerClassName = callerMethod.DeclaringType.FullName;
+            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            HudManagerPatch.NowCallNotifyRolesCount++;
+            HudManagerPatch.LastSetNameDesyncCount = 0;
+
+            //Snitch警告表示のON/OFF
+            bool ShowSnitchWarning = false;
+            if(SnitchCount > 0) foreach(var snitch in PlayerControl.AllPlayerControls) {
+                if(snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected) {
+                    var taskState = snitch.getPlayerTaskState();
+                    if(taskState.doExpose)
+                        ShowSnitchWarning = true;
                 }
-                foreach(var w_target in SpelledPlayer)
-                {
-                    if(main.witchMeeting) w_target.RpcSetNamePrivate($"<size=1.5>S</size></color>\r\n{main.RealNames[w_target.PlayerId]}" , false, p);
+            }
+
+            //seer:ここで行われた変更を見ることができるプレイヤー
+            //target:seerが見ることができる変更の対象となるプレイヤー
+            foreach(var seer in PlayerControl.AllPlayerControls) {
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START");
+                //Loop1-bottleのSTART-END間でKeyNotFoundException
+                //seerが落ちているときに何もしない
+                if(seer.Data.Disconnected) continue;
+
+                //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
+                //seerがタスクを持っていない：空
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                
+                //Loversのハートマークなどを入れてください。
+                string SelfMark = "";
+                //インポスターに対するSnitch警告
+                if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
+                    SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                
+                //Markとは違い、改行してから追記されます。
+                string SelfSuffix = "";
+
+                if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
+                    string targetName;
+                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
+                        if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
+                        else targetName = seer.name;
+                        RealNames[seer.getBountyTarget().PlayerId] = targetName;
+                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
+                    }
+                    SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
+                if(seer.isWitch()) {
+                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Kill";
+                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Spell";
+                }
+                
+                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                string SeerRealName;
+                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
+                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
+                    else SeerRealName = seer.name;
+                    RealNames[seer.PlayerId] = SeerRealName;
+                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
+                }
+
+                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
+                SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+
+                //適用
+                seer.RpcSetNamePrivate(SelfName, true);
+                HudManagerPatch.LastSetNameDesyncCount++;
+
+                //他人用の変数定義
+                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                if(seer.isSnitch()) {
+                    var TaskState = seer.getPlayerTaskState();
+                    if(TaskState.isTaskFinished)
+                        SeerKnowsImpostors = true;
+                }
+
+                //seerが死んでいる場合など、必要なときのみ第二ループを実行する
+                if(seer.Data.IsDead //seerが死んでいる
+                || SeerKnowsImpostors //seerがインポスターを知っている状態
+                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
+                //|| seer.isLovers()
+                ) foreach(var target in PlayerControl.AllPlayerControls) {
+                    //targetがseer自身の場合は何もしない
+                    if(target == seer) continue;
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
+                    
+                    //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
+                    string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                    
+                    //Loversのハートマークなどを入れてください。
+                    string TargetMark = "";
+                    //タスク完了直前のSnitchにマークを表示
+                    if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
+                        var taskState = target.getPlayerTaskState();
+                        if(taskState.doExpose)
+                            TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                    }
+
+                    //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
+                    string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                    
+                    //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                    string TargetPlayerName;
+                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
+                        TargetPlayerName = target.name;
+                        RealNames[target.PlayerId] = TargetPlayerName;
+                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
+                    }
+
+                    //ターゲットのプレイヤー名の色を書き換えます。
+                    if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+
+                    //全てのテキストを合成します。
+                    string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
+                    //適用
+                    target.RpcSetNamePrivate(TargetName, true, seer);
+                    HudManagerPatch.LastSetNameDesyncCount++;
+
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
+                }
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
             }
             main.witchMeeting = false;
         }
@@ -789,6 +858,8 @@ namespace TownOfHost
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            BountyTargets = new Dictionary<byte, PlayerControl>();
+            SpelledPlayer = new List<PlayerControl>();
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -824,6 +895,11 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
+
+            hasArgumentException = false;
+            ExceptionMessage = "";
+            try {
+            
 
             roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Default, "#ffffff"},
@@ -885,7 +961,7 @@ namespace TownOfHost
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "魔女:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 {lang.LoversInfoLong, "ラバーズ(Lovers):\nTODO"},
@@ -975,7 +1051,7 @@ namespace TownOfHost
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "Witch:\n変身しようとするとキルと魔術が入れ替わり、魔術モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1088,6 +1164,14 @@ namespace TownOfHost
                 {CustomSubRoles.Default, "Vanilla"},
                 {CustomSubRoles.Lovers, "ラバーズ"},
             };
+            
+            } catch(ArgumentException ex) {
+                TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
+                TownOfHost.Logger.error(ex.Message);
+                hasArgumentException = true;
+                ExceptionMessage = ex.Message;
+                ExceptionMessageIsShown = false;
+            }
 
             Harmony.PatchAll();
         }
