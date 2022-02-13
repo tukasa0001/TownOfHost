@@ -26,7 +26,7 @@ namespace TownOfHost
             currentPage = basePage;
 
             //ページ追加など
-            var RoleOptions = new PageObject(basePage, "Role Options");
+            var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
@@ -66,7 +66,7 @@ namespace TownOfHost
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
 
             //Mode Options
-            var ModeOptions = new PageObject(basePage, "Mode Options");
+            var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
