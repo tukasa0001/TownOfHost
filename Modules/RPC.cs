@@ -20,6 +20,7 @@ namespace TownOfHost
         SyncCustomSettings = 80,
         JesterExiled,
         TerroristWin,
+        EgoistWin,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -155,7 +156,7 @@ namespace TownOfHost
                     break;
                 case (byte)CustomRPC.EgoistWin:
                     byte wonEgoist = reader.ReadByte();
-                    RPCProcedure.TerroristWin(wonEgoist);
+                    RPCProcedure.EgoistWin(wonEgoist);
                     break;
                 case (byte)CustomRPC.EndGame:
                     RPCProcedure.EndGame();

@@ -37,7 +37,6 @@ namespace TownOfHost
                     if (p.isTerrorist()) canWin = false; //Terrorist
                     if (p.isOpportunist()) canWin = false; //Opportunist
                     if (p.isSheriff()) canWin = true; //Sheriff
-                    if (p.isEgoist()) canWin = true; //Egoist
                     if(canWin) winner.Add(p);
                 }
             }
@@ -55,6 +54,7 @@ namespace TownOfHost
                     if (p.isSheriff()) canWin = false; //Sheriff
                     if (p.isBountyHunter()) canWin = true; //BountyHunter
                     if (p.isWitch()) canWin = true; //Witch
+                    if (p.isEgoist()) canWin = false; //Egoist
                     if(canWin) winner.Add(p);
                 }
             }

@@ -477,6 +477,7 @@ namespace TownOfHost
         public static PlayerControl b_target;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonEgoistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static int VampireKillDelay = 10;
@@ -662,7 +663,7 @@ namespace TownOfHost
                     tmp = $"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}</color>";
                     foreach(var t in PlayerControl.AllPlayerControls){
                         if(t.Data.IsDead && !t.AmOwner) p.RpcSetNamePrivate($"<color={p.getRoleColorCode()}><size=1.5>{p.getRoleName()}</size></color>\r\n{main.RealNames[p.PlayerId]}" , false, t);
-                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWitch() || t.isEgoist())
+                        if(p.isImpostor() || p.isShapeshifter() || p.isVampire() || p.isBountyHunter() || p.isWitch())
                         {
                             var ct = 0;
                             foreach(var task in t.myTasks) if(task.IsComplete)ct++;
@@ -790,7 +791,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
-                {CustomRoles.Egoist, "#ff0000"},
+                {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -814,7 +815,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
-                {lang.EgoistInfo, "インポスターを裏切り全員殺そう"},
+                {lang.EgoistInfo, "インポスター勝利を独占しよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -908,7 +909,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
-                {lang.EgoistInfo, "{Let's betray the Imposters and kill them all"},
+                {lang.EgoistInfo, "Let's dominate the Imposter victory"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -1115,7 +1116,7 @@ namespace TownOfHost
         SheriffCanKillJester,
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
-        SheriffCankillEgoist,
+        SheriffCanKillEgoist,
         MayorAdditionalVote,
         HideAndSeekOptions,
         AllowCloseDoors,
