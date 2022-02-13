@@ -165,6 +165,9 @@ namespace TownOfHost
                 case CustomRoles.MadGuardian:
                     count = MadGuardianCount;
                     break;
+                case CustomRoles.MadSnitch:
+                    count = MadSnitchCount;
+                    break;
                 case CustomRoles.Mayor:
                     count = MayorCount;
                     break;
@@ -213,6 +216,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.MadGuardian:
                     MadGuardianCount = count;
+                    break;
+                case CustomRoles.MadSnitch:
+                    MadSnitchCount = count;
                     break;
                 case CustomRoles.Mayor:
                     MayorCount = count;
@@ -335,6 +341,7 @@ namespace TownOfHost
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.MadSnitchCount > 0) main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
@@ -365,6 +372,7 @@ namespace TownOfHost
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadSnitch),main.MadSnitchCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
@@ -446,6 +454,7 @@ namespace TownOfHost
         public static int VampireCount;
         public static int SabotageMasterCount;
         public static int MadGuardianCount;
+        public static int MadSnitchCount;
         public static int MayorCount;
         public static int OpportunistCount;
         public static int SheriffCount;
@@ -498,6 +507,7 @@ namespace TownOfHost
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
             writer.Write(SnitchCount);
+            writer.Write(MadSnitchCount);
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
@@ -699,6 +709,11 @@ namespace TownOfHost
                     if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+                if(seer.isMadSnitch()) {
+                    var TaskState = seer.getPlayerTaskState();
+                    if(TaskState.isTaskFinished)
+                        SeerKnowsImpostors = true;
+                }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
@@ -853,6 +868,7 @@ namespace TownOfHost
                 {CustomRoles.Mafia, "#ff0000"},
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
+                {CustomRoles.MadSnitch, "#ff0000"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
@@ -872,6 +888,7 @@ namespace TownOfHost
                 {lang.JesterInfo, "追放されよう"},
                 {lang.MadmateInfo, "インポスターの援助をしよう"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
+                {lang.MadSnitchInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
                 {lang.MafiaInfo, "インポスターの援助をしよう"},
@@ -891,6 +908,7 @@ namespace TownOfHost
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからないが、タスクを完了させるとインポスターの名前が赤色に変化する。キルやサボタージュ、通気口は使えない。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -965,6 +983,7 @@ namespace TownOfHost
                 {lang.JesterInfo, "Get voted out"},
                 {lang.MadmateInfo, "Help the Impostors"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
+                {lang.MadSnitchInfo, "Finish your tasks to help the Impostors"},
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.MafiaInfo, "Help the Impostors to kill everyone"},
@@ -984,6 +1003,7 @@ namespace TownOfHost
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadSnitchInfoLong, "MadSnitch:\nイインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからないが、タスクを完了させるとインポスターの名前が赤色に変化する。キルやサボタージュ、通気口は使えない。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
@@ -1063,6 +1083,7 @@ namespace TownOfHost
                 {CustomRoles.Jester, "Jester"},
                 {CustomRoles.Madmate, "Madmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
+                {CustomRoles.MadSnitch, "MadSnitch"},
                 {CustomRoles.Bait, "Bait"},
                 {CustomRoles.Terrorist, "Terrorist"},
                 {CustomRoles.Mafia, "Mafia"},
@@ -1087,6 +1108,7 @@ namespace TownOfHost
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "マッドメイト"},
                 {CustomRoles.MadGuardian, "マッドガーディアン"},
+                {CustomRoles.MadSnitch, "マッドスニッチ"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
                 {CustomRoles.Mafia, "マフィア"},
@@ -1136,6 +1158,7 @@ namespace TownOfHost
         VampireInfo,
         SabotageMasterInfo,
         MadGuardianInfo,
+        MadSnitchInfo,
         MayorInfo,
         OpportunistInfo,
         SnitchInfo,
@@ -1153,6 +1176,7 @@ namespace TownOfHost
         VampireInfoLong,
         SabotageMasterInfoLong,
         MadGuardianInfoLong,
+        MadSnitchInfoLong,
         MayorInfoLong,
         OpportunistInfoLong,
         SnitchInfoLong,
@@ -1232,6 +1256,7 @@ namespace TownOfHost
         Vampire,
         SabotageMaster,
         MadGuardian,
+        MadSnitch,
         Mayor,
         Opportunist,
         Snitch,
