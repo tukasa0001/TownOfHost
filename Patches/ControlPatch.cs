@@ -164,7 +164,7 @@ namespace TownOfHost
             {
                 //Logger.SendInGame("tabキーが押されました");
                 main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = OptionPages.basepage;
+                CustomOptionController.currentPage = CustomOptionController.basePage;
                 CustomOptionController.currentCursor = 0;
             }
             if (main.OptionControllerIsEnable)

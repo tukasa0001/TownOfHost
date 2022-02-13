@@ -755,6 +755,12 @@ namespace TownOfHost
             }
         }
 
+        public static void ChangeInt(ref int ChangeTo, int input, int max) {
+            var tmp = ChangeTo * 10;
+            tmp += input;
+            ChangeTo = Math.Clamp(tmp,0,max);
+        }
+
         public override void Load()
         {
             TextCursorTimer = 0f;
@@ -830,10 +836,11 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
+            CustomOptionController.begin();
+
             hasArgumentException = false;
             ExceptionMessage = "";
             try {
-            
 
             roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Default, "#ffffff"},
