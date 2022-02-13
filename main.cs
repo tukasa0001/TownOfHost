@@ -702,7 +702,7 @@ namespace TownOfHost
                         if(p.isLovers() && t.isLovers())
                         {
                             if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
-                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
+                            // if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
                             p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
                         }
                     }
@@ -725,11 +725,10 @@ namespace TownOfHost
                         if(p.isLovers() && t.isLovers())
                         {
                             if(p.AmOwner) main.nameSuffix = $"<color=#ffaaaa>♡</color>";
-                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa{main.RealNames[t.PlayerId]}</color>";
+                            if(p.AmOwner) t.nameText.text = $"<color=#ffaaaa>{main.RealNames[t.PlayerId]}</color>" + "<color=#ffaaaa>♡</color>";
                             p.RpcSetNamePrivate($"{main.RealNames[t.PlayerId]}<color=#ffaaaa>♡</color>" , true, t);
-                            //TODO:ロビーに戻った時にホストの❤がリセットされてない
-                            //TODO:ラバーズが一人になってることがある。(役職2が正しく割り当てられているか要確認)
-                            //TODO:ホストに必ずついている。
+                            //TODO:ホストにハートが付かない
+                            //TODO:インポスター時に自分に❤が付かない
                             //TODO:シェイプシフターの変身後に❤消える
                         }
                     }

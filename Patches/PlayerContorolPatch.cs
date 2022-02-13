@@ -296,8 +296,13 @@ namespace TownOfHost
                                 }
                             }
                         }
-                        //TODO:LoversCountCheck
+                        
                         if(__instance.isBountyHunter()) nameSuffix += $"\r\n<size=1.5>{main.b_target.name}</size>";
+                    }
+                    if(__instance.isLovers()) 
+                    {
+                        main.nameSuffix = $"<color=#ffaaaa>♡</color>";
+                        // if(!t.AmOwner) t.nameText.text = $"<color={t.getRoleColorCode()}>{t.name}</color>" + $"<color=#ffaaaa>♡</color>";
                     }
                     if(__instance.AmOwner) __instance.nameText.text = $"{__instance.name}{nameSuffix}"; //自分なら名前に接尾詞を追加
                 }
