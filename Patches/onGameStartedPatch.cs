@@ -61,7 +61,7 @@ namespace TownOfHost
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                 ScientistNum += main.MadScientistCount;
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, 100);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.WitchCount - ShapeshifterNum;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.EgoistCount - ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();

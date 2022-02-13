@@ -173,7 +173,7 @@ namespace TownOfHost
                     {OptionPages.Egoist, new PageObject(
                         () => $"<color={main.getRoleColorCode(CustomRoles.Egoist)}>{main.getRoleName(CustomRoles.Egoist)}</color>: {main.EgoistCount}",
                         true,
-                        () => {main.SetRoleCountToggle(CustomRoles.Witch);},
+                        () => {main.SetRoleCountToggle(CustomRoles.Egoist);},
                         new List<OptionPages>(){},
                         OptionPages.roles,
                         i => main.SetRoleCount(CustomRoles.Egoist, i)
