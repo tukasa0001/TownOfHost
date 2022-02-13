@@ -112,12 +112,12 @@ namespace TownOfHost
             var NoGameEnd = new PageObject(ModeOptions, () => main.getLang(lang.NoGameEnd) + ": " + main.getOnOff(main.NoGameEnd), true, () => main.NoGameEnd = !main.NoGameEnd);
 
             var voteMode = new PageObject(ModeOptions, lang.VoteMode);
-            var WhenSkipVote = new PageObject(voteMode, () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(), true, () => {
+            var WhenSkipVote = new PageObject(voteMode, () => main.getLang(lang.WhenSkipVote) + ": " + main.getLang(lang.Default + (int)main.whenSkipVote), true, () => {
                 var next = main.whenSkipVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenSkipVote = next;
             });
-            var WhenNonVote = new PageObject(voteMode, () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(), true, () => {
+            var WhenNonVote = new PageObject(voteMode, () => main.getLang(lang.WhenNonVote) + ": " + main.getLang(lang.Default + (int)main.whenSkipVote), true, () => {
                 var next = main.whenNonVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenNonVote = next;
