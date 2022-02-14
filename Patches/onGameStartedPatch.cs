@@ -22,7 +22,7 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
-
+            
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
 
@@ -264,20 +264,22 @@ namespace TownOfHost
             return AssignedPlayers;
         }
 
-        private static void AssignCustomSubRolesFromList(CustomSubRoles subRoles , int RawCount = -1) {
+        private static void AssignCustomSubRolesFromList(CustomSubRoles subRoles) {
             if(main.isLovers) {
-                main.LoversPlayers.Clear();//TODO:使わなくなるかもしれないが一旦置き
-                
+                //Loversを初期化
+                main.LoversPlayers.Clear();
                 var rand = new System.Random();
-                var count = 2;
-
-                for(var i = 0; i < count; i++) {
-                    var player = PlayerControl.AllPlayerControls[rand.Next(0, PlayerControl.AllPlayerControls.Count - 1)];
-                
-                    main.AllPlayerCustomSubRoles[player.PlayerId] = subRoles;
-                    main.LoversPlayers.Add(player);
-                    Logger.info("サブ役職設定:" + player.name + " = " + subRoles.ToString());
-                }
+                //ランダムに2人選出
+                AssignLoversRoles();
+            }
+        }
+        private static void AssignLoversRoles() {
+            int[] randList = Calculation.GetRandomlySelectedMultiple(0,PlayerControl.AllPlayerControls.Count,2);
+            foreach(int i in randList) {
+                var player = PlayerControl.AllPlayerControls[i];
+                main.AllPlayerCustomSubRoles[player.PlayerId] = CustomSubRoles.Lovers;
+                main.LoversPlayers.Add(player);
+                Logger.info("サブ役職設定:" + player.name + " = " + CustomSubRoles.Lovers.ToString());
             }
         }
     }
