@@ -799,7 +799,6 @@ namespace TownOfHost
                 pc.CustomSyncSettings();
             }
         }
-
         public override void Load()
         {
             TextCursorTimer = 0f;
