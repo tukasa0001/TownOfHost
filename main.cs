@@ -777,6 +777,7 @@ namespace TownOfHost
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
+            TownOfHost.Logger.enable();
 
             currentWinner = CustomWinner.Default;
 
