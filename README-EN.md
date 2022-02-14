@@ -41,89 +41,102 @@ However, The numeric keypad is not supported.<br>
 
 ## Roles
 
-### Roles correspondence chart
-| Name of additional role | Decision |
-| ---- | ---- |
-| Jester | Crewmate |
-| Madmate | Engineer |
-| MadGuardian | Crewmate |
-| Bait | Crewmate |
-| Terrorist | Engineer |
-| Mafia | ShapeShifter |
-| Vampire | Impostor |
-| SabotageMaster | Crewmate |
-| Mayor | Crewmate |
-| Opportunist | Crewmate |
-| Snitch | Crewmate |
-| Sheriff | Impostor(Only host is the Crewmate) |
-| BountyHunter | Impostor |
+| Impostors | Crewmates | Neutral |
+|----------|-------------|-----------------|
+| [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
+| [Mafia](###Mafia) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
+| [Vampire](###Vampire) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
+| [Witch](###Witch) | [Sheriff](###Sheriff) |  |
+| [Madmate](###Madmate) | [Snitch](###Snitch) |  |
+| [MadGuardian](###MadGuardian) |  |  |
 
-### Jester
+### BountyHunter
 
-Team : Neutral<br>
-Decision : Crewmate<br>
-Victory Conditions : Voted Out<br>
+Team : Impostors<br>
+Decision : Impostor<br>
 
-They are the neutral role that becomes the sole winner when they are banished by vote.<br>
-If the game ends without being banished, or if they are killed, they are defeated.<br>
+If the BountyHunters kill the indicated target, their next kill cooldown will be halved.
+If they kill the player who is not their target, they will keep their next kill cooldown.
+
+### Mafia
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+The Mafias can initially use vents, sabotage, and transformations, but they can not kill.
+Once all Impostors who are not them are dead, they will be able to kill.
+If they can not kill, they will still have a kill button, but they can not kill.
+They can transform after becoming to able to kill.
+
+### Vampire
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.
+There is no teleportation when a kill is made.
+Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.
+However, only if they kill the Bait will it be a normal kill and they will be forced to report it.
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Vampire Kill Delay(s) |
+
+### Witch
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+Pressing the kill button toggles between kill mode and spell mode, and pressing the kill button while in spell mode allows them to cast a spell on the target.
+The target will be given a special mark at the meeting and will die if the Witches cannot be banished during the meeting.
 
 ### Madmate
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Engineer<br>
 
-Belongs to the Impostor team, but Madmate does not know who the Impostor is.<br>
-Impostors also doesn't know who Madmate is.<br>
-They can not kill or sabotage, but they can enter the vent.<br>
+The Madmates belong to the Imposters team, but they do not know who the Imposters are.
+The Impostors do not know who the they are too.
+They can not kill or sabotage, but they can use vents.
 
-(There are special settings for them.)<br>
+#### Settings
+
+| Settings Name |
+|----------|
+| Madmate(MadGuardian) Can Fix Lights Out |
 
 ### MadGuardian
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Crewmate<br>
 
-Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.<br>
-Impostors also doesn't know who MadGuardian is.<br>
-However, if they complete all of their own tasks, they will no longer be killed.<br>
-They can not kill, sabotage, and to enter the vent.<br>
+The MadGuardians belong to the Imposters team, but they do not know who the Imposters are.
+The Impostors do not know who the they are too.
+However, if they complete all of their own tasks, they will not be killed.<br>
+They can not kill, sabotage, and using vents.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Madmate(MadGuardian) Can Fix Lights Out |
+| MadGuardian Can See Own Cracked Barrier |
 
 ### Bait
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When they are killed, they can force the person who killed them to report their corpse.<br>
+When the Baits are killed, they can force the player who killed them to report their bodies.
 
-### Terrorist
+### Mayor
 
-Team : Neutral<br>
-Decision : Engineer<br>
-Victory Conditions : Finish All Tasks, Then Die<br>
+Team : Crewmates<br>
+Decision : Crewmate<br>
 
-They are the neutral role where they win the game alone if they die with all their tasks completed.<br>
-Any cause of death is acceptable.<br>
-If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
-
-### Mafia
-
-Team : Impostor<br>
-Decision : Shapeshifter<br>
-
-Can vent, sabotage, and transform initially, but can not kill.<br>
-If all of the Impostors who are not Mafias die, the Mafia will be able to kill.<br>
-If the Mafia is not killable, they will still have a kill button, but they can not be killable.<br>
-They can continue to transform even after the kill is enabled.<br>
-
-### Vampire
-
-Team : Impostor<br>
-Decision : Impostor<br>
-
-They are the role where the kill actually occurs 10 seconds after they press the kill button.<br>
-Teleportation does not occur when a kill is made.<br>
-Also, if a meeting starts before 10 seconds have passed since they pressed the kill button, the kill will occur at that moment.<br>
-However, only if they kill Bait will it be a normal kill and they will be forced to report it.<br>
+The Mayors have multiple votes, which can be grouped together and put into a single player or skip.
 
 (There are special settings for them.)<br>
 
@@ -132,20 +145,55 @@ However, only if they kill Bait will it be a normal kill and they will be forced
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-Reactors meltdown, oxygen disturbance and MIRA HQ's communication disturbance can both be fixed by repairing one of them.<br>
-Power failures can all be fixed by touching a single lever.<br>
-Opening a door in Polus or The Airship will open all the doors in that room.<br>
+The SabotageMasters can fix sabotage faster.
+Communications in MIRA HQ, reactor and O2 can both be fixed by fixing one of them.
+Lights can be fixed by touching a single lever.
+Opening a door in Polus or The Airship will open all the doors in that room.
 
-(There are special settings for them.)<br>
+#### Settings
 
-### Mayor
+| Settings Name |
+|----------|
+| SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors) |
+| SabotageMaster Can Fixes Multiple Doors |
+| SabotageMaster Can Fixes Both Reactors |
+| SabotageMaster Can Fixes Both O2 |
+| SabotageMaster Can Fixes Both Communications In MIRA HQ |
+| SabotageMaster Can Fixes Lights Out All At Once |
+
+### Sheriff
+
+Team : Crewmates<br>
+Decision : Crewmate(Only host is the Crewmate)<br>
+
+The Sheriffs can kill Impostors.
+However, if they kill the Crewmates, they will die.
+They do not have tasks.
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Sheriff Can Kill Jester |
+| Sheriff Can Kill Terrorist |
+| Sheriff Can Kill Opportunist |
+
+### Snitch
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-They have more than one vote and can put them together into one person or skip.<br>
+When the Snitches complete their tasks, the name of the Impostors will change to red.
+However, when the number of their tasks are low, it will be notified to the Impostors.
 
-(There are special settings for them.)<br>
+### Jester
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Get Voted Out<br>
+
+The Jesters are  the neutral role which can win by getting voted out.
+If the game ends without getting voted out., or if they are killed, they lose.
 
 ### Opportunist
 
@@ -153,36 +201,18 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : Aliving when one of the teams wins<br>
 
-This is the neutral position, with an additional win if thay are still alive at the end of the game.<br>
-They don't have tasks.<br>
+The Opportunists are the Neutral role, with an additional win if thay are still alive at the end of the game.<br>
+They do not have tasks.<br>
 
-### Snitch
+### Terrorist
 
-Team : Crewmates<br>
-Decision : Crewmate<br>
+Team : Neutral<br>
+Decision : Engineer<br>
+Victory Conditions : Finish All Tasks, Then Die<br>
 
-When they completes a task, the name of the evildoer will change to red.<br>
-However, when their tasks becomes low, their name will appear to change from the evildoer.<br>
-
-### Sheriff
-
-Team : Crewmates<br>
-Decision : Crewmate(Only host is the Crewmate)<br>
-
-They can kill the evildoers.<br>
-However, if they kill the Crewmate, they will die.<br>
-They don't have tasks.<br>
-
-(There are special settings for them.)
-
-### BountyHunter
-
-Team : Impostor<br>
-Decision : Impostor<br>
-
-When they first tries to make a kill, a target will be chosen.<br>
-Killing the indicated target will halve the next killcool.<br>
-If they kill someone who is not their target, they will still keep their kill rule.<br>
+They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
+Any cause of death is acceptable.<br>
+If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
 ## Mode
 
@@ -214,7 +244,51 @@ Being killed by Impostors.<br>
 ・Emergency conference button<br>
 ・Sabotage<br>
 
-(There are special settings for them.)<br>
+#### Settings
+
+| Settings Name |
+|----------|
+| Allow Closing Doors |
+| Impostors Waiting Time(s) |
+| Ignore Cosmetics |
+| Ignore Using Vents |
+
+### SyncButtonMode
+
+This is the mode in which all players' button counts are synchronised.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Max Button Count |
+
+### DisableTasks
+
+It is possible to disable certain tasks.
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Disable SwipeCard Tasks |
+| Disable SubmitScan Tasks |
+| Disable UnlockSafe Tasks |
+| Disable UploadData Tasks |
+| Disable StartReactor Tasks |
+
+### RandomMapsMode/ランダムマップモード
+
+ランダムにマップが変わるモードです。<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Added The Skeld |
+| Added MIRA HQ |
+| Added Polus |
+| Added The Airship |
 
 ### NoGameEnd
 
@@ -232,11 +306,12 @@ Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
 This is a debug mode where there is no win decision.<br>
 
-### SyncButtonMode
+### OtherSettings
 
-This is the mode in which all players' button counts are synchronised.<br>
-
-(There are special settings for them.)<br>
+| Settings Name |
+|----------|
+| When Skip Vote |
+| When Non-Vote |
 
 ## Credits
 
