@@ -36,14 +36,16 @@ namespace TownOfHost
                     }
                 }
             }
-            if(!AmongUsClient.Instance.AmHost) return false;
-            if(main.lastTaskComplete != __instance.CompletedTasks)
-            {
-                main.lastTaskComplete = __instance.CompletedTasks;
-                main.NotifyRoles();
-            }
 
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
+    class CompleteTaskPatch {
+        public static void Postfix(GameData __instance) {
+            if(!AmongUsClient.Instance.AmHost) return;
+
+            main.NotifyRoles();
         }
     }
 }

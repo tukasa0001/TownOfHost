@@ -85,7 +85,6 @@ namespace TownOfHost
         public static VoteMode whenNonVote = VoteMode.Default;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        public static int lastTaskComplete = 0;
         
 
         public static int SetRoleCountToggle(int currentCount)
