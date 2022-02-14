@@ -359,6 +359,10 @@ namespace TownOfHost
                 main.SendToAll(text);
                 text = "設定:";
                 text += main.getLang(lang.HideAndSeek);
+                text += String.Format("\n{0}:{1}", main.getLang(lang.AllowCloseDoors), getOnOff(main.AllowCloseDoors));
+                text += String.Format("\n{0}:{1}", main.getLang(lang.HideAndSeekWaitingTime), main.HideAndSeekKillDelay);
+                text += String.Format("\n{0}:{1}", main.getLang(lang.IgnoreCosmetics), getOnOff(main.IgnoreCosmetics));
+                text += String.Format("\n{0}:{1}", main.getLang(lang.IgnoreVent), getOnOff(main.IgnoreVent));
             }else{
                 if (main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.BountyHunter), main.BountyHunterCount);
                 if (main.MafiaCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Mafia), main.MafiaCount);
@@ -400,17 +404,17 @@ namespace TownOfHost
                 {
                     if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
-                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
 
-                if (main.DisableStartReactor) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableStartReactorTask), getOnOff(main.DisableStartReactor));
-                if (main.DisableSubmitScan) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSubmitScanTask), getOnOff(main.DisableSubmitScan));
-                if (main.DisableSwipeCard) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSwipeCardTask), getOnOff(main.DisableSwipeCard));
-                if (main.DisableUnlockSafe) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUnlockSafeTask), getOnOff(main.DisableUnlockSafe));
-                if (main.DisableUploadData) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUploadDataTask), getOnOff(main.DisableUploadData));
+                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
                 if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
             }
+            if (main.DisableStartReactor) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableStartReactorTask), getOnOff(main.DisableStartReactor));
+            if (main.DisableSubmitScan) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSubmitScanTask), getOnOff(main.DisableSubmitScan));
+            if (main.DisableSwipeCard) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSwipeCardTask), getOnOff(main.DisableSwipeCard));
+            if (main.DisableUnlockSafe) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUnlockSafeTask), getOnOff(main.DisableUnlockSafe));
+            if (main.DisableUploadData) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUploadDataTask), getOnOff(main.DisableUploadData));
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
         }
@@ -895,7 +899,7 @@ namespace TownOfHost
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
-                {lang.JesterInfoLong, "ジェスター:\n投票で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
+                {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュはできないが、通気口に入ることができる。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口を使うことはできない。(設定有)"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
@@ -989,19 +993,19 @@ namespace TownOfHost
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
-                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、通気口に入ることができる。"},
+                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口を使うことはできない。(設定有)"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
-                {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
+                {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となる。"},
+                {lang.MafiaInfoLong, "Mafia:\n初期状態で通気口やサボタージュ、変身は可能だが、キルをすることはできない。Mafiaではないインポスターが全員死亡すると、Mafiaもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有)"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
-                {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
+                {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmateをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルすると次のキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
-                {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すとその対象に魔術がかかる。魔術がかかった人は会議で特殊なマークがつき、その会議中にWitchを吊らなければ死亡してしまう。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
