@@ -14,7 +14,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
 Unlike mods that use custom servers, there is no need to add servers by editing URLs or files.<br>
 
-However, please note that the following restrictions will apply as we are using a mechanism to replace the official additional roles.<br>
+However, please note that the following restrictions apply.<br>
 
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
@@ -28,6 +28,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 
 ## Custom Settings Menu
 Pressing the Tab key in the standby lobby will change the room setting screen to a setting screen dedicated to Town Of Host.<br>
+
 | Key | Action |
 | :---: | ---- |
 | Tab | Open/Close Custom Settings Menu |
@@ -76,7 +77,7 @@ Decision : Impostor<br>
 The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.<br>
 There is no teleportation when a kill is made.<br>
 Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.<br>
-However, only if they kill the Bait will it be a normal kill and they will be forced to report it.<br>
+However, only if they kill the [Baits](###Bait) will it be a normal kill and they will be forced to report it.<br>
 
 #### Settings
 
@@ -105,7 +106,7 @@ They can not kill or sabotage, but they can use vents.<br>
 
 | Settings Name |
 |----------|
-| Madmate(MadGuardian) Can Fix Lights Out |
+| Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
 
 ### MadGuardian
 
@@ -121,7 +122,7 @@ They can not kill, sabotage, and using vents.<br>
 
 | Settings Name |
 |----------|
-| Madmate(MadGuardian) Can Fix Lights Out |
+| [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
 | MadGuardian Can See Own Cracked Barrier |
 
 ### Bait
@@ -178,9 +179,9 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
-| Sheriff Can Kill Jester |
-| Sheriff Can Kill Terrorist |
-| Sheriff Can Kill Opportunist |
+| Sheriff Can Kill [Jester](###Jester) |
+| Sheriff Can Kill [Terrorist](###Terrorist) |
+| Sheriff Can Kill [Opportunist](###Opportunist) |
 
 ### Snitch
 
@@ -220,30 +221,44 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 ## Mode
 
+### DisableTasks
+
+It is possible to disable certain tasks.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Disable StartReactor Tasks |
+| Disable SubmitScan Tasks |
+| Disable SwipeCard Tasks |
+| Disable UnlockSafe Tasks |
+| Disable UploadData Tasks |
+
 ### HideAndSeek
 
-#Crewmates Team (Blue) Victory Conditions<br>
+#### Crewmates Team (Blue) Victory Conditions
 Completing all tasks.<br>
 ※Ghosts's tasks are not counted.<br>
 
-#Impostor Team (Red) Victory Conditions<br>
+#### Impostor Team (Red) Victory Conditions
 Killing all Crewmates.<br>
 ※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates have been wiped out.<br>
 
-#Fox (Purple) Victory Conditions<br>
+#### Fox (Purple) Victory Conditions
 Aliving when one of the teams (Except Troll) wins.<br>
 
-#Troll (Green) Victory Conditions<br>
+#### Troll (Green) Victory Conditions
 Being killed by Impostors.<br>
 
-#Prohibited items<br>
+#### Prohibited items
 ・Sabotage<br>
 ・Admin<br>
 ・Camera<br>
 ・The act of a ghosts giving its location to a survivor<br>
 ・Ambush (This may make it impossible for the Crewmates to win with the tasks.)<br>
 
-#What you can't do<br>
+#### What you can't do
 ・Reporting a dead bodies<br>
 ・Emergency conference button<br>
 ・Sabotage<br>
@@ -257,31 +272,23 @@ Being killed by Impostors.<br>
 | Ignore Cosmetics |
 | Ignore Using Vents |
 
-### SyncButtonMode
+### NoGameEnd
 
-This is the mode in which all players' button counts are synchronised.<br>
+#### Crewmates Team Victory Conditions
+None<br>
 
-#### Settings
+#### Impostor Team Victory Conditions
+None<br>
 
-| Settings Name |
-|----------|
-| Max Button Count |
+#### Prohibited items
+None<br>
 
-### DisableTasks
+#### What you can't do
+Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
-It is possible to disable certain tasks.<br>
+This is a debug mode where there is no win decision.<br>
 
-#### Settings
-
-| Settings Name |
-|----------|
-| Disable SwipeCard Tasks |
-| Disable SubmitScan Tasks |
-| Disable UnlockSafe Tasks |
-| Disable UploadData Tasks |
-| Disable StartReactor Tasks |
-
-### RandomMapsMode/ランダムマップモード
+### RandomMapsMode
 
 The RandomMapsMode changes the maps at random.<br>
 
@@ -294,23 +301,17 @@ The RandomMapsMode changes the maps at random.<br>
 | Added Polus |
 | Added The Airship |
 
-### NoGameEnd
+### SyncButtonMode
 
-#Crewmates Team Victory Conditions<br>
-None<br>
+This is the mode in which all players' button counts are synchronised.<br>
 
-#Impostor Team Victory Conditions<br>
-None<br>
+#### Settings
 
-#Prohibited items<br>
-None<br>
+| Settings Name |
+|----------|
+| Max Button Count |
 
-#What you can't do<br>
-Exiting the game with anything other than host's SHIFT+L+Enter.<br>
-
-This is a debug mode where there is no win decision.<br>
-
-### OtherSettings
+## OtherSettings
 
 | Settings Name |
 |----------|
@@ -319,10 +320,10 @@ This is a debug mode where there is no win decision.<br>
 
 ## Credits
 
-Bait, Vampire roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-Opportunist role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-Jester and Madmate roles : https://au.libhalt.net<br>
-Terrorist(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
+[Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 

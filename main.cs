@@ -327,8 +327,9 @@ namespace TownOfHost
                 if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                 if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
+                if (main.NoGameEnd) { main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+                if (main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
                 if (main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if (main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if (main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
@@ -400,6 +401,12 @@ namespace TownOfHost
                     if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
+
+                if (main.DisableStartReactor) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableStartReactorTask), getOnOff(main.DisableStartReactor));
+                if (main.DisableSubmitScan) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSubmitScanTask), getOnOff(main.DisableSubmitScan));
+                if (main.DisableSwipeCard) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSwipeCardTask), getOnOff(main.DisableSwipeCard));
+                if (main.DisableUnlockSafe) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUnlockSafeTask), getOnOff(main.DisableUnlockSafe));
+                if (main.DisableUploadData) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUploadDataTask), getOnOff(main.DisableUploadData));
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
                 if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
@@ -1007,6 +1014,7 @@ namespace TownOfHost
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
+                {lang.DisableTasksInfo, "DisableTasks:特定のタスクを無効化することができる。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
@@ -1172,6 +1180,7 @@ namespace TownOfHost
         SyncButtonModeInfo,
         NoGameEndInfo,
         RandomMapsModeInfo,
+        DisableTasksInfo,
         //オプション項目
         AdvancedRoleOptions,
         VampireKillDelay,

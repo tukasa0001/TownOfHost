@@ -207,7 +207,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称):bountyhunter(bo), mafia(mf), vampire(va), witch(wi), madmate(mm), madguardian(mg), \n bait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn), \n jester(je), opportunist(op), terrorist(te), fox(fo), troll(tr)");
                     break;
             }
         }
@@ -215,6 +215,11 @@ namespace TownOfHost
         {
             switch (role)
             {
+                case "disabletasks":
+                case "dt":
+                    main.SendToAll(main.getLang(lang.DisableTasksInfo));
+                    break;
+
                 case "hideandseek":
                 case "has":
                     main.SendToAll(main.getLang(lang.HideAndSeekInfo));
@@ -236,7 +241,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                    main.SendToAll("使用可能な引数(略称):disabletasks(dt), hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                     break;
             }
 
