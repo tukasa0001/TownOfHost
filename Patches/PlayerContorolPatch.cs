@@ -45,8 +45,11 @@ namespace TownOfHost
         {
             if(__instance.isWarlock())
             {
-                if(main.CursedPlayers[__instance.PlayerId].Data.IsDead)main.CursedPlayers.Remove(__instance.PlayerId);
-                if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)
+                if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
+                    main.CursedPlayers.Remove(__instance.PlayerId);
+                    main.WarlockCheck = false;
+                }
+                if(main.CheckShapeshift == false && main.WarlockCheck == true)
                 {
                     var cp = main.CursedPlayers[__instance.PlayerId];
                     Vector2 cppos = cp.transform.position;
@@ -67,6 +70,26 @@ namespace TownOfHost
                     cp.RpcMurderPlayer(targetw);
                 }
                 main.CheckShapeshift = !main.CheckShapeshift;
+            }
+            if(main.CanMakeMadmateCount > main.MadeMadmatesCount && !__instance.isWarlock())
+            {
+                Vector2 __instancepos = __instance.transform.position;
+                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
+                float dis;
+                foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && p != __instance && !p.isSKMadmate() && p.Data.Role.Role != RoleTypes.Impostor && p.Data.Role.Role != RoleTypes.Shapeshifter)
+                    {
+                        dis = Vector2.Distance(__instancepos,p.transform.position);
+                        mpdistance.Add(p,dis);
+                        Logger.info($"{p.name}の位置{dis}");
+                    }
+                }
+                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();
+                PlayerControl targetm = min.Key;
+                Logger.info($"{target.name}がマッドメイトになりました");
+                targetm.SetCustomRole(CustomRoles.SKMadmate);
+                main.MadeMadmatesCount++;
             }
         }
     }
@@ -126,14 +149,15 @@ namespace TownOfHost
                 main.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.isWarlock() && main.CheckShapeshift == false)
+            if (__instance.isWarlock() && main.CheckShapeshift == false && main.WarlockCheck == false)
             { //Warlockが変身時以外にキルしたら、呪われる処理
                 __instance.RpcGuardAndKill(target);
                 main.CursedPlayers.Add(__instance.PlayerId,target);
+                main.WarlockCheck = true;
                 return false;
             }
             //Warlockが誰かを呪った時にキルできなくなる処理
-            if (__instance.isWarlock() && main.CursedPlayers[__instance.PlayerId] != null)return false;
+            if (__instance.isWarlock() && main.WarlockCheck == true)return false;
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);

@@ -78,7 +78,9 @@ namespace TownOfHost
                     bool UnlockSafeDisabled = reader.ReadBoolean();
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
+                    bool isMadmateVisionAsImpostor = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    int CanMakeMadmateCount = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -124,7 +126,9 @@ namespace TownOfHost
                         UnlockSafeDisabled,
                         UploadDataDisabled,
                         StartReactorDisabled,
+                        isMadmateVisionAsImpostor,
                         VampireKillDelay,
+                        CanMakeMadmateCount,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
                         SabotageMasterFixesReactors,
@@ -208,7 +212,9 @@ namespace TownOfHost
                 bool UnlockSafeDisabled,
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
+                bool isMadmateVisionAsImpostor,
                 int VampireKillDelay,
+                int CanMakeMadmateCount,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
                 bool SabotageMasterFixesReactors,
@@ -263,7 +269,9 @@ namespace TownOfHost
 
             main.VisibleTasksCount = true;
 
+            main.isMadmateVisionAsImpostor = isMadmateVisionAsImpostor;
             main.VampireKillDelay = VampireKillDelay;
+            main.CanMakeMadmateCount = CanMakeMadmateCount;
 
             main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
             main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;

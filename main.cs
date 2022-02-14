@@ -313,6 +313,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                 }
             }
             return hasTasks;
@@ -376,8 +377,8 @@ namespace TownOfHost
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
-                if(main.WarlockCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WarlockCount);
-                if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.SKMadmateCount);
+                if(main.WarlockCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Warlock),main.WarlockCount);
+                if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
@@ -478,13 +479,17 @@ namespace TownOfHost
 
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
+        public static int MadeMadmatesCount;
         public static bool witchMeeting;
+        public static bool WarlockCheck;
         public static bool CheckShapeshift;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
+        public static bool isMadmateVisionAsImpostor;
         public static int VampireKillDelay = 10;
+        public static int CanMakeMadmateCount = 0;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
         public static bool SabotageMasterFixesReactors;
@@ -534,7 +539,9 @@ namespace TownOfHost
             writer.Write(DisableUnlockSafe);
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
+            writer.Write(isMadmateVisionAsImpostor);
             writer.Write(VampireKillDelay);
+            writer.Write(CanMakeMadmateCount);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
             writer.Write(SabotageMasterFixesReactors);
@@ -833,7 +840,9 @@ namespace TownOfHost
             DisableUploadData = false;
             DisableStartReactor = false;
 
+            isMadmateVisionAsImpostor = true;
             VampireKillDelay = 10;
+            CanMakeMadmateCount = 0;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -945,7 +954,9 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
+                {lang.isMadmateVisionAsImpostor,"マッドメイトの視野がインポスターと同じ"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
+                {lang.CanMakeMadmateCount,"作れるマッドメイトの数"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
@@ -1042,7 +1053,9 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
+                {lang.isMadmateVisionAsImpostor,"Madmates Vision is as Impostor's Vision"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.CanMakeMadmateCount,"Shapeshifters Can Make Madmates Limit"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
@@ -1215,7 +1228,9 @@ namespace TownOfHost
         RandomMapsModeInfo,
         //オプション項目
         AdvancedRoleOptions,
+        isMadmateVisionAsImpostor,
         VampireKillDelay,
+        CanMakeMadmateCount,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,

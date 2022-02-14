@@ -184,7 +184,32 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
+                    if(main.isMadmateVisionAsImpostor){
+                        var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        if(mm != null && mm.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
                     goto InfinityVent;
+                case CustomRoles.MadGuardian:
+                    if(main.isMadmateVisionAsImpostor){
+                        var mg = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        if(mg != null && mg.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
+                case CustomRoles.SKMadmate:
+                    if(main.isMadmateVisionAsImpostor){
+                        var mg = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        if(mg != null && mg.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:

@@ -23,10 +23,12 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
+            main.WarlockCheck = false;
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.CheckShapeshift = false;
+            main.MadeMadmatesCount = 0;
 
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
@@ -225,7 +227,7 @@ namespace TownOfHost
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.isBountyHunter()) pc.ResetBountyTarget();
                 }
-
+                main.CheckShapeshift = false;
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
