@@ -55,28 +55,28 @@ However, The numeric keypad is not supported.<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-If the BountyHunters kill the indicated target, their next kill cooldown will be halved.
-If they kill the player who is not their target, they will keep their next kill cooldown.
+If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
+If they kill the player who is not their target, they will keep their next kill cooldown.<br>
 
 ### Mafia
 
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.
-Once all Impostors who are not them are dead, they will be able to kill.
-If they can not kill, they will still have a kill button, but they can not kill.
-They can transform after becoming to able to kill.
+The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
+Once all Impostors who are not them are dead, they will be able to kill.<br>
+If they can not kill, they will still have a kill button, but they can not kill.<br>
+They can transform after becoming to able to kill.<br>
 
 ### Vampire
 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.
-There is no teleportation when a kill is made.
-Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.
-However, only if they kill the Bait will it be a normal kill and they will be forced to report it.
+The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.<br>
+There is no teleportation when a kill is made.<br>
+Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.<br>
+However, only if they kill the Bait will it be a normal kill and they will be forced to report it.<br>
 
 #### Settings
 
@@ -89,17 +89,17 @@ However, only if they kill the Bait will it be a normal kill and they will be fo
 Team : Impostors<br>
 Decision : Impostor<br>
 
-Pressing the kill button toggles between kill mode and spell mode, and pressing the kill button while in spell mode allows them to cast a spell on the target.
-The target will be given a special mark at the meeting and will die if the Witches cannot be banished during the meeting.
+Pressing the kill button toggles between kill mode and spell mode, and pressing the kill button while in spell mode allows them to cast a spell on the target.<br>
+The target will be given a special mark at the meeting and will die if the Witches cannot be banished during the meeting.<br>
 
 ### Madmate
 
 Team : Impostors<br>
 Decision : Engineer<br>
 
-The Madmates belong to the Imposters team, but they do not know who the Imposters are.
-The Impostors do not know who the they are too.
-They can not kill or sabotage, but they can use vents.
+The Madmates belong to the Imposters team, but they do not know who the Imposters are.<br>
+The Impostors do not know who the they are too.<br>
+They can not kill or sabotage, but they can use vents.<br>
 
 #### Settings
 
@@ -112,8 +112,8 @@ They can not kill or sabotage, but they can use vents.
 Team : Impostors<br>
 Decision : Crewmate<br>
 
-The MadGuardians belong to the Imposters team, but they do not know who the Imposters are.
-The Impostors do not know who the they are too.
+The MadGuardians belong to the Imposters team, but they do not know who the Imposters are.<br>
+The Impostors do not know who the they are too.<br>
 However, if they complete all of their own tasks, they will not be killed.<br>
 They can not kill, sabotage, and using vents.<br>
 
@@ -129,26 +129,30 @@ They can not kill, sabotage, and using vents.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Baits are killed, they can force the player who killed them to report their bodies.
+When the Baits are killed, they can force the player who killed them to report their bodies.<br>
 
 ### Mayor
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-The Mayors have multiple votes, which can be grouped together and put into a single player or skip.
+The Mayors have multiple votes, which can be grouped together and put into a single player or skip.<br>
 
-(There are special settings for them.)<br>
+#### Settings
+
+| Settings Name |
+|----------|
+| Mayor Additional Votes Count |
 
 ### SabotageMaster
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-The SabotageMasters can fix sabotage faster.
-Communications in MIRA HQ, reactor and O2 can both be fixed by fixing one of them.
-Lights can be fixed by touching a single lever.
-Opening a door in Polus or The Airship will open all the doors in that room.
+The SabotageMasters can fix sabotage faster.<br>
+Communications in MIRA HQ, reactor and O2 can both be fixed by fixing one of them.<br>
+Lights can be fixed by touching a single lever.<br>
+Opening a door in Polus or The Airship will open all the doors in that room.<br>
 
 #### Settings
 
@@ -166,9 +170,9 @@ Opening a door in Polus or The Airship will open all the doors in that room.
 Team : Crewmates<br>
 Decision : Crewmate(Only host is the Crewmate)<br>
 
-The Sheriffs can kill Impostors.
-However, if they kill the Crewmates, they will die.
-They do not have tasks.
+The Sheriffs can kill Impostors.<br>
+However, if they kill the Crewmates, they will die.<br>
+They do not have tasks.<br>
 
 #### Settings
 
@@ -183,8 +187,8 @@ They do not have tasks.
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red.
-However, when the number of their tasks are low, it will be notified to the Impostors.
+When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
+However, when the number of their tasks are low, it will be notified to the Impostors.<br>
 
 ### Jester
 
@@ -192,8 +196,8 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : Get Voted Out<br>
 
-The Jesters are  the neutral role which can win by getting voted out.
-If the game ends without getting voted out., or if they are killed, they lose.
+The Jesters are  the neutral role which can win by getting voted out.<br>
+If the game ends without getting voted out., or if they are killed, they lose.<br>
 
 ### Opportunist
 
@@ -265,7 +269,7 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 ### DisableTasks
 
-It is possible to disable certain tasks.
+It is possible to disable certain tasks.<br>
 
 #### Settings
 
@@ -279,7 +283,7 @@ It is possible to disable certain tasks.
 
 ### RandomMapsMode/ランダムマップモード
 
-ランダムにマップが変わるモードです。<br>
+The RandomMapsMode changes the maps at random.<br>
 
 #### Settings
 

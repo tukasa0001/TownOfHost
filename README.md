@@ -74,7 +74,7 @@
 キルボタンを押してから一定時間経って実際にキルが発生する役職です。<br>
 キルをしたときのテレポートは発生しません。<br>
 また、キルボタンを押してから設定された時間が経つまでに会議が始まるとその瞬間にキルが発生します。<br>
-しかし、ベイトをキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
+しかし、 [ベイト](###Bait/ベイト) をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
 
 #### 設定
 
@@ -316,7 +316,8 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 ## 参考など
 
-ベイトやヴァンパイア、オポチュニストなどの役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
+ベイトやヴァンパイアなどの役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
+オポチュニストの役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 ジェスター(てるてる)とマッドメイトの役職 : https://au.libhalt.net<br>
 テロリスト(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
