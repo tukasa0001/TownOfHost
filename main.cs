@@ -187,6 +187,12 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     count = WitchCount;
                     break;
+                case CustomRoles.Warlock:
+                    count = WarlockCount;
+                    break;
+                case CustomRoles.SKMadmate:
+                    count = SKMadmateCount;
+                    break;
                 default:
                     return -1;
             }
@@ -235,6 +241,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     WitchCount = count;
+                    break;
+                case CustomRoles.Warlock:
+                    WarlockCount = count;
+                    break;
+                case CustomRoles.SKMadmate:
+                    SKMadmateCount = count;
                     break;
             }
         }
@@ -336,6 +348,8 @@ namespace TownOfHost
                 if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
+                if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
+                if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
@@ -366,6 +380,8 @@ namespace TownOfHost
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
+                if(main.WarlockCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WarlockCount);
+                if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.SKMadmateCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
@@ -457,14 +473,18 @@ namespace TownOfHost
         public static int SnitchCount;
         public static int BountyHunterCount;
         public static int WitchCount;
+        public static int WarlockCount;
+        public static int SKMadmateCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
+        public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
 
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
+        public static bool CheckShapeshift;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -506,6 +526,8 @@ namespace TownOfHost
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
+            writer.Write(WarlockCount);
+            writer.Write(SKMadmateCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -791,6 +813,7 @@ namespace TownOfHost
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
+            CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             winnerList = "";
             VisibleTasksCount = false;
@@ -855,6 +878,8 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.Warlock, "#ff0000"},
+                {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -877,6 +902,8 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
+                {lang.WarlockInfo, "敵に魔術をかけよう"},
+                {lang.SKMadmateInfo, "敵に魔術をかけよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -894,6 +921,8 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。誰かを呪った場合、普通のキルはできない。"},
+                {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nシェイプシフターが変身した際に一番近い人が成れる役職。インポスターの味方。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -978,6 +1007,8 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
+                {lang.WarlockInfo, "Curse and kill your enemies"},
+                {lang.SKMadmateInfo, "Help the Impostors"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -995,6 +1026,8 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。誰かを呪った場合、普通のキルはできない。"},
+                {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nシェイプシフターが変身した際に一番近い人が成れる役職。インポスターの味方。タスクはない。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1082,6 +1115,8 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
+                {CustomRoles.Warlock, "Warlock"},
+                {CustomRoles.SKMadmate, "SideKickMadmate"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1106,6 +1141,8 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
+                {CustomRoles.Warlock, "ウォーロック"},
+                {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1157,6 +1194,8 @@ namespace TownOfHost
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
+        WarlockInfo,
+        SKMadmateInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1174,6 +1213,8 @@ namespace TownOfHost
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
+        WarlockInfoLong,
+        SKMadmateInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1261,6 +1302,8 @@ namespace TownOfHost
         Sheriff,
         BountyHunter,
         Witch,
+        Warlock,
+        SKMadmate,
         Fox,
         Troll
     }

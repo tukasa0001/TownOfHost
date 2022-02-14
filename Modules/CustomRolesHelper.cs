@@ -25,8 +25,8 @@ namespace TownOfHost {
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.BountyHunter ||
                 role == CustomRoles.Vampire ||
-                role == CustomRoles.BountyHunter ||
                 role == CustomRoles.Witch ||
+                role == CustomRoles.Warlock ||
                 role == CustomRoles.Mafia;
             return isImpostor;
         }
@@ -36,6 +36,7 @@ namespace TownOfHost {
             bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
+                role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian;
             return isImpostor;
         }
@@ -63,6 +64,7 @@ namespace TownOfHost {
                 case CustomRoles.Mafia:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.Warlock:
                     type = IntroTypes.Impostor;
                     break;
 
@@ -76,6 +78,7 @@ namespace TownOfHost {
 
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.SKMadmate:
                     type = IntroTypes.Madmate;
                     break;
             }

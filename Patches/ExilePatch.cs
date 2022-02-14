@@ -45,13 +45,6 @@ namespace TownOfHost
                 {
                     main.SpelledPlayer.Clear();
                 }
-                if (role != CustomRoles.Witch)
-                {
-                    foreach(var p in main.SpelledPlayer)
-                    {
-                        p.RpcMurderPlayer(p);
-                    }
-                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -65,17 +58,15 @@ namespace TownOfHost
                 }
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
-            if (exiled == null)
+            foreach(var p in main.SpelledPlayer)
             {
-                foreach(var p in main.SpelledPlayer)
-                {
-                    p.RpcMurderPlayer(p);
-                }
+                p.RpcMurderPlayer(p);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
+            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isWarlock())wr.RpcGuardAndKill(wr);
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;
