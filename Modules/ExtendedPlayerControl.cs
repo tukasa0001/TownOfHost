@@ -88,13 +88,10 @@ namespace TownOfHost {
             else return CustomRoles.Default;
         }
         public static CustomSubRoles getCustomSubRole(this PlayerControl player) {
-            // TODO:要動作確認
             var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
             if(cRoleFound) return cRole;
             else return CustomSubRoles.Default;
         }
-
-
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー

@@ -720,7 +720,10 @@ namespace TownOfHost
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                
+                //自分にハートマークを付ける
+                if(seer.isLovers())
+                    SelfMark += "<color=#ffaaaa>♡</color>";
+
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -768,7 +771,7 @@ namespace TownOfHost
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
-                //|| seer.isLovers()
+                || seer.isLovers()
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -785,7 +788,10 @@ namespace TownOfHost
                         if(taskState.doExpose)
                             TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                     }
-
+                    //Loverの相手にハート付ける
+                    if(target.isLovers() && seer.isLovers())
+                        TargetMark += "<color=#ffaaaa>♡</color>";
+                    
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
@@ -1164,7 +1170,7 @@ namespace TownOfHost
                 {CustomSubRoles.Default, "Vanilla"},
                 {CustomSubRoles.Lovers, "ラバーズ"},
             };
-            
+
             } catch(ArgumentException ex) {
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
                 TownOfHost.Logger.error(ex.Message);
