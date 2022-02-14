@@ -327,7 +327,6 @@ namespace TownOfHost
                 if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
                 if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
-                if (main.NoGameEnd) { main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 if (main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if (main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
