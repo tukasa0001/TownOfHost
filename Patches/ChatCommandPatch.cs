@@ -25,7 +25,7 @@ namespace TownOfHost
             var cancelVal = "";
             if (AmongUsClient.Instance.AmHost)
             {
-                switch(args[0])
+                switch (args[0])
                 {
                     case "/win":
                     case "/winner":
@@ -42,7 +42,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if(args.Length > 1){main.nickName = args[1];}
+                        if (args.Length > 1) { main.nickName = args[1]; }
                         break;
 
                     case "/n":
@@ -53,8 +53,9 @@ namespace TownOfHost
 
                     case "/dis":
                         canceled = true;
-                        if(args.Length < 2){__instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");cancelVal = "/dis";}
-                        switch(args[1]){
+                        if (args.Length < 2) { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
+                        switch (args[1])
+                        {
                             case "crewmate":
                                 ShipStatus.Instance.enabled = false;
                                 ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
@@ -76,7 +77,7 @@ namespace TownOfHost
                     case "/h":
                     case "/help":
                         canceled = true;
-                        if(args.Length < 2)
+                        if (args.Length < 2)
                         {
                             main.ShowHelp();
                             break;
@@ -85,46 +86,27 @@ namespace TownOfHost
                         {
                             case "r":
                             case "roles":
-                                if(args.Length < 3){getRolesInfo("");break;}
+                                if (args.Length < 3) { getRolesInfo(""); break; }
                                 getRolesInfo(args[2]);
+                                break;
+
+                            case "n":
+                            case "now":
+                                canceled = true;
+                                main.ShowActiveSettingsInfo();
                                 break;
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
-                                switch (args[2])
-                                {
-                                    case "hideandseek":
-                                    case "has":
-                                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                                        break;
-
-                                    case "nogameend":
-                                    case "nge":
-                                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
-                                        break;
-
-                                    case "syncbuttonmode":
-                                    case "sbm":
-                                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
-                                        break;
-
-                                    case "randommapsmode":
-                                    case "rmm":
-                                        main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
-                                        break;
-
-                                    default:
-                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
-                                        break;
-                                }
+                                if (args.Length < 3) { getModesInfo(""); break; }
+                                getModesInfo(args[2]);
                                 break;
 
                             default:
                                 main.ShowHelp();
                                 break;
-                            }
-                            break;
+                        }
+                        break;
 
                     default:
                         break;
@@ -208,7 +190,7 @@ namespace TownOfHost
                 case "bo":
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                     break;
-                
+
                 case "witch":
                 case "wi":
                     main.SendToAll(main.getLang(lang.WitchInfoLong));
@@ -226,6 +208,35 @@ namespace TownOfHost
 
                 default:
                     main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\n sabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh), bountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    break;
+            }
+        }
+        public static void getModesInfo(string role)
+        {
+            switch (role)
+            {
+                case "hideandseek":
+                case "has":
+                    main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                    break;
+
+                case "nogameend":
+                case "nge":
+                    main.SendToAll(main.getLang(lang.NoGameEndInfo));
+                    break;
+
+                case "syncbuttonmode":
+                case "sbm":
+                    main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
+                    break;
+
+                case "randommapsmode":
+                case "rmm":
+                    main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
+                    break;
+
+                default:
+                    main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                     break;
             }
 

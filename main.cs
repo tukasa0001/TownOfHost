@@ -318,7 +318,7 @@ namespace TownOfHost
             return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
-        public static void ShowActiveRoles()
+        public static void ShowActiveSettingsInfo()
         {
             main.SendToAll("現在有効な設定の説明:");
             if(main.IsHideAndSeek)
@@ -329,20 +329,20 @@ namespace TownOfHost
             }else{
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
-                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
-                if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
-                if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
-                if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
+                if (main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                if (main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
+                if (main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
+                if (main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if (main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if (main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
+                if (main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                if (main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
+                if (main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
+                if (main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
-                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
-                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
-                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
-                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
-                if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
-                if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
                 // if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
@@ -359,20 +359,20 @@ namespace TownOfHost
                 text = "設定:";
                 text += main.getLang(lang.HideAndSeek);
             }else{
+                if (main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.BountyHunter), main.BountyHunterCount);
+                if (main.MafiaCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Mafia), main.MafiaCount);
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
-                if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
-                if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if (main.BaitCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Bait), main.BaitCount);
+                if (main.MayorCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Mayor), main.MayorCount);
+                if (main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.SabotageMaster), main.SabotageMasterCount);
+                if (main.SheriffCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Sheriff), main.SheriffCount);
+                if (main.SnitchCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Snitch), main.SnitchCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
-                if(main.BaitCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Bait),main.BaitCount);
-                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
-                if(main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
-                if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
-                if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
