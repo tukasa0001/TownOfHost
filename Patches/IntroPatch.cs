@@ -15,7 +15,8 @@ namespace TownOfHost
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
     class SetUpRoleTextPatch {
-        static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
+        static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>()
+        {
             {CustomRoles.Jester, lang.JesterInfo},
             {CustomRoles.Madmate, lang.MadmateInfo},
             {CustomRoles.Bait, lang.BaitInfo},
@@ -33,7 +34,8 @@ namespace TownOfHost
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };
-        public static void Postfix(IntroCutscene __instance) {
+        public static void Postfix(IntroCutscene __instance)
+        {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             __instance.RoleText.text = main.getRoleName(role);
             if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.getLang(info);
@@ -47,7 +49,8 @@ namespace TownOfHost
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
             var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.GetIntroType() == IntroTypes.Neutral) {
+            if (role.GetIntroType() == IntroTypes.Neutral)
+            {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
@@ -61,7 +64,8 @@ namespace TownOfHost
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             IntroTypes introType = role.GetIntroType();
 
-            switch(introType) {
+            switch(introType)
+            {
                 case IntroTypes.Neutral:
                     __instance.TeamTitle.text = main.getRoleName(role);
                     __instance.TeamTitle.color = main.getRoleColor(role);
@@ -71,7 +75,8 @@ namespace TownOfHost
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     break;
             }
-            switch(role) {
+            switch(role)
+            {
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
@@ -115,18 +120,22 @@ namespace TownOfHost
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
         }
-        private static AudioClip GetIntroSound(RoleTypes roleType) {
+        private static AudioClip GetIntroSound(RoleTypes roleType)
+        {
             return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
         }
-        private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end) {
+        private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
+        {
             await Task.Delay(1000);
             int miliseconds = 0;
-            while(true) {
+            while(true)
+            {
                 await Task.Delay(20);
                 miliseconds += 20;
                 float time = (float)miliseconds / (float)500;
                 Color LerpingColor = Color.Lerp(start, end, time);
-                if(__instance == null || miliseconds > 500) {
+                if(__instance == null || miliseconds > 500)
+                {
                     Logger.info("ループを終了します");
                     break;
                 }

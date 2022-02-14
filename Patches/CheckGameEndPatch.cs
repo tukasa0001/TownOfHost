@@ -131,11 +131,14 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
+        private static bool CheckAndEndGameForTroll(ShipStatus __instance)
+        {
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 if(!hasRole) return false;
-                if(role == CustomRoles.Troll && pc.Data.IsDead) {
+                if(role == CustomRoles.Troll && pc.Data.IsDead)
+                {
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -144,8 +147,10 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForJester(ShipStatus __instance) {
-            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger) {
+        private static bool CheckAndEndGameForJester(ShipStatus __instance)
+        {
+            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger)
+            {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
@@ -170,9 +175,12 @@ namespace TownOfHost
             ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
-        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd) {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.getCustomRole() == CustomRoles.Sheriff) {
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
+        {
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                if(pc.getCustomRole() == CustomRoles.Sheriff)
+                {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
             }
@@ -210,7 +218,7 @@ namespace TownOfHost
                                 if(role == CustomRoles.Default) numTotalAlive++;
                             }
 
-                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 
+                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&
                             playerInfo.getCustomRole() != CustomRoles.Sheriff)
                             {
                                 numImpostorsAlive++;

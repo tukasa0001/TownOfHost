@@ -43,7 +43,8 @@ namespace TownOfHost
             }
 
             //Opportunist
-            foreach(var pc in PlayerControl.AllPlayerControls) {
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
                 if(pc.isOpportunist() && !pc.Data.IsDead)
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
@@ -84,26 +85,31 @@ namespace TownOfHost
                 }
             }
             //HideAndSeek専用
-            if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
+            if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw)
+            {
                 var winners = new List<PlayerControl>();
-                foreach(var pc in PlayerControl.AllPlayerControls) {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
-                    if(role == CustomRoles.Default) {
+                    if(role == CustomRoles.Default)
+                    {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                         if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                     }
                     if(role == CustomRoles.Fox && !pc.Data.IsDead) winners.Add(pc);
-                    if(role == CustomRoles.Troll && pc.Data.IsDead) {
+                    if(role == CustomRoles.Troll && pc.Data.IsDead)
+                    {
                         winners = new List<PlayerControl>();
                         winners.Add(pc);
                         break;
                     }
                 }
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                foreach(var pc in winners) {
+                foreach(var pc in winners)
+                {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                 }
             }
@@ -137,11 +143,15 @@ namespace TownOfHost
                 __instance.WinText.text = "廃村";
                 __instance.WinText.color = Color.white;
             }
-            if(main.IsHideAndSeek) {
-                foreach(var p in PlayerControl.AllPlayerControls) {
-                    if(p.Data.IsDead) {
+            if(main.IsHideAndSeek)
+            {
+                foreach(var p in PlayerControl.AllPlayerControls)
+                {
+                    if(p.Data.IsDead)
+                    {
                         var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                        if(hasRole && role == CustomRoles.Troll) {
+                        if(hasRole && role == CustomRoles.Troll)
+                        {
                             __instance.BackgroundBar.material.color = Color.green;
                         }
                     }
@@ -149,7 +159,8 @@ namespace TownOfHost
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
-            if(AmongUsClient.Instance.AmHost) {
+            if(AmongUsClient.Instance.AmHost)
+            {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
             //main.ApplySuffix();

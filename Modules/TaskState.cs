@@ -17,12 +17,14 @@ namespace TownOfHost {
         public int RemainingTasksCount => AllTasksCount - CompletedTasksCount;
         public bool doExpose => RemainingTasksCount <= main.SnitchExposeTaskLeft && hasTasks;
         public bool isTaskFinished => RemainingTasksCount <= 0 && hasTasks;
-        public TaskState(int all, int completed) {
+        public TaskState(int all, int completed)
+        {
             this.AllTasksCount = all;
             this.CompletedTasksCount = completed;
             this.hasTasks = true;
         }
-        public TaskState() {
+        public TaskState()
+        {
             this.AllTasksCount = 0;
             this.CompletedTasksCount = 0;
             this.hasTasks = false;

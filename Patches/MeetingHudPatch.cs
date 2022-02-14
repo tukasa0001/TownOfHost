@@ -17,21 +17,24 @@ namespace TownOfHost
 {
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch {
-        public static bool Prefix(MeetingHud __instance) {
+        public static bool Prefix(MeetingHud __instance)
+        {
             if(!AmongUsClient.Instance.AmHost) return true;
-            foreach(var ps in __instance.playerStates) {
+            foreach(var ps in __instance.playerStates)
+            {
                 if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
                     return false;
             }
-            
 
-            
+
+
             MeetingHud.VoterState[] states;
             GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
             bool tie = false;
 
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
-            for(var i = 0; i < __instance.playerStates.Length; i++) {
+            for(var i = 0; i < __instance.playerStates.Length; i++)
+            {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
                 if(ps.VotedFor == 253 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//スキップ
@@ -62,13 +65,16 @@ namespace TownOfHost
                             break;
                     }
                 }
-                statesList.Add(new MeetingHud.VoterState() {
+                statesList.Add(new MeetingHud.VoterState()
+                {
                     VoterId = ps.TargetPlayerId,
                     VotedForId = ps.VotedFor
                 });
                 if(isMayor(ps.TargetPlayerId))//Mayorの投票数
-                for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
-                    statesList.Add(new MeetingHud.VoterState() {
+                for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++)
+                {
+                    statesList.Add(new MeetingHud.VoterState()
+                    {
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
                     });
@@ -80,7 +86,8 @@ namespace TownOfHost
             byte exileId = byte.MaxValue;
             int max = 0;
             Logger.info("===追放者確認処理開始===");
-            foreach(var data in VotingData) {
+            foreach(var data in VotingData)
+            {
                 Logger.info(data.Key + ": " + data.Value);
                 if(data.Value > max)
                 {
@@ -88,7 +95,8 @@ namespace TownOfHost
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
-                } else if(data.Value == max) {
+                } else if(data.Value == max)
+                {
                     Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
                     exileId = byte.MaxValue;
                     tie = true;
@@ -104,10 +112,11 @@ namespace TownOfHost
             //霊界用暗転バグ対処
             foreach(var pc in PlayerControl.AllPlayerControls)
                 if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
-            
+
             return false;
         }
-        public static bool isMayor(byte id) {
+        public static bool isMayor(byte id)
+        {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             if(player == null) return false;
             return player.isMayor();
@@ -115,12 +124,15 @@ namespace TownOfHost
     }
 
     static class ExtendedMeetingHud {
-        public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance) {
+        public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
+        {
             Dictionary<byte, int> dic = new Dictionary<byte, int>();
             //| 投票された人 | 投票された回数 |
-            for(int i = 0; i < __instance.playerStates.Length; i++) {
+            for(int i = 0; i < __instance.playerStates.Length; i++)
+            {
                 PlayerVoteArea ps = __instance.playerStates[i];
-                if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254) {
+                if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254)
+                {
                     int num;
                     int VoteNum = 1;
                     if(CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = main.MayorAdditionalVote + 1;

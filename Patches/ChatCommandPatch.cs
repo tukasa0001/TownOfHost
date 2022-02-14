@@ -42,7 +42,8 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if (args.Length > 1) { main.nickName = args[1]; }
+                        if (args.Length > 1)
+                        { main.nickName = args[1]; }
                         break;
 
                     case "/n":
@@ -53,7 +54,8 @@ namespace TownOfHost
 
                     case "/dis":
                         canceled = true;
-                        if (args.Length < 2) { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
+                        if (args.Length < 2)
+                        { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
                         switch (args[1])
                         {
                             case "crewmate":
@@ -86,7 +88,8 @@ namespace TownOfHost
                         {
                             case "r":
                             case "roles":
-                                if (args.Length < 3) { getRolesInfo(""); break; }
+                                if (args.Length < 3)
+                                { getRolesInfo(""); break; }
                                 getRolesInfo(args[2]);
                                 break;
 
@@ -98,7 +101,8 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if (args.Length < 3) { getModesInfo(""); break; }
+                                if (args.Length < 3)
+                                { getModesInfo(""); break; }
                                 getModesInfo(args[2]);
                                 break;
 
@@ -261,7 +265,8 @@ namespace TownOfHost
                 byte sendTo = msgData.Item2;
                 main.MessagesToSend.RemoveAt(0);
                 __instance.TimeSinceLastMessage = 0.0f;
-                if(sendTo == byte.MaxValue) {
+                if(sendTo == byte.MaxValue)
+                {
                     PlayerControl.LocalPlayer.RpcSendChat(msg);
                 } else {
                     PlayerControl target = main.getPlayerById(sendTo);

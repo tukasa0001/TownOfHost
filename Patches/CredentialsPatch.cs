@@ -62,7 +62,8 @@ namespace TownOfHost
             credentials.text = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
             if(main.PluginVersionType == VersionTypes.Beta) credentials.text += "\r\n" + main.BetaName;
 
-            if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
+            if(main.hasArgumentException && !main.ExceptionMessageIsShown)
+            {
                 main.ExceptionMessageIsShown = true;
                 ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
                 ErrorText.transform.position = new Vector3(0, 0.5f, 50f);

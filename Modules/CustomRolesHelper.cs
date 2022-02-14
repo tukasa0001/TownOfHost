@@ -17,8 +17,9 @@ using InnerNet;
 
 namespace TownOfHost {
     static class CustomRolesHelper {
-        public static bool isImpostor(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
+        public static bool isImpostor(this CustomRoles role)
+        {
+            if(!AmongUsClient.Instance.IsGameStarted &&
             AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             bool isImpostor =
                 role == CustomRoles.Impostor ||
@@ -30,8 +31,9 @@ namespace TownOfHost {
                 role == CustomRoles.Mafia;
             return isImpostor;
         }
-        public static bool isImpostorTeam(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
+        public static bool isImpostorTeam(this CustomRoles role)
+        {
+            if(!AmongUsClient.Instance.IsGameStarted &&
             AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             bool isImpostor =
                 role.isImpostor() ||
@@ -39,14 +41,17 @@ namespace TownOfHost {
                 role == CustomRoles.MadGuardian;
             return isImpostor;
         }
-        public static bool CanUseKillButton(this CustomRoles role) {
+        public static bool CanUseKillButton(this CustomRoles role)
+        {
             bool canUse =
                 role.isImpostor() ||
                 role == CustomRoles.Sheriff;
 
-            if(role == CustomRoles.Mafia) {
+            if(role == CustomRoles.Mafia)
+            {
                 int AliveImpostorCount = 0;
-                foreach(var pc in PlayerControl.AllPlayerControls) {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
                     CustomRoles pc_role = pc.getCustomRole();
                     if(pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
                 }
@@ -54,9 +59,11 @@ namespace TownOfHost {
             }
             return canUse;
         }
-        public static IntroTypes GetIntroType(this CustomRoles role) {
+        public static IntroTypes GetIntroType(this CustomRoles role)
+        {
             IntroTypes type = IntroTypes.Crewmate;
-            switch(role) {
+            switch(role)
+            {
                 case CustomRoles.Impostor:
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Vampire:
@@ -81,7 +88,8 @@ namespace TownOfHost {
             }
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) {
+        public static void SetCount(this CustomRoles role, int num)
+        {
             main.SetRoleCount(role, num);
         }
     }

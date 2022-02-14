@@ -16,7 +16,8 @@ namespace TownOfHost
         public static PageObject basePage;
         public static PageObject currentPage = basePage;
         public static int currentCursor = 0;
-        public static void begin() {
+        public static void begin()
+        {
             basePage = new PageObject(
                 null,
                 () => "Town Of Host Settings",
@@ -189,7 +190,8 @@ namespace TownOfHost
             PageObject parent,
             string text,
             bool isHostOnly = false
-        ) {
+        )
+        {
             this.parent = parent; //親オブジェクト
             this.getName = () => text; //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
@@ -203,7 +205,8 @@ namespace TownOfHost
             PageObject parent,
             lang lang,
             bool isHostOnly = false
-        ) {
+        )
+        {
             this.parent = parent; //親オブジェクト
             this.getName = () => main.getLang(lang); //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
@@ -218,7 +221,8 @@ namespace TownOfHost
             Func<string> name,
             bool isHostOnly,
             Action onEnter
-        ) {
+        )
+        {
             this.parent = parent; //親オブジェクト
             this.getName = name; //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
@@ -234,7 +238,8 @@ namespace TownOfHost
             bool isHostOnly,
             Action onEnter,
             Action<int> onInput
-        ) {
+        )
+        {
             this.parent = parent; //親オブジェクト
             this.getName = name; //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
@@ -247,7 +252,8 @@ namespace TownOfHost
         public PageObject( //役職設定
             PageObject parent,
             CustomRoles role
-        ) {
+        )
+        {
             this.parent = parent; //親オブジェクト
             this.getName = () => $"<color={main.getRoleColorCode(role)}>{main.getRoleName(role)}</color>: {main.GetCountFromRole(role)}";
             this.isHostOnly = false; //実行をホストのみに限定するか

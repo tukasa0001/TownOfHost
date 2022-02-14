@@ -120,7 +120,8 @@ namespace TownOfHost
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
-        public static string getRoleName(CustomRoles role) {
+        public static string getRoleName(CustomRoles role)
+        {
             var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
@@ -138,9 +139,11 @@ namespace TownOfHost
             if(!roleColors.TryGetValue(role, out var hexColor))hexColor = "#ffffff";
             return hexColor;
         }
-        public static int GetCountFromRole(CustomRoles role) {
+        public static int GetCountFromRole(CustomRoles role)
+        {
             int count;
-            switch(role) {
+            switch(role)
+            {
                 case CustomRoles.Jester:
                     count = JesterCount;
                     break;
@@ -188,8 +191,10 @@ namespace TownOfHost
             }
             return count;
         }
-        public static void SetCountFromRole(CustomRoles role, int count) {
-            switch(role) {
+        public static void SetCountFromRole(CustomRoles role, int count)
+        {
+            switch(role)
+            {
                 case CustomRoles.Jester:
                     JesterCount = count;
                     break;
@@ -292,7 +297,8 @@ namespace TownOfHost
                 }
             } else {
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
-                if(cRoleFound) {
+                if(cRoleFound)
+                {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
@@ -344,9 +350,9 @@ namespace TownOfHost
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 // if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
-            if(main.DisableStartReactor || main.DisableSubmitScan || main.DisableSwipeCard || main.DisableUnlockSafe || main.DisableUploadData){ main.SendToAll(main.getLang(lang.DisableTasksInfo)); }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
-            if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
+            if(main.RandomMapsMode){ main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
+            if (main.DisableStartReactor || main.DisableSubmitScan || main.DisableSwipeCard || main.DisableUnlockSafe || main.DisableUploadData){ main.SendToAll(main.getLang(lang.DisableTasksInfo)); }
         }
 
         public static void ShowActiveSettings()
@@ -519,8 +525,6 @@ namespace TownOfHost
             writer.Write(WitchCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
-
-
             writer.Write(IsHideAndSeek);
             writer.Write(NoGameEnd);
             writer.Write(DisableSwipeCard);
@@ -607,7 +611,8 @@ namespace TownOfHost
             }
             if(tmp.Length != 0) MessagesToSend.Add((tmp, sendTo));
         }
-        public static void ApplySuffix() {
+        public static void ApplySuffix()
+        {
             if(!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if(nickName != "") name = nickName;
@@ -630,10 +635,12 @@ namespace TownOfHost
             }
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
-        public static PlayerControl getPlayerById(int PlayerId) {
+        public static PlayerControl getPlayerById(int PlayerId)
+        {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles() {
+        public static void NotifyRoles()
+        {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
 
@@ -647,8 +654,10 @@ namespace TownOfHost
 
             //Snitch警告表示のON/OFF
             bool ShowSnitchWarning = false;
-            if(SnitchCount > 0) foreach(var snitch in PlayerControl.AllPlayerControls) {
-                if(snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected) {
+            if(SnitchCount > 0) foreach(var snitch in PlayerControl.AllPlayerControls)
+            {
+                if(snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected)
+                {
                     var taskState = snitch.getPlayerTaskState();
                     if(taskState.doExpose)
                         ShowSnitchWarning = true;
@@ -657,7 +666,8 @@ namespace TownOfHost
 
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
-            foreach(var seer in PlayerControl.AllPlayerControls) {
+            foreach(var seer in PlayerControl.AllPlayerControls)
+            {
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
@@ -676,9 +686,11 @@ namespace TownOfHost
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
-                if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
+                if(seer.isBountyHunter() && seer.getBountyTarget() != null)
+                {
                     string targetName;
-                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
+                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName))
+                    {
                         if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
                         else targetName = seer.name;
                         RealNames[seer.getBountyTarget().PlayerId] = targetName;
@@ -686,14 +698,16 @@ namespace TownOfHost
                     }
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
-                if(seer.isWitch()) {
+                if(seer.isWitch())
+                {
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
                     if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeSpell);
                 }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName;
-                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
+                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName))
+                {
                     if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
                     else SeerRealName = seer.name;
                     RealNames[seer.PlayerId] = SeerRealName;
@@ -710,7 +724,8 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                if(seer.isSnitch()) {
+                if(seer.isSnitch())
+                {
                     var TaskState = seer.getPlayerTaskState();
                     if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
@@ -721,7 +736,8 @@ namespace TownOfHost
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
                 //|| seer.isLovers()
-                ) foreach(var target in PlayerControl.AllPlayerControls) {
+                ) foreach(var target in PlayerControl.AllPlayerControls)
+                {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
@@ -732,7 +748,8 @@ namespace TownOfHost
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
-                    if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
+                    if(target.isSnitch() && seer.getCustomRole().isImpostor())
+                    {
                         var taskState = target.getPlayerTaskState();
                         if(taskState.doExpose)
                             TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
@@ -743,7 +760,8 @@ namespace TownOfHost
 
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName;
-                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
+                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName))
+                    {
                         TargetPlayerName = target.name;
                         RealNames[target.PlayerId] = TargetPlayerName;
                         TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
@@ -765,13 +783,16 @@ namespace TownOfHost
             }
             main.witchMeeting = false;
         }
-        public static void CustomSyncAllSettings() {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
+        public static void CustomSyncAllSettings()
+        {
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
                 pc.CustomSyncSettings();
             }
         }
 
-        public static void ChangeInt(ref int ChangeTo, int input, int max) {
+        public static void ChangeInt(ref int ChangeTo, int input, int max)
+        {
             var tmp = ChangeTo * 10;
             tmp += input;
             ChangeTo = Math.Clamp(tmp,0,max);
@@ -1120,7 +1141,8 @@ namespace TownOfHost
             };
 
 
-            } catch(ArgumentException ex) {
+            } catch(ArgumentException ex)
+            {
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
                 TownOfHost.Logger.error(ex.Message);
                 hasArgumentException = true;
@@ -1133,7 +1155,8 @@ namespace TownOfHost
 
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
         class TranslationControllerAwakePatch {
-            public static void Postfix(TranslationController __instance) {
+            public static void Postfix(TranslationController __instance)
+            {
                 var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
                 EnglishLang = new LanguageUnit(english);
             }

@@ -62,9 +62,11 @@ namespace TownOfHost
             //====================
 
 
-            if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value) {
+            if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
-                if(bot == null) {
+                if(bot == null)
+                {
                     bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
                     bot.PlayerId = 15;
                     GameData.Instance.AddPlayer(bot);
@@ -128,7 +130,8 @@ namespace TownOfHost
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
@@ -137,15 +140,18 @@ namespace TownOfHost
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
             {
-                foreach(var pc in PlayerControl.AllPlayerControls) {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
                     if(!pc.AmOwner) pc.MyPhysics.RpcEnterVent(2);
                 }
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
                 Vector2 pos = PlayerControl.LocalPlayer.NetTransform.transform.position;
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(!pc.AmOwner) {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
+                    if(!pc.AmOwner)
+                    {
                         pc.NetTransform.RpcSnapTo(pos);
                         pos.x += 0.5f;
                     }
@@ -153,7 +159,8 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
-                foreach(var pc in PlayerControl.AllPlayerControls) {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
                     if(!pc.AmOwner) pc.MyPhysics.RpcExitVent(2);
                 }
             }

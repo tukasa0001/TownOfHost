@@ -32,7 +32,8 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch {
-        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader)
+        {
             byte packetID = callId;
             switch (packetID)
             {
@@ -47,7 +48,8 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader)
+        {
             byte packetID = callId;
             switch (packetID)
             {
@@ -222,7 +224,8 @@ namespace TownOfHost
                 bool MadmateCanFixLightsOut,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
-            ) {
+            )
+            {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
             main.BaitCount = BaitCount;
@@ -358,7 +361,8 @@ namespace TownOfHost
                 }
             }
         }
-        public static void SetCustomRole(byte targetId, CustomRoles role) {
+        public static void SetCustomRole(byte targetId, CustomRoles role)
+        {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
         }

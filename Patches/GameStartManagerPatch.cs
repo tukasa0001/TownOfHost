@@ -104,7 +104,7 @@ namespace TownOfHost
                 if (main.AddedTheAirShip == true) RandomMaps.Add(4);
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
-            
+
             }
             return continueStart;
         }

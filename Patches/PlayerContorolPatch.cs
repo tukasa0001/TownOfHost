@@ -45,7 +45,8 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
-            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
+            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0)
+            {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
@@ -59,24 +60,31 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
-            if(__instance.isSheriff()) {
+            if(__instance.isSheriff())
+            {
                 if(__instance.Data.IsDead) return false;
-                if(!target.canBeKilledBySheriff()) {
+                if(!target.canBeKilledBySheriff())
+                {
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
             }
-            if(target.isMadGuardian()) {
+            if(target.isMadGuardian())
+            {
                 var isTaskFinished = true;
-                foreach(var task in target.Data.Tasks) {
-                    if(!task.Complete) {
+                foreach(var task in target.Data.Tasks)
+                {
+                    if(!task.Complete)
+                    {
                         isTaskFinished = false;
                         break;
                     }
                 }
-                if(isTaskFinished) {
+                if(isTaskFinished)
+                {
                     __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
+                    if(main.MadGuardianCanSeeBarrier)
+                    {
                         //MadGuardian視点用
                         target.RpcGuardAndKill(target);
                     }
@@ -106,8 +114,10 @@ namespace TownOfHost
             //============
 
             //BountyHunter
-            if(__instance.isBountyHunter()) {
-                if(target == __instance.getBountyTarget()) {
+            if(__instance.isBountyHunter())
+            {
+                if(target == __instance.getBountyTarget())
+                {
                     __instance.RpcGuardAndKill(target);
                     __instance.ResetBountyTarget();
                 }
@@ -169,21 +179,24 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            if(main.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead) {
+            if(main.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
+            {
                 //SyncButtonMode中にホストが死んでいる場合
                 ChangeLocalNameAndRevert(
                     "緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。",
                     1000
                 );
             }
-            foreach(var sp in main.SpelledPlayer) {
+            foreach(var sp in main.SpelledPlayer)
+            {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
             }
 
             main.CustomSyncAllSettings();
             return true;
         }
-        public static async void ChangeLocalNameAndRevert(string name, int time) {
+        public static async void ChangeLocalNameAndRevert(string name, int time)
+        {
             //async Taskじゃ警告出るから仕方ないよね。
             var revertName = PlayerControl.LocalPlayer.name;
             PlayerControl.LocalPlayer.RpcSetName(name);
@@ -234,7 +247,8 @@ namespace TownOfHost
             if (RoleText != null && __instance != null)
             {
                 var RoleTextData = main.GetRoleText(__instance);
-                if(main.IsHideAndSeek) {
+                if(main.IsHideAndSeek)
+                {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
                     if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
@@ -250,7 +264,7 @@ namespace TownOfHost
                 }
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                     RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
-                
+
 
                 //変数定義
                 string RealName;
@@ -258,7 +272,8 @@ namespace TownOfHost
                 string Suffix = "";
 
                 //名前変更
-                if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
+                if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName))
+                {
                     RealName = __instance.name;
                     if(RealName == "Player(Clone)") return;
                     main.RealNames[__instance.PlayerId] = RealName;
@@ -269,22 +284,30 @@ namespace TownOfHost
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
-                ) {
+                )
+                {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
                 if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                 __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
-                ) {
+                )
+                {
                     Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) { //__instanceがインポスターかつ自分自身
-                    foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
-                        if(!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
-                        if(pc.getPlayerTaskState().doExpose) { //タスクが終わりそうなSnitchが見つかった時
+                if(__instance.AmOwner && __instance.getCustomRole().isImpostor())
+                {
+                    //__instanceがインポスターかつ自分自身
+                    foreach(var pc in PlayerControl.AllPlayerControls)
+                    {
+                        //全員分ループ
+                        if(!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない
+                        if(pc.getPlayerTaskState().doExpose)
+                        {
+                            //タスクが終わりそうなSnitchが見つかった時
                             Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
                             break; //無駄なループは行わない
                         }
@@ -314,10 +337,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
     class SetColorPatch {
         public static bool IsAntiGlitchDisabled = false;
-        public static bool Prefix(PlayerControl __instance, int bodyColor) {
+        public static bool Prefix(PlayerControl __instance, int bodyColor)
+        {
             //色変更バグ対策
             if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if(AmongUsClient.Instance.IsGameStarted && main.IsHideAndSeek) {
+            if(AmongUsClient.Instance.IsGameStarted && main.IsHideAndSeek)
+            {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);
             }
@@ -327,16 +352,19 @@ namespace TownOfHost
 
     [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
     class EnterVentPatch {
-        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc) {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+        {
             if(main.IsHideAndSeek && main.IgnoreVent)
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch {
-        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
+        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
+        {
             if(AmongUsClient.Instance.AmHost){
-                if(__instance.myPlayer.isSheriff()) {
+                if(__instance.myPlayer.isSheriff())
+                {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -355,7 +383,8 @@ namespace TownOfHost
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
     class SetNamePatch {
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
+        {
             main.RealNames[__instance.PlayerId] = name;
         }
     }
