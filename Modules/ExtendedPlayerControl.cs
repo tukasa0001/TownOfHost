@@ -197,6 +197,13 @@ namespace TownOfHost {
                         opt.ImpostorLightMod /= 5;
                     }
                     break;
+                case CustomRoles.MadSnitch:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    var ImpLight = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(ImpLight != null && ImpLight.IsActive) {
+                        opt.CrewLightMod *= 5;
+                    }
+                    break;
 
 
                 InfinityVent:
