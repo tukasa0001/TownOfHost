@@ -21,12 +21,21 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            main.BountyTargetPlayer = new List<PlayerControl>();
+            main.BountyTargets = new Dictionary<byte, PlayerControl>();
+
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
+
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            main.RealNames = new Dictionary<byte, string>();
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
+                main.RealNames[pc.PlayerId] = pc.name;
+                pc.nameText.text = pc.name; 
+            }
             if (__instance.AmHost)
             {
 
@@ -96,22 +105,9 @@ namespace TownOfHost
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
-            main.RealNames = new Dictionary<byte, string>();
 
             var rand = new System.Random();
-            main.BountyTargetPlayer = new List<PlayerControl>();
-            foreach (var p in PlayerControl.AllPlayerControls)if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Impostor)main.BountyTargetPlayer.Add(p);
-            if(main.BountyTargetPlayer.Count > 0)
-            main.b_target = main.BountyTargetPlayer[rand.Next(0,main.BountyTargetPlayer.Count - 1)];
-            main.BountyCheck = true;
-            main.KillOrSpell = false;
-
-            foreach(var pc in PlayerControl.AllPlayerControls)
-            {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
-                main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
-            }
+            main.KillOrSpell = new Dictionary<byte, bool>();
 
             if(main.IsHideAndSeek) {
                 rand = new System.Random();
@@ -223,6 +219,16 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 HudManager.Instance.SetHudActive(true);
+                main.KillOrSpell = new Dictionary<byte, bool>();
+                foreach (var pc in PlayerControl.AllPlayerControls){
+                    if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
+                }
+
+                //BountyHunterのターゲットを初期化
+                main.BountyTargets = new Dictionary<byte, PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.isBountyHunter()) pc.ResetBountyTarget();
+                }
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;

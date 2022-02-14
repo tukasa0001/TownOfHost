@@ -37,6 +37,8 @@ namespace TownOfHost
                     if (p.isTerrorist()) canWin = false; //Terrorist
                     if (p.isOpportunist()) canWin = false; //Opportunist
                     if (p.isSheriff()) canWin = true; //Sheriff
+                    IntroTypes introType = role.GetIntroType();
+                    bool canwin = introType == IntroTypes.Crewmate;
                     if(canWin) winner.Add(p);
                 }
             }
@@ -55,6 +57,8 @@ namespace TownOfHost
                     if (p.isBountyHunter()) canWin = true; //BountyHunter
                     if (p.isWitch()) canWin = true; //Witch
                     if (p.isEgoist()) canWin = false; //Egoist
+                    IntroTypes introType = role.GetIntroType();
+                    bool canwin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if(canWin) winner.Add(p);
                 }
             }

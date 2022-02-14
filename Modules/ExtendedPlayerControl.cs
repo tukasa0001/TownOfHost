@@ -162,7 +162,7 @@ namespace TownOfHost {
             main.SendMessage(text, target.PlayerId);
         }
 
-        public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
+        /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
             if(!AmongUsClient.Instance.AmHost) return;
             byte KilledById;
             if(KilledBy == null)
@@ -176,7 +176,7 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
             RPCProcedure.BeKilled(player.PlayerId, KilledById);
-        }
+        }*/
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
             if(main.RealOptionsData == null)
@@ -189,7 +189,7 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
-                 case CustomRoles.MadScientist:
+                case CustomRoles.MadScientist:
                     goto InfinityVital;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
@@ -223,6 +223,19 @@ namespace TownOfHost {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static TaskState getPlayerTaskState(this PlayerControl player) {
+            if(player == null || player.Data == null || player.Data.Tasks == null) return new TaskState();
+            if(!main.hasTasks(player.Data, false)) return new TaskState();
+            int AllTasksCount = 0;
+            int CompletedTaskCount = 0;
+            foreach(var task in player.Data.Tasks) {
+                AllTasksCount++;
+                if(task.Complete) CompletedTaskCount++;
+            }
+            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
+            return new TaskState(AllTasksCount, CompletedTaskCount);
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt) {
@@ -273,6 +286,66 @@ namespace TownOfHost {
                 SabotageFixWriter.Write((byte)17);
                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
             }, 0.4f + delay, "Fix Desync Reactor 2");
+        }
+
+        public static string getRealName(this PlayerControl player) {
+            string RealName;
+            if(!main.RealNames.TryGetValue(player.PlayerId, out RealName)) {
+                RealName = player.name;
+                if(RealName == "Player(Clone)") return RealName;
+                main.RealNames[player.PlayerId] = RealName;
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+            }
+            return RealName;
+        }
+
+        public static PlayerControl getBountyTarget(this PlayerControl player) {
+            if(player == null) return null;
+            if(main.BountyTargets == null) main.BountyTargets = new Dictionary<byte, PlayerControl>();
+            PlayerControl target;
+            if(!main.BountyTargets.TryGetValue(player.PlayerId, out target)) {
+                target = player.ResetBountyTarget();
+            }
+            return target;
+        }
+        public static PlayerControl ResetBountyTarget(this PlayerControl player) {
+            if(!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
+            List<PlayerControl> cTargets = new List<PlayerControl>();
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                if(!pc.Data.IsDead && //死者を除外
+                !pc.Data.Disconnected && //切断者を除外
+                !pc.getCustomRole().isImpostor() //インポスターを除外
+                ) cTargets.Add(pc);
+            
+            var rand = new System.Random();
+            if(cTargets.Count <= 0) {
+                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                return null;
+            }
+            var target = cTargets[rand.Next(0, cTargets.Count - 1)];
+            main.BountyTargets[player.PlayerId] = target;
+            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+
+            //RPCによる同期
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(target.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            return target;
+        }
+        public static bool GetKillOrSpell(this PlayerControl player) {
+            bool KillOrSpell;
+            if(!main.KillOrSpell.TryGetValue(player.PlayerId, out KillOrSpell)) {
+                main.KillOrSpell[player.PlayerId] = false;
+                KillOrSpell = false;
+            }
+            return KillOrSpell;
+        }
+        public static void SyncKillOrSpell(this PlayerControl player) {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(player.GetKillOrSpell());
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
