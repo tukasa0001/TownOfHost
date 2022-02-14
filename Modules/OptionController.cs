@@ -36,19 +36,17 @@ namespace TownOfHost
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
-            ///第三陣営役職
-            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
-            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
-            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
             var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            
-            
-            
+            ///第三陣営役職
+            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
+            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
+            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
+
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
@@ -67,8 +65,8 @@ namespace TownOfHost
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, "Mode Options");
-            var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
+            var HideAndSeek = new PageObject(HideAndSeekOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
             var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => main.getLang(lang.HideAndSeekWaitingTime) + ": " + main.HideAndSeekKillDelay, true, () => {main.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref main.HideAndSeekKillDelay, i, 180));
             var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => main.getLang(lang.IgnoreCosmetics) + ": " + main.getOnOff(main.IgnoreCosmetics), true, () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;});
@@ -177,7 +175,7 @@ namespace TownOfHost
             return text;
         }
     }
-    
+
     class PageObject {
         public PageObject parent;
         public string name => getName();
