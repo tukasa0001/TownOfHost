@@ -141,6 +141,7 @@ namespace TownOfHost {
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
                 case CustomRoles.MadGuardian:
+                case CustomRoles.MadSnitch:
                 case CustomRoles.Madmate:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
