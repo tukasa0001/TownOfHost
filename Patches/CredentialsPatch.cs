@@ -58,7 +58,7 @@ namespace TownOfHost
             main.credentialsText = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
             if(main.PluginVersionType == VersionTypes.Beta) main.credentialsText += $"\r\n{main.BetaName}\r\n{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-            credentials.text += main.credentialsText;
+            credentials.text = main.credentialsText;
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
             credentials.transform.position = new Vector3(4.3f,__instance.transform.localPosition.y+0.3f,0);
 
