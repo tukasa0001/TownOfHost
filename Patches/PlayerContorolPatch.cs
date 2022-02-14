@@ -46,9 +46,11 @@ namespace TownOfHost
             if(__instance.isWarlock())
             {
                 //呪ったプレイヤーが死んだ場合
-                if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
-                    main.CursedPlayers.Remove(__instance.PlayerId);
-                    main.WarlockCheck = false;
+                if(main.WarlockCheck){
+                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
+                        main.CursedPlayers.Remove(__instance.PlayerId);
+                        main.WarlockCheck = false;
+                    }
                 }
                 //呪った人に一番近い人をキルする処理
                 if(main.CheckShapeshift == false && main.WarlockCheck == true)
@@ -158,6 +160,12 @@ namespace TownOfHost
                 main.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
+            if(main.WarlockCheck){
+                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
+                        main.CursedPlayers.Remove(__instance.PlayerId);
+                        main.WarlockCheck = false;
+                    }
+                }
             if (__instance.isWarlock() && main.CheckShapeshift == false && main.WarlockCheck == false)
             { //Warlockが変身時以外にキルしたら、呪う処理
                 __instance.RpcGuardAndKill(target);
