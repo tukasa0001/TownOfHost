@@ -45,13 +45,17 @@ namespace TownOfHost
         {
             if(__instance.isWarlock())
             {
+                //呪ったプレイヤーが死んだ場合
                 if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
                     main.CursedPlayers.Remove(__instance.PlayerId);
                     main.WarlockCheck = false;
                 }
+                //呪った人に一番近い人をキルする処理
                 if(main.CheckShapeshift == false && main.WarlockCheck == true)
                 {
+                    //呪ったプレイヤーを取り出す
                     var cp = main.CursedPlayers[__instance.PlayerId];
+                    //呪ったプレイヤーとの距離を出す処理
                     Vector2 cppos = cp.transform.position;
                     Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
                     float dis;
@@ -64,6 +68,7 @@ namespace TownOfHost
                             Logger.info($"{p.name}の位置{dis}");
                         }
                     }
+                    //距離が一番近い人をキルする処理
                     var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();
                     PlayerControl targetw = min.Key;
                     Logger.info($"{targetw.name}was killed");
@@ -73,6 +78,7 @@ namespace TownOfHost
             }
             if(main.CanMakeMadmateCount > main.MadeMadmatesCount && !__instance.isWarlock())
             {
+                //シェイプシフターとの距離を出す処理
                 Vector2 __instancepos = __instance.transform.position;
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
                 float dis;
@@ -85,6 +91,7 @@ namespace TownOfHost
                         Logger.info($"{p.name}の位置{dis}");
                     }
                 }
+                //一番近い人をマッドメイトにする処理
                 var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();
                 PlayerControl targetm = min.Key;
                 Logger.info($"{target.name}がマッドメイトになりました");
@@ -121,6 +128,7 @@ namespace TownOfHost
                     return false;
                 }
             }
+            //シェリフがマッドメイトにされたときにキルできないようにする設定
             if (__instance.isSKMadmate())return false;
             if(target.isMadGuardian()) {
                 var isTaskFinished = true;
@@ -151,7 +159,7 @@ namespace TownOfHost
                 __instance.SyncKillOrSpell();
             }
             if (__instance.isWarlock() && main.CheckShapeshift == false && main.WarlockCheck == false)
-            { //Warlockが変身時以外にキルしたら、呪われる処理
+            { //Warlockが変身時以外にキルしたら、呪う処理
                 __instance.RpcGuardAndKill(target);
                 main.CursedPlayers.Add(__instance.PlayerId,target);
                 main.WarlockCheck = true;
