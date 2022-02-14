@@ -12,8 +12,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
-using System.Threading.Tasks;
-using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -37,8 +36,11 @@ namespace TownOfHost
     class Logger
     {
         public static bool isEnable;
+        public static List<string> disableList = new List<string>();
         public static void enable() => isEnable = true;
         public static void disable() => isEnable = false;
+        public static void enable(string tag) => disableList.Remove(tag);
+        public static void disable(string tag) {if(!disableList.Contains(tag)) disableList.Add(tag);}
         public static void SendInGame(string text, bool isAlways = false)
         {
             if(!isEnable) return;
@@ -47,7 +49,7 @@ namespace TownOfHost
         }
         public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag ="")
         {
-            if(!isEnable) return;
+            if(!isEnable || disableList.Contains(tag)) return;
             var logger = main.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
             tag = tag != "" ? $"[{tag}]" : "";
