@@ -48,6 +48,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
         public static GameOptionsData RealOptionsData;
+        public static PlayerState ps;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreVent;
@@ -81,8 +82,10 @@ namespace TownOfHost
         public static bool isFixedCooldown => VampireCount > 0;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static bool forceJapanese = false;
         public static VoteMode whenSkipVote = VoteMode.Default;
         public static VoteMode whenNonVote = VoteMode.Default;
+        public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
         
@@ -115,12 +118,12 @@ namespace TownOfHost
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
@@ -402,6 +405,7 @@ namespace TownOfHost
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
                 if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
+                if(main.whenNonVote == VoteMode.Suicide || main.whenSkipVote == VoteMode.Suicide) text += String.Format("\n{0}:{1}",main.getLang(lang.CanTerroristSuicideWin),main.canTerroristSuicideWin);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -525,6 +529,7 @@ namespace TownOfHost
             writer.Write(SyncedButtonCount);
             writer.Write((int)whenSkipVote);
             writer.Write((int)whenNonVote);
+            writer.Write(canTerroristSuicideWin);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
@@ -550,7 +555,7 @@ namespace TownOfHost
             {
                 if (!task.Complete) isAllCompleted = false;
             }
-            if (isAllCompleted)
+            if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
@@ -775,6 +780,7 @@ namespace TownOfHost
 
             whenSkipVote = VoteMode.Default;
             whenNonVote = VoteMode.Default;
+            canTerroristSuicideWin = false;
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -937,6 +943,14 @@ namespace TownOfHost
                 {lang.WitchModeKill, "キル"},
                 {lang.WitchModeSpell, "スペル"},
                 {lang.BountyCurrentTarget, "現在のターゲット"},
+                {lang.RoleOptions, "役職設定"},
+                {lang.ModeOptions, "モード設定"},
+                {lang.ForceJapanese, "日本語に強制"},
+                {lang.VoteMode, "投票モード"},
+                {lang.Default, "デフォルト"},
+                {lang.Suicide, "切腹"},
+                {lang.SelfVote, "自投票"},
+                {lang.CanTerroristSuicideWin, "テロリストの自殺勝ち"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -985,7 +999,7 @@ namespace TownOfHost
                 {lang.SyncButtonMode, "SyncButtonMode"},
                 {lang.RandomMapsMode, "RandomMapsMode"},
                 //モード解説
-                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
+                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。クルーは青、インポスターは赤になる。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
@@ -1030,6 +1044,14 @@ namespace TownOfHost
                 {lang.WitchModeKill, "Kill"},
                 {lang.WitchModeSpell, "Spell"},
                 {lang.BountyCurrentTarget, "Current Target"},
+                {lang.RoleOptions, "Role Options"},
+                {lang.ModeOptions, "Mode Options"},
+                {lang.ForceJapanese, "Force Japanese"},
+                {lang.VoteMode, "VoteMode"},
+                {lang.Default, "Default"},
+                {lang.Suicide, "Suicide"},
+                {lang.SelfVote, "SelfVote"},
+                {lang.CanTerroristSuicideWin, "Can Terrorist Suicide Win"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -1194,6 +1216,14 @@ namespace TownOfHost
         WitchModeKill,
         WitchModeSpell,
         BountyCurrentTarget,
+        RoleOptions,
+        ModeOptions,
+        ForceJapanese,
+        VoteMode,
+        Default,
+        Suicide,
+        SelfVote,
+        CanTerroristSuicideWin,
         commandError,
         InvalidArgs,
         ON,

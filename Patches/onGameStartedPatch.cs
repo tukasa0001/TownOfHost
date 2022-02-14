@@ -23,6 +23,8 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
 
+            main.ps = new PlayerState();
+
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
 
