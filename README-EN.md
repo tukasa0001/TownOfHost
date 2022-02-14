@@ -57,6 +57,8 @@ However, The numeric keypad is not supported.<br>
 | Snitch | Crewmate |
 | Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
+| SidekickMadmate | Crewmate |
+| Warlock | 
 
 ### Jester
 
@@ -183,6 +185,21 @@ Decision : Impostor<br>
 When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
+
+### SidekickMadmate
+
+Team : Impostor<br>
+Decision : Crewmate<br>
+
+When Shapeshifters are Shapeshift, the nearest Crewmate will become a SidekickMadmate.<br>
+
+### Warlock
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+When they did not shapeshift and they killed, they cursed the target.<br>
+Then, their shapesifting will kill someone.<br>
 
 ## Mode
 

@@ -121,6 +121,7 @@ namespace TownOfHost
                     return false;
                 }
             }
+            if (__instance.isSKMadmate())return false;
             if(target.isMadGuardian()) {
                 var isTaskFinished = true;
                 foreach(var task in target.Data.Tasks) {
