@@ -661,14 +661,8 @@ namespace TownOfHost
                 string SelfSuffix = "";
 
                 if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
-                    string targetName;
-                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
-                        if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
-                        else targetName = seer.name;
-                        RealNames[seer.getBountyTarget().PlayerId] = targetName;
-                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
-                    }
-                    SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
+                    string BountyTargetName = seer.getBountyTarget().getRealName();
+                    SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
@@ -676,13 +670,7 @@ namespace TownOfHost
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName;
-                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
-                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
-                    else SeerRealName = seer.name;
-                    RealNames[seer.PlayerId] = SeerRealName;
-                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
-                }
+                string SeerRealName = seer.getRealName();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
@@ -726,12 +714,7 @@ namespace TownOfHost
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName;
-                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
-                        TargetPlayerName = target.name;
-                        RealNames[target.PlayerId] = TargetPlayerName;
-                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
-                    }
+                    string TargetPlayerName = target.getRealName();
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
