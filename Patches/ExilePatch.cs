@@ -62,6 +62,7 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
+                main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
             if (exiled == null)
             {
