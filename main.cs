@@ -919,8 +919,8 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
-                {lang.WarlockInfo, "敵に魔術をかけよう"},
-                {lang.SKMadmateInfo, "敵に魔術をかけよう"},
+                {lang.WarlockInfo, "みんなを呪い殺そう"},
+                {lang.SKMadmateInfo, "インポスターを援助しよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
