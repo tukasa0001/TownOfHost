@@ -328,7 +328,6 @@ namespace TownOfHost
                 if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
             }else{
                 if (main.NoGameEnd) { main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
-                if (main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
                 if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
                 if (main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if (main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
@@ -346,7 +345,9 @@ namespace TownOfHost
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 // if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
+            if(main.DisableStartReactor || main.DisableSubmitScan || main.DisableSwipeCard || main.DisableUnlockSafe || main.DisableUploadData){ main.SendToAll(main.getLang(lang.DisableTasksInfo)); }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+            if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
         }
 
         public static void ShowActiveSettings()
@@ -415,7 +416,12 @@ namespace TownOfHost
             if (main.DisableSwipeCard) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableSwipeCardTask), getOnOff(main.DisableSwipeCard));
             if (main.DisableUnlockSafe) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUnlockSafeTask), getOnOff(main.DisableUnlockSafe));
             if (main.DisableUploadData) text += String.Format("\n{0}:{1}", main.getLang(lang.DisableUploadDataTask), getOnOff(main.DisableUploadData));
-            if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
+            if (main.NoGameEnd) text += String.Format("\n{0}:{1}", main.getLang(lang.NoGameEnd), getOnOff(main.NoGameEnd));
+            if (main.RandomMapsMode) text += String.Format("\n{0}:{1}", main.getLang(lang.AddedTheSkeld), getOnOff(main.AddedTheSkeld));
+            if (main.RandomMapsMode) text += String.Format("\n{0}:{1}", main.getLang(lang.AddedMIRAHQ), getOnOff(main.AddedMIRAHQ));
+            if (main.RandomMapsMode) text += String.Format("\n{0}:{1}", main.getLang(lang.AddedPolus), getOnOff(main.AddedPolus));
+            if (main.RandomMapsMode) text += String.Format("\n{0}:{1}", main.getLang(lang.AddedTheAirShip), getOnOff(main.AddedTheAirShip));
+            //if (main.RandomMapsMode) text += String.Format("\n{0}:{1}", main.getLang(lang.AddedDleks), getOnOff(main.AddedDleks));
             main.SendToAll(text);
         }
 
