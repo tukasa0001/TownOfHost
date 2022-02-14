@@ -37,42 +37,60 @@ namespace TownOfHost
     {
         public static bool isEnable;
         public static List<string> disableList = new List<string>();
+        public static List<string> sendToGameList = new List<string>();
+        public static List<string> sendToWebhookList = new List<string>();
         public static void enable() => isEnable = true;
         public static void disable() => isEnable = false;
-        public static void enable(string tag) => disableList.Remove(tag);
+        public static void enable(string tag, bool toGame = false, bool toWebhook = false)
+        {
+            disableList.Remove(tag);
+            if(toGame)
+            {
+                if(!sendToGameList.Contains(tag)) sendToGameList.Add(tag);
+            }else{
+                sendToGameList.Remove(tag);
+            }
+            if(toWebhook)
+            {
+                if(!sendToWebhookList.Contains(tag)) sendToWebhookList.Add(tag);
+            }else{
+                sendToWebhookList.Remove(tag);
+            }
+        }
         public static void disable(string tag) {if(!disableList.Contains(tag)) disableList.Add(tag);}
         public static void SendInGame(string text, bool isAlways = false)
         {
             if(!isEnable) return;
-            DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
-            SendToFile("<InGame>" + text);
+            if(DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
+            //SendToFile("<InGame>" + text);
         }
         public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag ="")
         {
             if(!isEnable || disableList.Contains(tag)) return;
-            var logger = main.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
-            tag = tag != "" ? $"[{tag}]" : "";
+            if(sendToGameList.Contains(tag)) SendInGame($"[{tag}]{text}");
+            if(sendToWebhookList.Contains(tag)) webhook.send($"[{t}][{tag}]{text}");
+            var logger = main.Logger;
             switch (level)
             {
                 case LogLevel.Normal:
-                    logger.LogInfo($"[{t}]{tag}{text}");
+                    logger.LogInfo($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Warning:
-                    logger.LogWarning($"[{t}]{tag}{text}");
+                    logger.LogWarning($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Error:
-                    logger.LogError($"[{t}]{tag}{text}");
+                    logger.LogError($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Fatal:
-                    logger.LogFatal($"[{t}]{tag}{text}");
+                    logger.LogFatal($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Message:
-                    logger.LogMessage($"[{t}]{tag}{text}");
+                    logger.LogMessage($"[{t}][{tag}]{text}");
                     break;
                 default:
                     logger.LogWarning("Error:Invalid LogLevel");
-                    logger.LogInfo($"[{t}]{tag}{text}");
+                    logger.LogInfo($"[{t}][{tag}]{text}");
                     break;
             }
         }

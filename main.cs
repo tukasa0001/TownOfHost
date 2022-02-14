@@ -631,7 +631,7 @@ namespace TownOfHost
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました","NotifyRoles");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -648,7 +648,7 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START","NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
                 if(seer.Data.Disconnected) continue;
@@ -672,7 +672,7 @@ namespace TownOfHost
                         if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
                         else targetName = seer.name;
                         RealNames[seer.getBountyTarget().PlayerId] = targetName;
-                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
+                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました","NotifyRoles");
                     }
                     SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
                 }
@@ -687,7 +687,7 @@ namespace TownOfHost
                     if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
                     else SeerRealName = seer.name;
                     RealNames[seer.PlayerId] = SeerRealName;
-                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
+                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました","NotifyRoles");
                 }
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
@@ -714,7 +714,7 @@ namespace TownOfHost
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
@@ -736,7 +736,7 @@ namespace TownOfHost
                     if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
                         TargetPlayerName = target.name;
                         RealNames[target.PlayerId] = TargetPlayerName;
-                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
+                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました","NotifyRoles");
                     }
 
                     //ターゲットのプレイヤー名の色を書き換えます。
@@ -749,9 +749,9 @@ namespace TownOfHost
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
 
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
                 }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
             }
             main.witchMeeting = false;
         }
@@ -778,6 +778,7 @@ namespace TownOfHost
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
+            TownOfHost.Logger.disable("NotifyRoles");
 
             currentWinner = CustomWinner.Default;
 
