@@ -20,6 +20,7 @@ namespace TownOfHost
     class DebugManager
     {
         static System.Random random = new System.Random();
+        static PlayerControl bot;
         public static void Postfix(KeyboardJoystick __instance)
         {
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
@@ -53,9 +54,32 @@ namespace TownOfHost
             // | = | フリープレイ中 | VisibleTaskCountを切り替え |
             // | P | フリープレイ中 | トイレのドアを一気に開ける |
             // | U | オンライン以外 | 自分の投票をClearする |
+            // | N | ホストデバッガー | プレイヤーを生成 |
             //====================
 
-            
+
+            if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value) {
+                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
+                if(bot == null) {
+                    bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
+                    bot.PlayerId = 15;
+                    GameData.Instance.AddPlayer(bot);
+                    AmongUsClient.Instance.Spawn(bot, -2, SpawnFlags.None);
+                    bot.transform.position = PlayerControl.LocalPlayer.transform.position;
+                    bot.NetTransform.enabled = true;
+                    GameData.Instance.RpcSetTasks(bot.PlayerId, new byte[0]);
+                }
+
+                bot.RpcSetColor((byte)PlayerControl.LocalPlayer.CurrentOutfit.ColorId);
+                bot.RpcSetName(PlayerControl.LocalPlayer.name);
+                bot.RpcSetPet(PlayerControl.LocalPlayer.CurrentOutfit.PetId);
+                bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
+                bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
+
+                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0,15)), 0.2f, "Bot TP Task");
+                new LateTask(() => {foreach(var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot);}, 0.4f, "Bot Kill Task");
+                new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
+            }
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
@@ -140,7 +164,7 @@ namespace TownOfHost
             {
                 //Logger.SendInGame("tabキーが押されました");
                 main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = OptionPages.basepage;
+                CustomOptionController.currentPage = CustomOptionController.basePage;
                 CustomOptionController.currentCursor = 0;
             }
             if (main.OptionControllerIsEnable)

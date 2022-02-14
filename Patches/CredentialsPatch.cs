@@ -53,6 +53,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
     class VersionShowerPatch
     {
+        private static TMPro.TextMeshPro ErrorText;
         static void Postfix(VersionShower __instance)
         {
             var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
@@ -60,6 +61,15 @@ namespace TownOfHost
             credentials.transform.position = new Vector3(4.3f,__instance.transform.localPosition.y+0.3f,0);
             credentials.text = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
             if(main.PluginVersionType == VersionTypes.Beta) credentials.text += "\r\n" + main.BetaName;
+
+            if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
+                main.ExceptionMessageIsShown = true;
+                ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
+                ErrorText.transform.position = new Vector3(0, 0.5f, 50f);
+                ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
+                ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
+                ErrorText.color = Color.red;
+            }
         }
     }
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

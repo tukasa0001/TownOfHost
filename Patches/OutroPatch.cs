@@ -26,16 +26,8 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    bool canWin = role == CustomRoles.Default ||
-                    role == CustomRoles.Scientist ||
-                    role == CustomRoles.Engineer ||
-                    role == CustomRoles.GuardianAngel;
-                    if (p.isJester()) canWin = false; //Jester
-                    if (p.isMadmate()) canWin = false; //Madmate
-                    if (p.isMadGuardian()) canWin = false; //Mad Guardian
-                    if (p.isTerrorist()) canWin = false; //Terrorist
-                    if (p.isOpportunist()) canWin = false; //Opportunist
-                    if (p.isSheriff()) canWin = true; //Sheriff
+                    IntroTypes introType = role.GetIntroType();
+                    bool canWin = introType == IntroTypes.Crewmate;
                     if(canWin) winner.Add(p);
                 }
             }
@@ -44,14 +36,8 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    bool canWin = role == CustomRoles.Impostor ||
-                    role == CustomRoles.Shapeshifter;
-                    if (p.isMadmate()) canWin = true; //Madmate
-                    if (p.isMadGuardian()) canWin = true; //Mad Guardian
-                    if (p.isOpportunist()) canWin = false; //Opportunist
-                    if (p.isSheriff()) canWin = false; //Sheriff
-                    if (p.isBountyHunter()) canWin = true; //BountyHunter
-                    if (p.isWitch()) canWin = true; //Witch
+                    IntroTypes introType = role.GetIntroType();
+                    bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if(canWin) winner.Add(p);
                 }
             }

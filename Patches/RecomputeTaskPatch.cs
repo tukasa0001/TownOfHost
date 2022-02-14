@@ -39,8 +39,8 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return false;
             if(main.lastTaskComplete != __instance.CompletedTasks)
             {
-                main.NotifyRoles();
                 main.lastTaskComplete = __instance.CompletedTasks;
+                main.NotifyRoles();
             }
 
             return false;
