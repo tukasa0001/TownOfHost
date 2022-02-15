@@ -199,8 +199,8 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.MadSnitch:
                     opt.CrewLightMod = opt.ImpostorLightMod;
-                    var ImpLight = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if(ImpLight != null && ImpLight.IsActive) {
+                    var MSnVision = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(MSnVision != null && MSnVision.IsActive) {
                         opt.CrewLightMod *= 5;
                     }
                     break;
