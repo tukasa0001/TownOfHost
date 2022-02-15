@@ -8,11 +8,18 @@
     <langVersion>preview</langVersion>
   </PropertyGroup>
 
-    <ItemGroup>
-        <Reference Include="$(AmongUs)\BepInEx\core\*.dll"/>
-        <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll"/>
-        <Reference Include="$(AmongUs)\BepInEx\unity-libs\*.dll"/>
-    </ItemGroup>
+  <ItemGroup>
+      <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
+      <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
+      <Reference Include="$(AmongUs)\BepInEx\unity-libs\*.dll" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="GitInfo" Version="2.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
     <Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
         <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />

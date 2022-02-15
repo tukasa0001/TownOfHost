@@ -12,8 +12,7 @@ using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
-using System.Threading.Tasks;
-using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -36,43 +35,70 @@ namespace TownOfHost
     }
     class Logger
     {
+        public static bool isEnable;
+        public static List<string> disableList = new List<string>();
+        public static List<string> sendToGameList = new List<string>();
+        public static List<string> sendToWebhookList = new List<string>();
+        public static void enable() => isEnable = true;
+        public static void disable() => isEnable = false;
+        public static void enable(string tag, bool toGame = false, bool toWebhook = false)
+        {
+            disableList.Remove(tag);
+            if(toGame)
+            {
+                if(!sendToGameList.Contains(tag)) sendToGameList.Add(tag);
+            }else{
+                sendToGameList.Remove(tag);
+            }
+            if(toWebhook)
+            {
+                if(!sendToWebhookList.Contains(tag)) sendToWebhookList.Add(tag);
+            }else{
+                sendToWebhookList.Remove(tag);
+            }
+        }
+        public static void disable(string tag) {if(!disableList.Contains(tag)) disableList.Add(tag);}
         public static void SendInGame(string text, bool isAlways = false)
         {
-            DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
-            SendToFile("<InGame>" + text);
+            if(!isEnable) return;
+            if(DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
+            //SendToFile("<InGame>" + text);
         }
-        public static void SendToFile(string text, LogLevel level = LogLevel.Normal)
+        public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag ="")
         {
-            var logger = main.Logger;
+            if(!isEnable || disableList.Contains(tag)) return;
             string t = DateTime.Now.ToString("HH:mm:ss");
+            if(sendToGameList.Contains(tag)) SendInGame($"[{tag}]{text}");
+            if(sendToWebhookList.Contains(tag)) webhook.send($"[{t}][{tag}]{text}");
+            var logger = main.Logger;
             switch (level)
             {
                 case LogLevel.Normal:
-                    logger.LogInfo($"[{t}]{text}");
+                    logger.LogInfo($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Warning:
-                    logger.LogWarning($"[{t}]{text}");
+                    logger.LogWarning($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Error:
-                    logger.LogError($"[{t}]{text}");
+                    logger.LogError($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Fatal:
-                    logger.LogFatal($"[{t}]{text}");
+                    logger.LogFatal($"[{t}][{tag}]{text}");
                     break;
                 case LogLevel.Message:
-                    logger.LogMessage($"[{t}]{text}");
+                    logger.LogMessage($"[{t}][{tag}]{text}");
                     break;
                 default:
                     logger.LogWarning("Error:Invalid LogLevel");
-                    logger.LogInfo($"[{t}]{text}");
+                    logger.LogInfo($"[{t}][{tag}]{text}");
                     break;
             }
         }
-        public static void info(string text) => SendToFile(text,LogLevel.Normal);
-        public static void warn(string text) => SendToFile(text,LogLevel.Warning);
-        public static void error(string text) => SendToFile(text,LogLevel.Error);
-        public static void fatal(string text) => SendToFile(text,LogLevel.Fatal);
-        public static void msg(string text) => SendToFile(text,LogLevel.Message);
+        public static void info(string text, string tag = "") => SendToFile(text,LogLevel.Normal,tag);
+        public static void warn(string text, string tag = "") => SendToFile(text,LogLevel.Warning,tag);
+        public static void error(string text, string tag = "") => SendToFile(text,LogLevel.Error,tag);
+        public static void fatal(string text, string tag = "") => SendToFile(text,LogLevel.Fatal,tag);
+        public static void msg(string text, string tag = "") => SendToFile(text,LogLevel.Message,tag);
     }
     public enum LogLevel
     {
