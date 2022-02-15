@@ -228,6 +228,7 @@ namespace TownOfHost
             }
 
             //役職テキストの表示
+            //TODO:この辺のコードのせいでTOH表示とかが消される
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
@@ -353,6 +354,13 @@ namespace TownOfHost
                 }
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
+    class SetNamePatch {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
+            main.RealNames[__instance.PlayerId] = name;
         }
     }
 }

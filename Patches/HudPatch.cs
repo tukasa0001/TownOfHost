@@ -58,11 +58,12 @@ namespace TownOfHost
             if(PlayerControl.LocalPlayer.isBountyHunter()) {//else使いたいのでここはif文
                 //バウンティハンター用処理
                 var target = PlayerControl.LocalPlayer.getBountyTarget();
-                LowerInfoText.text = target == null ? "null" : "現在のターゲット:" + PlayerControl.LocalPlayer.getBountyTarget().name;
+                LowerInfoText.text = target == null ? "null" : main.getLang(lang.BountyCurrentTarget) + ":" + PlayerControl.LocalPlayer.getBountyTarget().name;
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             } else if(PlayerControl.LocalPlayer.isWitch()) {
                 //魔女用処理
-                LowerInfoText.text = PlayerControl.LocalPlayer.GetKillOrSpell() ? "現在のモード:スペル" : "現在のモード:キル";
+                lang ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? lang.WitchModeSpell : lang.WitchModeKill;
+                LowerInfoText.text = main.getLang(lang.WitchCurrentMode) + ":" + main.getLang(ModeLang);
                 LowerInfoText.enabled = true;
             } else {
                 //バウンティハンターじゃない
@@ -70,7 +71,6 @@ namespace TownOfHost
             }
             if(!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                 LowerInfoText.enabled = false;
-            //TODO:"現在のターゲット"や"現在のモード"の文字列を多言語対応化
 
 
             switch(PlayerControl.LocalPlayer.getCustomRole())

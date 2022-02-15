@@ -40,7 +40,9 @@ namespace TownOfHost
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
-                    if(!DontShowOnModdedClient) __instance.SetName(name);
+                    if(!DontShowOnModdedClient){
+                        __instance.SetName(name);
+                    }
                     return false;
             }
             return true;
@@ -88,6 +90,7 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
+                    bool canTerroristSuicideWin = reader.ReadBoolean();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -132,6 +135,7 @@ namespace TownOfHost
                         SyncedButtonCount,
                         whenSkipVote,
                         whenNonVote,
+                        canTerroristSuicideWin,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -165,9 +169,6 @@ namespace TownOfHost
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
                     var target = main.getPlayerById(TargetId);
-                    if(target != null) Logger.SendInGame(HunterId + ":" + target.name);
-                    else Logger.SendInGame(HunterId + ":" + TargetId);
-                    
                     if(target != null) main.BountyTargets[HunterId] = target;
                     break;
                 case (byte)CustomRPC.SetKillOrSpell:
@@ -217,6 +218,7 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 int whenSkipVote,
                 int whenNonVote,
+                bool canTerroristSuicideWin,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -274,6 +276,7 @@ namespace TownOfHost
 
             main.whenSkipVote = (VoteMode)whenSkipVote;
             main.whenNonVote = (VoteMode)whenNonVote;
+            main.canTerroristSuicideWin = canTerroristSuicideWin;
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;
