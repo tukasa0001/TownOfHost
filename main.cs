@@ -89,7 +89,6 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        public static int lastTaskComplete = 0;
         
 
         public static int SetRoleCountToggle(int currentCount)
@@ -667,14 +666,8 @@ namespace TownOfHost
                 string SelfSuffix = "";
 
                 if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
-                    string targetName;
-                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
-                        if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
-                        else targetName = seer.name;
-                        RealNames[seer.getBountyTarget().PlayerId] = targetName;
-                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました","NotifyRoles");
-                    }
-                    SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
+                    string BountyTargetName = seer.getBountyTarget().getRealName();
+                    SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
@@ -682,13 +675,7 @@ namespace TownOfHost
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName;
-                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
-                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
-                    else SeerRealName = seer.name;
-                    RealNames[seer.PlayerId] = SeerRealName;
-                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました","NotifyRoles");
-                }
+                string SeerRealName = seer.getRealName();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
@@ -717,7 +704,7 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
@@ -732,12 +719,7 @@ namespace TownOfHost
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName;
-                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
-                        TargetPlayerName = target.name;
-                        RealNames[target.PlayerId] = TargetPlayerName;
-                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました","NotifyRoles");
-                    }
+                    string TargetPlayerName = target.getRealName();
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
@@ -748,7 +730,7 @@ namespace TownOfHost
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
-
+                    
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
