@@ -97,7 +97,7 @@ Decision : Crewmate<br>
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete all of their own tasks, the name of the evildoer will change to red.<br>
-They can not kill, sabotage, and to enter the vent.<br>
+They have the Impostor Vision.<br>
 
 ### Bait
 
