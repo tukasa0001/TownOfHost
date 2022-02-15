@@ -716,7 +716,7 @@ namespace TownOfHost
                     TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
                 }
 
-                
+                //猫又の人の表示
                 if(seer == main.Nekomata)SelfSuffix = $"<size=1.5>Nekomata</size>";
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";

@@ -212,6 +212,7 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                //猫又の死体が通報できないようにする処理
                 foreach(var nk in main.KilledByNekomata)if(target.PlayerId == nk.PlayerId)return false;
             }
             if (main.SyncButtonMode && target == null)

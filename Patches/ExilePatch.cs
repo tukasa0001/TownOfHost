@@ -39,6 +39,7 @@ namespace TownOfHost
             foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
             if (exiled != null)
             {
+                //猫又が吊られたときの処理
                 if(exiled.PlayerId == main.Nekomata.PlayerId){
                     var rand = new System.Random();
                     List <PlayerControl> Players= new List<PlayerControl>();
