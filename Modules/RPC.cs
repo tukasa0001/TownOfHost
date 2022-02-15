@@ -80,6 +80,7 @@ namespace TownOfHost
                     bool StartReactorDisabled = reader.ReadBoolean();
                     bool isMadmateVisionAsImpostor = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    bool NecomataCheck = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
@@ -128,6 +129,7 @@ namespace TownOfHost
                         StartReactorDisabled,
                         isMadmateVisionAsImpostor,
                         VampireKillDelay,
+                        NecomataCheck,
                         CanMakeMadmateCount,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
@@ -214,6 +216,7 @@ namespace TownOfHost
                 bool StartReactorDisabled,
                 bool isMadmateVisionAsImpostor,
                 int VampireKillDelay,
+                bool NekomataCheck,
                 int CanMakeMadmateCount,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
@@ -271,6 +274,7 @@ namespace TownOfHost
 
             main.isMadmateVisionAsImpostor = isMadmateVisionAsImpostor;
             main.VampireKillDelay = VampireKillDelay;
+            main.NekomataCheck = NekomataCheck;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
 
             main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;

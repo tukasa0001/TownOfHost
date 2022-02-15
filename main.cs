@@ -478,6 +478,8 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
+        public static List<PlayerControl> KilledByNekomata = new List<PlayerControl>();
+        public static PlayerControl Nekomata;
         public static int MadeMadmatesCount;
         public static bool witchMeeting;
         public static bool WarlockCheck;
@@ -488,6 +490,7 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static bool isMadmateVisionAsImpostor;
         public static int VampireKillDelay = 10;
+        public static bool NekomataCheck;
         public static int CanMakeMadmateCount = 0;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors;
@@ -540,6 +543,7 @@ namespace TownOfHost
             writer.Write(DisableStartReactor);
             writer.Write(isMadmateVisionAsImpostor);
             writer.Write(VampireKillDelay);
+            writer.Write(NekomataCheck);
             writer.Write(CanMakeMadmateCount);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
@@ -712,6 +716,8 @@ namespace TownOfHost
                     TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
                 }
 
+                
+                if(seer == main.Nekomata)SelfSuffix = $"<size=1.5>Nekomata</size>";
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
                 SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
@@ -841,6 +847,7 @@ namespace TownOfHost
 
             isMadmateVisionAsImpostor = true;
             VampireKillDelay = 10;
+            NekomataCheck = false;
             CanMakeMadmateCount = 0;
 
             SabotageMasterSkillLimit = 0;
@@ -955,6 +962,7 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.isMadmateVisionAsImpostor,"マッドメイトの視野がインポスターと同じ"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
+                {lang.NekomataCheck, "猫又"},
                 {lang.CanMakeMadmateCount,"作れるマッドメイトの数"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
@@ -1054,6 +1062,7 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.isMadmateVisionAsImpostor,"Madmates Vision is as Impostor's Vision"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
+                {lang.NekomataCheck, "Nekomata"},
                 {lang.CanMakeMadmateCount,"Shapeshifters Can Make Madmates Limit"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
@@ -1229,6 +1238,7 @@ namespace TownOfHost
         AdvancedRoleOptions,
         isMadmateVisionAsImpostor,
         VampireKillDelay,
+        NekomataCheck,
         CanMakeMadmateCount,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,

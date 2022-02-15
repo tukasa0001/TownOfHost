@@ -24,12 +24,12 @@ namespace TownOfHost
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.WarlockCheck = false;
+            main.KilledByNekomata = new List<PlayerControl>();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.CheckShapeshift = false;
-            main.MadeMadmatesCount = 0;
-
+            main.MadeMadmatesCount  = 0;
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -228,6 +228,14 @@ namespace TownOfHost
                     if(pc.isBountyHunter()) pc.ResetBountyTarget();
                 }
                 main.CheckShapeshift = false;
+
+                //猫又を作る処理
+
+                var rando = new System.Random();
+                if(main.NekomataCheck){
+                    main.Nekomata = PlayerControl.AllPlayerControls[rando.Next(0,PlayerControl.AllPlayerControls.Count - 1)];
+                    Logger.info("猫又は"+ main.Nekomata.name);
+                }
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);

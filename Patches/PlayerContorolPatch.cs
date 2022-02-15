@@ -212,8 +212,8 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                foreach(var nk in main.KilledByNekomata)if(target.PlayerId == nk.PlayerId)return false;
             }
-
             if (main.SyncButtonMode && target == null)
             {
                 Logger.SendToFile("最大:" + main.SyncedButtonCount + ", 現在:" + main.UsedButtonCount, LogLevel.Message);
@@ -359,6 +359,10 @@ namespace TownOfHost
                 __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
                 ) {
                     Mark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
+                }
+
+                if(main.Nekomata == __instance){
+                    Suffix = $"<size=1.5>Nekomata</size>";
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
