@@ -96,7 +96,7 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     if (!AmongUsClient.Instance.AmHost) {
-                        StartFadeIntro(__instance, Palette.ImpostorRed, Color.yellow);
+                        StartFadeIntro(__instance, Palette.ImpostorRed, Palette.CrewmateBlue);
                     }
                     break;
 
