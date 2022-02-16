@@ -122,8 +122,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Sheriff:
-                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
-                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getRoleName(CustomRoles.Sheriff)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffInfo)}</color>\r\n";
                     if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
@@ -204,7 +203,7 @@ namespace TownOfHost
     class ToggleHighlightPatch {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team) {
             if(PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead) {
-                ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+                ((Renderer) __instance.myRend).material.SetColor("_OutlineColor", main.getRoleColor(CustomRoles.Sheriff));
             }
         }
     }
