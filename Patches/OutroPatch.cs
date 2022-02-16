@@ -126,7 +126,7 @@ namespace TownOfHost
     {
         public static void Postfix(EndGameManager __instance)
         {
-            //特殊勝利
+            //特殊勝利表示
             if (main.currentWinner == CustomWinner.Jester)
             {
                 __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
