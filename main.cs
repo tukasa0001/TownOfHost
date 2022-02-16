@@ -497,7 +497,6 @@ namespace TownOfHost
         public static bool SheriffCanKillOpportunist;
         public static int MayorAdditionalVote;
         public static int SnitchExposeTaskLeft;
-
         public static bool MadmateCanFixLightsOut;
         public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
@@ -896,11 +895,11 @@ namespace TownOfHost
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュはできないが、通気口に入ることができる。"},
-                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口を使うことはできない。"},
+                {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュはできないが、ベントを使うことができる。"},
+                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、ベントを使うことはできない。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となる。"},
-                {lang.MafiaInfoLong, "マフィア:\n初期状態で通気口やサボタージュ、変身は可能だが、キルをすることはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
+                {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルをすることはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
                 {lang.VampireInfoLong, "ヴァンパイア:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。"},
                 {lang.SabotageMasterInfoLong, "サボタージュマスター:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。"},
                 {lang.MayorInfoLong, "メイヤー:\n票を複数持っており、まとめて一人またはスキップに入れることができる。"},
@@ -937,11 +936,11 @@ namespace TownOfHost
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票数"},
-                {lang.HideAndSeekOptions, "HideAndSeekの設定"},
+                {lang.HideAndSeekEnabled, "HideAndSeekを有効化する"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
                 {lang.IgnoreCosmetics, "装飾品を禁止する"},
-                {lang.IgnoreVent, "通気口の使用を禁止する"},
+                {lang.IgnoreVent, "ベントの使用を禁止する"},
                 {lang.HideAndSeekRoles, "HideAndSeekの役職"},
                 {lang.SyncedButtonCount, "合計ボタン使用可能回数"},
                 {lang.DisableTasks, "タスクを無効化する"},
@@ -998,11 +997,11 @@ namespace TownOfHost
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
-                {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、通気口に入ることができる。"},
-                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口を使うことはできない。"},
+                {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュはできないが、ベントを使うことができる。"},
+                {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、ベントを使うことはできない。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となる。"},
-                {lang.MafiaInfoLong, "Mafia:\n初期状態で通気口やサボタージュ、変身は可能だが、キルをすることはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
+                {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルをすることはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。"},
                 {lang.SabotageMasterInfoLong, "SabotageMaster:\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。"},
                 {lang.MayorInfoLong, "Mayor:\n票を複数持っており、まとめて一人またはスキップに入れることができる。"},
@@ -1039,7 +1038,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillTerrorist, "Sheriff Can Kill Terrorist"},
                 {lang.SheriffCanKillOpportunist, "Sheriff Can Kill Opportunist"},
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
-                {lang.HideAndSeekOptions, "HideAndSeek Options"},
+                {lang.HideAndSeekEnabled, "Disable HideAndSeek"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time(s)"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
@@ -1220,7 +1219,7 @@ namespace TownOfHost
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
         MayorAdditionalVote,
-        HideAndSeekOptions,
+        HideAndSeekEnabled,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
         IgnoreCosmetics,

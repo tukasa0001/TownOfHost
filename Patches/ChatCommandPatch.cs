@@ -85,14 +85,18 @@ namespace TownOfHost
                         {
                             case "r":
                             case "roles":
-                                if(args.Length < 3){getRolesInfo("");break;}
-                                getRolesInfo(args[2]);
+                                if(args.Length < 3)
+                                    getRolesInfo("");
+                                else
+                                    getRolesInfo(args[2]);
                                 break;
 
                             case "m":
                             case "modes":
-                                if (args.Length < 3) { getModesInfo(""); break; }
-                                getModesInfo(args[2]);
+                                if (args.Length < 3)
+                                    getModesInfo("");
+                                else
+                                    getModesInfo(args[2]);
                                 break;
 
                             case "n":
