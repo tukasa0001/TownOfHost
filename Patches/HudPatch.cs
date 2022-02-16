@@ -135,6 +135,9 @@ namespace TownOfHost
                 case CustomRoles.Warlock:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getLang(lang.WarlockInfo)}</color>\r\n";
                     break;
+                case CustomRoles.SerialKiller:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
+                    break;
                 case CustomRoles.SKMadmate:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getRoleName(CustomRoles.SKMadmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getLang(lang.SKMadmateInfo)}</color>\r\n";
                     break;

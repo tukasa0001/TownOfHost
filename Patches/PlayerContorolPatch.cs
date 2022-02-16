@@ -123,6 +123,13 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
+            if(__instance.isSerialKiller())
+            {
+                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
+                main.SerialKillerTimer.Remove(__instance.PlayerId);
+                main.SerialKillerTimer.Add(__instance.PlayerId,0f);
+            }
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) return false;
                 if(!target.canBeKilledBySheriff()) {
@@ -205,6 +212,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.SerialKillerTimer.Clear();
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
@@ -305,6 +313,24 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.SerialKillerTimer[__instance.PlayerId] >= main.SerialKillerLimit)
+                    {
+                        if(!__instance.Data.IsDead)
+                        {
+                            __instance.RpcMurderPlayer(__instance);
+                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                        }
+                        else
+                        main.SerialKillerTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.SerialKillerTimer[__instance.PlayerId] =
+                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
 
                 if(__instance.AmOwner) main.ApplySuffix();
             }
@@ -340,12 +366,7 @@ namespace TownOfHost
                 string Suffix = "";
 
                 //名前変更
-                if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
-                    RealName = __instance.name;
-                    if(RealName == "Player(Clone)") return;
-                    main.RealNames[__instance.PlayerId] = RealName;
-                    TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
-                }
+                RealName = __instance.getRealName();
 
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch

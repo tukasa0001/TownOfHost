@@ -24,6 +24,7 @@ namespace TownOfHost
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
                 if(main.MafiaCount > 0) forced = true;
                 if(main.WarlockCount > 0) forced = true;
+                if(main.SerialKillerCount > 0) forced = true;
             }
 
             if(forced) {

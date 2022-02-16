@@ -150,6 +150,7 @@ namespace TownOfHost {
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
                 case CustomRoles.Warlock:
+                case CustomRoles.SerialKiller:
                     canBeKilled = true;
                     break;
             }
@@ -215,6 +216,10 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
+                    break;
+                case CustomRoles.SerialKiller:
+                    opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
+                    opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
                     break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
@@ -307,6 +312,8 @@ namespace TownOfHost {
 
         public static string getRealName(this PlayerControl player) {
             string RealName;
+            if(player.CurrentOutfitType == PlayerOutfitType.Shapeshifted)
+                return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
             if(!main.RealNames.TryGetValue(player.PlayerId, out RealName)) {
                 RealName = player.name;
                 if(RealName == "Player(Clone)") return RealName;
@@ -385,6 +392,7 @@ namespace TownOfHost {
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
+        public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
         public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}
     }
 }

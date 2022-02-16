@@ -82,6 +82,8 @@ namespace TownOfHost
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isWarlock())wr.RpcGuardAndKill(wr);
+            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())wr.RpcGuardAndKill(wr);
+            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;

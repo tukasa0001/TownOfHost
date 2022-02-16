@@ -67,6 +67,7 @@ namespace TownOfHost
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
+                    int SerialKillerCount = reader.ReadInt32();
                     int SKMadmateCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
@@ -101,6 +102,8 @@ namespace TownOfHost
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
+                    int SerialKillerCooldownDiscount = reader.ReadInt32();
+                    int SerialKillerLimit = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
@@ -117,6 +120,7 @@ namespace TownOfHost
                         BountyHunterCount,
                         WitchCount,
                         WarlockCount,
+                        SerialKillerCount,
                         SKMadmateCount,
                         FoxCount,
                         TrollCount,
@@ -140,6 +144,8 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
+                        SerialKillerCooldownDiscount,
+                        SerialKillerLimit,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -204,6 +210,7 @@ namespace TownOfHost
                 int BountyHunterCount,
                 int WitchCount,
                 int WarlockCount,
+                int SerialKillerCount,
                 int SKMadmateCount,
                 int FoxCount,
                 int TrollCount,
@@ -227,6 +234,8 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
+                int SerialKillerCooldownDiscount,
+                int SerialKillerLimit,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -253,6 +262,7 @@ namespace TownOfHost
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
             main.WarlockCount = WarlockCount;
+            main.SerialKillerCount = SerialKillerCount;
             main.SKMadmateCount = SKMadmateCount;
 
             main.FoxCount = FoxCount;
@@ -287,6 +297,9 @@ namespace TownOfHost
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+
+            main.SerialKillerCooldownDiscount = SerialKillerCooldownDiscount;
+            main.SerialKillerLimit = SerialKillerLimit;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;

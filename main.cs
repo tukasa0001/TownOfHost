@@ -186,6 +186,9 @@ namespace TownOfHost
                 case CustomRoles.Warlock:
                     count = WarlockCount;
                     break;
+                case CustomRoles.SerialKiller:
+                    count = SerialKillerCount;
+                    break;
                 case CustomRoles.SKMadmate:
                     count = SKMadmateCount;
                     break;
@@ -240,6 +243,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Warlock:
                     WarlockCount = count;
+                    break;
+                case CustomRoles.SerialKiller:
+                    SerialKillerCount = count;
                     break;
                 case CustomRoles.SKMadmate:
                     SKMadmateCount = count;
@@ -346,6 +352,7 @@ namespace TownOfHost
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
                 if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
+                if(main.SerialKillerCount > 0) main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
                 if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
@@ -358,7 +365,6 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
-                // if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -378,6 +384,7 @@ namespace TownOfHost
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
                 if(main.WarlockCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Warlock),main.WarlockCount);
+                if(main.SerialKillerCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SerialKiller),main.SerialKillerCount);
                 if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
@@ -470,10 +477,12 @@ namespace TownOfHost
         public static int BountyHunterCount;
         public static int WitchCount;
         public static int WarlockCount;
+        public static int SerialKillerCount;
         public static int SKMadmateCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
+        public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
@@ -483,6 +492,8 @@ namespace TownOfHost
         public static int MadeMadmatesCount;
         public static bool witchMeeting;
         public static bool WarlockCheck;
+        public static int SerialKillerCooldownDiscount;
+        public static int SerialKillerLimit;
         public static bool CheckShapeshift;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -529,6 +540,7 @@ namespace TownOfHost
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
             writer.Write(WarlockCount);
+            writer.Write(SerialKillerCount);
             writer.Write(SKMadmateCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
@@ -564,6 +576,8 @@ namespace TownOfHost
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
+            writer.Write(SerialKillerCooldownDiscount);
+            writer.Write(SerialKillerLimit);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -708,13 +722,7 @@ namespace TownOfHost
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName;
-                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
-                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
-                    else SeerRealName = seer.name;
-                    RealNames[seer.PlayerId] = SeerRealName;
-                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
-                }
+                string SeerRealName = seer.getRealName();
 
                 //猫又の人の表示
                 if(seer == main.Nekomata)SelfSuffix = $"<size=1.5>Nekomata</size>";
@@ -760,12 +768,7 @@ namespace TownOfHost
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName;
-                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
-                        TargetPlayerName = target.name;
-                        RealNames[target.PlayerId] = TargetPlayerName;
-                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
-                    }
+                    string TargetPlayerName = target.getRealName();
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
@@ -832,6 +835,7 @@ namespace TownOfHost
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            SerialKillerTimer = new Dictionary<byte, float>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
@@ -849,6 +853,8 @@ namespace TownOfHost
             VampireKillDelay = 10;
             NekomataCheck = false;
             CanMakeMadmateCount = 0;
+            SerialKillerCooldownDiscount = 50;
+            SerialKillerLimit = 60;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -902,6 +908,7 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
+                {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
@@ -926,6 +933,7 @@ namespace TownOfHost
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
                 {lang.WarlockInfo, "みんなを呪い殺そう"},
+                {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
                 {lang.SKMadmateInfo, "インポスターを援助しよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
@@ -945,6 +953,7 @@ namespace TownOfHost
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。誰かを呪った場合、普通のキルはできない。"},
+                {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nシェイプシフターが変身した際に一番近い人が成れる役職。インポスターの味方。タスクはない。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
@@ -976,6 +985,8 @@ namespace TownOfHost
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
+                {lang.SerialKillerCooldownDiscount, "シリアルキラーのキルクール減少"},
+                {lang.SerialKillerLimit, "シリアルキラーが自滅する時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1026,6 +1037,7 @@ namespace TownOfHost
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
+                {lang.SerialKillerInfo, "Keep killng to win"},
                 {lang.SKMadmateInfo, "Help the Impostors"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
@@ -1044,8 +1056,9 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
-                {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。誰かを呪った場合、普通のキルはできない。"},
-                {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\nシェイプシフターが変身した際に一番近い人が成れる役職。インポスターの味方。タスクはない。"},
+                {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。誰かを呪った場合、普通のキルはできない。"},
+                {lang.SKMadmateInfoLong, "SidekickMadmate:\nシェイプシフターが変身した際に一番近い人が成れる役職。インポスターの味方。タスクはない。"},
+                {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1078,6 +1091,8 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
+                {lang.SerialKillerCooldownDiscount, "SerialKiller's KillCooldown discount"},
+                {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1129,6 +1144,7 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
                 {CustomRoles.Warlock, "Warlock"},
+                {CustomRoles.SerialKiller, "serialKiller"},
                 {CustomRoles.SKMadmate, "SideKickMadmate"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
@@ -1155,6 +1171,7 @@ namespace TownOfHost
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
                 {CustomRoles.Warlock, "ウォーロック"},
+                {CustomRoles.SerialKiller, "シリアルキラー"},
                 {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
@@ -1201,6 +1218,7 @@ namespace TownOfHost
         BountyHunterInfo,
         WitchInfo,
         WarlockInfo,
+        SerialKillerInfo,
         SKMadmateInfo,
         FoxInfo,
         TrollInfo,
@@ -1220,6 +1238,7 @@ namespace TownOfHost
         BountyHunterInfoLong,
         WitchInfoLong,
         WarlockInfoLong,
+        SerialKillerInfoLong,
         SKMadmateInfoLong,
         FoxInfoLong,
         TrollInfoLong,
@@ -1252,6 +1271,8 @@ namespace TownOfHost
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
         MayorAdditionalVote,
+        SerialKillerCooldownDiscount,
+        SerialKillerLimit,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
@@ -1304,6 +1325,7 @@ namespace TownOfHost
         BountyHunter,
         Witch,
         Warlock,
+        SerialKiller,
         SKMadmate,
         Fox,
         Troll
