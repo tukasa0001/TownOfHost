@@ -91,40 +91,15 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
-                                switch (args[2])
-                                {
-                                    case "hideandseek":
-                                    case "has":
-                                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                                        break;
-
-                                    case "nogameend":
-                                    case "nge":
-                                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
-                                        break;
-
-                                    case "syncbuttonmode":
-                                    case "sbm":
-                                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
-                                        break;
-
-                                    case "randommapsmode":
-                                    case "rmm":
-                                        main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
-                                        break;
-
-                                    default:
-                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
-                                        break;
-                                }
+                                if (args.Length < 3) { getModesInfo(""); break; }
+                                getModesInfo(args[2]);
                                 break;
-                                
 
-                                case "n":
-                                case "now":
-                                    main.ShowActiveRoles();
-                                    break;
+                            case "n":
+                            case "now":
+                                canceled = true;
+                                main.ShowActiveSettingsInfo();
+                                break;
 
                             default:
                                 main.ShowHelp();
@@ -214,7 +189,7 @@ namespace TownOfHost
                 case "bo":
                     main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                     break;
-                
+
                 case "witch":
                 case "wi":
                     main.SendToAll(main.getLang(lang.WitchInfoLong));
@@ -231,10 +206,42 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh),\nbountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称):bountyhunter(bo), mafia(mf), vampire(va), witch(wi), madmate(mm), madguardian(mg), \n bait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn), \n jester(je), opportunist(op), terrorist(te), fox(fo), troll(tr)");
                     break;
             }
+        }
+        public static void getModesInfo(string role)
+        {
+            switch (role)
+            {
+                case "disabletasks":
+                case "dt":
+                    main.SendToAll(main.getLang(lang.DisableTasksInfo));
+                    break;
+                case "hideandseek":
+                case "has":
+                    main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                    break;
 
+                case "nogameend":
+                case "nge":
+                    main.SendToAll(main.getLang(lang.NoGameEndInfo));
+                    break;
+
+                case "syncbuttonmode":
+                case "sbm":
+                    main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
+                    break;
+
+                case "randommapsmode":
+                case "rmm":
+                    main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
+                    break;
+
+                default:
+                    main.SendToAll("使用可能な引数(略称):disabletasks(dt), hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                    break;
+            }
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]

@@ -46,9 +46,9 @@ namespace TownOfHost
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            
-            
-            
+
+
+
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
@@ -67,8 +67,8 @@ namespace TownOfHost
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
-            var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
+            var HideAndSeek = new PageObject(HideAndSeekOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
             var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => main.getLang(lang.HideAndSeekWaitingTime) + ": " + main.HideAndSeekKillDelay, true, () => {main.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref main.HideAndSeekKillDelay, i, 180));
             var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => main.getLang(lang.IgnoreCosmetics) + ": " + main.getOnOff(main.IgnoreCosmetics), true, () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;});
@@ -182,7 +182,7 @@ namespace TownOfHost
             return text;
         }
     }
-    
+
     class PageObject {
         public PageObject parent;
         public string name => getName();

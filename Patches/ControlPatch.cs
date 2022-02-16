@@ -41,7 +41,11 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
             {
-                main.ShowActiveRoles();
+                main.ShowActiveSettingsInfo();
+            }
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            {
+                main.ShowActiveSettings();
             }
             //====================
             // テスト用キーコマンド
