@@ -119,6 +119,12 @@ namespace TownOfHost
                                         break;
                                 }
                                 break;
+                                
+
+                                case "n":
+                                case "now":
+                                    main.ShowActiveRoles();
+                                    break;
 
                             default:
                                 main.ShowHelp();

@@ -59,6 +59,7 @@ namespace TownOfHost
         public static float HideAndSeekImpVisionMin;
 
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
+        public static Dictionary<byte, CustomRoles> lastAllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -424,7 +425,7 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             var text = "ロール割り当て:";
-            foreach(KeyValuePair<byte, CustomRoles> kvp in AllPlayerCustomRoles)
+            foreach(KeyValuePair<byte, CustomRoles> kvp in lastAllPlayerCustomRoles)
             {
                 text += $"\n{RealNames[kvp.Key]}:{main.getRoleName(kvp.Value)}";
             }
