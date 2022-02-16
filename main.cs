@@ -32,6 +32,7 @@ namespace TownOfHost
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;
         public static bool ExceptionMessageIsShown = false;
+        public static string credentialsText;
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
@@ -48,6 +49,7 @@ namespace TownOfHost
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
         public static GameOptionsData RealOptionsData;
+        public static PlayerState ps;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreVent;
@@ -81,11 +83,12 @@ namespace TownOfHost
         public static bool isFixedCooldown => VampireCount > 0;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static bool forceJapanese = false;
         public static VoteMode whenSkipVote = VoteMode.Default;
         public static VoteMode whenNonVote = VoteMode.Default;
+        public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        public static int lastTaskComplete = 0;
         
 
         public static int SetRoleCountToggle(int currentCount)
@@ -116,12 +119,12 @@ namespace TownOfHost
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese ? JapaneseTexts : EnglishTexts;
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
@@ -412,6 +415,7 @@ namespace TownOfHost
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
                 if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
+                if(main.whenNonVote == VoteMode.Suicide || main.whenSkipVote == VoteMode.Suicide) text += String.Format("\n{0}:{1}",main.getLang(lang.CanTerroristSuicideWin),main.canTerroristSuicideWin);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -537,6 +541,7 @@ namespace TownOfHost
             writer.Write(SyncedButtonCount);
             writer.Write((int)whenSkipVote);
             writer.Write((int)whenNonVote);
+            writer.Write(canTerroristSuicideWin);
             writer.Write(AllowCloseDoors);
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
@@ -562,7 +567,7 @@ namespace TownOfHost
             {
                 if (!task.Complete) isAllCompleted = false;
             }
-            if (isAllCompleted)
+            if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
@@ -576,9 +581,9 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
-        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendto, RoleTypes role)
+        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendto.getClientId());
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendTo.getClientId());
             writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -636,7 +641,7 @@ namespace TownOfHost
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました");
+            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました","NotifyRoles");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -653,7 +658,7 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START","NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
                 if(seer.Data.Disconnected) continue;
@@ -672,14 +677,8 @@ namespace TownOfHost
                 string SelfSuffix = "";
 
                 if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
-                    string targetName;
-                    if(!RealNames.TryGetValue(seer.getBountyTarget().PlayerId, out targetName)) {
-                        if(seer.getBountyTarget().AmOwner) targetName = SaveManager.PlayerName;
-                        else targetName = seer.name;
-                        RealNames[seer.getBountyTarget().PlayerId] = targetName;
-                        TownOfHost.Logger.warn("プレイヤー" + seer.getBountyTarget().PlayerId + "のRealNameが見つからなかったため、" + targetName + "を代入しました");
-                    }
-                    SelfSuffix = $"<size=1.5>Target:{targetName}</size>";
+                    string BountyTargetName = seer.getBountyTarget().getRealName();
+                    SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
@@ -687,13 +686,7 @@ namespace TownOfHost
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName;
-                if(!RealNames.TryGetValue(seer.PlayerId, out SeerRealName)) {
-                    if(seer.AmOwner) SeerRealName = SaveManager.PlayerName;
-                    else SeerRealName = seer.name;
-                    RealNames[seer.PlayerId] = SeerRealName;
-                    TownOfHost.Logger.warn("プレイヤー" + seer.PlayerId + "のRealNameが見つからなかったため、" + SeerRealName + "を代入しました");
-                }
+                string SeerRealName = seer.getRealName();
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}{SelfMark}";
@@ -724,10 +717,10 @@ namespace TownOfHost
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START");
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(seer.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
@@ -742,12 +735,7 @@ namespace TownOfHost
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName;
-                    if(!RealNames.TryGetValue(target.PlayerId, out TargetPlayerName)) {
-                        TargetPlayerName = target.name;
-                        RealNames[target.PlayerId] = TargetPlayerName;
-                        TownOfHost.Logger.warn("プレイヤー" + target.PlayerId + "のRealNameが見つからなかったため、" + TargetPlayerName + "を代入しました");
-                    }
+                    string TargetPlayerName = target.getRealName();
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
@@ -758,10 +746,10 @@ namespace TownOfHost
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
-
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END");
+                    
+                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
                 }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
             }
             main.witchMeeting = false;
         }
@@ -787,6 +775,8 @@ namespace TownOfHost
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
+            TownOfHost.Logger.enable();
+            TownOfHost.Logger.disable("NotifyRoles");
 
             currentWinner = CustomWinner.Default;
 
@@ -809,6 +799,7 @@ namespace TownOfHost
 
             whenSkipVote = VoteMode.Default;
             whenNonVote = VoteMode.Default;
+            canTerroristSuicideWin = false;
 
             NoGameEnd = false;
             CustomWinTrigger = false;
@@ -974,6 +965,14 @@ namespace TownOfHost
                 {lang.WitchModeKill, "キル"},
                 {lang.WitchModeSpell, "スペル"},
                 {lang.BountyCurrentTarget, "現在のターゲット"},
+                {lang.RoleOptions, "役職設定"},
+                {lang.ModeOptions, "モード設定"},
+                {lang.ForceJapanese, "日本語に強制"},
+                {lang.VoteMode, "投票モード"},
+                {lang.Default, "デフォルト"},
+                {lang.Suicide, "切腹"},
+                {lang.SelfVote, "自投票"},
+                {lang.CanTerroristSuicideWin, "テロリストの自殺勝ち"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -1024,7 +1023,7 @@ namespace TownOfHost
                 {lang.SyncButtonMode, "SyncButtonMode"},
                 {lang.RandomMapsMode, "RandomMapsMode"},
                 //モード解説
-                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)"},
+                {lang.HideAndSeekInfo, "HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。クルーは青、インポスターは赤になる。(設定有)"},
                 {lang.NoGameEndInfo, "NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。"},
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
@@ -1069,6 +1068,14 @@ namespace TownOfHost
                 {lang.WitchModeKill, "Kill"},
                 {lang.WitchModeSpell, "Spell"},
                 {lang.BountyCurrentTarget, "Current Target"},
+                {lang.RoleOptions, "Role Options"},
+                {lang.ModeOptions, "Mode Options"},
+                {lang.ForceJapanese, "Force Japanese"},
+                {lang.VoteMode, "VoteMode"},
+                {lang.Default, "Default"},
+                {lang.Suicide, "Suicide"},
+                {lang.SelfVote, "SelfVote"},
+                {lang.CanTerroristSuicideWin, "Can Terrorist Suicide Win"},
                 {lang.commandError, "Error:%1$"},
                 {lang.InvalidArgs, "Invalid Args"},
                 {lang.ON, "ON"},
@@ -1133,6 +1140,13 @@ namespace TownOfHost
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}","GitVersion");
 
             Harmony.PatchAll();
         }
@@ -1237,6 +1251,14 @@ namespace TownOfHost
         WitchModeKill,
         WitchModeSpell,
         BountyCurrentTarget,
+        RoleOptions,
+        ModeOptions,
+        ForceJapanese,
+        VoteMode,
+        Default,
+        Suicide,
+        SelfVote,
+        CanTerroristSuicideWin,
         commandError,
         InvalidArgs,
         ON,
