@@ -16,12 +16,6 @@ using System.Linq;
 using InnerNet;
 
 namespace TownOfHost {
-    [HarmonyPatch(typeof(PlayerControl), nameof(AmongUsClient.OnGameJoined))]
-    class ReSetNamePatch {
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
-            main.RealNames[__instance.PlayerId] = name;
-        }
-    }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch {
         public static void Postfix(AmongUsClient __instance) {
