@@ -261,13 +261,13 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
-                //自分自身の名前の色を変更
+                /*//自分自身の名前の色を変更
                 if(__instance.AmOwner) { //__instanceが自分自身
                     foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
                             RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
                             break; //無駄なループは行わない
                     }
-                }
+                }*/
 
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
