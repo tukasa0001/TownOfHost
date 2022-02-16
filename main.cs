@@ -24,8 +24,8 @@ namespace TownOfHost
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "3";
-        public const string BetaName = "Name Revolution Beta";
+        public const string BetaVersion = "4";
+        public const string BetaName = "**** Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static BepInEx.Logging.ManualLogSource Logger;
