@@ -120,15 +120,24 @@ namespace TownOfHost
     {
         public static void Postfix(EndGameManager __instance)
         {
+            // Additional code
+            GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
+            bonusText.transform.position = new Vector3(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
+            bonusText.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
+            TMPro.TMP_Text textRenderer = bonusText.GetComponent<TMPro.TMP_Text>();
+            textRenderer.text = "";
+
             //特殊勝利
             if (main.currentWinner == CustomWinner.Jester)
             {
                 __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
+                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>ジェスター勝利";
             }
             if (main.currentWinner == CustomWinner.Terrorist)
             {
                 __instance.Foreground.material.color = Color.red;
                 __instance.BackgroundBar.material.color = Color.green;
+                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>テロリスト勝利";
             }
             //引き分け処理
             if (main.currentWinner == CustomWinner.Draw)
