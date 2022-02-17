@@ -62,6 +62,10 @@ namespace TownOfHost
             {
                 p.RpcMurderPlayer(p);
             }
+            foreach(var p in main.CursedPlayerDie)
+            {
+                p.RpcMurderPlayer(p);
+            }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;

@@ -470,7 +470,7 @@ namespace TownOfHost
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
-
+        public static List<PlayerControl> CursedPlayerDie = new List<PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
@@ -803,6 +803,7 @@ namespace TownOfHost
             BitPlayers = new Dictionary<byte, (byte, float)>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
+            CursedPlayerDie = new List<PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             winnerList = "";
             VisibleTasksCount = false;

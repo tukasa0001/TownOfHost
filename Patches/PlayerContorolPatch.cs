@@ -130,6 +130,7 @@ namespace TownOfHost
             { //Warlockが変身時以外にキルしたら、呪われる処理
                 __instance.RpcGuardAndKill(target);
                 main.CursedPlayers.Add(__instance.PlayerId,target);
+                main.CursedPlayerDie.Add(target);
                 return false;
             }
             //Warlockが誰かを呪った時にキルできなくなる処理
@@ -171,6 +172,7 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                foreach(var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId)return false;
             }
 
             if (main.SyncButtonMode && target == null)
@@ -218,6 +220,9 @@ namespace TownOfHost
             }
             foreach(var sp in main.SpelledPlayer) {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
+            }
+            foreach(var cp in main.CursedPlayerDie){
+                cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
 
             main.CustomSyncAllSettings();
