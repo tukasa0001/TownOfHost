@@ -210,7 +210,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.SKMadmate, Crewmates);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {

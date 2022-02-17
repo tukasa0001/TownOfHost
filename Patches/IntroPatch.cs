@@ -31,7 +31,6 @@ namespace TownOfHost
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
             {CustomRoles.Witch, lang.WitchInfo},
             {CustomRoles.Warlock, lang.WarlockInfo},
-            {CustomRoles.SKMadmate, lang.SKMadmateInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };

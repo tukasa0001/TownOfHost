@@ -142,7 +142,6 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
-                case CustomRoles.SKMadmate:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -362,6 +361,5 @@ namespace TownOfHost {
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
-        public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}
     }
 }

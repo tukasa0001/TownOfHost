@@ -67,7 +67,6 @@ namespace TownOfHost
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
-                    int SKMadmateCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -115,7 +114,6 @@ namespace TownOfHost
                         BountyHunterCount,
                         WitchCount,
                         WarlockCount,
-                        SKMadmateCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -200,7 +198,6 @@ namespace TownOfHost
                 int BountyHunterCount,
                 int WitchCount,
                 int WarlockCount,
-                int SKMadmateCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -247,7 +244,6 @@ namespace TownOfHost
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
             main.WarlockCount = WarlockCount;
-            main.SKMadmateCount = SKMadmateCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
