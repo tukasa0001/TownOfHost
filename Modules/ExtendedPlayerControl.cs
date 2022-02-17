@@ -142,6 +142,7 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
+                case CustomRoles.SKMadmate:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -182,7 +183,20 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
+                    if(main.MadmateVisionAsImpostor){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var switchSystems = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(switchSystems != null && switchSystems.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
                     goto InfinityVent;
+                case CustomRoles.MadGuardian:
+                    if(main.MadmateVisionAsImpostor)goto MadmateVision;
+                    break;
+                case CustomRoles.SKMadmate:
+                    if(main.MadmateVisionAsImpostor)goto MadmateVision;
+                    break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
@@ -201,6 +215,13 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                MadmateVision:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    var switchSystemM = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(switchSystemM != null && switchSystemM.IsActive) {
+                        opt.CrewLightMod *= 5;
+                    }
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
@@ -347,6 +368,7 @@ namespace TownOfHost {
         public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
         public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
         public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
+        public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}
         public static bool isBait(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bait;}
         public static bool isTerrorist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Terrorist;}
         public static bool isMafia(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mafia;}

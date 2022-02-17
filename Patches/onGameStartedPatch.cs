@@ -22,6 +22,7 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
+            main.SKMadmateNowCount = 0;
 
             main.ps = new PlayerState();
 
