@@ -26,7 +26,7 @@ namespace TownOfHost
             currentPage = basePage;
 
             //ページ追加など
-            var RoleOptions = new PageObject(basePage, "Role Options");
+            var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
@@ -66,7 +66,7 @@ namespace TownOfHost
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
 
             //Mode Options
-            var ModeOptions = new PageObject(basePage, "Mode Options");
+            var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => main.getLang(lang.AllowCloseDoors) + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
@@ -110,22 +110,27 @@ namespace TownOfHost
             //var rmDleks = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedDleks) + ": " + main.getOnOff(main.AddedDleks), true, () => main.AddedDleks = !main.AddedDleks);
             var rmAirship = new PageObject(RandomMapsMode, () => main.getLang(lang.AddedTheAirShip) + ": " + main.getOnOff(main.AddedTheAirShip), true, () => main.AddedTheAirShip = !main.AddedTheAirShip);
             var NoGameEnd = new PageObject(ModeOptions, () => main.getLang(lang.NoGameEnd) + ": " + main.getOnOff(main.NoGameEnd), true, () => main.NoGameEnd = !main.NoGameEnd);
-            var WhenSkipVote = new PageObject(ModeOptions, () => main.getLang(lang.WhenSkipVote) + ": " + main.whenSkipVote.ToString(), true, () => {
+
+            var voteMode = new PageObject(ModeOptions, lang.VoteMode);
+            var WhenSkipVote = new PageObject(voteMode, () => main.getLang(lang.WhenSkipVote) + ": " + main.getLang(lang.Default + (int)main.whenSkipVote), true, () => {
                 var next = main.whenSkipVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenSkipVote = next;
             });
-            var WhenNonVote = new PageObject(ModeOptions, () => main.getLang(lang.WhenNonVote) + ": " + main.whenNonVote.ToString(), true, () => {
+            var WhenNonVote = new PageObject(voteMode, () => main.getLang(lang.WhenNonVote) + ": " + main.getLang(lang.Default + (int)main.whenNonVote), true, () => {
                 var next = main.whenNonVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenNonVote = next;
             });
+            var canTerroristSuicideWin = new PageObject(voteMode, () => main.getLang(lang.CanTerroristSuicideWin) + ": " + main.getOnOff(main.canTerroristSuicideWin), true, () => main.canTerroristSuicideWin = !main.canTerroristSuicideWin);
+
             var Suffix = new PageObject(basePage, () => main.getLang(lang.SuffixMode) + ": " + main.currentSuffix.ToString(), true, () => {
                 var next = main.currentSuffix + 1;
                 if(next > SuffixModes.Recording) next = SuffixModes.None;
                 main.currentSuffix = next;
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
+            var forceJapanese = new PageObject(basePage, () => main.getLang(lang.ForceJapanese) + ": " + main.getOnOff(main.forceJapanese), false, () => main.forceJapanese = !main.forceJapanese);
         }
         public static void SetPage(PageObject page)
         {

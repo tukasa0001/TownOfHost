@@ -18,6 +18,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch {
         public static bool Prefix(MeetingHud __instance) {
+            try {
+            
+            
             if(!AmongUsClient.Instance.AmHost) return true;
             foreach(var ps in __instance.playerStates) {
                 if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
@@ -33,13 +36,17 @@ namespace TownOfHost
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
+                if(ps == null) continue;
                 Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
-                if(ps.VotedFor == 253 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//スキップ
+                var voter = main.getPlayerById(ps.TargetPlayerId);
+                if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
+                if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                 {
                     switch (main.whenSkipVote)
                     {
                         case VoteMode.Suicide:
-                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
+                            voter.RpcMurderPlayer(voter);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
@@ -48,12 +55,12 @@ namespace TownOfHost
                             break;
                     }
                 }
-                if(ps.VotedFor == 254 && !main.getPlayerById(ps.TargetPlayerId).Data.IsDead)//無投票
+                if(ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                 {
                     switch (main.whenNonVote)
                     {
                         case VoteMode.Suicide:
-                            main.getPlayerById(ps.TargetPlayerId).RpcMurderPlayer(main.getPlayerById(ps.TargetPlayerId));
+                            voter.RpcMurderPlayer(voter);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
@@ -106,6 +113,13 @@ namespace TownOfHost
                 if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
             
             return false;
+
+
+            }
+            catch(Exception ex) {
+                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                throw;
+            }
         }
         public static bool isMayor(byte id) {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
@@ -116,10 +130,12 @@ namespace TownOfHost
 
     static class ExtendedMeetingHud {
         public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance) {
+            Logger.info("CustomCalculateVotes開始");
             Dictionary<byte, int> dic = new Dictionary<byte, int>();
             //| 投票された人 | 投票された回数 |
             for(int i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
+                if(ps == null) continue;
                 if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254) {
                     int num;
                     int VoteNum = 1;

@@ -90,6 +90,7 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
+                    bool canTerroristSuicideWin = reader.ReadBoolean();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -134,6 +135,7 @@ namespace TownOfHost
                         SyncedButtonCount,
                         whenSkipVote,
                         whenNonVote,
+                        canTerroristSuicideWin,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -216,6 +218,7 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 int whenSkipVote,
                 int whenNonVote,
+                bool canTerroristSuicideWin,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -273,6 +276,7 @@ namespace TownOfHost
 
             main.whenSkipVote = (VoteMode)whenSkipVote;
             main.whenNonVote = (VoteMode)whenNonVote;
+            main.canTerroristSuicideWin = canTerroristSuicideWin;
 
             main.AllowCloseDoors = AllowCloseDoors;
             main.HideAndSeekKillDelay = HaSKillDelay;

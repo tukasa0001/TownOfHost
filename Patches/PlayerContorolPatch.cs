@@ -225,6 +225,7 @@ namespace TownOfHost
                 }
 
                 if(__instance.AmOwner) main.ApplySuffix();
+                if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             //役職テキストの表示
@@ -258,12 +259,7 @@ namespace TownOfHost
                 string Suffix = "";
 
                 //名前変更
-                if(!main.RealNames.TryGetValue(__instance.PlayerId, out RealName)) {
-                    RealName = __instance.name;
-                    if(RealName == "Player(Clone)") return;
-                    main.RealNames[__instance.PlayerId] = RealName;
-                    TownOfHost.Logger.warn("プレイヤー" + __instance.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
-                }
+                RealName = __instance.getRealName();
 
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
