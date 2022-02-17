@@ -38,19 +38,16 @@ namespace TownOfHost
             //Debug Message
             //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+            foreach(var p in main.SpelledPlayer)
+            {
+                p.RpcMurderPlayer(p);
+            }
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Witch)
                 {
                     main.SpelledPlayer.Clear();
-                }
-                if (role != CustomRoles.Witch)
-                {
-                    foreach(var p in main.SpelledPlayer)
-                    {
-                        p.RpcMurderPlayer(p);
-                    }
                 }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -64,13 +61,6 @@ namespace TownOfHost
                     main.CheckTerroristWin(exiled);
                 }
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
-            }
-            if (exiled == null)
-            {
-                foreach(var p in main.SpelledPlayer)
-                {
-                    p.RpcMurderPlayer(p);
-                }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
