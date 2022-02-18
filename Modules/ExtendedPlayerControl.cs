@@ -185,18 +185,16 @@ namespace TownOfHost {
                 case CustomRoles.Madmate:
                     if(main.MadmateVisionAsImpostor){
                         opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystems = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if(switchSystems != null && switchSystems.IsActive) {
+                        var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(mm != null && mm.IsActive) {
                             opt.CrewLightMod *= 5;
                         }
                     }
                     goto InfinityVent;
                 case CustomRoles.MadGuardian:
-                    if(main.MadmateVisionAsImpostor)goto MadmateVision;
-                    break;
+                    goto MadmateVision;
                 case CustomRoles.SKMadmate:
-                    if(main.MadmateVisionAsImpostor)goto MadmateVision;
-                    break;
+                    goto MadmateVision;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
@@ -217,10 +215,12 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 MadmateVision:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    var switchSystemM = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if(switchSystemM != null && switchSystemM.IsActive) {
-                        opt.CrewLightMod *= 5;
+                    if(main.MadmateVisionAsImpostor){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(sm != null && sm.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
                     }
                     break;
             }

@@ -551,7 +551,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
-            writer.Write(MadmateCanFixLightsOut);
+            writer.Write(MadmateVisionAsImpostor);
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
