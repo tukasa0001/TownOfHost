@@ -75,6 +75,7 @@ namespace TownOfHost
             switch(role) {
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.MadSnitch:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
