@@ -198,6 +198,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadSnitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
