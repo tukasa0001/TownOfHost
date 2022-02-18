@@ -36,8 +36,8 @@ namespace TownOfHost
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
             main.witchMeeting = false;
-            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if(!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             //Debug Message
             //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
             if (exiled != null)
