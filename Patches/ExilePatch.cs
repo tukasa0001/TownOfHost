@@ -35,8 +35,8 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            //Debug Message
-            //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
+            foreach(var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
+            foreach(var cd in main.CursedPlayerDie)if(cd.Data.IsDead)main.CursedPlayerDie.Remove(cd);
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {
@@ -70,7 +70,11 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isWarlock())wr.RpcGuardAndKill(wr);
+            foreach(var wr in PlayerControl.AllPlayerControls){
+                if(wr.isWarlock())wr.RpcGuardAndKill(wr);
+                main.CursedPlayers.Remove(wr.PlayerId);
+            }
+            main.FirstCursedCheck = false;
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;

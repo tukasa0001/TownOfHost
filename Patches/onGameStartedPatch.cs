@@ -24,6 +24,7 @@ namespace TownOfHost
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.CursedPlayerDie = new List<PlayerControl>();
+            main.FirstCursedCheck = false;
 
             main.ps = new PlayerState();
 

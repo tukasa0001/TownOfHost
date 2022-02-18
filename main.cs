@@ -473,6 +473,7 @@ namespace TownOfHost
         public static List<PlayerControl> CursedPlayerDie = new List<PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
+        public static bool FirstCursedCheck;
         public static bool witchMeeting;
         public static bool CheckShapeshift;
         public static byte ExiledJesterID;

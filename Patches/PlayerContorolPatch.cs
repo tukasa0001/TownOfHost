@@ -45,26 +45,32 @@ namespace TownOfHost
         {
             if(__instance.isWarlock())
             {
-                if(main.CursedPlayers[__instance.PlayerId].Data.IsDead)main.CursedPlayers.Remove(__instance.PlayerId);
-                if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)
+                if(main.FirstCursedCheck)
                 {
-                    var cp = main.CursedPlayers[__instance.PlayerId];
-                    Vector2 cppos = cp.transform.position;
-                    Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
-                    float dis;
-                    foreach(PlayerControl p in PlayerControl.AllPlayerControls)
-                    {
-                        if(!p.Data.IsDead && p != cp)
-                        {
-                            dis = Vector2.Distance(cppos,p.transform.position);
-                            cpdistance.Add(p,dis);
-                            Logger.info($"{p.name}の位置{dis}");
-                        }
+                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
+                        main.CursedPlayers.Remove(__instance.PlayerId);
+                        main.FirstCursedCheck = false;
                     }
-                    var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();
-                    PlayerControl targetw = min.Key;
-                    Logger.info($"{targetw.name}was killed");
-                    cp.RpcMurderPlayer(targetw);
+                    if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)
+                    {
+                        var cp = main.CursedPlayers[__instance.PlayerId];
+                        Vector2 cppos = cp.transform.position;
+                        Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
+                        float dis;
+                        foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                        {
+                            if(!p.Data.IsDead && p != cp)
+                            {
+                                dis = Vector2.Distance(cppos,p.transform.position);
+                                cpdistance.Add(p,dis);
+                                Logger.info($"{p.name}の位置{dis}");
+                            }
+                        }
+                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();
+                        PlayerControl targetw = min.Key;
+                        Logger.info($"{targetw.name}was killed");
+                        cp.RpcMurderPlayer(targetw);
+                    }
                 }
                 main.CheckShapeshift = !main.CheckShapeshift;
             }
@@ -126,15 +132,24 @@ namespace TownOfHost
                 main.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.isWarlock() && main.CheckShapeshift == false)
-            { //Warlockが変身時以外にキルしたら、呪われる処理
-                __instance.RpcGuardAndKill(target);
-                main.CursedPlayers.Add(__instance.PlayerId,target);
-                main.CursedPlayerDie.Add(target);
-                return false;
+            if (__instance.isWarlock())
+            {
+                if (main.CheckShapeshift == false && main.FirstCursedCheck == false)
+                { //Warlockが変身時以外にキルしたら、呪われる処理
+                    __instance.RpcGuardAndKill(target);
+                    main.CursedPlayers.Add(__instance.PlayerId,target);
+                    main.CursedPlayerDie.Add(target);
+                    main.FirstCursedCheck = true;
+                    return false;
+                }
+                if (main.CheckShapeshift && main.FirstCursedCheck == false){//キルクールリセット
+                    __instance.RpcMurderPlayer(target);
+                    __instance.RpcGuardAndKill(target);
+                    return false;
+                }
+                //Warlockが誰かを呪った時にキルできなくなる処理
+                if (main.FirstCursedCheck)return false;
             }
-            //Warlockが誰かを呪った時にキルできなくなる処理
-            if (__instance.isWarlock() && main.CursedPlayers[__instance.PlayerId] != null)return false;
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
