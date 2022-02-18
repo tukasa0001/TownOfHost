@@ -35,8 +35,7 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            foreach(var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
-            foreach(var cd in main.CursedPlayerDie)if(cd.Data.IsDead)main.CursedPlayerDie.Remove(cd);
+            foreach(var cd in main.CursedPlayerDie)if(cd.Data.IsDead)main.CursedPlayerDie.Remove(cd);//呪われた人が死んだ場合にリストから削除する
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {
@@ -62,7 +61,7 @@ namespace TownOfHost
             {
                 p.RpcMurderPlayer(p);
             }
-            foreach(var p in main.CursedPlayerDie)
+            foreach(var p in main.CursedPlayerDie)//呪われた人を確定で殺す
             {
                 p.RpcMurderPlayer(p);
             }

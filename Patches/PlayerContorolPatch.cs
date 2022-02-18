@@ -45,16 +45,16 @@ namespace TownOfHost
         {
             if(__instance.isWarlock())
             {
-                if(main.FirstCursedCheck)
+                if(main.FirstCursedCheck)//呪われた人がいるか確認
                 {
-                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){
+                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){//のろわれた人が死んだ場合
                         main.CursedPlayers.Remove(__instance.PlayerId);
                         main.FirstCursedCheck = false;
                     }
-                    if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)
+                    if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)//変身解除の時に反応しない
                     {
                         var cp = main.CursedPlayers[__instance.PlayerId];
-                        Vector2 cppos = cp.transform.position;
+                        Vector2 cppos = cp.transform.position;//呪われた人の位置
                         Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
                         float dis;
                         foreach(PlayerControl p in PlayerControl.AllPlayerControls)
@@ -66,13 +66,13 @@ namespace TownOfHost
                                 Logger.info($"{p.name}の位置{dis}");
                             }
                         }
-                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();
+                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         Logger.info($"{targetw.name}was killed");
-                        cp.RpcMurderPlayer(targetw);
+                        cp.RpcMurderPlayer(targetw);//殺す
                     }
                 }
-                main.CheckShapeshift = !main.CheckShapeshift;
+                main.CheckShapeshift = !main.CheckShapeshift;//変身、変身解除のスイッチ
             }
         }
     }
@@ -142,7 +142,7 @@ namespace TownOfHost
                     main.FirstCursedCheck = true;
                     return false;
                 }
-                if (main.CheckShapeshift && main.FirstCursedCheck == false){//キルクールリセット
+                if (main.CheckShapeshift && main.FirstCursedCheck == false){//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
