@@ -214,7 +214,7 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                MadmateVision:
+                MadmateVision://マッドメイトの視野をインポスターと同じにする処理
                     if(main.MadmateVisionAsImpostor){
                         opt.CrewLightMod = opt.ImpostorLightMod;
                         var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();

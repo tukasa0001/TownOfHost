@@ -44,8 +44,8 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if(main.CanMakeMadmateCount > main.SKMadmateNowCount)//ウォーロックを除く処理を追加する。
-            {
-                Vector2 __instancepos = __instance.transform.position;
+            {//変身したとき一番近い人をマッドメイトにする処理
+                Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
                 float dis;
                 foreach(PlayerControl p in PlayerControl.AllPlayerControls)
@@ -56,7 +56,7 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
-                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();
+                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                 PlayerControl targetm = min.Key;
                 targetm.SetCustomRole(CustomRoles.SKMadmate);
                 main.SKMadmateNowCount++;
