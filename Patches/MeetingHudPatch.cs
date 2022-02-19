@@ -110,7 +110,7 @@ namespace TownOfHost
 
             //霊界用暗転バグ対処
             foreach(var pc in PlayerControl.AllPlayerControls)
-                if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
+                if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(20f);
             
             return false;
 
