@@ -248,6 +248,12 @@ namespace TownOfHost
                     }
                 }, 3f, "SetImpostorForServer");
             }
+
+            main.CustomSyncAllSettings();
+            SetColorPatch.IsAntiGlitchDisabled = false;
+            var sc = PlayerControl.LocalPlayer.Data.Role.Cast<ScientistRole>();
+            sc.currentCharge = 30;
+
             main.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 
