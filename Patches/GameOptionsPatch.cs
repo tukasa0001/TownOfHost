@@ -23,6 +23,7 @@ namespace TownOfHost
             }
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
                 if(main.MafiaCount > 0) forced = true;
+                if(main.ShapeMasterCount > 0) forced = true;
             }
 
             if(forced) {

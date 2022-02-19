@@ -30,6 +30,7 @@ namespace TownOfHost
             {CustomRoles.Sheriff, lang.SheriffInfo},
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
             {CustomRoles.Witch, lang.WitchInfo},
+            {CustomRoles.ShapeMaster, lang.ShapeMasterInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };

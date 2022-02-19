@@ -148,6 +148,7 @@ namespace TownOfHost {
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.ShapeMaster:
                     canBeKilled = true;
                     break;
             }
@@ -185,6 +186,8 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
+                case CustomRoles.ShapeMaster:
+                    goto InfinityShapeshift;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -201,6 +204,11 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                InfinityShapeshift:
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = 10;
+                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
@@ -359,5 +367,6 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isShapeMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.ShapeMaster;}
     }
 }
