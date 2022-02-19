@@ -142,6 +142,7 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
+                case CustomRoles.MadScientist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -185,6 +186,8 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
+                case CustomRoles.MadScientist:
+                    goto ScientistVitals;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -201,6 +204,10 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                ScientistVitals:
+                    opt.RoleOptions.ScientistBatteryCharge = 30;
+                    opt.RoleOptions.ScientistCooldown = 15;
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
@@ -359,5 +366,6 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isMadScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadScientist;}
     }
 }

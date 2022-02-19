@@ -187,6 +187,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     count = WitchCount;
                     break;
+                case CustomRoles.MadScientist:
+                    count = MadScientistCount;
+                    break;
                 default:
                     return -1;
             }
@@ -235,6 +238,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     WitchCount = count;
+                    break;
+                case CustomRoles.MadScientist:
+                    MadScientistCount = count;
                     break;
             }
         }
@@ -302,6 +308,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.MadScientist) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
@@ -339,6 +346,7 @@ namespace TownOfHost
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.MadScientistCount > 0) main.SendToAll(main.getLang(lang.MadScientistInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
@@ -369,6 +377,7 @@ namespace TownOfHost
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if(main.MadScientistCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadScientist),main.MadScientistCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
@@ -457,6 +466,7 @@ namespace TownOfHost
         public static int SnitchCount;
         public static int BountyHunterCount;
         public static int WitchCount;
+        public static int MadScientistCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -506,6 +516,7 @@ namespace TownOfHost
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
+            writer.Write(MadScientistCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -855,6 +866,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.MadScientist,"#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -877,6 +889,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
+                {lang.MadScientistInfo,"バイタルを使い、インポスターを援助しよう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -894,6 +907,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.MadScientistInfoLong, "マッドサイエンティスト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドサイエンティストが誰なのかはわからない。キルやサボタージュは使えないが、タスクをすることでバイタルを使うことができる。(設定有)"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -978,6 +992,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
+                {lang.MadScientistInfo,"Use Your Vitals,Help the Impostors"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -995,6 +1010,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.MadScientistInfoLong, "MadScientist:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadScientistが誰なのかはわからない。キルやサボタージュは使えないが、タスクをすることでバイタルを使うことができる。(設定有)"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1082,6 +1098,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
+                {CustomRoles.MadScientist,"MadScientist"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1106,6 +1123,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
+                {CustomRoles.MadScientist,"マッドサイエンティスト"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1157,6 +1175,7 @@ namespace TownOfHost
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
+        MadScientistInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1174,6 +1193,7 @@ namespace TownOfHost
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
+        MadScientistInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1261,6 +1281,7 @@ namespace TownOfHost
         Sheriff,
         BountyHunter,
         Witch,
+        MadScientist,
         Fox,
         Troll
     }
