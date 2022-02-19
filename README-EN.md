@@ -57,6 +57,7 @@ However, The numeric keypad is not supported.<br>
 | Snitch | Crewmate |
 | Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
+| ShapeMaster | ShapeShifter |
 
 ### Jester
 
@@ -183,6 +184,14 @@ Decision : Impostor<br>
 When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
+
+### ShapeMaster
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+Shape Master ignores the cooldown after a transformation and can transform again.<br>
+However, the transformation lasts only 10 seconds.<br>
 
 ## Mode
 
