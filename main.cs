@@ -942,7 +942,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.SerialKillerCooldownDiscount, "シリアルキラーのキルクール減少"},
-                {lang.SerialKillerLimit, "シリアルキラーが自滅する時間"},
+                {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1108,7 +1108,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
-                {CustomRoles.SerialKiller, "serialKiller"},
+                {CustomRoles.SerialKiller, "SerialKiller"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };

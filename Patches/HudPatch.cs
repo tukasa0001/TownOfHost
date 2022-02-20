@@ -133,7 +133,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getLang(lang.WitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.SerialKiller:
-                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}\r\n{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
                     break;
             }
 
