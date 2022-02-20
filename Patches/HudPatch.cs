@@ -132,6 +132,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getLang(lang.WitchInfo)}</color>\r\n";
                     break;
+                case CustomRoles.SerialKiller:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}\r\n{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
