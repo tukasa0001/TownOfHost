@@ -158,6 +158,7 @@ namespace TownOfHost
         }
         public static void Return()
         {
+            if(currentPage.parent != null)
             SetPage(currentPage.parent);
         }
         public static void Input(int num)
