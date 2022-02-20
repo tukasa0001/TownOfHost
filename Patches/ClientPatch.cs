@@ -20,7 +20,7 @@ namespace TownOfHost {
     class ChangeGamePublicPatch {
         public static void Prefix(InnerNetClient __instance, [HarmonyArgument(0)] ref bool isPublic) {
             if(main.PluginVersionType == VersionTypes.Beta) {
-                if(isPublic) Logger.SendInGame("ベータ版では公開ルームにすることができません。", true);
+                if(isPublic) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "ベータ版では公開ルームにできません。");
                 isPublic = false;
             }
         }
