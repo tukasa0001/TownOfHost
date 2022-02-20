@@ -257,7 +257,7 @@ namespace TownOfHost
             if(count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
             for(var i = 0; i < count; i++) {
-                var player = players[rand.Next(0, players.Count - 1)];
+                var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
