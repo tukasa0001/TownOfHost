@@ -199,4 +199,26 @@ namespace TownOfHost
             }
         }
     }
+
+    [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
+    class ConsoleJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(ConsoleJoystick.player);
+        }
+    }
+    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
+    class KeyboardJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(KeyboardJoystick.player);
+        }
+    }
+    class HandleHUDPatch {
+        public static void Postfix(Rewired.Player player) {
+            if(player.GetButtonDown(8) && 
+            AmongUsClient.Instance.AmHost &&
+            PlayerControl.LocalPlayer.isSheriff()) {
+                DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
+            }
+        }
+    }
 }
