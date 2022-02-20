@@ -23,6 +23,7 @@ namespace TownOfHost
         static PlayerControl bot;
         public static void Postfix(KeyboardJoystick __instance)
         {
+            //##ホスト専用コマンド##
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
@@ -44,7 +45,7 @@ namespace TownOfHost
                 main.ShowActiveRoles();
             }
             //====================
-            // テスト用キーコマンド
+            //##テスト用キーコマンド##
             // | キー | 条件 | 動作 |
             // | ---- | ---- | ---- |
             // | X | フリープレイ中 | キルクール0 |
@@ -159,7 +160,7 @@ namespace TownOfHost
             }*/
             //マスゲーム用コード終わり
 
-
+            //##カスタム設定コマンド##
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
