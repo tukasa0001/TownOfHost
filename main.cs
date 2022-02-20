@@ -992,7 +992,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
-                {lang.MadScientistInfo,"Use Your Vitals,Help the Impostors"},
+                {lang.MadScientistInfo,"Use Your Vitals Help the Impostors"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
