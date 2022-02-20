@@ -305,16 +305,11 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                Task task = Task.Run(() =>
-                {
-                    Thread.Sleep(100);
-                    foreach (var imp in Impostors)
-                    {
-                        imp.RpcSetRole(RoleTypes.GuardianAngel);
-                    }
-                    Thread.Sleep(100);
-                    main.CustomWinTrigger = true;
-                });
+                foreach (var imp in Impostors) {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
             }
         }
         public static void TerroristWin(byte terroristID)
@@ -333,12 +328,11 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var imp in Impostors)
-                {
+                foreach (var imp in Impostors) {
                     imp.RpcSetRole(RoleTypes.GuardianAngel);
                 }
-                Thread.Sleep(100);
-                main.CustomWinTrigger = true;
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
             }
         }
         public static void EndGame()
