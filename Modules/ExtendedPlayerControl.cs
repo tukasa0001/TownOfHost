@@ -56,6 +56,10 @@ namespace TownOfHost {
         }
 
         public static CustomRoles getCustomRole(this PlayerControl player) {
+            if(player == null) {
+                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
+                return CustomRoles.Default;
+            }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
             if(!cRoleFound)
             {
