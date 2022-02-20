@@ -85,6 +85,7 @@ namespace TownOfHost
                         //ただしホスト、お前はDesyncするな。
                         sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                         foreach(var pc in PlayerControl.AllPlayerControls) {
+                            if(pc == sheriff) continue;
                             sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                             pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                         }
