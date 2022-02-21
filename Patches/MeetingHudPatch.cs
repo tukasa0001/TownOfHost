@@ -174,12 +174,12 @@ namespace TownOfHost
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
-            
+
             new LateTask(() => {
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.RpcSetName(pc.getRealName());
                 }
-            }, 3f, "Set RealName to Chat");
+            }, 3f, "SetName To Chat");
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
