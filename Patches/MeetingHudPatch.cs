@@ -180,6 +180,42 @@ namespace TownOfHost
                     pc.RpcSetName(pc.getRealName());
                 }
             }, 3f, "SetName To Chat");
+
+
+            foreach(var pva in __instance.playerStates) {
+                if(pva == null) continue;
+                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                if(pc == null) continue;
+
+                //会議画面での名前変更
+                //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
+                //変更する場合でも、このコードはMadSnitchで使うと思うので消さないでください。
+
+                //インポスター表示
+                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
+                    LocalPlayerKnowsImpostor = true;
+                
+                if(LocalPlayerKnowsImpostor) {
+                    if(pc != null && pc.getCustomRole().isImpostor()) //変更先がインポスター
+                        //変更対象の名前を赤くする
+                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                }
+
+                if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                pc.isSnitch() && //変更対象がSnitch
+                pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
+                ) {
+                    //変更対象にSnitchマークをつける
+                    //TODO:名前無限増殖バグ
+                    //TODO:シェリフの開始画面がインポスター
+                    //TODO:部屋退出時などに設定画面のON/OFFがOFFに設定じゃなくて反転になっている。
+                    pva.NameText.text += "<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+
+                //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+            }
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
@@ -190,15 +226,16 @@ namespace TownOfHost
             if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
             foreach (var pva in __instance.playerStates)
             {
+                if(pva == null) continue;
+                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                if(pc == null) continue;
+
+                //役職表示系
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 TMPro.TextMeshPro RoleTextMeeting = null;
                 if(RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if (RoleTextMeeting != null)
                 {
-                    var pc = PlayerControl.AllPlayerControls.ToArray()
-                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
-                        .FirstOrDefault();
-                    if (pc == null) return;
 
                     var RoleTextData = main.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
