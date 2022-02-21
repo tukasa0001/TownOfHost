@@ -212,10 +212,12 @@ namespace TownOfHost
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
+
+                //名前、役職の記録
                 main.lastAllPlayerCustomRoles = new ();
                 foreach (var pair in main.AllPlayerCustomRoles)
                 {
-                    main.lastAllPlayerCustomRoles.Add(PlayerControl.AllPlayerControls[pair.Key].name, pair.Value);
+                    main.lastAllPlayerCustomRoles.Add(main.RealNames[pair.Key], pair.Value);
                 }
 
                 HudManager.Instance.SetHudActive(true);
