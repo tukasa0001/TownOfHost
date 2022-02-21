@@ -1123,7 +1123,7 @@ namespace TownOfHost
                 {CustomRoles.Shapeshifter, "シェイプシフター"},
                 {CustomRoles.Jester, "ジェスター"},
                 {CustomRoles.Madmate, "マッドメイト"},
-                {CustomRoles.Madmate, "サイドキックマッドメイト"},
+                {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.MadGuardian, "マッドガーディアン"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
