@@ -149,6 +149,7 @@ namespace TownOfHost {
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.SerialKiller:
                     canBeKilled = true;
                     break;
             }
@@ -189,6 +190,10 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
+                    break;
+                case CustomRoles.SerialKiller:
+                    opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
+                    opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
                     break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
@@ -368,5 +373,6 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
     }
 }

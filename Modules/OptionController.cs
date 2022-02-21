@@ -33,6 +33,7 @@ namespace TownOfHost
             var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
@@ -65,7 +66,8 @@ namespace TownOfHost
             var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
-
+            var SerialKillerCooldownDiscount = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldownDiscount)}</color>(%): {main.SerialKillerCooldownDiscount}{main.TextCursor}", true, () => {main.SerialKillerCooldownDiscount = 1;}, (n) => main.ChangeInt(ref main.SerialKillerCooldownDiscount, n, 100));
+            var SerialKillerLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);

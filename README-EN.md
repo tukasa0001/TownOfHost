@@ -195,6 +195,14 @@ When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
 
+### SerialKiller
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+SerialKiller's killcooldown is shorter than defalt Impostor.<br>
+If he can not kill on deadline, he will kill him.<br>
+
 ## Mode
 
 ### HideAndSeek
