@@ -137,10 +137,18 @@ namespace TownOfHost
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
     class BeginImpostorPatch
     {
-        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            //TODO:シェリフ時にプレイヤーの間隔とかをクルーの場合と同じにする
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
+                yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                foreach(var pc in PlayerControl.AllPlayerControls) yourTeam.Add(pc);
+                __instance.BeginCrewmate(yourTeam);
+                __instance.overlayHandle.color = Palette.CrewmateBlue;
+                return false;
+            }
             BeginCrewmatePatch.Prefix(__instance, ref yourTeam);
+            return true;
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
