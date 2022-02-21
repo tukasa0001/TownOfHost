@@ -215,7 +215,7 @@ namespace TownOfHost
     class HandleHUDPatch {
         public static void Postfix(Rewired.Player player) {
             if(player.GetButtonDown(8) && 
-            AmongUsClient.Instance.AmHost &&
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             PlayerControl.LocalPlayer.isSheriff()) {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
