@@ -93,6 +93,7 @@ namespace TownOfHost
 
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                    __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
 
             }
