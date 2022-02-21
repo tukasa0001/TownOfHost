@@ -211,7 +211,7 @@ namespace TownOfHost
                     //TODO:名前無限増殖バグ
                     //TODO:シェリフの開始画面がインポスター
                     //TODO:部屋退出時などに設定画面のON/OFFがOFFに設定じゃなくて反転になっている。
-                    pva.NameText.text += "<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                    pva.NameText.text += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
