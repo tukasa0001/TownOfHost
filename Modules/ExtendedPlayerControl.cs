@@ -207,7 +207,7 @@ namespace TownOfHost {
                     break;
                 ScientistVitals:
                     opt.RoleOptions.ScientistBatteryCharge = 30;
-                    opt.RoleOptions.ScientistCooldown = 15;
+                    opt.RoleOptions.ScientistCooldown = 1;
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
