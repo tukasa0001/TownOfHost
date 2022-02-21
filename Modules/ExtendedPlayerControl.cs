@@ -192,7 +192,6 @@ namespace TownOfHost {
                     }
                     goto InfinityVent;
                 case CustomRoles.MadGuardian:
-                    goto MadmateVision;
                 case CustomRoles.SKMadmate:
                     goto MadmateVision;
                 case CustomRoles.Terrorist:

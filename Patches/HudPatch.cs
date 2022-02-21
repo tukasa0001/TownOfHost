@@ -80,7 +80,7 @@ namespace TownOfHost
                     TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.SKMadmate:
-                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getRoleName(CustomRoles.SKMadmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getLang(lang.SKMadmateInfo)}</color>\r\n";
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getRoleName(CustomRoles.SKMadmate)}</color>\r\n{main.getLang(lang.SKMadmateInfo)}\r\n";
                     TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.MadGuardian:
