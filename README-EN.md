@@ -184,6 +184,12 @@ When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
 
+### Witch
+
+Team : Impostor<br>
+Decision : Impostor<br>
+
+When Meeting has ended, spelled player will be killed<br>
 ## Mode
 
 ### HideAndSeek

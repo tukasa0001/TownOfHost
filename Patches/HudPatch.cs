@@ -120,8 +120,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Sheriff:
-                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
-                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getRoleName(CustomRoles.Sheriff)}\r\n{main.getLang(lang.SheriffInfo)}</color>\r\n";
                     if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }

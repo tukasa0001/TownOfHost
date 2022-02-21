@@ -38,21 +38,16 @@ namespace TownOfHost
             main.witchMeeting = false;
             if(!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            //Debug Message
-            //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
+            foreach(var p in main.SpelledPlayer) //この処理は48~51行目の処理の後に来るべきでは？
+            {
+                p.RpcMurderPlayer(p);
+            }
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Witch)
                 {
                     main.SpelledPlayer.Clear();
-                }
-                if (role != CustomRoles.Witch)
-                {
-                    foreach(var p in main.SpelledPlayer)
-                    {
-                        p.RpcMurderPlayer(p);
-                    }
                 }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -66,13 +61,6 @@ namespace TownOfHost
                     main.CheckTerroristWin(exiled);
                 }
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
-            }
-            if (exiled == null)
-            {
-                foreach(var p in main.SpelledPlayer)
-                {
-                    p.RpcMurderPlayer(p);
-                }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
