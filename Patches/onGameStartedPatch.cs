@@ -212,7 +212,11 @@ namespace TownOfHost
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
-                main.lastAllPlayerCustomRoles = main.AllPlayerCustomRoles;
+                main.lastAllPlayerCustomRoles = new ();
+                foreach (var pair in main.AllPlayerCustomRoles)
+                {
+                    main.lastAllPlayerCustomRoles.Add(PlayerControl.AllPlayerControls[pair.Key].name, pair.Value);
+                }
 
                 HudManager.Instance.SetHudActive(true);
                 main.KillOrSpell = new Dictionary<byte, bool>();
