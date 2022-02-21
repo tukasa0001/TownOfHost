@@ -208,7 +208,6 @@ namespace TownOfHost
                 pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
                 ) {
                     //変更対象にSnitchマークをつける
-                    //TODO:名前無限増殖バグ
                     //TODO:シェリフの開始画面がインポスター
                     //TODO:部屋退出時などに設定画面のON/OFFがOFFに設定じゃなくて反転になっている。
                     pva.NameText.text += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
