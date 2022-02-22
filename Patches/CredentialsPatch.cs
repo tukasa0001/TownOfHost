@@ -65,7 +65,7 @@ namespace TownOfHost
             if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
                 main.ExceptionMessageIsShown = true;
                 ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-                ErrorText.transform.position = new Vector3(0, 0.5f, 50f);
+                ErrorText.transform.position = new Vector3(0, 0.20f, 0);
                 ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
                 ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
                 ErrorText.color = Color.red;
