@@ -38,17 +38,13 @@ namespace TownOfHost
             main.witchMeeting = false;
             if(!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            foreach(var p in main.SpelledPlayer) //この処理は48~51行目の処理の後に来るべきでは？
+            foreach(var p in main.SpelledPlayer)
             {
                 p.RpcMurderPlayer(p);
             }
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
-                if (role == CustomRoles.Witch)
-                {
-                    main.SpelledPlayer.Clear();
-                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
