@@ -60,6 +60,7 @@ namespace TownOfHost
                     int VampireCount = reader.ReadInt32();
                     int SabotageMasterCount = reader.ReadInt32();
                     int MadGuardianCount = reader.ReadInt32();
+                    int MadSnitchCount = reader.ReadInt32();
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
                     int SnitchCount = reader.ReadInt32();
@@ -110,6 +111,7 @@ namespace TownOfHost
                         VampireCount,
                         SabotageMasterCount,
                         MadGuardianCount,
+                        MadSnitchCount,
                         MayorCount,
                         OpportunistCount,
                         SnitchCount,
@@ -197,6 +199,7 @@ namespace TownOfHost
                 int VampireCount,
                 int SabotageMasterCount,
                 int MadGuardianCount,
+                int MadSnitchCount,
                 int MayorCount,
                 int OpportunistCount,
                 int SnitchCount,
@@ -246,6 +249,7 @@ namespace TownOfHost
             main.VampireCount= VampireCount;
             main.SabotageMasterCount= SabotageMasterCount;
             main.MadGuardianCount = MadGuardianCount;
+            main.MadSnitchCount = MadSnitchCount;
             main.MayorCount = MayorCount;
             main.OpportunistCount= OpportunistCount;
             main.SnitchCount= SnitchCount;
