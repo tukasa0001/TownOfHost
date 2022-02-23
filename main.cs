@@ -48,6 +48,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
+        public static AdditionalWinner additionalWinner;
         public static GameOptionsData RealOptionsData;
         public static PlayerState ps;
         public static bool IsHideAndSeek;
@@ -765,6 +766,8 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
 
+            additionalWinner = AdditionalWinner.None;
+
             RealNames = new Dictionary<byte, string>();
 
             IsHideAndSeek = false;
@@ -1269,8 +1272,17 @@ namespace TownOfHost
     {
         Draw = 0,
         Default,
+        Impostor,
+        Crewmate,
         Jester,
-        Terrorist
+        Terrorist,
+        Troll
+    }
+    public enum AdditionalWinner
+    {
+        None = 0,
+        Opportunist,
+        Fox
     }
     /*public enum CustomRoles : byte
     {

@@ -18,6 +18,8 @@ namespace TownOfHost
     enum CustomRPC
     {
         SyncCustomSettings = 80,
+        /*ImpostorWin,
+        CrewmateWin,*/
         JesterExiled,
         TerroristWin,
         EndGame,
@@ -144,6 +146,12 @@ namespace TownOfHost
                         MayorAdditionalVote
                     );
                     break;
+                /*case (byte)CustomRPC.ImpostorWin:
+                    RPCProcedure.ImpostorWin();
+                    break;
+                case (byte)CustomRPC.CrewmateWin:
+                    RPCProcedure.CrewmateWin();
+                    break;*/
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
                     RPCProcedure.JesterExiled(exiledJester);
@@ -254,6 +262,7 @@ namespace TownOfHost
             main.DisableStartReactor = StartReactorDisabled;
 
             main.currentWinner = CustomWinner.Default;
+            main.additionalWinner = AdditionalWinner.None;
             main.CustomWinTrigger = false;
 
             main.VisibleTasksCount = true;
@@ -287,6 +296,30 @@ namespace TownOfHost
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }
+        /*public static void ImpostorWin()
+        {
+            if (main.currentWinner == CustomWinner.Default)
+            {
+                main.currentWinner = CustomWinner.Impostor;
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                    Thread.Sleep(100);
+                    main.CustomWinTrigger = true;
+            }
+        }
+        public static void CrewmateWin()
+        {
+            if (main.currentWinner == CustomWinner.Default)
+            {
+                main.currentWinner = CustomWinner.Crewmate;
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                    Thread.Sleep(100);
+                    main.CustomWinTrigger = true;
+            }
+        }*/
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;
