@@ -18,8 +18,6 @@ namespace TownOfHost
     enum CustomRPC
     {
         SyncCustomSettings = 80,
-        /*ImpostorWin,
-        CrewmateWin,*/
         JesterExiled,
         TerroristWin,
         EndGame,
