@@ -193,7 +193,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.IsHideAndSeek && main.additionalWinner == AdditionalWinner.Fox) {
+                if (main.additionalWinner == AdditionalWinner.Fox) {
                     AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
