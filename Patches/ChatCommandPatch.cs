@@ -271,7 +271,7 @@ namespace TownOfHost
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
             if(!AmongUsClient.Instance.AmHost) return;
-            if(chatText == "/banhost")
+            if(chatText == "/banhost" && main.PluginVersionType == VersionTypes.Beta)
             {
                 Logger.info("プレイヤーからBANされました");
                 Application.Quit();
