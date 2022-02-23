@@ -175,6 +175,7 @@ namespace TownOfHost
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
+            if(AmongUsClient.Instance.AmHost)
             new LateTask(() => {
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.RpcSetName(pc.getRealName());
