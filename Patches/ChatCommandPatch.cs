@@ -264,4 +264,18 @@ namespace TownOfHost
             }
         }
     }
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    class AddChatPatch
+    {
+        public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
+        {
+            if(!AmongUsClient.Instance.AmHost) return;
+            if(chatText == "/banhost")
+            {
+                Logger.info("プレイヤーからBANされました");
+                Application.Quit();
+            }
+        }
+    }
 }
