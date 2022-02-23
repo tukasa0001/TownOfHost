@@ -197,8 +197,9 @@ namespace TownOfHost
                     AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-
-            textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
+            if (main.currentWinner != CustomWinner.Draw) {
+                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
+            }
 
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
