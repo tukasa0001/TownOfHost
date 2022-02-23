@@ -22,12 +22,14 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
+            main.BountyTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
 
             main.ps = new PlayerState();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
+            main.BountyTimerCheck = true;
 
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
@@ -223,10 +225,15 @@ namespace TownOfHost
                     if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
                 }
 
+                main.DefaultKillCoolDown = main.RealOptionsData.DeepCopy().KillCooldown;
                 //BountyHunterのターゲットを初期化
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
+                main.BountyTimer = new Dictionary<byte, float>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    if(pc.isBountyHunter()) pc.ResetBountyTarget();
+                    if(pc.isBountyHunter()){
+                        pc.ResetBountyTarget();
+                        main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
+                        }
                 }
 
                 //役職の人数を戻す

@@ -156,6 +156,7 @@ namespace TownOfHost
                     }
                 }
             }
+            main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {

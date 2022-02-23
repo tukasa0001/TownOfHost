@@ -195,6 +195,17 @@ namespace TownOfHost {
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
                     opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
                     break;
+                case CustomRoles.BountyHunter:
+                    if(!main.BountyTimerCheck){
+                        opt.KillCooldown /= 100;
+                        Logger.info("BountyCheck = false");
+                    }
+                    if(main.BountyTimerCheck){
+                        opt.KillCooldown = main.DefaultKillCoolDown;
+                        Logger.info("BountyCheck = true");
+                        Logger.info($"{main.DefaultKillCoolDown}");
+                    }
+                    break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();

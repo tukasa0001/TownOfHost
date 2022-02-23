@@ -102,6 +102,7 @@ namespace TownOfHost
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldownDiscount = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
+                    int BountyTargetChangeTime = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
@@ -141,6 +142,7 @@ namespace TownOfHost
                         SheriffCanKillOpportunist,
                         SerialKillerCooldownDiscount,
                         SerialKillerLimit,
+                        BountyTargetChangeTime,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -229,6 +231,7 @@ namespace TownOfHost
                 bool SheriffCanKillOpportunist,
                 int SerialKillerCooldownDiscount,
                 int SerialKillerLimit,
+                int BountyTargetChangeTime,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -290,6 +293,7 @@ namespace TownOfHost
 
             main.SerialKillerCooldownDiscount = SerialKillerCooldownDiscount;
             main.SerialKillerLimit = SerialKillerLimit;
+            main.BountyTargetChangeTime = BountyTargetChangeTime;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;

@@ -113,9 +113,12 @@ namespace TownOfHost
             //============
 
             //BountyHunter
-            if(__instance.isBountyHunter()) {
+            if(__instance.isBountyHunter()) 
+            {
                 if(target == __instance.getBountyTarget()) {
                     __instance.RpcGuardAndKill(target);
+                    main.BountyTimer.Remove(__instance.PlayerId);
+                    main.BountyTimer.Add(__instance.PlayerId, 0f);
                     __instance.ResetBountyTarget();
                 }
             }
@@ -131,6 +134,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
             if (target != null)
             {
@@ -247,6 +251,29 @@ namespace TownOfHost
                     {
                         main.SerialKillerTimer[__instance.PlayerId] =
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
+                if(main.BountyTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime && !__instance.Data.IsDead || __instance.getBountyTarget().Data.IsDead)
+                    {
+                        __instance.RpcGuardAndKill(__instance);
+                        __instance.ResetBountyTarget();
+                        main.BountyTimer.Remove(__instance.PlayerId);
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){
+                        main.BountyTimerCheck = false;
+                        main.CustomSyncAllSettings();
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){
+                        main.BountyTimerCheck = true;
+                        main.CustomSyncAllSettings();
+                    }
+                    else
+                    {
+                        main.BountyTimer[__instance.PlayerId] =
+                        (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
 
