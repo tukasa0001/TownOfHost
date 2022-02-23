@@ -210,7 +210,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称):bountyhunter(bo), mafia(mf), vampire(va), witch(wi), madmate(mm), madguardian(mg), \n bait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn), \n jester(je), opportunist(op), terrorist(te), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称):bountyhunter(bo), mafia(mf), vampire(va), witch(wi), madmate(mm), madguardian(mg),\nbait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn),\njester(je), opportunist(op), terrorist(te), fox(fo), troll(tr)");
                     break;
             }
         }
