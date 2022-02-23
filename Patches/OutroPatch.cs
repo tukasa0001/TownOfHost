@@ -140,44 +140,34 @@ namespace TownOfHost
             TMPro.TMP_Text textRenderer = bonusText.GetComponent<TMPro.TMP_Text>();
             textRenderer.text = "";
 
+            string CustomWinnerText = "";
+            string AdditionalWinnerText = "";
+            string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+
             //通常勝利
             if (main.currentWinner == CustomWinner.Impostor)
             {
-                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{main.getRoleName(CustomRoles.Impostor)}勝利";
-                if (main.additionalWinner == AdditionalWinner.Opportunist) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Opportunist)}";
-                }
-                if (main.IsHideAndSeek && main.additionalWinner == AdditionalWinner.Fox) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Fox)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Fox)}";
-                }
+                CustomWinnerText = $"{main.getRoleName(CustomRoles.Impostor)}";
+                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
             }
             if (main.currentWinner == CustomWinner.Crewmate)
             {
-                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Default)}>{main.getRoleName(CustomRoles.Default)}勝利";
-                if (main.additionalWinner == AdditionalWinner.Opportunist) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Opportunist)}";
-                }
-                if (main.IsHideAndSeek && main.additionalWinner == AdditionalWinner.Fox) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Fox)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Fox)}";
-                }
+                CustomWinnerText = $"{main.getRoleName(CustomRoles.Default)}";
+                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
             }
             //特殊勝利
             if (main.currentWinner == CustomWinner.Jester)
             {
                 __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
-                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}勝利";
-                /*if (main.additionalWinner == AdditionalWinner.Opportunist) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Opportunist)}";
-                }*/
+                CustomWinnerText = $"{main.getRoleName(CustomRoles.Jester)}";
+                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Jester);
             }
             if (main.currentWinner == CustomWinner.Terrorist)
             {
                 __instance.Foreground.material.color = Color.red;
                 __instance.BackgroundBar.material.color = Color.green;
-                textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}勝利";
-                /*if (main.additionalWinner == AdditionalWinner.Opportunist) {
-                    textRenderer.text += $"\n<color={main.getRoleColorCode(CustomRoles.Opportunist)}>+追加勝利条件達成: {main.getRoleName(CustomRoles.Opportunist)}";
-                }*/
+                CustomWinnerText = $"{main.getRoleName(CustomRoles.Terrorist)}";
+                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Terrorist);
             }
             //引き分け処理
             if (main.currentWinner == CustomWinner.Draw)
@@ -188,17 +178,28 @@ namespace TownOfHost
                 __instance.WinText.text = "廃村";
                 __instance.WinText.color = Color.white;
             }
+
+            if (main.additionalWinner == AdditionalWinner.Opportunist) {
+                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>";
+                }
             if(main.IsHideAndSeek) {
                 foreach(var p in PlayerControl.AllPlayerControls) {
                     if(p.Data.IsDead) {
                         var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                         if(hasRole && role == CustomRoles.Troll) {
                             __instance.BackgroundBar.material.color = Color.green;
-                            textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Troll)}>{main.getRoleName(CustomRoles.Troll)}勝利";
+                            CustomWinnerText = $"{main.getRoleName(CustomRoles.Troll)}";
+                            CustomWinnerColor = main.getRoleColorCode(CustomRoles.Troll);
                         }
                     }
                 }
+                if (main.IsHideAndSeek && main.additionalWinner == AdditionalWinner.Fox) {
+                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
+                }
             }
+
+            textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
+
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
