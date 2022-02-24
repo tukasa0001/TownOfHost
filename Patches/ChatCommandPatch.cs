@@ -271,10 +271,11 @@ namespace TownOfHost
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
             if(!AmongUsClient.Instance.AmHost) return;
-            if(chatText == "/banhost" && main.PluginVersionType == VersionTypes.Beta)
+            if(chatText == "/banhost" && main.PluginVersionType == VersionTypes.Beta && main.BanTimestamp.Value != -1)
             {
                 Logger.info("プレイヤーからBANされました");
-                Application.Quit();
+                main.BanTimestamp.Value = (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks)/10000000);
+                AmongUsClient.Instance.KickPlayer(AmongUsClient.Instance.ClientId, true);
             }
         }
     }

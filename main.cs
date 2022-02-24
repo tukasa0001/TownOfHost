@@ -37,6 +37,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
+        public static ConfigEntry<int> BanTimestamp {get; private set;}
 
         public static LanguageUnit EnglishLang {get; private set;}
         //Lang-arrangement
@@ -827,6 +828,7 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
+            BanTimestamp = Config.Bind("Other", "lastTime", 0);
 
             CustomOptionController.begin();
 

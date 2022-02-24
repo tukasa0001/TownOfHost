@@ -25,4 +25,18 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(AccountManager), nameof(AccountManager.CanPlayOnline))]
+    class CanPlayOnlinePatch
+    {
+        public static bool Prefix(AccountManager __instance)
+        {
+            var leftTime =  main.BanTimestamp.Value+60*60 - (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks)/10000000);
+            if(leftTime > 0 && main.BanTimestamp.Value != -1)
+            {
+                Logger.info($"BAN解除まで{leftTime}秒");
+                return false;
+            }
+            return true;
+        }
+    }
 }
