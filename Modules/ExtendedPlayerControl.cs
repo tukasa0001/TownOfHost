@@ -118,7 +118,7 @@ namespace TownOfHost {
             new LateTask(() => {
                 if(target.protectedByGuardian)
                     killer.RpcMurderPlayer(target);
-            }, 0.2f, "GuardAndKill");
+            }, 0.5f, "GuardAndKill");
         }
 
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role) {
