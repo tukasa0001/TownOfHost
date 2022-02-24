@@ -145,7 +145,8 @@ namespace TownOfHost
             if(PlayerControl.LocalPlayer.isSheriff()) {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
-                foreach(var pc in PlayerControl.AllPlayerControls) yourTeam.Add(pc);
+                yourTeam[0] = PlayerControl.LocalPlayer;
+                foreach(var pc in PlayerControl.AllPlayerControls) if(!pc.AmOwner)yourTeam.Add(pc);
                 __instance.BeginCrewmate(yourTeam);
                 __instance.overlayHandle.color = Palette.CrewmateBlue;
                 return false;
