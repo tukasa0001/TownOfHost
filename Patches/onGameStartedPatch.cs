@@ -29,6 +29,7 @@ namespace TownOfHost
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
+            main.isBountyKillSuccess = false;
             main.BountyTimerCheck = true;
 
             main.UsedButtonCount = 0;
@@ -69,7 +70,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -209,7 +210,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
+                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
@@ -243,7 +244,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount;
+                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

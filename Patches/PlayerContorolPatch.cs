@@ -119,7 +119,12 @@ namespace TownOfHost
                     __instance.RpcGuardAndKill(target);
                     main.BountyTimer.Remove(__instance.PlayerId);
                     main.BountyTimer.Add(__instance.PlayerId, 0f);
-                    __instance.ResetBountyTarget();
+                    main.isBountyKillSuccess = true;
+                    main.CustomSyncAllSettings();
+                }
+                else{
+                    main.isBountyKillSuccess = false;
+                    main.CustomSyncAllSettings();
                 }
             }
 
@@ -258,13 +263,13 @@ namespace TownOfHost
                     if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime && !__instance.Data.IsDead || __instance.getBountyTarget().Data.IsDead)
                     {
                         __instance.RpcGuardAndKill(__instance);
-                        __instance.ResetBountyTarget();
                         main.BountyTimer.Remove(__instance.PlayerId);
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                     }
                     if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){
                         main.BountyTimerCheck = false;
                         main.CustomSyncAllSettings();
+                        __instance.ResetBountyTarget();
                     }
                     if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){
                         main.BountyTimerCheck = true;

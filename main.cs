@@ -485,11 +485,14 @@ namespace TownOfHost
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
+        public static bool isBountyKillSuccess;
         public static float DefaultKillCoolDown;
         public static bool BountyTimerCheck;
         public static int SerialKillerCooldownDiscount;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
+        public static int BountySuccessKillCoolDown;
+        public static int BountyFailureKillCoolDown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -568,6 +571,8 @@ namespace TownOfHost
             writer.Write(SerialKillerCooldownDiscount);
             writer.Write(SerialKillerLimit);
             writer.Write(BountyTargetChangeTime);
+            writer.Write(BountySuccessKillCoolDown);
+            writer.Write(BountyFailureKillCoolDown);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -843,6 +848,8 @@ namespace TownOfHost
             SerialKillerCooldownDiscount = 50;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
+            BountySuccessKillCoolDown = 2;
+            BountyFailureKillCoolDown = 50;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -970,6 +977,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldownDiscount, "シリアルキラーのキルクール減少"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
+                {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
+                {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1080,6 +1089,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldownDiscount, "SerialKiller's KillCooldown discount"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
+                {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
+                {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1269,6 +1280,8 @@ namespace TownOfHost
         SerialKillerCooldownDiscount,
         SerialKillerLimit,
         BountyTargetChangeTime,
+        BountySuccessKillCoolDown,
+        BountyFailureKillCoolDown,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

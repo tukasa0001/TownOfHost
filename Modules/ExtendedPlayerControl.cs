@@ -196,14 +196,18 @@ namespace TownOfHost {
                     opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
                     break;
                 case CustomRoles.BountyHunter:
+                    opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
                     if(!main.BountyTimerCheck){
                         opt.KillCooldown /= 100;
-                        Logger.info("BountyCheck = false");
                     }
-                    if(main.BountyTimerCheck){
-                        opt.KillCooldown = main.DefaultKillCoolDown;
-                        Logger.info("BountyCheck = true");
-                        Logger.info($"{main.DefaultKillCoolDown}");
+                    if(main.isBountyKillSuccess){
+                        opt.KillCooldown = main.BountySuccessKillCoolDown*2;
+                    }
+                    if(main.RefixCooldownDelay >= 1){
+                        opt.KillCooldown = main.DefaultKillCoolDown*2;
+                    }
+                    else{
+                        opt.KillCooldown = main.BountyFailureKillCoolDown;
                     }
                     break;
                 case CustomRoles.Sheriff:
