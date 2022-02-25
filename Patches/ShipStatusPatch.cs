@@ -145,8 +145,10 @@ namespace TownOfHost
                 if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
                 if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
-            main.CustomSyncAllSettings();
             return true;
+        }
+        public static void Postfix(ShipStatus __instance) {
+            main.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
             var Ids = new List<int>();
@@ -181,7 +183,6 @@ namespace TownOfHost
                     main.SabotageMasterUsedSkillCount++;
                 }
             }
-            main.CustomSyncAllSettings();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]

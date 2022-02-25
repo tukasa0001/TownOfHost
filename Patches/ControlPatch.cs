@@ -23,6 +23,7 @@ namespace TownOfHost
         static PlayerControl bot;
         public static void Postfix(KeyboardJoystick __instance)
         {
+            //##ホスト専用コマンド##
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
@@ -44,7 +45,7 @@ namespace TownOfHost
                 main.ShowActiveRoles();
             }
             //====================
-            // テスト用キーコマンド
+            //##テスト用キーコマンド##
             // | キー | 条件 | 動作 |
             // | ---- | ---- | ---- |
             // | X | フリープレイ中 | キルクール0 |
@@ -159,7 +160,7 @@ namespace TownOfHost
             }*/
             //マスゲーム用コード終わり
 
-
+            //##カスタム設定コマンド##
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
@@ -195,6 +196,28 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha7)) CustomOptionController.Input(7);
                 if (Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
+    class ConsoleJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(ConsoleJoystick.player);
+        }
+    }
+    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
+    class KeyboardJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(KeyboardJoystick.player);
+        }
+    }
+    class HandleHUDPatch {
+        public static void Postfix(Rewired.Player player) {
+            if(player.GetButtonDown(8) && 
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
+            PlayerControl.LocalPlayer.isSheriff()) {
+                DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
         }
     }

@@ -35,8 +35,8 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            //Debug Message
-            //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
+            main.witchMeeting = false;
+            if(!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach(var p in main.SpelledPlayer)
             {
@@ -45,10 +45,6 @@ namespace TownOfHost
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
-                if (role == CustomRoles.Witch)
-                {
-                    main.SpelledPlayer.Clear();
-                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -68,7 +64,6 @@ namespace TownOfHost
             }
             main.CustomSyncAllSettings();
             main.NotifyRoles();
-            main.witchMeeting = false;
         }
     }
 }

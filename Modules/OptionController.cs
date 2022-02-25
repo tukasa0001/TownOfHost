@@ -158,6 +158,7 @@ namespace TownOfHost
         }
         public static void Return()
         {
+            if(currentPage.parent != null)
             SetPage(currentPage.parent);
         }
         public static void Input(int num)
@@ -257,7 +258,7 @@ namespace TownOfHost
         ) {
             this.parent = parent; //親オブジェクト
             this.getName = () => $"<color={main.getRoleColorCode(role)}>{main.getRoleName(role)}</color>: {main.GetCountFromRole(role)}";
-            this.isHostOnly = false; //実行をホストのみに限定するか
+            this.isHostOnly = true; //実行をホストのみに限定するか
             this.onEnter = () => main.SetRoleCountToggle(role); //実行時の動作
             this.onInput = (n) => role.SetCount(n); //入力時の動作
 
