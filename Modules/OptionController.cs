@@ -134,6 +134,8 @@ namespace TownOfHost
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
             var forceJapanese = new PageObject(basePage, () => main.getLang(lang.ForceJapanese) + ": " + main.getOnOff(main.forceJapanese), false, () => main.forceJapanese = !main.forceJapanese);
+            var autoPrintLastRoles = new PageObject(basePage, () => main.getLang(lang.AutoDisplayLastRoles) + ": " + main.getOnOff(main.autoDisplayLastRoles), false, () => main.autoDisplayLastRoles = !main.autoDisplayLastRoles);
+            autoPrintLastRoles.amVisible = () => AmongUsClient.Instance.AmHost;
         }
         public static void SetPage(PageObject page)
         {

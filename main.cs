@@ -93,7 +93,7 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
-
+        public static bool autoDisplayLastRoles = false;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -984,6 +984,7 @@ namespace TownOfHost
                 {lang.RoleOptions, "役職設定"},
                 {lang.ModeOptions, "モード設定"},
                 {lang.ForceJapanese, "日本語に強制"},
+                {lang.AutoDisplayLastRoles,"最終役職の自動表示"},
                 {lang.VoteMode, "投票モード"},
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
@@ -1089,6 +1090,7 @@ namespace TownOfHost
                 {lang.RoleOptions, "Role Options"},
                 {lang.ModeOptions, "Mode Options"},
                 {lang.ForceJapanese, "Force Japanese"},
+                {lang.AutoDisplayLastRoles,"Auto Display Last Roles"},
                 {lang.VoteMode, "VoteMode"},
                 {lang.Default, "Default"},
                 {lang.Suicide, "Suicide"},
@@ -1285,6 +1287,7 @@ namespace TownOfHost
         RoleOptions,
         ModeOptions,
         ForceJapanese,
+        AutoDisplayLastRoles,
         VoteMode,
         Default,
         Suicide,

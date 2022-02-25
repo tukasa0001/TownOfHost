@@ -45,6 +45,15 @@ namespace TownOfHost
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
+
+                if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
+                {
+                    new LateTask(() =>
+                    {
+                        main.ShowLastRoles();
+                    }
+                        , 5f, "DisplayLastRoles");
+                }
             }
         }
 
