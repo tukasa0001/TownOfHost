@@ -182,21 +182,21 @@ namespace TownOfHost
             if (main.additionalWinner == AdditionalWinner.Opportunist) {
                     AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
-            if(main.IsHideAndSeek) {
-                foreach(var p in PlayerControl.AllPlayerControls) {
-                    if(p.Data.IsDead) {
-                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                        if(hasRole && role == CustomRoles.Troll) {
-                            __instance.BackgroundBar.material.color = Color.green;
-                            CustomWinnerText = $"{main.getRoleName(CustomRoles.Troll)}";
-                            CustomWinnerColor = main.getRoleColorCode(CustomRoles.Troll);
+                if(main.IsHideAndSeek) {
+                    foreach(var p in PlayerControl.AllPlayerControls) {
+                        if(p.Data.IsDead) {
+                            var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                            if(hasRole && role == CustomRoles.Troll) {
+                                __instance.BackgroundBar.material.color = Color.green;
+                                CustomWinnerText = $"{main.getRoleName(CustomRoles.Troll)}";
+                                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Troll);
+                            }
                         }
                     }
+                    if (main.additionalWinner == AdditionalWinner.Fox) {
+                        AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
+                    }
                 }
-                if (main.additionalWinner == AdditionalWinner.Fox) {
-                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
-                }
-            }
             if (main.currentWinner != CustomWinner.Draw) {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
             }
