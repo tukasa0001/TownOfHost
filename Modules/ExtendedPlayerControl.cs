@@ -197,17 +197,22 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
-                    if(!main.BountyTimerCheck){
-                        opt.KillCooldown /= 100;
-                    }
-                    if(main.isBountyKillSuccess){
-                        opt.KillCooldown = main.BountySuccessKillCoolDown*2;
-                    }
-                    if(main.RefixCooldownDelay >= 1){
+                    if(main.BountyMeetingCheck){
                         opt.KillCooldown = main.DefaultKillCoolDown*2;
                     }
                     else{
-                        opt.KillCooldown = main.BountyFailureKillCoolDown;
+                        if(!main.isBountyKillSuccess){
+                            opt.KillCooldown = main.BountyFailureKillCoolDown;
+                            Logger.info("ターゲット以外をキル");
+                        }
+                        if(main.isBountyKillSuccess){
+                            opt.KillCooldown = main.BountySuccessKillCoolDown;
+                            Logger.info("ターゲットをキル");
+                        }
+                        if(!main.BountyTimerCheck){
+                            opt.KillCooldown = 0;
+                            Logger.info("ターゲットリセット");
+                        }
                     }
                     break;
                 case CustomRoles.Sheriff:

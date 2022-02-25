@@ -30,7 +30,8 @@ namespace TownOfHost
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.isBountyKillSuccess = false;
-            main.BountyTimerCheck = true;
+            main.BountyTimerCheck = false;
+            main.BountyMeetingCheck = false;
 
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;

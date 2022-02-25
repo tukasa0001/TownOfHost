@@ -30,6 +30,17 @@ namespace TownOfHost
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
+            //BountyHunter
+            if(__instance.isBountyHunter()) 
+            {
+                main.BountyMeetingCheck = false;
+                if(target == __instance.getBountyTarget()) {
+                    main.isBountyKillSuccess = true;
+                    main.CustomSyncAllSettings();
+                    main.BountyTimer.Remove(__instance.PlayerId);
+                    main.BountyTimer.Add(__instance.PlayerId, 0f);
+                }
+            }
             //Terrorist
             if (target.isTerrorist())
             {
@@ -108,26 +119,11 @@ namespace TownOfHost
                 return false;
             }
 
+
+            
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
-
-            //BountyHunter
-            if(__instance.isBountyHunter()) 
-            {
-                if(target == __instance.getBountyTarget()) {
-                    __instance.RpcGuardAndKill(target);
-                    main.BountyTimer.Remove(__instance.PlayerId);
-                    main.BountyTimer.Add(__instance.PlayerId, 0f);
-                    main.isBountyKillSuccess = true;
-                    main.CustomSyncAllSettings();
-                }
-                else{
-                    main.isBountyKillSuccess = false;
-                    main.CustomSyncAllSettings();
-                }
-            }
-
 
             return false;
         }
@@ -260,11 +256,12 @@ namespace TownOfHost
                 }
                 if(main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime && !__instance.Data.IsDead || __instance.getBountyTarget().Data.IsDead)
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime || __instance.getBountyTarget().Data.IsDead)
                     {
                         __instance.RpcGuardAndKill(__instance);
                         main.BountyTimer.Remove(__instance.PlayerId);
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;
                     }
                     if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){
                         main.BountyTimerCheck = false;
@@ -273,6 +270,7 @@ namespace TownOfHost
                     }
                     if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){
                         main.BountyTimerCheck = true;
+                        main.isBountyKillSuccess = false;
                         main.CustomSyncAllSettings();
                     }
                     else

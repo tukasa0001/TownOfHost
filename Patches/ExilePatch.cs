@@ -79,6 +79,7 @@ namespace TownOfHost
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller() || wr.isBountyHunter())wr.RpcGuardAndKill(wr);
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isBountyHunter())main.BountyTimer.Add(wr.PlayerId, 0f);
+            main.BountyMeetingCheck = true;
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;
