@@ -191,9 +191,8 @@ They don't have tasks.<br>
 Team : Impostor<br>
 Decision : Impostor<br>
 
-When they first tries to make a kill, a target will be chosen.<br>
-Killing the indicated target will halve the next killcool.<br>
-If they kill someone who is not their target, they will still keep their kill rule.<br>
+Killing the indicated target will short the next killcool.<br>
+If they kill someone who is not their target, their killcool will be lengthen.<br>
 
 ### SerialKiller
 
