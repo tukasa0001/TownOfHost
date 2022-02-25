@@ -52,7 +52,8 @@ namespace TownOfHost {
         }
         public static CustomRoles getCustomRole(this GameData.PlayerInfo player)
         {
-            return main.getPlayerById(player.PlayerId).getCustomRole();
+            if(player == null || player.Object == null) return CustomRoles.Default;
+            return player.Object.getCustomRole();
         }
 
         public static CustomRoles getCustomRole(this PlayerControl player) {
