@@ -961,7 +961,8 @@ namespace TownOfHost
                 {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
-                {lang.AdvancedRoleOptions, "詳細設定"},
+                {lang.AdvancedRoleOptionsCrewmate, "クルー役職の詳細設定"},
+                {lang.AdvancedRoleOptionsImpostor, "インポスター役職の詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
@@ -1071,7 +1072,8 @@ namespace TownOfHost
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
-                {lang.AdvancedRoleOptions, "Advanced Options"},
+                {lang.AdvancedRoleOptionsCrewmate, "Crewmate jobs Advanced Options"},
+                {lang.AdvancedRoleOptionsImpostor, "Impostor jobs Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
@@ -1264,7 +1266,8 @@ namespace TownOfHost
         NoGameEndInfo,
         RandomMapsModeInfo,
         //オプション項目
-        AdvancedRoleOptions,
+        AdvancedRoleOptionsCrewmate,
+        AdvancedRoleOptionsImpostor,
         VampireKillDelay,
         MadmateCanFixLightsOut,
         MadGuardianCanSeeBarrier,
