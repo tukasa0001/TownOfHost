@@ -21,6 +21,15 @@ namespace TownOfHost
     {
         static System.Random random = new System.Random();
         static PlayerControl bot;
+        public static bool Prefix(KeyboardJoystick __instance)
+        {
+            //カスタムメニュー中は移動出来ないようにする
+            if (main.OptionControllerIsEnable)
+            {
+                return false;
+            }
+            return true;
+        }
         public static void Postfix(KeyboardJoystick __instance)
         {
             //##ホスト専用コマンド##
