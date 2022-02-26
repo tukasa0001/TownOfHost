@@ -18,7 +18,6 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance)
         {//注:この時点では役職は設定されていません。
             main.currentWinner = CustomWinner.Default;
-            main.additionalWinner = AdditionalWinner.None;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();

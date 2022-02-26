@@ -254,7 +254,6 @@ namespace TownOfHost
             main.DisableStartReactor = StartReactorDisabled;
 
             main.currentWinner = CustomWinner.Default;
-            main.additionalWinner = AdditionalWinner.None;
             main.CustomWinTrigger = false;
 
             main.VisibleTasksCount = true;

@@ -23,11 +23,11 @@ namespace TownOfHost
             //勝者リスト作成
             if (TempData.DidHumansWin(endGameResult.GameOverReason))
             {
+                if (main.currentWinner == CustomWinner.Default) {
+                    main.currentWinner = CustomWinner.Crewmate;
+                }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (main.currentWinner == CustomWinner.Default) {
-                        main.currentWinner = CustomWinner.Crewmate;
-                    }
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.GetIntroType();
                     bool canWin = introType == IntroTypes.Crewmate;
@@ -36,11 +36,11 @@ namespace TownOfHost
             }
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
+                if (main.currentWinner == CustomWinner.Default) {
+                    main.currentWinner = CustomWinner.Impostor;
+                }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (main.currentWinner == CustomWinner.Default) {
-                        main.currentWinner = CustomWinner.Impostor;
-                    }
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.GetIntroType();
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
@@ -49,11 +49,12 @@ namespace TownOfHost
             }
 
             //Opportunist
+
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead)
+                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw)
                 {
-                    main.additionalWinner = AdditionalWinner.Opportunist;
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
 
@@ -106,7 +107,7 @@ namespace TownOfHost
                     }
                     if(role == CustomRoles.Fox && !pc.Data.IsDead) {
                         winners.Add(pc);
-                        main.additionalWinner = AdditionalWinner.Fox;
+                        main.additionalwinners.Add(AdditionalWinners.Fox);
                     }
                     if(role == CustomRoles.Troll && pc.Data.IsDead) {
                         main.currentWinner = CustomWinner.Troll;
@@ -144,44 +145,46 @@ namespace TownOfHost
             string AdditionalWinnerText = "";
             string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
 
-            //通常勝利
-            if (main.currentWinner == CustomWinner.Impostor)
-            {
-                CustomWinnerText = $"{main.getRoleName(CustomRoles.Impostor)}";
-                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
-            }
-            if (main.currentWinner == CustomWinner.Crewmate)
-            {
-                CustomWinnerText = $"{main.getRoleName(CustomRoles.Default)}";
-                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
-            }
-            //特殊勝利
-            if (main.currentWinner == CustomWinner.Jester)
-            {
-                __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
-                CustomWinnerText = $"{main.getRoleName(CustomRoles.Jester)}";
-                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Jester);
-            }
-            if (main.currentWinner == CustomWinner.Terrorist)
-            {
-                __instance.Foreground.material.color = Color.red;
-                __instance.BackgroundBar.material.color = Color.green;
-                CustomWinnerText = $"{main.getRoleName(CustomRoles.Terrorist)}";
-                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Terrorist);
-            }
-            //引き分け処理
-            if (main.currentWinner == CustomWinner.Draw)
-            {
-                __instance.BackgroundBar.material.color = Color.gray;
-                textRenderer.text = "ホストから強制終了コマンドが入力されました";
-                textRenderer.color = Color.gray;
-                __instance.WinText.text = "廃村";
-                __instance.WinText.color = Color.white;
+            switch(main.currentWinner) {
+                //通常勝利
+                case CustomWinner.Impostor:
+                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Impostor)}";
+                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
+                    break;
+                case CustomWinner.Crewmate:
+                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Default)}";
+                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+                    break;
+                //特殊勝利
+                case CustomWinner.Jester:
+                    __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
+                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Jester)}";
+                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Jester);
+                    break;
+                case CustomWinner.Terrorist:
+                    __instance.Foreground.material.color = Color.red;
+                    __instance.BackgroundBar.material.color = Color.green;
+                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Terrorist)}";
+                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Terrorist);
+                    break;
+                //引き分け処理
+                case CustomWinner.Draw:
+                    __instance.BackgroundBar.material.color = Color.gray;
+                    textRenderer.text = "ホストから強制終了コマンドが入力されました";
+                    textRenderer.color = Color.gray;
+                    __instance.WinText.text = "廃村";
+                    __instance.WinText.color = Color.white;
+                    break;
             }
 
-            if (main.additionalWinner == AdditionalWinner.Opportunist) {
+            foreach(var additionalwinners in main.additionalwinners) {
+                if (main.additionalwinners.Contains(AdditionalWinners.Opportunist)) {
                     AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
+                if (main.additionalwinners.Contains(AdditionalWinners.Fox)) {
+                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
+                }
+            }
                 if(main.IsHideAndSeek) {
                     foreach(var p in PlayerControl.AllPlayerControls) {
                         if(p.Data.IsDead) {
@@ -193,14 +196,10 @@ namespace TownOfHost
                             }
                         }
                     }
-                    if (main.additionalWinner == AdditionalWinner.Fox) {
-                        AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
-                    }
                 }
             if (main.currentWinner != CustomWinner.Draw) {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
             }
-
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
