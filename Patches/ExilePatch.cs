@@ -35,15 +35,11 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            foreach(var cd in main.CursedPlayerDie)if(cd.Data.IsDead)main.CursedPlayerDie.Remove(cd);//呪われた人が死んだ場合にリストから削除する
+            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);//呪われた人が死んだ場合にリストから削除する
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
-                if (role == CustomRoles.Witch)
-                {
-                    main.SpelledPlayer.Clear();
-                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
