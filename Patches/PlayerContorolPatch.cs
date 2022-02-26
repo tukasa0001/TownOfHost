@@ -256,9 +256,16 @@ namespace TownOfHost
                 }
                 if(main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime || __instance.getBountyTarget().Data.IsDead)
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)
                     {
                         __instance.RpcGuardAndKill(__instance);
+                        main.BountyTimer.Remove(__instance.PlayerId);
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;
+                    }
+                    if(__instance.getBountyTarget().Data.IsDead)
+                    {
+                        __instance.RpcGuardAndKill(__instance.getBountyTarget());
                         main.BountyTimer.Remove(__instance.PlayerId);
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                         main.BountyTimerCheck = true;

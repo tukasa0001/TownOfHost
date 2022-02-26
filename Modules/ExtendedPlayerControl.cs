@@ -205,13 +205,13 @@ namespace TownOfHost {
                             opt.KillCooldown = main.BountyFailureKillCoolDown;
                             Logger.info("ターゲット以外をキル");
                         }
-                        if(main.isBountyKillSuccess){
-                            opt.KillCooldown = main.BountySuccessKillCoolDown;
-                            Logger.info("ターゲットをキル");
-                        }
                         if(!main.BountyTimerCheck){
                             opt.KillCooldown = 0;
                             Logger.info("ターゲットリセット");
+                        }
+                        if(main.isBountyKillSuccess){
+                            opt.KillCooldown = main.BountySuccessKillCoolDown;
+                            Logger.info("ターゲットをキル");
                         }
                     }
                     break;
