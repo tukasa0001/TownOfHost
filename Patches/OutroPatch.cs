@@ -19,6 +19,7 @@ namespace TownOfHost
         {
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+            main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
             if (TempData.DidHumansWin(endGameResult.GameOverReason))
@@ -45,16 +46,6 @@ namespace TownOfHost
                     IntroTypes introType = role.GetIntroType();
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if(canWin) winner.Add(p);
-                }
-            }
-
-            //Opportunist
-
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw)
-                {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
-                    main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
 
@@ -93,6 +84,15 @@ namespace TownOfHost
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
+            //Opportunist
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
+                {
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    main.additionalwinners.Add(AdditionalWinners.Opportunist);
+                }
+            }
+            
             //HideAndSeek専用
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
