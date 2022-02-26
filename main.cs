@@ -849,7 +849,7 @@ namespace TownOfHost
             SerialKillerCooldownDiscount = 50;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
-            BountySuccessKillCoolDown = 2;
+            BountySuccessKillCoolDown = 5;//2秒とかにすると若干守護天使バグの影響を受ける
             BountyFailureKillCoolDown = 50;
 
             SabotageMasterSkillLimit = 0;

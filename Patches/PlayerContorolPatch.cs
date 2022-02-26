@@ -31,14 +31,12 @@ namespace TownOfHost
             }
             else
             //BountyHunter
-            if(__instance.isBountyHunter()) 
+            if(__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
             {
-                main.BountyMeetingCheck = false;
-                if(target == __instance.getBountyTarget()) {
-                    main.isBountyKillSuccess = true;
-                    main.CustomSyncAllSettings();
-                    main.BountyTimer.Remove(__instance.PlayerId);
-                    main.BountyTimer.Add(__instance.PlayerId, 0f);
+                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+                if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
+                    main.isBountyKillSuccess = true;//キルクール減少処理に変換
+                    main.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
             //Terrorist
@@ -254,33 +252,34 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                //バウハンのキルクールの変換とターゲットのリセット
                 if(main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
-                        __instance.RpcGuardAndKill(__instance);
-                        main.BountyTimer.Remove(__instance.PlayerId);
+                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                        main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                    }
+                    if(__instance.getBountyTarget().Data.IsDead)//ターゲットをキルした場合
+                    {
+                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                         main.BountyTimerCheck = true;
                     }
-                    if(__instance.getBountyTarget().Data.IsDead)
-                    {
-                        __instance.RpcGuardAndKill(__instance.getBountyTarget());
-                        main.BountyTimer.Remove(__instance.PlayerId);
-                        main.BountyTimer.Add(__instance.PlayerId ,0f);
-                        main.BountyTimerCheck = true;
-                    }
-                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){
+                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
                         main.BountyTimerCheck = false;
-                        main.CustomSyncAllSettings();
-                        __instance.ResetBountyTarget();
+                        main.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
-                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){
-                        main.BountyTimerCheck = true;
-                        main.isBountyKillSuccess = false;
-                        main.CustomSyncAllSettings();
+                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
+                        main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
+                        main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
+                        main.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
                     }
-                    else
+                    else//時間を計る処理
                     {
                         main.BountyTimer[__instance.PlayerId] =
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);

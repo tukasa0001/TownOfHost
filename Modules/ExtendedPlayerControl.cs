@@ -197,19 +197,19 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
-                    if(main.BountyMeetingCheck){
+                    if(main.BountyMeetingCheck){//会議後のキルクール
                         opt.KillCooldown = main.DefaultKillCoolDown*2;
                     }
                     else{
-                        if(!main.isBountyKillSuccess){
+                        if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
                             opt.KillCooldown = main.BountyFailureKillCoolDown;
                             Logger.info("ターゲット以外をキル");
                         }
-                        if(!main.BountyTimerCheck){
+                        if(!main.BountyTimerCheck){//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
                             opt.KillCooldown = 0;
                             Logger.info("ターゲットリセット");
                         }
-                        if(main.isBountyKillSuccess){
+                        if(main.isBountyKillSuccess){//ターゲットをキルした時の処理
                             opt.KillCooldown = main.BountySuccessKillCoolDown;
                             Logger.info("ターゲットをキル");
                         }
