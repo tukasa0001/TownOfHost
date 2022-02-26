@@ -192,6 +192,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Warlock:
                     count = WarlockCount;
+                    break;
                 case CustomRoles.SerialKiller:
                     count = SerialKillerCount;
                     break;
@@ -249,6 +250,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Warlock:
                     WarlockCount = count;
+                    break;
                 case CustomRoles.SerialKiller:
                     SerialKillerCount = count;
                     break;
