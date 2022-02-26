@@ -74,6 +74,8 @@ namespace TownOfHost
                 main.CursedPlayers.Remove(wr.PlayerId);
             }
             main.FirstCursedCheck = false;
+            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())wr.RpcGuardAndKill(wr);
+            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;
