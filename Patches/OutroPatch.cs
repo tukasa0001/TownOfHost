@@ -121,11 +121,10 @@ namespace TownOfHost
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                 }
             }
-            main.winnerList = "winner:";
-            foreach (var wpd in TempData.winners)
+            main.winnerList = new();
+            foreach (var pc in winner)
             {
-                main.winnerList += wpd.PlayerName;
-                if(wpd != TempData.winners[TempData.winners.Count - 1]) main.winnerList += ", ";
+                main.winnerList.Add(pc.PlayerId);
             }
         }
     }

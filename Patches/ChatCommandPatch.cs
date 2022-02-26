@@ -11,6 +11,7 @@ using UnhollowerBaseLib;
 using TownOfHost;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -30,7 +31,7 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendToAll(main.winnerList);
+                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
