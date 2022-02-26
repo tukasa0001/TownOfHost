@@ -438,7 +438,7 @@ namespace TownOfHost
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(id)}";
+                text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(AllPlayerCustomRoles[id])}";
                 text += $" {main.getDeathReason(ps.deathReasons[id])}";
             }
             main.SendToAll(text);
