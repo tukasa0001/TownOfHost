@@ -95,6 +95,8 @@ namespace TownOfHost
         public static List<(string, byte)> MessagesToSend;
         public static bool autoDisplayLastRoles = false;
 
+        public static bool isChatCommand = false;
+
         public static int SetRoleCountToggle(int currentCount)
         {
             if(currentCount > 0) return 0;

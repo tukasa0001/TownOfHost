@@ -26,7 +26,8 @@ namespace TownOfHost
             var cancelVal = "";
             if (AmongUsClient.Instance.AmHost)
             {
-                switch(args[0])
+                main.isChatCommand = true;
+                switch (args[0])
                 {
                     case "/win":
                     case "/winner":
@@ -134,6 +135,7 @@ namespace TownOfHost
                             break;
 
                     default:
+                        main.isChatCommand = false;
                         break;
                 }
             }
