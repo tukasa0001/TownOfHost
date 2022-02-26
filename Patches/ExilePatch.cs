@@ -76,9 +76,16 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller() || wr.isBountyHunter())wr.RpcGuardAndKill(wr);
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isBountyHunter())main.BountyTimer.Add(wr.PlayerId, 0f);
+            foreach(var wr in PlayerControl.AllPlayerControls){
+                if(wr.isSerialKiller()){
+                    wr.RpcGuardAndKill(wr);
+                    main.SerialKillerTimer.Add(wr.PlayerId,0f);
+                }
+                if(wr.isBountyHunter()){
+                    wr.RpcGuardAndKill(wr);
+                    main.BountyTimer.Add(wr.PlayerId, 0f);
+                }
+            }
             main.BountyMeetingCheck = true;
             main.CustomSyncAllSettings();
             main.NotifyRoles();
