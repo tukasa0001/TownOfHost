@@ -198,7 +198,7 @@ namespace TownOfHost
                     }
                 }
             if (main.currentWinner != CustomWinner.Draw) {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>勝利";
+                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>{main.getLang(lang.Win)}";
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.VisibleTasksCount = false;
