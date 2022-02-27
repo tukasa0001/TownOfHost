@@ -188,17 +188,20 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
-                    if(main.RefixCooldownDelay <= 0)
+                    if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
+                        if(main.BountyHunterCount > 0)opt.KillCooldown = main.BHKillCooldown*2;
+                    }
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
                     opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
+                    if(main.BountyHunterCount > 0)opt.KillCooldown = main.BHKillCooldown*main.SerialKillerCooldownDiscount/50;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
                     if(main.BountyMeetingCheck){//会議後のキルクール
-                        opt.KillCooldown = main.DefaultKillCoolDown*2;
+                        opt.KillCooldown = main.BHKillCooldown*2;
                     }
                     else{
                         if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
@@ -210,18 +213,23 @@ namespace TownOfHost {
                             Logger.info("ターゲットリセット");
                         }
                         if(main.isBountyKillSuccess){//ターゲットをキルした時の処理
-                            opt.KillCooldown = main.BountySuccessKillCoolDown;
+                            opt.KillCooldown = main.BountySuccessKillCoolDown*2;
                             Logger.info("ターゲットをキル");
                         }
                     }
                     break;
+                case CustomRoles.Impostor:
+                case CustomRoles.Shapeshifter:
+                case CustomRoles.Mafia:
+                case CustomRoles.Witch:
+                    goto DefaultKillcooldown;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
                     }
-                    break;
+                    goto DefaultKillcooldown;
                 case CustomRoles.MadSnitch:
                     opt.CrewLightMod = opt.ImpostorLightMod;
                     switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
@@ -234,6 +242,11 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                DefaultKillcooldown:
+                    if(main.BountyHunterCount > 0){
+                        opt.KillCooldown = main.BHKillCooldown;
+                    }
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)

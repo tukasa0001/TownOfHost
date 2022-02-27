@@ -74,6 +74,7 @@ namespace TownOfHost
                 int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
+                
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     AllPlayers.Add(pc);
@@ -227,7 +228,6 @@ namespace TownOfHost
                     if(pc.isWitch())main.KillOrSpell.Add(pc.PlayerId,false);
                 }
 
-                main.DefaultKillCoolDown = main.RealOptionsData.DeepCopy().KillCooldown;
                 //BountyHunterのターゲットを初期化
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
                 main.BountyTimer = new Dictionary<byte, float>();

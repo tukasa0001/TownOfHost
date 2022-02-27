@@ -485,14 +485,15 @@ namespace TownOfHost
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static bool witchMeeting;
+        public static bool isShipStart;
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;
-        public static float DefaultKillCoolDown;
         public static bool BountyTimerCheck;
         public static int SerialKillerCooldownDiscount;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
         public static int BountySuccessKillCoolDown;
+        public static int BHKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
         public static int BountyFailureKillCoolDown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -574,6 +575,7 @@ namespace TownOfHost
             writer.Write(BountyTargetChangeTime);
             writer.Write(BountySuccessKillCoolDown);
             writer.Write(BountyFailureKillCoolDown);
+            writer.Write(BHKillCooldown);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -849,8 +851,9 @@ namespace TownOfHost
             SerialKillerCooldownDiscount = 50;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
-            BountySuccessKillCoolDown = 5;//2秒とかにすると若干守護天使バグの影響を受ける
+            BountySuccessKillCoolDown = 2;
             BountyFailureKillCoolDown = 50;
+            BHKillCooldown = 30;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -945,7 +948,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
@@ -981,6 +984,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
                 {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
                 {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
+                {lang.BHKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1056,7 +1060,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。"},
+                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
@@ -1094,6 +1098,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
                 {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
                 {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
+                {lang.BHKillCooldown, "Impostors' killcooldown(If BountyHunters are not existing)"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1286,6 +1291,7 @@ namespace TownOfHost
         BountyTargetChangeTime,
         BountySuccessKillCoolDown,
         BountyFailureKillCoolDown,
+        BHKillCooldown,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

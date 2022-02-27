@@ -118,7 +118,6 @@ namespace TownOfHost
             }
 
 
-            
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
@@ -257,6 +256,7 @@ namespace TownOfHost
                 {
                     if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
+                        main.BountyMeetingCheck = false;
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
