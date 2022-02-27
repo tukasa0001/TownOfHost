@@ -175,13 +175,13 @@ namespace TownOfHost
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
-            if(AmongUsClient.Instance.AmHost)
-            new LateTask(() => {
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    pc.RpcSetName(pc.getRealName());
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    pc.RpcSetNamePrivate(pc.getRealName(isMeeting:true));
                 }
-            }, 3f, "SetName To Chat");
-
+            }
 
             foreach(var pva in __instance.playerStates) {
                 if(pva == null) continue;
