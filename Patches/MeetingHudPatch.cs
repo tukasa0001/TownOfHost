@@ -181,7 +181,7 @@ namespace TownOfHost
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        pc.RpcSetNamePrivate(pc.getRealName(isMeeting: true));
+                        pc.RpcSetName(pc.getRealName(isMeeting: true));
                     }
                 }, 3f, "SetName To Chat");
             }
