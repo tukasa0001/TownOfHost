@@ -65,7 +65,7 @@ namespace TownOfHost
             if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
                 main.ExceptionMessageIsShown = true;
                 ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-                ErrorText.transform.position = new Vector3(0, 0.5f, 50f);
+                ErrorText.transform.position = new Vector3(0, 0.20f, 0);
                 ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
                 ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
                 ErrorText.color = Color.red;
@@ -79,6 +79,26 @@ namespace TownOfHost
         {
             __instance.ShowModStamp();
             LateTask.Update(Time.deltaTime);
+        }
+    }
+    
+    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+    class LogoPatch
+    {
+        static void Postfix(PingTracker __instance)
+        {
+            var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
+            if (amongUsLogo != null)
+            {
+                amongUsLogo.transform.localScale *= 0.4f;
+                amongUsLogo.transform.position += Vector3.up * 0.25f;
+            }
+
+            var tohLogo = new GameObject("titleLogo_TOH");
+            tohLogo.transform.position = Vector3.up;
+            tohLogo.transform.localScale *= 1.2f;
+            var renderer = tohLogo.AddComponent<SpriteRenderer>();
+            renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
         }
     }
 }
