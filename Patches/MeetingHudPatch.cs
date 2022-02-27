@@ -153,7 +153,7 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             main.witchMeeting = true;
-            main.NotifyRoles();
+            main.NotifyRoles(isMeeting:true);
             main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
@@ -177,10 +177,13 @@ namespace TownOfHost
 
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                _ = new LateTask(() =>
                 {
-                    pc.RpcSetNamePrivate(pc.getRealName(isMeeting:true));
-                }
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        pc.RpcSetNamePrivate(pc.getRealName(isMeeting: true));
+                    }
+                }, 3f, "SetName To Chat");
             }
 
             foreach(var pva in __instance.playerStates) {
