@@ -623,7 +623,7 @@ namespace TownOfHost
         public static PlayerControl getPlayerById(int PlayerId) {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles() {
+        public static void NotifyRoles(bool isMeeting = false) {
             if(!AmongUsClient.Instance.AmHost) return;
             if(PlayerControl.AllPlayerControls == null) return;
 
@@ -667,7 +667,7 @@ namespace TownOfHost
                 string SelfSuffix = "";
 
                 if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
-                    string BountyTargetName = seer.getBountyTarget().getRealName();
+                    string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
                     SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
@@ -676,7 +676,7 @@ namespace TownOfHost
                 }
                 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.getRealName();
+                string SeerRealName = seer.getRealName(isMeeting);
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n{SeerRealName}{SelfMark}";
@@ -720,7 +720,7 @@ namespace TownOfHost
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
                     
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                    string TargetPlayerName = target.getRealName();
+                    string TargetPlayerName = target.getRealName(isMeeting);
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態

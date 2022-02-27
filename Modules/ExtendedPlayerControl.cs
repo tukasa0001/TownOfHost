@@ -283,10 +283,13 @@ namespace TownOfHost {
             }, 0.4f + delay, "Fix Desync Reactor 2");
         }
 
-        public static string getRealName(this PlayerControl player) {
+        public static string getRealName(this PlayerControl player, bool isMeeting = false) {
+
             string RealName;
-            if(player.CurrentOutfitType == PlayerOutfitType.Shapeshifted)
+            if(player.CurrentOutfitType == PlayerOutfitType.Shapeshifted && isMeeting == false) {
                 return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
+            }
+
             if(!main.RealNames.TryGetValue(player.PlayerId, out RealName)) {
                 RealName = player.name;
                 if(RealName == "Player(Clone)") return RealName;
