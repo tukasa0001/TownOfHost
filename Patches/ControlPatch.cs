@@ -16,17 +16,13 @@ using InnerNet;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(Controller), nameof(Controller.Update))]
+    [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class DebugManager
     {
         static System.Random random = new System.Random();
         static PlayerControl bot;
-        static float interval = 0;
-        public static void Postfix(Controller __instance)
+        public static void Postfix(ControllerManager __instance)
         {
-            interval += Time.deltaTime;
-            if (interval <0.1f) return;
-            interval -= 0.1f;
 
             //##ホスト専用コマンド##
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
