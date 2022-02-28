@@ -37,8 +37,6 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | Left | Go Back One |
 | Number | Enter A Value |
 
-However, The numeric keypad is not supported.<br>
-
 ## Roles
 
 ### Roles correspondence chart
