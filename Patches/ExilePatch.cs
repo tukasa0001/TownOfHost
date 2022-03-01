@@ -68,8 +68,9 @@ namespace TownOfHost
             foreach(var wr in PlayerControl.AllPlayerControls){
                 if(wr.isWarlock())wr.RpcGuardAndKill(wr);
                 main.CursedPlayers.Remove(wr.PlayerId);
+                main.FirstCursedCheck.Remove(wr.PlayerId);
+                main.FirstCursedCheck.Add(wr.PlayerId, false);
             }
-            main.FirstCursedCheck = false;
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())wr.RpcGuardAndKill(wr);
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
             main.CustomSyncAllSettings();

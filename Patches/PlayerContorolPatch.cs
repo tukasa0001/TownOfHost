@@ -45,11 +45,12 @@ namespace TownOfHost
         {
             if(__instance.isWarlock())
             {
-                if(main.FirstCursedCheck)//呪われた人がいるか確認
+                if(main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
                 {
                     if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){//のろわれた人が死んだ場合
                         main.CursedPlayers.Remove(__instance.PlayerId);
-                        main.FirstCursedCheck = false;
+                        main.FirstCursedCheck.Remove(__instance.PlayerId);
+                        main.FirstCursedCheck.Add(__instance.PlayerId, false);
                     }
                     if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)//変身解除の時に反応しない
                     {
@@ -141,21 +142,22 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (main.CheckShapeshift == false && main.FirstCursedCheck == false)
+                if (main.CheckShapeshift == false && !main.FirstCursedCheck[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers.Add(__instance.PlayerId,target);
                     main.CursedPlayerDie.Add(target);
-                    main.FirstCursedCheck = true;
+                    main.FirstCursedCheck.Remove(__instance.PlayerId);
+                    main.FirstCursedCheck.Add(__instance.PlayerId, true);
                     return false;
                 }
-                if (main.CheckShapeshift && main.FirstCursedCheck == false){//呪われてる人がいないくて変身してるときに通常キルになる
+                if (main.CheckShapeshift && !main.FirstCursedCheck[__instance.PlayerId]){//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
                 //Warlockが誰かを呪った時にキルできなくなる処理
-                if (main.FirstCursedCheck)return false;
+                if (main.FirstCursedCheck[__instance.PlayerId])return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理

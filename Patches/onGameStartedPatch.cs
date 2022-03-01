@@ -25,7 +25,7 @@ namespace TownOfHost
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.CursedPlayerDie = new List<PlayerControl>();
-            main.FirstCursedCheck = false;
+            main.FirstCursedCheck = new Dictionary<byte, bool>();
 
             main.ps = new PlayerState();
 
@@ -232,6 +232,9 @@ namespace TownOfHost
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.isBountyHunter()) pc.ResetBountyTarget();
+                    if(pc.isWarlock()){
+                        main.FirstCursedCheck.Add(pc.PlayerId, false);
+                    }
                 }
 
                 //役職の人数を戻す
