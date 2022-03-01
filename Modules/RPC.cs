@@ -86,6 +86,7 @@ namespace TownOfHost
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
+                    bool SheriffCanKillMadmate = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -131,6 +132,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
+                        SheriffCanKillMadmate,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -214,6 +216,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
+                bool SheriffCanKillMadmate,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -270,6 +273,7 @@ namespace TownOfHost
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+            main.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
