@@ -143,7 +143,6 @@ namespace TownOfHost
                 return false;
             if (!main.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
                 systemType == SystemTypes.Comms && //システムタイプが通信室
-                amount == 0 && //コミュサボ修復のamount
                 (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
             if(player.isSheriff()) {
