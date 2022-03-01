@@ -18,9 +18,11 @@ using InnerNet;
 namespace TownOfHost {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch {
-        public static void Postfix(AmongUsClient __instance) {
+        public static void Postfix(AmongUsClient __instance, PlayerControl pc) {
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
+
+            //pc.nameText.text = $"</color>{pc.getRealName()}</color>";
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
