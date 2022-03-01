@@ -495,7 +495,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static bool witchMeeting;
-        public static bool CheckShapeshift;
+        public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldownDiscount;
         public static int SerialKillerLimit;
         public static byte ExiledJesterID;

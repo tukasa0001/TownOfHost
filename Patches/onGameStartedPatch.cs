@@ -31,7 +31,7 @@ namespace TownOfHost
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
-            main.CheckShapeshift = false;
+            main.CheckShapeshift = new Dictionary<byte, bool>();
 
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
@@ -234,6 +234,7 @@ namespace TownOfHost
                     if(pc.isBountyHunter()) pc.ResetBountyTarget();
                     if(pc.isWarlock()){
                         main.FirstCursedCheck.Add(pc.PlayerId, false);
+                        main.CheckShapeshift.Add(pc.PlayerId, false);
                     }
                 }
 

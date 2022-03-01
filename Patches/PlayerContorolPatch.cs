@@ -52,7 +52,7 @@ namespace TownOfHost
                         main.FirstCursedCheck.Remove(__instance.PlayerId);
                         main.FirstCursedCheck.Add(__instance.PlayerId, false);
                     }
-                    if(main.CursedPlayers[__instance.PlayerId] != null && main.CheckShapeshift == false)//変身解除の時に反応しない
+                    if(main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
                     {
                         var cp = main.CursedPlayers[__instance.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
@@ -73,7 +73,9 @@ namespace TownOfHost
                         cp.RpcMurderPlayer(targetw);//殺す
                     }
                 }
-                main.CheckShapeshift = !main.CheckShapeshift;//変身、変身解除のスイッチ
+                bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
+                main.CheckShapeshift.Remove(__instance.PlayerId);
+                main.CheckShapeshift.Add(__instance.PlayerId, !check);
             }
         }
     }
@@ -142,7 +144,7 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (main.CheckShapeshift == false && !main.FirstCursedCheck[__instance.PlayerId])
+                if (!main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers.Add(__instance.PlayerId,target);
@@ -151,7 +153,7 @@ namespace TownOfHost
                     main.FirstCursedCheck.Add(__instance.PlayerId, true);
                     return false;
                 }
-                if (main.CheckShapeshift && !main.FirstCursedCheck[__instance.PlayerId]){//呪われてる人がいないくて変身してるときに通常キルになる
+                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId]){//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
