@@ -37,6 +37,8 @@ namespace TownOfHost
                 if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
                     main.isBountyKillSuccess = true;//キルクール減少処理に変換
                     main.CustomSyncAllSettings();//キルクール処理を同期
+                    main.isTargetKilled.Remove(__instance.PlayerId);
+                    main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
             }
             //Terrorist
@@ -262,12 +264,14 @@ namespace TownOfHost
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                         main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
                     }
-                    if(__instance.getBountyTarget().Data.IsDead)//ターゲットをキルした場合
+                    if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
                         __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                         main.BountyTimerCheck = true;
+                        main.isTargetKilled.Remove(__instance.PlayerId);
+                        main.isTargetKilled.Add(__instance.PlayerId, false);
                     }
                     if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
                         main.BountyTimerCheck = false;

@@ -24,6 +24,7 @@ namespace TownOfHost
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
+            main.isTargetKilled = new Dictionary<byte, bool>();
 
             main.ps = new PlayerState();
 
@@ -234,6 +235,7 @@ namespace TownOfHost
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.isBountyHunter()){
                         pc.ResetBountyTarget();
+                        main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                         }
                 }
