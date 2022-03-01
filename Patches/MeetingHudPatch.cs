@@ -216,6 +216,10 @@ namespace TownOfHost
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+
+                //自分自身の名前の色を変更
+                    if(pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
+                       pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
             }
         }
     }
