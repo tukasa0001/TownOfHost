@@ -96,6 +96,7 @@ namespace TownOfHost
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
+                    bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
@@ -142,6 +143,7 @@ namespace TownOfHost
                         HaSKillDelay,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
+                        MadmateCanFixComms,
                         MadGuardianCanSeeBarrier,
                         MayorAdditionalVote
                     );
@@ -226,6 +228,7 @@ namespace TownOfHost
                 int HaSKillDelay,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
+                bool MadmateCanFixComms,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
@@ -287,6 +290,7 @@ namespace TownOfHost
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
+            main.MadmateCanFixComms = MadmateCanFixComms;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;

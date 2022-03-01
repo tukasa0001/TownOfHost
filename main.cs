@@ -399,6 +399,7 @@ namespace TownOfHost
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0)
                 {
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
+                    if(main.MadmateCanFixComms) text += String.Format("\n{0}:{1}", main.getLang(lang.MadmateCanFixComms), getOnOff(main.MadmateCanFixComms));
                 }
                 if(main.MadGuardianCount > 0)
                 {
@@ -486,6 +487,7 @@ namespace TownOfHost
         public static int SnitchExposeTaskLeft;
 
         public static bool MadmateCanFixLightsOut;
+        public static bool MadmateCanFixComms;
         public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
@@ -539,6 +541,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
+            writer.Write(MadmateCanFixComms);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -820,6 +823,7 @@ namespace TownOfHost
             SheriffCanKillMadmate = true;
 
             MadmateCanFixLightsOut = false;
+            MadmateCanFixComms = false;
             MadGuardianCanSeeBarrier = false;
 
             MayorAdditionalVote = 1;
@@ -913,7 +917,8 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
+                {lang.MadmateCanFixLightsOut, "マッドメイト(マッドガーディアン)が停電を直すことができる"},
+                {lang.MadmateCanFixComms, "マッドメイト(マッドガーディアン)がコミュサボを直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
@@ -1017,6 +1022,7 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
+                {lang.MadmateCanFixComms, "Madmate Can Fix Comms"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
@@ -1197,6 +1203,7 @@ namespace TownOfHost
         AdvancedRoleOptions,
         VampireKillDelay,
         MadmateCanFixLightsOut,
+        MadmateCanFixComms,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
