@@ -46,9 +46,9 @@ namespace TownOfHost
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            
-            
-            
+
+
+
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
@@ -61,7 +61,9 @@ namespace TownOfHost
             var SheriffCanKillJester = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillJester)}</color>: {main.getOnOff(main.SheriffCanKillJester)}", true, () => main.SheriffCanKillJester = !main.SheriffCanKillJester);
             var SheriffCanKillTerrorist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}", true, () => main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
+            var SheriffCanKillMadmate = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillMadmate)}</color>: {main.getOnOff(main.SheriffCanKillMadmate)}", true, () => main.SheriffCanKillMadmate = !main.SheriffCanKillMadmate);
             var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
+            var MadmateCanFixComms = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixComms)}</color>: {main.getOnOff(main.MadmateCanFixComms)}", true, () => { main.MadmateCanFixComms = !main.MadmateCanFixComms; });
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
 
@@ -183,7 +185,7 @@ namespace TownOfHost
             return text;
         }
     }
-    
+
     class PageObject {
         public PageObject parent;
         public string name => getName();

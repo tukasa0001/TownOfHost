@@ -145,8 +145,10 @@ namespace TownOfHost {
                 case CustomRoles.Opportunist:
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
-                case CustomRoles.MadGuardian:
                 case CustomRoles.Madmate:
+                case CustomRoles.MadGuardian:
+                    canBeKilled = main.SheriffCanKillMadmate;
+                    break;
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -316,7 +318,7 @@ namespace TownOfHost {
                 !pc.Data.Disconnected && //切断者を除外
                 !pc.getCustomRole().isImpostor() //インポスターを除外
                 ) cTargets.Add(pc);
-            
+
             var rand = new System.Random();
             if(cTargets.Count <= 0) {
                 Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");

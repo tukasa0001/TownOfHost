@@ -141,6 +141,10 @@ namespace TownOfHost
                0 <= amount && amount <= 4 && //配電盤操作のamount
                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
+            if (!main.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
+                systemType == SystemTypes.Comms && //システムタイプが通信室
+                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
+                return false;
             if(player.isSheriff()) {
                 if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
                 if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外

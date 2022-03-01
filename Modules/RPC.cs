@@ -86,6 +86,7 @@ namespace TownOfHost
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
+                    bool SheriffCanKillMadmate = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -95,6 +96,7 @@ namespace TownOfHost
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
+                    bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
@@ -131,6 +133,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
+                        SheriffCanKillMadmate,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -140,6 +143,7 @@ namespace TownOfHost
                         HaSKillDelay,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
+                        MadmateCanFixComms,
                         MadGuardianCanSeeBarrier,
                         MayorAdditionalVote
                     );
@@ -214,6 +218,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
+                bool SheriffCanKillMadmate,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -223,6 +228,7 @@ namespace TownOfHost
                 int HaSKillDelay,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
+                bool MadmateCanFixComms,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote
             ) {
@@ -270,6 +276,7 @@ namespace TownOfHost
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+            main.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
@@ -283,6 +290,7 @@ namespace TownOfHost
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
+            main.MadmateCanFixComms = MadmateCanFixComms;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;

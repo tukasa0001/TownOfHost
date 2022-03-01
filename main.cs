@@ -90,7 +90,7 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        
+
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -394,10 +394,12 @@ namespace TownOfHost
                     if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillJester), getOnOff(main.SheriffCanKillJester));
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
+                    if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillMadmate), getOnOff(main.SheriffCanKillMadmate));
                 }
                 if(main.MadGuardianCount > 0 || main.MadmateCount > 0)
                 {
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
+                    if(main.MadmateCanFixComms) text += String.Format("\n{0}:{1}", main.getLang(lang.MadmateCanFixComms), getOnOff(main.MadmateCanFixComms));
                 }
                 if(main.MadGuardianCount > 0)
                 {
@@ -480,10 +482,12 @@ namespace TownOfHost
         public static bool SheriffCanKillJester;
         public static bool SheriffCanKillTerrorist;
         public static bool SheriffCanKillOpportunist;
+        public static bool SheriffCanKillMadmate;
         public static int MayorAdditionalVote;
         public static int SnitchExposeTaskLeft;
 
         public static bool MadmateCanFixLightsOut;
+        public static bool MadmateCanFixComms;
         public static bool MadGuardianCanSeeBarrier;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
@@ -527,6 +531,7 @@ namespace TownOfHost
             writer.Write(SheriffCanKillJester);
             writer.Write(SheriffCanKillTerrorist);
             writer.Write(SheriffCanKillOpportunist);
+            writer.Write(SheriffCanKillMadmate);
             writer.Write(SyncButtonMode);
             writer.Write(SyncedButtonCount);
             writer.Write((int)whenSkipVote);
@@ -536,6 +541,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
+            writer.Write(MadmateCanFixComms);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -656,13 +662,13 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
-                
+
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                
+
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -674,7 +680,7 @@ namespace TownOfHost
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
                     if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeSpell);
                 }
-                
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.getRealName(isMeeting);
 
@@ -703,10 +709,10 @@ namespace TownOfHost
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
-                    
+
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
-                    
+
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
@@ -718,7 +724,7 @@ namespace TownOfHost
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
-                    
+
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName = target.getRealName(isMeeting);
 
@@ -731,7 +737,7 @@ namespace TownOfHost
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
-                    
+
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
@@ -814,8 +820,10 @@ namespace TownOfHost
             SheriffCanKillJester = true;
             SheriffCanKillTerrorist = true;
             SheriffCanKillOpportunist = false;
+            SheriffCanKillMadmate = true;
 
             MadmateCanFixLightsOut = false;
+            MadmateCanFixComms = false;
             MadGuardianCanSeeBarrier = false;
 
             MayorAdditionalVote = 1;
@@ -909,7 +917,8 @@ namespace TownOfHost
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
-                {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
+                {lang.MadmateCanFixLightsOut, "マッドメイト系役職が停電を直すことができる"},
+                {lang.MadmateCanFixComms, "マッドメイト系役職がコミュサボを直すことができる"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
@@ -920,6 +929,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillJester, "シェリフがジェスターをキルできる"},
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
+                {lang.SheriffCanKillMadmate, "シェリフがマッドメイト系役職をキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
@@ -1011,7 +1021,8 @@ namespace TownOfHost
                 {lang.AdvancedRoleOptions, "Advanced Options"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
-                {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
+                {lang.MadmateCanFixLightsOut, "Madmate Type Roles Can Fix Lights Out"},
+                {lang.MadmateCanFixComms, "Madmate Type Roles Can Fix Comms"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
@@ -1021,6 +1032,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillJester, "Sheriff Can Kill Jester"},
                 {lang.SheriffCanKillTerrorist, "Sheriff Can Kill Terrorist"},
                 {lang.SheriffCanKillOpportunist, "Sheriff Can Kill Opportunist"},
+                {lang.SheriffCanKillMadmate, "Sheriff Can Kill Madmate Type Roles"},
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
@@ -1191,6 +1203,7 @@ namespace TownOfHost
         AdvancedRoleOptions,
         VampireKillDelay,
         MadmateCanFixLightsOut,
+        MadmateCanFixComms,
         MadGuardianCanSeeBarrier,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
@@ -1201,6 +1214,7 @@ namespace TownOfHost
         SheriffCanKillJester,
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
+        SheriffCanKillMadmate,
         MayorAdditionalVote,
         HideAndSeekOptions,
         AllowCloseDoors,
