@@ -60,6 +60,7 @@ namespace TownOfHost
                 PlayerControl targetm = min.Key;
                 targetm.SetCustomRole(CustomRoles.SKMadmate);
                 main.SKMadmateNowCount++;
+                main.CustomSyncAllSettings();
             }
         }
     }
