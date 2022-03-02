@@ -429,7 +429,7 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = "ロール割り当て:";
+            var text = getLang(lang.LastResult);
             Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
             foreach(var id in winnerList)
             {
@@ -986,7 +986,8 @@ namespace TownOfHost
                 {lang.RoleOptions, "役職設定"},
                 {lang.ModeOptions, "モード設定"},
                 {lang.ForceJapanese, "日本語に強制"},
-                {lang.AutoDisplayLastRoles,"最終役職の自動表示"},
+                {lang.AutoDisplayLastResult,"ゲーム結果の自動表示"},
+                {lang.LastResult,"ゲーム結果:"},
                 {lang.VoteMode, "投票モード"},
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
@@ -1092,7 +1093,8 @@ namespace TownOfHost
                 {lang.RoleOptions, "Role Options"},
                 {lang.ModeOptions, "Mode Options"},
                 {lang.ForceJapanese, "Force Japanese"},
-                {lang.AutoDisplayLastRoles,"Auto Display Last Roles"},
+                {lang.AutoDisplayLastResult,"Auto Display Last Result"},
+                {lang.LastResult,"Game Result:"},
                 {lang.VoteMode, "VoteMode"},
                 {lang.Default, "Default"},
                 {lang.Suicide, "Suicide"},
@@ -1289,7 +1291,8 @@ namespace TownOfHost
         RoleOptions,
         ModeOptions,
         ForceJapanese,
-        AutoDisplayLastRoles,
+        AutoDisplayLastResult,
+        LastResult,
         VoteMode,
         Default,
         Suicide,
