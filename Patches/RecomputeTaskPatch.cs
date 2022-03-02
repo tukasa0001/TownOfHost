@@ -25,10 +25,10 @@ namespace TownOfHost
                 var hasTasks = main.hasTasks(p);
                 if (hasTasks)
                 {
-//                    if(p.Tasks == null) {
-//                        Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
-//                        continue;//これより下を実行しない
-//                    }
+                    if(p.Tasks == null) {
+                        Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
+                        continue;//これより下を実行しない
+                    }
                     foreach (var task in p.Tasks)
                     {
                         __instance.TotalTasks++;
