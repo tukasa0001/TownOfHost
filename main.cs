@@ -50,7 +50,6 @@ namespace TownOfHost
         public static CustomWinner currentWinner;
         public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
         public static GameOptionsData RealOptionsData;
-        public static PlayerState ps;
         public static bool IsHideAndSeek;
         public static bool AllowCloseDoors;
         public static bool IgnoreVent;
@@ -62,6 +61,8 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
+
+        public static List<PlayerState> PlayerStates;
         public static Dictionary<byte, bool> BlockKilling;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -930,6 +931,7 @@ namespace TownOfHost
             TrollCount = 0;
             FoxCount = 0;
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            PlayerStates = new List<PlayerState>();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
