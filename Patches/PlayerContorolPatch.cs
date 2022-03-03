@@ -75,11 +75,7 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
-                        //MadGuardian視点用
-                        target.RpcGuardAndKill(target);
-                    }
+                    main.knownMadGuardians.Add(target.PlayerId);
                     return false;
                 }
             }
