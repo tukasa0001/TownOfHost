@@ -8,6 +8,7 @@ namespace TownOfHost {
             this.player = player;
         }
         public PlayerControl player;
+        public byte playerId => player != null ? player.PlayerId : byte.MaxValue;
         public bool isDead;
         public DeathReason deathReason;
         public bool isSuicide() { return deathReason == DeathReason.Suicide; }

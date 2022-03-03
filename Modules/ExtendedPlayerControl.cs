@@ -433,6 +433,14 @@ namespace TownOfHost {
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        public static void getPlayerState(this byte? id)
+            => main.PlayerStates.Where(ps => ps.playerId == id).FirstOrDefault();
+        public static void getPlayerState(this PlayerControl player)
+            => getPlayerState(player?.PlayerId);
+        public static void getPlayerState(this GameData.PlayerInfo player)
+            => getPlayerState(player?.PlayerId);
+        
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
