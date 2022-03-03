@@ -90,6 +90,7 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
+        public static List<byte> knownMadGuardians;
 
 
         public static int SetRoleCountToggle(int currentCount)
@@ -801,6 +802,8 @@ namespace TownOfHost
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
+
+            knownMadGuardians = new List<byte>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
