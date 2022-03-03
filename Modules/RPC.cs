@@ -25,6 +25,8 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        AddKnownMadGuardian,
+        ResetKnownMadGuardian
     }
     public enum Sounds
     {
@@ -179,6 +181,13 @@ namespace TownOfHost
                     byte playerId = reader.ReadByte();
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
+                    break;
+                case (byte)CustomRPC.AddKnownMadGuardian:
+                    byte addTargetId = reader.ReadByte();
+                    RPCProcedure.AddKnownMadGuardian(addTargetId);
+                    break;
+                case (byte)CustomRPC.ResetKnownMadGuardian:
+                    RPCProcedure.ResetKnownMadGuardian();
                     break;
             }
         }
@@ -367,6 +376,13 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
+        }
+
+        public static void AddKnownMadGuardian(byte targetId) {
+            main.knownMadGuardians.Add(targetId);
+        }
+        public static void ResetKnownMadGuardian() {
+            main.knownMadGuardians = new List<byte>();
         }
     }
 }
