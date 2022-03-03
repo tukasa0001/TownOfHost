@@ -434,7 +434,7 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void getPlayerState(this byte? id)
+        public static void getPlayerState(byte? id)
             => main.PlayerStates.Where(ps => ps.playerId == id).FirstOrDefault();
         public static void getPlayerState(this PlayerControl player)
             => getPlayerState(player?.PlayerId);
