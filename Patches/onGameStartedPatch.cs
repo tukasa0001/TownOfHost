@@ -32,7 +32,7 @@ namespace TownOfHost
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
-            main.knownMadGuardians = new List<byte>();
+            main.RpcResetKnownMadGuardian();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
