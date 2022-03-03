@@ -437,9 +437,19 @@ namespace TownOfHost {
         public static PlayerState getPlayerState(byte? id)
             => main.PlayerStates.Where(ps => ps.playerId == id).FirstOrDefault();
         public static PlayerState getPlayerState(this PlayerControl player)
-            => getPlayerState(player?.PlayerId);
+        {
+            if(player == null) return null;
+            var state = getPlayerState(player.PlayerId);
+            if(state == null)
+            {
+                //PlayerStateが見つからない場合、新しくPlayerStateを作る
+                state = new PlayerState(player);
+                main.PlayerStates.Add(state);
+            }
+            return state;
+        }
         public static PlayerState getPlayerState(this GameData.PlayerInfo player)
-            => getPlayerState(player?.PlayerId);
+            => getPlayerState(player?.Object);
         
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
