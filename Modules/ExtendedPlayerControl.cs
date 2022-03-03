@@ -434,11 +434,11 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void getPlayerState(byte? id)
+        public static PlayerState getPlayerState(byte? id)
             => main.PlayerStates.Where(ps => ps.playerId == id).FirstOrDefault();
-        public static void getPlayerState(this PlayerControl player)
+        public static PlayerState getPlayerState(this PlayerControl player)
             => getPlayerState(player?.PlayerId);
-        public static void getPlayerState(this GameData.PlayerInfo player)
+        public static PlayerState getPlayerState(this GameData.PlayerInfo player)
             => getPlayerState(player?.PlayerId);
         
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
