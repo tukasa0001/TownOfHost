@@ -695,17 +695,21 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                //タスクを終えたSnitchがインポスターを確認できる
                 if(seer.isSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
                     if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+                //設定がONの時、判明済みのMadGuardianがインポスターを確認できる
+                if(seer.isMadGuardian() && knownMadGuardians.Contains(seer.PlayerId) && MadGuardianCanSeeBarrier)
+                    SeerKnowsImpostors = true;
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
-                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
-                //|| seer.isLovers()
+                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                || (seer.getCustomRole().isImpostor() && knownMadGuardians.Count > 0) //seerがインポスターで、MadGuardianが一人以上判明している
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -731,6 +735,8 @@ namespace TownOfHost
 
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                    else if(seer.getCustomRole().isImpostor() && knownMadGuardians.Contains(target.PlayerId)) //seerがインポスターで、targetが判明済みMadGuardian
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
 
                     //全てのテキストを合成します。
