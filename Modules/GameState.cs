@@ -2,22 +2,15 @@ using System.Collections.Generic;
 
 namespace TownOfHost {
     public class PlayerState {
-        
-        public PlayerState()
+        //クラス内にリストなどを持つのではなく、リストにこのクラス変数を入れるように変更しました。
+        public PlayerState(PlayerControl player)
         {
-            foreach(var p in PlayerControl.AllPlayerControls)
-            {
-                players.Add(p.PlayerId);
-                isDead.Add(p.PlayerId,false);
-                deathReasons.Add(p.PlayerId,DeathReason.etc);
-            }
+            this.player = player;
         }
-        public List<byte> players = new List<byte>();
-        public Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
-        public Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
-        public void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public DeathReason getDeathReason(byte p) { return deathReasons[p]; }
-        public bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
+        public PlayerControl player;
+        public bool isDead;
+        public DeathReason deathReason;
+        public bool isSuicide() { return deathReason == DeathReason.Suicide; }
         
         public enum DeathReason
         {
