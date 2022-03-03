@@ -75,7 +75,9 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    main.RpcAddKnownMadGuardian(target.PlayerId);
+                    main.RpcAddKnownMadGuardian(__instance.PlayerId, target.PlayerId);
+                    if(main.MadGuardianCanSeeBarrier)
+                        main.RpcAddKnownMadGuardian(target.PlayerId, target.PlayerId);
                     main.NotifyRoles();
                     return false;
                 }
@@ -268,13 +270,13 @@ namespace TownOfHost
                 //インポスターが確認済みMadGuardianを確認できる
                 else if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                     __instance.isMadGuardian() && //__instanceがMadGuardian
-                    main.knownMadGuardians.Contains(__instance.PlayerId) //__instanceが確認済み
+                    main.KnownMadGuardians[PlayerControl.LocalPlayer.PlayerId].Contains(__instance.PlayerId) //__instanceが確認済み
                 ) {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
                 //設定がONの時、確認済みMadGuardianがインポスターを確認できる
                 else if(PlayerControl.LocalPlayer.isMadGuardian() && //LocalPlayerがMadGuardian
-                    main.knownMadGuardians.Contains(PlayerControl.LocalPlayer.PlayerId) && //LocalPlayerが確認済み
+                    main.KnownMadGuardians[PlayerControl.LocalPlayer.PlayerId].Contains(PlayerControl.LocalPlayer.PlayerId) && //LocalPlayerが確認済み
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     main.MadGuardianCanSeeBarrier //設定がON
                 ) {

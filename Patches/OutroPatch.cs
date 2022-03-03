@@ -157,7 +157,7 @@ namespace TownOfHost
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            main.knownMadGuardians = new List<byte>();
+            main.KnownMadGuardians = new Dictionary<byte, List<byte>>();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);

@@ -90,7 +90,7 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        public static List<byte> knownMadGuardians;
+        public static Dictionary<byte, List<byte>> KnownMadGuardians;
 
 
         public static int SetRoleCountToggle(int currentCount)
@@ -702,14 +702,14 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
                 //設定がONの時、判明済みのMadGuardianがインポスターを確認できる
-                if(seer.isMadGuardian() && knownMadGuardians.Contains(seer.PlayerId) && MadGuardianCanSeeBarrier)
+                if(seer.isMadGuardian() && KnownMadGuardians[seer.PlayerId].Contains(seer.PlayerId) && MadGuardianCanSeeBarrier)
                     SeerKnowsImpostors = true;
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                || (seer.getCustomRole().isImpostor() && knownMadGuardians.Count > 0) //seerがインポスターで、MadGuardianが一人以上判明している
+                || (seer.getCustomRole().isImpostor() && KnownMadGuardians[seer.PlayerId].Count > 0) //seerがインポスターで、MadGuardianが一人以上判明している
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -736,7 +736,7 @@ namespace TownOfHost
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
-                    else if(seer.getCustomRole().isImpostor() && knownMadGuardians.Contains(target.PlayerId)) //seerがインポスターで、targetが判明済みMadGuardian
+                    else if(seer.getCustomRole().isImpostor() && KnownMadGuardians[seer.PlayerId].Contains(target.PlayerId)) //seerがインポスターで、targetが判明済みMadGuardian
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
 
                     //全てのテキストを合成します。
@@ -757,11 +757,12 @@ namespace TownOfHost
             }
         }
 
-        public static void RpcAddKnownMadGuardian(byte targetId) {
+        public static void RpcAddKnownMadGuardian(byte seerId, byte targetId) {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddKnownMadGuardian, SendOption.Reliable, -1);
+            writer.Write(seerId);
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.AddKnownMadGuardian(targetId);
+            RPCProcedure.AddKnownMadGuardian(seerId, targetId);
         }
         public static void RpcResetKnownMadGuardian() {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetKnownMadGuardian, SendOption.Reliable, -1);
@@ -821,7 +822,7 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
 
-            knownMadGuardians = new List<byte>();
+            KnownMadGuardians = new Dictionary<byte, List<byte>>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;

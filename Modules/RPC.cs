@@ -183,8 +183,9 @@ namespace TownOfHost
                     main.KillOrSpell[playerId] = KoS;
                     break;
                 case (byte)CustomRPC.AddKnownMadGuardian:
+                    byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
-                    RPCProcedure.AddKnownMadGuardian(addTargetId);
+                    RPCProcedure.AddKnownMadGuardian(addSeerId, addTargetId);
                     break;
                 case (byte)CustomRPC.ResetKnownMadGuardian:
                     RPCProcedure.ResetKnownMadGuardian();
@@ -378,11 +379,19 @@ namespace TownOfHost
             HudManager.Instance.SetHudActive(true);
         }
 
-        public static void AddKnownMadGuardian(byte targetId) {
-            main.knownMadGuardians.Add(targetId);
+        public static void AddKnownMadGuardian(byte seerId, byte targetId) {
+            List<byte> list;
+            if(!main.KnownMadGuardians.TryGetValue(seerId, out list)) {
+                list = new List<byte>();
+            }
+            list.Add(targetId);
+            main.KnownMadGuardians[seerId] = list;
         }
         public static void ResetKnownMadGuardian() {
-            main.knownMadGuardians = new List<byte>();
+            main.KnownMadGuardians = new Dictionary<byte, List<byte>>();
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                main.KnownMadGuardians[pc.PlayerId] = new List<byte>();
+            }
         }
     }
 }
