@@ -76,6 +76,7 @@ namespace TownOfHost
                 }
                 if(isTaskFinished) {
                     main.knownMadGuardians.Add(target.PlayerId);
+                    main.NotifyRoles();
                     return false;
                 }
             }
