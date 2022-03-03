@@ -257,10 +257,26 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
+                //名前色変更処理
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
+                ) {
+                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+                //インポスターが確認済みMadGuardianを確認できる
+                else if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                    __instance.isMadGuardian() && //__instanceがMadGuardian
+                    main.knownMadGuardians.Contains(__instance.PlayerId) //__instanceが確認済み
+                ) {
+                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+                //設定がONの時、確認済みMadGuardianがインポスターを確認できる
+                else if(PlayerControl.LocalPlayer.isMadGuardian() && //LocalPlayerがMadGuardian
+                    main.knownMadGuardians.Contains(PlayerControl.LocalPlayer.PlayerId) && //LocalPlayerが確認済み
+                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                    main.MadGuardianCanSeeBarrier //設定がON
                 ) {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
