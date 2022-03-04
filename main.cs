@@ -854,7 +854,7 @@ namespace TownOfHost
             DisableResetBreaker = false;
 
             VampireKillDelay = 10;
-            SerialKillerCooldownDiscount = 50;
+            SerialKillerCooldownDiscount = 20;
             SerialKillerLimit = 60;
 
             SabotageMasterSkillLimit = 0;
