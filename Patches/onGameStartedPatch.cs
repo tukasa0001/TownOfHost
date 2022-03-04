@@ -21,7 +21,9 @@ namespace TownOfHost
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.SerialKillerTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
+            main.SKMadmateNowCount = 0;
 
             main.ps = new PlayerState();
 
@@ -66,7 +68,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.ShapeMasterCount;// - ShapeshifterNum;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.ShapeMasterCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -198,6 +200,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadSnitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
@@ -208,6 +211,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
@@ -234,7 +238,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount;
+                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

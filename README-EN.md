@@ -47,6 +47,7 @@ However, The numeric keypad is not supported.<br>
 | Jester | Crewmate |
 | Madmate | Engineer |
 | MadGuardian | Crewmate |
+| MadSnitch | Crewmate |
 | Bait | Crewmate |
 | Terrorist | Engineer |
 | Mafia | ShapeShifter |
@@ -88,6 +89,16 @@ Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.
 Impostors also doesn't know who MadGuardian is.<br>
 However, if they complete all of their own tasks, they will no longer be killed.<br>
 They can not kill, sabotage, and to enter the vent.<br>
+
+### MadSnitch
+
+Team : Impostor<br>
+Decision : Crewmate<br>
+
+Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
+Impostors also doesn't know who MadSnitch is.<br>
+However, if they complete all of their own tasks, the name of the evildoer will change to red.<br>
+Instead of being unable to enter vent, They have the Impostor Vision.<br>
 
 ### Bait
 
@@ -192,6 +203,14 @@ Decision : ShapeShifter<br>
 
 Shape Master ignores the cooldown after a transformation and can transform again.<br>
 However, the transformation lasts only 10 seconds.<br>
+
+### SerialKiller
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+SerialKiller's killcooldown is shorter than defalt Impostor.<br>
+If he can not kill on deadline, he will kill him.<br>
 
 ## Mode
 

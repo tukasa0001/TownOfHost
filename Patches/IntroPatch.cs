@@ -18,12 +18,14 @@ namespace TownOfHost
         static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
             {CustomRoles.Jester, lang.JesterInfo},
             {CustomRoles.Madmate, lang.MadmateInfo},
+            {CustomRoles.SKMadmate, lang.SKMadmateInfo},
             {CustomRoles.Bait, lang.BaitInfo},
             {CustomRoles.Terrorist, lang.TerroristInfo},
             {CustomRoles.Mafia, lang.MafiaInfo},
             {CustomRoles.Vampire, lang.VampireInfo},
             {CustomRoles.SabotageMaster, lang.SabotageMasterInfo},
             {CustomRoles.MadGuardian, lang.MadGuardianInfo},
+            {CustomRoles.MadSnitch, lang.MadSnitchInfo},
             {CustomRoles.Mayor, lang.MayorInfo},
             {CustomRoles.Opportunist, lang.OpportunistInfo},
             {CustomRoles.Snitch, lang.SnitchInfo},
@@ -31,6 +33,7 @@ namespace TownOfHost
             {CustomRoles.BountyHunter, lang.BountyHunterInfo},
             {CustomRoles.Witch, lang.WitchInfo},
             {CustomRoles.ShapeMaster, lang.ShapeMasterInfo},
+            {CustomRoles.SerialKiller, lang.SerialKillerInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };
@@ -75,6 +78,7 @@ namespace TownOfHost
             switch(role) {
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.MadSnitch:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 

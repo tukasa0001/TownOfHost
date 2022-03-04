@@ -38,6 +38,32 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if(main.CanMakeMadmateCount > main.SKMadmateNowCount)//Warlockとserialkillerを除く処理を追加する。
+            {//変身したとき一番近い人をマッドメイトにする処理
+                Vector2 __instancepos = __instance.transform.position;//変身者の位置
+                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
+                float dis;
+                foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.isImpostor() && !p.isBountyHunter() && !p.isWitch() && !p.isSKMadmate())
+                    {
+                        dis = Vector2.Distance(__instancepos,p.transform.position);
+                        mpdistance.Add(p,dis);
+                    }
+                }
+                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                PlayerControl targetm = min.Key;
+                targetm.SetCustomRole(CustomRoles.SKMadmate);
+                main.SKMadmateNowCount++;
+                main.CustomSyncAllSettings();
+            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -49,6 +75,7 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
@@ -58,6 +85,13 @@ namespace TownOfHost
                 } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
+            }
+            if(__instance.isSerialKiller())
+            {
+                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
+                main.SerialKillerTimer.Remove(__instance.PlayerId);
+                main.SerialKillerTimer.Add(__instance.PlayerId,0f);
             }
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) return false;
@@ -124,6 +158,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.SerialKillerTimer.Clear();
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
@@ -223,6 +258,24 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.SerialKillerTimer[__instance.PlayerId] >= main.SerialKillerLimit)
+                    {
+                        if(!__instance.Data.IsDead)
+                        {
+                            __instance.RpcMurderPlayer(__instance);
+                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                        }
+                        else
+                        main.SerialKillerTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.SerialKillerTimer[__instance.PlayerId] =
+                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
 
                 if(__instance.AmOwner) main.ApplySuffix();
                 if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -261,12 +314,20 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
+                //タスクを終わらせたMadSnitchがインポスターを確認できる
+                if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                {
+                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
-                ) {
-                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                {
+                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
@@ -332,7 +393,7 @@ namespace TownOfHost
     class CoEnterVentPatch {
         public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
             if(AmongUsClient.Instance.AmHost){
-                if(__instance.myPlayer.isSheriff()) {
+                if(__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate()) {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);

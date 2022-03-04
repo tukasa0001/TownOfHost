@@ -34,9 +34,11 @@ namespace TownOfHost
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
             var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
+            var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
+            var MadSnitch = new PageObject(RoleOptions, CustomRoles.MadSnitch);
             ///第三陣営役職
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
             var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
@@ -63,9 +65,12 @@ namespace TownOfHost
             var SheriffCanKillTerrorist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}", true, () => main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
             var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
+            var MadmateVisionAsImpostor = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateVisionAsImpostor)}</color>: {main.getOnOff(main.MadmateVisionAsImpostor)}", true, () => {main.MadmateVisionAsImpostor = !main.MadmateVisionAsImpostor;});
+            var CanMakeMadmateCount = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CanMakeMadmateCount)}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
-
+            var SerialKillerCooldownDiscount = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldownDiscount)}</color>(%): {main.SerialKillerCooldownDiscount}{main.TextCursor}", true, () => {main.SerialKillerCooldownDiscount = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldownDiscount, n, 100));
+            var SerialKillerLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
@@ -102,6 +107,7 @@ namespace TownOfHost
             var dUnlockSafe = new PageObject(DisableTasks, () => main.getLang(lang.DisableUnlockSafeTask) + ": " + main.getOnOff(main.DisableUnlockSafe), true, () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;});
             var dUploadData = new PageObject(DisableTasks, () => main.getLang(lang.DisableUploadDataTask) + ": " + main.getOnOff(main.DisableUploadData), true, () => {main.DisableUploadData = !main.DisableUploadData;});
             var dStartReactor = new PageObject(DisableTasks, () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor), true, () => {main.DisableStartReactor = !main.DisableStartReactor;});
+            var dResetBreaker = new PageObject(DisableTasks, () => main.getLang(lang.DisableResetBreakerTask) + ": " + main.getOnOff(main.DisableResetBreaker), true, () => {main.DisableResetBreaker = !main.DisableResetBreaker;});
 
             var RandomMapsMode = new PageObject(ModeOptions, lang.RandomMapsMode);
             var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode), true, () => main.RandomMapsMode = !main.RandomMapsMode);
