@@ -58,6 +58,7 @@ However, The numeric keypad is not supported.<br>
 | Snitch | Crewmate |
 | Sheriff | Impostor(Only host is the Crewmate) |
 | BountyHunter | Impostor |
+| SerialKiller | ShapeShifter |
 | ShapeMaster | ShapeShifter |
 
 ### Jester

@@ -56,6 +56,7 @@
 | Snitch/スニッチ | クルーメイト |
 | Sheriff/シェリフ | インポスター(ホストのみクルーメイト) |
 | BountyHunter/バウンティーハンター | インポスター |
+| SerialKiller/シリアルキラー | シェイプシフター |
 | ShapeMaster/シェイプマスター | シェイプシフター |
 
 ### Jester/ジェスター
