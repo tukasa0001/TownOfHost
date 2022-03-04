@@ -145,10 +145,6 @@ namespace TownOfHost {
                 case CustomRoles.Opportunist:
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                    canBeKilled = main.SheriffCanKillMadmate;
-                    break;
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -156,6 +152,13 @@ namespace TownOfHost {
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
                     canBeKilled = true;
+                    break;
+            }
+            CustomRoles role = player.getCustomRole();
+            IntroTypes introType = role.GetIntroType();
+            switch(introType) {
+                case IntroTypes.Madmate:
+                    canBeKilled = main.SheriffCanKillMadmate;
                     break;
             }
             return canBeKilled;
