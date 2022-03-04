@@ -282,6 +282,9 @@ namespace TownOfHost
         }
         public static bool hasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
+            //Tasksがnullの場合があるのでその場合タスク無しとする
+            if (p.Tasks == null) return false;
+
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
             if(p.Role.IsImpostor)
