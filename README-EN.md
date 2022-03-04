@@ -48,6 +48,7 @@ However, The numeric keypad is not supported.<br>
 | Madmate | Engineer |
 | MadGuardian | Crewmate |
 | MadScientist | Scientist |
+| MadSnitch | Crewmate |
 | Bait | Crewmate |
 | Terrorist | Engineer |
 | Mafia | ShapeShifter |
@@ -98,6 +99,16 @@ Belongs to the Impostor team, but MadScientist does not know who the Impostor is
 Impostors also doesn't know who MadScientist is.<br>
 However, you can view your vitals at any time by doing a task.<br>
 They can not kill, sabotage, and to enter the vent.<br>
+
+### MadSnitch
+
+Team : Impostor<br>
+Decision : Crewmate<br>
+
+Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
+Impostors also doesn't know who MadSnitch is.<br>
+However, if they complete all of their own tasks, the name of the evildoer will change to red.<br>
+Instead of being unable to enter vent, They have the Impostor Vision.<br>
 
 ### Bait
 
@@ -194,6 +205,14 @@ Decision : Impostor<br>
 When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
+
+### SerialKiller
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+SerialKiller's killcooldown is shorter than defalt Impostor.<br>
+If he can not kill on deadline, he will kill him.<br>
 
 ## Mode
 
