@@ -210,6 +210,17 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
+            CustomRoles role = player.getCustomRole();
+            IntroTypes introType = role.GetIntroType();
+            switch(introType) {
+                case IntroTypes.Madmate:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(switchSystem != null && switchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
+                    }
+                    break;
+            }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
