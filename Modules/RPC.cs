@@ -79,6 +79,7 @@ namespace TownOfHost
                     bool UnlockSafeDisabled = reader.ReadBoolean();
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
+                    bool ResetBreakerDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
@@ -131,6 +132,7 @@ namespace TownOfHost
                         UnlockSafeDisabled,
                         UploadDataDisabled,
                         StartReactorDisabled,
+                        ResetBreakerDisabled,
                         VampireKillDelay,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
@@ -221,6 +223,7 @@ namespace TownOfHost
                 bool UnlockSafeDisabled,
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
+                bool ResetBreakerDisabled,
                 int VampireKillDelay,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
@@ -276,6 +279,7 @@ namespace TownOfHost
             main.DisableUnlockSafe = UnlockSafeDisabled;
             main.DisableUploadData = UploadDataDisabled;
             main.DisableStartReactor = StartReactorDisabled;
+            main.DisableResetBreaker = ResetBreakerDisabled;
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;

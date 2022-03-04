@@ -72,6 +72,7 @@ namespace TownOfHost
         public static bool DisableUnlockSafe;
         public static bool DisableUploadData;
         public static bool DisableStartReactor;
+        public static bool DisableResetBreaker;
         //ランダムマップ
         public static bool AddedTheSkeld;
         public static bool AddedMIRAHQ;
@@ -555,6 +556,7 @@ namespace TownOfHost
             writer.Write(DisableUnlockSafe);
             writer.Write(DisableUploadData);
             writer.Write(DisableStartReactor);
+            writer.Write(DisableResetBreaker);
             writer.Write(VampireKillDelay);
             writer.Write(SabotageMasterSkillLimit);
             writer.Write(SabotageMasterFixesDoors);
@@ -849,6 +851,7 @@ namespace TownOfHost
             DisableUnlockSafe = false;
             DisableUploadData = false;
             DisableStartReactor = false;
+            DisableResetBreaker = false;
 
             VampireKillDelay = 10;
             SerialKillerCooldownDiscount = 50;
@@ -999,6 +1002,7 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "金庫タスクを無効化する"},
                 {lang.DisableUploadDataTask, "ダウンロードタスクを無効化する"},
                 {lang.DisableStartReactorTask, "原子炉起動タスクを無効化する"},
+                {lang.DisableResetBreakerTask, "ブレーカーリセットタスクを無効化する"},
                 {lang.AddedTheSkeld, "TheSkeldを追加"},
                 {lang.AddedMIRAHQ, "MIRAHQを追加"},
                 {lang.AddedPolus, "Polusを追加"},
@@ -1110,6 +1114,7 @@ namespace TownOfHost
                 {lang.DisableUnlockSafeTask, "Disable UnlockSafe Tasks"},
                 {lang.DisableUploadDataTask, "Disable UploadData Tasks"},
                 {lang.DisableStartReactorTask, "Disable StartReactor Tasks"},
+                {lang.DisableResetBreakerTask, "Disable ResetBreaker Tasks"},
                 {lang.AddedTheSkeld, "Added TheSkeld"},
                 {lang.AddedMIRAHQ, "Added MIRAHQ"},
                 {lang.AddedPolus, "Added Polus"},
@@ -1305,6 +1310,7 @@ namespace TownOfHost
         DisableUnlockSafeTask,
         DisableUploadDataTask,
         DisableStartReactorTask,
+        DisableResetBreakerTask,
         SuffixMode,
         WhenSkipVote,
         WhenNonVote,
