@@ -206,7 +206,7 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
+                    opt.KillCooldown = main.SerialKillerCooldownDiscount*2;
                     if(main.BountyHunterCount > 0)opt.KillCooldown = main.BHKillCooldown*main.SerialKillerCooldownDiscount/50;
                     break;
                 case CustomRoles.BountyHunter:

@@ -868,7 +868,7 @@ namespace TownOfHost
             DisableResetBreaker = false;
 
             VampireKillDelay = 10;
-            SerialKillerCooldownDiscount = 50;
+            SerialKillerCooldownDiscount = 20;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
             BountySuccessKillCoolDown = 2;
