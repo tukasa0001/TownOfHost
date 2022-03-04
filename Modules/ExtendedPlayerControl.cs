@@ -137,24 +137,19 @@ namespace TownOfHost {
             bool canBeKilled = false;
             switch(cRole) {
                 case CustomRoles.Jester:
-                    canBeKilled = main.SheriffCanKillJester;
-                    break;
+                    return main.SheriffCanKillJester;
                 case CustomRoles.Terrorist:
-                    canBeKilled = main.SheriffCanKillTerrorist;
-                    break;
+                    return main.SheriffCanKillTerrorist;
                 case CustomRoles.Opportunist:
-                    canBeKilled = main.SheriffCanKillOpportunist;
-                    break;
+                    return main.SheriffCanKillOpportunist;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.GetIntroType();
             switch(introType) {
                 case IntroTypes.Impostor:
-                    canBeKilled = true;
-                    break;
+                    return true;
                 case IntroTypes.Madmate:
-                    canBeKilled = main.SheriffCanKillMadmate;
-                    break;
+                    return main.SheriffCanKillMadmate;
             }
             return canBeKilled;
         }
