@@ -141,6 +141,7 @@ namespace TownOfHost {
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
                 case CustomRoles.MadGuardian:
+                case CustomRoles.MadSnitch:
                 case CustomRoles.Madmate:
                 case CustomRoles.SKMadmate:
                 case CustomRoles.Mafia:
@@ -149,6 +150,7 @@ namespace TownOfHost {
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.SerialKiller:
                     canBeKilled = true;
                     break;
             }
@@ -200,11 +202,22 @@ namespace TownOfHost {
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
                     break;
+                case CustomRoles.SerialKiller:
+                    opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
+                    opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
+                    break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
+                    }
+                    break;
+                case CustomRoles.MadSnitch:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(switchSystem != null && switchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
                     }
                     break;
 
@@ -374,11 +387,13 @@ namespace TownOfHost {
         public static bool isVampire(this PlayerControl target){return target.getCustomRole() == CustomRoles.Vampire;}
         public static bool isSabotageMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.SabotageMaster;}
         public static bool isMadGuardian(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadGuardian;}
+        public static bool isMadSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadSnitch;}
         public static bool isMayor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mayor;}
         public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
     }
 }

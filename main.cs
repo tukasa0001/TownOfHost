@@ -172,6 +172,9 @@ namespace TownOfHost
                 case CustomRoles.MadGuardian:
                     count = MadGuardianCount;
                     break;
+                case CustomRoles.MadSnitch:
+                    count = MadSnitchCount;
+                    break;
                 case CustomRoles.Mayor:
                     count = MayorCount;
                     break;
@@ -189,6 +192,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     count = WitchCount;
+                    break;
+                case CustomRoles.SerialKiller:
+                    count = SerialKillerCount;
                     break;
                 default:
                     return -1;
@@ -224,6 +230,9 @@ namespace TownOfHost
                 case CustomRoles.MadGuardian:
                     MadGuardianCount = count;
                     break;
+                case CustomRoles.MadSnitch:
+                    MadSnitchCount = count;
+                    break;
                 case CustomRoles.Mayor:
                     MayorCount = count;
                     break;
@@ -241,6 +250,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     WitchCount = count;
+                    break;
+                case CustomRoles.SerialKiller:
+                    SerialKillerCount = count;
                     break;
             }
         }
@@ -305,6 +317,7 @@ namespace TownOfHost
                 if(cRoleFound) {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
@@ -343,10 +356,12 @@ namespace TownOfHost
                 if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
                 if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
                 if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
+                if(main.SerialKillerCount > 0) main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
                 if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.MadSnitchCount > 0) main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
@@ -355,7 +370,6 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
-                // if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -374,10 +388,12 @@ namespace TownOfHost
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
+                if(main.SerialKillerCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SerialKiller),main.SerialKillerCount);;
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadSnitch),main.MadSnitchCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
@@ -404,7 +420,7 @@ namespace TownOfHost
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
                 }
-                if(main.MadGuardianCount > 0 || main.MadmateCount > 0 || SKMadmateCount > 0)
+                if(main.MadGuardianCount > 0 || main.MadSnitchCount > 0 || main.MadmateCount > 0 || main.SKMadmateCount > 0)
                 {
                     if(main.MadmateVisionAsImpostor) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateVisionAsImpostor),getOnOff(main.MadmateVisionAsImpostor));
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
@@ -462,21 +478,26 @@ namespace TownOfHost
         public static int VampireCount;
         public static int SabotageMasterCount;
         public static int MadGuardianCount;
+        public static int MadSnitchCount;
         public static int MayorCount;
         public static int OpportunistCount;
         public static int SheriffCount;
         public static int SnitchCount;
         public static int BountyHunterCount;
         public static int WitchCount;
+        public static int SerialKillerCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
+        public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
 
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
+        public static int SerialKillerCooldownDiscount;
+        public static int SerialKillerLimit;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -515,12 +536,14 @@ namespace TownOfHost
             writer.Write(VampireCount);
             writer.Write(SabotageMasterCount);
             writer.Write(MadGuardianCount);
+            writer.Write(MadSnitchCount);
             writer.Write(MayorCount);
             writer.Write(OpportunistCount);
             writer.Write(SnitchCount);
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
+            writer.Write(SerialKillerCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -555,6 +578,8 @@ namespace TownOfHost
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
+            writer.Write(SerialKillerCooldownDiscount);
+            writer.Write(SerialKillerLimit);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -710,6 +735,11 @@ namespace TownOfHost
                     if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+                if(seer.isMadSnitch()) {
+                    var TaskState = seer.getPlayerTaskState();
+                    if(TaskState.isTaskFinished)
+                        SeerKnowsImpostors = true;
+                }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
@@ -807,6 +837,7 @@ namespace TownOfHost
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            SerialKillerTimer = new Dictionary<byte, float>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             winnerList = "";
@@ -820,6 +851,8 @@ namespace TownOfHost
             DisableStartReactor = false;
 
             VampireKillDelay = 10;
+            SerialKillerCooldownDiscount = 50;
+            SerialKillerLimit = 60;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -865,6 +898,7 @@ namespace TownOfHost
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
+                {CustomRoles.MadSnitch, "#ff0000"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
@@ -875,6 +909,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -885,6 +920,7 @@ namespace TownOfHost
                 {lang.MadmateInfo, "インポスターの援助をしよう"},
                 {lang.SKMadmateInfo, "サイドキックにされた"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
+                {lang.MadSnitchInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
                 {lang.MafiaInfo, "インポスターの援助をしよう"},
@@ -898,13 +934,15 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
+                {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター:\n会議で追放されたときに単独勝利となる第三陣営の役職。追放されずにゲームが終了するか、キルされると敗北となる。"},
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
-                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、インポスターと視界の範囲が同じになっている。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -916,6 +954,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -945,6 +984,8 @@ namespace TownOfHost
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
+                {lang.SerialKillerCooldownDiscount, "シリアルキラーのキルクール減少"},
+                {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -990,6 +1031,7 @@ namespace TownOfHost
                 {lang.MadmateInfo, "Help the Impostors"},
                 {lang.SKMadmateInfo, "You are Sidekick"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
+                {lang.MadSnitchInfo, "Finish your tasks to help the Impostors"},
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.MafiaInfo, "Help the Impostors to kill everyone"},
@@ -1003,6 +1045,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
+                {lang.SerialKillerInfo, "Keep killng to win"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -1010,6 +1053,7 @@ namespace TownOfHost
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.SKMadmateInfoLong, "SidekickMadmate:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
+                {lang.MadSnitchInfoLong, "MadSnitch:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
@@ -1021,6 +1065,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1052,6 +1097,8 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
+                {lang.SerialKillerCooldownDiscount, "SerialKiller's KillCooldown discount"},
+                {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1100,6 +1147,7 @@ namespace TownOfHost
                 {CustomRoles.Madmate, "Madmate"},
                 {CustomRoles.SKMadmate, "SideKickMadmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
+                {CustomRoles.MadSnitch, "MadSnitch"},
                 {CustomRoles.Bait, "Bait"},
                 {CustomRoles.Terrorist, "Terrorist"},
                 {CustomRoles.Mafia, "Mafia"},
@@ -1111,6 +1159,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
+                {CustomRoles.SerialKiller, "SerialKiller"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1125,6 +1174,7 @@ namespace TownOfHost
                 {CustomRoles.Madmate, "マッドメイト"},
                 {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.MadGuardian, "マッドガーディアン"},
+                {CustomRoles.MadSnitch, "マッドスニッチ"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
                 {CustomRoles.Mafia, "マフィア"},
@@ -1136,6 +1186,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
+                {CustomRoles.SerialKiller, "シリアルキラー"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1182,12 +1233,14 @@ namespace TownOfHost
         VampireInfo,
         SabotageMasterInfo,
         MadGuardianInfo,
+        MadSnitchInfo,
         MayorInfo,
         OpportunistInfo,
         SnitchInfo,
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
+        SerialKillerInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1200,12 +1253,14 @@ namespace TownOfHost
         VampireInfoLong,
         SabotageMasterInfoLong,
         MadGuardianInfoLong,
+        MadSnitchInfoLong,
         MayorInfoLong,
         OpportunistInfoLong,
         SnitchInfoLong,
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
+        SerialKillerInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1236,6 +1291,8 @@ namespace TownOfHost
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
         MayorAdditionalVote,
+        SerialKillerCooldownDiscount,
+        SerialKillerLimit,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
@@ -1290,12 +1347,14 @@ namespace TownOfHost
         Vampire,
         SabotageMaster,
         MadGuardian,
+        MadSnitch,
         Mayor,
         Opportunist,
         Snitch,
         Sheriff,
         BountyHunter,
         Witch,
+        SerialKiller,
         Fox,
         Troll
     }

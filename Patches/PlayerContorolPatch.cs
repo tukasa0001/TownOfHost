@@ -86,6 +86,13 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
+            if(__instance.isSerialKiller())
+            {
+                __instance.RpcMurderPlayer(target);
+                __instance.RpcGuardAndKill(target);
+                main.SerialKillerTimer.Remove(__instance.PlayerId);
+                main.SerialKillerTimer.Add(__instance.PlayerId,0f);
+            }
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) return false;
                 if(!target.canBeKilledBySheriff()) {
@@ -151,6 +158,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.SerialKillerTimer.Clear();
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
@@ -250,6 +258,24 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
+                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.SerialKillerTimer[__instance.PlayerId] >= main.SerialKillerLimit)
+                    {
+                        if(!__instance.Data.IsDead)
+                        {
+                            __instance.RpcMurderPlayer(__instance);
+                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                        }
+                        else
+                        main.SerialKillerTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.SerialKillerTimer[__instance.PlayerId] =
+                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
 
                 if(__instance.AmOwner) main.ApplySuffix();
                 if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -288,12 +314,20 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
+                //タスクを終わらせたMadSnitchがインポスターを確認できる
+                if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                {
+                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
-                ) {
-                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                {
+                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる

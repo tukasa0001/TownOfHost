@@ -85,7 +85,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.MadGuardian:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianInfo)}</color>\r\n";
-                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.MadSnitch:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getRoleName(CustomRoles.MadSnitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getLang(lang.MadSnitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Jester:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getLang(lang.JesterInfo)}</color>\r\n";
@@ -135,6 +137,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getLang(lang.WitchInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.SerialKiller:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}\r\n{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
                     break;
             }
 
