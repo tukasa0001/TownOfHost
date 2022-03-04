@@ -140,7 +140,7 @@ namespace TownOfHost
             if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isMadScientist())) //実行者がMadmateかMadGuardianかMadSnitchかMadScientist)
+               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate() || player.isMadScientist())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmateかMadScientist)
                 return false;
             if(player.isSheriff()) {
                 if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
