@@ -200,7 +200,7 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
-                    goto InfinityShapeshift;
+                    goto ShapeMasterShapeshift;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -229,7 +229,7 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                InfinityShapeshift:
+                ShapeMasterShapeshift:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = 10;
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
