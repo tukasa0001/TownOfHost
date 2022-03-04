@@ -36,6 +36,7 @@ namespace TownOfHost {
             bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
+                role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian ||
                 role == CustomRoles.MadSnitch;
             return isImpostor;
@@ -78,6 +79,7 @@ namespace TownOfHost {
 
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.SKMadmate:
                 case CustomRoles.MadSnitch:
                     type = IntroTypes.Madmate;
                     break;
