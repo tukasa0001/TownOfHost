@@ -49,6 +49,32 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if(main.CanMakeMadmateCount > main.SKMadmateNowCount)//Warlockとserialkillerを除く処理を追加する。
+            {//変身したとき一番近い人をマッドメイトにする処理
+                Vector2 __instancepos = __instance.transform.position;//変身者の位置
+                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
+                float dis;
+                foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.isImpostor() && !p.isBountyHunter() && !p.isWitch() && !p.isSKMadmate())
+                    {
+                        dis = Vector2.Distance(__instancepos,p.transform.position);
+                        mpdistance.Add(p,dis);
+                    }
+                }
+                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                PlayerControl targetm = min.Key;
+                targetm.SetCustomRole(CustomRoles.SKMadmate);
+                main.SKMadmateNowCount++;
+                main.CustomSyncAllSettings();
+            }
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -60,6 +86,7 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
@@ -406,7 +433,7 @@ namespace TownOfHost
     class CoEnterVentPatch {
         public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
             if(AmongUsClient.Instance.AmHost){
-                if(__instance.myPlayer.isSheriff()) {
+                if(__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate()) {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);

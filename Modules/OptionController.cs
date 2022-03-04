@@ -76,6 +76,7 @@ namespace TownOfHost
             var BountySuccessKillCoolDown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountySuccessKillCoolDown)}</color>(s): {main.BountySuccessKillCoolDown}{main.TextCursor}", true, () => {main.BountySuccessKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCoolDown, n, 999));
             var BountyFailureKillCoolDown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyFailureKillCoolDown)}</color>(s): {main.BountyFailureKillCoolDown}{main.TextCursor}", true, () => {main.BountyFailureKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountyFailureKillCoolDown, n, 999));
             var BHKillCooldown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BHKillCooldown)}</color>(s): {main.BHKillCooldown}{main.TextCursor}", true, () => {main.BHKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BHKillCooldown, n, 999));
+            var CanMakeMadmateCount = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CanMakeMadmateCount)}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
             
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
@@ -113,6 +114,7 @@ namespace TownOfHost
             var dUnlockSafe = new PageObject(DisableTasks, () => main.getLang(lang.DisableUnlockSafeTask) + ": " + main.getOnOff(main.DisableUnlockSafe), true, () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;});
             var dUploadData = new PageObject(DisableTasks, () => main.getLang(lang.DisableUploadDataTask) + ": " + main.getOnOff(main.DisableUploadData), true, () => {main.DisableUploadData = !main.DisableUploadData;});
             var dStartReactor = new PageObject(DisableTasks, () => main.getLang(lang.DisableStartReactorTask) + ": " + main.getOnOff(main.DisableStartReactor), true, () => {main.DisableStartReactor = !main.DisableStartReactor;});
+            var dResetBreaker = new PageObject(DisableTasks, () => main.getLang(lang.DisableResetBreakerTask) + ": " + main.getOnOff(main.DisableResetBreaker), true, () => {main.DisableResetBreaker = !main.DisableResetBreaker;});
 
             var RandomMapsMode = new PageObject(ModeOptions, lang.RandomMapsMode);
             var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => main.getLang(lang.RandomMapsMode) + ": " + main.getOnOff(main.RandomMapsMode), true, () => main.RandomMapsMode = !main.RandomMapsMode);

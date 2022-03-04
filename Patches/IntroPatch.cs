@@ -18,6 +18,7 @@ namespace TownOfHost
         static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
             {CustomRoles.Jester, lang.JesterInfo},
             {CustomRoles.Madmate, lang.MadmateInfo},
+            {CustomRoles.SKMadmate, lang.SKMadmateInfo},
             {CustomRoles.Bait, lang.BaitInfo},
             {CustomRoles.Terrorist, lang.TerroristInfo},
             {CustomRoles.Mafia, lang.MafiaInfo},

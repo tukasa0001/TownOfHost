@@ -25,6 +25,7 @@ namespace TownOfHost
             main.BountyTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
+            main.SKMadmateNowCount = 0;
 
             main.ps = new PlayerState();
 
