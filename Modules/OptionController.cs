@@ -141,12 +141,12 @@ namespace TownOfHost
         }
         public static void Up()
         {
-            if (currentCursor <= 0) currentCursor = 0;
+            if (currentCursor <= 0) currentCursor = currentPage.ChildPages.Count - 1;
             else currentCursor--;
         }
         public static void Down()
         {
-            if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = currentPage.ChildPages.Count - 1;
+            if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = 0;
             else currentCursor++;
             if(!currentPage.ChildPages[currentCursor].amVisible()) currentCursor--;
         }
