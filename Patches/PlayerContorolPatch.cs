@@ -44,7 +44,7 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             //シェイプシフト解除時にはサイドキック判定しない
-            if (target.getCustomRole() == CustomRoles.Shapeshifter) return;
+            if (target == __instance) return;
             if(main.CanMakeMadmateCount > main.SKMadmateNowCount)//Warlockとserialkillerを除く処理を追加する。
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
