@@ -169,6 +169,7 @@ namespace TownOfHost
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.Warlock:
                 case CustomRoles.SerialKiller:
                     canBeKilled = true;
                     break;
@@ -230,9 +231,13 @@ namespace TownOfHost
                     if (main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
                     break;
+                case CustomRoles.Warlock:
+                    opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                    opt.KillCooldown *= 2;
+                    break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    opt.KillCooldown *= main.SerialKillerCooldownDiscount / 50;
+                    opt.KillCooldown = main.SerialKillerCooldown*2;
                     break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
@@ -424,29 +429,30 @@ namespace TownOfHost
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Default; }
-        public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
-        public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
-        public static bool isGurdianAngel(this PlayerControl target) { return target.getCustomRole() == CustomRoles.GuardianAngel; }
-        public static bool isImpostor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Impostor; }
-        public static bool isShapeshifter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Shapeshifter; }
-        public static bool isJester(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Jester; }
-        public static bool isMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Madmate; }
-        public static bool isSKMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SKMadmate; }
-        public static bool isBait(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Bait; }
-        public static bool isTerrorist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Terrorist; }
-        public static bool isMafia(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mafia; }
-        public static bool isVampire(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Vampire; }
-        public static bool isSabotageMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SabotageMaster; }
-        public static bool isMadGuardian(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MadGuardian; }
-        public static bool isMadSnitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MadSnitch; }
-        public static bool isMayor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mayor; }
-        public static bool isOpportunist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Opportunist; }
-        public static bool isSnitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Snitch; }
-        public static bool isSheriff(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Sheriff; }
-        public static bool isBountyHunter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.BountyHunter; }
-        public static bool isWitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Witch; }
-        public static bool isMadScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MadScientist; }
-        public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
+        public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
+        public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
+        public static bool isGurdianAngel(this PlayerControl target){return target.getCustomRole() == CustomRoles.GuardianAngel;}
+        public static bool isImpostor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Impostor;}
+        public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
+        public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
+        public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
+        public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}
+        public static bool isBait(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bait;}
+        public static bool isTerrorist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Terrorist;}
+        public static bool isMafia(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mafia;}
+        public static bool isVampire(this PlayerControl target){return target.getCustomRole() == CustomRoles.Vampire;}
+        public static bool isSabotageMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.SabotageMaster;}
+        public static bool isMadGuardian(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadGuardian;}
+        public static bool isMadSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadSnitch;}
+        public static bool isMayor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mayor;}
+        public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
+        public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
+        public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
+        public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
+        public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isMadScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.MadScientist;}
+        public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
+        public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
     }
 }
