@@ -87,11 +87,15 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
-                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                PlayerControl targetm = min.Key;
-                targetm.SetCustomRole(CustomRoles.SKMadmate);
-                main.SKMadmateNowCount++;
-                main.CustomSyncAllSettings();
+                //対象が見つかった時のみ処理
+                if (mpdistance.Count() != 0)
+                {
+                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                    PlayerControl targetm = min.Key;
+                    targetm.SetCustomRole(CustomRoles.SKMadmate);
+                    main.SKMadmateNowCount++;
+                    main.CustomSyncAllSettings();
+                }
             }
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
