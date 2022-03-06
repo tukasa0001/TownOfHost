@@ -582,7 +582,8 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string[] textList = text.Split('\n');
+            var tmp_text = text.Replace("#","＃");
+            string[] textList = tmp_text.Split('\n');
             string tmp = "";
             var l = 0;
             foreach(string t in textList)
