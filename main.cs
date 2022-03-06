@@ -497,7 +497,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
-        public static int SerialKillerCooldownDiscount;
+        public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -580,7 +580,7 @@ namespace TownOfHost
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeBarrier);
             writer.Write(MayorAdditionalVote);
-            writer.Write(SerialKillerCooldownDiscount);
+            writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -854,7 +854,7 @@ namespace TownOfHost
             DisableResetBreaker = false;
 
             VampireKillDelay = 10;
-            SerialKillerCooldownDiscount = 50;
+            SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
 
             SabotageMasterSkillLimit = 0;
@@ -987,7 +987,7 @@ namespace TownOfHost
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
-                {lang.SerialKillerCooldownDiscount, "シリアルキラーのキルクール減少"},
+                {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
@@ -1101,7 +1101,7 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "Mayor Additional Votes Count"},
                 {lang.HideAndSeekOptions, "HideAndSeek Options"},
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
-                {lang.SerialKillerCooldownDiscount, "SerialKiller's KillCooldown discount"},
+                {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
@@ -1296,7 +1296,7 @@ namespace TownOfHost
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,
         MayorAdditionalVote,
-        SerialKillerCooldownDiscount,
+        SerialKillerCooldown,
         SerialKillerLimit,
         HideAndSeekOptions,
         AllowCloseDoors,
