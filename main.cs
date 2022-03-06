@@ -391,6 +391,7 @@ namespace TownOfHost
                 }
                 if (main.SheriffCount > 0)
                 {
+                    text += String.Format("\n{0}:{1}",main.getLang(lang.SheriffKillCooldown),main.SheriffKillCooldown);
                     if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillJester), getOnOff(main.SheriffCanKillJester));
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
@@ -479,6 +480,7 @@ namespace TownOfHost
         public static bool SabotageMasterFixesCommunications;
         public static bool SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
+        public static int SheriffKillCooldown;
         public static bool SheriffCanKillJester;
         public static bool SheriffCanKillTerrorist;
         public static bool SheriffCanKillOpportunist;
@@ -528,6 +530,7 @@ namespace TownOfHost
             writer.Write(SabotageMasterFixesOxygens);
             writer.Write(SabotageMasterFixesCommunications);
             writer.Write(SabotageMasterFixesElectrical);
+            writer.Write(SheriffKillCooldown);
             writer.Write(SheriffCanKillJester);
             writer.Write(SheriffCanKillTerrorist);
             writer.Write(SheriffCanKillOpportunist);
@@ -817,6 +820,7 @@ namespace TownOfHost
             SabotageMasterFixesCommunications = true;
             SabotageMasterFixesElectrical = true;
 
+            SheriffKillCooldown = 30;
             SheriffCanKillJester = true;
             SheriffCanKillTerrorist = true;
             SheriffCanKillOpportunist = false;
@@ -926,6 +930,7 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesCommunications, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える"},
                 {lang.SabotageMasterFixesElectrical, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える"},
+                {lang.SheriffKillCooldown, "シェリフのキルクールダウン"},
                 {lang.SheriffCanKillJester, "シェリフがジェスターをキルできる"},
                 {lang.SheriffCanKillTerrorist, "シェリフがテロリストをキルできる"},
                 {lang.SheriffCanKillOpportunist, "シェリフがオポチュニストをキルできる"},
@@ -1029,6 +1034,7 @@ namespace TownOfHost
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
                 {lang.SabotageMasterFixesCommunications, "SabotageMaster Can Fixes Both Communications In MIRA HQ"},
                 {lang.SabotageMasterFixesElectrical, "SabotageMaster Can Fixes Lights Out All At Once"},
+                {lang.SheriffKillCooldown, "Sheriff Kill Cooldown"},
                 {lang.SheriffCanKillJester, "Sheriff Can Kill Jester"},
                 {lang.SheriffCanKillTerrorist, "Sheriff Can Kill Terrorist"},
                 {lang.SheriffCanKillOpportunist, "Sheriff Can Kill Opportunist"},
@@ -1211,6 +1217,7 @@ namespace TownOfHost
         SabotageMasterFixesOxygens,
         SabotageMasterFixesCommunications,
         SabotageMasterFixesElectrical,
+        SheriffKillCooldown,
         SheriffCanKillJester,
         SheriffCanKillTerrorist,
         SheriffCanKillOpportunist,

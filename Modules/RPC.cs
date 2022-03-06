@@ -83,6 +83,7 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    int SheriffKillCooldown = reader.ReadInt32();
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
@@ -130,6 +131,7 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffKillCooldown,
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
@@ -215,6 +217,7 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                int SheriffKillCooldown,
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
@@ -273,6 +276,7 @@ namespace TownOfHost
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
+            main.SheriffKillCooldown = SheriffKillCooldown;
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
