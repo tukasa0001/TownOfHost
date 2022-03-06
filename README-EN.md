@@ -205,6 +205,14 @@ Decision : ShapeShifter<br>
 Shape Master ignores the cooldown after a transformation and can transform again.<br>
 However, the transformation lasts only 10 seconds.<br>
 
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If warlock kills before shapeshifting, the target will be cursed.<br>
+If he try to shapeshift again, the nearest crewmate will be killed<br>
+
 ### SerialKiller
 
 Team : Impostor<br>
