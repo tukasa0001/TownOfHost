@@ -193,8 +193,8 @@ namespace TownOfHost {
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
-                    break;
                     }
+                    break;
 
 
                 InfinityVent:
