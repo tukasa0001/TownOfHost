@@ -927,6 +927,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
