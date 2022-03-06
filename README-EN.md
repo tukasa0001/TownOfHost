@@ -195,6 +195,14 @@ When they first tries to make a kill, a target will be chosen.<br>
 Killing the indicated target will halve the next killcool.<br>
 If they kill someone who is not their target, they will still keep their kill rule.<br>
 
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If warlock kills before shapeshifting, the target will be cursed.<br>
+If he try to shapeshift again, the nearest crewmate will be killed<br>
+
 ### SerialKiller
 
 Team : Impostor<br>
