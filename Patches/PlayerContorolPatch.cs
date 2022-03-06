@@ -58,6 +58,8 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
+                //対象がいないときは処理しない
+                if (mpdistance.Count() == 0) return;
                 var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                 PlayerControl targetm = min.Key;
                 targetm.SetCustomRole(CustomRoles.SKMadmate);
