@@ -209,8 +209,14 @@ namespace TownOfHost {
                     }
                     break;
                 case CustomRoles.Warlock:
-                    opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
-                    opt.KillCooldown *= 2;
+                    if(main.BountyHunterCount == 0){
+                        opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                        opt.KillCooldown *= 2;
+                    }
+                    if(main.BountyHunterCount > 0){
+                        opt.RoleOptions.ShapeshifterCooldown = main.BHKillCooldown;
+                        opt.KillCooldown = main.BHKillCooldown*2;
+                    }
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;

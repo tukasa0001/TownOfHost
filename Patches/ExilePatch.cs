@@ -74,10 +74,12 @@ namespace TownOfHost
                     wr.RpcGuardAndKill(wr);
                     main.BountyTimer.Add(wr.PlayerId, 0f);
                 }
-                if(wr.isWarlock())wr.RpcGuardAndKill(wr);
-                main.CursedPlayers.Remove(wr.PlayerId);
-                main.FirstCursedCheck.Remove(wr.PlayerId);
-                main.FirstCursedCheck.Add(wr.PlayerId, false);
+                if(wr.isWarlock()){
+                    wr.RpcGuardAndKill(wr);
+                    main.CursedPlayers.Remove(wr.PlayerId);
+                    main.FirstCursedCheck.Remove(wr.PlayerId);
+                    main.FirstCursedCheck.Add(wr.PlayerId, false);
+                }
             }
             main.BountyMeetingCheck = true;
             main.CustomSyncAllSettings();
