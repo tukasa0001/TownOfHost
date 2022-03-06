@@ -26,6 +26,7 @@ namespace TownOfHost
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.CursedPlayerDie = new List<PlayerControl>();
             main.FirstCursedCheck = new Dictionary<byte, bool>();
+            main.SKMadmateNowCount = 0;
 
             main.ps = new PlayerState();
 

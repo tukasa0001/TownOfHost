@@ -143,6 +143,7 @@ namespace TownOfHost {
                 case CustomRoles.MadGuardian:
                 case CustomRoles.MadSnitch:
                 case CustomRoles.Madmate:
+                case CustomRoles.SKMadmate:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -185,7 +186,17 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
+                    if(main.MadmateVisionAsImpostor){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(mm != null && mm.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
                     goto InfinityVent;
+                case CustomRoles.MadGuardian:
+                case CustomRoles.SKMadmate:
+                    goto MadmateVision;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
@@ -219,6 +230,15 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                MadmateVision://マッドメイトの視野をインポスターと同じにする処理
+                    if(main.MadmateVisionAsImpostor){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(sm != null && sm.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
                     break;
             }
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
@@ -365,6 +385,7 @@ namespace TownOfHost {
         public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
         public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
         public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
+        public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}
         public static bool isBait(this PlayerControl target){return target.getCustomRole() == CustomRoles.Bait;}
         public static bool isTerrorist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Terrorist;}
         public static bool isMafia(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mafia;}
