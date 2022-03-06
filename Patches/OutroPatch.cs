@@ -96,6 +96,7 @@ namespace TownOfHost
                 if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
