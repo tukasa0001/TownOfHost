@@ -209,7 +209,7 @@ namespace TownOfHost {
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    opt.KillCooldown *= main.SerialKillerCooldownDiscount/50;
+                    opt.KillCooldown = main.SerialKillerCooldown*2;
                     break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
