@@ -71,14 +71,10 @@ namespace TownOfHost
                     break;
                 case IntroTypes.Madmate:
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
             }
             switch(role) {
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-                    break;
-
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
