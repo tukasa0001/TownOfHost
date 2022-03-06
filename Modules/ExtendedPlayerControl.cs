@@ -134,7 +134,6 @@ namespace TownOfHost {
 
         public static bool canBeKilledBySheriff(this PlayerControl player) {
             var cRole = player.getCustomRole();
-            bool canBeKilled = false;
             switch(cRole) {
                 case CustomRoles.Jester:
                     return main.SheriffCanKillJester;
@@ -151,7 +150,7 @@ namespace TownOfHost {
                 case IntroTypes.Madmate:
                     return main.SheriffCanKillMadmate;
             }
-            return canBeKilled;
+            return false;
         }
 
         public static void SendDM(this PlayerControl target, string text) {
@@ -194,8 +193,8 @@ namespace TownOfHost {
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
-                    }
                     break;
+                    }
 
 
                 InfinityVent:
