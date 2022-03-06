@@ -268,6 +268,11 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
+                //自分自身の名前の色を変更
+                if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
+                    RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                }
+
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
