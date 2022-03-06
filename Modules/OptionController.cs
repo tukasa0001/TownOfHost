@@ -33,6 +33,7 @@ namespace TownOfHost
             var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
             var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
@@ -70,7 +71,7 @@ namespace TownOfHost
             var VampireKillDelay = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
             var MadmateCanFixLightsOut = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
-            var SerialKillerCooldownDiscount = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldownDiscount)}</color>(s): {main.SerialKillerCooldownDiscount}{main.TextCursor}", true, () => {main.SerialKillerCooldownDiscount = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldownDiscount, n, 100));
+            var SerialKillerCooldown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldown)}</color>(s): {main.SerialKillerCooldown}{main.TextCursor}", true, () => {main.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldown, n, 100));
             var SerialKillerLimit = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
             var BountyTargetChangeTime = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyTargetChangeTime)}</color>(s): {main.BountyTargetChangeTime}{main.TextCursor}", true, () => {main.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref main.BountyTargetChangeTime, n, 999));
             var BountySuccessKillCoolDown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountySuccessKillCoolDown)}</color>(s): {main.BountySuccessKillCoolDown}{main.TextCursor}", true, () => {main.BountySuccessKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCoolDown, n, 999));

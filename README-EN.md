@@ -194,6 +194,14 @@ Decision : Impostor<br>
 Killing the indicated target will short the next killcool.<br>
 If they kill someone who is not their target, their killcool will be lengthen.<br>
 
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If warlock kills before shapeshifting, the target will be cursed.<br>
+If he try to shapeshift again, the nearest crewmate will be killed<br>
+
 ### SerialKiller
 
 Team : Impostor<br>

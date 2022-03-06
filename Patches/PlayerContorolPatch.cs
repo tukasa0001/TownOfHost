@@ -55,7 +55,38 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            if(main.CanMakeMadmateCount > main.SKMadmateNowCount)//Warlockとserialkillerを除く処理を追加する。
+            if(__instance.isWarlock())
+            {
+                if(main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
+                {
+                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){//のろわれた人が死んだ場合
+                        main.CursedPlayers.Remove(__instance.PlayerId);
+                        main.FirstCursedCheck.Remove(__instance.PlayerId);
+                        main.FirstCursedCheck.Add(__instance.PlayerId, false);
+                    }
+                    if(main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
+                    {
+                        var cp = main.CursedPlayers[__instance.PlayerId];
+                        Vector2 cppos = cp.transform.position;//呪われた人の位置
+                        Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
+                        float dis;
+                        foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                        {
+                            if(!p.Data.IsDead && p != cp)
+                            {
+                                dis = Vector2.Distance(cppos,p.transform.position);
+                                cpdistance.Add(p,dis);
+                                Logger.info($"{p.name}の位置{dis}");
+                            }
+                        }
+                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                        PlayerControl targetw = min.Key;
+                        Logger.info($"{targetw.name}was killed");
+                        cp.RpcMurderPlayer(targetw);//殺す
+                    }
+                }
+            }
+            if(main.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -74,6 +105,9 @@ namespace TownOfHost
                 main.SKMadmateNowCount++;
                 main.CustomSyncAllSettings();
             }
+            bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
+            main.CheckShapeshift.Remove(__instance.PlayerId);
+            main.CheckShapeshift.Add(__instance.PlayerId, !check);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
@@ -140,6 +174,25 @@ namespace TownOfHost
                 main.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
+            if (__instance.isWarlock())
+            {
+                if (!main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                { //Warlockが変身時以外にキルしたら、呪われる処理
+                    __instance.RpcGuardAndKill(target);
+                    main.CursedPlayers.Add(__instance.PlayerId,target);
+                    main.CursedPlayerDie.Add(target);
+                    main.FirstCursedCheck.Remove(__instance.PlayerId);
+                    main.FirstCursedCheck.Add(__instance.PlayerId, true);
+                    return false;
+                }
+                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId]){//呪われてる人がいないくて変身してるときに通常キルになる
+                    __instance.RpcMurderPlayer(target);
+                    __instance.RpcGuardAndKill(target);
+                    return false;
+                }
+                //Warlockが誰かを呪った時にキルできなくなる処理
+                if (main.FirstCursedCheck[__instance.PlayerId])return false;
+            }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
@@ -171,6 +224,7 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                foreach(var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId)return false;
             }
 
             if (main.SyncButtonMode && target == null)
@@ -218,6 +272,9 @@ namespace TownOfHost
             }
             foreach(var sp in main.SpelledPlayer) {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
+            }
+            foreach(var cp in main.CursedPlayerDie){
+                cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
 
             main.CustomSyncAllSettings();
@@ -458,3 +515,4 @@ namespace TownOfHost
         }
     }
 }
+

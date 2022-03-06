@@ -25,6 +25,9 @@ namespace TownOfHost
             main.BountyTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
+            main.CursedPlayers = new Dictionary<byte, PlayerControl>();
+            main.CursedPlayerDie = new List<PlayerControl>();
+            main.FirstCursedCheck = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
 
             main.ps = new PlayerState();
@@ -34,6 +37,7 @@ namespace TownOfHost
             main.isBountyKillSuccess = false;
             main.BountyTimerCheck = false;
             main.BountyMeetingCheck = false;
+            main.CheckShapeshift = new Dictionary<byte, bool>();
 
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
@@ -73,7 +77,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount;//- ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 
@@ -216,6 +220,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
                 //RPCによる同期
@@ -239,6 +244,10 @@ namespace TownOfHost
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                         }
+                    if(pc.isWarlock()){
+                        main.FirstCursedCheck.Add(pc.PlayerId, false);
+                        main.CheckShapeshift.Add(pc.PlayerId, false);
+                    }
                 }
 
                 //役職の人数を戻す
@@ -248,7 +257,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount;
+                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

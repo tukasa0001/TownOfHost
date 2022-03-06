@@ -35,23 +35,11 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            //Debug Message
-            //foreach (var ds in main.SpelledPlayer)if(ds.Data.IsDead)main.SpelledPlayer.Remove(ds);
+            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);//呪われた人が死んだ場合にリストから削除する
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
-                if (role == CustomRoles.Witch)
-                {
-                    main.SpelledPlayer.Clear();
-                }
-                if (role != CustomRoles.Witch)
-                {
-                    foreach(var p in main.SpelledPlayer)
-                    {
-                        p.RpcMurderPlayer(p);
-                    }
-                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -65,12 +53,13 @@ namespace TownOfHost
                 }
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
-            if (exiled == null)
+            foreach(var p in main.SpelledPlayer)
             {
-                foreach(var p in main.SpelledPlayer)
-                {
-                    p.RpcMurderPlayer(p);
-                }
+                p.RpcMurderPlayer(p);
+            }
+            foreach(var p in main.CursedPlayerDie)//呪われた人を確定で殺す
+            {
+                p.RpcMurderPlayer(p);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
@@ -85,6 +74,10 @@ namespace TownOfHost
                     wr.RpcGuardAndKill(wr);
                     main.BountyTimer.Add(wr.PlayerId, 0f);
                 }
+                if(wr.isWarlock())wr.RpcGuardAndKill(wr);
+                main.CursedPlayers.Remove(wr.PlayerId);
+                main.FirstCursedCheck.Remove(wr.PlayerId);
+                main.FirstCursedCheck.Add(wr.PlayerId, false);
             }
             main.BountyMeetingCheck = true;
             main.CustomSyncAllSettings();

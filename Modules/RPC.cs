@@ -68,6 +68,7 @@ namespace TownOfHost
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
+                    int WarlockCount = reader.ReadInt32();
                     int SerialKillerCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
@@ -103,7 +104,7 @@ namespace TownOfHost
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
-                    int SerialKillerCooldownDiscount = reader.ReadInt32();
+                    int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
                     int BountyTargetChangeTime = reader.ReadInt32();
                     int BountySuccessKillCoolDown = reader.ReadInt32();
@@ -126,6 +127,7 @@ namespace TownOfHost
                         SheriffCount,
                         BountyHunterCount,
                         WitchCount,
+                        WarlockCount,
                         SerialKillerCount,
                         FoxCount,
                         TrollCount,
@@ -147,7 +149,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
-                        SerialKillerCooldownDiscount,
+                        SerialKillerCooldown,
                         SerialKillerLimit,
                         BountyTargetChangeTime,
                         BountySuccessKillCoolDown,
@@ -221,6 +223,7 @@ namespace TownOfHost
                 int SheriffCount,
                 int BountyHunterCount,
                 int WitchCount,
+                int WarlockCount,
                 int SerialKillerCount,
                 int FoxCount,
                 int TrollCount,
@@ -242,7 +245,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
-                int SerialKillerCooldownDiscount,
+                int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
                 int BountySuccessKillCoolDown,
@@ -278,6 +281,7 @@ namespace TownOfHost
             main.SheriffCount = SheriffCount;
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
+            main.WarlockCount = WarlockCount;
             main.SerialKillerCount = SerialKillerCount;
 
             main.FoxCount = FoxCount;
@@ -311,7 +315,7 @@ namespace TownOfHost
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
 
-            main.SerialKillerCooldownDiscount = SerialKillerCooldownDiscount;
+            main.SerialKillerCooldown = SerialKillerCooldown;
             main.SerialKillerLimit = SerialKillerLimit;
             main.BountyTargetChangeTime = BountyTargetChangeTime;
             main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;

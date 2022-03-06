@@ -150,6 +150,7 @@ namespace TownOfHost {
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.Warlock:
                 case CustomRoles.SerialKiller:
                     canBeKilled = true;
                     break;
@@ -207,10 +208,14 @@ namespace TownOfHost {
                         opt.KillCooldown *= 2;
                     }
                     break;
+                case CustomRoles.Warlock:
+                    opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                    opt.KillCooldown *= 2;
+                    break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    opt.KillCooldown = main.SerialKillerCooldownDiscount*2;
-                    if(main.BountyHunterCount > 0)opt.KillCooldown = main.BHKillCooldown*main.SerialKillerCooldownDiscount/50;
+                    opt.KillCooldown = main.SerialKillerCooldown*2;
+                    if(main.BountyHunterCount > 0)opt.KillCooldown = opt.KillCooldown = main.SerialKillerCooldown*2;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
@@ -430,6 +435,7 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
         public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
     }
 }
