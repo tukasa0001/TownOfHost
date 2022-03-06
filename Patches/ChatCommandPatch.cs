@@ -11,6 +11,7 @@ using UnhollowerBaseLib;
 using TownOfHost;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -25,12 +26,13 @@ namespace TownOfHost
             var cancelVal = "";
             if (AmongUsClient.Instance.AmHost)
             {
-                switch(args[0])
+                main.isChatCommand = true;
+                switch (args[0])
                 {
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendToAll(main.winnerList);
+                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -133,6 +135,7 @@ namespace TownOfHost
                             break;
 
                     default:
+                        main.isChatCommand = false;
                         break;
                 }
             }

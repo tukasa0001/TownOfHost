@@ -40,6 +40,7 @@ namespace TownOfHost
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach(var p in main.SpelledPlayer)
             {
+                main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Kill);
                 p.RpcMurderPlayer(p);
             }
             if (exiled != null)

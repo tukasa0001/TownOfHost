@@ -42,8 +42,10 @@ namespace TownOfHost
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
+        private static Dictionary<PlayerState.DeathReason, string> JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(); 
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
+        private static Dictionary<PlayerState.DeathReason, string> EnglishDeathReason = new Dictionary<PlayerState.DeathReason, string>();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -59,8 +61,8 @@ namespace TownOfHost
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
 
+        public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -89,9 +91,11 @@ namespace TownOfHost
         public static VoteMode whenSkipVote = VoteMode.Default;
         public static VoteMode whenNonVote = VoteMode.Default;
         public static bool canTerroristSuicideWin = false;
-        public static string winnerList;
+        public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
+        public static bool autoDisplayLastRoles = false;
 
+        public static bool isChatCommand = false;
 
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -130,6 +134,12 @@ namespace TownOfHost
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+        }
+        public static string getDeathReason(PlayerState.DeathReason status)
+        {
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseDeathReason : EnglishDeathReason;
+            var isSuccess = dic.TryGetValue(status, out var text);
+            return isSuccess ? text : "<Not Found:" + status.ToString() + ">";
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -419,10 +429,19 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = "ロール割り当て:";
-            foreach(KeyValuePair<string, CustomRoles> kvp in lastAllPlayerCustomRoles)
+            var text = getLang(lang.LastResult);
+            Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
+            foreach(var id in winnerList)
             {
-                text += $"\n{kvp.Key}:{main.getRoleName(kvp.Value)}";
+                text += $"\n★ {AllPlayerNames[id]}:{main.getRoleName(AllPlayerCustomRoles[id])}";
+                text += $" {main.getDeathReason(ps.deathReasons[id])}";
+                cloneRoles.Remove(id);
+            }
+            foreach (var kvp in cloneRoles)
+            {
+                var id = kvp.Key;
+                text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(AllPlayerCustomRoles[id])}";
+                text += $" {main.getDeathReason(ps.deathReasons[id])}";
             }
             main.SendToAll(text);
         }
@@ -803,7 +822,7 @@ namespace TownOfHost
             BitPlayers = new Dictionary<byte, (byte, float)>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
-            winnerList = "";
+            winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
 
@@ -967,6 +986,8 @@ namespace TownOfHost
                 {lang.RoleOptions, "役職設定"},
                 {lang.ModeOptions, "モード設定"},
                 {lang.ForceJapanese, "日本語に強制"},
+                {lang.AutoDisplayLastResult,"ゲーム結果の自動表示"},
+                {lang.LastResult,"ゲーム結果:"},
                 {lang.VoteMode, "投票モード"},
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
@@ -1072,6 +1093,8 @@ namespace TownOfHost
                 {lang.RoleOptions, "Role Options"},
                 {lang.ModeOptions, "Mode Options"},
                 {lang.ForceJapanese, "Force Japanese"},
+                {lang.AutoDisplayLastResult,"Auto Display Last Result"},
+                {lang.LastResult,"Game Result:"},
                 {lang.VoteMode, "VoteMode"},
                 {lang.Default, "Default"},
                 {lang.Suicide, "Suicide"},
@@ -1131,9 +1154,22 @@ namespace TownOfHost
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
+            EnglishDeathReason = new Dictionary<PlayerState.DeathReason, string>(){
+                {PlayerState.DeathReason.Kill,"Kill" },
+                {PlayerState.DeathReason.Vote,"Vote" },
+                {PlayerState.DeathReason.Suicide,"Suicide" },
+                {PlayerState.DeathReason.etc,"Living" },
+            };
+            JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(){
+                {PlayerState.DeathReason.Kill,"死亡" },
+                {PlayerState.DeathReason.Vote,"追放" },
+                {PlayerState.DeathReason.Suicide,"自爆" },
+                {PlayerState.DeathReason.etc,"生存" },
+            };
 
 
-            } catch(ArgumentException ex) {
+            }
+            catch (ArgumentException ex) {
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
                 TownOfHost.Logger.error(ex.Message);
                 hasArgumentException = true;
@@ -1255,6 +1291,8 @@ namespace TownOfHost
         RoleOptions,
         ModeOptions,
         ForceJapanese,
+        AutoDisplayLastResult,
+        LastResult,
         VoteMode,
         Default,
         Suicide,

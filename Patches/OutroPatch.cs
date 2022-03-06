@@ -71,8 +71,11 @@ namespace TownOfHost
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.PlayerId == main.ExiledJesterID)
+                    if (p.PlayerId == main.ExiledJesterID) {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
                 }
             }
             if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
@@ -81,7 +84,11 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonTerroristID)
+                    {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
                 }
             }
             //Opportunist
@@ -89,6 +96,7 @@ namespace TownOfHost
                 if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
@@ -121,11 +129,10 @@ namespace TownOfHost
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                 }
             }
-            main.winnerList = "winner:";
-            foreach (var wpd in TempData.winners)
+            main.winnerList = new();
+            foreach (var pc in winner)
             {
-                main.winnerList += wpd.PlayerName;
-                if(wpd != TempData.winners[TempData.winners.Count - 1]) main.winnerList += ", ";
+                main.winnerList.Add(pc.PlayerId);
             }
         }
     }
