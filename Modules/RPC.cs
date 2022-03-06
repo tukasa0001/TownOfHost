@@ -103,7 +103,7 @@ namespace TownOfHost
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
-                    int SerialKillerCooldownDiscount = reader.ReadInt32();
+                    int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
@@ -143,7 +143,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
-                        SerialKillerCooldownDiscount,
+                        SerialKillerCooldown,
                         SerialKillerLimit,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -234,7 +234,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
-                int SerialKillerCooldownDiscount,
+                int SerialKillerCooldown,
                 int SerialKillerLimit,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -299,7 +299,7 @@ namespace TownOfHost
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
 
-            main.SerialKillerCooldownDiscount = SerialKillerCooldownDiscount;
+            main.SerialKillerCooldown = SerialKillerCooldown;
             main.SerialKillerLimit = SerialKillerLimit;
 
             main.SyncButtonMode = SyncButtonMode;
