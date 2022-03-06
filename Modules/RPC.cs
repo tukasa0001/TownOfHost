@@ -54,24 +54,24 @@ namespace TownOfHost
                 case (byte)CustomRPC.SyncCustomSettings:
                     int JesterCount = reader.ReadInt32();
                     int MadmateCount = reader.ReadInt32();
-                    int SKMadmateCount = reader.ReadInt32();
+                    int MadGuardianCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
                     int MafiaCount = reader.ReadInt32();
                     int VampireCount = reader.ReadInt32();
                     int SabotageMasterCount = reader.ReadInt32();
-                    int MadGuardianCount = reader.ReadInt32();
-                    int MadSnitchCount = reader.ReadInt32();
-                    int MadScientistCount = reader.ReadInt32();
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
                     int SnitchCount = reader.ReadInt32();
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
-                    int ShapeMasterCount = reader.ReadInt32();
+                    int MadSnitchCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
                     int SerialKillerCount = reader.ReadInt32();
+                    int SKMadmateCount = reader.ReadInt32();
+                    int ShapeMasterCount = reader.ReadInt32();
+                    int MadScientistCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -111,24 +111,24 @@ namespace TownOfHost
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
-                        SKMadmateCount,
                         BaitCount,
                         TerroristCount,
                         MafiaCount,
                         VampireCount,
                         SabotageMasterCount,
                         MadGuardianCount,
-                        MadSnitchCount,
                         MayorCount,
                         OpportunistCount,
                         SnitchCount,
                         SheriffCount,
                         BountyHunterCount,
                         WitchCount,
-                        MadScientistCount,
-                        ShapeMasterCount,
+                        MadSnitchCount,
                         WarlockCount,
                         SerialKillerCount,
+                        SKMadmateCount,
+                        ShapeMasterCount,
+                        MadScientistCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
