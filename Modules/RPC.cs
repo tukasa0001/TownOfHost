@@ -69,6 +69,7 @@ namespace TownOfHost
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
+                    int ShapeMasterCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
                     int SerialKillerCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
@@ -125,6 +126,7 @@ namespace TownOfHost
                         BountyHunterCount,
                         WitchCount,
                         MadScientistCount,
+                        ShapeMasterCount,
                         WarlockCount,
                         SerialKillerCount,
                         FoxCount,
@@ -218,6 +220,7 @@ namespace TownOfHost
                 int BountyHunterCount,
                 int WitchCount,
                 int MadScientistCount,
+                int ShapeMasterCount,
                 int WarlockCount,
                 int SerialKillerCount,
                 int FoxCount,
@@ -273,6 +276,7 @@ namespace TownOfHost
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
             main.MadScientistCount = MadScientistCount;
+            main.ShapeMasterCount = ShapeMasterCount;
             main.WarlockCount = WarlockCount;
             main.SerialKillerCount = SerialKillerCount;
 

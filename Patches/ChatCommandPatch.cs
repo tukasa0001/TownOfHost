@@ -234,6 +234,12 @@ namespace TownOfHost
                 case "ms":
                     main.SendToAll(main.getLang(lang.MadScientistInfoLong));
                     break;
+                
+                case "shapemaster":
+                case "sha":
+                    main.SendToAll(main.getLang(lang.ShapeMasterInfoLong));
+                    break;
+                
                 case "warlock":
                 case "wa":
                     main.SendToAll(main.getLang(lang.WarlockInfoLong));
@@ -243,7 +249,7 @@ namespace TownOfHost
                 case "sk":
                     main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
                     break;
-                    
+
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
@@ -255,7 +261,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), madscientist(ms), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), madscientist(ms), fox(fo), troll(tr)");
                     break;
             }
 
