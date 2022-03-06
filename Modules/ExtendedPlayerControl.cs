@@ -199,9 +199,12 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.Vampire:
+                    if(main.BountyHunterCount > 0){
+                        if(main.BountyMeetingCheck)opt.KillCooldown = main.BHKillCooldown;
+                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHKillCooldown*2;
+                    }
                     if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
-                        if(main.BountyHunterCount > 0)opt.KillCooldown = main.BHKillCooldown*2;
                     }
                     break;
                 case CustomRoles.SerialKiller:

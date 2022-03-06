@@ -41,6 +41,7 @@ namespace TownOfHost
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
             }
+            if(__instance.isVampire() && main.BountyHunterCount > 0)main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
