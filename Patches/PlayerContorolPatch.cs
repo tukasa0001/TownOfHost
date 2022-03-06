@@ -73,11 +73,8 @@ namespace TownOfHost
                         cp.RpcMurderPlayer(targetw);//殺す
                     }
                 }
-                bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
-                main.CheckShapeshift.Remove(__instance.PlayerId);
-                main.CheckShapeshift.Add(__instance.PlayerId, !check);
             }
-            if(main.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock())
+            if(main.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -96,6 +93,9 @@ namespace TownOfHost
                 main.SKMadmateNowCount++;
                 main.CustomSyncAllSettings();
             }
+            bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
+            main.CheckShapeshift.Remove(__instance.PlayerId);
+            main.CheckShapeshift.Add(__instance.PlayerId, !check);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
