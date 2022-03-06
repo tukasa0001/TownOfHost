@@ -150,6 +150,7 @@ namespace TownOfHost {
                 case CustomRoles.Impostor:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.ShapeMaster:
                 case CustomRoles.Warlock:
                 case CustomRoles.SerialKiller:
                     canBeKilled = true;
@@ -199,6 +200,8 @@ namespace TownOfHost {
                     goto MadmateVision;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
+                case CustomRoles.ShapeMaster:
+                    goto ShapeMasterShapeshift;
                 case CustomRoles.Vampire:
                     if(main.RefixCooldownDelay <= 0)
                         opt.KillCooldown *= 2;
@@ -230,6 +233,11 @@ namespace TownOfHost {
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+                ShapeMasterShapeshift:
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = 10;
+                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
                     if(main.MadmateVisionAsImpostor){
@@ -399,6 +407,7 @@ namespace TownOfHost {
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}
+        public static bool isShapeMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.ShapeMaster;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
         public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
     }

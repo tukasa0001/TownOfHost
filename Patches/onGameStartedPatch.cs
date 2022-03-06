@@ -72,7 +72,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.WarlockCount + main.SerialKillerCount; //- ShapeshifterNum;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.WarlockCount + main.SerialKillerCount + main.ShapeMasterCount; //- ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
@@ -214,6 +214,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
+                AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
