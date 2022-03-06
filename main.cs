@@ -1002,7 +1002,7 @@ namespace TownOfHost
                 {lang.MayorInfoLong, "Mayor:\n票を複数持つクルーメイト役職\nまとめて一人またはskipに入れることができる(設定有)"},
                 {lang.OpportunistInfoLong, "Opportunist:\n追加勝利する事ができる第三陣営役職。\nゲーム終了時に生きていれば追加勝利。\nタスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化(※誰が人外かわかる!!!)\n逆に自身ののタスクが少なくなると\n人外からスニッチの名前が変わって見える。"},
-                {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
+                {lang.SheriffInfoLong, "Sheriff:\nクルー以外をキルできるクルーメイト役職。\nクルーメイトをキルすると自殺する。\nタスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n標的をｷﾙすると次のｷﾙｸｰﾙが半分になるｲﾝﾎﾟｽﾀｰ\nﾀｰｹﾞｯﾄ(標的)は自身の名前の上に表示される\nﾀｰｹﾞｯﾄ以外をキルしてもｷﾙｸｰﾙは減らない。"},
                 {lang.WitchInfoLong, "Witch:\n魔術をかけ,会議後で殺す事ができるｲﾝﾎﾟｽﾀｰ\nｷﾙﾎﾞﾀﾝで「kill」と「spell：魔術」が変わる。\n魔術をかけられた人は会議で「s」マークが付き魔女を追放しなければ会議後に死亡する。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
