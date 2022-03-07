@@ -33,7 +33,7 @@ namespace TownOfHost
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
-
+            //FIXME:LoversWinTrigger
             main.UsedButtonCount = 0;
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -63,6 +63,7 @@ namespace TownOfHost
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomSubRoles>();
             var rand = new System.Random();
             if(!main.IsHideAndSeek) {
                 //役職の人数を指定
@@ -218,6 +219,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
+                AssignCustomSubRolesFromList(CustomSubRoles.Lovers);
+
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
@@ -277,6 +280,24 @@ namespace TownOfHost
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
             return AssignedPlayers;
+        }
+        private static void AssignCustomSubRolesFromList(CustomSubRoles subRoles) {
+            if(main.isLovers) {
+                //Loversを初期化
+                main.LoversPlayers.Clear();
+                var rand = new System.Random();
+                //ランダムに2人選出
+                AssignLoversRoles();
+            }
+        }
+        private static void AssignLoversRoles() {
+            int[] randList = Calculation.GetRandomlySelectedMultiple(0,PlayerControl.AllPlayerControls.Count,2);
+            foreach(int i in randList) {
+                var player = PlayerControl.AllPlayerControls[i];
+                main.AllPlayerCustomSubRoles[player.PlayerId] = CustomSubRoles.Lovers;
+                main.LoversPlayers.Add(player);
+                Logger.info("サブ役職設定:" + player.name + " = " + CustomSubRoles.Lovers.ToString());
+            }
         }
     }
 }

@@ -87,6 +87,11 @@ namespace TownOfHost {
             return cRole;
         }
 
+        public static CustomSubRoles getCustomSubRole(this PlayerControl player) {
+            var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
+            if(cRoleFound) return cRole;
+            else return CustomSubRoles.Default;
+        }
 
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null) {
             //player: 名前の変更対象
@@ -410,5 +415,6 @@ namespace TownOfHost {
         public static bool isShapeMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.ShapeMaster;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
         public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
+        public static bool isLovers(this PlayerControl target){return target.getCustomSubRole() == CustomSubRoles.Lovers;}
     }
 }

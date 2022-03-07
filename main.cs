@@ -36,6 +36,8 @@ namespace TownOfHost
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
+        public static Dictionary<CustomSubRoles, string> JapaneseSubRoleNames = new Dictionary<CustomSubRoles, string>();
+        public static ConfigEntry<bool> JapaneseSubRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
 
         public static LanguageUnit EnglishLang {get; private set;}
@@ -44,6 +46,7 @@ namespace TownOfHost
         private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
+        private static Dictionary<CustomSubRoles, string> EnglishSubRoleNames = new Dictionary<CustomSubRoles, string>();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -59,6 +62,7 @@ namespace TownOfHost
         public static float HideAndSeekImpVisionMin;
 
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
+        public static Dictionary<byte, CustomSubRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, CustomRoles> lastAllPlayerCustomRoles;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -80,6 +84,7 @@ namespace TownOfHost
         public static bool AddedDleks;
         public static bool AddedTheAirShip;
         public static Dictionary<CustomRoles,String> roleColors;
+        public static Dictionary<CustomSubRoles,String> subRoleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => VampireCount > 0;
@@ -92,31 +97,6 @@ namespace TownOfHost
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
         
-
-        public static int SetRoleCountToggle(int currentCount)
-        {
-            if(currentCount > 0) return 0;
-            else return 1;
-        }
-        public static int SetRoleCount(int currentCount, int addCount)
-        {
-            var fixedCount = currentCount * 10;
-            fixedCount += addCount;
-            fixedCount = Math.Clamp(fixedCount, 0, 99);
-            return fixedCount;
-        }
-        public static void SetRoleCountToggle(CustomRoles role)
-        {
-            int count = GetCountFromRole(role);
-            count = SetRoleCountToggle(count);
-            SetCountFromRole(role, count);
-        }
-        public static void SetRoleCount(CustomRoles role, int addCount)
-        {
-            int count = GetCountFromRole(role);
-            count = SetRoleCount(count, addCount);
-            SetCountFromRole(role, count);
-        }
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
@@ -131,6 +111,12 @@ namespace TownOfHost
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
+        public static string getRoleName(CustomSubRoles role) {
+            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese &&
+            JapaneseSubRoleName.Value == true ? JapaneseSubRoleNames : EnglishSubRoleNames;
+            var isSuccess = dic.TryGetValue(role, out var text);
+            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+        }
         public static Color getRoleColor(CustomRoles role)
         {
             string hexColor;
@@ -141,6 +127,11 @@ namespace TownOfHost
         public static string getRoleColorCode(CustomRoles role)
         {
             if(!roleColors.TryGetValue(role, out var hexColor))hexColor = "#ffffff";
+            return hexColor;
+        }
+        public static string getRoleColorCode(CustomSubRoles subRole)
+        {
+            if(!subRoleColors.TryGetValue(subRole, out var hexColor))hexColor = "#ffffff";
             return hexColor;
         }
         public static int GetCountFromRole(CustomRoles role) {
@@ -208,6 +199,17 @@ namespace TownOfHost
             }
             return count;
         }
+        public static int GetCountFromRole(CustomSubRoles role) {
+            int count;
+            switch(role) {
+                case CustomSubRoles.Lovers:
+                    count = LoversCount;
+                    break;
+                default:
+                    return -1;
+            }
+            return count;
+        }
         public static void SetCountFromRole(CustomRoles role, int count) {
             switch(role) {
                 case CustomRoles.Jester:
@@ -269,7 +271,13 @@ namespace TownOfHost
                     break;
             }
         }
-
+        public static void SetCountFromRole(CustomSubRoles role, int count) {
+            switch(role) {
+                case CustomSubRoles.Lovers:
+                    LoversCount = count;
+                    break;
+            }
+        }
         public static (string, Color) GetRoleText(PlayerControl player)
         {
             string RoleText = "Invalid Role";
@@ -385,6 +393,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                if(main.LoversCount > 0) main.SendToAll(main.getLang(lang.LoversInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -419,6 +428,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
+                if(main.LoversCount == 2) text += String.Format("\n{0}:{1}",main.getRoleName(CustomSubRoles.Lovers),main.LoversCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -505,8 +515,11 @@ namespace TownOfHost
         public static int ShapeMasterCount;
         public static int WarlockCount;
         public static int SerialKillerCount;
+        public static int LoversCount;
         public static int FoxCount;
         public static int TrollCount;
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static bool isLovers = false;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
@@ -568,6 +581,7 @@ namespace TownOfHost
             writer.Write(ShapeMasterCount);
             writer.Write(WarlockCount);
             writer.Write(SerialKillerCount);
+            writer.Write(LoversCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -724,11 +738,13 @@ namespace TownOfHost
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
                 
-                //Loversのハートマークなどを入れてください。
+                //名前の後ろに付けるマーカー
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                //自分にハートマークを付ける
+                if(seer.isLovers()) SelfMark += "<color=#ffaaaa>♡</color>";
                 
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
@@ -770,7 +786,7 @@ namespace TownOfHost
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
-                //|| seer.isLovers()
+                || seer.isLovers()
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -779,7 +795,7 @@ namespace TownOfHost
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
                     
-                    //Loversのハートマークなどを入れてください。
+                    //名前の後ろに付けるマーカー
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
                     if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
@@ -787,6 +803,9 @@ namespace TownOfHost
                         if(taskState.doExpose)
                             TargetMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                     }
+
+                    //Loverの相手にハート付ける
+                    if(target.isLovers() && seer.isLovers()) TargetMark += "<color=#ffaaaa>♡</color>";
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
@@ -830,6 +849,7 @@ namespace TownOfHost
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+            JapaneseSubRoleName = Config.Bind("Client Options", "Japanese SubRole Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
@@ -849,6 +869,7 @@ namespace TownOfHost
             TrollCount = 0;
             FoxCount = 0;
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            AllPlayerCustomSubRoles = new Dictionary<byte, CustomSubRoles>();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
@@ -944,6 +965,11 @@ namespace TownOfHost
                 {CustomRoles.Troll, "#00ff00"}
             };
 
+            subRoleColors = new Dictionary<CustomSubRoles, string>(){
+                {CustomSubRoles.Default, "#ffffff"},
+                {CustomSubRoles.Lovers, "#ffaaaa"}
+            };
+
             JapaneseTexts = new Dictionary<lang, string>(){
                 //役職解説(短)
                 {lang.JesterInfo, "追放されよう"},
@@ -967,6 +993,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfo, "変身し、敵を混乱させよう"},
                 {lang.WarlockInfo, "敵を呪い殺そう"},
                 {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
+                {lang.LoversInfo, "恋人と幸せに"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -991,6 +1018,7 @@ namespace TownOfHost
                 {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
+                {lang.LoversInfoLong, "ラバーズ(Lovers):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。"},
                 //モード名
                 {lang.HideAndSeek, "HideAndSeek"},
                 {lang.NoGameEnd, "NoGameEnd"},
@@ -1234,6 +1262,15 @@ namespace TownOfHost
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
+            EnglishSubRoleNames = new Dictionary<CustomSubRoles, string>(){
+                {CustomSubRoles.Default, "Crewmate"},
+                {CustomSubRoles.Lovers, "Lovers"},
+            };
+
+            JapaneseSubRoleNames = new Dictionary<CustomSubRoles, string>(){
+                {CustomSubRoles.Default, "クルー"},
+                {CustomSubRoles.Lovers, "ラバーズ"},
+            };
 
 
             } catch(ArgumentException ex) {
@@ -1287,6 +1324,7 @@ namespace TownOfHost
         ShapeMasterInfo,
         WarlockInfo,
         SerialKillerInfo,
+        LoversInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1309,6 +1347,7 @@ namespace TownOfHost
         ShapeMasterInfoLong,
         WarlockInfoLong,
         SerialKillerInfoLong,
+        LoversInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1409,13 +1448,18 @@ namespace TownOfHost
         Fox,
         Troll
     }
+    public enum CustomSubRoles {
+        Default = 0,
+        Lovers,
+    }
     //WinData
     public enum CustomWinner
     {
         Draw = 0,
         Default,
         Jester,
-        Terrorist
+        Terrorist,
+        Lovers,
     }
     /*public enum CustomRoles : byte
     {

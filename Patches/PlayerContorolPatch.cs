@@ -405,6 +405,11 @@ namespace TownOfHost
                     }
                 }
 
+                //Loversにハートをつける
+                if(__instance.getCustomSubRole() == CustomSubRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomSubRoles.Lovers) {
+                    Mark += $"<color=#ffaaaa>♡</color>";
+                }
+
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
