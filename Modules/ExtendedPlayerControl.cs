@@ -158,11 +158,11 @@ namespace TownOfHost
                 case CustomRoles.Opportunist:
                     canBeKilled = main.SheriffCanKillOpportunist;
                     break;
+                case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
                 case CustomRoles.MadSnitch:
-                case CustomRoles.Madmate:
-                case CustomRoles.MadScientist:
                 case CustomRoles.SKMadmate:
+                case CustomRoles.MadScientist:
                 case CustomRoles.Mafia:
                 case CustomRoles.Vampire:
                 case CustomRoles.Shapeshifter:
@@ -273,8 +273,8 @@ namespace TownOfHost
                     if (main.MadmateVisionAsImpostor)
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
-                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (sm != null && sm.IsActive)
+                        var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if (mm != null && sm.IsActive)
                         {
                             opt.CrewLightMod *= 5;
                         }
