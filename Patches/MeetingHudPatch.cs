@@ -47,6 +47,7 @@ namespace TownOfHost
                         case VoteMode.Suicide:
                             main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
                             voter.RpcMurderPlayer(voter);
+                            main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
@@ -60,7 +61,9 @@ namespace TownOfHost
                     switch (main.whenNonVote)
                     {
                         case VoteMode.Suicide:
+                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
                             voter.RpcMurderPlayer(voter);
+                            main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
