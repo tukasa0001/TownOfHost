@@ -519,7 +519,7 @@ namespace TownOfHost
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
         public static int BountySuccessKillCoolDown;
-        public static int BHKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
+        public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
         public static int BountyFailureKillCoolDown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -608,7 +608,7 @@ namespace TownOfHost
             writer.Write(BountyTargetChangeTime);
             writer.Write(BountySuccessKillCoolDown);
             writer.Write(BountyFailureKillCoolDown);
-            writer.Write(BHKillCooldown);
+            writer.Write(BHDefaultKillCooldown);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -889,7 +889,7 @@ namespace TownOfHost
             BountyTargetChangeTime = 150;
             BountySuccessKillCoolDown = 2;
             BountyFailureKillCoolDown = 50;
-            BHKillCooldown = 30;
+            BHDefaultKillCooldown = 30;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -1030,7 +1030,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
                 {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
                 {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
-                {lang.BHKillCooldown, "バウンティハンター以外のキルクールダウン"},
+                {lang.BHDefaultKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1151,7 +1151,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
                 {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
                 {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
-                {lang.BHKillCooldown, "Impostors' killcooldown(If BountyHunters are not existing)"},
+                {lang.BHDefaultKillCooldown, "Impostors' killcooldown(If BountyHunters are not existing)"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1355,7 +1355,7 @@ namespace TownOfHost
         BountyTargetChangeTime,
         BountySuccessKillCoolDown,
         BountyFailureKillCoolDown,
-        BHKillCooldown,
+        BHDefaultKillCooldown,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

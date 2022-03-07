@@ -201,8 +201,8 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.Vampire:
                     if(main.BountyHunterCount > 0){
-                        if(main.BountyMeetingCheck)opt.KillCooldown = main.BHKillCooldown;
-                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHKillCooldown*2;
+                        if(main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown;
+                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown*2;
                     }
                     if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
@@ -214,8 +214,8 @@ namespace TownOfHost {
                         opt.KillCooldown *= 2;
                     }
                     if(main.BountyHunterCount > 0){
-                        opt.RoleOptions.ShapeshifterCooldown = main.BHKillCooldown;
-                        opt.KillCooldown = main.BHKillCooldown*2;
+                        opt.RoleOptions.ShapeshifterCooldown = main.BHDefaultKillCooldown;
+                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
                     }
                     break;
                 case CustomRoles.SerialKiller:
@@ -226,7 +226,7 @@ namespace TownOfHost {
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
                     if(main.BountyMeetingCheck){//会議後のキルクール
-                        opt.KillCooldown = main.BHKillCooldown*2;
+                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
                     }
                     else{
                         if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
@@ -270,7 +270,7 @@ namespace TownOfHost {
                     break;
                 DefaultKillcooldown:
                     if(main.BountyHunterCount > 0){
-                        opt.KillCooldown = main.BHKillCooldown;
+                        opt.KillCooldown = main.BHDefaultKillCooldown;
                     }
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
