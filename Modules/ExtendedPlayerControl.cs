@@ -274,7 +274,7 @@ namespace TownOfHost
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
                         var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (mm != null && .IsActive)
+                        if (mm != null && mm.IsActive)
                         {
                             opt.CrewLightMod *= 5;
                         }
