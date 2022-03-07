@@ -28,6 +28,8 @@ namespace TownOfHost
             main.FirstCursedCheck = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
 
+            main.IgnoreReportPlayers = new List<byte>();
+
             main.ps = new PlayerState();
 
             main.SpelledPlayer = new List<PlayerControl>();

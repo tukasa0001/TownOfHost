@@ -95,6 +95,7 @@ namespace TownOfHost
         public static VoteMode whenNonVote = VoteMode.Default;
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
+        public static List<byte> IgnoreReportPlayers;
         public static List<(string, byte)> MessagesToSend;
         
         //Lang-Get
