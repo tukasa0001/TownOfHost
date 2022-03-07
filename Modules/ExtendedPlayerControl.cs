@@ -214,7 +214,7 @@ namespace TownOfHost {
                     }
                     break;
             }
-            if(player.Data.IsDead && opt.AnonymousVotes == true)
+            if(player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
