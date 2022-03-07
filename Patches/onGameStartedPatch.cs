@@ -77,7 +77,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount;//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount + main.ShapeMasterCount;//- ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 
@@ -220,6 +220,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
+                AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
@@ -244,10 +245,8 @@ namespace TownOfHost
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                         }
-                    if(pc.isWarlock()){
-                        main.FirstCursedCheck.Add(pc.PlayerId, false);
-                        main.CheckShapeshift.Add(pc.PlayerId, false);
-                    }
+                    if(pc.isWarlock())main.FirstCursedCheck.Add(pc.PlayerId, false);
+                    if(pc.Data.Role.Role == RoleTypes.Shapeshifter)main.CheckShapeshift.Add(pc.PlayerId, false);
                 }
 
                 //役職の人数を戻す

@@ -104,6 +104,7 @@ namespace TownOfHost
                 targetm.SetCustomRole(CustomRoles.SKMadmate);
                 main.SKMadmateNowCount++;
                 main.CustomSyncAllSettings();
+                main.NotifyRoles();
             }
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
