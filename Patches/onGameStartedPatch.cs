@@ -268,9 +268,6 @@ namespace TownOfHost
             var sc = PlayerControl.LocalPlayer.Data.Role.Cast<ScientistRole>();
             sc.currentCharge = 30;
 
-            main.CustomSyncAllSettings();
-            SetColorPatch.IsAntiGlitchDisabled = false;
-
             Logger.msg("SelectRolesPatch.Postfix.End");
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1) {
