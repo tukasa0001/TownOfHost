@@ -1,4 +1,4 @@
-using System.Security;
+
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -140,7 +140,7 @@ namespace TownOfHost
             if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate() || player.isMadScientist())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmateかMadScientist)
+               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate() || player.isMadScientist())) //実行者がMadmate系役職の場合
                 return false;
             if(player.isSheriff()) {
                 if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
