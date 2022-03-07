@@ -41,6 +41,7 @@ namespace TownOfHost
             foreach(var p in main.SpelledPlayer)
             {
                 main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Kill);
+                main.IgnoreReportPlayers.Add(p.PlayerId);
                 p.RpcMurderPlayer(p);
             }
             if (exiled != null)

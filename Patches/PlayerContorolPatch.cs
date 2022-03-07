@@ -140,10 +140,6 @@ namespace TownOfHost
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
-                foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
-                {
-                    return false;
-                }
             }
 
             if (main.SyncButtonMode && target == null)
