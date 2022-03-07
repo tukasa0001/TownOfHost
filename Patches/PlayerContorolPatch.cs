@@ -135,6 +135,11 @@ namespace TownOfHost
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
+                if(main.IgnoreReportPlayers.Contains(target.PlayerId))
+                {
+                    Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
+                    return false;
+                }
                 foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
                 {
                     return false;
