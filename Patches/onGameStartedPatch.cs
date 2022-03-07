@@ -234,10 +234,8 @@ namespace TownOfHost
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(pc.isBountyHunter()) pc.ResetBountyTarget();
-                    if(pc.isWarlock()){
-                        main.FirstCursedCheck.Add(pc.PlayerId, false);
-                        main.CheckShapeshift.Add(pc.PlayerId, false);
-                    }
+                    if(pc.isWarlock())main.FirstCursedCheck.Add(pc.PlayerId, false);
+                    if(pc.Data.Role.Role == RoleTypes.Shapeshifter)main.CheckShapeshift.Add(pc.PlayerId, false);
                 }
 
                 //役職の人数を戻す
