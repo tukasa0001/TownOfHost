@@ -312,7 +312,7 @@ namespace TownOfHost
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadmateCanFixComms = MadmateCanFixComms;
-            main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }

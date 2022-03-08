@@ -421,7 +421,7 @@ namespace TownOfHost
                 }
                 if(main.MadGuardianCount > 0)
                 {
-                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeWhoTriedToKill),getOnOff(main.MadGuardianCanSeeBarrier));
+                    if(main.MadGuardianCanSeeWhoTriedToKill) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeWhoTriedToKill),getOnOff(main.MadGuardianCanSeeWhoTriedToKill));
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
@@ -516,7 +516,7 @@ namespace TownOfHost
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
-        public static bool MadGuardianCanSeeBarrier;
+        public static bool MadGuardianCanSeeWhoTriedToKill;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -571,7 +571,7 @@ namespace TownOfHost
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadmateCanFixComms);
-            writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MayorAdditionalVote);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -860,7 +860,7 @@ namespace TownOfHost
 
             MadmateCanFixLightsOut = false;
             MadmateCanFixComms = false;
-            MadGuardianCanSeeBarrier = false;
+            MadGuardianCanSeeWhoTriedToKill = false;
 
             MayorAdditionalVote = 1;
 

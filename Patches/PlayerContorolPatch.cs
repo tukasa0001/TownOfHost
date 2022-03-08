@@ -96,7 +96,7 @@ namespace TownOfHost
                 }
                 if(isTaskFinished) {
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
-                    if(main.MadGuardianCanSeeBarrier)
+                    if(main.MadGuardianCanSeeWhoTriedToKill)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                     
                     main.BlockKilling[__instance.PlayerId] = false;
