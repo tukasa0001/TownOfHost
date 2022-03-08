@@ -170,8 +170,12 @@ namespace TownOfHost
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch {
-        public static bool Prefix(ShipStatus __instance) {
+        public static bool Prefix(ShipStatus __instance, [HarmonyArgument(0)] PlayerControl player) {
             if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
+            if(player.isSheriff()) {
+                if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
+                if(AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにドア閉めをさせない ただしフリープレイは例外
+            }
             return true;
         }
     }
