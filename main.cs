@@ -1162,12 +1162,14 @@ namespace TownOfHost
                 {PlayerState.DeathReason.Kill,"Kill" },
                 {PlayerState.DeathReason.Vote,"Vote" },
                 {PlayerState.DeathReason.Suicide,"Suicide" },
+                {PlayerState.DeathReason.Spell,"Spelled" },
                 {PlayerState.DeathReason.etc,"Living" },
             };
             JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(){
                 {PlayerState.DeathReason.Kill,"死亡" },
                 {PlayerState.DeathReason.Vote,"追放" },
                 {PlayerState.DeathReason.Suicide,"自爆" },
+                {PlayerState.DeathReason.Spell,"呪殺" },
                 {PlayerState.DeathReason.etc,"生存" },
             };
 
