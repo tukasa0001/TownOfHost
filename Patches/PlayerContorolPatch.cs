@@ -49,6 +49,8 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+            //TODO:キーが存在しないエラーが発生する
+            //TODO:よく思い出してみろ、戻す処理を作ったか？
 
             if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
                 Logger.info("キルをブロックしました。");
