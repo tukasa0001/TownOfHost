@@ -166,6 +166,7 @@ namespace TownOfHost
                 roleTextMeeting.fontSize = 1.5f;
                 roleTextMeeting.text = "RoleTextMeeting";
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
+                roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled = false;
             }
             if (main.SyncButtonMode)
