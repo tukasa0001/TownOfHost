@@ -290,49 +290,9 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                //Vampireの処理
-                if (main.BitPlayers.ContainsKey(__instance.PlayerId))
-                {
-                    //__instance:キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= main.VampireKillDelay)
-                    {
-                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        if (!__instance.Data.IsDead)
-                        {
-                            __instance.RpcMurderPlayer(__instance);
-                            main.PlaySoundRPC(vampireID, Sounds.KillSound);
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                        }
-                        else
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                        main.BitPlayers.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.BitPlayers[__instance.PlayerId] =
-                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
-                    }
-                }
-                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
-                {
-                    if (main.SerialKillerTimer[__instance.PlayerId] >= main.SerialKillerLimit)
-                    {
-                        if(!__instance.Data.IsDead)
-                        {
-                            __instance.RpcMurderPlayer(__instance);
-                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
-                        }
-                        else
-                        main.SerialKillerTimer.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.SerialKillerTimer[__instance.PlayerId] =
-                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                    }
-                }
+                VampireKilled(__instance);
+                SerialKillerKilled(__instance);
+                LoversSuicide();
 
                 if(__instance.AmOwner) main.ApplySuffix();
                 if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -413,6 +373,68 @@ namespace TownOfHost
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
+            }
+        }
+
+        public static void VampireKilled(PlayerControl __instance) {
+            if (main.BitPlayers.ContainsKey(__instance.PlayerId))
+                {
+                    //__instance:キルされる予定のプレイヤー
+                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
+                    if (main.BitPlayers[__instance.PlayerId].Item2 >= main.VampireKillDelay)
+                    {
+                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
+                        if (!__instance.Data.IsDead)
+                        {
+                            __instance.RpcMurderPlayer(__instance);
+                            main.PlaySoundRPC(vampireID, Sounds.KillSound);
+                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                        }
+                        else
+                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
+                        main.BitPlayers.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.BitPlayers[__instance.PlayerId] =
+                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                    }
+                }
+        }
+        public static void SerialKillerKilled(PlayerControl __instance) {
+            if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.SerialKillerTimer[__instance.PlayerId] >= main.SerialKillerLimit)
+                    {
+                        if(!__instance.Data.IsDead)
+                        {
+                            __instance.RpcMurderPlayer(__instance);
+                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                        }
+                        else
+                        main.SerialKillerTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.SerialKillerTimer[__instance.PlayerId] =
+                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
+        }
+        public static void LoversSuicide() {
+            if (main.isLoversDead == false) {
+                foreach(var loversPlayer in main.LoversPlayers) {
+                    foreach(var player in PlayerControl.AllPlayerControls) {
+                        if (player.Data.IsDead && loversPlayer.PlayerId == player.PlayerId) {
+                            main.isLoversDead = true;
+                            foreach(var partnerPlayer in main.LoversPlayers) {
+                                //残った恋人を全て殺す(2人以上可)
+                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId)loversPlayer.RpcMurderPlayer(partnerPlayer);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

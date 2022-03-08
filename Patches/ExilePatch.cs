@@ -73,6 +73,24 @@ namespace TownOfHost
             }
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())wr.RpcGuardAndKill(wr);
             foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
+
+            if (main.isLovers && main.isLoversDead == false) {
+                foreach(var loversPlayer in main.LoversPlayers) {
+                    if (exiled.PlayerId == loversPlayer.PlayerId) {
+                        // Loversが死んだとき
+                        main.isLoversDead = true;
+                        foreach(var partnerPlayer in main.LoversPlayers) {
+                            //残った恋人を全て殺す(2人以上可)
+                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
+                            {
+                                loversPlayer.RpcMurderPlayer(partnerPlayer);
+                                //FIXME:add IgnoreReportPlayers //通報不可にする
+                            }
+                        }
+                    }
+                }
+            }
+            
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;

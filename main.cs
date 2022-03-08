@@ -520,6 +520,7 @@ namespace TownOfHost
         public static int TrollCount;
         public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
         public static bool isLovers = false;
+        public static bool isLoversDead = true;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
