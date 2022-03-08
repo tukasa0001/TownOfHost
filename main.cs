@@ -403,7 +403,7 @@ namespace TownOfHost
                 }
                 if(main.MadGuardianCount > 0)
                 {
-                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
+                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeWhoTriedToKill),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
@@ -925,7 +925,7 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイト系役職が停電を直すことができる"},
                 {lang.MadmateCanFixComms, "マッドメイト系役職がコミュサボを直すことができる"},
-                {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "マッドガーディアンが自身をキルしたインポスターを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
                 {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
@@ -1029,7 +1029,7 @@ namespace TownOfHost
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Type Roles Can Fix Lights Out"},
                 {lang.MadmateCanFixComms, "Madmate Type Roles Can Fix Comms"},
-                {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1210,7 +1210,7 @@ namespace TownOfHost
         VampireKillDelay,
         MadmateCanFixLightsOut,
         MadmateCanFixComms,
-        MadGuardianCanSeeBarrier,
+        MadGuardianCanSeeWhoTriedToKill,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
         SabotageMasterFixesReactors,
