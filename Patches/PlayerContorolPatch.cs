@@ -68,7 +68,11 @@ namespace TownOfHost
                 }
             }
             if(__instance.isSheriff()) {
-                if(__instance.Data.IsDead) return false;
+                if(__instance.Data.IsDead) {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+
                 if(!target.canBeKilledBySheriff()) {
                     __instance.RpcMurderPlayer(__instance);
                     return false;
@@ -86,6 +90,7 @@ namespace TownOfHost
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if(main.MadGuardianCanSeeBarrier)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                    
                     main.BlockKilling[__instance.PlayerId] = false;
                     main.NotifyRoles();
                     return false;
