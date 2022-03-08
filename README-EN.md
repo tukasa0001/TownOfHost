@@ -47,6 +47,7 @@ However, The numeric keypad is not supported.<br>
 | Jester | Crewmate |
 | Madmate | Engineer |
 | MadGuardian | Crewmate |
+| MadScientist | Scientist |
 | MadSnitch | Crewmate |
 | Bait | Crewmate |
 | Terrorist | Engineer |
@@ -89,6 +90,17 @@ Decision : Crewmate<br>
 Belongs to the Impostor team, but MadGuardian does not know who the Impostor is.<br>
 Impostors also doesn't know who MadGuardian is.<br>
 However, if they complete all of their own tasks, they will no longer be killed.<br>
+They can not kill, sabotage, and to enter the vent.<br>
+
+### MadScientist
+
+Team : Impostor<br>
+Decision : Scientist<br>
+
+Belongs to the Impostor team, but MadScientist does not know who the Impostor is.<br>
+Impostors also doesn't know who MadScientist is.<br>
+However, you can view your vitals at any time by doing a task.<br>
+Each task completed grants 30 seconds of battery, and when a task is completed, even if the battery runs out, the cooldown is over in an instant and the vitals can be viewed again.<br>
 They can not kill, sabotage, and to enter the vent.<br>
 
 ### MadSnitch

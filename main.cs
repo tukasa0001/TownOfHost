@@ -194,6 +194,9 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     count = WitchCount;
                     break;
+                case CustomRoles.MadScientist:
+                    count = MadScientistCount;
+                    break;
                 case CustomRoles.ShapeMaster:
                     count = ShapeMasterCount;
                     break;
@@ -257,6 +260,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     WitchCount = count;
+                    break;
+                case CustomRoles.MadScientist:
+                    MadScientistCount = count;
                     break;
                 case CustomRoles.ShapeMaster:
                     ShapeMasterCount = count;
@@ -334,6 +340,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.MadScientist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
@@ -376,6 +383,7 @@ namespace TownOfHost
                 if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
                 if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                if(main.MadScientistCount > 0) main.SendToAll(main.getLang(lang.MadScientistInfoLong));
                 if(main.MadSnitchCount > 0) main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
@@ -410,6 +418,7 @@ namespace TownOfHost
                 if(main.MadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Madmate),main.MadmateCount);
                 if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
+                if(main.MadScientistCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadScientist),main.MadScientistCount);
                 if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadSnitch),main.MadSnitchCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
@@ -502,6 +511,7 @@ namespace TownOfHost
         public static int SnitchCount;
         public static int BountyHunterCount;
         public static int WitchCount;
+        public static int MadScientistCount;
         public static int ShapeMasterCount;
         public static int WarlockCount;
         public static int SerialKillerCount;
@@ -565,6 +575,7 @@ namespace TownOfHost
             writer.Write(SheriffCount);
             writer.Write(BountyHunterCount);
             writer.Write(WitchCount);
+            writer.Write(MadScientistCount);
             writer.Write(ShapeMasterCount);
             writer.Write(WarlockCount);
             writer.Write(SerialKillerCount);
@@ -937,6 +948,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#ffff00"},
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
+                {CustomRoles.MadScientist,"#ff0000"},
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
@@ -964,6 +976,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "インポスターを撃ち抜け"},
                 {lang.BountyHunterInfo, "標的を確実に仕留めよう"},
                 {lang.WitchInfo, "敵に魔術をかけよう"},
+                {lang.MadScientistInfo,"バイタルを使い、インポスターを援助しよう"},
                 {lang.ShapeMasterInfo, "変身し、敵を混乱させよう"},
                 {lang.WarlockInfo, "敵を呪い殺そう"},
                 {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
@@ -986,6 +999,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.MadScientistInfoLong, "マッドサイエンティスト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドサイエンティストが誰なのかはわからない。キルやサボタージュは使えないが、タスクをすることでバイタルを使うことができる。(設定有)"},
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
                 {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
@@ -1080,6 +1094,7 @@ namespace TownOfHost
                 {lang.SheriffInfo, "Shoot the Impostors"},
                 {lang.BountyHunterInfo, "Hunt your bounty down"},
                 {lang.WitchInfo, "Spell your enemies"},
+                {lang.MadScientistInfo,"Use Your Vitals Help the Impostors"},
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
                 {lang.SerialKillerInfo, "Keep killng to win"},
@@ -1102,6 +1117,7 @@ namespace TownOfHost
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
                 {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
+                {lang.MadScientistInfoLong, "MadScientist:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadScientistが誰なのかはわからない。キルやサボタージュは使えないが、タスクをすることでバイタルを使うことができる。(設定有)"},
                 {lang.ShapeMasterInfoLong, "ShaapeMaster:\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
                 {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
@@ -1199,6 +1215,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "Sheriff"},
                 {CustomRoles.BountyHunter, "BountyHunter"},
                 {CustomRoles.Witch, "Witch"},
+                {CustomRoles.MadScientist,"MadScientist"},
                 {CustomRoles.ShapeMaster, "ShapeMaster"},
                 {CustomRoles.Warlock, "Warlock"},
                 {CustomRoles.SerialKiller, "SerialKiller"},
@@ -1228,6 +1245,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "シェリフ"},
                 {CustomRoles.BountyHunter, "バウンティハンター"},
                 {CustomRoles.Witch, "魔女"},
+                {CustomRoles.MadScientist,"マッドサイエンティスト"},
                 {CustomRoles.ShapeMaster, "シェイプマスター"},
                 {CustomRoles.Warlock, "ウォーロック"},
                 {CustomRoles.SerialKiller, "シリアルキラー"},
@@ -1284,6 +1302,7 @@ namespace TownOfHost
         SheriffInfo,
         BountyHunterInfo,
         WitchInfo,
+        MadScientistInfo,
         ShapeMasterInfo,
         WarlockInfo,
         SerialKillerInfo,
@@ -1306,6 +1325,7 @@ namespace TownOfHost
         SheriffInfoLong,
         BountyHunterInfoLong,
         WitchInfoLong,
+        MadScientistInfoLong,
         ShapeMasterInfoLong,
         WarlockInfoLong,
         SerialKillerInfoLong,
@@ -1403,6 +1423,7 @@ namespace TownOfHost
         Sheriff,
         BountyHunter,
         Witch,
+        MadScientist,
         ShapeMaster,
         Warlock,
         SerialKiller,

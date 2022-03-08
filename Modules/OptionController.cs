@@ -39,6 +39,7 @@ namespace TownOfHost
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
+            var MadScientist = new PageObject(RoleOptions, CustomRoles.MadScientist);
             var MadSnitch = new PageObject(RoleOptions, CustomRoles.MadSnitch);
             ///第三陣営役職
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);

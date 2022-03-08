@@ -24,7 +24,9 @@ namespace TownOfHost
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
                 if(main.MafiaCount > 0 || main.SerialKillerCount > 0 || main.WarlockCount > 0 || main.ShapeMasterCount > 0) forced = true;
             }
-
+            if(__instance.Role.Role == RoleTypes.Scientist) {
+                if(main.MadScientistCount > 0) forced = true;
+            }
             if(forced) {
                 ((TMPro.TMP_Text)__instance.ChanceText).text = "Always";
             }
