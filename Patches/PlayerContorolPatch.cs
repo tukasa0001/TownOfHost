@@ -267,20 +267,10 @@ namespace TownOfHost
                 ) {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
-                //インポスターが確認済みMadGuardianを確認できる
-                else if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
-                    __instance.isMadGuardian() && //__instanceがMadGuardian
-                    main.KnownMadGuardians[PlayerControl.LocalPlayer.PlayerId].Contains(__instance.PlayerId) //__instanceが確認済み
-                ) {
-                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
-                }
-                //設定がONの時、確認済みMadGuardianがインポスターを確認できる
-                else if(PlayerControl.LocalPlayer.isMadGuardian() && //LocalPlayerがMadGuardian
-                    main.KnownMadGuardians[PlayerControl.LocalPlayer.PlayerId].Contains(PlayerControl.LocalPlayer.PlayerId) && //LocalPlayerが確認済み
-                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    main.MadGuardianCanSeeBarrier //設定がON
-                ) {
-                    RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                else
+                {//NameColorManager準拠の処理
+                    var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
+                    RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる

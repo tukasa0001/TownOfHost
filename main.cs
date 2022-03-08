@@ -700,15 +700,12 @@ namespace TownOfHost
                     if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
-                //設定がONの時、判明済みのMadGuardianがインポスターを確認できる
-                if(seer.isMadGuardian() && KnownMadGuardians[seer.PlayerId].Contains(seer.PlayerId) && MadGuardianCanSeeBarrier)
-                    SeerKnowsImpostors = true;
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                || (seer.getCustomRole().isImpostor() && KnownMadGuardians[seer.PlayerId].Count > 0) //seerがインポスターで、MadGuardianが一人以上判明している
+                || NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -735,8 +732,10 @@ namespace TownOfHost
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
-                    else if(seer.getCustomRole().isImpostor() && KnownMadGuardians[seer.PlayerId].Contains(target.PlayerId)) //seerがインポスターで、targetが判明済みMadGuardian
-                        TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                    else {//NameColorManager準拠の処理
+                        var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
+                        TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
+                    }
 
                     //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
@@ -820,8 +819,6 @@ namespace TownOfHost
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
-
-            KnownMadGuardians = new Dictionary<byte, List<byte>>();
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
