@@ -220,6 +220,7 @@ namespace TownOfHost
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
+                foreach(var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId)return false;
             }
 
             if (main.SyncButtonMode && target == null)
