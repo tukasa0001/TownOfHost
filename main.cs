@@ -520,6 +520,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
+        public static int ShapeMasterShapeshiftDuration;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -605,6 +606,7 @@ namespace TownOfHost
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
+            writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -881,6 +883,7 @@ namespace TownOfHost
             VampireKillDelay = 10;
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
+            ShapeMasterShapeshiftDuration = 10;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -1020,6 +1023,7 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
+                {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1138,6 +1142,7 @@ namespace TownOfHost
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
+                {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1341,6 +1346,7 @@ namespace TownOfHost
         MayorAdditionalVote,
         SerialKillerCooldown,
         SerialKillerLimit,
+        ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
