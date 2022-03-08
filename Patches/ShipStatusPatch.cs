@@ -146,7 +146,6 @@ namespace TownOfHost
                 (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
             if(player.isSheriff()) {
-                if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
                 if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             return true;
