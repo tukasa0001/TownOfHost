@@ -28,6 +28,12 @@ namespace TownOfHost
             if(data == null) data = DefaultData;
             return data;
         }
+        public void Add(byte seerId, byte targetId, string color) {
+            NameColors.Add(new NameColorData(seerId, targetId, color));
+        }
+        public void Add(NameColorData data) {
+            NameColors.Add(data);
+        }
 
         public NameColorManager() {
             NameColors = new List<NameColorData>();
