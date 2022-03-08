@@ -305,9 +305,9 @@ namespace TownOfHost
                     }
                 }
 
-                if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
+                /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
-                }
+                }*/
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
