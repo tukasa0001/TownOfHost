@@ -39,6 +39,10 @@ namespace TownOfHost
             NameColors = new List<NameColorData>();
             DefaultData = new NameColorData(0,0,null);
         }
+
+        public static void Begin() {
+            Instance = new NameColorManager();
+        }
     }
     public class NameColorData {
         public byte seerId;

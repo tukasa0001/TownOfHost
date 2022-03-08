@@ -859,6 +859,7 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
             CustomOptionController.begin();
+            NameColorManager.Begin();
 
             hasArgumentException = false;
             ExceptionMessage = "";
