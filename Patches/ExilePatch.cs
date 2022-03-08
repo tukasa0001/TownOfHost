@@ -90,7 +90,7 @@ namespace TownOfHost
                             if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
                             {
                                 loversPlayer.RpcMurderPlayer(partnerPlayer);
-                                //FIXME:add IgnoreReportPlayers //通報不可にする
+                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);
                             }
                         }
                     }
