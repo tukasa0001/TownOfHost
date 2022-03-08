@@ -185,6 +185,7 @@ namespace TownOfHost {
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
 
+            if(main.BountyHunterCount > 0)opt.KillCooldown = 2;
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
                     if(main.MadmateVisionAsImpostor){
