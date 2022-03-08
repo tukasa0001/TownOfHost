@@ -58,6 +58,7 @@ namespace TownOfHost
             var SabotageMasterFixesOxygens = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesOxygens)}</color>: {main.getOnOff(main.SabotageMasterFixesOxygens)}", true, () => main.SabotageMasterFixesOxygens = !main.SabotageMasterFixesOxygens);
             var SabotageMasterFixesComms = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesCommunications)}</color>: {main.getOnOff(main.SabotageMasterFixesCommunications)}", true, () => main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications);
             var SabotageMasterFixesElectrical = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesElectrical)}</color>: {main.getOnOff(main.SabotageMasterFixesElectrical)}", true, () => main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical);
+            var SheriffKillCooldown = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffKillCooldown)}</color>: {main.SheriffKillCooldown}{main.TextCursor}", true, () => {main.SheriffKillCooldown = 0;}, (n) => main.ChangeInt(ref main.SheriffKillCooldown, n, 180));
             var SheriffCanKillJester = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillJester)}</color>: {main.getOnOff(main.SheriffCanKillJester)}", true, () => main.SheriffCanKillJester = !main.SheriffCanKillJester);
             var SheriffCanKillTerrorist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}", true, () => main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
@@ -133,6 +134,8 @@ namespace TownOfHost
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
             var forceJapanese = new PageObject(basePage, () => main.getLang(lang.ForceJapanese) + ": " + main.getOnOff(main.forceJapanese), false, () => main.forceJapanese = !main.forceJapanese);
+            var autoPrintLastRoles = new PageObject(basePage, () => main.getLang(lang.AutoDisplayLastResult) + ": " + main.getOnOff(main.autoDisplayLastRoles), false, () => main.autoDisplayLastRoles = !main.autoDisplayLastRoles);
+            autoPrintLastRoles.amVisible = () => AmongUsClient.Instance.AmHost;
         }
         public static void SetPage(PageObject page)
         {
@@ -141,12 +144,12 @@ namespace TownOfHost
         }
         public static void Up()
         {
-            if (currentCursor <= 0) currentCursor = 0;
+            if (currentCursor <= 0) currentCursor = currentPage.ChildPages.Count - 1;
             else currentCursor--;
         }
         public static void Down()
         {
-            if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = currentPage.ChildPages.Count - 1;
+            if (currentCursor >= currentPage.ChildPages.Count - 1) currentCursor = 0;
             else currentCursor++;
             if(!currentPage.ChildPages[currentCursor].amVisible()) currentCursor--;
         }

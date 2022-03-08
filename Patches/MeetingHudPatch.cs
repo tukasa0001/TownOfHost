@@ -47,6 +47,7 @@ namespace TownOfHost
                         case VoteMode.Suicide:
                             main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
                             voter.RpcMurderPlayer(voter);
+                            main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
@@ -60,7 +61,9 @@ namespace TownOfHost
                     switch (main.whenNonVote)
                     {
                         case VoteMode.Suicide:
+                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
                             voter.RpcMurderPlayer(voter);
+                            main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
@@ -217,6 +220,10 @@ namespace TownOfHost
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+
+                //自分自身の名前の色を変更
+                if(pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
+                    pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
             }
         }
     }

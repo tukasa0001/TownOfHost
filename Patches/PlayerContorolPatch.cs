@@ -23,6 +23,14 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
+            if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
+            {
+                main.ps.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+            }
+            else
+            {
+                main.ps.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+            }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
@@ -140,8 +148,9 @@ namespace TownOfHost
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
-                foreach (var sd in main.SpelledPlayer) if (target.PlayerId == sd.Data.PlayerId)
+                if(main.IgnoreReportPlayers.Contains(target.PlayerId))
                 {
+                    Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
             }
@@ -274,6 +283,11 @@ namespace TownOfHost
                 RealName = __instance.getRealName();
 
                 //名前色変更処理
+                //自分自身の名前の色を変更
+                if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
+                    RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                }
+
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター

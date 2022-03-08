@@ -36,6 +36,7 @@ namespace TownOfHost {
             Kill,
             Vote,
             Suicide,
+            Spell,
             etc = -1
         }
     }

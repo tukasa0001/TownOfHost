@@ -134,31 +134,23 @@ namespace TownOfHost {
 
         public static bool canBeKilledBySheriff(this PlayerControl player) {
             var cRole = player.getCustomRole();
-            bool canBeKilled = false;
             switch(cRole) {
                 case CustomRoles.Jester:
-                    canBeKilled = main.SheriffCanKillJester;
-                    break;
+                    return main.SheriffCanKillJester;
                 case CustomRoles.Terrorist:
-                    canBeKilled = main.SheriffCanKillTerrorist;
-                    break;
+                    return main.SheriffCanKillTerrorist;
                 case CustomRoles.Opportunist:
-                    canBeKilled = main.SheriffCanKillOpportunist;
-                    break;
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                    canBeKilled = main.SheriffCanKillMadmate;
-                    break;
-                case CustomRoles.Mafia:
-                case CustomRoles.Vampire:
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Impostor:
-                case CustomRoles.BountyHunter:
-                case CustomRoles.Witch:
-                    canBeKilled = true;
-                    break;
+                    return main.SheriffCanKillOpportunist;
             }
-            return canBeKilled;
+            CustomRoles role = player.getCustomRole();
+            IntroTypes introType = role.GetIntroType();
+            switch(introType) {
+                case IntroTypes.Impostor:
+                    return true;
+                case IntroTypes.Madmate:
+                    return main.SheriffCanKillMadmate;
+            }
+            return false;
         }
 
         public static void SendDM(this PlayerControl target, string text) {
@@ -197,6 +189,7 @@ namespace TownOfHost {
                         opt.KillCooldown *= 2;
                     break;
                 case CustomRoles.Sheriff:
+                    opt.KillCooldown = main.SheriffKillCooldown;
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
@@ -210,6 +203,19 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
+            CustomRoles role = player.getCustomRole();
+            IntroTypes introType = role.GetIntroType();
+            switch(introType) {
+                case IntroTypes.Madmate:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if(switchSystem != null && switchSystem.IsActive) {
+                        opt.CrewLightMod *= 5;
+                    }
+                    break;
+            }
+            if(player.Data.IsDead && opt.AnonymousVotes)
+                opt.AnonymousVotes = false;
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
