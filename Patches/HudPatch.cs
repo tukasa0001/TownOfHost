@@ -227,6 +227,22 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
+    class ShowNormalMapPatch {
+        public static void Prefix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
+                PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+            }
+        }
+
+        public static void Postfix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                Logger.SendInGame("Postfix State:" + __state.ToString());
+                PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
+            }
+        }
+    }
     class RepairSender {
         public static bool enabled = false;
         public static bool TypingAmount = false;
