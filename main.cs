@@ -90,7 +90,6 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static string winnerList;
         public static List<(string, byte)> MessagesToSend;
-        public static Dictionary<byte, List<byte>> KnownMadGuardians;
 
 
         public static int SetRoleCountToggle(int currentCount)
