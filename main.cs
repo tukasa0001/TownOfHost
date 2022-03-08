@@ -446,6 +446,7 @@ namespace TownOfHost
                 {
                     if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
+                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getLang(lang.MadSnitchTasks),main.MadSnitchTasks);
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
@@ -542,6 +543,7 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static int CanMakeMadmateCount;
         public static bool MadGuardianCanSeeBarrier;
+        public static int MadSnitchTasks;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -602,6 +604,7 @@ namespace TownOfHost
             writer.Write(MadmateVisionAsImpostor);
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MadSnitchTasks);
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
@@ -762,7 +765,7 @@ namespace TownOfHost
                 }
                 if(seer.isMadSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
-                    if(TaskState.isTaskFinished)
+                    if(TaskState.CompletedTasksCount == MadSnitchTasks)
                         SeerKnowsImpostors = true;
                 }
 
@@ -897,6 +900,7 @@ namespace TownOfHost
             MadmateVisionAsImpostor = true;
             CanMakeMadmateCount = 0;
             MadGuardianCanSeeBarrier = false;
+            MadSnitchTasks = 4;
 
             MayorAdditionalVote = 1;
 
@@ -1008,6 +1012,7 @@ namespace TownOfHost
                 {lang.MadmateVisionAsImpostor, "マッドメイトの視野がインポスターと同じ"},
                 {lang.CanMakeMadmateCount, "マッドメイトを作れる人数"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
+                {lang.MadSnitchTasks, "マッドスニッチのタスク数"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
                 {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
@@ -1125,6 +1130,7 @@ namespace TownOfHost
                 {lang.MadmateVisionAsImpostor, "Madmate vision is as long as Impostor one"},
                 {lang.CanMakeMadmateCount, "Shapeshifter Can Make Madmate limit"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
+                {lang.MadSnitchTasks, "MadSnich's Tasks"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1329,6 +1335,7 @@ namespace TownOfHost
         CanMakeMadmateCount,
         MadmateVisionAsImpostor,
         MadGuardianCanSeeBarrier,
+        MadSnitchTasks,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
         SabotageMasterFixesReactors,
