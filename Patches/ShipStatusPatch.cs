@@ -76,27 +76,37 @@ namespace TownOfHost
                     case SystemTypes.Reactor:
                         if(!main.SabotageMasterFixesReactors) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
+                            main.SabotageMasterUsedSkillCount++;
                         }
-                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Laboratory:
                         if(!main.SabotageMasterFixesReactors) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
-                        main.SabotageMasterUsedSkillCount++;
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         break;
                     case SystemTypes.LifeSupp:
                         if(!main.SabotageMasterFixesOxygens) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
-                        main.SabotageMasterUsedSkillCount++;
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         break;
                     case SystemTypes.Comms:
                         if(!main.SabotageMasterFixesCommunications) break;
