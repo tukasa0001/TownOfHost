@@ -49,8 +49,6 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-            //TODO:キーが存在しないエラーが発生する
-            //TODO:よく思い出してみろ、戻す処理を作ったか？
 
             if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
                 Logger.info("キルをブロックしました。");
@@ -302,8 +300,8 @@ namespace TownOfHost
                     }
                 }
 
-                if(main.AmDebugger.Value) {
-                    Mark = main.BlockKilling[__instance.PlayerId] ? "(true)" : "(false)";
+                if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
+                    Mark = isBlocked ? "(true)" : "(false)";
                 }
 
                 //Mark・Suffixの適用
