@@ -238,7 +238,6 @@ namespace TownOfHost
 
         public static void Postfix(ref RoleTeamTypes __state) {
             if(PlayerControl.LocalPlayer.isSheriff()) {
-                Logger.SendInGame("Postfix State:" + __state.ToString());
                 PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
             }
         }
