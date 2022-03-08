@@ -21,6 +21,8 @@ namespace TownOfHost {
         public static void Postfix(AmongUsClient __instance) {
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
+
+            NameColorManager.Begin();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]

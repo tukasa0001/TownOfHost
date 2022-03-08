@@ -75,6 +75,7 @@ namespace TownOfHost
         }
 
         public static void Begin() {
+            Logger.info("NameColorManagerをリセット");
             Instance = new NameColorManager();
         }
     }
