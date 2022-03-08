@@ -79,7 +79,7 @@ namespace TownOfHost
         public NameColorData(byte seerId, byte targetId, string color) {
             this.seerId = seerId;
             this.targetId = targetId;
-            this.color = color.StartsWith('#') ? color : "#" + color;
+            this.color = color == null || color.StartsWith('#') ? color : "#" + color;
         }
         public string OpenTag => color != null ? $"<color={color}>" : "";
         public string CloseTag => color != null ? "</color>" : "";
