@@ -32,6 +32,8 @@ namespace TownOfHost
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
+            main.BlockKilling = new Dictionary<byte, bool>();
+            
             NameColorManager.Instance.RpcReset();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {

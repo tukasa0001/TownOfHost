@@ -60,6 +60,7 @@ namespace TownOfHost
 
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
+        public static Dictionary<byte, bool> BlockKilling;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -843,6 +844,8 @@ namespace TownOfHost
 
             CustomOptionController.begin();
             NameColorManager.Begin();
+
+            BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
             ExceptionMessage = "";

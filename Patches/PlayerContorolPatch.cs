@@ -49,11 +49,19 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+
+            if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
+                Logger.info("キルをブロックしました。");
+                return false;
+            }
+
+            main.BlockKilling[__instance.PlayerId] = true;
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
+                    main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
@@ -78,6 +86,7 @@ namespace TownOfHost
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if(main.MadGuardianCanSeeBarrier)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                    main.BlockKilling[__instance.PlayerId] = false;
                     main.NotifyRoles();
                     return false;
                 }
@@ -289,6 +298,10 @@ namespace TownOfHost
                             break; //無駄なループは行わない
                         }
                     }
+                }
+
+                if(main.AmDebugger.Value) {
+                    Mark = main.BlockKilling[__instance.PlayerId] ? "(true)" : "(false)";
                 }
 
                 //Mark・Suffixの適用
