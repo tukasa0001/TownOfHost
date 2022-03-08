@@ -75,9 +75,9 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    main.RpcAddKnownMadGuardian(__instance.PlayerId, target.PlayerId);
+                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if(main.MadGuardianCanSeeBarrier)
-                        main.RpcAddKnownMadGuardian(target.PlayerId, target.PlayerId);
+                        NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                     main.NotifyRoles();
                     return false;
                 }

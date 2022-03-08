@@ -25,8 +25,9 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
-        AddKnownMadGuardian,
-        ResetKnownMadGuardian
+        AddNameColorData,
+        RemoveNameColorData,
+        ResetNameColorData
     }
     public enum Sounds
     {
@@ -182,13 +183,19 @@ namespace TownOfHost
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
                     break;
-                case (byte)CustomRPC.AddKnownMadGuardian:
+                case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
-                    RPCProcedure.AddKnownMadGuardian(addSeerId, addTargetId);
+                    string color = reader.ReadString();
+                    RPCProcedure.AddNameColorData(addSeerId, addTargetId, color);
                     break;
-                case (byte)CustomRPC.ResetKnownMadGuardian:
-                    RPCProcedure.ResetKnownMadGuardian();
+                case (byte)CustomRPC.RemoveNameColorData:
+                    byte removeSeerId = reader.ReadByte();
+                    byte removeTargetId = reader.ReadByte();
+                    RPCProcedure.RemoveNameColorData(removeSeerId, removeTargetId);
+                    break;
+                case (byte)CustomRPC.ResetNameColorData:
+                    RPCProcedure.ResetNameColorData();
                     break;
             }
         }
@@ -379,19 +386,14 @@ namespace TownOfHost
             HudManager.Instance.SetHudActive(true);
         }
 
-        public static void AddKnownMadGuardian(byte seerId, byte targetId) {
-            List<byte> list;
-            if(!main.KnownMadGuardians.TryGetValue(seerId, out list)) {
-                list = new List<byte>();
-            }
-            list.Add(targetId);
-            main.KnownMadGuardians[seerId] = list;
+        public static void AddNameColorData(byte seerId, byte targetId, string color) {
+            NameColorManager.Instance.Add(seerId, targetId, color);
         }
-        public static void ResetKnownMadGuardian() {
-            main.KnownMadGuardians = new Dictionary<byte, List<byte>>();
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                main.KnownMadGuardians[pc.PlayerId] = new List<byte>();
-            }
+        public static void RemoveNameColorData(byte seerId, byte targetId) {
+            NameColorManager.Instance.Remove(seerId, targetId);
+        }
+        public static void ResetNameColorData() {
+            NameColorManager.Begin();
         }
     }
 }

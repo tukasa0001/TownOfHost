@@ -755,19 +755,6 @@ namespace TownOfHost
             }
         }
 
-        public static void RpcAddKnownMadGuardian(byte seerId, byte targetId) {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddKnownMadGuardian, SendOption.Reliable, -1);
-            writer.Write(seerId);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.AddKnownMadGuardian(seerId, targetId);
-        }
-        public static void RpcResetKnownMadGuardian() {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetKnownMadGuardian, SendOption.Reliable, -1);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.ResetKnownMadGuardian();
-        }
-
         public static void ChangeInt(ref int ChangeTo, int input, int max) {
             var tmp = ChangeTo * 10;
             tmp += input;

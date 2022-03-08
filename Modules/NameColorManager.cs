@@ -34,6 +34,28 @@ namespace TownOfHost
         public void Add(NameColorData data) {
             NameColors.Add(data);
         }
+        public void Remove(byte seerId, byte targetId) {
+            NameColors.RemoveAll(data => data.seerId == seerId && data.targetId == targetId);
+        }
+
+        public void RpcAdd(byte seerId, byte targetId, string color) {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddNameColorData, SendOption.Reliable, -1);
+            writer.Write(seerId);
+            writer.Write(targetId);
+            writer.Write(color);
+            
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            RPCProcedure.AddNameColorData(seerId, targetId, color);
+        }
+        public void RpcRemove(byte seerId, byte targetId) {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveNameColorData, SendOption.Reliable, -1);
+            writer.Write(seerId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+            RPCProcedure.RemoveNameColorData(seerId, targetId);
+        }
 
         public NameColorManager() {
             NameColors = new List<NameColorData>();
