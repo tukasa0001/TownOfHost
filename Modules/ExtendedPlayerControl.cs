@@ -186,8 +186,8 @@ namespace TownOfHost {
             var opt = main.RealOptionsData.DeepCopy();
 
             if(main.BountyHunterCount > 0){
-                if(main.isGameStart)main.BHDefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-                opt.KillCooldown = 2f;
+                if(main.isGameStart)main.BHDefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;//最初にキルクールを設定しなおしたら適用されます。
+                opt.KillCooldown = 2f;//この処理でBHDefaultKillCooldownをOptionControlerで設定しなくても大丈夫にしてある
             }
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
