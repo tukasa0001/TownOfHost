@@ -37,6 +37,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> HideCodes {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
+        public static ConfigEntry<int> BanTimestamp {get; private set;}
 
         public static LanguageUnit EnglishLang {get; private set;}
         //Lang-arrangement
@@ -616,7 +617,8 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string[] textList = text.Split('\n');
+            var tmp_text = text.Replace("#","＃");
+            string[] textList = tmp_text.Split('\n');
             string tmp = "";
             var l = 0;
             foreach(string t in textList)
@@ -871,6 +873,7 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
+            BanTimestamp = Config.Bind("Other", "lastTime", 0);
 
             CustomOptionController.begin();
             NameColorManager.Begin();

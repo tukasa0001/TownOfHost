@@ -267,4 +267,29 @@ namespace TownOfHost
             }
         }
     }
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    class AddChatPatch
+    {
+        public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
+        {
+            if(!AmongUsClient.Instance.AmHost) return;
+            switch(chatText)
+            {
+                case "/banhost":
+                    if(main.PluginVersionType == VersionTypes.Beta && !(main.BanTimestamp.Value == -1 && main.AmDebugger.Value))
+                    {
+                        Logger.info("プレイヤーからBANされました");
+                        main.BanTimestamp.Value = (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks)/10000000);
+                        AmongUsClient.Instance.KickPlayer(AmongUsClient.Instance.ClientId, true);
+                    }
+                    break;
+                case "/version":
+                    main.SendToAll($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
