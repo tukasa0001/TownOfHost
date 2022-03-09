@@ -34,6 +34,10 @@ namespace TownOfHost
             //BountyHunter
             if(__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
             {
+                if(target != __instance.getBountyTarget() && main.isBountyKillSuccess){
+                    main.isBountyKillSuccess = false;
+                    main.isBountyDoubleKill = true;
+                }
                 if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
                     main.isBountyKillSuccess = true;
                     main.isTargetKilled.Remove(__instance.PlayerId);
@@ -210,6 +214,10 @@ namespace TownOfHost
             __instance.RpcMurderPlayer(target);
             //============
             main.OtherImpostorsKillCheck = false;
+            if(target != __instance.getBountyTarget() && main.isBountyDoubleKill){
+                main.isBountyKillSuccess = true;
+                main.isBountyDoubleKill = false;
+            }
             main.CustomSyncAllSettings();
 
             return false;
@@ -369,7 +377,7 @@ namespace TownOfHost
                         main.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
-                    if(main.BountyTimer[__instance.PlayerId] >= main.BountySuccessKillCoolDown && !main.BountyTimerCheck){//選びなおしてから０．５秒後の処理
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountySuccessKillCoolDown+1 && !main.BountyTimerCheck){//選びなおしてから０．５秒後の処理
                         main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
                         main.isBountyKillSuccess = false;
                         main.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
