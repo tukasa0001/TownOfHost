@@ -34,6 +34,9 @@ namespace TownOfHost
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
+            main.BlockKilling = new Dictionary<byte, bool>();
+
+            NameColorManager.Instance.RpcReset();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
@@ -247,6 +250,7 @@ namespace TownOfHost
 
                 //サーバーの役職判定をだます
                 new LateTask(() => {
+                    if(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                     foreach(var pc in PlayerControl.AllPlayerControls) {
                         pc.RpcSetRole(RoleTypes.Shapeshifter);
                     }

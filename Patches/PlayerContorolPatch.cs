@@ -57,18 +57,30 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+
+            if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
+                Logger.info("キルをブロックしました。");
+                return false;
+            }
+
+            main.BlockKilling[__instance.PlayerId] = true;
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
+                    main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
             if(__instance.isSheriff()) {
-                if(__instance.Data.IsDead) return false;
+                if(__instance.Data.IsDead) {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+
                 if(!target.canBeKilledBySheriff()) {
                     __instance.RpcMurderPlayer(__instance);
                     return false;
@@ -83,11 +95,12 @@ namespace TownOfHost
                     }
                 }
                 if(isTaskFinished) {
-                    __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
-                        //MadGuardian視点用
-                        target.RpcGuardAndKill(target);
-                    }
+                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
+                    if(main.MadGuardianCanSeeWhoTriedToKill)
+                        NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                    
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    main.NotifyRoles();
                     return false;
                 }
             }
@@ -269,6 +282,7 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
+                //名前色変更処理
                 //自分自身の名前の色を変更
                 if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
@@ -280,6 +294,11 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished //LocalPlayerのタスクが終わっている
                 ) {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+                else
+                {//NameColorManager準拠の処理
+                    var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
+                    RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
@@ -299,6 +318,10 @@ namespace TownOfHost
                         }
                     }
                 }
+
+                /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
+                    Mark = isBlocked ? "(true)" : "(false)";
+                }*/
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";

@@ -208,6 +208,7 @@ namespace TownOfHost
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>{main.getLang(lang.Win)}";
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            NameColorManager.Instance.RpcReset();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);

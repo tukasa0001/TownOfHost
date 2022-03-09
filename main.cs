@@ -63,6 +63,8 @@ namespace TownOfHost
 
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
+        public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
+        public static Dictionary<byte, bool> BlockKilling;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
         public static int UsedButtonCount;
@@ -419,7 +421,7 @@ namespace TownOfHost
                 }
                 if(main.MadGuardianCount > 0)
                 {
-                    if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
+                    if(main.MadGuardianCanSeeWhoTriedToKill) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeWhoTriedToKill),getOnOff(main.MadGuardianCanSeeWhoTriedToKill));
                 }
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
@@ -514,7 +516,7 @@ namespace TownOfHost
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
-        public static bool MadGuardianCanSeeBarrier;
+        public static bool MadGuardianCanSeeWhoTriedToKill;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -569,7 +571,7 @@ namespace TownOfHost
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadmateCanFixComms);
-            writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MayorAdditionalVote);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -721,6 +723,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                //タスクを終えたSnitchがインポスターを確認できる
                 if(seer.isSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
                     if(TaskState.isTaskFinished)
@@ -730,8 +733,8 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(seer.Data.IsDead //seerが死んでいる
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
-                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) // seerがインポスターで、タスクが終わりそうなSnitchがいる
-                //|| seer.isLovers()
+                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                || NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -758,6 +761,10 @@ namespace TownOfHost
                     //ターゲットのプレイヤー名の色を書き換えます。
                     if(SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
                         TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                    else {//NameColorManager準拠の処理
+                        var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
+                        TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
+                    }
 
                     //全てのテキストを合成します。
                     string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
@@ -853,7 +860,7 @@ namespace TownOfHost
 
             MadmateCanFixLightsOut = false;
             MadmateCanFixComms = false;
-            MadGuardianCanSeeBarrier = false;
+            MadGuardianCanSeeWhoTriedToKill = false;
 
             MayorAdditionalVote = 1;
 
@@ -866,6 +873,9 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
 
             CustomOptionController.begin();
+            NameColorManager.Begin();
+
+            BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
             ExceptionMessage = "";
@@ -948,7 +958,7 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイト系役職が停電を直すことができる"},
                 {lang.MadmateCanFixComms, "マッドメイト系役職がコミュサボを直すことができる"},
-                {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "マッドガーディアンが自身をキルしたインポスターを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
                 {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
@@ -1056,7 +1066,7 @@ namespace TownOfHost
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Type Roles Can Fix Lights Out"},
                 {lang.MadmateCanFixComms, "Madmate Type Roles Can Fix Comms"},
-                {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1256,7 +1266,7 @@ namespace TownOfHost
         VampireKillDelay,
         MadmateCanFixLightsOut,
         MadmateCanFixComms,
-        MadGuardianCanSeeBarrier,
+        MadGuardianCanSeeWhoTriedToKill,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
         SabotageMasterFixesReactors,
