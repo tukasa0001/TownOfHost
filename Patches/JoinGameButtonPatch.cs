@@ -52,7 +52,7 @@ namespace TownOfHost
                 obj.transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text = $"BAN解除まで{leftTime}秒";
                 obj.transform.GetComponent<PassiveButton>().enabled = false;
             }else{
-                obj.transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text = TranslationController.Instance.GetString(StringNames.OnlineButton);
+                obj.transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text = TranslationController.Instance.GetString(StringNames.OnlineButton, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
                 obj.transform.GetComponent<PassiveButton>().enabled = true;
             }
         }
