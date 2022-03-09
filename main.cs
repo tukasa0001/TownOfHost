@@ -1006,6 +1006,9 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
+                {lang.AdvancedImposterRoleOptions, "インポスター陣営"},
+                {lang.AdvancedCrewmateRoleOptions, "クルーメイト陣営"},
+                {lang.AdvancedNeutralRoleOptions, "第3陣営"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadmateVisionAsImpostor, "マッドメイトの視野がインポスターと同じ"},
@@ -1123,6 +1126,9 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
+                {lang.AdvancedImposterRoleOptions, "Imposter Side"},
+                {lang.AdvancedCrewmateRoleOptions, "Crewmate Side"},
+                {lang.AdvancedNeutralRoleOptions, "Neutral Side"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
@@ -1329,6 +1335,9 @@ namespace TownOfHost
         RandomMapsModeInfo,
         //オプション項目
         AdvancedRoleOptions,
+        AdvancedImposterRoleOptions,
+        AdvancedCrewmateRoleOptions,
+        AdvancedNeutralRoleOptions,
         VampireKillDelay,
         MadmateCanFixLightsOut,
         CanMakeMadmateCount,
