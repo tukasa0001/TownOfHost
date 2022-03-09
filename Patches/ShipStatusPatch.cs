@@ -26,7 +26,6 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay -= Time.fixedDeltaTime;
             } else if(!float.IsNaN(main.RefixCooldownDelay)) {
-                main.isGameStart = true;
                 main.CustomSyncAllSettings();
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");

@@ -22,9 +22,9 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.5.0";
+        public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "1";
+        public const string BetaVersion = "4";
         public const string BetaName = "**** Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -519,20 +519,17 @@ namespace TownOfHost
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
-        public static bool isGameStart;
-        public static bool isGameEnd;
+        public static bool isShipStart;
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;
         public static bool BountyTimerCheck;
-        public static bool OtherImpostorsKillCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
         public static int BountySuccessKillCoolDown;
-        public static float BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
+        public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
         public static int BountyFailureKillCoolDown;
-        public static int ShapeMasterShapeshiftDuration;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -621,7 +618,7 @@ namespace TownOfHost
             writer.Write(BountyTargetChangeTime);
             writer.Write(BountySuccessKillCoolDown);
             writer.Write(BountyFailureKillCoolDown);
-            writer.Write(ShapeMasterShapeshiftDuration);
+            writer.Write(BHDefaultKillCooldown);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -830,7 +827,6 @@ namespace TownOfHost
         public static void CustomSyncAllSettings() {
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 pc.CustomSyncSettings();
-                TownOfHost.Logger.info("CustomSyncAllSettnings" + $"{pc.name}");
             }
         }
 
@@ -889,8 +885,6 @@ namespace TownOfHost
             winnerList = "";
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
-            isGameStart = false;
-            isGameEnd = false;
 
             DisableSwipeCard = false;
             DisableSubmitScan = false;
@@ -905,7 +899,7 @@ namespace TownOfHost
             BountyTargetChangeTime = 150;
             BountySuccessKillCoolDown = 2;
             BountyFailureKillCoolDown = 50;
-            ShapeMasterShapeshiftDuration = 10;
+            BHDefaultKillCooldown = 30;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -1009,7 +1003,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールを設定しなおす必要があります。)"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
@@ -1049,7 +1043,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
                 {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
                 {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
-                {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
+                {lang.BHDefaultKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1130,7 +1124,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールを設定しなおす必要があります。)"},
+                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "ShaapeMaster:\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
@@ -1172,7 +1166,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
                 {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
                 {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
-                {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
+                {lang.BHDefaultKillCooldown, "Impostors' killcooldown(If BountyHunters are not existing)"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1380,7 +1374,7 @@ namespace TownOfHost
         BountyTargetChangeTime,
         BountySuccessKillCoolDown,
         BountyFailureKillCoolDown,
-        ShapeMasterShapeshiftDuration,
+        BHDefaultKillCooldown,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

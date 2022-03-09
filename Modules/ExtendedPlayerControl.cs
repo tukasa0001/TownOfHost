@@ -185,10 +185,7 @@ namespace TownOfHost {
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
 
-            if(main.BountyHunterCount > 0){
-                if(main.isGameStart)main.BHDefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;//最初にキルクールを設定しなおしたら適用されます。
-                opt.KillCooldown = 2f;//この処理でBHDefaultKillCooldownをOptionControlerで設定しなくても大丈夫にしてある
-            }
+            if(main.BountyHunterCount > 0)opt.KillCooldown = 2;
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
                     if(main.MadmateVisionAsImpostor){
@@ -209,7 +206,7 @@ namespace TownOfHost {
                 case CustomRoles.Vampire:
                     if(main.BountyHunterCount > 0){
                         if(main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown;
-                        if(!main.BountyMeetingCheck && main.OtherImpostorsKillCheck)opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown*2;
                     }
                     if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
@@ -220,14 +217,15 @@ namespace TownOfHost {
                         opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
                         opt.KillCooldown *= 2;
                     }
-                    if(main.BountyHunterCount > 0 && main.OtherImpostorsKillCheck || main.BountyMeetingCheck){
+                    if(main.BountyHunterCount > 0){
                         opt.RoleOptions.ShapeshifterCooldown = main.BHDefaultKillCooldown;
                         opt.KillCooldown = main.BHDefaultKillCooldown*2;
                     }
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    if(main.BountyHunterCount == 0 || main.OtherImpostorsKillCheck || main.BountyMeetingCheck)opt.KillCooldown = main.SerialKillerCooldown*2;
+                    opt.KillCooldown = main.SerialKillerCooldown*2;
+                    if(main.BountyHunterCount > 0)opt.KillCooldown = opt.KillCooldown = main.SerialKillerCooldown*2;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
@@ -275,13 +273,12 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 DefaultKillcooldown:
-                    if(main.OtherImpostorsKillCheck || main.BountyMeetingCheck && main.BountyHunterCount > 0){
+                    if(main.BountyHunterCount > 0){
                         opt.KillCooldown = main.BHDefaultKillCooldown;
                     }
-                    break;
                 ShapeMasterShapeshift:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
+                    opt.RoleOptions.ShapeshifterDuration = 10;
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
@@ -294,11 +291,6 @@ namespace TownOfHost {
                     }
                     break;
             }
-            Logger.info("キルクールは" + $"{opt.KillCooldown}");
-            Logger.info("CustomSyncAllSettingsのmain.BHDefaultKillCooldownは" + $"{main.BHDefaultKillCooldown}");
-            if(main.isGameEnd)opt.KillCooldown = main.BHDefaultKillCooldown;
-            main.isGameEnd = false;
-            main.isGameStart = false;
             if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {

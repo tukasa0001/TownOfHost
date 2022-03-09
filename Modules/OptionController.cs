@@ -28,15 +28,14 @@ namespace TownOfHost
             //ページ追加など
             var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
-            //陣営＞キル可能＞サイドキック＞アルファベット
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
-            var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
-            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
-            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
-            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
-            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
             var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
+            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
+            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
+            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
+            var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
@@ -78,8 +77,9 @@ namespace TownOfHost
             var BountyTargetChangeTime = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyTargetChangeTime)}</color>(s): {main.BountyTargetChangeTime}{main.TextCursor}", true, () => {main.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref main.BountyTargetChangeTime, n, 999));
             var BountySuccessKillCoolDown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountySuccessKillCoolDown)}</color>(s): {main.BountySuccessKillCoolDown}{main.TextCursor}", true, () => {main.BountySuccessKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCoolDown, n, 999));
             var BountyFailureKillCoolDown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BountyFailureKillCoolDown)}</color>(s): {main.BountyFailureKillCoolDown}{main.TextCursor}", true, () => {main.BountyFailureKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountyFailureKillCoolDown, n, 999));
+            var BHDefaultKillCooldown = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.getLang(lang.BHDefaultKillCooldown)}</color>(s): {main.BHDefaultKillCooldown}{main.TextCursor}", true, () => {main.BHDefaultKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BHDefaultKillCooldown, n, 999));
             var CanMakeMadmateCount = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CanMakeMadmateCount)}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
-            var ShapeMasterShapeshiftDuration = new PageObject(AdvRoleOptionsImpostor, () => $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{main.getLang(lang.ShapeMasterShapeshiftDuration)}</color>(s): {main.ShapeMasterShapeshiftDuration}{main.TextCursor}", true, () => {main.ShapeMasterShapeshiftDuration = 0;}, (n) => main.ChangeInt(ref main.ShapeMasterShapeshiftDuration, n, 100));
+            
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);

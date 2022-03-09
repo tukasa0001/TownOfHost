@@ -163,9 +163,6 @@ namespace TownOfHost
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
-            main.isGameEnd = true;
-            main.CustomSyncAllSettings();
-            Logger.info("OUtroPatchのmain.BHDefaultKillCooldownは" + $"{main.BHDefaultKillCooldown}");
             //main.ApplySuffix();
         }
     }
