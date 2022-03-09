@@ -28,14 +28,15 @@ namespace TownOfHost
             //ページ追加など
             var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
+            //陣営＞キル可能＞サイドキック＞アルファベット
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
-            var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
-            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
-            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
-            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
-            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
             var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
+            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
+            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
+            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
+            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
