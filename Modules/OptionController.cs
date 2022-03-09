@@ -28,6 +28,7 @@ namespace TownOfHost
             //ページ追加など
             var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
+            //陣営＞キル可能＞サイドキック＞アルファベット
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
             var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
@@ -58,6 +59,7 @@ namespace TownOfHost
             var SerialKillerCooldown = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldown)}</color>(s): {main.SerialKillerCooldown}{main.TextCursor}", true, () => {main.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldown, n, 100));
             var SerialKillerLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
+            var ShapeMasterShapeshiftDuration = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{main.getLang(lang.ShapeMasterShapeshiftDuration)}</color>(s): {main.ShapeMasterShapeshiftDuration}{main.TextCursor}", true, () => {main.ShapeMasterShapeshiftDuration = 0;}, (n) => main.ChangeInt(ref main.ShapeMasterShapeshiftDuration, n, 100));
             var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
             var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
             var MadmateVisionAsImpostor = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateVisionAsImpostor)}</color>: {main.getOnOff(main.MadmateVisionAsImpostor)}", true, () => {main.MadmateVisionAsImpostor = !main.MadmateVisionAsImpostor;});
