@@ -65,7 +65,7 @@ namespace TownOfHost
             private static string currentText = "";
             public static void Prefix(GameStartManager __instance)
             {
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return; // Not host or no instance
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
