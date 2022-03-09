@@ -19,6 +19,7 @@ namespace TownOfHost
         {//注:この時点では役職は設定されていません。
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.OtherImpostorsKillCheck = false;
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
@@ -36,7 +37,7 @@ namespace TownOfHost
             main.witchMeeting = false;
             main.isBountyKillSuccess = false;
             main.BountyTimerCheck = false;
-            main.BountyMeetingCheck = false;
+            main.BountyMeetingCheck = true;
             main.CheckShapeshift = new Dictionary<byte, bool>();
 
             main.UsedButtonCount = 0;

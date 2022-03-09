@@ -110,7 +110,6 @@ namespace TownOfHost
                     int BountyTargetChangeTime = reader.ReadInt32();
                     int BountySuccessKillCoolDown = reader.ReadInt32();
                     int BountyFailureKillCoolDown = reader.ReadInt32();
-                    int BHDefaultKillCooldown = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
@@ -156,7 +155,6 @@ namespace TownOfHost
                         BountyTargetChangeTime,
                         BountySuccessKillCoolDown,
                         BountyFailureKillCoolDown,
-                        BHDefaultKillCooldown,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -253,7 +251,6 @@ namespace TownOfHost
                 int BountyTargetChangeTime,
                 int BountySuccessKillCoolDown,
                 int BountyFailureKillCoolDown,
-                int BHDefaultKillCooldown,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -324,7 +321,6 @@ namespace TownOfHost
             main.BountyTargetChangeTime = BountyTargetChangeTime;
             main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;
             main.BountyFailureKillCoolDown = BountyFailureKillCoolDown;
-            main.BHDefaultKillCooldown = BHDefaultKillCooldown;
 
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
