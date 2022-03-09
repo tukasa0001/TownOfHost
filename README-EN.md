@@ -316,6 +316,18 @@ This is the mode in which all players' button counts are synchronised.<br>
 | When Skip Vote |
 | When Non-Vote |
 
+#### Client Settings
+## HideCodes
+
+You can hide the lobby code by enabling it.
+
+By rewriting the``Hide Game Code Name``in the config file, you can display your favorite words when Hide Codes is enabled.
+You can also change the text color as you like by rewriting``Hide Game Code Color``.
+
+## JapaneseRoleName
+
+By enabling it, the job title can be displayed in Japanese.
+If the client language is English, this setting will be meaningless unless the host has``Force Japanese``enabled.
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
