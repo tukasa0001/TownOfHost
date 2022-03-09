@@ -275,6 +275,7 @@ namespace TownOfHost {
                     if(main.BountyHunterCount > 0){
                         opt.KillCooldown = main.BHDefaultKillCooldown;
                     }
+                    break;
                 ShapeMasterShapeshift:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = 10;
