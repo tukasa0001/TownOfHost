@@ -44,6 +44,10 @@ namespace TownOfHost {
                 role == CustomRoles.BlackCat;
             return isImpostor;
         }
+        public static bool isCrewmateTeam(this CustomRoles role) {
+
+            return isImpostor(role) == false && isImpostorTeam(role) == false;
+        }
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
                 role.isImpostor() ||
