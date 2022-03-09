@@ -36,7 +36,6 @@ namespace TownOfHost
             {
                 if(target != __instance.getBountyTarget() && main.isBountyKillSuccess){
                     main.isBountyKillSuccess = false;
-                    main.isBountyDoubleKill = true;
                 }
                 if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
                     main.isBountyKillSuccess = true;
@@ -214,12 +213,7 @@ namespace TownOfHost
             __instance.RpcMurderPlayer(target);
             //============
             main.OtherImpostorsKillCheck = false;
-            if(target != __instance.getBountyTarget() && main.isBountyDoubleKill){
-                main.isBountyKillSuccess = true;
-                main.isBountyDoubleKill = false;
-            }
             main.CustomSyncAllSettings();
-
             return false;
         }
     }
@@ -362,6 +356,7 @@ namespace TownOfHost
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
                         main.BountyTimer.Add(__instance.PlayerId ,0f);
                         main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
                     if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
@@ -371,11 +366,12 @@ namespace TownOfHost
                         main.BountyTimerCheck = true;
                         main.isTargetKilled.Remove(__instance.PlayerId);
                         main.isTargetKilled.Add(__instance.PlayerId, false);
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
                     if(main.BountyTimer[__instance.PlayerId] <= 0.5f && main.BountyTimerCheck){//キルクールを変化させないようにする処理
                         main.BountyTimerCheck = false;
+                        main.isBountyKillSuccess = true;
                         main.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
-                        __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
                     if(main.BountyTimer[__instance.PlayerId] >= main.BountySuccessKillCoolDown+1 && !main.BountyTimerCheck){//選びなおしてから０．５秒後の処理
                         main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ

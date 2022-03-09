@@ -524,7 +524,6 @@ namespace TownOfHost
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;
         public static bool BountyTimerCheck;
-        public static bool isBountyDoubleKill;
         public static bool OtherImpostorsKillCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldown;

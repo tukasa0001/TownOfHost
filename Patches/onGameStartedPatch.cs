@@ -38,7 +38,6 @@ namespace TownOfHost
             main.isBountyKillSuccess = false;
             main.BountyTimerCheck = false;
             main.BountyMeetingCheck = true;
-            main.isBountyDoubleKill = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
 
             main.UsedButtonCount = 0;
