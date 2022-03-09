@@ -26,6 +26,7 @@ namespace TownOfHost
             {CustomRoles.SabotageMaster, lang.SabotageMasterInfo},
             {CustomRoles.MadGuardian, lang.MadGuardianInfo},
             {CustomRoles.MadSnitch, lang.MadSnitchInfo},
+            {CustomRoles.BlackCat, lang.BlackCatInfo},
             {CustomRoles.Mayor, lang.MayorInfo},
             {CustomRoles.Opportunist, lang.OpportunistInfo},
             {CustomRoles.Snitch, lang.SnitchInfo},
@@ -80,6 +81,7 @@ namespace TownOfHost
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
                 case CustomRoles.MadSnitch:
+                case CustomRoles.BlackCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
