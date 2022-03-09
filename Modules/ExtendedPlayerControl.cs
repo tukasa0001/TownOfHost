@@ -275,10 +275,9 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 DefaultKillcooldown:
-                    if(main.OtherImpostorsKillCheck || main.BountyMeetingCheck && main.BountyHunterCount > 0){
+                    if(main.BountyHunterCount > 0 && main.OtherImpostorsKillCheck || main.BountyMeetingCheck){
                         opt.KillCooldown = main.BHDefaultKillCooldown;
                     }
-                    break;
                 ShapeMasterShapeshift:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
