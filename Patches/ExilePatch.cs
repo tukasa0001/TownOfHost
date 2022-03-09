@@ -6,6 +6,7 @@ using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnhollowerBaseLib;
 using TownOfHost;
@@ -50,6 +51,27 @@ namespace TownOfHost
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     main.CheckTerroristWin(exiled);
+                }
+
+                if (role == CustomRoles.BlackCat) // 黒猫の道連れ処理
+                {
+                    var crews = new List<PlayerControl>();
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+
+                        if (pc.getCustomRole().isCrewmateTeam())
+                        {
+                            crews.Add(pc);                            
+                        }
+                    }
+
+                    if (crews.Any())
+                    {
+                        var select = new System.Random().Next(0, crews.Count);
+                        var target = crews[select]; 
+                        target.RpcMurderPlayer(target);
+                    }
                 }
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
