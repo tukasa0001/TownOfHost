@@ -21,7 +21,7 @@ namespace TownOfHost
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (TempData.DidHumansWin(endGameResult.GameOverReason))
+            if (TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLovers && main.isLoversDead)
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
@@ -31,7 +31,7 @@ namespace TownOfHost
                     if(canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+            if (TempData.DidImpostorsWin(endGameResult.GameOverReason) && main.isLovers && main.isLoversDead)
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
@@ -40,12 +40,6 @@ namespace TownOfHost
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if(canWin) winner.Add(p);
                 }
-            }
-
-            //Opportunist
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead)
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
             }
 
             //廃村時の処理など
@@ -67,7 +61,7 @@ namespace TownOfHost
             //単独勝利
             if (main.currentWinner == CustomWinner.Jester && main.JesterCount > 0)
             { //Jester単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();//TODO:いらないんじゃないか？
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.ExiledJesterID)
@@ -76,13 +70,27 @@ namespace TownOfHost
             }
             if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
             { //Terrorist単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();//TODO:いらないんじゃないか？
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonTerroristID)
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                 }
             }
+            if (main.isLovers && main.isLoversDead == false)
+            { //Loversの単独勝利
+                foreach (var lp in main.LoversPlayers)
+                {
+                    TempData.winners.Add(new WinningPlayerData(lp.Data));
+                }
+            }
+
+            //Opportunist
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                if(pc.isOpportunist() && !pc.Data.IsDead)
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+            }
+
             //HideAndSeek専用
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
@@ -138,6 +146,12 @@ namespace TownOfHost
                 __instance.Foreground.material.color = Color.red;
                 __instance.BackgroundBar.material.color = Color.green;
                 textRenderer.text = $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>テロリスト勝利";
+            }
+            if (main.isLovers && main.isLoversDead == false)
+            {
+                __instance.Foreground.material.color = main.getRoleColor(CustomSubRoles.Lovers);
+                __instance.BackgroundBar.material.color = main.getRoleColor(CustomSubRoles.Lovers);
+                textRenderer.text = $"<color={main.getRoleColorCode(CustomSubRoles.Lovers)}>恋人の勝利</color>";
             }
             //引き分け処理
             if (main.currentWinner == CustomWinner.Draw)

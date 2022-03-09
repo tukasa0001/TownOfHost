@@ -97,7 +97,7 @@ namespace TownOfHost
         public static string winnerList;
         public static List<byte> IgnoreReportPlayers;
         public static List<(string, byte)> MessagesToSend;
-        
+
         //Lang-Get
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
@@ -122,6 +122,13 @@ namespace TownOfHost
         {
             string hexColor;
             roleColors.TryGetValue(role, out hexColor);
+            MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
+            return new Color(Convert.ToInt32(matches[0].Value,16)/255f,Convert.ToInt32(matches[1].Value,16)/255f,Convert.ToInt32(matches[2].Value,16)/255f);
+        }
+         public static Color getRoleColor(CustomSubRoles subRole)
+        {
+            string hexColor;
+            subRoleColors.TryGetValue(subRole, out hexColor);
             MatchCollection matches = Regex.Matches(hexColor,  "[0-9a-fA-F]{2}");
             return new Color(Convert.ToInt32(matches[0].Value,16)/255f,Convert.ToInt32(matches[1].Value,16)/255f,Convert.ToInt32(matches[2].Value,16)/255f);
         }
