@@ -356,6 +356,7 @@ namespace TownOfHost
             switch (pc.getCustomRole())
             {
                 case CustomRoles.MadSnitch:
+                    AllTasksCount = MadSnitchTasks;
                     break;
                 default:
                     break;
