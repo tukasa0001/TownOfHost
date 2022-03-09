@@ -319,12 +319,12 @@ namespace TownOfHost
         }
         public static void SetRoleCountToggle(CustomRoles role)
         {
-            int count = main.GetCountFromRole(role) > 0 ? 1 : 0;
+            int count = main.GetCountFromRole(role) > 0 ? 0 : 1;
             main.SetCountFromRole(role, count);
         }
         public static void SetRoleCountToggle(CustomSubRoles role)
         {
-            int count = main.GetCountFromRole(role) > 0 ? 1 : 0;
+            int count = main.GetCountFromRole(role) > 0 ? 0 : 1;
             main.SetCountFromRole(role, count);
         }
         public static void SetRoleCount(CustomRoles role, int addCount)
