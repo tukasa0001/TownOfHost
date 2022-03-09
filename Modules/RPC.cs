@@ -71,6 +71,7 @@ namespace TownOfHost
                     int ShapeMasterCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
                     int SerialKillerCount = reader.ReadInt32();
+                    int BlackCatCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -128,6 +129,7 @@ namespace TownOfHost
                         ShapeMasterCount,
                         WarlockCount,
                         SerialKillerCount,
+                        BlackCatCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -222,6 +224,7 @@ namespace TownOfHost
                 int ShapeMasterCount,
                 int WarlockCount,
                 int SerialKillerCount,
+                int BlackCatCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -278,6 +281,7 @@ namespace TownOfHost
             main.ShapeMasterCount = ShapeMasterCount;
             main.WarlockCount = WarlockCount;
             main.SerialKillerCount = SerialKillerCount;
+            main.BlackCatCount = BlackCatCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
