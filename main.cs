@@ -22,9 +22,9 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.4";
+        public const string PluginVersion = "1.5.0";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "4";
+        public const string BetaVersion = "1";
         public const string BetaName = "**** Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -532,6 +532,7 @@ namespace TownOfHost
         public static int BountySuccessKillCoolDown;
         public static float BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
         public static int BountyFailureKillCoolDown;
+        public static int ShapeMasterShapeshiftDuration;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -620,6 +621,7 @@ namespace TownOfHost
             writer.Write(BountyTargetChangeTime);
             writer.Write(BountySuccessKillCoolDown);
             writer.Write(BountyFailureKillCoolDown);
+            writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -903,6 +905,7 @@ namespace TownOfHost
             BountyTargetChangeTime = 150;
             BountySuccessKillCoolDown = 2;
             BountyFailureKillCoolDown = 50;
+            ShapeMasterShapeshiftDuration = 10;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -1046,6 +1049,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
                 {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
                 {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
+                {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1168,6 +1172,7 @@ namespace TownOfHost
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
                 {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
                 {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
+                {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1375,6 +1380,7 @@ namespace TownOfHost
         BountyTargetChangeTime,
         BountySuccessKillCoolDown,
         BountyFailureKillCoolDown,
+        ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,
