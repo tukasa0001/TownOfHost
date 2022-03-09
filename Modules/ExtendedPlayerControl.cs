@@ -201,7 +201,10 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
-                    goto ShapeMasterShapeshift;
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
+                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                    goto DefaultKillcooldown;
                 case CustomRoles.Vampire:
                     if(main.BountyHunterCount > 0){
                         if(main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown;
@@ -275,11 +278,6 @@ namespace TownOfHost {
                     if(main.BountyHunterCount > 0){
                         opt.KillCooldown = main.BHDefaultKillCooldown;
                     }
-                    break;
-                ShapeMasterShapeshift:
-                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
-                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
                     if(main.MadmateVisionAsImpostor){
