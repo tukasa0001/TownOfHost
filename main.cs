@@ -176,6 +176,9 @@ namespace TownOfHost
                 case CustomRoles.MadSnitch:
                     count = MadSnitchCount;
                     break;
+                case CustomRoles.BlackCat:
+                    count = BlackCatCount;
+                    break;
                 case CustomRoles.Mayor:
                     count = MayorCount;
                     break;
@@ -239,6 +242,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.MadSnitch:
                     MadSnitchCount = count;
+                    break;
+                case CustomRoles.BlackCat:
+                    BlackCatCount = count;
                     break;
                 case CustomRoles.Mayor:
                     MayorCount = count;
@@ -377,6 +383,7 @@ namespace TownOfHost
                 if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
                 if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                 if(main.MadSnitchCount > 0) main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
+                if(main.BlackCatCount > 0) main.SendToAll(main.getLang(lang.BlackCatInfoLong));
                 if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
@@ -411,6 +418,7 @@ namespace TownOfHost
                 if(main.SKMadmateCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SKMadmate),main.SKMadmateCount);
                 if(main.MadGuardianCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadGuardian),main.MadGuardianCount);
                 if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.MadSnitch),main.MadSnitchCount);
+                if(main.BlackCatCount > 0)text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BlackCat),main.BlackCatCount);
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
@@ -489,6 +497,7 @@ namespace TownOfHost
         public static int JesterCount;
         public static int MadmateCount;
         public static int SKMadmateCount;
+        public static int BlackCatCount;
         public static int BaitCount;
         public static int TerroristCount;
         public static int MafiaCount;
@@ -553,6 +562,7 @@ namespace TownOfHost
             writer.Write(JesterCount);
             writer.Write(MadmateCount);
             writer.Write(SKMadmateCount);
+            writer.Write(BlackCatCount);
             writer.Write(BaitCount);
             writer.Write(TerroristCount);
             writer.Write(MafiaCount);
@@ -930,6 +940,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.BlackCat, "#ff0000"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
@@ -954,6 +965,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfo, "サイドキックにされた"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.MadSnitchInfo, "タスクを済ませ、インポスターの援助をしよう"},
+                {lang.BlackCatInfo, "吊られて敵を道連れしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
                 {lang.MafiaInfo, "インポスターの援助をしよう"},
@@ -978,6 +990,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、インポスターと視界の範囲が同じになっている。"},
+                {lang.BlackCatInfoLong, "黒猫:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人道連れにする。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -1071,6 +1084,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfo, "You are Sidekick"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
                 {lang.MadSnitchInfo, "Finish your tasks to help the Impostors"},
+                {lang.BlackCatInfo, "-----------------"}, // TODO:mii-47 英訳
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.MafiaInfo, "Help the Impostors to kill everyone"},
@@ -1096,6 +1110,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.MadSnitchInfoLong, "MadSnitch:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
+                {lang.BlackCatInfoLong, "BlackCat:\n-----------------"}, // TODO:mii-47 英訳
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
@@ -1193,6 +1208,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "SideKickMadmate"},
                 {CustomRoles.MadGuardian, "MadGuardian"},
                 {CustomRoles.MadSnitch, "MadSnitch"},
+                {CustomRoles.BlackCat, "BlackCat"},
                 {CustomRoles.Bait, "Bait"},
                 {CustomRoles.Terrorist, "Terrorist"},
                 {CustomRoles.Mafia, "Mafia"},
@@ -1222,6 +1238,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "サイドキックマッドメイト"},
                 {CustomRoles.MadGuardian, "マッドガーディアン"},
                 {CustomRoles.MadSnitch, "マッドスニッチ"},
+                {CustomRoles.BlackCat, "黒猫"},
                 {CustomRoles.Bait, "ベイト"},
                 {CustomRoles.Terrorist, "テロリスト"},
                 {CustomRoles.Mafia, "マフィア"},
@@ -1292,6 +1309,7 @@ namespace TownOfHost
         ShapeMasterInfo,
         WarlockInfo,
         SerialKillerInfo,
+        BlackCatInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1314,6 +1332,7 @@ namespace TownOfHost
         ShapeMasterInfoLong,
         WarlockInfoLong,
         SerialKillerInfoLong,
+        BlackCatInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1412,6 +1431,7 @@ namespace TownOfHost
         ShapeMaster,
         Warlock,
         SerialKiller,
+        BlackCat,
         Fox,
         Troll
     }

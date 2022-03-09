@@ -41,6 +41,7 @@ namespace TownOfHost
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
             var MadSnitch = new PageObject(RoleOptions, CustomRoles.MadSnitch);
+            var BlackCat = new PageObject(RoleOptions, CustomRoles.BlackCat);
             ///第三陣営役職
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
             var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
