@@ -1,18 +1,13 @@
-﻿using System.Globalization;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
 using Hazel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace TownOfHost
 {

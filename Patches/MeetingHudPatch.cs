@@ -1,17 +1,8 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using System.Linq;
-using Il2CppSystem.Linq;
-using Hazel;
 
 namespace TownOfHost
 {
