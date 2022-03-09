@@ -28,14 +28,15 @@ namespace TownOfHost
             //ページ追加など
             var RoleOptions = new PageObject(basePage, lang.RoleOptions);
             //役職数変更
+            //陣営＞キル可能＞サイドキック＞アルファベット
             ///インポスター役職
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
-            var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
-            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
-            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
-            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
-            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
             var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
+            var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
+            var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
+            var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
+            var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
+            var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
@@ -55,7 +56,16 @@ namespace TownOfHost
             
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
+            var SerialKillerCooldown = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldown)}</color>(s): {main.SerialKillerCooldown}{main.TextCursor}", true, () => {main.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldown, n, 100));
+            var SerialKillerLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
             var VampireKillDelay = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{main.getLang(lang.VampireKillDelay)}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
+            var ShapeMasterShapeshiftDuration = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{main.getLang(lang.ShapeMasterShapeshiftDuration)}</color>(s): {main.ShapeMasterShapeshiftDuration}{main.TextCursor}", true, () => {main.ShapeMasterShapeshiftDuration = 0;}, (n) => main.ChangeInt(ref main.ShapeMasterShapeshiftDuration, n, 100));
+            var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
+            var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
+            var MadmateVisionAsImpostor = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateVisionAsImpostor)}</color>: {main.getOnOff(main.MadmateVisionAsImpostor)}", true, () => {main.MadmateVisionAsImpostor = !main.MadmateVisionAsImpostor;});
+            var CanMakeMadmateCount = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CanMakeMadmateCount)}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
+                        var MadSnitchTasks = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getLang(lang.MadSnitchTasks)}</color>: {main.MadSnitchTasks}{main.TextCursor}", true, () => {main.MadSnitchTasks = 0;}, (n) => main.ChangeInt(ref main.MadSnitchTasks, n, 99));
+            var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
             var SabotageMasterSkillLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterSkillLimit)}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}", true, () => {main.SabotageMasterSkillLimit = 0;}, (n) => main.ChangeInt(ref main.SabotageMasterSkillLimit, n, 999));
             var SabotageMasterFixesDoors = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesDoors)}</color>: {main.getOnOff(main.SabotageMasterFixesDoors)}", true, () => main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors);
             var SabotageMasterFixesReactors = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{main.getLang(lang.SabotageMasterFixesReactors)}</color>: {main.getOnOff(main.SabotageMasterFixesReactors)}", true, () => main.SabotageMasterFixesReactors = !main.SabotageMasterFixesReactors);
@@ -65,14 +75,7 @@ namespace TownOfHost
             var SheriffCanKillJester = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillJester)}</color>: {main.getOnOff(main.SheriffCanKillJester)}", true, () => main.SheriffCanKillJester = !main.SheriffCanKillJester);
             var SheriffCanKillTerrorist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillTerrorist)}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}", true, () => main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getLang(lang.SheriffCanKillOpportunist)}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
-            var MadmateCanFixLightsOut = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateCanFixLightsOut)}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
-            var MadmateVisionAsImpostor = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateVisionAsImpostor)}</color>: {main.getOnOff(main.MadmateVisionAsImpostor)}", true, () => {main.MadmateVisionAsImpostor = !main.MadmateVisionAsImpostor;});
-            var CanMakeMadmateCount = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.CanMakeMadmateCount)}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
-            var MadGuardianCanSeeBarrier = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeBarrier)}</color>: {main.getOnOff(main.MadGuardianCanSeeBarrier)}", true, () => {main.MadGuardianCanSeeBarrier = !main.MadGuardianCanSeeBarrier;});
-            var MadSnitchTasks = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getLang(lang.MadSnitchTasks)}</color>: {main.MadSnitchTasks}{main.TextCursor}", true, () => {main.MadSnitchTasks = 0;}, (n) => main.ChangeInt(ref main.MadSnitchTasks, n, 99));
-            var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
-            var SerialKillerCooldown = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerCooldown)}</color>(s): {main.SerialKillerCooldown}{main.TextCursor}", true, () => {main.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldown, n, 100));
-            var SerialKillerLimit = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getLang(lang.SerialKillerLimit)}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
+
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);

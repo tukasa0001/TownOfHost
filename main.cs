@@ -342,16 +342,27 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
+        public static string getTaskText(GameData.PlayerInfo pc)
         {
-            if(tasks == null) return "null";
+            if(pc.Tasks == null) return "null";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
-            foreach (var task in tasks)
+            foreach (var task in pc.Tasks)
             {
                 AllTasksCount++;
                 if (task.Complete) CompletedTaskCount++;
             }
+            //役職ごとにタスク量を減らす処理を入れる
+            switch (pc.getCustomRole())
+            {
+                case CustomRoles.MadSnitch:
+                    break;
+                default:
+                    break;
+
+            }
+            //表記上は減らしたタスク量までしか表示しない
+            CompletedTaskCount=Math.Min(CompletedTaskCount, AllTasksCount);
             return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
@@ -521,6 +532,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
+        public static int ShapeMasterShapeshiftDuration;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -608,6 +620,7 @@ namespace TownOfHost
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
+            writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -725,7 +738,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data)})</color>" : "";
                 
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
@@ -780,7 +793,7 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
@@ -884,6 +897,7 @@ namespace TownOfHost
             VampireKillDelay = 10;
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
+            ShapeMasterShapeshiftDuration = 10;
 
             SabotageMasterSkillLimit = 0;
             SabotageMasterFixesDoors = false;
@@ -1025,6 +1039,7 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
+                {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
                 {lang.HideAndSeekWaitingTime, "インポスターの待機時間(秒)"},
@@ -1144,6 +1159,7 @@ namespace TownOfHost
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
+                {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
                 {lang.IgnoreVent, "Ignore Using Vents"},
@@ -1348,6 +1364,7 @@ namespace TownOfHost
         MayorAdditionalVote,
         SerialKillerCooldown,
         SerialKillerLimit,
+        ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
         AllowCloseDoors,
         HideAndSeekWaitingTime,

@@ -87,12 +87,16 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
-                var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                PlayerControl targetm = min.Key;
-                targetm.SetCustomRole(CustomRoles.SKMadmate);
-                main.SKMadmateNowCount++;
-                main.CustomSyncAllSettings();
-                main.NotifyRoles();
+                //対象が見つかった時のみ処理
+                if (mpdistance.Count() != 0)
+                {
+                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                    PlayerControl targetm = min.Key;
+                    targetm.SetCustomRole(CustomRoles.SKMadmate);
+                    main.SKMadmateNowCount++;
+                    main.CustomSyncAllSettings();
+                    main.NotifyRoles();
+                }
             }
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
@@ -361,7 +365,7 @@ namespace TownOfHost
                     if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
                 }
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data.Tasks)})</color>"; //ロールの横にタスク表示
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data)})</color>"; //ロールの横にタスク表示
                 
 
                 //変数定義
