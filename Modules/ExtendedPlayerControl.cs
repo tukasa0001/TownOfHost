@@ -278,7 +278,7 @@ namespace TownOfHost {
                     break;
                 ShapeMasterShapeshift:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = 10;
+                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
