@@ -348,6 +348,10 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                 }
+                var cSubRoleFound = AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
+                if(cSubRoleFound && cSubRole != CustomSubRoles.Default) {
+                    if (cSubRole == CustomSubRoles.Lovers) hasTasks = false;
+                }
             }
             return hasTasks;
         }
