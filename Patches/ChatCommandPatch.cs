@@ -1,6 +1,7 @@
 using Hazel;
 using HarmonyLib;
 using System.Linq;
+using System;
 
 namespace TownOfHost
 {
