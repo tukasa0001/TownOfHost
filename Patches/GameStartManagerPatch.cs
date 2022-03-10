@@ -24,7 +24,6 @@ namespace TownOfHost
             {
                 // Reset lobby countdown timer
                 timer = 600f;
-                //lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
 
                 // Make Public Button
                 if(main.PluginVersionType == VersionTypes.Beta) {
