@@ -139,9 +139,7 @@ namespace TownOfHost
             if (!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                 systemType == SystemTypes.Electrical && //システムタイプが電気室
                 0 <= amount && amount <= 4 && //配電盤操作のamount
-                (player.isMadmate() || player.isMadGuardian() || // 停電直せない役職
-                 player.isMadSnitch() || player.isSKMadmate() ||
-                 player.isBlackCat())) { 
+                player.getCustomRole().GetIntroType() == IntroTypes.Madmate) { 
                 return false;
             }
 
