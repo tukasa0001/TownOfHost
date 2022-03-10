@@ -104,6 +104,7 @@ namespace TownOfHost
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
+                    int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
@@ -171,6 +172,7 @@ namespace TownOfHost
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
+                        MadSnitchTasks,
                         MayorAdditionalVote
                     );
                     break;
@@ -269,6 +271,7 @@ namespace TownOfHost
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
+                int MadSnitchTasks,
                 int MayorAdditionalVote
             ) {
             main.JesterCount = JesterCount;
@@ -345,6 +348,7 @@ namespace TownOfHost
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadSnitchTasks = MadSnitchTasks;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }

@@ -197,6 +197,7 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.MadGuardian:
                 case CustomRoles.SKMadmate:
+                case CustomRoles.MadSnitch:
                     goto MadmateVision;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
@@ -261,13 +262,6 @@ namespace TownOfHost {
                         opt.ImpostorLightMod /= 5;
                     }
                     goto DefaultKillcooldown;
-                case CustomRoles.MadSnitch:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if(switchSystem != null && switchSystem.IsActive) {
-                        opt.CrewLightMod *= 5;
-                    }
-                    break;
 
 
                 InfinityVent:
