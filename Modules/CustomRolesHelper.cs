@@ -44,9 +44,18 @@ namespace TownOfHost {
                 role == CustomRoles.BlackCat;
             return isImpostor;
         }
-        public static bool isCrewmateTeam(this CustomRoles role) {
+        public static bool isNeutralTeam(this CustomRoles role) {
+            if(!AmongUsClient.Instance.IsGameStarted && 
+            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
 
-            return isImpostor(role) == false && isImpostorTeam(role) == false;
+            return role == CustomRoles.Jester ||
+                   role == CustomRoles.Terrorist ||
+                   role == CustomRoles.Opportunist;
+        }
+        public static bool isCrewmateTeam(this CustomRoles role) {
+            
+            return isImpostorTeam(role) == false &&
+                   isNeutralTeam(role) == false;
         }
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
