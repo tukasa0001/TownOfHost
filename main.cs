@@ -1,18 +1,13 @@
-﻿using System.Globalization;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
 using Hazel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace TownOfHost
 {
@@ -35,6 +30,8 @@ namespace TownOfHost
         public static string credentialsText;
         //Client Options
         public static ConfigEntry<bool> HideCodes {get; private set;}
+        public static ConfigEntry<string> HideName {get; private set;}
+        public static ConfigEntry<string> HideColor {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
         public static ConfigEntry<int> BanTimestamp {get; private set;}
@@ -799,6 +796,8 @@ namespace TownOfHost
 
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
+            HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{main.modColor}");
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");

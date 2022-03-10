@@ -1,21 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
-using System.Linq;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
-using Il2CppSystem.Collections.Generic;
-using Il2CppSystem.Linq;
-using Il2CppSystem;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
