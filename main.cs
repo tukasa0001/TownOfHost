@@ -913,6 +913,7 @@ namespace TownOfHost
             MadmateVisionAsImpostor = true;
             CanMakeMadmateCount = 0;
             MadGuardianCanSeeBarrier = false;
+            RevengeOnNeutral = true;
 
             MayorAdditionalVote = 1;
 
