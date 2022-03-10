@@ -105,6 +105,7 @@ namespace TownOfHost
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
+                    int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
@@ -166,8 +167,9 @@ namespace TownOfHost
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
-                        MayorAdditionalVote,
-                        RevengeOnNeutral
+                        RevengeOnNeutral,
+                        MadSnitchTasks,
+                        MayorAdditionalVote
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -262,8 +264,9 @@ namespace TownOfHost
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
-                int MayorAdditionalVote,
-                bool RevengeOnNeutral
+                bool RevengeOnNeutral,
+                int MadSnitchTasks,
+                int MayorAdditionalVote
             ) {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
@@ -336,6 +339,7 @@ namespace TownOfHost
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadSnitchTasks = MadSnitchTasks;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
 

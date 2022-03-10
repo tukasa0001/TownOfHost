@@ -350,16 +350,28 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(Il2CppSystem.Collections.Generic.List<GameData.TaskInfo> tasks)
+        public static string getTaskText(GameData.PlayerInfo pc)
         {
-            if(tasks == null) return "null";
+            if(pc.Tasks == null) return "null";
             int CompletedTaskCount = 0;
             int AllTasksCount = 0;
-            foreach (var task in tasks)
+            foreach (var task in pc.Tasks)
             {
                 AllTasksCount++;
                 if (task.Complete) CompletedTaskCount++;
             }
+            //役職ごとにタスク量を減らす処理を入れる
+            switch (pc.getCustomRole())
+            {
+                case CustomRoles.MadSnitch:
+                    AllTasksCount = MadSnitchTasks;
+                    break;
+                default:
+                    break;
+
+            }
+            //表記上は減らしたタスク量までしか表示しない
+            CompletedTaskCount=Math.Min(CompletedTaskCount, AllTasksCount);
             return $"{CompletedTaskCount}/{AllTasksCount}";
         }
 
@@ -456,6 +468,7 @@ namespace TownOfHost
                 {
                     if(main.MadGuardianCanSeeBarrier) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeBarrier),getOnOff(main.MadGuardianCanSeeBarrier));
                 }
+                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getLang(lang.MadSnitchTasks),main.MadSnitchTasks);
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
                 if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
                 if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
@@ -555,6 +568,7 @@ namespace TownOfHost
         public static int CanMakeMadmateCount;
         public static bool MadGuardianCanSeeBarrier;
         public static bool RevengeOnNeutral;
+        public static int MadSnitchTasks;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -616,6 +630,7 @@ namespace TownOfHost
             writer.Write(MadmateVisionAsImpostor);
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MadSnitchTasks);
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
@@ -738,7 +753,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data)})</color>" : "";
                 
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
@@ -778,7 +793,7 @@ namespace TownOfHost
                 }
                 if(seer.isMadSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
-                    if(TaskState.isTaskFinished)
+                    if(TaskState.CompletedTasksCount == MadSnitchTasks)
                         SeerKnowsImpostors = true;
                 }
 
@@ -793,7 +808,7 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
@@ -915,6 +930,7 @@ namespace TownOfHost
             CanMakeMadmateCount = 0;
             MadGuardianCanSeeBarrier = false;
             RevengeOnNeutral = true;
+            MadSnitchTasks = 4;
 
             MayorAdditionalVote = 1;
 
@@ -994,8 +1010,8 @@ namespace TownOfHost
                 {lang.MadmateInfoLong, "マッドメイト:\nインポスター陣営に属するが、インポスターが誰なのかはわからない。インポスターからもマッドメイトが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
-                {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、インポスターと視界の範囲が同じになっている。"},
                 {lang.BlackCatInfoLong, "黒猫:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人を道連れにする。"},
+                {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからない。\n一定数タスクを完了させるとインポスターの名前が赤色に変化する。ベントに入ることができない。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -1030,6 +1046,7 @@ namespace TownOfHost
                 {lang.CanMakeMadmateCount, "マッドメイトを作れる人数"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
                 {lang.RevengeOnNeutral, "黒猫が第三陣営を道連れにできる"},
+                {lang.MadSnitchTasks, "マッドスニッチのタスク数"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
                 {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
@@ -1115,7 +1132,7 @@ namespace TownOfHost
                 {lang.MadmateInfoLong, "Madmate:\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。"},
                 {lang.SKMadmateInfoLong, "SidekickMadmate:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
-                {lang.MadSnitchInfoLong, "MadSnitch:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。"},
+                {lang.MadSnitchInfoLong, "MadSnitch:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。\n一定数タスクを完了させるとインポスターの名前が赤色に変化する。ベントに入ることができない。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.BlackCatInfoLong, "BlackCat:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人を道連れにする。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
@@ -1152,6 +1169,7 @@ namespace TownOfHost
                 {lang.CanMakeMadmateCount, "Shapeshifter Can Make Madmate limit"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
                 {lang.RevengeOnNeutral, "BlackCat Can Revenge on Neutral"},
+                {lang.MadSnitchTasks, "MadSnich's Tasks"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1362,6 +1380,7 @@ namespace TownOfHost
         CanMakeMadmateCount,
         MadmateVisionAsImpostor,
         MadGuardianCanSeeBarrier,
+        MadSnitchTasks,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
         SabotageMasterFixesReactors,
