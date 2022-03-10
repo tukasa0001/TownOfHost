@@ -95,15 +95,12 @@ namespace TownOfHost
         {
             var crews = new List<PlayerControl>();
 
-            var neutral = false; // TODO:mii-47 第三陣営道連れオプション
-                    
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc != null && pc.isAlive() == false) continue;
 
                 var role = pc.getCustomRole();
-                if (role.isCrewmateTeam() ||
-                    (role.isNeutralTeam() && neutral))
+                if (role.isCrewmateTeam() || (role.isNeutralTeam() && main.RevengeOnNeutral))
                 {
                     crews.Add(pc);                            
                 }

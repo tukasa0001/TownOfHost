@@ -553,6 +553,7 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static int CanMakeMadmateCount;
         public static bool MadGuardianCanSeeBarrier;
+        public static bool RevengeOnNeutral;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -618,6 +619,7 @@ namespace TownOfHost
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
             writer.Write(ShapeMasterShapeshiftDuration);
+            writer.Write(RevengeOnNeutral);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -966,7 +968,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfo, "サイドキックにされた"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.MadSnitchInfo, "タスクを済ませ、インポスターの援助をしよう"},
-                {lang.BlackCatInfo, "吊られて敵を道連れしよう"},
+                {lang.BlackCatInfo, "敵を道連れしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
                 {lang.MafiaInfo, "インポスターの援助をしよう"},
@@ -991,7 +993,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfoLong, "サイドキックマッドメイト:\n変身した際に一番近かった人がなれる役職。タスクはない。"},
                 {lang.MadGuardianInfoLong, "マッドガーディアン:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドガーディアンが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.MadSnitchInfoLong, "マッドスニッチ:\nインポスター陣営に属するが、誰が仲間かはわからない。インポスターからもマッドスニッチが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、インポスターと視界の範囲が同じになっている。"},
-                {lang.BlackCatInfoLong, "黒猫:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人道連れにする。"},
+                {lang.BlackCatInfoLong, "黒猫:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人を道連れにする。"},
                 {lang.BaitInfoLong, "ベイト:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
                 {lang.TerroristInfoLong, "テロリスト:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "マフィア:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。マフィアではないインポスターが全員死亡すると、マフィアもキルが可能となる。"},
@@ -1025,6 +1027,7 @@ namespace TownOfHost
                 {lang.MadmateVisionAsImpostor, "マッドメイトの視野がインポスターと同じ"},
                 {lang.CanMakeMadmateCount, "マッドメイトを作れる人数"},
                 {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
+                {lang.RevengeOnNeutral, "黒猫が第三陣営を道連れにできる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
                 {lang.SabotageMasterFixesReactors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を"},
@@ -1086,7 +1089,7 @@ namespace TownOfHost
                 {lang.SKMadmateInfo, "You are Sidekick"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
                 {lang.MadSnitchInfo, "Finish your tasks to help the Impostors"},
-                {lang.BlackCatInfo, "-----------------"}, // TODO:mii-47 英訳
+                {lang.BlackCatInfo, "Let's get revenge"},
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
                 {lang.MafiaInfo, "Help the Impostors to kill everyone"},
@@ -1112,7 +1115,7 @@ namespace TownOfHost
                 {lang.MadGuardianInfoLong, "MadGuardian:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有)"},
                 {lang.MadSnitchInfoLong, "MadSnitch:\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。"},
                 {lang.BaitInfoLong, "Bait:\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。"},
-                {lang.BlackCatInfoLong, "BlackCat:\n-----------------"}, // TODO:mii-47 英訳
+                {lang.BlackCatInfoLong, "BlackCat:\nインポスター陣営に属するが、誰が仲間かはわからない。会議で追放されたときに、敵陣営からランダムに1人を道連れにする。"},
                 {lang.TerroristInfoLong, "Terrorist:\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。"},
                 {lang.MafiaInfoLong, "Mafia:\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。"},
                 {lang.VampireInfoLong, "Vampire:\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有)"},
@@ -1146,6 +1149,7 @@ namespace TownOfHost
                 {lang.MadmateVisionAsImpostor, "Madmate vision is as long as Impostor one"},
                 {lang.CanMakeMadmateCount, "Shapeshifter Can Make Madmate limit"},
                 {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
+                {lang.RevengeOnNeutral, "BlackCat Can Revenge on Neutral"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1402,6 +1406,7 @@ namespace TownOfHost
         Default,
         Suicide,
         Revenge,
+        RevengeOnNeutral,
         SelfVote,
         CanTerroristSuicideWin,
         commandError,

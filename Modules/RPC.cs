@@ -109,6 +109,7 @@ namespace TownOfHost
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
+                    bool RevengeOnNeutral = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
@@ -165,7 +166,8 @@ namespace TownOfHost
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
-                        MayorAdditionalVote
+                        MayorAdditionalVote,
+                        RevengeOnNeutral
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -260,7 +262,8 @@ namespace TownOfHost
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
-                int MayorAdditionalVote
+                int MayorAdditionalVote,
+                bool RevengeOnNeutral
             ) {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
@@ -335,6 +338,8 @@ namespace TownOfHost
             main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
+
+            main.RevengeOnNeutral = RevengeOnNeutral;
         }
         public static void JesterExiled(byte jesterID)
         {
