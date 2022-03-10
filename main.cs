@@ -757,7 +757,7 @@ namespace TownOfHost
                 }
                 if(seer.isMadSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
-                    if(TaskState.CompletedTasksCount == MadSnitchTasks)
+                    if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
 
