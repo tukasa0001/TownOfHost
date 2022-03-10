@@ -136,11 +136,15 @@ namespace TownOfHost
                 }
             }
 
-            if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
-               systemType == SystemTypes.Electrical && //システムタイプが電気室
-               0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
+            if (!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
+                systemType == SystemTypes.Electrical && //システムタイプが電気室
+                0 <= amount && amount <= 4 && //配電盤操作のamount
+                (player.isMadmate() || player.isMadGuardian() || // 停電直せない役職
+                 player.isMadSnitch() || player.isSKMadmate() ||
+                 player.isBlackCat())) { 
                 return false;
+            }
+
             if(player.isSheriff()) {
                 if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
                 if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
