@@ -342,6 +342,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
+                    if (cRole == CustomRoles.BlackCat) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
