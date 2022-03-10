@@ -264,6 +264,16 @@ namespace TownOfHost {
                 AllTasksCount++;
                 if(task.Complete) CompletedTaskCount++;
             }
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.MadSnitch:
+                    AllTasksCount = main.MadSnitchTasks;
+                    break;
+                default:
+                    break;
+            }
+            //調整後のタスク量までしか表示しない
+            CompletedTaskCount = Math.Min(AllTasksCount, CompletedTaskCount);
             Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
             return new TaskState(AllTasksCount, CompletedTaskCount);
         }

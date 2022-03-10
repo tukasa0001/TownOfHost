@@ -342,29 +342,11 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(GameData.PlayerInfo pc)
+        public static string getTaskText(PlayerControl pc)
         {
-            if(pc.Tasks == null) return "null";
-            int CompletedTaskCount = 0;
-            int AllTasksCount = 0;
-            foreach (var task in pc.Tasks)
-            {
-                AllTasksCount++;
-                if (task.Complete) CompletedTaskCount++;
-            }
-            //役職ごとにタスク量を減らす処理を入れる
-            switch (pc.getCustomRole())
-            {
-                case CustomRoles.MadSnitch:
-                    AllTasksCount = MadSnitchTasks;
-                    break;
-                default:
-                    break;
-
-            }
-            //表記上は減らしたタスク量までしか表示しない
-            CompletedTaskCount=Math.Min(CompletedTaskCount, AllTasksCount);
-            return $"{CompletedTaskCount}/{AllTasksCount}";
+            var taskState = pc.getPlayerTaskState();
+            if (!taskState.hasTasks) return "null";
+            return $"{taskState.CompletedTasksCount}/{taskState.AllTasksCount}";
         }
 
         public static void ShowActiveRoles()
@@ -636,12 +618,8 @@ namespace TownOfHost
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var isAllCompleted = true;
-            foreach (var task in Terrorist.Tasks)
-            {
-                if (!task.Complete) isAllCompleted = false;
-            }
-            if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            var taskState = getPlayerById(Terrorist.PlayerId).getPlayerTaskState();
+            if (taskState.isTaskFinished && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
@@ -739,7 +717,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer)})</color>" : "";
                 
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
@@ -794,7 +772,7 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
