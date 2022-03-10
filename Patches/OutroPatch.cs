@@ -205,7 +205,7 @@ namespace TownOfHost
                     }
                 }
             if (main.currentWinner != CustomWinner.Draw) {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>{main.getLang(lang.Win)}";
+                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{main.getLang(lang.Win)}</color>";
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             NameColorManager.Instance.RpcReset();
