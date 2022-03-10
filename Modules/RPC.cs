@@ -55,6 +55,7 @@ namespace TownOfHost
                     int JesterCount = reader.ReadInt32();
                     int MadmateCount = reader.ReadInt32();
                     int SKMadmateCount = reader.ReadInt32();
+                    int BlackCatCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
                     int MafiaCount = reader.ReadInt32();
@@ -71,7 +72,6 @@ namespace TownOfHost
                     int ShapeMasterCount = reader.ReadInt32();
                     int WarlockCount = reader.ReadInt32();
                     int SerialKillerCount = reader.ReadInt32();
-                    int BlackCatCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
