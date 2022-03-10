@@ -1,14 +1,7 @@
-using System.Diagnostics;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -224,6 +217,21 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
+    class ShowNormalMapPatch {
+        public static void Prefix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
+                PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+            }
+        }
+
+        public static void Postfix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
             }
         }
     }
