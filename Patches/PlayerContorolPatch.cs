@@ -140,14 +140,8 @@ namespace TownOfHost
                 }
             }
             if(target.isMadGuardian()) {
-                var isTaskFinished = true;
-                foreach(var task in target.Data.Tasks) {
-                    if(!task.Complete) {
-                        isTaskFinished = false;
-                        break;
-                    }
-                }
-                if(isTaskFinished) {
+                var taskState = target.getPlayerTaskState();
+                if(taskState.isTaskFinished) {
                     __instance.RpcGuardAndKill(target);
                     if(main.MadGuardianCanSeeBarrier) {
                         //MadGuardian視点用
@@ -365,7 +359,7 @@ namespace TownOfHost
                     if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
                 }
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data)})</color>"; //ロールの横にタスク表示
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance)})</color>"; //ロールの横にタスク表示
                 
 
                 //変数定義
@@ -379,7 +373,7 @@ namespace TownOfHost
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
                 if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    PlayerControl.LocalPlayer.getPlayerTaskState().CompletedTasksCount == main.MadSnitchTasks) //LocalPlayerのタスクが終わっている
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
                     RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
