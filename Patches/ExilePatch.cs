@@ -36,8 +36,8 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);//呪われた人が死んだ場合にリストから削除する
-            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.isAlive() == false);//呪われた人が死んだ場合にリストから削除する
+            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.isAlive() == false);
             foreach(var p in main.SpelledPlayer)
             {
                 main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Kill);
@@ -58,27 +58,11 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
-
-                if (role == CustomRoles.BlackCat) // 黒猫の道連れ処理
+                if (role == CustomRoles.BlackCat && AmongUsClient.Instance.AmHost)
                 {
-                    var crews = new List<PlayerControl>();
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
-
-                        if (pc.getCustomRole().isCrewmateTeam())
-                        {
-                            crews.Add(pc);                            
-                        }
-                    }
-
-                    if (crews.Any())
-                    {
-                        var select = new System.Random().Next(0, crews.Count);
-                        var target = crews[select]; 
-                        target.RpcMurderPlayer(target);
-                    }
+                    DieAlongside(exiled.Object);
                 }
+                
                 main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
             foreach(var p in main.SpelledPlayer)
@@ -104,6 +88,34 @@ namespace TownOfHost
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;
+        }
+
+        // 黒猫の道連れ処理
+        private static void DieAlongside(PlayerControl blackCatPlayer)
+        {
+            var crews = new List<PlayerControl>();
+
+            var neutral = false; // TODO:mii-47 第三陣営道連れオプション
+                    
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc != null && pc.isAlive() == false) continue;
+
+                var role = pc.getCustomRole();
+                if (role.isCrewmateTeam() ||
+                    (role.isNeutralTeam() && neutral))
+                {
+                    crews.Add(pc);                            
+                }
+            }
+
+            if (crews.Any() == false) return;
+            
+            var index = new System.Random().Next(0, crews.Count);
+            var target = crews[index];
+            blackCatPlayer.RpcMurderPlayer(target);
+            main.IgnoreReportPlayers.Add(target.PlayerId);
+            main.ps.setDeathReason(target.PlayerId, PlayerState.DeathReason.Revenge);
         }
     }
 }
