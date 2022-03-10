@@ -35,7 +35,8 @@ namespace TownOfHost {
         {
             Kill,
             Vote,
-            Suicide,
+            Suicide, 
+            Revenge,
             etc = -1
         }
     }
