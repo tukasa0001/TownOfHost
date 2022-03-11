@@ -201,11 +201,9 @@ namespace TownOfHost
             }
             main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-//<<<<<<< feature/v1.4_from_merged
+            main.SerialKillerTimer = new Dictionary<byte, float>(); 
+            
             NameColorManager.Instance.RpcReset();
-//=======
-            main.SerialKillerTimer = new Dictionary<byte, float>();
-//>>>>>>> v1.5
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
