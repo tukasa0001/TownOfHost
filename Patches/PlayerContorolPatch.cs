@@ -125,7 +125,8 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-//<<<<<<< feature/v1.4_from_merged
+
+            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
 
             if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
                 Logger.info("キルをブロックしました。");
@@ -133,9 +134,7 @@ namespace TownOfHost
             }
 
             main.BlockKilling[__instance.PlayerId] = true;
-//=======
-            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
-//>>>>>>> v1.5
+
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
