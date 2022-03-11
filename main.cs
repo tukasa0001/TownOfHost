@@ -574,6 +574,7 @@ namespace TownOfHost
 
         public static bool MadmateVisionAsImpostor;
         public static bool MadmateCanFixLightsOut;
+        public static bool MadmateCanFixComms;
         public static int CanMakeMadmateCount;
         public static bool MadGuardianCanSeeWhoTriedToKill;
         public static int MadSnitchTasks;
@@ -636,6 +637,7 @@ namespace TownOfHost
             writer.Write(HideAndSeekKillDelay);
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
+            writer.Write(MadmateCanFixComms);
             writer.Write(MadmateVisionAsImpostor);
             writer.Write(CanMakeMadmateCount);
             writer.Write(MadGuardianCanSeeWhoTriedToKill);
