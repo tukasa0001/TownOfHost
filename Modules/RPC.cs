@@ -95,12 +95,9 @@ namespace TownOfHost
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
-//<<<<<<< feature/v1.4_from_merged
                     bool MadmateCanFixComms = reader.ReadBoolean();
-//=======
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
-//>>>>>>> v1.5
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
