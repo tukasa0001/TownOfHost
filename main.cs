@@ -575,7 +575,7 @@ namespace TownOfHost
         public static bool MadmateVisionAsImpostor;
         public static bool MadmateCanFixLightsOut;
         public static int CanMakeMadmateCount;
-        public static bool MadGuardianCanSeeBarrier;
+        public static bool MadGuardianCanSeeWhoTriedToKill;
         public static int MadSnitchTasks;
         public static SuffixModes currentSuffix;
         public static string nickName = "";
@@ -638,7 +638,7 @@ namespace TownOfHost
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadmateVisionAsImpostor);
             writer.Write(CanMakeMadmateCount);
-            writer.Write(MadGuardianCanSeeBarrier);
+            writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MadSnitchTasks);
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
@@ -962,7 +962,7 @@ namespace TownOfHost
             MadmateCanFixLightsOut = false;
             MadmateVisionAsImpostor = true;
             CanMakeMadmateCount = 0;
-            MadGuardianCanSeeBarrier = false;
+            MadGuardianCanSeeWhoTriedToKill = false;
             MadSnitchTasks = 4;
 
             MayorAdditionalVote = 1;
@@ -1081,7 +1081,7 @@ namespace TownOfHost
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadmateVisionAsImpostor, "マッドメイトの視野がインポスターと同じ"},
                 {lang.CanMakeMadmateCount, "マッドメイトを作れる人数"},
-                {lang.MadGuardianCanSeeBarrier, "マッドガーディアンが自身の割れたバリアを見ることができる"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "マッドガーディアンが自身を殺そうとした人を見ることができる"},
                 {lang.MadSnitchTasks, "マッドスニッチのタスク数"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
@@ -1212,7 +1212,7 @@ namespace TownOfHost
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
                 {lang.MadmateVisionAsImpostor, "Madmate vision is as long as Impostor one"},
                 {lang.CanMakeMadmateCount, "Shapeshifter Can Make Madmate limit"},
-                {lang.MadGuardianCanSeeBarrier, "MadGuardian Can See Own Cracked Barrier"},
+                {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
                 {lang.MadSnitchTasks, "MadSnich's Tasks"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
@@ -1445,7 +1445,7 @@ namespace TownOfHost
         MadmateCanFixLightsOut,
         CanMakeMadmateCount,
         MadmateVisionAsImpostor,
-        MadGuardianCanSeeBarrier,
+        MadGuardianCanSeeWhoTriedToKill,
         MadSnitchTasks,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,
