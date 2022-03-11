@@ -1,17 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using Hazel;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -25,6 +14,9 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        AddNameColorData,
+        RemoveNameColorData,
+        ResetNameColorData
     }
     public enum Sounds
     {
@@ -83,6 +75,7 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    int SheriffKillCooldown = reader.ReadInt32();
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
@@ -130,6 +123,7 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffKillCooldown,
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
@@ -180,6 +174,20 @@ namespace TownOfHost
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
                     break;
+                case (byte)CustomRPC.AddNameColorData:
+                    byte addSeerId = reader.ReadByte();
+                    byte addTargetId = reader.ReadByte();
+                    string color = reader.ReadString();
+                    RPCProcedure.AddNameColorData(addSeerId, addTargetId, color);
+                    break;
+                case (byte)CustomRPC.RemoveNameColorData:
+                    byte removeSeerId = reader.ReadByte();
+                    byte removeTargetId = reader.ReadByte();
+                    RPCProcedure.RemoveNameColorData(removeSeerId, removeTargetId);
+                    break;
+                case (byte)CustomRPC.ResetNameColorData:
+                    RPCProcedure.ResetNameColorData();
+                    break;
             }
         }
     }
@@ -215,6 +223,7 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                int SheriffKillCooldown,
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
@@ -273,6 +282,7 @@ namespace TownOfHost
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
+            main.SheriffKillCooldown = SheriffKillCooldown;
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
@@ -291,7 +301,7 @@ namespace TownOfHost
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadmateCanFixComms = MadmateCanFixComms;
-            main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }
@@ -367,6 +377,16 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
+        }
+
+        public static void AddNameColorData(byte seerId, byte targetId, string color) {
+            NameColorManager.Instance.Add(seerId, targetId, color);
+        }
+        public static void RemoveNameColorData(byte seerId, byte targetId) {
+            NameColorManager.Instance.Remove(seerId, targetId);
+        }
+        public static void ResetNameColorData() {
+            NameColorManager.Begin();
         }
     }
 }

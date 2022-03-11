@@ -1,14 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using Hazel;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -23,6 +15,8 @@ namespace TownOfHost
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
 
+            main.IgnoreReportPlayers = new List<byte>();
+
             main.ps = new PlayerState();
 
             main.SpelledPlayer = new List<PlayerControl>();
@@ -32,6 +26,9 @@ namespace TownOfHost
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
+            main.BlockKilling = new Dictionary<byte, bool>();
+
+            NameColorManager.Instance.RpcReset();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
@@ -214,11 +211,11 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
 
-                //名前、役職の記録
-                main.lastAllPlayerCustomRoles = new ();
+                //名前の記録
+                main.AllPlayerNames = new ();
                 foreach (var pair in main.AllPlayerCustomRoles)
                 {
-                    main.lastAllPlayerCustomRoles.Add(main.RealNames[pair.Key], pair.Value);
+                    main.AllPlayerNames.Add(pair.Key,main.RealNames[pair.Key]);
                 }
 
                 HudManager.Instance.SetHudActive(true);
@@ -245,6 +242,7 @@ namespace TownOfHost
 
                 //サーバーの役職判定をだます
                 new LateTask(() => {
+                    if(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                     foreach(var pc in PlayerControl.AllPlayerControls) {
                         pc.RpcSetRole(RoleTypes.Shapeshifter);
                     }

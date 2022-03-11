@@ -1,16 +1,5 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using Hazel;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace TownOfHost
 {
@@ -40,6 +29,8 @@ namespace TownOfHost
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach(var p in main.SpelledPlayer)
             {
+                main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                main.IgnoreReportPlayers.Add(p.PlayerId);
                 p.RpcMurderPlayer(p);
             }
             if (exiled != null)
