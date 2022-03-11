@@ -40,36 +40,18 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 
 ## Roles
 
-//<<<<<<< feature/v1.4_from_merged
 | Impostors | Crewmates | Neutral |
 |----------|-------------|-----------------|
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [Mafia](###Mafia) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
-| [Vampire](###Vampire) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Witch](###Witch) | [Sheriff](###Sheriff) |  |
-| [Madmate](###Madmate) | [Snitch](###Snitch) |  |
-| [MadGuardian](###MadGuardian) |  |  |
-//=======
-### Roles correspondence chart
-| Name of additional role | Decision |
-| ---- | ---- |
-| Jester | Crewmate |
-| Madmate | Engineer |
-| MadGuardian | Crewmate |
-| MadSnitch | Crewmate |
-| Bait | Crewmate |
-| Terrorist | Engineer |
-| Mafia | ShapeShifter |
-| Vampire | Impostor |
-| SabotageMaster | Crewmate |
-| Mayor | Crewmate |
-| Opportunist | Crewmate |
-| Snitch | Crewmate |
-| Sheriff | Impostor(Only host is the Crewmate) |
-| BountyHunter | Impostor |
-| SerialKiller | ShapeShifter |
-| ShapeMaster | ShapeShifter |
-//>>>>>>> v1.5
+| [SerialKiller](###SerialKiller)  | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
+| [ShapeMaster](###ShapeMaster) [Sheriff](###Sheriff) |  |
+| [Vampire](###Vampire) [Snitch](###Snitch) |  |
+| [Warlock](###Warlock)  |  |  |
+| [Witch](###Witch)  |  |  |
+| [Madmate](###Madmate)  |  |  |
+| [MadGuardian](###MadGuardian)  |  |  |
+| [MadSnitch](###MadSnitch)  |  |  |
 
 ### BountyHunter
 
@@ -255,9 +237,6 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 It is possible to disable certain tasks.<br>
 
-//<<<<<<< feature/v1.4_from_merged
-#### Settings
-//=======
 Killing the indicated target will short the next killcool.<br>
 If they kill someone who is not their target, their killcool will be lengthen.<br>
 
@@ -284,7 +263,6 @@ Decision : Shapeshifter<br>
 
 SerialKiller's killcooldown is shorter than defalt Impostor.<br>
 If he can not kill on deadline, he will kill him.<br>
-//>>>>>>> v1.5
 
 | Settings Name |
 |----------|
