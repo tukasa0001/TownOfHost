@@ -165,30 +165,14 @@ namespace TownOfHost
                 }
             }
             if(target.isMadGuardian()) {
-//<<<<<<< feature/v1.4_from_merged
-                var isTaskFinished = true;
-                foreach(var task in target.Data.Tasks) {
-                    if(!task.Complete) {
-                        isTaskFinished = false;
-                        break;
-                    }
-                }
-                if(isTaskFinished) {
+                var taskState = target.getPlayerTaskState();
+                if(taskState.isTaskFinished) {
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if(main.MadGuardianCanSeeWhoTriedToKill)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                     
                     main.BlockKilling[__instance.PlayerId] = false;
                     main.NotifyRoles();
-//=======
-                var taskState = target.getPlayerTaskState();
-                if(taskState.isTaskFinished) {
-                    __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
-                        //MadGuardian視点用
-                        target.RpcGuardAndKill(target);
-                    }
-//>>>>>>> v1.5
                     return false;
                 }
             }
