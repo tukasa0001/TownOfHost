@@ -884,8 +884,8 @@ namespace TownOfHost
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "ジェスター(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。"},
-                {lang.MadmateInfoLong, "マッドメイト(インポスター陣営):\nクルーだがインポスターの味方をする。\nｲﾝﾎﾟｽﾀｰもﾏｯﾄﾞﾒｲﾄも互いにわからない。\nベントが使え、タスクはない。"},
-                {lang.MadGuardianInfoLong, "マッドガーディアン(インポスター陣営):\nクルーだがインポスターの味方をする。\nｲﾝﾎﾟｽﾀｰもﾏｯﾄﾞｶﾞｰﾃﾞｨｱﾝも互いに認識できない。タスクを全て完了させるとｼｰﾙﾄﾞが付与される。"},
+                {lang.MadmateInfoLong, "マッドメイト(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。"},
+                {lang.MadGuardianInfoLong, "マッドガーディアン(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。"},
                 {lang.BaitInfoLong, "ベイト(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。"},
                 {lang.TerroristInfoLong, "テロリスト(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。"},
                 {lang.MafiaInfoLong, "マフィア(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。"},
@@ -987,8 +987,8 @@ namespace TownOfHost
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
                 {lang.JesterInfoLong, "Jester(Neutral):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。"},
-                {lang.MadmateInfoLong, "Madmate(Impostor):\nクルーだがインポスターの味方をする。\nｲﾝﾎﾟｽﾀｰもﾏｯﾄﾞﾒｲﾄも互いにわからない。\nベントが使え、タスクはない。"},
-                {lang.MadGuardianInfoLong, "MadGuardian(Impostor):\nクルーだがインポスターの味方をする。\nｲﾝﾎﾟｽﾀｰもﾏｯﾄﾞｶﾞｰﾃﾞｨｱﾝも互いに認識できない。タスクを全て完了させるとｼｰﾙﾄﾞが付与される。"},
+                {lang.MadmateInfoLong, "Madmate(Impostor):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。"},
+                {lang.MadGuardianInfoLong, "MadGuardian(Impostor):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。"},
                 {lang.BaitInfoLong, "Bait(Crewmate):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。"},
                 {lang.TerroristInfoLong, "Terrorist(Neutral):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。"},
                 {lang.MafiaInfoLong, "Mafia(Impostor):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。"},
