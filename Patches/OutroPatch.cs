@@ -199,8 +199,13 @@ namespace TownOfHost
             if (main.currentWinner != CustomWinner.Draw) {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{main.getLang(lang.Win)}</color>";
             }
+            main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+//<<<<<<< feature/v1.4_from_merged
             NameColorManager.Instance.RpcReset();
+//=======
+            main.SerialKillerTimer = new Dictionary<byte, float>();
+//>>>>>>> v1.5
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);

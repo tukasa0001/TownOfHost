@@ -40,6 +40,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 
 ## Roles
 
+//<<<<<<< feature/v1.4_from_merged
 | Impostors | Crewmates | Neutral |
 |----------|-------------|-----------------|
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
@@ -48,6 +49,27 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Witch](###Witch) | [Sheriff](###Sheriff) |  |
 | [Madmate](###Madmate) | [Snitch](###Snitch) |  |
 | [MadGuardian](###MadGuardian) |  |  |
+//=======
+### Roles correspondence chart
+| Name of additional role | Decision |
+| ---- | ---- |
+| Jester | Crewmate |
+| Madmate | Engineer |
+| MadGuardian | Crewmate |
+| MadSnitch | Crewmate |
+| Bait | Crewmate |
+| Terrorist | Engineer |
+| Mafia | ShapeShifter |
+| Vampire | Impostor |
+| SabotageMaster | Crewmate |
+| Mayor | Crewmate |
+| Opportunist | Crewmate |
+| Snitch | Crewmate |
+| Sheriff | Impostor(Only host is the Crewmate) |
+| BountyHunter | Impostor |
+| SerialKiller | ShapeShifter |
+| ShapeMaster | ShapeShifter |
+//>>>>>>> v1.5
 
 ### BountyHunter
 
@@ -122,6 +144,16 @@ They can not kill, sabotage, and using vents.<br>
 |----------|
 | [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
 | MadGuardian Can See Own Cracked Barrier |
+
+### MadSnitch
+
+Team : Impostor<br>
+Decision : Crewmate<br>
+
+Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
+Impostors also doesn't know who MadSnitch is.<br>
+However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
+They are unable to enter vent.<br>
 
 ### Bait
 
@@ -223,7 +255,36 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 It is possible to disable certain tasks.<br>
 
+//<<<<<<< feature/v1.4_from_merged
 #### Settings
+//=======
+Killing the indicated target will short the next killcool.<br>
+If they kill someone who is not their target, their killcool will be lengthen.<br>
+
+### ShapeMaster
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+Shape Master ignores the cooldown after a transformation and can transform again.<br>
+However, the transformation lasts only 10 seconds.<br>
+
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If warlock kills before shapeshifting, the target will be cursed.<br>
+If he try to shapeshift again, the nearest crewmate will be killed<br>
+
+### SerialKiller
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+SerialKiller's killcooldown is shorter than defalt Impostor.<br>
+If he can not kill on deadline, he will kill him.<br>
+//>>>>>>> v1.5
 
 | Settings Name |
 |----------|
