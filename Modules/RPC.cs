@@ -152,9 +152,7 @@ namespace TownOfHost
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
-//<<<<<<< feature/v1.4_from_merged
                         SheriffCanKillMadmate,
-//=======
                         SerialKillerCooldown,
                         SerialKillerLimit,
                         BountyTargetChangeTime,
@@ -162,7 +160,6 @@ namespace TownOfHost
                         BountyFailureKillCoolDown,
                         BHDefaultKillCooldown,
                         ShapeMasterShapeshiftDuration,
-//>>>>>>> v1.5
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -172,12 +169,9 @@ namespace TownOfHost
                         HaSKillDelay,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
-//<<<<<<< feature/v1.4_from_merged
                         MadmateCanFixComms,
-//=======
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
-//>>>>>>> v1.5
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
                         MayorAdditionalVote
@@ -274,9 +268,7 @@ namespace TownOfHost
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
-//<<<<<<< feature/v1.4_from_merged
                 bool SheriffCanKillMadmate,
-//=======
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
@@ -284,7 +276,6 @@ namespace TownOfHost
                 int BountyFailureKillCoolDown,
                 int BHDefaultKillCooldown,
                 int ShapeMasterShapeshiftDuration,
-//>>>>>>> v1.5
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
