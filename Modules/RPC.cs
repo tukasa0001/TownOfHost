@@ -294,12 +294,9 @@ namespace TownOfHost
                 int HaSKillDelay,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
-//<<<<<<< feature/v1.4_from_merged
                 bool MadmateCanFixComms,
-//=======
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
-//>>>>>>> v1.5
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
                 int MayorAdditionalVote
@@ -377,15 +374,12 @@ namespace TownOfHost
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
-//<<<<<<< feature/v1.4_from_merged
             main.MadmateCanFixComms = MadmateCanFixComms;
             main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-//=======
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
             main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             main.MadSnitchTasks = MadSnitchTasks;
-//>>>>>>> v1.5
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }
