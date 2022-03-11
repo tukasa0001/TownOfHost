@@ -108,6 +108,10 @@ namespace TownOfHost
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
+                    int BountyTargetChangeTime = reader.ReadInt32();
+                    int BountySuccessKillCoolDown = reader.ReadInt32();
+                    int BountyFailureKillCoolDown = reader.ReadInt32();
+                    int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
@@ -151,6 +155,10 @@ namespace TownOfHost
                         SheriffCanKillOpportunist,
                         SerialKillerCooldown,
                         SerialKillerLimit,
+                        BountyTargetChangeTime,
+                        BountySuccessKillCoolDown,
+                        BountyFailureKillCoolDown,
+                        BHDefaultKillCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -246,6 +254,10 @@ namespace TownOfHost
                 bool SheriffCanKillOpportunist,
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
+                int BountyTargetChangeTime,
+                int BountySuccessKillCoolDown,
+                int BountyFailureKillCoolDown,
+                int BHDefaultKillCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -315,6 +327,10 @@ namespace TownOfHost
 
             main.SerialKillerCooldown = SerialKillerCooldown;
             main.SerialKillerLimit = SerialKillerLimit;
+            main.BountyTargetChangeTime = BountyTargetChangeTime;
+            main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;
+            main.BountyFailureKillCoolDown = BountyFailureKillCoolDown;
+            main.BHDefaultKillCooldown = BHDefaultKillCooldown;
             main.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
             main.SyncButtonMode = SyncButtonMode;

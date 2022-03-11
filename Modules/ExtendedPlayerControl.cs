@@ -118,7 +118,7 @@ namespace TownOfHost {
             new LateTask(() => {
                 if(target.protectedByGuardian)
                     killer.RpcMurderPlayer(target);
-            }, 0.2f, "GuardAndKill");
+            }, 0.5f, "GuardAndKill");
         }
 
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role) {
@@ -202,36 +202,76 @@ namespace TownOfHost {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
-                    goto ShapeMasterShapeshift;
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
+                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                    goto DefaultKillcooldown;
                 case CustomRoles.Vampire:
-                    if(main.RefixCooldownDelay <= 0)
+                    if(main.BountyHunterCount > 0){
+                        if(main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown;
+                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                    }
+                    if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
+                    }
                     break;
                 case CustomRoles.Warlock:
-                    opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
-                    opt.KillCooldown *= 2;
+                    if(main.BountyHunterCount == 0){
+                        opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                        opt.KillCooldown *= 2;
+                    }
+                    if(main.BountyHunterCount > 0){
+                        opt.RoleOptions.ShapeshifterCooldown = main.BHDefaultKillCooldown;
+                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                    }
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
                     opt.KillCooldown = main.SerialKillerCooldown*2;
+                    if(main.BountyHunterCount > 0)opt.KillCooldown = opt.KillCooldown = main.SerialKillerCooldown*2;
                     break;
+                case CustomRoles.BountyHunter:
+                    opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
+                    if(main.BountyMeetingCheck){//会議後のキルクール
+                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                    }
+                    else{
+                        if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
+                            opt.KillCooldown = main.BountyFailureKillCoolDown;
+                            Logger.info("ターゲット以外をキル");
+                        }
+                        if(!main.BountyTimerCheck){//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
+                            opt.KillCooldown = 0;
+                            Logger.info("ターゲットリセット");
+                        }
+                        if(main.isBountyKillSuccess){//ターゲットをキルした時の処理
+                            opt.KillCooldown = main.BountySuccessKillCoolDown*2;
+                            Logger.info("ターゲットをキル");
+                        }
+                    }
+                    break;
+                case CustomRoles.Impostor:
+                case CustomRoles.Shapeshifter:
+                case CustomRoles.Mafia:
+                case CustomRoles.Witch:
+                    goto DefaultKillcooldown;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
                     }
-                    break;
+                    goto DefaultKillcooldown;
 
 
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                ShapeMasterShapeshift:
-                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
-                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                DefaultKillcooldown:
+                    if(main.BountyHunterCount > 0){
+                        opt.KillCooldown = main.BHDefaultKillCooldown;
+                    }
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
                     if(main.MadmateVisionAsImpostor){

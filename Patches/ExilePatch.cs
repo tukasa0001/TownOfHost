@@ -63,16 +63,25 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
-                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
+                if(main.BountyHunterCount == 0)main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             foreach(var wr in PlayerControl.AllPlayerControls){
-                if(wr.isWarlock())wr.RpcGuardAndKill(wr);
-                main.CursedPlayers.Remove(wr.PlayerId);
-                main.FirstCursedCheck.Remove(wr.PlayerId);
-                main.FirstCursedCheck.Add(wr.PlayerId, false);
+                if(wr.isSerialKiller()){
+                    wr.RpcGuardAndKill(wr);
+                    main.SerialKillerTimer.Add(wr.PlayerId,0f);
+                }
+                if(wr.isBountyHunter()){
+                    wr.RpcGuardAndKill(wr);
+                    main.BountyTimer.Add(wr.PlayerId, 0f);
+                }
+                if(wr.isWarlock()){
+                    wr.RpcGuardAndKill(wr);
+                    main.CursedPlayers.Remove(wr.PlayerId);
+                    main.FirstCursedCheck.Remove(wr.PlayerId);
+                    main.FirstCursedCheck.Add(wr.PlayerId, false);
+                }
             }
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())wr.RpcGuardAndKill(wr);
-            foreach(var wr in PlayerControl.AllPlayerControls)if(wr.isSerialKiller())main.SerialKillerTimer.Add(wr.PlayerId,0f);
+            main.BountyMeetingCheck = true;
             main.CustomSyncAllSettings();
             main.NotifyRoles();
             main.witchMeeting = false;

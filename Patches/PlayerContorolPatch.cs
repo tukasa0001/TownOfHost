@@ -30,6 +30,18 @@ namespace TownOfHost
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
+            //BountyHunter
+            if(__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
+            {
+                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+                if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
+                    main.isBountyKillSuccess = true;//キルクール減少処理に変換
+                    main.CustomSyncAllSettings();//キルクール処理を同期
+                    main.isTargetKilled.Remove(__instance.PlayerId);
+                    main.isTargetKilled.Add(__instance.PlayerId, true);
+                }
+            }
+            if(__instance.isVampire() && main.BountyHunterCount > 0)main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
@@ -87,8 +99,7 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
-                //対象が見つかった時のみ処理
-                if (mpdistance.Count() != 0)
+                if(mpdistance.Count() != 0)
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
@@ -187,19 +198,10 @@ namespace TownOfHost
                 return false;
             }
 
+
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
-
-            //BountyHunter
-            if(__instance.isBountyHunter()) {
-                if(target == __instance.getBountyTarget()) {
-                    __instance.RpcGuardAndKill(target);
-                    __instance.ResetBountyTarget();
-                }
-            }
-
-
             return false;
         }
     }
@@ -210,6 +212,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
             if (target != null)
             {
@@ -330,6 +333,42 @@ namespace TownOfHost
                     {
                         main.SerialKillerTimer[__instance.PlayerId] =
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
+                //バウハンのキルクールの変換とターゲットのリセット
+                if(main.BountyTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
+                    {
+                        main.BountyMeetingCheck = false;
+                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                        main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                    }
+                    if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
+                    {
+                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;
+                        main.isTargetKilled.Remove(__instance.PlayerId);
+                        main.isTargetKilled.Add(__instance.PlayerId, false);
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
+                        main.BountyTimerCheck = false;
+                        main.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
+                        main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
+                        main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
+                        main.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
+                    }
+                    else//時間を計る処理
+                    {
+                        main.BountyTimer[__instance.PlayerId] =
+                        (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
 

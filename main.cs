@@ -504,7 +504,9 @@ namespace TownOfHost
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, PlayerControl> BountyTargets;
+        public static Dictionary<byte, bool> isTargetKilled = new Dictionary<byte, bool>();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
         public static List<PlayerControl> CursedPlayerDie = new List<PlayerControl>();
         public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
@@ -512,10 +514,18 @@ namespace TownOfHost
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
+        public static bool isShipStart;
+        public static bool BountyMeetingCheck;
+        public static bool isBountyKillSuccess;
+        public static bool BountyTimerCheck;
+        public static int ShapeMasterShapeshiftDuration;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
-        public static int ShapeMasterShapeshiftDuration;
+        public static int BountyTargetChangeTime;
+        public static int BountySuccessKillCoolDown;
+        public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
+        public static int BountyFailureKillCoolDown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -603,6 +613,10 @@ namespace TownOfHost
             writer.Write(MayorAdditionalVote);
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
+            writer.Write(BountyTargetChangeTime);
+            writer.Write(BountySuccessKillCoolDown);
+            writer.Write(BountyFailureKillCoolDown);
+            writer.Write(BHDefaultKillCooldown);
             writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -858,6 +872,7 @@ namespace TownOfHost
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             SerialKillerTimer = new Dictionary<byte, float>();
+            BountyTimer = new Dictionary<byte, float>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             CursedPlayerDie = new List<PlayerControl>();
@@ -876,6 +891,10 @@ namespace TownOfHost
             VampireKillDelay = 10;
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
+            BountyTargetChangeTime = 150;
+            BountySuccessKillCoolDown = 2;
+            BountyFailureKillCoolDown = 50;
+            BHDefaultKillCooldown = 30;
             ShapeMasterShapeshiftDuration = 10;
 
             SabotageMasterSkillLimit = 0;
@@ -981,7 +1000,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "オポチュニスト:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "スニッチ:\nタスクを完了させると人外の名前が赤色に変化する。スニッチのタスクが少なくなると人外からスニッチの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "シェリフ:\n人外をキルすることができるが、クルーメイトをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "バウンティハンター:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.BountyHunterInfoLong, "バウンティハンター:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
@@ -1021,6 +1040,10 @@ namespace TownOfHost
                 {lang.MayorAdditionalVote, "メイヤーの追加投票の個数"},
                 {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
+                {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
+                {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
+                {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
+                {lang.BHDefaultKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
                 {lang.AllowCloseDoors, "ドア閉鎖を許可する"},
@@ -1102,7 +1125,7 @@ namespace TownOfHost
                 {lang.OpportunistInfoLong, "Opportunist:\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。"},
                 {lang.SnitchInfoLong, "Snitch:\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。"},
                 {lang.SheriffInfoLong, "Sheriff:\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。"},
-                {lang.BountyHunterInfoLong, "BountyHunter:\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。"},
+                {lang.BountyHunterInfoLong, "BountyHunter:\n表示されたターゲットをキルするとキルクールが大幅に減少する。その他の人をキルしたら、キルクールが延長される。(なお、キルクールは2.5秒に設定する必要があります。)"},
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "ShaapeMaster:\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
@@ -1144,6 +1167,10 @@ namespace TownOfHost
                 {lang.AllowCloseDoors, "Allow Closing Doors"},
                 {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
+                {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
+                {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
+                {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
+                {lang.BHDefaultKillCooldown, "Impostors' killcooldown(If BountyHunters are existing)"},
                 {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
                 {lang.IgnoreCosmetics, "Ignore Cosmetics"},
@@ -1352,6 +1379,10 @@ namespace TownOfHost
         MayorAdditionalVote,
         SerialKillerCooldown,
         SerialKillerLimit,
+        BountyTargetChangeTime,
+        BountySuccessKillCoolDown,
+        BountyFailureKillCoolDown,
+        BHDefaultKillCooldown,
         ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
         AllowCloseDoors,

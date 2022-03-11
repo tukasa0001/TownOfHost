@@ -90,7 +90,7 @@ namespace TownOfHost {
             {CustomRoles.Impostor, RoleTypes.Impostor},
             {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
             {CustomRoles.Mafia, RoleTypes.Shapeshifter},
-            {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.BountyHunter, RoleTypes.Shapeshifter},
             {CustomRoles.Witch, RoleTypes.Impostor},
             {CustomRoles.Warlock, RoleTypes.Shapeshifter},
             {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},
