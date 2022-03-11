@@ -762,13 +762,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-//<<<<<<< feature/v1.4_from_merged
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data.Tasks)})</color>" : "";
-
-//=======
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer)})</color>" : "";
-                
-//>>>>>>> v1.5
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
@@ -823,13 +817,8 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
 
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-//<<<<<<< feature/v1.4_from_merged
-                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
-
-//=======
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target)})</color>" : "";
                     
-//>>>>>>> v1.5
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
