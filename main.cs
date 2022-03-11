@@ -342,29 +342,11 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(GameData.PlayerInfo pc)
+        public static string getTaskText(PlayerControl pc)
         {
-            if(pc.Tasks == null) return "null";
-            int CompletedTaskCount = 0;
-            int AllTasksCount = 0;
-            foreach (var task in pc.Tasks)
-            {
-                AllTasksCount++;
-                if (task.Complete) CompletedTaskCount++;
-            }
-            //役職ごとにタスク量を減らす処理を入れる
-            switch (pc.getCustomRole())
-            {
-                case CustomRoles.MadSnitch:
-                    AllTasksCount = MadSnitchTasks;
-                    break;
-                default:
-                    break;
-
-            }
-            //表記上は減らしたタスク量までしか表示しない
-            CompletedTaskCount=Math.Min(CompletedTaskCount, AllTasksCount);
-            return $"{CompletedTaskCount}/{AllTasksCount}";
+            var taskState = pc.getPlayerTaskState();
+            if (!taskState.hasTasks) return "null";
+            return $"{taskState.CompletedTasksCount}/{taskState.AllTasksCount}";
         }
 
         public static void ShowActiveRoles()
@@ -650,12 +632,8 @@ namespace TownOfHost
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var isAllCompleted = true;
-            foreach (var task in Terrorist.Tasks)
-            {
-                if (!task.Complete) isAllCompleted = false;
-            }
-            if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            var taskState = getPlayerById(Terrorist.PlayerId).getPlayerTaskState();
+            if (taskState.isTaskFinished && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
@@ -753,7 +731,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer.Data)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({main.getTaskText(seer)})</color>" : "";
                 
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
@@ -793,7 +771,7 @@ namespace TownOfHost
                 }
                 if(seer.isMadSnitch()) {
                     var TaskState = seer.getPlayerTaskState();
-                    if(TaskState.CompletedTasksCount == MadSnitchTasks)
+                    if(TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
 
@@ -808,7 +786,7 @@ namespace TownOfHost
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
                     
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data)})</color>" : "";
+                    string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target)})</color>" : "";
                     
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
@@ -1040,8 +1018,10 @@ namespace TownOfHost
                 {lang.SyncButtonModeInfo, "ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
-                {lang.AdvancedRoleOptionsCrewmate, "クルー役職の詳細設定"},
-                {lang.AdvancedRoleOptionsImpostor, "インポスター役職の詳細設定"},
+                {lang.AdvancedRoleOptions, "詳細設定"},
+                {lang.AdvancedImposterRoleOptions, "インポスター陣営"},
+                {lang.AdvancedCrewmateRoleOptions, "クルーメイト陣営"},
+                {lang.AdvancedNeutralRoleOptions, "第3陣営"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイトが停電を直すことができる"},
                 {lang.MadmateVisionAsImpostor, "マッドメイトの視野がインポスターと同じ"},
@@ -1163,8 +1143,10 @@ namespace TownOfHost
                 {lang.SyncButtonModeInfo, "SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有)"},
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
-                {lang.AdvancedRoleOptionsCrewmate, "Crewmate jobs Advanced Options"},
-                {lang.AdvancedRoleOptionsImpostor, "Impostor jobs Advanced Options"},
+                {lang.AdvancedRoleOptions, "Advanced Options"},
+                {lang.AdvancedImposterRoleOptions, "Imposter Side"},
+                {lang.AdvancedCrewmateRoleOptions, "Crewmate Side"},
+                {lang.AdvancedNeutralRoleOptions, "Neutral Side"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Can Fix Lights Out"},
@@ -1375,8 +1357,10 @@ namespace TownOfHost
         NoGameEndInfo,
         RandomMapsModeInfo,
         //オプション項目
-        AdvancedRoleOptionsCrewmate,
-        AdvancedRoleOptionsImpostor,
+        AdvancedRoleOptions,
+        AdvancedImposterRoleOptions,
+        AdvancedCrewmateRoleOptions,
+        AdvancedNeutralRoleOptions,
         VampireKillDelay,
         MadmateCanFixLightsOut,
         CanMakeMadmateCount,
