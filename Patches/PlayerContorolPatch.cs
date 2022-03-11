@@ -424,23 +424,21 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
-//<<<<<<< feature/v1.4_from_merged
+
                 //名前色変更処理
                 //自分自身の名前の色を変更
                 if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
-//=======
+                }
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                else if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
                     RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
-//>>>>>>> v1.5
                 }
-
                 //タスクを終わらせたSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                else if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
