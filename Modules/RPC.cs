@@ -383,7 +383,7 @@ namespace TownOfHost
 //=======
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
-            main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             main.MadSnitchTasks = MadSnitchTasks;
 //>>>>>>> v1.5
 

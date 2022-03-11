@@ -3,6 +3,7 @@ using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -124,7 +125,8 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-//<<<<<<< feature/v1.4_from_merged
+
+            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
 
             if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
                 Logger.info("キルをブロックしました。");
@@ -132,9 +134,7 @@ namespace TownOfHost
             }
 
             main.BlockKilling[__instance.PlayerId] = true;
-//=======
-            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
-//>>>>>>> v1.5
+
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
@@ -165,30 +165,14 @@ namespace TownOfHost
                 }
             }
             if(target.isMadGuardian()) {
-//<<<<<<< feature/v1.4_from_merged
-                var isTaskFinished = true;
-                foreach(var task in target.Data.Tasks) {
-                    if(!task.Complete) {
-                        isTaskFinished = false;
-                        break;
-                    }
-                }
-                if(isTaskFinished) {
+                var taskState = target.getPlayerTaskState();
+                if(taskState.isTaskFinished) {
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if(main.MadGuardianCanSeeWhoTriedToKill)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                     
                     main.BlockKilling[__instance.PlayerId] = false;
                     main.NotifyRoles();
-//=======
-                var taskState = target.getPlayerTaskState();
-                if(taskState.isTaskFinished) {
-                    __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
-                        //MadGuardian視点用
-                        target.RpcGuardAndKill(target);
-                    }
-//>>>>>>> v1.5
                     return false;
                 }
             }
@@ -440,23 +424,21 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
-//<<<<<<< feature/v1.4_from_merged
+
                 //名前色変更処理
                 //自分自身の名前の色を変更
                 if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
-//=======
+                }
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                else if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
                     RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
-//>>>>>>> v1.5
                 }
-
                 //タスクを終わらせたSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                else if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
