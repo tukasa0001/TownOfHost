@@ -126,10 +126,13 @@ BountyCurrentTarget,Current Target,現在のターゲット
 RoleOptions,Role Options,役職設定
 ModeOptions,Mode Options,モード設定
 ForceJapanese,Force Japanese,日本語に強制
+AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示
+LastResult,Last Result,試合結果
 VoteMode,VoteMode,投票モード
 Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
+Win,Wins,勝利
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数

@@ -125,7 +125,7 @@ namespace TownOfHost
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            return tr.getString(Enum.GetName(typeof(DeathReason),status));
+            return tr.getString(Enum.GetName(typeof(PlayerState.DeathReason),status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -455,7 +455,7 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = tr.getString("LastResult");
+            var text = tr.getString("LastResult")+":";
             Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
             foreach(var id in winnerList)
             {
@@ -674,7 +674,7 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var tmp_text = text.Replace("#","＃");
+            var tmp_text = text.Replace("#","＃").Replace("<","＜").Replace(">","＞");
             string[] textList = tmp_text.Split('\n');
             string tmp = "";
             var l = 0;
