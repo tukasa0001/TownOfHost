@@ -134,10 +134,9 @@ namespace TownOfHost
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
-            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
-            var isSuccess = dic.TryGetValue(role, out var text);
-            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
+            JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+            return tr.getString(Enum.GetName(typeof(CustomRoles),role),lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
@@ -370,33 +369,33 @@ namespace TownOfHost
             main.SendToAll("現在有効な設定の説明:");
             if(main.IsHideAndSeek)
             {
-                main.SendToAll(main.getLang(lang.HideAndSeekInfo));
-                if(main.FoxCount > 0 ){ main.SendToAll(main.getLang(lang.FoxInfoLong)); }
-                if(main.TrollCount > 0 ){ main.SendToAll(main.getLang(lang.TrollInfoLong)); }
+                main.SendToAll(tr.getString("HideAndSeekInfo"));
+                if(main.FoxCount > 0 ){ main.SendToAll(getRoleName(CustomRoles.Fox)+tr.getString("FoxInfoLong")); }
+                if(main.TrollCount > 0 ){ main.SendToAll(getRoleName(CustomRoles.Troll)+tr.getString("TrollInfoLong")); }
             }else{
-                if(main.SyncButtonMode){ main.SendToAll(main.getLang(lang.SyncButtonModeInfo)); }
-                if(main.RandomMapsMode) { main.SendToAll(main.getLang(lang.RandomMapsModeInfo)); }
-                if(main.VampireCount > 0) main.SendToAll(main.getLang(lang.VampireInfoLong));
-                if(main.BountyHunterCount > 0) main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
-                if(main.WitchCount > 0) main.SendToAll(main.getLang(lang.WitchInfoLong));
-                if(main.WarlockCount > 0) main.SendToAll(main.getLang(lang.WarlockInfoLong));
-                if(main.SerialKillerCount > 0) main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
-                if(main.MafiaCount > 0) main.SendToAll(main.getLang(lang.MafiaInfoLong));
-                if(main.ShapeMasterCount > 0) main.SendToAll(main.getLang(lang.ShapeMasterInfoLong));
-                if(main.MadmateCount > 0) main.SendToAll(main.getLang(lang.MadmateInfoLong));
-                if(main.SKMadmateCount > 0) main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
-                if(main.MadGuardianCount > 0) main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
-                if(main.MadSnitchCount > 0) main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
-                if(main.JesterCount > 0) main.SendToAll(main.getLang(lang.JesterInfoLong));
-                if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
-                if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
-                if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
-                if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
-                if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
-                if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
-                if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                if(main.SyncButtonMode){ main.SendToAll(tr.getString("SyncButtonModeInfo")); }
+                if(main.RandomMapsMode) { main.SendToAll(tr.getString("RandomMapsModeInfo")); }
+                if(main.VampireCount > 0) main.SendToAll(getRoleName(CustomRoles.Vampire)+tr.getString("VampireInfoLong"));
+                if(main.BountyHunterCount > 0) main.SendToAll(getRoleName(CustomRoles.BountyHunter)+tr.getString("BountyHunterInfoLong"));
+                if(main.WitchCount > 0) main.SendToAll(getRoleName(CustomRoles.Witch)+tr.getString("WitchInfoLong"));
+                if(main.WarlockCount > 0) main.SendToAll(getRoleName(CustomRoles.Warlock)+tr.getString("WarlockInfoLong"));
+                if(main.SerialKillerCount > 0) main.SendToAll(getRoleName(CustomRoles.SerialKiller)+tr.getString("SerialKillerInfoLong"));
+                if(main.MafiaCount > 0) main.SendToAll(getRoleName(CustomRoles.Mafia)+tr.getString("MafiaInfoLong"));
+                if(main.ShapeMasterCount > 0) main.SendToAll(getRoleName(CustomRoles.ShapeMaster)+tr.getString("ShapeMasterInfoLong"));
+                if(main.MadmateCount > 0) main.SendToAll(getRoleName(CustomRoles.Madmate)+tr.getString("MadmateInfoLong"));
+                if(main.SKMadmateCount > 0) main.SendToAll(getRoleName(CustomRoles.SKMadmate)+tr.getString("SKMadmateInfoLong"));
+                if(main.MadGuardianCount > 0) main.SendToAll(getRoleName(CustomRoles.MadGuardian)+tr.getString("MadGuardianInfoLong"));
+                if(main.MadSnitchCount > 0) main.SendToAll(getRoleName(CustomRoles.MadSnitch)+tr.getString("MadSnitchInfoLong"));
+                if(main.JesterCount > 0) main.SendToAll(getRoleName(CustomRoles.Jester)+tr.getString("JesterInfoLong"));
+                if(main.TerroristCount > 0) main.SendToAll(getRoleName(CustomRoles.Terrorist)+tr.getString("TerroristInfoLong"));
+                if(main.OpportunistCount > 0) main.SendToAll(getRoleName(CustomRoles.Opportunist)+tr.getString("OpportunistInfoLong"));
+                if(main.BaitCount > 0) main.SendToAll(getRoleName(CustomRoles.Bait)+tr.getString("BaitInfoLong"));
+                if(main.MayorCount > 0) main.SendToAll(getRoleName(CustomRoles.Mayor)+tr.getString("MayorInfoLong"));
+                if(main.SabotageMasterCount > 0) main.SendToAll(getRoleName(CustomRoles.SabotageMaster)+tr.getString("SabotageMasterInfoLong"));
+                if(main.SheriffCount > 0) main.SendToAll(getRoleName(CustomRoles.Sheriff)+tr.getString("SheriffInfoLong"));
+                if(main.SnitchCount > 0) main.SendToAll(getRoleName(CustomRoles.Snitch)+tr.getString("SnitchInfoLong"));
             }
-            if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
+            if(main.NoGameEnd){ main.SendToAll(tr.getString("NoGameEndInfo")); }
         }
 
         public static void ShowActiveSettings()
@@ -408,7 +407,7 @@ namespace TownOfHost
                 if(main.TrollCount > 0 ) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
                 main.SendToAll(text);
                 text = "設定:";
-                text += main.getLang(lang.HideAndSeek);
+                text += tr.getString("HideAndSeek");
             }else{
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
@@ -431,40 +430,41 @@ namespace TownOfHost
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
                 main.SendToAll(text);
                 text = "設定:";
-                if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
+                if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",tr.getString("VampireKillDelay"),main.VampireKillDelay);
                 if(main.SabotageMasterCount > 0)
                 {
-                    if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterSkillLimit),main.SabotageMasterSkillLimit);
-                    if(main.SabotageMasterFixesDoors) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesDoors),getOnOff(main.SabotageMasterFixesDoors));
-                    if(main.SabotageMasterFixesReactors) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesReactors),getOnOff(main.SabotageMasterFixesReactors));
-                    if(main.SabotageMasterFixesOxygens) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesOxygens),getOnOff(main.SabotageMasterFixesOxygens));
-                    if(main.SabotageMasterFixesCommunications) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesCommunications),getOnOff(main.SabotageMasterFixesCommunications));
-                    if(main.SabotageMasterFixesElectrical) text += String.Format("\n{0}:{1}",main.getLang(lang.SabotageMasterFixesElectrical),getOnOff(main.SabotageMasterFixesElectrical));
+                    if(main.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterSkillLimit"),main.SabotageMasterSkillLimit);
+                    if(main.SabotageMasterFixesDoors) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterFixesDoors"),getOnOff(main.SabotageMasterFixesDoors));
+                    if(main.SabotageMasterFixesReactors) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterFixesReactors"),getOnOff(main.SabotageMasterFixesReactors));
+                    if(main.SabotageMasterFixesOxygens) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterFixesOxygens"),getOnOff(main.SabotageMasterFixesOxygens));
+                    if(main.SabotageMasterFixesCommunications) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterFixesCommunications"),getOnOff(main.SabotageMasterFixesCommunications));
+                    if(main.SabotageMasterFixesElectrical) text += String.Format("\n{0}:{1}",tr.getString("SabotageMasterFixesElectrical"),getOnOff(main.SabotageMasterFixesElectrical));
                 }
                 if (main.SheriffCount > 0)
                 {
-                    text += String.Format("\n{0}:{1}",main.getLang(lang.SheriffKillCooldown),main.SheriffKillCooldown);
-                    if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillJester), getOnOff(main.SheriffCanKillJester));
-                    if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillTerrorist), getOnOff(main.SheriffCanKillTerrorist));
-                    if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillOpportunist), getOnOff(main.SheriffCanKillOpportunist));
-                    if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", main.getLang(lang.SheriffCanKillMadmate), getOnOff(main.SheriffCanKillMadmate));
+                    if (main.SheriffCount > 0) text += String.Format("\n{0}:{1}",tr.getString("SheriffKillCooldown"),main.SheriffKillCooldown);
+                    if (main.SheriffCanKillJester) text += String.Format("\n{0}:{1}", tr.getString("SheriffCanKillJester"), getOnOff(main.SheriffCanKillJester));
+                    if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", tr.getString("SheriffCanKillTerrorist"), getOnOff(main.SheriffCanKillTerrorist));
+                    if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", tr.getString("SheriffCanKillOpportunist"), getOnOff(main.SheriffCanKillOpportunist));
+                    if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", tr.getString("SheriffCanKillMadmate"), getOnOff(main.SheriffCanKillMadmate));
+                    if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", tr.getString("MadmateCanFixComms"), getOnOff(main.MadmateCanFixComms));
                 }
                 if(main.MadGuardianCount > 0 || main.MadSnitchCount > 0 || main.MadmateCount > 0 || main.SKMadmateCount > 0)
                 {
-                    if(main.MadmateVisionAsImpostor) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateVisionAsImpostor),getOnOff(main.MadmateVisionAsImpostor));
-                    if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
-                    if(main.MadmateCanFixComms) text += String.Format("\n{0}:{1}", main.getLang(lang.MadmateCanFixComms), getOnOff(main.MadmateCanFixComms));
+                    if(main.MadmateVisionAsImpostor) text += String.Format("\n{0}:{1}",tr.getString("MadmateVisionAsImpostor"),getOnOff(main.MadmateVisionAsImpostor));
+                    if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",tr.getString("MadmateCanFixLightsOut"),getOnOff(main.MadmateCanFixLightsOut));
+                    if(main.MadmateCanFixComms) text += String.Format("\n{0}:{1}", tr.getString("MadmateCanFixComms"), getOnOff(main.MadmateCanFixComms));
                 }
                 if(main.MadGuardianCount > 0)
                 {
-                    if(main.MadGuardianCanSeeWhoTriedToKill) text += String.Format("\n{0}:{1}",main.getLang(lang.MadGuardianCanSeeWhoTriedToKill),getOnOff(main.MadGuardianCanSeeWhoTriedToKill));
+                    if(main.MadGuardianCanSeeWhoTriedToKill) text += String.Format("\n{0}:{1}",tr.getString("MadGuardianCanSeeWhoTriedToKill"),getOnOff(main.MadGuardianCanSeeWhoTriedToKill));
                 }
-                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",main.getLang(lang.MadSnitchTasks),main.MadSnitchTasks);
-                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.MayorAdditionalVote),main.MayorAdditionalVote);
-                if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",main.getLang(lang.SyncedButtonCount),main.SyncedButtonCount);
-                if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenSkipVote),main.whenSkipVote);
-                if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",main.getLang(lang.WhenNonVote),main.whenNonVote);
-                if((main.whenNonVote == VoteMode.Suicide || main.whenSkipVote == VoteMode.Suicide) && main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.CanTerroristSuicideWin),main.canTerroristSuicideWin);
+                if(main.MadSnitchCount > 0)text += String.Format("\n{0}:{1}",tr.getString("MadSnitchTasks"),main.MadSnitchTasks);
+                if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",tr.getString("MayorAdditionalVote"),main.MayorAdditionalVote);
+                if(main.SyncButtonMode) text += String.Format("\n{0}:{1}",tr.getString("SyncedButtonCount"),main.SyncedButtonCount);
+                if(main.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",tr.getString("WhenSkipVote"),main.whenSkipVote);
+                if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",tr.getString("WhenNonVote"),main.whenNonVote);
+                if((main.whenNonVote == VoteMode.Suicide || main.whenSkipVote == VoteMode.Suicide) && main.TerroristCount > 0) text += String.Format("\n{0}:{1}",tr.getString("CanTerroristSuicideWin"),main.canTerroristSuicideWin);
             }
             if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
             main.SendToAll(text);
@@ -781,8 +781,8 @@ namespace TownOfHost
                     SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
-                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
-                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeSpell);
+                    if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + tr.getString("WitchModeKill");
+                    if(seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + tr.getString("WitchModeSpell");
                 }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む

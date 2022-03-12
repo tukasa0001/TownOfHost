@@ -68,16 +68,16 @@ MayorInfoLong,(Crewmates):\n票を複数持っており、まとめて一人ま�
 SabotageMasterInfoLong,(Crewmates):\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有),(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
 SheriffInfoLong,(Crewmates):\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,(Crewmates):\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。,(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
-FoxInfoLong,(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
-TrollInfoLong,(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。,(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。
+FoxInfoLong,(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,(鬼ごっこ):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+TrollInfoLong,(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。,(鬼ごっこ):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。
 HideAndSeek,HideAndSeek,鬼ごっこ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
 RandomMapsMode,RandomMapsMode,ランダムマップモード
-HideAndSeekInfo,HideAndSeek:会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。クルーは青、インポスターは赤になる。(設定有),HideAndSeek:会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
-NoGameEndInfo,NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。,NoGameEnd:勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。
-SyncButtonModeInfo,SyncButtonMode:プレイヤー全員のボタン回数が同期されているモード。(設定有),ボタン回数同期モード:プレイヤー全員のボタン回数が同期されているモード。(設定有)
-RandomMapsModeInfo,RandomMapsMode:ランダムにマップが変わるモード。(設定有),ランダムマップモード:ランダムにマップが変わるモード。(設定有)
+HideAndSeekInfo,HideAndSeek:\n会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。クルーは青、インポスターは赤になる。(設定有),鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+NoGameEndInfo,NoGameEnd:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。
+SyncButtonModeInfo,SyncButtonMode:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+RandomMapsModeInfo,RandomMapsMode:\nランダムにマップが変わるモード。(設定有),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
 AdvancedRoleOptions,Advanced Options,詳細設定
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
@@ -94,7 +94,7 @@ SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターを�
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
-HideAndSeekOptions,HideAndSeek Options,HideAndSeekの設定
+HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
@@ -102,7 +102,7 @@ ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマス
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
 IgnoreCosmetics,Ignore Cosmetics,装飾品を禁止する
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
-HideAndSeekRoles,HideAndSeek Roles,HideAndSeekの役職
+HideAndSeekRoles,HideAndSeek Roles,鬼ごっこの役職
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回)
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
