@@ -2,6 +2,7 @@ using Hazel;
 using HarmonyLib;
 using System.Linq;
 using System;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -88,22 +89,22 @@ namespace TownOfHost
                                 {
                                     case "hideandseek":
                                     case "has":
-                                        main.SendToAll(main.tr.getString("HideAndSeekInfo"));
+                                        main.SendToAll(getString("HideAndSeekInfo"));
                                         break;
 
                                     case "nogameend":
                                     case "nge":
-                                        main.SendToAll(main.tr.getString("NoGameEndInfo"));
+                                        main.SendToAll(getString("NoGameEndInfo"));
                                         break;
 
                                     case "syncbuttonmode":
                                     case "sbm":
-                                        main.SendToAll(main.tr.getString("SyncButtonModeInfo"));
+                                        main.SendToAll(getString("SyncButtonModeInfo"));
                                         break;
 
                                     case "randommapsmode":
                                     case "rmm":
-                                        main.SendToAll(main.tr.getString("RandomMapsModeInfo"));
+                                        main.SendToAll(getString("RandomMapsModeInfo"));
                                         break;
 
                                     default:
@@ -145,107 +146,107 @@ namespace TownOfHost
             {
                 case "jester":
                 case "je":
-                    main.SendToAll(main.tr.getString("JesterInfoLong"));
+                    main.SendToAll(getString("JesterInfoLong"));
                     break;
 
                 case "madmate":
                 case "mm":
-                    main.SendToAll(main.tr.getString("MadmateInfoLong"));
+                    main.SendToAll(getString("MadmateInfoLong"));
                     break;
 
                 case "sidekickmadmate":
                 case "sm":
-                    main.SendToAll(main.tr.getString("SKMadmateInfoLong"));
+                    main.SendToAll(getString("SKMadmateInfoLong"));
                     break;
 
                 case "bait":
                 case "ba":
-                    main.SendToAll(main.tr.getString("BaitInfoLong"));
+                    main.SendToAll(getString("BaitInfoLong"));
                     break;
 
                 case "terrorist":
                 case "te":
-                    main.SendToAll(main.tr.getString("TerroristInfoLong"));
+                    main.SendToAll(getString("TerroristInfoLong"));
                     break;
 
                 case "mafia":
                 case "mf":
-                    main.SendToAll(main.tr.getString("MafiaInfoLong"));
+                    main.SendToAll(getString("MafiaInfoLong"));
                     break;
 
                 case "vampire":
                 case "va":
-                    main.SendToAll(main.tr.getString("VampireInfoLong"));
+                    main.SendToAll(getString("VampireInfoLong"));
                     break;
 
                 case "sabotagemaster":
                 case "sa":
-                    main.SendToAll(main.tr.getString("SabotageMasterInfoLong"));
+                    main.SendToAll(getString("SabotageMasterInfoLong"));
                     break;
 
                 case "mayor":
                 case "my":
-                    main.SendToAll(main.tr.getString("MayorInfoLong"));
+                    main.SendToAll(getString("MayorInfoLong"));
                     break;
 
                 case "madguardian":
                 case "mg":
-                    main.SendToAll(main.tr.getString("MadGuardianInfoLong"));
+                    main.SendToAll(getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    main.SendToAll(main.tr.getString("MadSnitchInfoLong"));
+                    main.SendToAll(getString("MadSnitchInfoLong"));
                     break;
 
                 case "opportunist":
                 case "op":
-                    main.SendToAll(main.tr.getString("OpportunistInfoLong"));
+                    main.SendToAll(getString("OpportunistInfoLong"));
                     break;
 
                 case "snitch":
                 case "sn":
-                    main.SendToAll(main.tr.getString("SnitchInfoLong"));
+                    main.SendToAll(getString("SnitchInfoLong"));
                     break;
 
                 case "sheriff":
                 case "sh":
-                    main.SendToAll(main.tr.getString("SheriffInfoLong"));
+                    main.SendToAll(getString("SheriffInfoLong"));
                     break;
 
                 case "bountyhunter":
                 case "bo":
-                    main.SendToAll(main.tr.getString("BountyHunterInfoLong"));
+                    main.SendToAll(getString("BountyHunterInfoLong"));
                     break;
                 
                 case "witch":
                 case "wi":
-                    main.SendToAll(main.tr.getString("WitchInfoLong"));
+                    main.SendToAll(getString("WitchInfoLong"));
                     break;
 
                 case "shapemaster":
                 case "sha":
-                    main.SendToAll(main.tr.getString("ShapeMasterInfoLong"));
+                    main.SendToAll(getString("ShapeMasterInfoLong"));
                     break;
                 
                 case "warlock":
                 case "wa":
-                    main.SendToAll(main.tr.getString("WarlockInfoLong"));
+                    main.SendToAll(getString("WarlockInfoLong"));
                     break;
 
                 case "serialkiller":
                 case "sk":
-                    main.SendToAll(main.tr.getString("SerialKillerInfoLong"));
+                    main.SendToAll(getString("SerialKillerInfoLong"));
                     break;
 
                 case "fox":
                 case "fo":
-                    main.SendToAll(main.tr.getString("FoxInfoLong"));
+                    main.SendToAll(getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    main.SendToAll(main.tr.getString("TrollInfoLong"));
+                    main.SendToAll(getString("TrollInfoLong"));
                     break;
 
                 default:

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -34,7 +35,7 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             __instance.RoleText.text = main.getRoleName(role);
-            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.tr.getString(info);
+            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = getString(info);
             __instance.RoleText.color = main.getRoleColor(role);
             __instance.RoleBlurbText.color = main.getRoleColor(role);
 
