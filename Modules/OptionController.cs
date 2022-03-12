@@ -48,7 +48,7 @@ namespace TownOfHost
 
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, () => main.tr.getString("AdvancedRoleOptions"));
-            var AdvImpostorRoleOptions = new PageObject(AdvRoleOptions, () => main.tr.getString("AdvancedImposterRoleOptions"));
+            var AdvImpostorRoleOptions = new PageObject(AdvRoleOptions, () => main.tr.getString("AdvancedImpostorRoleOptions"));
 
             var BountyTargetChangeTime = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.tr.getString("BountyTargetChangeTime")}</color>(s): {main.BountyTargetChangeTime}{main.TextCursor}", true, () => {main.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref main.BountyTargetChangeTime, n, 999));
             var BountySuccessKillCoolDown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{main.tr.getString("BountySuccessKillCoolDown")}</color>(s): {main.BountySuccessKillCoolDown}{main.TextCursor}", true, () => {main.BountySuccessKillCoolDown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCoolDown, n, 999));
