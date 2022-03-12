@@ -68,11 +68,11 @@ namespace TownOfHost {
                         Logger.info($"Redirect to English: {res}");
                         return res;
                     }else{
-                        return $"<INVALID STRING:{s}>";
+                        return $"<INVALID:{s}>";
                     }
                 }
             } else {
-                return $"<INVALID STRING:{s}>";
+                return $"<INVALID:{s}>";
             }
         }
     }
