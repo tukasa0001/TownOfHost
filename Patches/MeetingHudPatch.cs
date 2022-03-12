@@ -1,17 +1,8 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using System.Linq;
-using Il2CppSystem.Linq;
-using Hazel;
 
 namespace TownOfHost
 {
@@ -113,7 +104,7 @@ namespace TownOfHost
 
             //霊界用暗転バグ対処
             foreach(var pc in PlayerControl.AllPlayerControls)
-                if(pc.isSheriff() && pc.Data.IsDead) pc.ResetPlayerCam(17.5f);
+                if(pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
             
             return false;
 
@@ -156,7 +147,7 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             main.witchMeeting = true;
-            main.NotifyRoles();
+            main.NotifyRoles(isMeeting:true);
             main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
@@ -169,6 +160,7 @@ namespace TownOfHost
                 roleTextMeeting.fontSize = 1.5f;
                 roleTextMeeting.text = "RoleTextMeeting";
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
+                roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled = false;
             }
             if (main.SyncButtonMode)
@@ -176,6 +168,53 @@ namespace TownOfHost
                 if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
                 main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+            }
+
+            if (AmongUsClient.Instance.AmHost)
+            {
+                _ = new LateTask(() =>
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        pc.RpcSetName(pc.getRealName(isMeeting: true));
+                    }
+                }, 3f, "SetName To Chat");
+            }
+
+            foreach(var pva in __instance.playerStates) {
+                if(pva == null) continue;
+                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                if(pc == null) continue;
+
+                //会議画面での名前変更
+                //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
+                //変更する場合でも、このコードはMadSnitchで使うと思うので消さないでください。
+
+                //インポスター表示
+                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
+                    LocalPlayerKnowsImpostor = true;
+                
+                if(LocalPlayerKnowsImpostor) {
+                    if(pc != null && pc.getCustomRole().isImpostor()) //変更先がインポスター
+                        //変更対象の名前を赤くする
+                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                }
+
+                if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                pc.isSnitch() && //変更対象がSnitch
+                pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
+                ) {
+                    //変更対象にSnitchマークをつける
+                    pva.NameText.text += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+
+                //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+
+                //自分自身の名前の色を変更
+                if(pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
+                    pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
             }
         }
     }
@@ -187,19 +226,20 @@ namespace TownOfHost
             if(AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
             foreach (var pva in __instance.playerStates)
             {
+                if(pva == null) continue;
+                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                if(pc == null) continue;
+
+                //役職表示系
                 var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
                 TMPro.TextMeshPro RoleTextMeeting = null;
                 if(RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if (RoleTextMeeting != null)
                 {
-                    var pc = PlayerControl.AllPlayerControls.ToArray()
-                        .Where(pc => pc.PlayerId == pva.TargetPlayerId)
-                        .FirstOrDefault();
-                    if (pc == null) return;
 
                     var RoleTextData = main.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc.Data.Tasks) + ")</color>";
+                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
