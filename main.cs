@@ -534,9 +534,9 @@ namespace TownOfHost
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
-        public static int BountySuccessKillCoolDown;
+        public static int BountySuccessKillCooldown;
         public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
-        public static int BountyFailureKillCoolDown;
+        public static int BountyFailureKillCooldown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -631,8 +631,8 @@ namespace TownOfHost
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
             writer.Write(BountyTargetChangeTime);
-            writer.Write(BountySuccessKillCoolDown);
-            writer.Write(BountyFailureKillCoolDown);
+            writer.Write(BountySuccessKillCooldown);
+            writer.Write(BountyFailureKillCooldown);
             writer.Write(BHDefaultKillCooldown);
             writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -917,8 +917,8 @@ namespace TownOfHost
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
-            BountySuccessKillCoolDown = 2;
-            BountyFailureKillCoolDown = 50;
+            BountySuccessKillCooldown = 2;
+            BountyFailureKillCooldown = 50;
             BHDefaultKillCooldown = 30;
             ShapeMasterShapeshiftDuration = 10;
 

@@ -104,8 +104,8 @@ namespace TownOfHost
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
                     int BountyTargetChangeTime = reader.ReadInt32();
-                    int BountySuccessKillCoolDown = reader.ReadInt32();
-                    int BountyFailureKillCoolDown = reader.ReadInt32();
+                    int BountySuccessKillCooldown = reader.ReadInt32();
+                    int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
@@ -153,8 +153,8 @@ namespace TownOfHost
                         SerialKillerCooldown,
                         SerialKillerLimit,
                         BountyTargetChangeTime,
-                        BountySuccessKillCoolDown,
-                        BountyFailureKillCoolDown,
+                        BountySuccessKillCooldown,
+                        BountyFailureKillCooldown,
                         BHDefaultKillCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
@@ -269,8 +269,8 @@ namespace TownOfHost
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
-                int BountySuccessKillCoolDown,
-                int BountyFailureKillCoolDown,
+                int BountySuccessKillCooldown,
+                int BountyFailureKillCooldown,
                 int BHDefaultKillCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
@@ -345,8 +345,8 @@ namespace TownOfHost
             main.SerialKillerCooldown = SerialKillerCooldown;
             main.SerialKillerLimit = SerialKillerLimit;
             main.BountyTargetChangeTime = BountyTargetChangeTime;
-            main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;
-            main.BountyFailureKillCoolDown = BountyFailureKillCoolDown;
+            main.BountySuccessKillCooldown = BountySuccessKillCooldown;
+            main.BountyFailureKillCooldown = BountyFailureKillCooldown;
             main.BHDefaultKillCooldown = BHDefaultKillCooldown;
             main.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
