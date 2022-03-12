@@ -125,14 +125,6 @@ namespace TownOfHost
             count = SetRoleCount(count, addCount);
             SetCountFromRole(role, count);
         }
-        //Lang-Get
-        //langのenumに対応した値をリストから持ってくる
-        public static string getLang(lang lang)
-        {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
-            var isSuccess = dic.TryGetValue(lang, out var text);
-            return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
-        }
         public static string getRoleName(CustomRoles role) {
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
             JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
@@ -472,7 +464,7 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = getLang(lang.LastResult);
+            var text = tr.getString("LastResult");
             Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
             foreach(var id in winnerList)
             {

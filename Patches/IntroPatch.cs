@@ -8,33 +8,33 @@ namespace TownOfHost
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
     class SetUpRoleTextPatch {
-        static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
-            {CustomRoles.Jester, lang.JesterInfo},
-            {CustomRoles.Madmate, lang.MadmateInfo},
-            {CustomRoles.SKMadmate, lang.SKMadmateInfo},
-            {CustomRoles.Bait, lang.BaitInfo},
-            {CustomRoles.Terrorist, lang.TerroristInfo},
-            {CustomRoles.Mafia, lang.MafiaInfo},
-            {CustomRoles.Vampire, lang.VampireInfo},
-            {CustomRoles.SabotageMaster, lang.SabotageMasterInfo},
-            {CustomRoles.MadGuardian, lang.MadGuardianInfo},
-            {CustomRoles.MadSnitch, lang.MadSnitchInfo},
-            {CustomRoles.Mayor, lang.MayorInfo},
-            {CustomRoles.Opportunist, lang.OpportunistInfo},
-            {CustomRoles.Snitch, lang.SnitchInfo},
-            {CustomRoles.Sheriff, lang.SheriffInfo},
-            {CustomRoles.BountyHunter, lang.BountyHunterInfo},
-            {CustomRoles.Witch, lang.WitchInfo},
-            {CustomRoles.ShapeMaster, lang.ShapeMasterInfo},
-            {CustomRoles.Warlock, lang.WarlockInfo},
-            {CustomRoles.SerialKiller, lang.SerialKillerInfo},
-            {CustomRoles.Fox, lang.FoxInfo},
-            {CustomRoles.Troll, lang.TrollInfo}
+        static Dictionary<CustomRoles, string> RoleAndInfo = new Dictionary<CustomRoles, string>() {
+            {CustomRoles.Jester, "JesterInfo"},
+            {CustomRoles.Madmate, "MadmateInfo"},
+            {CustomRoles.SKMadmate, "SKMadmateInfo"},
+            {CustomRoles.Bait, "BaitInfo"},
+            {CustomRoles.Terrorist, "TerroristInfo"},
+            {CustomRoles.Mafia, "MafiaInfo"},
+            {CustomRoles.Vampire, "VampireInfo"},
+            {CustomRoles.SabotageMaster, "SabotageMasterInfo"},
+            {CustomRoles.MadGuardian, "MadGuardianInfo"},
+            {CustomRoles.MadSnitch, "MadSnitchInfo"},
+            {CustomRoles.Mayor, "MayorInfo"},
+            {CustomRoles.Opportunist, "OpportunistInfo"},
+            {CustomRoles.Snitch, "SnitchInfo"},
+            {CustomRoles.Sheriff, "SheriffInfo"},
+            {CustomRoles.BountyHunter, "BountyHunterInfo"},
+            {CustomRoles.Witch, "WitchInfo"},
+            {CustomRoles.ShapeMaster, "ShapeMasterInfo"},
+            {CustomRoles.Warlock, "WarlockInfo"},
+            {CustomRoles.SerialKiller, "SerialKillerInfo"},
+            {CustomRoles.Fox, "FoxInfo"},
+            {CustomRoles.Troll, "TrollInfo"}
         };
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             __instance.RoleText.text = main.getRoleName(role);
-            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.getLang(info);
+            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.tr.getString(info);
             __instance.RoleText.color = main.getRoleColor(role);
             __instance.RoleBlurbText.color = main.getRoleColor(role);
 

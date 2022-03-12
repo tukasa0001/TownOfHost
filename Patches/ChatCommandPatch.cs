@@ -88,22 +88,22 @@ namespace TownOfHost
                                 {
                                     case "hideandseek":
                                     case "has":
-                                        main.SendToAll(main.getLang(lang.HideAndSeekInfo));
+                                        main.SendToAll(main.tr.getString("HideAndSeekInfo"));
                                         break;
 
                                     case "nogameend":
                                     case "nge":
-                                        main.SendToAll(main.getLang(lang.NoGameEndInfo));
+                                        main.SendToAll(main.tr.getString("NoGameEndInfo"));
                                         break;
 
                                     case "syncbuttonmode":
                                     case "sbm":
-                                        main.SendToAll(main.getLang(lang.SyncButtonModeInfo));
+                                        main.SendToAll(main.tr.getString("SyncButtonModeInfo"));
                                         break;
 
                                     case "randommapsmode":
                                     case "rmm":
-                                        main.SendToAll(main.getLang(lang.RandomMapsModeInfo));
+                                        main.SendToAll(main.tr.getString("RandomMapsModeInfo"));
                                         break;
 
                                     default:
@@ -145,107 +145,107 @@ namespace TownOfHost
             {
                 case "jester":
                 case "je":
-                    main.SendToAll(main.getLang(lang.JesterInfoLong));
+                    main.SendToAll(main.tr.getString("JesterInfoLong"));
                     break;
 
                 case "madmate":
                 case "mm":
-                    main.SendToAll(main.getLang(lang.MadmateInfoLong));
+                    main.SendToAll(main.tr.getString("MadmateInfoLong"));
                     break;
 
                 case "sidekickmadmate":
                 case "sm":
-                    main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
+                    main.SendToAll(main.tr.getString("SKMadmateInfoLong"));
                     break;
 
                 case "bait":
                 case "ba":
-                    main.SendToAll(main.getLang(lang.BaitInfoLong));
+                    main.SendToAll(main.tr.getString("BaitInfoLong"));
                     break;
 
                 case "terrorist":
                 case "te":
-                    main.SendToAll(main.getLang(lang.TerroristInfoLong));
+                    main.SendToAll(main.tr.getString("TerroristInfoLong"));
                     break;
 
                 case "mafia":
                 case "mf":
-                    main.SendToAll(main.getLang(lang.MafiaInfoLong));
+                    main.SendToAll(main.tr.getString("MafiaInfoLong"));
                     break;
 
                 case "vampire":
                 case "va":
-                    main.SendToAll(main.getLang(lang.VampireInfoLong));
+                    main.SendToAll(main.tr.getString("VampireInfoLong"));
                     break;
 
                 case "sabotagemaster":
                 case "sa":
-                    main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
+                    main.SendToAll(main.tr.getString("SabotageMasterInfoLong"));
                     break;
 
                 case "mayor":
                 case "my":
-                    main.SendToAll(main.getLang(lang.MayorInfoLong));
+                    main.SendToAll(main.tr.getString("MayorInfoLong"));
                     break;
 
                 case "madguardian":
                 case "mg":
-                    main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
+                    main.SendToAll(main.tr.getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
+                    main.SendToAll(main.tr.getString("MadSnitchInfoLong"));
                     break;
 
                 case "opportunist":
                 case "op":
-                    main.SendToAll(main.getLang(lang.OpportunistInfoLong));
+                    main.SendToAll(main.tr.getString("OpportunistInfoLong"));
                     break;
 
                 case "snitch":
                 case "sn":
-                    main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                    main.SendToAll(main.tr.getString("SnitchInfoLong"));
                     break;
 
                 case "sheriff":
                 case "sh":
-                    main.SendToAll(main.getLang(lang.SheriffInfoLong));
+                    main.SendToAll(main.tr.getString("SheriffInfoLong"));
                     break;
 
                 case "bountyhunter":
                 case "bo":
-                    main.SendToAll(main.getLang(lang.BountyHunterInfoLong));
+                    main.SendToAll(main.tr.getString("BountyHunterInfoLong"));
                     break;
                 
                 case "witch":
                 case "wi":
-                    main.SendToAll(main.getLang(lang.WitchInfoLong));
+                    main.SendToAll(main.tr.getString("WitchInfoLong"));
                     break;
 
                 case "shapemaster":
                 case "sha":
-                    main.SendToAll(main.getLang(lang.ShapeMasterInfoLong));
+                    main.SendToAll(main.tr.getString("ShapeMasterInfoLong"));
                     break;
                 
                 case "warlock":
                 case "wa":
-                    main.SendToAll(main.getLang(lang.WarlockInfoLong));
+                    main.SendToAll(main.tr.getString("WarlockInfoLong"));
                     break;
 
                 case "serialkiller":
                 case "sk":
-                    main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
+                    main.SendToAll(main.tr.getString("SerialKillerInfoLong"));
                     break;
 
                 case "fox":
                 case "fo":
-                    main.SendToAll(main.getLang(lang.FoxInfoLong));
+                    main.SendToAll(main.tr.getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    main.SendToAll(main.getLang(lang.TrollInfoLong));
+                    main.SendToAll(main.tr.getString("TrollInfoLong"));
                     break;
 
                 default:
