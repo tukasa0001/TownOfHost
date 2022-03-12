@@ -49,7 +49,6 @@ namespace TownOfHost {
             {
                 if(dic.TryGetValue((int)langId,out res))
                 {
-                    Logger.info($"LangID:{(int)langId}->{res}");
                     return res;
                 } else {
                     if(dic.TryGetValue(0,out res))
