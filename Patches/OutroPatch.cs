@@ -99,7 +99,7 @@ namespace TownOfHost
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
-                    if(role == CustomRoles.Default) {
+                    if(role == CustomRoles.Crewmate) {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                         if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
@@ -142,7 +142,7 @@ namespace TownOfHost
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
-            string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+            string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Crewmate);
 
             switch(main.currentWinner) {
                 //通常勝利
@@ -151,8 +151,8 @@ namespace TownOfHost
                     CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
                     break;
                 case CustomWinner.Crewmate:
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Default)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Crewmate)}";
+                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Crewmate);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:

@@ -197,7 +197,7 @@ namespace TownOfHost
                             if(!main.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
                             else {
                                 //HideAndSeek中
-                                if(role == CustomRoles.Default) numTotalAlive++;
+                                if(role == CustomRoles.Crewmate) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 

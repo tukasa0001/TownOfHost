@@ -289,7 +289,7 @@ namespace TownOfHost
                 default:
                     switch (hRole)
                     {
-                        case CustomRoles.Default:
+                        case CustomRoles.Crewmate:
                             text = "Crewmate";
                             color = Color.white;
                             break;
@@ -962,7 +962,7 @@ namespace TownOfHost
             try {
 
             roleColors = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "#ffffff"},
+                {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
@@ -1018,7 +1018,7 @@ namespace TownOfHost
         }
     }
     public enum CustomRoles {
-        Default = 0,
+        Crewmate = 0,
         Engineer,
         Scientist,
         Impostor,
