@@ -1,19 +1,8 @@
-using System.Diagnostics;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Linq;
-using InnerNet;
 
 namespace TownOfHost {
     [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
@@ -90,7 +79,7 @@ namespace TownOfHost {
             {CustomRoles.Impostor, RoleTypes.Impostor},
             {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
             {CustomRoles.Mafia, RoleTypes.Shapeshifter},
-            {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.BountyHunter, RoleTypes.Shapeshifter},
             {CustomRoles.Witch, RoleTypes.Impostor},
             {CustomRoles.Warlock, RoleTypes.Shapeshifter},
             {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},

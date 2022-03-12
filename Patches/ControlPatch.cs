@@ -1,28 +1,19 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using Hazel;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Linq;
 using InnerNet;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.Update))]
+    [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class DebugManager
     {
         static System.Random random = new System.Random();
         static PlayerControl bot;
-        public static void Postfix(KeyboardJoystick __instance)
+        public static void Postfix(ControllerManager __instance)
         {
+
+            //##ホスト専用コマンド##
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
@@ -44,7 +35,7 @@ namespace TownOfHost
                 main.ShowActiveRoles();
             }
             //====================
-            // テスト用キーコマンド
+            //##テスト用キーコマンド##
             // | キー | 条件 | 動作 |
             // | ---- | ---- | ---- |
             // | X | フリープレイ中 | キルクール0 |
@@ -159,7 +150,7 @@ namespace TownOfHost
             }*/
             //マスゲーム用コード終わり
 
-
+            //##カスタム設定コマンド##
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
@@ -185,16 +176,38 @@ namespace TownOfHost
                 {
                     CustomOptionController.Return();
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha0)) CustomOptionController.Input(0);
-                if (Input.GetKeyDown(KeyCode.Alpha1)) CustomOptionController.Input(1);
-                if (Input.GetKeyDown(KeyCode.Alpha2)) CustomOptionController.Input(2);
-                if (Input.GetKeyDown(KeyCode.Alpha3)) CustomOptionController.Input(3);
-                if (Input.GetKeyDown(KeyCode.Alpha4)) CustomOptionController.Input(4);
-                if (Input.GetKeyDown(KeyCode.Alpha5)) CustomOptionController.Input(5);
-                if (Input.GetKeyDown(KeyCode.Alpha6)) CustomOptionController.Input(6);
-                if (Input.GetKeyDown(KeyCode.Alpha7)) CustomOptionController.Input(7);
-                if (Input.GetKeyDown(KeyCode.Alpha8)) CustomOptionController.Input(8);
-                if (Input.GetKeyDown(KeyCode.Alpha9)) CustomOptionController.Input(9);
+                if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)) CustomOptionController.Input(0);
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) CustomOptionController.Input(1);
+                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) CustomOptionController.Input(2);
+                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) CustomOptionController.Input(3);
+                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)) CustomOptionController.Input(4);
+                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5)) CustomOptionController.Input(5);
+                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6)) CustomOptionController.Input(6);
+                if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7)) CustomOptionController.Input(7);
+                if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8)) CustomOptionController.Input(8);
+                if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9)) CustomOptionController.Input(9);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
+    class ConsoleJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(ConsoleJoystick.player);
+        }
+    }
+    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
+    class KeyboardJoystickHandleHUDPatch {
+        public static void Postfix() {
+            HandleHUDPatch.Postfix(KeyboardJoystick.player);
+        }
+    }
+    class HandleHUDPatch {
+        public static void Postfix(Rewired.Player player) {
+            if(player.GetButtonDown(8) && 
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
+            PlayerControl.LocalPlayer.isSheriff()) {
+                DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
         }
     }

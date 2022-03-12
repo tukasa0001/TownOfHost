@@ -1,17 +1,9 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using Hazel;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using System.Threading.Tasks;
-using System.Threading;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -23,6 +15,14 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
+            if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
+            {
+                main.ps.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+            }
+            else
+            {
+                main.ps.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+            }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
@@ -30,6 +30,18 @@ namespace TownOfHost
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
+            //BountyHunter
+            if(__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
+            {
+                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+                if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
+                    main.isBountyKillSuccess = true;//キルクール減少処理に変換
+                    main.CustomSyncAllSettings();//キルクール処理を同期
+                    main.isTargetKilled.Remove(__instance.PlayerId);
+                    main.isTargetKilled.Add(__instance.PlayerId, true);
+                }
+            }
+            if(__instance.isVampire() && main.BountyHunterCount > 0)main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
@@ -87,8 +99,7 @@ namespace TownOfHost
                         mpdistance.Add(p,dis);
                     }
                 }
-                //対象が見つかった時のみ処理
-                if (mpdistance.Count() != 0)
+                if(mpdistance.Count() != 0)
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
@@ -114,12 +125,22 @@ namespace TownOfHost
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
+
             if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
+
+            if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
+                Logger.info("キルをブロックしました。");
+                return false;
+            }
+
+            main.BlockKilling[__instance.PlayerId] = true;
+
             if (__instance.isMafia())
             {
                 if (!CustomRoles.Mafia.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
+                    main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 } else {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
@@ -131,28 +152,28 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 main.SerialKillerTimer.Remove(__instance.PlayerId);
                 main.SerialKillerTimer.Add(__instance.PlayerId,0f);
+                return false;
             }
             if(__instance.isSheriff()) {
-                if(__instance.Data.IsDead) return false;
+                if(__instance.Data.IsDead) {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+
                 if(!target.canBeKilledBySheriff()) {
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
             }
             if(target.isMadGuardian()) {
-                var isTaskFinished = true;
-                foreach(var task in target.Data.Tasks) {
-                    if(!task.Complete) {
-                        isTaskFinished = false;
-                        break;
-                    }
-                }
-                if(isTaskFinished) {
-                    __instance.RpcGuardAndKill(target);
-                    if(main.MadGuardianCanSeeBarrier) {
-                        //MadGuardian視点用
-                        target.RpcGuardAndKill(target);
-                    }
+                var taskState = target.getPlayerTaskState();
+                if(taskState.isTaskFinished) {
+                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
+                    if(main.MadGuardianCanSeeWhoTriedToKill)
+                        NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                    
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    main.NotifyRoles();
                     return false;
                 }
             }
@@ -193,19 +214,10 @@ namespace TownOfHost
                 return false;
             }
 
+
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
-
-            //BountyHunter
-            if(__instance.isBountyHunter()) {
-                if(target == __instance.getBountyTarget()) {
-                    __instance.RpcGuardAndKill(target);
-                    __instance.ResetBountyTarget();
-                }
-            }
-
-
             return false;
         }
     }
@@ -216,6 +228,7 @@ namespace TownOfHost
         {
             if (main.IsHideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
+            main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
             if (target != null)
             {
@@ -338,13 +351,48 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                //バウハンのキルクールの変換とターゲットのリセット
+                if(main.BountyTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if(main.BountyTimer[__instance.PlayerId] >= main.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
+                    {
+                        main.BountyMeetingCheck = false;
+                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                        main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                    }
+                    if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
+                    {
+                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
+                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimerCheck = true;
+                        main.isTargetKilled.Remove(__instance.PlayerId);
+                        main.isTargetKilled.Add(__instance.PlayerId, false);
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
+                        main.BountyTimerCheck = false;
+                        main.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
+                    }
+                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
+                        main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
+                        main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
+                        main.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
+                    }
+                    else//時間を計る処理
+                    {
+                        main.BountyTimer[__instance.PlayerId] =
+                        (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
 
                 if(__instance.AmOwner) main.ApplySuffix();
                 if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             //役職テキストの表示
-            //TODO:この辺のコードのせいでTOH表示とかが消される
             var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
@@ -365,7 +413,7 @@ namespace TownOfHost
                     if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
                 }
                 if (main.VisibleTasksCount && main.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance.Data)})</color>"; //ロールの横にタスク表示
+                    RoleText.text += $" <color=#e6b422>({main.getTaskText(__instance)})</color>"; //ロールの横にタスク表示
                 
 
                 //変数定義
@@ -376,20 +424,30 @@ namespace TownOfHost
                 //名前変更
                 RealName = __instance.getRealName();
 
-                //タスクを終わらせたMadSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
-                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    PlayerControl.LocalPlayer.getPlayerTaskState().CompletedTasksCount == main.MadSnitchTasks) //LocalPlayerのタスクが終わっている
-                {
-                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
-                }
 
-                //タスクを終わらせたSnitchがインポスターを確認できる
-                if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                //名前色変更処理
+                //自分自身の名前の色を変更
+                if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
+                    RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                }
+                //タスクを終わらせたMadSnitchがインポスターを確認できる
+                else if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
                     RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+                //タスクを終わらせたSnitchがインポスターを確認できる
+                else if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                {
+                    RealName = $"<color={main.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                }
+                else
+                {//NameColorManager準拠の処理
+                    var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
+                    RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
@@ -409,6 +467,10 @@ namespace TownOfHost
                         }
                     }
                 }
+
+                /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
+                    Mark = isBlocked ? "(true)" : "(false)";
+                }*/
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";

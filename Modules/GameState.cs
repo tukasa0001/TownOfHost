@@ -1,16 +1,4 @@
-using System.Linq;
-using System.Globalization;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
-using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
 
 namespace TownOfHost {
     public class PlayerState {
@@ -37,6 +25,7 @@ namespace TownOfHost {
             Vote,
             Suicide, 
             Revenge,
+            Spell,
             etc = -1
         }
     }

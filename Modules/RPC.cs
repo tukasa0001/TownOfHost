@@ -1,17 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using Hazel;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -25,6 +14,9 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        AddNameColorData,
+        RemoveNameColorData,
+        ResetNameColorData
     }
     public enum Sounds
     {
@@ -90,9 +82,11 @@ namespace TownOfHost
                     bool SabotageMasterFixesOxygens = reader.ReadBoolean();
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
+                    int SheriffKillCooldown = reader.ReadInt32();
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
+                    bool SheriffCanKillMadmate = reader.ReadBoolean();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -102,6 +96,7 @@ namespace TownOfHost
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
+                    bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
@@ -109,6 +104,10 @@ namespace TownOfHost
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
+                    int BountyTargetChangeTime = reader.ReadInt32();
+                    int BountySuccessKillCoolDown = reader.ReadInt32();
+                    int BountyFailureKillCoolDown = reader.ReadInt32();
+                    int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     bool RevengeOnNeutral = reader.ReadBoolean();
                     RPCProcedure.SyncCustomSettings(
@@ -149,11 +148,17 @@ namespace TownOfHost
                         SabotageMasterFixesOxygens,
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
+                        SheriffKillCooldown,
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
+                        SheriffCanKillMadmate,
                         SerialKillerCooldown,
                         SerialKillerLimit,
+                        BountyTargetChangeTime,
+                        BountySuccessKillCoolDown,
+                        BountyFailureKillCoolDown,
+                        BHDefaultKillCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -164,6 +169,7 @@ namespace TownOfHost
                         HaSKillDelay,
                         IgnoreVent,
                         MadmateCanFixLightsOut,
+                        MadmateCanFixComms,
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
@@ -203,6 +209,20 @@ namespace TownOfHost
                     byte playerId = reader.ReadByte();
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
+                    break;
+                case (byte)CustomRPC.AddNameColorData:
+                    byte addSeerId = reader.ReadByte();
+                    byte addTargetId = reader.ReadByte();
+                    string color = reader.ReadString();
+                    RPCProcedure.AddNameColorData(addSeerId, addTargetId, color);
+                    break;
+                case (byte)CustomRPC.RemoveNameColorData:
+                    byte removeSeerId = reader.ReadByte();
+                    byte removeTargetId = reader.ReadByte();
+                    RPCProcedure.RemoveNameColorData(removeSeerId, removeTargetId);
+                    break;
+                case (byte)CustomRPC.ResetNameColorData:
+                    RPCProcedure.ResetNameColorData();
                     break;
             }
         }
@@ -246,11 +266,17 @@ namespace TownOfHost
                 bool SabotageMasterFixesOxygens,
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
+                int SheriffKillCooldown,
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
+                bool SheriffCanKillMadmate,
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
+                int BountyTargetChangeTime,
+                int BountySuccessKillCoolDown,
+                int BountyFailureKillCoolDown,
+                int BHDefaultKillCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -261,6 +287,7 @@ namespace TownOfHost
                 int HaSKillDelay,
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
+                bool MadmateCanFixComms,
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
@@ -316,12 +343,18 @@ namespace TownOfHost
             main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
             main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
+            main.SheriffKillCooldown = SheriffKillCooldown;
             main.SheriffCanKillJester = SheriffCanKillJester;
             main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+            main.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
             main.SerialKillerCooldown = SerialKillerCooldown;
             main.SerialKillerLimit = SerialKillerLimit;
+            main.BountyTargetChangeTime = BountyTargetChangeTime;
+            main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;
+            main.BountyFailureKillCoolDown = BountyFailureKillCoolDown;
+            main.BHDefaultKillCooldown = BHDefaultKillCooldown;
             main.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
             main.SyncButtonMode = SyncButtonMode;
@@ -336,9 +369,11 @@ namespace TownOfHost
             main.IgnoreVent = IgnoreVent;
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
+            main.MadmateCanFixComms = MadmateCanFixComms;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
-            main.MadGuardianCanSeeBarrier = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             main.MadSnitchTasks = MadSnitchTasks;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
@@ -363,16 +398,11 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                Task task = Task.Run(() =>
-                {
-                    Thread.Sleep(100);
-                    foreach (var imp in Impostors)
-                    {
-                        imp.RpcSetRole(RoleTypes.GuardianAngel);
-                    }
-                    Thread.Sleep(100);
-                    main.CustomWinTrigger = true;
-                });
+                foreach (var imp in Impostors) {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
             }
         }
         public static void TerroristWin(byte terroristID)
@@ -391,12 +421,11 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var imp in Impostors)
-                {
+                foreach (var imp in Impostors) {
                     imp.RpcSetRole(RoleTypes.GuardianAngel);
                 }
-                Thread.Sleep(100);
-                main.CustomWinTrigger = true;
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
             }
         }
         public static void EndGame()
@@ -423,6 +452,16 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role) {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
+        }
+
+        public static void AddNameColorData(byte seerId, byte targetId, string color) {
+            NameColorManager.Instance.Add(seerId, targetId, color);
+        }
+        public static void RemoveNameColorData(byte seerId, byte targetId) {
+            NameColorManager.Instance.Remove(seerId, targetId);
+        }
+        public static void ResetNameColorData() {
+            NameColorManager.Begin();
         }
     }
 }
