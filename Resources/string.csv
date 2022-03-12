@@ -49,35 +49,35 @@ SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TrollInfo,Die to win,自爆しよう
-BountyHunterInfoLong,(Impostors):\n最初に誰かをキルしようとするとターゲットが表示される。表示されたターゲットをキルするとキルクールが半分になる。その他の人をキルしてもキルクールはそのまま維持される。,(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
-SerialKillerInfoLong,(Impostors):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます,(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます
-ShapeMasterInfoLong,(Impostors):\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。,(インポスター陣営):\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。
-VampireInfoLong,(Impostors):\nキルボタンを押してから一定秒数経って実際にキルが発生する役職。キルをしたときのテレポートは発生せず、キルボタンを押してから設定された秒数が経つまでに会議が始まるとその瞬間にキルが発生する。(設定有),(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
-WarlockInfoLong,(Impostors):\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。,(インポスター陣営):\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。
-WitchInfoLong,(Impostors):\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。,(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
-MafiaInfoLong,(Impostors):\n初期状態でベントやサボタージュ、変身は可能だが、キルはできない。MafiaではないImpostorが全員死亡すると、Mafiaもキルが可能となる。,(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
-MadmateInfoLong,(Impostors):\nインポスター陣営に属するが、Impostorが誰なのかはわからない。ImpostorからもMadmateが誰なのかはわからない。キルやサボタージュは使えないが、通気口を使うことができる。,(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
-MadGuardianInfoLong,(Impostors):\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadGuardianが誰なのかはわからないが、タスクを完了させるとキルされなくなる。キルやサボタージュ、通気口は使えない。(設定有),(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
-MadSnitchInfoLong,(Impostors):\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。,(インポスター陣営):\nインポスター陣営に属するが、誰が仲間かはわからない。ImpostorからもMadSnitchが誰なのかはわからない。タスクを完了させるとインポスターの名前が赤色に変化する。\nベントに入ることができないが、Impostorと視界の範囲が同じになっている。
-SKMadmateInfoLong,(Impostors):\n変身した際に一番近かった人がなれる役職。タスクはない。,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
-JesterInfoLong,(Impostors):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
-TerroristInfoLong,(Neutrals):\n自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職。死因はキルと追放のどちらでもよい。タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北する。,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
-OpportunistInfoLong,(Neutrals):\nゲーム終了時に生き残っていれば追加勝利となる第三陣営の役職。タスクはない。,(第三陣営):\n試合終了時に生存していれば追加勝利となる。
-BaitInfoLong,(Crewmates):\nキルされたときに、自分をキルした人に強制的に自分の死体を通報させることができる。,(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
-MayorInfoLong,(Crewmates):\n票を複数持っており、まとめて一人またはスキップに入れることができる。(設定有),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
-SabotageMasterInfoLong,(Crewmates):\n原子炉メルトダウンや酸素妨害、MIRA HQの通信妨害は片方を修理すれば両方が直る。停電は一箇所のレバーに触れると全て直る。ドアを開けるとその部屋の全てのドアが開く。(設定有),(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
-SheriffInfoLong,(Crewmates):\n人外をキルすることができるが、Crewmatesをキルしようとすると自爆してしまう役職。タスクはない。,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
-SnitchInfoLong,(Crewmates):\nタスクを完了させると人外の名前が赤色に変化する。Snitchのタスクが少なくなると人外からSnitchの名前が変わって見える。,(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
-FoxInfoLong,(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,(鬼ごっこ):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
-TrollInfoLong,(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。,(鬼ごっこ):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。
+BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other imposters,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
+ShapeMasterInfoLong,"(Impostors):\nImposters specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
+VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
+WarlockInfoLong,"(Impostors):\nWhen he transforms, the curse is placed on the nearest person.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you curse someone, you cannot get a normal kill.\nThe cursed person is marked at the next meeting and dies after the meeting.",(インポスター陣営):\n変身すると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n誰かを呪った場合、普通のキルはできない。呪われた人は次の会議でマークがつき、会議後に死ぬ。
+WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
+MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the imposter.\nimposter and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
+MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the imposter.\nUnrecognizable to the Imposter and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
+MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the imposter.\nThey cannot recognize the Imposter and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
+SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
+JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
+TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
+BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
+MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them all together into one person or skip. (with settings),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
+SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
+SheriffInfoLong,(Crewmates):\nThe imposter camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
+SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the imposter's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the imposter is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
+FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 HideAndSeek,HideAndSeek,鬼ごっこ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
 RandomMapsMode,RandomMapsMode,ランダムマップモード
-HideAndSeekInfo,HideAndSeek:\n会議を開くことはできず、Crewmateはタスク完了、Impostorは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。クルーは青、インポスターは赤になる。(設定有),鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
-NoGameEndInfo,NoGameEnd:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L以外でのゲーム終了ができない。
-SyncButtonModeInfo,SyncButtonMode:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
-RandomMapsModeInfo,RandomMapsMode:\nランダムにマップが変わるモード。(設定有),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand imposters can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
+SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
 AdvancedRoleOptions,Advanced Options,詳細設定
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
