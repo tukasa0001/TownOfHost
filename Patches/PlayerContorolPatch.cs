@@ -152,6 +152,7 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 main.SerialKillerTimer.Remove(__instance.PlayerId);
                 main.SerialKillerTimer.Add(__instance.PlayerId,0f);
+                return false;
             }
             if(__instance.isSheriff()) {
                 if(__instance.Data.IsDead) {
