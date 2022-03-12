@@ -39,13 +39,6 @@ namespace TownOfHost
         public static Translator tr = new Translator();
 
         public static LanguageUnit EnglishLang {get; private set;}
-        //Lang-arrangement
-        private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
-        private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
-        private static Dictionary<PlayerState.DeathReason, string> JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(); 
-        private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
-        private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
-        private static Dictionary<PlayerState.DeathReason, string> EnglishDeathReason = new Dictionary<PlayerState.DeathReason, string>();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -132,9 +125,7 @@ namespace TownOfHost
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseDeathReason : EnglishDeathReason;
-            var isSuccess = dic.TryGetValue(status, out var text);
-            return isSuccess ? text : "<Not Found:" + status.ToString() + ">";
+            return tr.getString(Enum.GetName(typeof(DeathReason),status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -458,7 +449,7 @@ namespace TownOfHost
                 if(main.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",tr.getString("WhenNonVote"),main.whenNonVote);
                 if((main.whenNonVote == VoteMode.Suicide || main.whenSkipVote == VoteMode.Suicide) && main.TerroristCount > 0) text += String.Format("\n{0}:{1}",tr.getString("CanTerroristSuicideWin"),main.canTerroristSuicideWin);
             }
-            if(main.NoGameEnd)text += String.Format("\n{0,-14}",lang.NoGameEnd);
+            if(main.NoGameEnd)text += String.Format("\n{0}:{1}",tr.getString("NoGameEnd"),getOnOff(main.NoGameEnd));;
             main.SendToAll(text);
         }
 
@@ -1025,139 +1016,6 @@ namespace TownOfHost
                 EnglishLang = new LanguageUnit(english);
             }
         }
-    }
-    //Lang-enum
-    public enum lang
-    {
-        //役職解説(短)
-        JesterInfo = 0,
-        MadmateInfo,
-        SKMadmateInfo,
-        BaitInfo,
-        TerroristInfo,
-        MafiaInfo,
-        BeforeMafiaInfo,
-        AfterMafiaInfo,
-        VampireInfo,
-        SabotageMasterInfo,
-        MadGuardianInfo,
-        MadSnitchInfo,
-        MayorInfo,
-        OpportunistInfo,
-        SnitchInfo,
-        SheriffInfo,
-        BountyHunterInfo,
-        WitchInfo,
-        ShapeMasterInfo,
-        WarlockInfo,
-        SerialKillerInfo,
-        FoxInfo,
-        TrollInfo,
-        //役職解説(長)
-        JesterInfoLong,
-        MadmateInfoLong,
-        SKMadmateInfoLong,
-        BaitInfoLong,
-        TerroristInfoLong,
-        MafiaInfoLong,
-        VampireInfoLong,
-        SabotageMasterInfoLong,
-        MadGuardianInfoLong,
-        MadSnitchInfoLong,
-        MayorInfoLong,
-        OpportunistInfoLong,
-        SnitchInfoLong,
-        SheriffInfoLong,
-        BountyHunterInfoLong,
-        WitchInfoLong,
-        ShapeMasterInfoLong,
-        WarlockInfoLong,
-        SerialKillerInfoLong,
-        FoxInfoLong,
-        TrollInfoLong,
-        //モード名
-        HideAndSeek,
-        SyncButtonMode,
-        NoGameEnd,
-        DisableTasks,
-        RandomMapsMode,
-        //モード解説
-        HideAndSeekInfo,
-        SyncButtonModeInfo,
-        NoGameEndInfo,
-        RandomMapsModeInfo,
-        //オプション項目
-        AdvancedRoleOptions,
-        AdvancedImposterRoleOptions,
-        AdvancedCrewmateRoleOptions,
-        AdvancedNeutralRoleOptions,
-        VampireKillDelay,
-        MadmateCanFixLightsOut,
-        MadmateCanFixComms,
-        CanMakeMadmateCount,
-        MadmateVisionAsImpostor,
-        MadGuardianCanSeeWhoTriedToKill,
-        MadSnitchTasks,
-        SabotageMasterFixesDoors,
-        SabotageMasterSkillLimit,
-        SabotageMasterFixesReactors,
-        SabotageMasterFixesOxygens,
-        SabotageMasterFixesCommunications,
-        SabotageMasterFixesElectrical,
-        SheriffKillCooldown,
-        SheriffCanKillJester,
-        SheriffCanKillTerrorist,
-        SheriffCanKillOpportunist,
-        SheriffCanKillMadmate,
-        MayorAdditionalVote,
-        SerialKillerCooldown,
-        SerialKillerLimit,
-        BountyTargetChangeTime,
-        BountySuccessKillCoolDown,
-        BountyFailureKillCoolDown,
-        BHDefaultKillCooldown,
-        ShapeMasterShapeshiftDuration,
-        HideAndSeekOptions,
-        AllowCloseDoors,
-        HideAndSeekWaitingTime,
-        IgnoreCosmetics,
-        IgnoreVent,
-        HideAndSeekRoles,
-        SyncedButtonCount,
-        DisableSwipeCardTask,
-        DisableSubmitScanTask,
-        DisableUnlockSafeTask,
-        DisableUploadDataTask,
-        DisableStartReactorTask,
-        DisableResetBreakerTask,
-        SuffixMode,
-        WhenSkipVote,
-        WhenNonVote,
-        AddedTheSkeld,
-        AddedMIRAHQ,
-        AddedPolus,
-        AddedDleks,
-        AddedTheAirShip,
-        //その他
-        WitchCurrentMode,
-        WitchModeKill,
-        WitchModeSpell,
-        BountyCurrentTarget,
-        RoleOptions,
-        ModeOptions,
-        ForceJapanese,
-        AutoDisplayLastResult,
-        LastResult,
-        VoteMode,
-        Default,
-        Suicide,
-        SelfVote,
-        CanTerroristSuicideWin,
-        commandError,
-        InvalidArgs,
-        ON,
-        OFF,
-        Win,
     }
     public enum CustomRoles {
         Default = 0,
