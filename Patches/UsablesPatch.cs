@@ -1,14 +1,4 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using Hazel;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -33,6 +23,15 @@ namespace TownOfHost
         public static void Postfix(EmergencyMinigame __instance)
         {
             if (main.IsHideAndSeek) __instance.Close();
+        }
+    }
+    [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
+    class CanUseVentPatch {
+        public static void Postfix([HarmonyArgument(0)] GameData.PlayerInfo pc, 
+        [HarmonyArgument(1)] ref bool canUse,
+        [HarmonyArgument(2)] ref bool couldUse) {
+            if(pc.Object.isSheriff())
+                canUse = couldUse = false;
         }
     }
 }

@@ -1,16 +1,7 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using Hazel;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using System.Threading.Tasks;
-using System.Threading;
+using System.Linq;
+using System;
 
 namespace TownOfHost
 {
@@ -25,12 +16,13 @@ namespace TownOfHost
             var cancelVal = "";
             if (AmongUsClient.Instance.AmHost)
             {
-                switch(args[0])
+                main.isChatCommand = true;
+                switch (args[0])
                 {
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendToAll(main.winnerList);
+                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -133,6 +125,7 @@ namespace TownOfHost
                             break;
 
                     default:
+                        main.isChatCommand = false;
                         break;
                 }
             }
@@ -286,6 +279,31 @@ namespace TownOfHost
                     writer.Write(msg);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    class AddChatPatch
+    {
+        public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
+        {
+            if(!AmongUsClient.Instance.AmHost) return;
+            switch(chatText)
+            {
+                case "/banhost":
+                    if(main.PluginVersionType == VersionTypes.Beta && !(main.BanTimestamp.Value == -1 && main.AmDebugger.Value))
+                    {
+                        Logger.info("プレイヤーからBANされました");
+                        main.BanTimestamp.Value = (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks)/10000000);
+                        AmongUsClient.Instance.KickPlayer(AmongUsClient.Instance.ClientId, true);
+                    }
+                    break;
+                case "/version":
+                    main.SendToAll($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
+                    break;
+                default:
+                    break;
             }
         }
     }

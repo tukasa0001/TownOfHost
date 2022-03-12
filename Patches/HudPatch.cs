@@ -1,14 +1,7 @@
-using System.Diagnostics;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -126,8 +119,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getLang(lang.SnitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Sheriff:
-                    TaskTextPrefix = "<color=#ffff00>" + main.getRoleName(CustomRoles.Sheriff) + "</color>\r\n" +
-                    "<color=#ffff00>" + main.getLang(lang.SheriffInfo) + "</color>\r\n";
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{main.getRoleName(CustomRoles.Sheriff)}\r\n{main.getLang(lang.SheriffInfo)}</color>\r\n";
                     if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
@@ -238,7 +230,23 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
                     break;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
+    class ShowNormalMapPatch {
+        public static void Prefix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
+                PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+            }
+        }
+
+        public static void Postfix(ref RoleTeamTypes __state) {
+            if(PlayerControl.LocalPlayer.isSheriff()) {
+                PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
             }
         }
     }

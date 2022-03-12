@@ -1,16 +1,8 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace TownOfHost
 {
@@ -76,27 +68,37 @@ namespace TownOfHost
                     case SystemTypes.Reactor:
                         if(!main.SabotageMasterFixesReactors) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
+                            main.SabotageMasterUsedSkillCount++;
                         }
-                        main.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Laboratory:
                         if(!main.SabotageMasterFixesReactors) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
-                        main.SabotageMasterUsedSkillCount++;
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         break;
                     case SystemTypes.LifeSupp:
                         if(!main.SabotageMasterFixesOxygens) break;
                         if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
-                        if(amount == 64) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
-                        if(amount == 65) ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
-                        main.SabotageMasterUsedSkillCount++;
+                        if(amount == 64 || amount == 65)
+                        {
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
+                            ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
+                            main.SabotageMasterUsedSkillCount++;
+                        }
                         break;
                     case SystemTypes.Comms:
                         if(!main.SabotageMasterFixesCommunications) break;
@@ -141,12 +143,17 @@ namespace TownOfHost
                0 <= amount && amount <= 4 && //配電盤操作のamount
                (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
                 return false;
+            if (!main.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
+                systemType == SystemTypes.Comms && //システムタイプが通信室
+                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
+                return false;
             if(player.isSheriff()) {
-                if(player.Data.IsDead) return false; //死んだSheriffには何もさせない
                 if(systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
-            main.CustomSyncAllSettings();
             return true;
+        }
+        public static void Postfix(ShipStatus __instance) {
+            main.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
             var Ids = new List<int>();
@@ -181,7 +188,6 @@ namespace TownOfHost
                     main.SabotageMasterUsedSkillCount++;
                 }
             }
-            main.CustomSyncAllSettings();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]

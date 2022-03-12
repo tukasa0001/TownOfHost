@@ -1,20 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
-using System.Linq;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
-using Il2CppSystem.Collections.Generic;
-using Il2CppSystem.Linq;
-using Il2CppSystem;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace TownOfHost
 {
@@ -38,7 +24,22 @@ namespace TownOfHost
             {
                 // Reset lobby countdown timer
                 timer = 600f;
-                lobbyCodehide = $"<color={main.modColor}>Town Of Host</color>";
+
+                // Make Public Button
+                if(main.PluginVersionType == VersionTypes.Beta) {
+                    __instance.MakePublicButton.color = Palette.DisabledClear;
+                    __instance.privatePublicText.color = Palette.DisabledClear;
+                }
+
+                if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
+                {
+                    new LateTask(() =>
+                    {
+                        main.isChatCommand = true;
+                        main.ShowLastRoles();
+                    }
+                        , 5f, "DisplayLastRoles");
+                }
             }
         }
 
@@ -49,13 +50,22 @@ namespace TownOfHost
             private static string currentText = "";
             public static void Prefix(GameStartManager __instance)
             {
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return; // Not host or no instance
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
             {
                 // Lobby code
-                if (main.HideCodes.Value) lobbyCodehide = $"<color={main.modColor}>Town Of Host</color>";
+                string htmlValue = main.HideColor.Value;
+                Color newCol;
+                if (main.HideCodes.Value)
+                {
+                    if (ColorUtility.TryParseHtmlString(htmlValue, out newCol))
+                    {
+                        lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
+                    }
+                    else lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                }
                 else lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer

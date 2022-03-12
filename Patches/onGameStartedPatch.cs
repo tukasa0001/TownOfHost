@@ -1,14 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using Hazel;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -30,6 +22,8 @@ namespace TownOfHost
             main.FirstCursedCheck = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
 
+            main.IgnoreReportPlayers = new List<byte>();
+
             main.ps = new PlayerState();
 
             main.SpelledPlayer = new List<PlayerControl>();
@@ -43,6 +37,9 @@ namespace TownOfHost
             main.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
+            main.BlockKilling = new Dictionary<byte, bool>();
+
+            NameColorManager.Instance.RpcReset();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
@@ -97,6 +94,7 @@ namespace TownOfHost
                         //ただしホスト、お前はDesyncするな。
                         sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                         foreach(var pc in PlayerControl.AllPlayerControls) {
+                            if(pc == sheriff) continue;
                             sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                             pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                         }
@@ -228,7 +226,13 @@ namespace TownOfHost
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
-                main.lastAllPlayerCustomRoles = main.AllPlayerCustomRoles;
+
+                //名前の記録
+                main.AllPlayerNames = new ();
+                foreach (var pair in main.AllPlayerCustomRoles)
+                {
+                    main.AllPlayerNames.Add(pair.Key,main.RealNames[pair.Key]);
+                }
 
                 HudManager.Instance.SetHudActive(true);
                 main.KillOrSpell = new Dictionary<byte, bool>();
@@ -261,6 +265,7 @@ namespace TownOfHost
 
                 //サーバーの役職判定をだます
                 new LateTask(() => {
+                    if(AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                     foreach(var pc in PlayerControl.AllPlayerControls) {
                         pc.RpcSetRole(RoleTypes.Shapeshifter);
                     }
@@ -279,7 +284,7 @@ namespace TownOfHost
             if(count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
             for(var i = 0; i < count; i++) {
-                var player = players[rand.Next(0, players.Count - 1)];
+                var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
