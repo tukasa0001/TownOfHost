@@ -2,16 +2,15 @@ using System.Text.RegularExpressions;
 using System;
 using System.IO;
 using System.Collections.Generic;
-
 namespace TownOfHost {
     public class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
         public Translator()
         {
-            Logger.info("Langage Dictionary Initalize...");
+            Logger.info("Langage Dictionary Initialize...");
             load();
-            Logger.info("Langage Dictionary Initalize Finished");
+            Logger.info("Langage Dictionary Initialize Finished");
         }
         public void load()
         {
@@ -26,12 +25,25 @@ namespace TownOfHost {
             {
                 string line = sr.ReadLine();
                 string[] values = line.Split(',');
+                List<string> fields = new List<string>(values);
                 Dictionary<int, string> tmp = new Dictionary<int, string>();
-                for(var i=1; i < values.Length; i++)
+                for(var i=0;i<fields.Count;++i) 
                 {
-                    tmp.Add(Int32.Parse(header[i]),values[i].Replace("\\n","\n"));
+                    if(fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
+                    {
+                        while (fields[i].TrimEnd()[fields[i].TrimEnd().Length - 1] != '"')
+                        {
+                            fields[i] = fields[i] + "," + fields[i + 1];
+                            fields.RemoveAt(i + 1);
+                        }
+                    }
                 }
-                tr.Add(values[0],tmp);
+                for(var i=1; i < fields.Count; i++)
+                {
+                    var tmp_str = fields[i].Replace("\\n","\n").Trim('"');
+                    tmp.Add(Int32.Parse(header[i]),tmp_str);
+                }
+                tr.Add(fields[0],tmp);
             }
         }
 
