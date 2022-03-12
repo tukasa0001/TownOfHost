@@ -20,7 +20,7 @@ namespace TownOfHost
         public List<NameColorData> NameColors;
         public NameColorData DefaultData;
 
-        public List<NameColorData> GetDatasBySeer(byte seerId)
+        public List<NameColorData> GetDataBySeer(byte seerId)
             => NameColors.Where(data => data.seerId == seerId).ToList();
         
         public NameColorData GetData(byte seerId, byte targetId) {
