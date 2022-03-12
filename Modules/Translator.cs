@@ -3,16 +3,16 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 namespace TownOfHost {
-    public class Translator
+    public static class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
-        public Translator()
+        static Translator()
         {
             Logger.info("Langage Dictionary Initialize...");
-            load();
+            loadLangs();
             Logger.info("Langage Dictionary Initialize Finished");
         }
-        public void load()
+        public static void loadLangs()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream("TownOfHost.Resources.string.csv");
@@ -47,14 +47,14 @@ namespace TownOfHost {
             }
         }
 
-        public string getString(string s)
+        public static string getString(string s)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.CurrentLanguage.languageID : SupportedLangs.English; 
             if(main.forceJapanese) langId = SupportedLangs.Japanese;
             return getString(s,langId);
         }
 
-        public string getString(string s,SupportedLangs langId)
+        public static string getString(string s,SupportedLangs langId)
         {
             var res = "";
             if(tr.TryGetValue(s,out var dic))
