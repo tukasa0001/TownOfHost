@@ -8,9 +8,9 @@ namespace TownOfHost {
         public static Dictionary<string, Dictionary<int, string>> tr;
         static Translator()
         {
-            Logger.info("Langage Dictionary Initialize...");
+            Logger.info("Language Dictionary Initialize...");
             load();
-            Logger.info("Langage Dictionary Initialize Finished");
+            Logger.info("Language Dictionary Initialize Finished");
         }
         public static void load()
         {
@@ -26,7 +26,8 @@ namespace TownOfHost {
                 string line = sr.ReadLine();
                 string[] values = line.Split(',');
                 List<string> fields = new List<string>(values);
-                Dictionary<int, string> tmp = new Dictionary<int, string>();                for(var i=0;i<fields.Count;++i) 
+                Dictionary<int, string> tmp = new Dictionary<int, string>();
+                for(var i=0;i<fields.Count;++i) 
                 {
                     if(fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                     {
