@@ -74,9 +74,9 @@ namespace TownOfHost {
             }
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) {
-            main.SetRoleCount(role, num);
-        }
+        public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
+        public static int getCount(this CustomRoles role) => Options.getRoleCount(role);
+        public static bool isEnable(this CustomRoles role) => Options.getRoleCount(role) > 0;
     }
     public enum IntroTypes {
         Crewmate,
