@@ -1,0 +1,146 @@
+id,0,11
+Crewmate,Crewmate,クルーメイト
+Engineer,Engineer,エンジニア
+Scientist,Scientist,科学者
+GuardianAngel,GuardianAngel,守護天使
+Impostor,Impostor,インポスター
+Shapeshifter,Shapeshifter,シェイプシフター
+BountyHunter,BountyHunter,バウンティハンター
+SerialKiller,SerialKiller,シリアルキラー
+ShapeMaster,ShapeMaster,シェイプマスター
+Vampire,Vampire,ヴァンパイア
+Warlock,Warlock,ウォーロック
+Witch,Witch,ウィッチ
+Mafia,Mafia,マフィア
+Madmate,Madmate,マッドメイト
+MadGuardian,MadGuardian,マッドガーディアン
+MadSnitch,MadSnitch,マッドスニッチ
+SKMadmate,SideKickMadmate,サイドキックマッドメイト
+Jester,Jester,ジェスター
+Terrorist,Terrorist,テロリスト
+Opportunist,Opportunist,オポチュニスト
+Bait,Bait,ベイト
+Mayor,Mayor,メイヤー
+SabotageMaster,SabotageMaster,サボタージュマスター
+Sheriff,Sheriff,シェリフ
+Snitch,Snitch,スニッチ
+Fox,Fox,狐
+Troll,Troll,トロール
+BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
+SerialKillerInfo,Keep killng to win,殺し続けて勝利を狙おう
+ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
+VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
+WarlockInfo,Curse and kill your enemies,敵を呪い殺そう
+WitchInfo,Spell your enemies,敵に魔術をかけよう
+MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう
+BeforeMafiaInfo,You can not kill now,今はキルをすることができない
+AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
+MadmateInfo,Help the Impostors,インポスターの援助をしよう
+MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
+MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
+SKMadmateInfo,You are Sidekick,サイドキックにされた
+JesterInfo,Get voted out,追放されよう
+OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
+TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
+BaitInfo,Bait your enemies,敵を罠にはめよう
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
+SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
+SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
+SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
+FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
+TrollInfo,Die to win,自爆しよう
+BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
+ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
+VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
+WarlockInfoLong,"(Impostors):\nWhen he transforms, the curse is placed on the nearest person.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you curse someone, you cannot get a normal kill.\nThe cursed person is marked at the next meeting and dies after the meeting.",(インポスター陣営):\n変身すると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n誰かを呪った場合、普通のキルはできない。呪われた人は次の会議でマークがつき、会議後に死ぬ。
+WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
+MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
+MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
+MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
+SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
+JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
+TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
+BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
+MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them all together into one person or skip. (with settings),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
+SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
+SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
+SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
+FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+HideAndSeek,HideAndSeek,鬼ごっこ
+NoGameEnd,NoGameEnd,ゲームを終了しない
+SyncButtonMode,SyncButtonMode,ボタン回数同期モード
+RandomMapsMode,RandomMapsMode,ランダムマップモード
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
+SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
+AdvancedRoleOptions,Advanced Options,詳細設定
+AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
+AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
+BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
+BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
+BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
+BHDefaultKillCooldown,Bounty Default Kill Cooldown,バウンティハンターのデフォルトのキルクール
+VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
+SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
+MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
+MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直すことができる
+MadmateVisionAsImpostor,Madmate vision is as long as Impostor one,マッドメイトの視野がインポスターと同じ
+CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
+MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
+MadGuardianCanSeeWhoTriedKill,MadGuardian Can See Who Tried Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
+SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
+SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
+SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
+SabotageMasterFixesCommunications,SabotageMaster Can Fixes Both Communications In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える
+SabotageMasterFixesElectrical,SabotageMaster Can Fixes Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える
+SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
+SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
+SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
+SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
+MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
+HideAndSeekOptions,HideAndSeek Options,HideAndSeekの設定
+AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
+SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
+SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
+ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
+IgnoreCosmetics,Ignore Cosmetics,装飾品を禁止する
+IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
+HideAndSeekRoles,HideAndSeek Roles,HideAndSeekの役職
+SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回)
+DisableTasks,Disable Tasks,タスクを無効化する
+DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
+DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
+DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスクを無効化する
+DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスクを無効化する
+DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスクを無効化する
+DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスクを無効化する
+AddedTheSkeld,Added TheSkeld,TheSkeldを追加
+AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
+AddedPolus,Added Polus,Polusを追加
+AddedDleks,Added Dleks,Dleksを追加
+AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+SuffixMode,Suffix,名前の二行目
+WhenSkipVote,When Skip Vote,スキップ時
+WhenNonVote,When Non-Vote,無投票時
+WitchCurrentMode,Current Mode,現在のモード
+WitchModeKill,Kill,キル
+WitchModeSpell,Spell,スペル
+BountyCurrentTarget,Current Target,現在のターゲット
+RoleOptions,Role Options,役職設定
+ModeOptions,Mode Options,モード設定
+ForceJapanese,Force Japanese,日本語に強制
+VoteMode,VoteMode,投票モード
+Default,Default,デフォルト
+Suicide,Suicide,切腹
+SelfVote,SelfVote,自投票
+CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
+commandError,Error:%1$,エラー:%1$
+InvalidArgs,Invalid Args,無効な引数
+ON,ON,ON
+OFF,OFF,OFF
