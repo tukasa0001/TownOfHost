@@ -305,7 +305,7 @@ namespace TownOfHost
                 default:
                     switch (hRole)
                     {
-                        case CustomRoles.Default:
+                        case CustomRoles.Crewmate:
                             text = "Crewmate";
                             color = Color.white;
                             break;
@@ -1009,7 +1009,7 @@ namespace TownOfHost
             try {
 
             roleColors = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "#ffffff"},
+                {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
@@ -1301,7 +1301,7 @@ namespace TownOfHost
                 {lang.Win, " Wins"},
             };
             EnglishRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Crewmate"},
+                {CustomRoles.Crewmate, "Crewmate"},
                 {CustomRoles.Engineer, "Engineer"},
                 {CustomRoles.Scientist, "Scientist"},
                 {CustomRoles.GuardianAngel, "GuardianAngel"},
@@ -1330,7 +1330,7 @@ namespace TownOfHost
                 {CustomRoles.Troll, "Troll"},
             };
             JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "クルー"},
+                {CustomRoles.Crewmate, "クルー"},
                 {CustomRoles.Engineer, "エンジニア"},
                 {CustomRoles.Scientist, "科学者"},
                 {CustomRoles.GuardianAngel, "守護天使"},
@@ -1535,7 +1535,7 @@ namespace TownOfHost
         Win,
     }
     public enum CustomRoles {
-        Default = 0,
+        Crewmate = 0,
         Engineer,
         Scientist,
         Impostor,
