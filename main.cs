@@ -1191,7 +1191,7 @@ namespace TownOfHost
                 {lang.WitchInfo, "Spell your enemies"},
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
-                {lang.SerialKillerInfo, "Keep killng to win"},
+                {lang.SerialKillerInfo, "Keep killing to win"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
