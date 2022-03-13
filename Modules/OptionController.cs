@@ -19,7 +19,7 @@ namespace TownOfHost
             currentPage = basePage;
 
             //ページ追加など
-            var RoleOptions = new PageObject(basePage, lang.RoleOptions);
+            var RoleOptions = new PageObject(basePage, () => getString("RoleOptions"));
             //役職数変更
             //陣営＞サイドキック＞アルファベット
             ///インポスター役職
@@ -48,8 +48,8 @@ namespace TownOfHost
 
 
             //役職の詳細設定
-            var AdvRoleOptions = new PageObject(RoleOptions, lang.AdvancedRoleOptions);
-            var AdvImpostorRoleOptions = new PageObject(AdvRoleOptions, lang.AdvancedImpostorRoleOptions);
+            var AdvRoleOptions = new PageObject(RoleOptions, () => getString("AdvancedRoleOptions"));
+            var AdvImpostorRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedImpostorRoleOptions"));
 
             var BountyTargetChangeTime = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyTargetChangeTime")}</color>(s): {main.BountyTargetChangeTime}{main.TextCursor}", true, () => {main.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref main.BountyTargetChangeTime, n, 999));
             var BountySuccessKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountySuccessKillCooldown")}</color>(s): {main.BountySuccessKillCooldown}{main.TextCursor}", true, () => {main.BountySuccessKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCooldown, n, 999));
@@ -66,7 +66,7 @@ namespace TownOfHost
             var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
             var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {main.MadSnitchTasks}{main.TextCursor}", true, () => { main.MadSnitchTasks = 0; }, (n) => main.ChangeInt(ref main.MadSnitchTasks, n, 99));
 
-            var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, lang.AdvancedCrewmateRoleOptions);
+            var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedCrewmateRoleOptions"));
             var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
             var SabotageMasterSkillLimit = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterSkillLimit")}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}", true, () => {main.SabotageMasterSkillLimit = 0;}, (n) => main.ChangeInt(ref main.SabotageMasterSkillLimit, n, 999));
             var SabotageMasterFixesDoors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesDoors")}</color>: {main.getOnOff(main.SabotageMasterFixesDoors)}", true, () => main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors);
@@ -80,14 +80,14 @@ namespace TownOfHost
             var SheriffCanKillOpportunist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillOpportunist")}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
 
             //Mode Options
-            var ModeOptions = new PageObject(basePage, lang.ModeOptions);
+            var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
             var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
-            var HideAndSeekOptions = new PageObject(ModeOptions, lang.HideAndSeekOptions);
+            var HideAndSeekOptions = new PageObject(ModeOptions, () => getString("HideAndSeekOptions"));
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
             var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + main.HideAndSeekKillDelay, true, () => {main.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref main.HideAndSeekKillDelay, i, 180));
             var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => getString("IgnoreCosmetics") + ": " + main.getOnOff(main.IgnoreCosmetics), true, () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;});
             var IgnoreVent = new PageObject(HideAndSeekOptions, () => getString("IgnoreVent") + ": " + main.getOnOff(main.IgnoreVent), true, () => {main.IgnoreVent = !main.IgnoreVent;});
-            var HideAndSeekRoles = new PageObject(HideAndSeekOptions, lang.HideAndSeekRoles);
+            var HideAndSeekRoles = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekRoles"));
             var Fox = new PageObject(HideAndSeekRoles, () => $"<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
                 true,
                 () => {
@@ -105,11 +105,11 @@ namespace TownOfHost
                 i => main.ChangeInt(ref main.TrollCount, i, GameData.Instance.AllPlayers.Count - main.FoxCount)
             );
 
-            var SyncButtonMode = new PageObject(ModeOptions, lang.SyncButtonMode);
+            var SyncButtonMode = new PageObject(ModeOptions, () => getString("SyncButtonMode"));
             var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => getString("SyncButtonMode") + ": " + main.getOnOff(main.SyncButtonMode), true, () => main.SyncButtonMode = !main.SyncButtonMode);
             var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + main.SyncedButtonCount + main.TextCursor, true, () => {main.SyncedButtonCount = 0;}, i => main.ChangeInt(ref main.SyncedButtonCount, i, 100));
 
-            var DisableTasks = new PageObject(ModeOptions, lang.DisableTasks);
+            var DisableTasks = new PageObject(ModeOptions, () => getString("DisableTasks"));
             var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + main.getOnOff(main.DisableSwipeCard), true, () => {main.DisableSwipeCard = !main.DisableSwipeCard;});
             var dSubmitScan = new PageObject(DisableTasks, () => getString("DisableSubmitScanTask") + ": " + main.getOnOff(main.DisableSubmitScan), true, () => {main.DisableSubmitScan = !main.DisableSubmitScan;});
             var dUnlockSafe = new PageObject(DisableTasks, () => getString("DisableUnlockSafeTask") + ": " + main.getOnOff(main.DisableUnlockSafe), true, () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;});
@@ -117,7 +117,7 @@ namespace TownOfHost
             var dStartReactor = new PageObject(DisableTasks, () => getString("DisableStartReactorTask") + ": " + main.getOnOff(main.DisableStartReactor), true, () => {main.DisableStartReactor = !main.DisableStartReactor;});
             var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + main.getOnOff(main.DisableResetBreaker), true, () => {main.DisableResetBreaker = !main.DisableResetBreaker;});
 
-            var RandomMapsMode = new PageObject(ModeOptions, lang.RandomMapsMode);
+            var RandomMapsMode = new PageObject(ModeOptions, () => getString("RandomMapsMode"));
             var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + main.getOnOff(main.RandomMapsMode), true, () => main.RandomMapsMode = !main.RandomMapsMode);
             var rmSkeld = new PageObject(RandomMapsMode, () => getString("AddedTheSkeld") + ": " + main.getOnOff(main.AddedTheSkeld), true, () => main.AddedTheSkeld = !main.AddedTheSkeld);
             var rmMiraHQ = new PageObject(RandomMapsMode, () => getString("AddedMIRAHQ") + ": " + main.getOnOff(main.AddedMIRAHQ), true, () => main.AddedMIRAHQ = !main.AddedMIRAHQ);
@@ -126,13 +126,13 @@ namespace TownOfHost
             var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + main.getOnOff(main.AddedTheAirShip), true, () => main.AddedTheAirShip = !main.AddedTheAirShip);
             var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + main.getOnOff(main.NoGameEnd), true, () => main.NoGameEnd = !main.NoGameEnd);
 
-            var voteMode = new PageObject(ModeOptions, lang.VoteMode);
-            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString("Default + (int")main.whenSkipVote), true, () => {
+            var voteMode = new PageObject(ModeOptions, () => getString("VoteMode"));
+            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode),main.whenSkipVote)), true, () => {
                 var next = main.whenSkipVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenSkipVote = next;
             });
-            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString("Default + (int")main.whenNonVote), true, () => {
+            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode),main.whenNonVote)), true, () => {
                 var next = main.whenNonVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
                 main.whenNonVote = next;
@@ -226,11 +226,11 @@ namespace TownOfHost
         }
         public PageObject( //フォルダー2
             PageObject parent,
-            lang lang,
+            Func<string> name,
             bool isHostOnly = false
         ) {
             this.parent = parent; //親オブジェクト
-            this.getName = () => main.getLang(lang); //名前
+            this.getName = name; //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
             this.onEnter = () => CustomOptionController.SetPage(this);
             this.onInput = (i) => {}; //入力時の動作
