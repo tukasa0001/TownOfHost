@@ -829,7 +829,7 @@ namespace TownOfHost
                     conditions.Add(target => target.isSnitch());
 
                 //seer視点用の名前色データが一つ以上ある
-                if(NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0) 
+                if(NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0) 
                     //seer視点用のtargetに対する名前色データが存在する
                     conditions.Add(target => NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId).color != null);
                 
