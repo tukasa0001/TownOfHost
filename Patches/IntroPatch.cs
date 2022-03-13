@@ -9,33 +9,10 @@ namespace TownOfHost
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
     class SetUpRoleTextPatch {
-        static Dictionary<CustomRoles, string> RoleAndInfo = new Dictionary<CustomRoles, string>() {
-            {CustomRoles.Jester, getString("JesterInfo")},
-            {CustomRoles.Madmate, getString("MadmateInfo")},
-            {CustomRoles.SKMadmate, getString("SKMadmateInfo")},
-            {CustomRoles.Bait, getString("BaitInfo")},
-            {CustomRoles.Terrorist, getString("TerroristInfo")},
-            {CustomRoles.Mafia, getString("MafiaInfo")},
-            {CustomRoles.Vampire, getString("VampireInfo")},
-            {CustomRoles.SabotageMaster, getString("SabotageMasterInfo")},
-            {CustomRoles.MadGuardian, getString("MadGuardianInfo")},
-            {CustomRoles.MadSnitch, getString("MadSnitchInfo")},
-            {CustomRoles.Mayor, getString("MayorInfo")},
-            {CustomRoles.Opportunist, getString("OpportunistInfo")},
-            {CustomRoles.Snitch, getString("SnitchInfo")},
-            {CustomRoles.Sheriff, getString("SheriffInfo")},
-            {CustomRoles.BountyHunter, getString("BountyHunterInfo")},
-            {CustomRoles.Witch, getString("WitchInfo")},
-            {CustomRoles.ShapeMaster, getString("ShapeMasterInfo")},
-            {CustomRoles.Warlock, getString("WarlockInfo")},
-            {CustomRoles.SerialKiller, getString("SerialKillerInfo")},
-            {CustomRoles.Fox, getString("FoxInfo")},
-            {CustomRoles.Troll, getString("TrollInfo")}
-        };
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             __instance.RoleText.text = main.getRoleName(role);
-            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = getString(info);
+            __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
             __instance.RoleText.color = main.getRoleColor(role);
             __instance.RoleBlurbText.color = main.getRoleColor(role);
 
