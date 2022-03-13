@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
 namespace TownOfHost {
-    public class PlayerState {
+    public static class PlayerState {
         
-        public PlayerState()
+        static PlayerState()
         {
             foreach(var p in PlayerControl.AllPlayerControls)
             {
@@ -12,12 +12,12 @@ namespace TownOfHost {
                 deathReasons.Add(p.PlayerId,DeathReason.etc);
             }
         }
-        public List<byte> players = new List<byte>();
-        public Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
-        public Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
-        public void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public DeathReason getDeathReason(byte p) { return deathReasons[p]; }
-        public bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
+        public static List<byte> players = new List<byte>();
+        public static Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
+        public static Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
+        public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
+        public static DeathReason getDeathReason(byte p) { return deathReasons[p]; }
+        public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
         
         public enum DeathReason
         {
