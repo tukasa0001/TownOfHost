@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

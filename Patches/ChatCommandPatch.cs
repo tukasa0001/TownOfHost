@@ -2,6 +2,7 @@ using Hazel;
 using HarmonyLib;
 using System.Linq;
 using System;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
