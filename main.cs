@@ -549,9 +549,9 @@ namespace TownOfHost
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
-        public static int BountySuccessKillCoolDown;
+        public static int BountySuccessKillCooldown;
         public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
-        public static int BountyFailureKillCoolDown;
+        public static int BountyFailureKillCooldown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -646,8 +646,8 @@ namespace TownOfHost
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
             writer.Write(BountyTargetChangeTime);
-            writer.Write(BountySuccessKillCoolDown);
-            writer.Write(BountyFailureKillCoolDown);
+            writer.Write(BountySuccessKillCooldown);
+            writer.Write(BountyFailureKillCooldown);
             writer.Write(BHDefaultKillCooldown);
             writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -829,7 +829,7 @@ namespace TownOfHost
                     conditions.Add(target => target.isSnitch());
 
                 //seer視点用の名前色データが一つ以上ある
-                if(NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0) 
+                if(NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0) 
                     //seer視点用のtargetに対する名前色データが存在する
                     conditions.Add(target => NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId).color != null);
                 
@@ -964,8 +964,8 @@ namespace TownOfHost
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
-            BountySuccessKillCoolDown = 2;
-            BountyFailureKillCoolDown = 50;
+            BountySuccessKillCooldown = 2;
+            BountyFailureKillCooldown = 50;
             BHDefaultKillCooldown = 30;
             ShapeMasterShapeshiftDuration = 10;
 
@@ -1097,7 +1097,7 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
-                {lang.AdvancedImposterRoleOptions, "インポスター陣営"},
+                {lang.AdvancedImpostorRoleOptions, "インポスター陣営"},
                 {lang.AdvancedCrewmateRoleOptions, "クルーメイト陣営"},
                 {lang.AdvancedNeutralRoleOptions, "第3陣営"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
@@ -1122,8 +1122,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
-                {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
-                {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
+                {lang.BountySuccessKillCooldown, "バウンティハンターがターゲットをキルした後のクールダウン"},
+                {lang.BountyFailureKillCooldown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
                 {lang.BHDefaultKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
@@ -1191,7 +1191,7 @@ namespace TownOfHost
                 {lang.WitchInfo, "Spell your enemies"},
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
-                {lang.SerialKillerInfo, "Keep killng to win"},
+                {lang.SerialKillerInfo, "Keep killing to win"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -1228,7 +1228,7 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
-                {lang.AdvancedImposterRoleOptions, "Imposter Side"},
+                {lang.AdvancedImpostorRoleOptions, "Impostor Side"},
                 {lang.AdvancedCrewmateRoleOptions, "Crewmate Side"},
                 {lang.AdvancedNeutralRoleOptions, "Neutral Side"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
@@ -1238,7 +1238,7 @@ namespace TownOfHost
                 {lang.MadmateVisionAsImpostor, "Madmate vision is as long as Impostor one"},
                 {lang.CanMakeMadmateCount, "Shapeshifter Can Make Madmate limit"},
                 {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
-                {lang.MadSnitchTasks, "MadSnich's Tasks"},
+                {lang.MadSnitchTasks, "MadSnitch's Tasks"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
                 {lang.SabotageMasterFixesOxygens, "SabotageMaster Can Fixes Both O2"},
@@ -1255,8 +1255,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
-                {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
-                {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
+                {lang.BountySuccessKillCooldown, "BountyHunter's killcooldown after target kill"},
+                {lang.BountyFailureKillCooldown, "BountyHunter's killCooldown"},
                 {lang.BHDefaultKillCooldown, "Impostors' killcooldown(If BountyHunters are existing)"},
                 {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
@@ -1463,7 +1463,7 @@ namespace TownOfHost
         RandomMapsModeInfo,
         //オプション項目
         AdvancedRoleOptions,
-        AdvancedImposterRoleOptions,
+        AdvancedImpostorRoleOptions,
         AdvancedCrewmateRoleOptions,
         AdvancedNeutralRoleOptions,
         VampireKillDelay,
@@ -1488,8 +1488,8 @@ namespace TownOfHost
         SerialKillerCooldown,
         SerialKillerLimit,
         BountyTargetChangeTime,
-        BountySuccessKillCoolDown,
-        BountyFailureKillCoolDown,
+        BountySuccessKillCooldown,
+        BountyFailureKillCooldown,
         BHDefaultKillCooldown,
         ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
