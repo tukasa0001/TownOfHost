@@ -36,6 +36,7 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
 
             main.NotifyRoles();
+            main.CustomSyncAllSettings();
         }
     }
 }

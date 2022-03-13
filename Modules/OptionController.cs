@@ -43,6 +43,7 @@ namespace TownOfHost
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
+            var Lighter = new PageObject(RoleOptions, CustomRoles.Lighter);
 
 
 

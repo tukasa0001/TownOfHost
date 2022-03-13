@@ -246,6 +246,14 @@ namespace TownOfHost {
                         opt.ImpostorLightMod /= 5;
                     }
                     goto DefaultKillcooldown;
+                case CustomRoles.Lighter:
+                    if(player.getPlayerTaskState().isTaskFinished){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(sm != null && sm.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
 
 
                 InfinityVent:
@@ -458,5 +466,6 @@ namespace TownOfHost {
         public static bool isShapeMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.ShapeMaster;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
         public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
+        public static bool isLighter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Lighter;}
     }
 }

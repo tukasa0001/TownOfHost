@@ -214,6 +214,12 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     count = SerialKillerCount;
                     break;
+                case CustomRoles.Lighter:
+                    count = LighterCount;
+                    break;
+                case CustomRoles.VSLighter:
+                    count = VSLighterCount;
+                    break;
                 default:
                     return -1;
             }
@@ -277,6 +283,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.SerialKiller:
                     SerialKillerCount = count;
+                    break;
+                case CustomRoles.Lighter:
+                    LighterCount = count;
+                    break;
+                case CustomRoles.VSLighter:
+                    VSLighterCount = count;
                     break;
             }
         }
@@ -393,6 +405,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
+                if(main.LighterCount > 0) main.SendToAll(main.getLang(lang.LighterInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -427,6 +440,7 @@ namespace TownOfHost
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
+                if(main.LighterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Lighter),main.LighterCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
@@ -526,6 +540,8 @@ namespace TownOfHost
         public static int ShapeMasterCount;
         public static int WarlockCount;
         public static int SerialKillerCount;
+        public static int LighterCount;
+        public static int VSLighterCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -539,6 +555,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
+        public static int VSLighterNowCount;
         public static bool witchMeeting;
         public static bool isShipStart;
         public static bool BountyMeetingCheck;
@@ -604,6 +621,8 @@ namespace TownOfHost
             writer.Write(ShapeMasterCount);
             writer.Write(WarlockCount);
             writer.Write(SerialKillerCount);
+            writer.Write(LighterCount);
+            writer.Write(VSLighterCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -1002,6 +1021,8 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Lighter, "#f8cd46"},
+                {CustomRoles.VSLighter, "#f8cd46"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -1029,6 +1050,8 @@ namespace TownOfHost
                 {lang.ShapeMasterInfo, "変身し、敵を混乱させよう"},
                 {lang.WarlockInfo, "敵を呪い殺そう"},
                 {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
+                {lang.LighterInfo, "タスクを終わらせて光ろう"},
+                {lang.VSLighterInfo, "視界が広くなった"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -1051,6 +1074,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
                 {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
+                {lang.LighterInfoLong, "ライター:/nタスクを完了させると、自分の視界を広げることができる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -1160,6 +1184,8 @@ namespace TownOfHost
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
                 {lang.SerialKillerInfo, "Keep killng to win"},
+                {lang.LighterInfo, "Let's finish the task and shine"},
+                {lang.VSLighterInfo, "Wider visibility"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -1182,6 +1208,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfoLong, "ShaapeMaster:\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
                 {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
+                {lang.LighterInfoLong, "Lighter:\nタスクを完了させると、自分の視界を広げることができる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
                 //モード名
@@ -1294,6 +1321,8 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "ShapeMaster"},
                 {CustomRoles.Warlock, "Warlock"},
                 {CustomRoles.SerialKiller, "SerialKiller"},
+                {CustomRoles.Lighter, "Lighter"},//視界が狭いライター
+                {CustomRoles.VSLighter, "Lighter"},//視界が広いライター
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1323,6 +1352,8 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "シェイプマスター"},
                 {CustomRoles.Warlock, "ウォーロック"},
                 {CustomRoles.SerialKiller, "シリアルキラー"},
+                {CustomRoles.Lighter, "ライター"},//視界が狭いライター
+                {CustomRoles.VSLighter, "ライター"},//視界が広いライター
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1394,6 +1425,8 @@ namespace TownOfHost
         ShapeMasterInfo,
         WarlockInfo,
         SerialKillerInfo,
+        LighterInfo,
+        VSLighterInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1416,6 +1449,7 @@ namespace TownOfHost
         ShapeMasterInfoLong,
         WarlockInfoLong,
         SerialKillerInfoLong,
+        LighterInfoLong,
         FoxInfoLong,
         TrollInfoLong,
         //モード名
@@ -1528,6 +1562,8 @@ namespace TownOfHost
         ShapeMaster,
         Warlock,
         SerialKiller,
+        Lighter,//視界が狭いライター
+        VSLighter,//視界が広いライター
         Fox,
         Troll
     }
