@@ -220,7 +220,7 @@ namespace TownOfHost {
                     }
                     else{
                         if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = main.BountyFailureKillCoolDown;
+                            opt.KillCooldown = main.BountyFailureKillCooldown;
                             Logger.info("ターゲット以外をキル");
                         }
                         if(!main.BountyTimerCheck){//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
@@ -228,7 +228,7 @@ namespace TownOfHost {
                             Logger.info("ターゲットリセット");
                         }
                         if(main.isBountyKillSuccess){//ターゲットをキルした時の処理
-                            opt.KillCooldown = main.BountySuccessKillCoolDown*2;
+                            opt.KillCooldown = main.BountySuccessKillCooldown*2;
                             Logger.info("ターゲットをキル");
                         }
                     }

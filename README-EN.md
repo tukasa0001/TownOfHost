@@ -141,7 +141,7 @@ They can transform after becoming to able to kill.<br>
 Team : Impostors<br>
 Decision : Engineer<br>
 
-The Madmates belong to the Imposters team, but they do not know who the Imposters are.<br>
+The Madmates belong to the Impostors team, but they do not know who the Impostors are.<br>
 The Impostors do not know who the they are too.<br>
 They can not kill or sabotage, but they can use vents.<br>
 
@@ -156,7 +156,7 @@ They can not kill or sabotage, but they can use vents.<br>
 Team : Impostors<br>
 Decision : Crewmate<br>
 
-The MadGuardians belong to the Imposters team, but they do not know who the Imposters are.<br>
+The MadGuardians belong to the Impostors team, but they do not know who the Impostors are.<br>
 The Impostors do not know who the they are too.<br>
 However, if they complete all of their own tasks, they will not be killed.<br>
 They can not kill, sabotage, and using vents.<br>

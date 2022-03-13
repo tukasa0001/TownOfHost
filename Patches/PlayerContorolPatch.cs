@@ -177,14 +177,15 @@ namespace TownOfHost
             if (target.isMadGuardian())
             {
                 var taskState = target.getPlayerTaskState();
-                if (taskState.isTaskFinished)
-                {
+                if(taskState.isTaskFinished) {
+                    int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
                     if (main.MadGuardianCanSeeWhoTriedToKill)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
 
                     main.BlockKilling[__instance.PlayerId] = false;
-                    main.NotifyRoles();
+                    if(dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                        main.NotifyRoles();
                     return false;
                 }
             }
