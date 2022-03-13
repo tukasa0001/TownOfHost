@@ -217,9 +217,6 @@ namespace TownOfHost
                 case CustomRoles.Lighter:
                     count = LighterCount;
                     break;
-                case CustomRoles.VSLighter:
-                    count = VSLighterCount;
-                    break;
                 default:
                     return -1;
             }
@@ -286,9 +283,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Lighter:
                     LighterCount = count;
-                    break;
-                case CustomRoles.VSLighter:
-                    VSLighterCount = count;
                     break;
             }
         }
@@ -541,7 +535,6 @@ namespace TownOfHost
         public static int WarlockCount;
         public static int SerialKillerCount;
         public static int LighterCount;
-        public static int VSLighterCount;
         public static int FoxCount;
         public static int TrollCount;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -555,7 +548,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
-        public static int VSLighterNowCount;
         public static bool witchMeeting;
         public static bool isShipStart;
         public static bool BountyMeetingCheck;
@@ -622,7 +614,6 @@ namespace TownOfHost
             writer.Write(WarlockCount);
             writer.Write(SerialKillerCount);
             writer.Write(LighterCount);
-            writer.Write(VSLighterCount);
             writer.Write(FoxCount);
             writer.Write(TrollCount);
 
@@ -1021,8 +1012,7 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
-                {CustomRoles.Lighter, "#f8cd46"},
-                {CustomRoles.VSLighter, "#f8cd46"},
+                {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -1051,7 +1041,6 @@ namespace TownOfHost
                 {lang.WarlockInfo, "敵を呪い殺そう"},
                 {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
                 {lang.LighterInfo, "タスクを終わらせて光ろう"},
-                {lang.VSLighterInfo, "視界が広くなった"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -1074,7 +1063,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
                 {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
-                {lang.LighterInfoLong, "ライター:/nタスクを完了させると、自分の視界を広げることができる。"},
+                {lang.LighterInfoLong, "ライター:\nタスクを完了させると、自分の視界を広げることができる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
                 //モード名
@@ -1185,7 +1174,6 @@ namespace TownOfHost
                 {lang.WarlockInfo, "Curse and kill your enemies"},
                 {lang.SerialKillerInfo, "Keep killng to win"},
                 {lang.LighterInfo, "Let's finish the task and shine"},
-                {lang.VSLighterInfo, "Wider visibility"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
@@ -1321,8 +1309,7 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "ShapeMaster"},
                 {CustomRoles.Warlock, "Warlock"},
                 {CustomRoles.SerialKiller, "SerialKiller"},
-                {CustomRoles.Lighter, "Lighter"},//視界が狭いライター
-                {CustomRoles.VSLighter, "Lighter"},//視界が広いライター
+                {CustomRoles.Lighter, "Lighter"},
                 {CustomRoles.Fox, "Fox"},
                 {CustomRoles.Troll, "Troll"},
             };
@@ -1352,8 +1339,7 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "シェイプマスター"},
                 {CustomRoles.Warlock, "ウォーロック"},
                 {CustomRoles.SerialKiller, "シリアルキラー"},
-                {CustomRoles.Lighter, "ライター"},//視界が狭いライター
-                {CustomRoles.VSLighter, "ライター"},//視界が広いライター
+                {CustomRoles.Lighter, "ライター"},
                 {CustomRoles.Fox, "狐"},
                 {CustomRoles.Troll, "トロール"},
             };
@@ -1426,7 +1412,6 @@ namespace TownOfHost
         WarlockInfo,
         SerialKillerInfo,
         LighterInfo,
-        VSLighterInfo,
         FoxInfo,
         TrollInfo,
         //役職解説(長)
@@ -1562,8 +1547,7 @@ namespace TownOfHost
         ShapeMaster,
         Warlock,
         SerialKiller,
-        Lighter,//視界が狭いライター
-        VSLighter,//視界が広いライター
+        Lighter,
         Fox,
         Troll
     }

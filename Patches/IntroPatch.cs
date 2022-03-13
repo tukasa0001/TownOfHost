@@ -28,7 +28,7 @@ namespace TownOfHost
             {CustomRoles.ShapeMaster, lang.ShapeMasterInfo},
             {CustomRoles.Warlock, lang.WarlockInfo},
             {CustomRoles.SerialKiller, lang.SerialKillerInfo},
-            {CustomRoles.Lighter, lang.LighterInfoLong},
+            {CustomRoles.Lighter, lang.LighterInfo},
             {CustomRoles.Fox, lang.FoxInfo},
             {CustomRoles.Troll, lang.TrollInfo}
         };
