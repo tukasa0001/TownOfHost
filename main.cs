@@ -1097,7 +1097,7 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "ランダムマップモード:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "詳細設定"},
-                {lang.AdvancedImposterRoleOptions, "インポスター陣営"},
+                {lang.AdvancedImpostorRoleOptions, "インポスター陣営"},
                 {lang.AdvancedCrewmateRoleOptions, "クルーメイト陣営"},
                 {lang.AdvancedNeutralRoleOptions, "第3陣営"},
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
@@ -1228,7 +1228,7 @@ namespace TownOfHost
                 {lang.RandomMapsModeInfo, "RandomMapsMode:ランダムにマップが変わるモード。(設定有)"},
                 //オプション項目
                 {lang.AdvancedRoleOptions, "Advanced Options"},
-                {lang.AdvancedImposterRoleOptions, "Imposter Side"},
+                {lang.AdvancedImpostorRoleOptions, "Impostor Side"},
                 {lang.AdvancedCrewmateRoleOptions, "Crewmate Side"},
                 {lang.AdvancedNeutralRoleOptions, "Neutral Side"},
                 {lang.VampireKillDelay, "Vampire Kill Delay(s)"},
@@ -1463,7 +1463,7 @@ namespace TownOfHost
         RandomMapsModeInfo,
         //オプション項目
         AdvancedRoleOptions,
-        AdvancedImposterRoleOptions,
+        AdvancedImpostorRoleOptions,
         AdvancedCrewmateRoleOptions,
         AdvancedNeutralRoleOptions,
         VampireKillDelay,
