@@ -329,10 +329,11 @@ namespace TownOfHost
 
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
-            if(p.Role.IsImpostor)
-                hasTasks = false; //タスクはCustomRoleを元に判定する
             if (main.IsHideAndSeek)
             {
+                if(p.Role.IsImpostor)
+                    hasTasks = false; //タスクはバニラ役職で判定される
+                
                 if (p.IsDead) hasTasks = false;
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
@@ -342,6 +343,7 @@ namespace TownOfHost
             } else {
                 var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if(cRoleFound) {
+                    if (cRole.isImpostor()) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
@@ -350,8 +352,6 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Impostor) hasTasks = false;
-                    if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                 }
             }
             return hasTasks;
