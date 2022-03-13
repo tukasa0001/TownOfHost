@@ -728,14 +728,46 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
+                //二週目のループを実行するかどうかを決める処理
+                //このリストに入ってあるいずれかのFuncがtrueを返したとき、そのプレイヤーをtargetとしたループを実行する
+                //このリストの中身が空の時、foreach自体が実行されなくなる
+                List<Func<PlayerControl, bool>> conditions = new List<Func<PlayerControl, bool>>();
+                
+                //seerが死んでいる
+                if(seer.Data.IsDead) 
+                    //常時
+                    conditions.Add(target => true);
+                
+                //seerがインポスターを知っている
+                if(SeerKnowsImpostors) 
+                    //targetがインポスター
+                    conditions.Add(target => target.getCustomRole().isImpostor());
+
+                //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                if(seer.getCustomRole().isImpostor() && ShowSnitchWarning) 
+                    //targetがSnitch
+                    conditions.Add(target => target.isSnitch());
+
+                //seer視点用の名前色データが一つ以上ある
+                if(NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0) 
+                    //seer視点用のtargetに対する名前色データが存在する
+                    conditions.Add(target => NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId).color != null);
+                
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if(seer.Data.IsDead //seerが死んでいる
-                || SeerKnowsImpostors //seerがインポスターを知っている状態
-                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                || NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                ) foreach(var target in PlayerControl.AllPlayerControls) {
+                if(conditions.Count > 0) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
+
+                    //conditions内のデータによる判定
+                    bool doCancel = true;
+                    foreach(var func in conditions) {
+                        if(func(target)) {
+                            doCancel = false;
+                            break;
+                        }
+                    }
+                    if(doCancel) continue;
+                    
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
 
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
