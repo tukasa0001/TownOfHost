@@ -29,7 +29,7 @@ namespace TownOfHost {
                 var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
                 foreach(var cRoleID in Enum.GetValues(typeof(CustomRoles))) {
                     CustomRoles cRole = (CustomRoles)cRoleID;
-                    /*if(cRole == CustomRoles.Default ||
+                    /*if(cRole == CustomRoles.Crewmate ||
                     cRole == CustomRoles.Impostor ||
                     cRole == CustomRoles.Scientist ||
                     cRole == CustomRoles.Engineer ||
