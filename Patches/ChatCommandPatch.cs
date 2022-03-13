@@ -153,6 +153,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.MadmateInfoLong));
                     break;
 
+                case "sidekickmadmate":
+                case "sm":
+                    main.SendToAll(main.getLang(lang.SKMadmateInfoLong));
+                    break;
+
                 case "bait":
                 case "ba":
                     main.SendToAll(main.getLang(lang.BaitInfoLong));
@@ -188,6 +193,11 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.MadGuardianInfoLong));
                     break;
 
+                case "madsnitch":
+                case "msn":
+                    main.SendToAll(main.getLang(lang.MadSnitchInfoLong));
+                    break;
+
                 case "opportunist":
                 case "op":
                     main.SendToAll(main.getLang(lang.OpportunistInfoLong));
@@ -213,6 +223,21 @@ namespace TownOfHost
                     main.SendToAll(main.getLang(lang.WitchInfoLong));
                     break;
 
+                case "shapemaster":
+                case "sha":
+                    main.SendToAll(main.getLang(lang.ShapeMasterInfoLong));
+                    break;
+                
+                case "warlock":
+                case "wa":
+                    main.SendToAll(main.getLang(lang.WarlockInfoLong));
+                    break;
+
+                case "serialkiller":
+                case "sk":
+                    main.SendToAll(main.getLang(lang.SerialKillerInfoLong));
+                    break;
+
                 case "fox":
                 case "fo":
                     main.SendToAll(main.getLang(lang.FoxInfoLong));
@@ -224,7 +249,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), opportunist(op), snitch(sn), sheriff(sh),\nbountyhunter(bo), witch(wi), fox(fo), troll(tr)");
+                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha),fox(fo), troll(tr)");
                     break;
             }
 

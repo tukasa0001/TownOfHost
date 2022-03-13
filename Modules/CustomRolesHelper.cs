@@ -9,8 +9,10 @@ namespace TownOfHost {
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.BountyHunter ||
                 role == CustomRoles.Vampire ||
-                role == CustomRoles.BountyHunter ||
                 role == CustomRoles.Witch ||
+                role == CustomRoles.ShapeMaster ||
+                role == CustomRoles.Warlock ||
+                role == CustomRoles.SerialKiller ||
                 role == CustomRoles.Mafia;
             return isImpostor;
         }
@@ -20,7 +22,9 @@ namespace TownOfHost {
             bool isImpostor =
                 role.isImpostor() ||
                 role == CustomRoles.Madmate ||
-                role == CustomRoles.MadGuardian;
+                role == CustomRoles.SKMadmate ||
+                role == CustomRoles.MadGuardian ||
+                role == CustomRoles.MadSnitch;
             return isImpostor;
         }
         public static bool CanUseKillButton(this CustomRoles role) {
@@ -47,6 +51,9 @@ namespace TownOfHost {
                 case CustomRoles.Mafia:
                 case CustomRoles.BountyHunter:
                 case CustomRoles.Witch:
+                case CustomRoles.ShapeMaster:
+                case CustomRoles.Warlock:
+                case CustomRoles.SerialKiller:
                     type = IntroTypes.Impostor;
                     break;
 
@@ -60,6 +67,8 @@ namespace TownOfHost {
 
                 case CustomRoles.Madmate:
                 case CustomRoles.MadGuardian:
+                case CustomRoles.SKMadmate:
+                case CustomRoles.MadSnitch:
                     type = IntroTypes.Madmate;
                     break;
             }
