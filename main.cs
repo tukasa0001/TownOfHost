@@ -348,7 +348,7 @@ namespace TownOfHost
 
         public static void ShowActiveRoles()
         {
-            main.SendToAll("現在有効な設定の説明:");
+            main.SendToAll(getString("CurrentActiveSettingsHelp")+":");
             if(main.IsHideAndSeek)
             {
                 main.SendToAll(getString("HideAndSeekInfo"));
@@ -382,13 +382,13 @@ namespace TownOfHost
 
         public static void ShowActiveSettings()
         {
-            var text = "役職:";
+            var text = getString("Roles")+":";
             if(main.IsHideAndSeek)
             {
                 if(main.FoxCount > 0 ) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Fox),main.FoxCount);
                 if(main.TrollCount > 0 ) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Troll),main.TrollCount);
                 main.SendToAll(text);
-                text = "設定:";
+                text = getString("Settings")+":";
                 text += getString("HideAndSeek");
             }else{
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
@@ -411,7 +411,7 @@ namespace TownOfHost
                 if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
                 main.SendToAll(text);
-                text = "設定:";
+                text = getString("Settings")+":";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",getString("VampireKillDelay"),main.VampireKillDelay);
                 if(main.SabotageMasterCount > 0)
                 {

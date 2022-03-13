@@ -153,7 +153,7 @@ commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 ON,ON,ON
 OFF,OFF,OFF
-CurrentActiveSettingHelps,Current active setting helps,現在有効な設定の説明
+CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 Roles,Roles,役職
 Settings,Settings,設定
 RoleAssignment,Role Assignment,ロール割り当て
