@@ -31,7 +31,7 @@ namespace TownOfHost
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
 
-                if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.PlayerStates.Count != 0)
                 {
                     new LateTask(() =>
                     {

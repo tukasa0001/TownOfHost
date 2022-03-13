@@ -7,7 +7,7 @@ using InnerNet;
 namespace TownOfHost {
     static class ExtendedPlayerControl {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role) {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            main.GetPlayerState(player).setRole(role);
             if(AmongUsClient.Instance.AmHost) {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
@@ -24,7 +24,7 @@ namespace TownOfHost {
             }
         }
         public static void SetCustomRole(this PlayerControl player, CustomRoles role) {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            main.GetPlayerState(player).setRole(role,true);
         }
 
         public static void RpcExile(this PlayerControl player) {
@@ -50,7 +50,7 @@ namespace TownOfHost {
                 Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
                 return CustomRoles.Default;
             }
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
+            var cRoleFound = main.PlayerStates.TryGetValue(player.PlayerId,out CustomRoles cRole);
             if(!cRoleFound)
             {
                 switch(player.Data.Role.Role)
@@ -434,22 +434,6 @@ namespace TownOfHost {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static PlayerState getPlayerState(byte? id)
-            => main.PlayerStates.Where(ps => ps.playerId == id).FirstOrDefault();
-        public static PlayerState getPlayerState(this PlayerControl player)
-        {
-            if(player == null) return null;
-            var state = getPlayerState(player.PlayerId);
-            if(state == null)
-            {
-                //PlayerStateが見つからない場合、新しくPlayerStateを作る
-                state = new PlayerState(player);
-                main.PlayerStates.Add(state);
-            }
-            return state;
-        }
-        public static PlayerState getPlayerState(this GameData.PlayerInfo player)
-            => getPlayerState(player?.Object);
         
         public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}

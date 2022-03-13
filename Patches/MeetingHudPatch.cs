@@ -26,53 +26,53 @@ namespace TownOfHost
 
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
-                PlayerVoteArea ps = __instance.playerStates[i];
-                if(ps == null) continue;
-                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
-                var voter = main.getPlayerById(ps.TargetPlayerId);
+                PlayerVoteArea pva = __instance.playerStates[i];
+                if(pva == null) continue;
+                Logger.info($"{pva.TargetPlayerId}:{pva.VotedFor}");
+                var voter = main.GetPlayerState(pva.TargetPlayerId).player;
                 if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
+                if(pva.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                 {
                     switch (main.whenSkipVote)
                     {
                         case VoteMode.Suicide:
-                            var state = ExtendedPlayerControl.getPlayerState(ps.TargetPlayerId);
+                            var state = main.GetPlayerState(pva.TargetPlayerId);
                             if(state != null) state.deathReason = PlayerState.DeathReason.Suicide;
                             voter.RpcMurderPlayer(voter);
                             main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
-                            ps.VotedFor = ps.TargetPlayerId;
+                            pva.VotedFor = pva.TargetPlayerId;
                             break;
                         default:
                             break;
                     }
                 }
-                if(ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
+                if(pva.VotedFor == 254 && !voter.Data.IsDead)//無投票
                 {
                     switch (main.whenNonVote)
                     {
                         case VoteMode.Suicide:
-                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
+                            main.GetPlayerState(pva.TargetPlayerId).deathReason = PlayerState.DeathReason.Suicide;
                             voter.RpcMurderPlayer(voter);
                             main.IgnoreReportPlayers.Add(voter.PlayerId);
                             break;
                         case VoteMode.SelfVote:
-                            ps.VotedFor = ps.TargetPlayerId;
+                            pva.VotedFor = pva.TargetPlayerId;
                             break;
                         default:
                             break;
                     }
                 }
                 statesList.Add(new MeetingHud.VoterState() {
-                    VoterId = ps.TargetPlayerId,
-                    VotedForId = ps.VotedFor
+                    VoterId = pva.TargetPlayerId,
+                    VotedForId = pva.VotedFor
                 });
-                if(isMayor(ps.TargetPlayerId))//Mayorの投票数
+                if(isMayor(pva.TargetPlayerId))//Mayorの投票数
                 for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
                     statesList.Add(new MeetingHud.VoterState() {
-                        VoterId = ps.TargetPlayerId,
-                        VotedForId = ps.VotedFor
+                        VoterId = pva.TargetPlayerId,
+                        VotedForId = pva.VotedFor
                     });
                 }
             }
@@ -184,7 +184,7 @@ namespace TownOfHost
 
             foreach(var pva in __instance.playerStates) {
                 if(pva == null) continue;
-                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                PlayerControl pc = main.GetPlayerState(pva.TargetPlayerId).player;
                 if(pc == null) continue;
 
                 //会議画面での名前変更
@@ -228,7 +228,7 @@ namespace TownOfHost
             foreach (var pva in __instance.playerStates)
             {
                 if(pva == null) continue;
-                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                PlayerControl pc = main.GetPlayerState(pva.TargetPlayerId).player;
                 if(pc == null) continue;
 
                 //役職表示系

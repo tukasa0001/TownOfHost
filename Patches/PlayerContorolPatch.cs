@@ -17,11 +17,11 @@ namespace TownOfHost
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
             if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
             {
-                main.ps.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+                main.GetPlayerState(__instance).deathReason = PlayerState.DeathReason.Suicide;
             }
             else
             {
-                main.ps.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+                main.GetPlayerState(target).deathReason = PlayerState.DeathReason.Kill;
             }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
@@ -402,7 +402,7 @@ namespace TownOfHost
             {
                 var RoleTextData = main.GetRoleText(__instance);
                 if(main.IsHideAndSeek) {
-                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                    var hasRole = main.PlayerStates.TryGetValue(__instance.PlayerId,out CustomRoles role);
                     if(hasRole) RoleTextData = main.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
                 RoleText.text = RoleTextData.Item1;

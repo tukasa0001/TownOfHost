@@ -198,7 +198,7 @@ namespace TownOfHost
                 case (byte)CustomRPC.SetBountyTarget:
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
-                    var target = main.getPlayerById(TargetId);
+                    var target = main.GetPlayerState(TargetId).player;
                     if(target != null) main.BountyTargets[HunterId] = target;
                     break;
                 case (byte)CustomRPC.SetKillOrSpell:
@@ -441,7 +441,7 @@ namespace TownOfHost
             }
         }
         public static void SetCustomRole(byte targetId, CustomRoles role) {
-            main.AllPlayerCustomRoles[targetId] = role;
+            main.GetPlayerState(targetId).setRole(role);
             HudManager.Instance.SetHudActive(true);
         }
 

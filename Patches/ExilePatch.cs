@@ -30,13 +30,13 @@ namespace TownOfHost
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach(var p in main.SpelledPlayer)
             {
-                main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                main.GetPlayerState(p).deathReason=PlayerState.DeathReason.Spell;
                 main.IgnoreReportPlayers.Add(p.PlayerId);
                 p.RpcMurderPlayer(p);
             }
             foreach(var p in main.CursedPlayerDie)
             {
-                main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                main.GetPlayerState(p).deathReason = PlayerState.DeathReason.Spell;
                 main.IgnoreReportPlayers.Add(p.PlayerId);
                 p.RpcMurderPlayer(p);
             }
@@ -54,7 +54,7 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
-                exiled.getPlayerState().deathReason = PlayerState.DeathReason.Vote;
+                main.GetPlayerState(exiled).deathReason = PlayerState.DeathReason.Vote;
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {

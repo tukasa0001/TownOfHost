@@ -22,7 +22,7 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
+                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.GetPlayerState(b).name)));
                         break;
 
                     case "/l":
@@ -272,7 +272,7 @@ namespace TownOfHost
                 if(sendTo == byte.MaxValue) {
                     PlayerControl.LocalPlayer.RpcSendChat(msg);
                 } else {
-                    PlayerControl target = main.getPlayerById(sendTo);
+                    PlayerControl target = main.GetPlayerState(sendTo).player;
                     if(target == null) return;
                     int clientId = target.getClientId();
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);

@@ -58,11 +58,8 @@ namespace TownOfHost
         public static float HideAndSeekKillDelayTimer;
         public static float HideAndSeekImpVisionMin;
 
-        public static Dictionary<byte, string> AllPlayerNames;
-        public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
 
-        public static List<PlayerState> PlayerStates;
+        public static Dictionary<byte, PlayerState> PlayerStates;
         public static Dictionary<byte, bool> BlockKilling;
         public static bool SyncButtonMode;
         public static int SyncedButtonCount;
@@ -336,13 +333,13 @@ namespace TownOfHost
                     hasTasks = false; //タスクはバニラ役職で判定される
                 
                 if (p.IsDead) hasTasks = false;
-                var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                var hasRole = main.PlayerStates.TryGetValue(p.PlayerId, out CustomRoles role); 
                 if (hasRole)
                 {
                     if (role == CustomRoles.Fox || role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
-                var cRoleFound = AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
+                var cRoleFound = main.PlayerStates.TryGetValue(p.PlayerId, out CustomRoles cRole);
                 if(cRoleFound) {
                     if (cRole.isImpostor()) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
@@ -472,18 +469,24 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             var text = getLang(lang.LastResult);
-            Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
+            Dictionary<byte,PlayerState> clonePS = new(PlayerStates);
             foreach(var id in winnerList)
             {
-                text += $"\n★ {AllPlayerNames[id]}:{main.getRoleName(AllPlayerCustomRoles[id])}";
-                text += $" {main.getDeathReason(ps.deathReasons[id])}";
-                cloneRoles.Remove(id);
+                var ps = GetPlayerState(id);
+                text += $"\n★";
+                text += $"{main.getDeathReason(ps.deathReason)} ";
+                text += $"{ps.name}: ";
+                text += string.Join("=>",ps.roles.Select(r=>getRoleName(r)));
+                clonePS.Remove(id);
             }
-            foreach (var kvp in cloneRoles)
+            foreach (var kvp in clonePS)
             {
                 var id = kvp.Key;
-                text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(AllPlayerCustomRoles[id])}";
-                text += $" {main.getDeathReason(ps.deathReasons[id])}";
+                var ps = GetPlayerState(id);
+                text += $"\n　";
+                text += $"{main.getDeathReason(ps.deathReason)} ";
+                text += $"{ps.name}: ";
+                text += string.Join("=>", ps.roles.Select(r => getRoleName(r)));
             }
             main.SendToAll(text);
         }
@@ -665,8 +668,9 @@ namespace TownOfHost
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var taskState = getPlayerById(Terrorist.PlayerId).getPlayerTaskState();
-            if (taskState.isTaskFinished && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            var ps = GetPlayerState(Terrorist);
+            var taskState = ps.player.getPlayerTaskState();
+            if (taskState.isTaskFinished && (!ps.isSuicide() || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
@@ -730,8 +734,22 @@ namespace TownOfHost
             }
             if(name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
-        public static PlayerControl getPlayerById(int PlayerId) {
-            return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
+        static public PlayerState GetPlayerState(Byte playerId)
+        {
+            if (!PlayerStates.ContainsKey(playerId))
+            {
+                TownOfHost.Logger.warn($"Player[{playerId}] is null.");
+                return null;
+            }
+            return PlayerStates[playerId];
+        }
+        static public PlayerState GetPlayerState(PlayerControl playerControll)
+        {
+            return GetPlayerState(playerControll.PlayerId);
+        }
+        static public PlayerState GetPlayerState(GameData.PlayerInfo playerInfo)
+        {
+            return GetPlayerState(playerInfo.PlayerId);
         }
         public static void NotifyRoles(bool isMeeting = false) {
             if(!AmongUsClient.Instance.AmHost) return;
@@ -930,8 +948,7 @@ namespace TownOfHost
             HideAndSeekImpVisionMin = 0.25f;
             TrollCount = 0;
             FoxCount = 0;
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            PlayerStates = new List<PlayerState>();
+            PlayerStates = new ();
 
             SyncButtonMode = false;
             SyncedButtonCount = 10;
