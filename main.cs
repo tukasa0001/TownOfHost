@@ -118,16 +118,13 @@ namespace TownOfHost
             SetCountFromRole(role, count);
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
-            JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
-            var isSuccess = dic.TryGetValue(role, out var text);
-            return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
+            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
+            JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+            return getString(Enum.GetName(typeof(CustomRoles),role),lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseDeathReason : EnglishDeathReason;
-            var isSuccess = dic.TryGetValue(status, out var text);
-            return isSuccess ? text : "<Not Found:" + status.ToString() + ">";
+            return getString(Enum.GetName(typeof(PlayerState.DeathReason),status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
