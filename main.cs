@@ -549,9 +549,9 @@ namespace TownOfHost
         public static int SerialKillerCooldown;
         public static int SerialKillerLimit;
         public static int BountyTargetChangeTime;
-        public static int BountySuccessKillCoolDown;
+        public static int BountySuccessKillCooldown;
         public static int BHDefaultKillCooldown;//キルクールを2.5秒にしないとバグるのでこちらを追加。
-        public static int BountyFailureKillCoolDown;
+        public static int BountyFailureKillCooldown;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static bool CustomWinTrigger;
@@ -646,8 +646,8 @@ namespace TownOfHost
             writer.Write(SerialKillerCooldown);
             writer.Write(SerialKillerLimit);
             writer.Write(BountyTargetChangeTime);
-            writer.Write(BountySuccessKillCoolDown);
-            writer.Write(BountyFailureKillCoolDown);
+            writer.Write(BountySuccessKillCooldown);
+            writer.Write(BountyFailureKillCooldown);
             writer.Write(BHDefaultKillCooldown);
             writer.Write(ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -964,8 +964,8 @@ namespace TownOfHost
             SerialKillerCooldown = 20;
             SerialKillerLimit = 60;
             BountyTargetChangeTime = 150;
-            BountySuccessKillCoolDown = 2;
-            BountyFailureKillCoolDown = 50;
+            BountySuccessKillCooldown = 2;
+            BountyFailureKillCooldown = 50;
             BHDefaultKillCooldown = 30;
             ShapeMasterShapeshiftDuration = 10;
 
@@ -1122,8 +1122,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldown, "シリアルキラーのキルクール"},
                 {lang.SerialKillerLimit, "シリアルキラーが自爆する時間"},
                 {lang.BountyTargetChangeTime, "バウンティハンターのターゲットが変わる時間"},
-                {lang.BountySuccessKillCoolDown, "バウンティハンターがターゲットをキルした後のクールダウン"},
-                {lang.BountyFailureKillCoolDown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
+                {lang.BountySuccessKillCooldown, "バウンティハンターがターゲットをキルした後のクールダウン"},
+                {lang.BountyFailureKillCooldown, "バウンティハンターがターゲット以外をキルした時のクールダウン"},
                 {lang.BHDefaultKillCooldown, "バウンティハンター以外のキルクールダウン"},
                 {lang.ShapeMasterShapeshiftDuration, "シェイプマスターの変身持続時間"},
                 {lang.HideAndSeekOptions, "HideAndSeekの設定"},
@@ -1255,8 +1255,8 @@ namespace TownOfHost
                 {lang.SerialKillerCooldown, "SerialKiller's KillCooldown"},
                 {lang.SerialKillerLimit, "SerialKiller's timelimit"},
                 {lang.BountyTargetChangeTime, "BountyHunter's target changing time"},
-                {lang.BountySuccessKillCoolDown, "BountyHunter's killcooldown after target kill"},
-                {lang.BountyFailureKillCoolDown, "BountyHunter's killCooldown"},
+                {lang.BountySuccessKillCooldown, "BountyHunter's killcooldown after target kill"},
+                {lang.BountyFailureKillCooldown, "BountyHunter's killCooldown"},
                 {lang.BHDefaultKillCooldown, "Impostors' killcooldown(If BountyHunters are existing)"},
                 {lang.ShapeMasterShapeshiftDuration, "ShapeMaster Shapeshift Duration"},
                 {lang.HideAndSeekWaitingTime, "Impostor Waiting Time"},
@@ -1488,8 +1488,8 @@ namespace TownOfHost
         SerialKillerCooldown,
         SerialKillerLimit,
         BountyTargetChangeTime,
-        BountySuccessKillCoolDown,
-        BountyFailureKillCoolDown,
+        BountySuccessKillCooldown,
+        BountyFailureKillCooldown,
         BHDefaultKillCooldown,
         ShapeMasterShapeshiftDuration,
         HideAndSeekOptions,
