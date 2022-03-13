@@ -43,11 +43,15 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | Impostors | Crewmates | Neutral |
 |----------|-------------|-----------------|
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
-| [Mafia](###Mafia) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
-| [Vampire](###Vampire) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Witch](###Witch) | [Sheriff](###Sheriff) |  |
-| [Madmate](###Madmate) | [Snitch](###Snitch) |  |
+| [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
+| [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
+| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
+| [Witch](###Witch) |  |  |
+| [Mafia](###Mafia) |  |  |
+| [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
+| [MadSnitch](###MadSnitch) |  |  |
 
 ### BountyHunter
 
@@ -57,16 +61,39 @@ Decision : Impostor<br>
 If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
 If they kill the player who is not their target, they will keep their next kill cooldown.<br>
 
-### Mafia
+#### Settings
 
-Team : Impostors<br>
+| Settings Name |
+|----------|
+| Time to change target(s) |
+| Cooldown time after killing the target(s) |
+| Cooldown time after killing anything other than the target(s) |
+| Kill cooldown time other than BountyHunter(s) |
+
+### SerialKiller
+
+Team : Impostor<br>
 Decision : Shapeshifter<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
-Once all Impostors who are not them are dead, they will be able to kill.<br>
-If they can not kill, they will still have a kill button, but they can not kill.<br>
-They can transform after becoming to able to kill.<br>
+SerialKiller's killcooldown is shorter than defalt Impostor.<br>
+If he can not kill on deadline, he will kill him.<br>
 
+| Settings Name |
+|----------|
+| Kill cool down time(s) |
+| Time to self-destruct(s) |
+
+### ShapeMaster
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+Shape Master ignores the cooldown after a transformation and can transform again.<br>
+However, the transformation lasts only 10 seconds.<br>
+
+| Settings Name |
+|----------|
+| Transformable time(s) |
 ### Vampire
 
 Team : Impostors<br>
@@ -83,6 +110,14 @@ However, only if they kill the [Baits](###Bait) will it be a normal kill and the
 |----------|
 | Vampire Kill Delay(s) |
 
+### Warlock
+
+Team : Impostor<br>
+Decision : Shapeshifter<br>
+
+If warlock kills before shapeshifting, the target will be cursed.<br>
+If he try to shapeshift again, the nearest crewmate will be killed<br>
+
 ### Witch
 
 Team : Impostors<br>
@@ -90,6 +125,16 @@ Decision : Impostor<br>
 
 Pressing the kill button toggles between kill mode and spell mode, and pressing the kill button while in spell mode allows them to cast a spell on the target.<br>
 The target will be given a special mark at the meeting and will die if the Witches cannot be banished during the meeting.<br>
+
+### Mafia
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
+Once all Impostors who are not them are dead, they will be able to kill.<br>
+If they can not kill, they will still have a kill button, but they can not kill.<br>
+They can transform after becoming to able to kill.<br>
 
 ### Madmate
 
@@ -122,6 +167,16 @@ They can not kill, sabotage, and using vents.<br>
 |----------|
 | [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
 | MadGuardian Can See Own Cracked Barrier |
+
+### MadSnitch
+
+Team : Impostor<br>
+Decision : Crewmate<br>
+
+Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
+Impostors also doesn't know who MadSnitch is.<br>
+However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
+They are unable to enter vent.<br>
 
 ### Bait
 
@@ -223,8 +278,6 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 It is possible to disable certain tasks.<br>
 
-#### Settings
-
 | Settings Name |
 |----------|
 | Disable StartReactor Tasks |
@@ -316,6 +369,18 @@ This is the mode in which all players' button counts are synchronised.<br>
 | When Skip Vote |
 | When Non-Vote |
 
+#### Client Settings
+## HideCodes
+
+By activating, you can hide the lobby code.
+
+You can rewrite the``Hide Game Code Name``in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
+You can also change the text color as you like by rewriting``Hide Game Code Color``.
+
+## JapaneseRoleName
+
+By activating, the job title can be displayed in Japanese.
+If the client language is English, this setting is meaningless unless the host has``ForceJapanese``enabled.
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>

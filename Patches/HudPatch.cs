@@ -1,14 +1,7 @@
-using System.Diagnostics;
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
 using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -79,9 +72,15 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Madmate)}>{main.getLang(lang.MadmateInfo)}</color>\r\n";
                     TaskTextPrefix += FakeTasksText;
                     break;
+                case CustomRoles.SKMadmate:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SKMadmate)}>{main.getRoleName(CustomRoles.SKMadmate)}</color>\r\n{main.getLang(lang.SKMadmateInfo)}\r\n";
+                    TaskTextPrefix += FakeTasksText;
+                    break;
                 case CustomRoles.MadGuardian:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianInfo)}</color>\r\n";
-                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.MadSnitch:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getRoleName(CustomRoles.MadSnitch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{main.getLang(lang.MadSnitchInfo)}</color>\r\n";
                     break;
                 case CustomRoles.Jester:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getRoleName(CustomRoles.Jester)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Jester)}>{main.getLang(lang.JesterInfo)}</color>\r\n";
@@ -130,6 +129,15 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Witch:
                     TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getRoleName(CustomRoles.Witch)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Witch)}>{main.getLang(lang.WitchInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.ShapeMaster:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{main.getRoleName(CustomRoles.ShapeMaster)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{main.getLang(lang.ShapeMasterInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.Warlock:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={main.getRoleColorCode(CustomRoles.Warlock)}>{main.getLang(lang.WarlockInfo)}</color>\r\n";
+                    break;
+                case CustomRoles.SerialKiller:
+                    TaskTextPrefix = $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{main.getRoleName(CustomRoles.SerialKiller)}\r\n{main.getLang(lang.SerialKillerInfo)}</color>\r\n";
                     break;
             }
 

@@ -1,14 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -205,9 +197,12 @@ namespace TownOfHost
                     }
                 }
             if (main.currentWinner != CustomWinner.Draw) {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}<color={CustomWinnerColor}>{main.getLang(lang.Win)}";
+                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{main.getLang(lang.Win)}</color>";
             }
+            main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.SerialKillerTimer = new Dictionary<byte, float>(); 
+            
             NameColorManager.Instance.RpcReset();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {

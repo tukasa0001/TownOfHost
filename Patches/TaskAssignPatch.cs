@@ -1,15 +1,5 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using Hazel;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 
 namespace TownOfHost
 {
@@ -28,6 +18,7 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTasks.Add(task);//金庫タスク
                 if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTasks.Add(task);//アップロードタスク
                 if (task.TaskType == TaskTypes.StartReactor && main.DisableStartReactor) disabledTasks.Add(task);//リアクターの3x3タスク
+                if (task.TaskType == TaskTypes.ResetBreakers && main.DisableResetBreaker) disabledTasks.Add(task);//レバータスク
             }
             foreach (var task in disabledTasks)
             {

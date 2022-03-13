@@ -1,17 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
 using Hazel;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -57,18 +46,23 @@ namespace TownOfHost
                 case (byte)CustomRPC.SyncCustomSettings:
                     int JesterCount = reader.ReadInt32();
                     int MadmateCount = reader.ReadInt32();
+                    int SKMadmateCount = reader.ReadInt32();
                     int BaitCount = reader.ReadInt32();
                     int TerroristCount = reader.ReadInt32();
                     int MafiaCount = reader.ReadInt32();
                     int VampireCount = reader.ReadInt32();
                     int SabotageMasterCount = reader.ReadInt32();
                     int MadGuardianCount = reader.ReadInt32();
+                    int MadSnitchCount = reader.ReadInt32();
                     int MayorCount = reader.ReadInt32();
                     int OpportunistCount = reader.ReadInt32();
                     int SnitchCount = reader.ReadInt32();
                     int SheriffCount = reader.ReadInt32();
                     int BountyHunterCount = reader.ReadInt32();
                     int WitchCount = reader.ReadInt32();
+                    int ShapeMasterCount = reader.ReadInt32();
+                    int WarlockCount = reader.ReadInt32();
+                    int SerialKillerCount = reader.ReadInt32();
                     int FoxCount = reader.ReadInt32();
                     int TrollCount = reader.ReadInt32();
 
@@ -79,6 +73,7 @@ namespace TownOfHost
                     bool UnlockSafeDisabled = reader.ReadBoolean();
                     bool UploadDataDisabled = reader.ReadBoolean();
                     bool StartReactorDisabled = reader.ReadBoolean();
+                    bool ResetBreakerDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
@@ -101,23 +96,38 @@ namespace TownOfHost
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
+                    bool MadmateVisionAsImpostor = reader.ReadBoolean();
+                    int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
+                    int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
+                    int SerialKillerCooldown = reader.ReadInt32();
+                    int SerialKillerLimit = reader.ReadInt32();
+                    int BountyTargetChangeTime = reader.ReadInt32();
+                    int BountySuccessKillCoolDown = reader.ReadInt32();
+                    int BountyFailureKillCoolDown = reader.ReadInt32();
+                    int BHDefaultKillCooldown = reader.ReadInt32();
+                    int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
+                        SKMadmateCount,
                         BaitCount,
                         TerroristCount,
                         MafiaCount,
                         VampireCount,
                         SabotageMasterCount,
                         MadGuardianCount,
+                        MadSnitchCount,
                         MayorCount,
                         OpportunistCount,
                         SnitchCount,
                         SheriffCount,
                         BountyHunterCount,
                         WitchCount,
+                        ShapeMasterCount,
+                        WarlockCount,
+                        SerialKillerCount,
                         FoxCount,
                         TrollCount,
                         IsHideAndSeek,
@@ -127,6 +137,7 @@ namespace TownOfHost
                         UnlockSafeDisabled,
                         UploadDataDisabled,
                         StartReactorDisabled,
+                        ResetBreakerDisabled,
                         VampireKillDelay,
                         SabotageMasterSkillLimit,
                         SabotageMasterFixesDoors,
@@ -139,6 +150,13 @@ namespace TownOfHost
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
                         SheriffCanKillMadmate,
+                        SerialKillerCooldown,
+                        SerialKillerLimit,
+                        BountyTargetChangeTime,
+                        BountySuccessKillCoolDown,
+                        BountyFailureKillCoolDown,
+                        BHDefaultKillCooldown,
+                        ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -149,7 +167,10 @@ namespace TownOfHost
                         IgnoreVent,
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
+                        MadmateVisionAsImpostor,
+                        CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
+                        MadSnitchTasks,
                         MayorAdditionalVote
                     );
                     break;
@@ -206,18 +227,23 @@ namespace TownOfHost
         public static void SyncCustomSettings(
                 int JesterCount,
                 int MadmateCount,
+                int SKMadmateCount,
                 int BaitCount,
                 int TerroristCount,
                 int MafiaCount,
                 int VampireCount,
                 int SabotageMasterCount,
                 int MadGuardianCount,
+                int MadSnitchCount,
                 int MayorCount,
                 int OpportunistCount,
                 int SnitchCount,
                 int SheriffCount,
                 int BountyHunterCount,
                 int WitchCount,
+                int ShapeMasterCount,
+                int WarlockCount,
+                int SerialKillerCount,
                 int FoxCount,
                 int TrollCount,
                 bool isHideAndSeek,
@@ -227,6 +253,7 @@ namespace TownOfHost
                 bool UnlockSafeDisabled,
                 bool UploadDataDisabled,
                 bool StartReactorDisabled,
+                bool ResetBreakerDisabled,
                 int VampireKillDelay,
                 int SabotageMasterSkillLimit,
                 bool SabotageMasterFixesDoors,
@@ -239,6 +266,13 @@ namespace TownOfHost
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
                 bool SheriffCanKillMadmate,
+                int SerialKillerCooldown,
+                int SerialKillerLimit,
+                int BountyTargetChangeTime,
+                int BountySuccessKillCoolDown,
+                int BountyFailureKillCoolDown,
+                int BHDefaultKillCooldown,
+                int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -249,23 +283,31 @@ namespace TownOfHost
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
+                bool MadmateVisionAsImpostor,
+                int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
+                int MadSnitchTasks,
                 int MayorAdditionalVote
             ) {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
+            main.SKMadmateCount = SKMadmateCount;
             main.BaitCount = BaitCount;
             main.TerroristCount = TerroristCount;
             main.MafiaCount= MafiaCount;
             main.VampireCount= VampireCount;
             main.SabotageMasterCount= SabotageMasterCount;
             main.MadGuardianCount = MadGuardianCount;
+            main.MadSnitchCount = MadSnitchCount;
             main.MayorCount = MayorCount;
             main.OpportunistCount= OpportunistCount;
             main.SnitchCount= SnitchCount;
             main.SheriffCount = SheriffCount;
             main.BountyHunterCount= BountyHunterCount;
             main.WitchCount = WitchCount;
+            main.ShapeMasterCount = ShapeMasterCount;
+            main.WarlockCount = WarlockCount;
+            main.SerialKillerCount = SerialKillerCount;
 
             main.FoxCount = FoxCount;
             main.TrollCount = TrollCount;
@@ -278,6 +320,7 @@ namespace TownOfHost
             main.DisableUnlockSafe = UnlockSafeDisabled;
             main.DisableUploadData = UploadDataDisabled;
             main.DisableStartReactor = StartReactorDisabled;
+            main.DisableResetBreaker = ResetBreakerDisabled;
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
@@ -299,6 +342,14 @@ namespace TownOfHost
             main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
             main.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
+            main.SerialKillerCooldown = SerialKillerCooldown;
+            main.SerialKillerLimit = SerialKillerLimit;
+            main.BountyTargetChangeTime = BountyTargetChangeTime;
+            main.BountySuccessKillCoolDown = BountySuccessKillCoolDown;
+            main.BountyFailureKillCoolDown = BountyFailureKillCoolDown;
+            main.BHDefaultKillCooldown = BHDefaultKillCooldown;
+            main.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
+
             main.SyncButtonMode = SyncButtonMode;
             main.SyncedButtonCount = SyncedButtonCount;
 
@@ -313,6 +364,10 @@ namespace TownOfHost
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadmateCanFixComms = MadmateCanFixComms;
             main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
+            main.CanMakeMadmateCount = CanMakeMadmateCount;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            main.MadSnitchTasks = MadSnitchTasks;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
         }
