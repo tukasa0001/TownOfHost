@@ -29,9 +29,10 @@ namespace TownOfHost
             return data;
         }
         public void Add(byte seerId, byte targetId, string color) {
-            NameColors.Add(new NameColorData(seerId, targetId, color));
+            Add(new NameColorData(seerId, targetId, color));
         }
         public void Add(NameColorData data) {
+            Remove(data.seerId, data.targetId);
             NameColors.Add(data);
         }
         public void Remove(byte seerId, byte targetId) {
