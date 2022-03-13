@@ -98,7 +98,7 @@ namespace TownOfHost
                     bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
-                    bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
+                    bool MadGuardianCanSeeWhoTriedToKill = reader.ReadBoolean();
                     int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
@@ -169,7 +169,7 @@ namespace TownOfHost
                         MadmateCanFixComms,
                         MadmateVisionAsImpostor,
                         CanMakeMadmateCount,
-                        MadGuardianCanSeeBarrier,
+                        MadGuardianCanSeeWhoTriedToKill,
                         MadSnitchTasks,
                         MayorAdditionalVote
                     );
@@ -285,7 +285,7 @@ namespace TownOfHost
                 bool MadmateCanFixComms,
                 bool MadmateVisionAsImpostor,
                 int CanMakeMadmateCount,
-                bool MadGuardianCanSeeBarrier,
+                bool MadGuardianCanSeeWhoTriedToKill,
                 int MadSnitchTasks,
                 int MayorAdditionalVote
             ) {
@@ -363,10 +363,10 @@ namespace TownOfHost
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadmateCanFixComms = MadmateCanFixComms;
-            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeWhoTriedToKill;
             main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
             main.CanMakeMadmateCount = CanMakeMadmateCount;
-            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeWhoTriedToKill;
             main.MadSnitchTasks = MadSnitchTasks;
 
             main.MayorAdditionalVote = MayorAdditionalVote;

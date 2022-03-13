@@ -92,7 +92,7 @@ MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直
 MadmateVisionAsImpostor,Madmate vision is as long as Impostor one,マッドメイトの視野がインポスターと同じ
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
-MadGuardianCanSeeWhoTriedKill,MadGuardian Can See Who Tried Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
+MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
@@ -102,6 +102,7 @@ SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
+SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する

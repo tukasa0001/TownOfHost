@@ -429,7 +429,6 @@ namespace TownOfHost
                     if (main.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", getString("SheriffCanKillTerrorist"), getOnOff(main.SheriffCanKillTerrorist));
                     if (main.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", getString("SheriffCanKillOpportunist"), getOnOff(main.SheriffCanKillOpportunist));
                     if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", getString("SheriffCanKillMadmate"), getOnOff(main.SheriffCanKillMadmate));
-                    if (main.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(main.MadmateCanFixComms));
                 }
                 if(main.MadGuardianCount > 0 || main.MadSnitchCount > 0 || main.MadmateCount > 0 || main.SKMadmateCount > 0)
                 {
