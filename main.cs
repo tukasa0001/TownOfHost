@@ -352,30 +352,30 @@ namespace TownOfHost
             if(main.IsHideAndSeek)
             {
                 main.SendToAll(getString("HideAndSeekInfo"));
-                if(main.FoxCount > 0 ){ main.SendToAll(getString("FoxInfoLong")); }
-                if(main.TrollCount > 0 ){ main.SendToAll(getString("TrollInfoLong")); }
+                if(main.FoxCount > 0 ){ main.SendToAll(getRoleName(CustomRoles.Fox)+getString("FoxInfoLong")); }
+                if(main.TrollCount > 0 ){ main.SendToAll(getRoleName(CustomRoles.Troll)+getString("TrollInfoLong")); }
             }else{
                 if(main.SyncButtonMode){ main.SendToAll(getString("SyncButtonModeInfo")); }
                 if(main.RandomMapsMode) { main.SendToAll(getString("RandomMapsModeInfo")); }
-                if(main.VampireCount > 0) main.SendToAll(getString("VampireInfoLong"));
-                if(main.BountyHunterCount > 0) main.SendToAll(getString("BountyHunterInfoLong"));
-                if(main.WitchCount > 0) main.SendToAll(getString("WitchInfoLong"));
-                if(main.WarlockCount > 0) main.SendToAll(getString("WarlockInfoLong"));
-                if(main.SerialKillerCount > 0) main.SendToAll(getString("SerialKillerInfoLong"));
-                if(main.MafiaCount > 0) main.SendToAll(getString("MafiaInfoLong"));
-                if(main.ShapeMasterCount > 0) main.SendToAll(getString("ShapeMasterInfoLong"));
-                if(main.MadmateCount > 0) main.SendToAll(getString("MadmateInfoLong"));
-                if(main.SKMadmateCount > 0) main.SendToAll(getString("SKMadmateInfoLong"));
-                if(main.MadGuardianCount > 0) main.SendToAll(getString("MadGuardianInfoLong"));
-                if(main.MadSnitchCount > 0) main.SendToAll(getString("MadSnitchInfoLong"));
-                if(main.JesterCount > 0) main.SendToAll(getString("JesterInfoLong"));
-                if(main.TerroristCount > 0) main.SendToAll(getString("TerroristInfoLong"));
-                if(main.OpportunistCount > 0) main.SendToAll(getString("OpportunistInfoLong"));
-                if(main.BaitCount > 0) main.SendToAll(getString("BaitInfoLong"));
-                if(main.MayorCount > 0) main.SendToAll(getString("MayorInfoLong"));
-                if(main.SabotageMasterCount > 0) main.SendToAll(getString("SabotageMasterInfoLong"));
-                if(main.SheriffCount > 0) main.SendToAll(getString("SheriffInfoLong"));
-                if(main.SnitchCount > 0) main.SendToAll(getString("SnitchInfoLong"));
+                if(main.VampireCount > 0) main.SendToAll(getRoleName(CustomRoles.Vampire)+getString("VampireInfoLong"));
+                if(main.BountyHunterCount > 0) main.SendToAll(getRoleName(CustomRoles.BountyHunter)+getString("BountyHunterInfoLong"));
+                if(main.WitchCount > 0) main.SendToAll(getRoleName(CustomRoles.Witch)+getString("WitchInfoLong"));
+                if(main.WarlockCount > 0) main.SendToAll(getRoleName(CustomRoles.Warlock)+getString("WarlockInfoLong"));
+                if(main.SerialKillerCount > 0) main.SendToAll(getRoleName(CustomRoles.SerialKiller)+getString("SerialKillerInfoLong"));
+                if(main.MafiaCount > 0) main.SendToAll(getRoleName(CustomRoles.Mafia)+getString("MafiaInfoLong"));
+                if(main.ShapeMasterCount > 0) main.SendToAll(getRoleName(CustomRoles.Shapeshifter)+getString("ShapeMasterInfoLong"));
+                if(main.MadmateCount > 0) main.SendToAll(getRoleName(CustomRoles.Madmate)+getString("MadmateInfoLong"));
+                if(main.SKMadmateCount > 0) main.SendToAll(getRoleName(CustomRoles.SKMadmate)+getString("SKMadmateInfoLong"));
+                if(main.MadGuardianCount > 0) main.SendToAll(getRoleName(CustomRoles.MadGuardian)+getString("MadGuardianInfoLong"));
+                if(main.MadSnitchCount > 0) main.SendToAll(getRoleName(CustomRoles.MadSnitch)+getString("MadSnitchInfoLong"));
+                if(main.JesterCount > 0) main.SendToAll(getRoleName(CustomRoles.Jester)+getString("JesterInfoLong"));
+                if(main.TerroristCount > 0) main.SendToAll(getRoleName(CustomRoles.Terrorist)+getString("TerroristInfoLong"));
+                if(main.OpportunistCount > 0) main.SendToAll(getRoleName(CustomRoles.Opportunist)+getString("OpportunistInfoLong"));
+                if(main.BaitCount > 0) main.SendToAll(getRoleName(CustomRoles.Bait)+getString("BaitInfoLong"));
+                if(main.MayorCount > 0) main.SendToAll(getRoleName(CustomRoles.Mayor)+getString("MayorInfoLong"));
+                if(main.SabotageMasterCount > 0) main.SendToAll(getRoleName(CustomRoles.SabotageMaster)+getString("SabotageMasterInfoLong"));
+                if(main.SheriffCount > 0) main.SendToAll(getRoleName(CustomRoles.Sheriff)+getString("SheriffInfoLong"));
+                if(main.SnitchCount > 0) main.SendToAll(getRoleName(CustomRoles.Snitch)+getString("SnitchInfoLong"));
             }
             if(main.NoGameEnd){ main.SendToAll(getString("NoGameEndInfo")); }
         }
