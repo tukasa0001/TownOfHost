@@ -56,8 +56,8 @@ namespace TownOfHost
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             } else if(PlayerControl.LocalPlayer.isWitch()) {
                 //魔女用処理
-                lang ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? lang.WitchModeSpell : lang.WitchModeKill;
-                LowerInfoText.text = getString("WitchCurrentMode") + ":" + main.getLang(ModeLang);
+                var ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
+                LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
                 LowerInfoText.enabled = true;
             } else {
                 //バウンティハンターじゃない
