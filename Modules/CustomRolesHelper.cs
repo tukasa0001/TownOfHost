@@ -25,6 +25,16 @@ namespace TownOfHost {
                 role == CustomRoles.MadSnitch;
         }
         public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
+        public static bool isNeutral(this CustomRoles role) {
+            if(!AmongUsClient.Instance.IsGameStarted && 
+            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
+            return
+                role == CustomRoles.Jester ||
+                role == CustomRoles.Opportunist ||
+                role == CustomRoles.Terrorist ||
+                role == CustomRoles.Troll ||
+                role == CustomRoles.Fox;
+        }
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
                 role.isImpostor() ||
