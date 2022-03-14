@@ -265,7 +265,7 @@ namespace TownOfHost
                     if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
                     {
                         pc.RpcMurderPlayer(pc);
-                        main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
+                        RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
                     }
                     else
@@ -323,7 +323,7 @@ namespace TownOfHost
                         if (!__instance.Data.IsDead)
                         {
                             __instance.RpcMurderPlayer(__instance);
-                            main.PlaySoundRPC(vampireID, Sounds.KillSound);
+                            RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
                         }
                         else
@@ -343,7 +343,7 @@ namespace TownOfHost
                         if(!__instance.Data.IsDead)
                         {
                             __instance.RpcMurderPlayer(__instance);
-                            main.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                            RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
                         }
                         else
                         main.SerialKillerTimer.Remove(__instance.PlayerId);

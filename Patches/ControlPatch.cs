@@ -77,7 +77,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
             {
-                main.SyncCustomSettingsRPC();
+                RPC.SyncCustomSettingsRPC();
             }
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {

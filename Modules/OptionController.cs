@@ -160,7 +160,7 @@ namespace TownOfHost
 
             if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onEnter();
-            main.SyncCustomSettingsRPC();
+            RPC.SyncCustomSettingsRPC();
         }
         public static void Return()
         {
@@ -173,7 +173,7 @@ namespace TownOfHost
 
             if (selectingObj.isHostOnly && !AmongUsClient.Instance.AmHost) return;
             selectingObj.onInput(num);
-            main.SyncCustomSettingsRPC();
+            RPC.SyncCustomSettingsRPC();
         }
         public static string GetOptionText()
         {
