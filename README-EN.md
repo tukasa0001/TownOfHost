@@ -89,11 +89,12 @@ Team : Impostor<br>
 Decision : ShapeShifter<br>
 
 Shape Master ignores the cooldown after a transformation and can transform again.<br>
-However, the transformation lasts only 10 seconds.<br>
+Normally, the transformation lasts only 10 seconds, but the duration of the transformation can be changed through settings.<br>
 
 | Settings Name |
 |----------|
 | Transformable time(s) |
+
 ### Vampire
 
 Team : Impostors<br>
