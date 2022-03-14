@@ -249,8 +249,8 @@ namespace TownOfHost {
                 case CustomRoles.Lighter:
                     if(player.getPlayerTaskState().isTaskFinished){
                         opt.CrewLightMod = opt.ImpostorLightMod;
-                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if(sm != null && sm.IsActive) {
+                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(li != null && li.IsActive) {
                             opt.CrewLightMod *= 5;
                         }
                     }
