@@ -239,6 +239,20 @@ namespace TownOfHost
             this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
             parent?.ChildPages.Add(this); //親のリストに自分を追加
         }
+        public PageObject( //フォルダー3
+            PageObject parent,
+            Func<string> name,
+            bool isHostOnly = false
+        ) {
+            this.parent = parent; //親オブジェクト
+            this.getName = name; //名前
+            this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
+            this.onEnter = () => CustomOptionController.SetPage(this);
+            this.onInput = (i) => {}; //入力時の動作
+
+            this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
+            parent?.ChildPages.Add(this); //親のリストに自分を追加
+        }
         public PageObject( //ON・OFF
             PageObject parent,
             Func<string> name,
