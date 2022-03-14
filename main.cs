@@ -514,6 +514,9 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
         public static bool MadGuardianCanSeeWhoTriedToKill;
+        public static OverrideTasksData MadGuardianTasksData;
+        public static OverrideTasksData TerroristTasksData;
+        public static OverrideTasksData SnitchTasksData;
         public class OverrideTasksData {
             public CustomRoles TargetRole;
             public bool doOverride;
@@ -521,21 +524,18 @@ namespace TownOfHost
             public int NumLongTasks;
             public int NumShortTasks;
             public void Serialize(MessageWriter writer) {
-                writer.Write((byte)TargetRole);
                 writer.Write(doOverride);
                 writer.Write(hasCommonTasks);
                 writer.Write(NumLongTasks);
                 writer.Write(NumShortTasks);
             }
-            public void DeserializeAndReplace(MessageReader reader) {
-                CustomRoles recevedRole = (CustomRoles)reader.ReadByte();
-                if(this.TargetRole != recevedRole) {
-                    TownOfHost.Logger.warn($"警告:受信したOverrideTasksDataのTargetRoleがローカルと一致しません(ローカル:{TargetRole.ToString()},受信:{recevedRole.ToString()})");
-                }
-                this.doOverride = reader.ReadBoolean();
-                this.hasCommonTasks = reader.ReadBoolean();
-                this.NumLongTasks = reader.ReadInt32();
-                this.NumShortTasks = reader.ReadInt32();
+            public static OverrideTasksData Deserialize(MessageReader reader, CustomRoles targetRole) {
+                OverrideTasksData data = new OverrideTasksData(targetRole);
+                data.doOverride = reader.ReadBoolean();
+                data.hasCommonTasks = reader.ReadBoolean();
+                data.NumLongTasks = reader.ReadInt32();
+                data.NumShortTasks = reader.ReadInt32();
+                return data;
             }
             public OverrideTasksData(CustomRoles TargetRole) {
                 this.TargetRole = TargetRole;
@@ -601,6 +601,10 @@ namespace TownOfHost
             writer.Write(MadmateCanFixComms);
             writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MayorAdditionalVote);
+
+            MadGuardianTasksData.Serialize(writer);
+            TerroristTasksData.Serialize(writer);
+            SnitchTasksData.Serialize(writer);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -892,6 +896,10 @@ namespace TownOfHost
             MadmateCanFixLightsOut = false;
             MadmateCanFixComms = false;
             MadGuardianCanSeeWhoTriedToKill = false;
+
+            MadGuardianTasksData = new OverrideTasksData(CustomRoles.MadGuardian);
+            TerroristTasksData = new OverrideTasksData(CustomRoles.Terrorist);
+            SnitchTasksData = new OverrideTasksData(CustomRoles.Snitch);
 
             MayorAdditionalVote = 1;
 
