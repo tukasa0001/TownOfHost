@@ -296,6 +296,79 @@ namespace TownOfHost
 
             Options.MayorAdditionalVote = MayorAdditionalVote;
         }
+        //SyncCustomSettingsRPC Sender
+        public static void SyncCustomSettingsRPC()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+            foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
+
+            writer.Write(Options.IsHideAndSeek);
+            writer.Write(Options.NoGameEnd);
+            writer.Write(Options.DisableSwipeCard);
+            writer.Write(Options.DisableSubmitScan);
+            writer.Write(Options.DisableUnlockSafe);
+            writer.Write(Options.DisableUploadData);
+            writer.Write(Options.DisableStartReactor);
+            writer.Write(Options.DisableResetBreaker);
+            writer.Write(Options.VampireKillDelay);
+            writer.Write(Options.SabotageMasterSkillLimit);
+            writer.Write(Options.SabotageMasterFixesDoors);
+            writer.Write(Options.SabotageMasterFixesReactors);
+            writer.Write(Options.SabotageMasterFixesOxygens);
+            writer.Write(Options.SabotageMasterFixesCommunications);
+            writer.Write(Options.SabotageMasterFixesElectrical);
+            writer.Write(Options.SheriffKillCooldown);
+            writer.Write(Options.SheriffCanKillJester);
+            writer.Write(Options.SheriffCanKillTerrorist);
+            writer.Write(Options.SheriffCanKillOpportunist);
+            writer.Write(Options.SheriffCanKillMadmate);
+            writer.Write(Options.SyncButtonMode);
+            writer.Write(Options.SyncedButtonCount);
+            writer.Write((int)Options.whenSkipVote);
+            writer.Write((int)Options.whenNonVote);
+            writer.Write(Options.canTerroristSuicideWin);
+            writer.Write(Options.AllowCloseDoors);
+            writer.Write(Options.HideAndSeekKillDelay);
+            writer.Write(Options.IgnoreVent);
+            writer.Write(Options.IgnoreCosmetics);
+            writer.Write(Options.MadmateCanFixLightsOut);
+            writer.Write(Options.MadmateCanFixComms);
+            writer.Write(Options.MadmateVisionAsImpostor);
+            writer.Write(Options.CanMakeMadmateCount);
+            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
+            writer.Write(Options.MadSnitchTasks);
+            writer.Write(Options.MayorAdditionalVote);
+            writer.Write(Options.SerialKillerCooldown);
+            writer.Write(Options.SerialKillerLimit);
+            writer.Write(Options.BountyTargetChangeTime);
+            writer.Write(Options.BountySuccessKillCooldown);
+            writer.Write(Options.BountyFailureKillCooldown);
+            writer.Write(Options.BHDefaultKillCooldown);
+            writer.Write(Options.ShapeMasterShapeshiftDuration);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void PlaySoundRPC(byte PlayerID, Sounds sound)
+        {
+            if (AmongUsClient.Instance.AmHost)
+                RPC.PlaySound(PlayerID, sound);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
+            writer.Write(PlayerID);
+            writer.Write((byte)sound);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, sendTo.getClientId());
+            writer.Write((byte)role);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void ExileAsync(PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            player.Exiled();
+        }
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;

@@ -28,7 +28,7 @@ namespace TownOfHost {
         }
 
         public static void RpcExile(this PlayerControl player) {
-            main.ExileAsync(player);
+            RPC.ExileAsync(player);
         }
         public static InnerNet.ClientData getClient(this PlayerControl player) {
             var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();

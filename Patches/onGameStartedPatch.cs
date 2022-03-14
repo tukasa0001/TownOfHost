@@ -49,7 +49,7 @@ namespace TownOfHost
 
                 main.VisibleTasksCount = true;
 
-                main.SyncCustomSettingsRPC();
+                RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
                 if(Options.IsHideAndSeek) {
                     Options.HideAndSeekKillDelayTimer = Options.HideAndSeekKillDelay;
