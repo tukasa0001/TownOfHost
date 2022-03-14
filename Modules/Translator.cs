@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-
 namespace TownOfHost {
     public static class Translator
     {
@@ -9,10 +8,10 @@ namespace TownOfHost {
         static Translator()
         {
             Logger.info("Language Dictionary Initialize...");
-            load();
+            loadLangs();
             Logger.info("Language Dictionary Initialize Finished");
         }
-        public static void load()
+        public static void loadLangs()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var stream = assembly.GetManifestResourceStream("TownOfHost.Resources.string.csv");
@@ -39,7 +38,7 @@ namespace TownOfHost {
                     }
                 }
                 for(var i=1; i < fields.Count; i++)
-                {                    
+                {
                     var tmp_str = fields[i].Replace("\\n","\n").Trim('"');
                     tmp.Add(Int32.Parse(header[i]),tmp_str);
                 }
@@ -49,16 +48,23 @@ namespace TownOfHost {
 
         public static string getString(string s)
         {
-            int langId = TranslationController._instance != null ? (int)TranslationController.Instance.CurrentLanguage.languageID:0;
+            var langId = TranslationController.InstanceExists ? TranslationController.Instance.CurrentLanguage.languageID : SupportedLangs.English; 
+            if(Options.forceJapanese) langId = SupportedLangs.Japanese;
+            return getString(s,langId);
+        }
+
+        public static string getString(string s,SupportedLangs langId)
+        {
             var res = "";
             if(tr.TryGetValue(s,out var dic))
             {
-                if(dic.TryGetValue(langId,out res))
+                if(dic.TryGetValue((int)langId,out res))
                 {
                     return res;
                 } else {
                     if(dic.TryGetValue(0,out res))
                     {
+                        Logger.info($"Redirect to English: {res}");
                         return res;
                     }else{
                         return $"<INVALID:{s}>";

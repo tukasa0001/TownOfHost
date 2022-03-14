@@ -27,7 +27,7 @@ Snitch,Snitch,スニッチ
 Fox,Fox,狐
 Troll,Troll,トロール
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
-SerialKillerInfo,Keep killng to win,殺し続けて勝利を狙おう
+SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
 WarlockInfo,Curse and kill your enemies,敵を呪い殺そう
@@ -142,13 +142,18 @@ VoteMode,VoteMode,投票モード
 Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
+DeathReason.Kill,Kill,死亡
+DeathReason.Vote,Vote,追放
+DeathReason.Suicide,Suicide,自爆
+DeathReason.Spell,Spelled,呪殺
+DeathReason.etc,Living,生存
 Win,Wins,勝利
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 ON,ON,ON
 OFF,OFF,OFF
-CurrentActiveSettingHelps,Current active setting helps,現在有効な設定の説明
+CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 Roles,Roles,役職
 Settings,Settings,設定
 RoleAssignment,Role Assignment,ロール割り当て

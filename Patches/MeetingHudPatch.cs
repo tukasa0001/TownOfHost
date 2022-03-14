@@ -33,7 +33,7 @@ namespace TownOfHost
                 if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                 if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                 {
-                    switch (main.whenSkipVote)
+                    switch (Options.whenSkipVote)
                     {
                         case VoteMode.Suicide:
                             PlayerState.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
@@ -49,7 +49,7 @@ namespace TownOfHost
                 }
                 if(ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                 {
-                    switch (main.whenNonVote)
+                    switch (Options.whenNonVote)
                     {
                         case VoteMode.Suicide:
                             PlayerState.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
@@ -68,7 +68,7 @@ namespace TownOfHost
                     VotedForId = ps.VotedFor
                 });
                 if(isMayor(ps.TargetPlayerId))//Mayorの投票数
-                for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
+                for(var i2 = 0; i2 < Options.MayorAdditionalVote; i2++) {
                     statesList.Add(new MeetingHud.VoterState() {
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
@@ -133,7 +133,7 @@ namespace TownOfHost
                 if(ps.VotedFor != (byte) 252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte) 254) {
                     int num;
                     int VoteNum = 1;
-                    if(CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = main.MayorAdditionalVote + 1;
+                    if(CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote + 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
@@ -163,11 +163,11 @@ namespace TownOfHost
                 roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled = false;
             }
-            if (main.SyncButtonMode)
+            if (Options.SyncButtonMode)
             {
                 if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                main.SendToAll("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (main.SyncedButtonCount - main.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+                main.SendToAll("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。");
+                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
             if (AmongUsClient.Instance.AmHost)

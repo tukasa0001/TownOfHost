@@ -1,3 +1,5 @@
+using System.Data;
+using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using Hazel;
@@ -44,27 +46,7 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    int JesterCount = reader.ReadInt32();
-                    int MadmateCount = reader.ReadInt32();
-                    int SKMadmateCount = reader.ReadInt32();
-                    int BaitCount = reader.ReadInt32();
-                    int TerroristCount = reader.ReadInt32();
-                    int MafiaCount = reader.ReadInt32();
-                    int VampireCount = reader.ReadInt32();
-                    int SabotageMasterCount = reader.ReadInt32();
-                    int MadGuardianCount = reader.ReadInt32();
-                    int MadSnitchCount = reader.ReadInt32();
-                    int MayorCount = reader.ReadInt32();
-                    int OpportunistCount = reader.ReadInt32();
-                    int SnitchCount = reader.ReadInt32();
-                    int SheriffCount = reader.ReadInt32();
-                    int BountyHunterCount = reader.ReadInt32();
-                    int WitchCount = reader.ReadInt32();
-                    int ShapeMasterCount = reader.ReadInt32();
-                    int WarlockCount = reader.ReadInt32();
-                    int SerialKillerCount = reader.ReadInt32();
-                    int FoxCount = reader.ReadInt32();
-                    int TrollCount = reader.ReadInt32();
+                    foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
 
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
@@ -94,6 +76,7 @@ namespace TownOfHost
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
+                    bool IgnoreCosmetics = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadmateVisionAsImpostor = reader.ReadBoolean();
@@ -109,27 +92,7 @@ namespace TownOfHost
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPCProcedure.SyncCustomSettings(
-                        JesterCount,
-                        MadmateCount,
-                        SKMadmateCount,
-                        BaitCount,
-                        TerroristCount,
-                        MafiaCount,
-                        VampireCount,
-                        SabotageMasterCount,
-                        MadGuardianCount,
-                        MadSnitchCount,
-                        MayorCount,
-                        OpportunistCount,
-                        SnitchCount,
-                        SheriffCount,
-                        BountyHunterCount,
-                        WitchCount,
-                        ShapeMasterCount,
-                        WarlockCount,
-                        SerialKillerCount,
-                        FoxCount,
-                        TrollCount,
+                        Options.roleCounts,
                         IsHideAndSeek,
                         NoGameEnd,
                         SwipeCardDisabled,
@@ -165,6 +128,7 @@ namespace TownOfHost
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
+                        IgnoreCosmetics,
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
                         MadmateVisionAsImpostor,
@@ -225,27 +189,7 @@ namespace TownOfHost
     }
     static class RPCProcedure {
         public static void SyncCustomSettings(
-                int JesterCount,
-                int MadmateCount,
-                int SKMadmateCount,
-                int BaitCount,
-                int TerroristCount,
-                int MafiaCount,
-                int VampireCount,
-                int SabotageMasterCount,
-                int MadGuardianCount,
-                int MadSnitchCount,
-                int MayorCount,
-                int OpportunistCount,
-                int SnitchCount,
-                int SheriffCount,
-                int BountyHunterCount,
-                int WitchCount,
-                int ShapeMasterCount,
-                int WarlockCount,
-                int SerialKillerCount,
-                int FoxCount,
-                int TrollCount,
+                Dictionary<CustomRoles,int> roleCounts,
                 bool isHideAndSeek,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
@@ -281,6 +225,7 @@ namespace TownOfHost
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
+                bool IgnoreCosmetics,
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
                 bool MadmateVisionAsImpostor,
@@ -289,87 +234,67 @@ namespace TownOfHost
                 int MadSnitchTasks,
                 int MayorAdditionalVote
             ) {
-            main.JesterCount = JesterCount;
-            main.MadmateCount = MadmateCount;
-            main.SKMadmateCount = SKMadmateCount;
-            main.BaitCount = BaitCount;
-            main.TerroristCount = TerroristCount;
-            main.MafiaCount= MafiaCount;
-            main.VampireCount= VampireCount;
-            main.SabotageMasterCount= SabotageMasterCount;
-            main.MadGuardianCount = MadGuardianCount;
-            main.MadSnitchCount = MadSnitchCount;
-            main.MayorCount = MayorCount;
-            main.OpportunistCount= OpportunistCount;
-            main.SnitchCount= SnitchCount;
-            main.SheriffCount = SheriffCount;
-            main.BountyHunterCount= BountyHunterCount;
-            main.WitchCount = WitchCount;
-            main.ShapeMasterCount = ShapeMasterCount;
-            main.WarlockCount = WarlockCount;
-            main.SerialKillerCount = SerialKillerCount;
+            Options.roleCounts = roleCounts;
 
-            main.FoxCount = FoxCount;
-            main.TrollCount = TrollCount;
+            Options.IsHideAndSeek = isHideAndSeek;
+            Options.NoGameEnd = NoGameEnd;
 
-            main.IsHideAndSeek = isHideAndSeek;
-            main.NoGameEnd = NoGameEnd;
-
-            main.DisableSwipeCard = SwipeCardDisabled;
-            main.DisableSubmitScan = SubmitScanDisabled;
-            main.DisableUnlockSafe = UnlockSafeDisabled;
-            main.DisableUploadData = UploadDataDisabled;
-            main.DisableStartReactor = StartReactorDisabled;
-            main.DisableResetBreaker = ResetBreakerDisabled;
+            Options.DisableSwipeCard = SwipeCardDisabled;
+            Options.DisableSubmitScan = SubmitScanDisabled;
+            Options.DisableUnlockSafe = UnlockSafeDisabled;
+            Options.DisableUploadData = UploadDataDisabled;
+            Options.DisableStartReactor = StartReactorDisabled;
+            Options.DisableResetBreaker = ResetBreakerDisabled;
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
 
             main.VisibleTasksCount = true;
 
-            main.VampireKillDelay = VampireKillDelay;
+            Options.VampireKillDelay = VampireKillDelay;
 
-            main.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
-            main.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
-            main.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
-            main.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
-            main.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
-            main.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+            Options.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
+            Options.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
+            Options.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
+            Options.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
+            Options.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
+            Options.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
 
-            main.SheriffKillCooldown = SheriffKillCooldown;
-            main.SheriffCanKillJester = SheriffCanKillJester;
-            main.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
-            main.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
-            main.SheriffCanKillMadmate = SheriffCanKillMadmate;
+            Options.SheriffKillCooldown = SheriffKillCooldown;
+            Options.SheriffCanKillJester = SheriffCanKillJester;
+            Options.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
+            Options.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
+            Options.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
-            main.SerialKillerCooldown = SerialKillerCooldown;
-            main.SerialKillerLimit = SerialKillerLimit;
-            main.BountyTargetChangeTime = BountyTargetChangeTime;
-            main.BountySuccessKillCooldown = BountySuccessKillCooldown;
-            main.BountyFailureKillCooldown = BountyFailureKillCooldown;
-            main.BHDefaultKillCooldown = BHDefaultKillCooldown;
-            main.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
+            Options.SerialKillerCooldown = SerialKillerCooldown;
+            Options.SerialKillerLimit = SerialKillerLimit;
+            Options.BountyTargetChangeTime = BountyTargetChangeTime;
+            Options.BountySuccessKillCooldown = BountySuccessKillCooldown;
+            Options.BountyFailureKillCooldown = BountyFailureKillCooldown;
+            Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
+            Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
-            main.SyncButtonMode = SyncButtonMode;
-            main.SyncedButtonCount = SyncedButtonCount;
+            Options.SyncButtonMode = SyncButtonMode;
+            Options.SyncedButtonCount = SyncedButtonCount;
 
-            main.whenSkipVote = (VoteMode)whenSkipVote;
-            main.whenNonVote = (VoteMode)whenNonVote;
-            main.canTerroristSuicideWin = canTerroristSuicideWin;
+            Options.whenSkipVote = (VoteMode)whenSkipVote;
+            Options.whenNonVote = (VoteMode)whenNonVote;
+            Options.canTerroristSuicideWin = canTerroristSuicideWin;
 
-            main.AllowCloseDoors = AllowCloseDoors;
-            main.HideAndSeekKillDelay = HaSKillDelay;
-            main.IgnoreVent = IgnoreVent;
+            Options.AllowCloseDoors = AllowCloseDoors;
+            Options.HideAndSeekKillDelay = HaSKillDelay;
+            Options.IgnoreVent = IgnoreVent;
+            Options.IgnoreCosmetics = IgnoreCosmetics;
 
-            main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
-            main.MadmateCanFixComms = MadmateCanFixComms;
-            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            main.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
-            main.CanMakeMadmateCount = CanMakeMadmateCount;
-            main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            main.MadSnitchTasks = MadSnitchTasks;
+            Options.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
+            Options.MadmateCanFixComms = MadmateCanFixComms;
+            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            Options.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
+            Options.CanMakeMadmateCount = CanMakeMadmateCount;
+            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            Options.MadSnitchTasks = MadSnitchTasks;
 
-            main.MayorAdditionalVote = MayorAdditionalVote;
+            Options.MayorAdditionalVote = MayorAdditionalVote;
         }
         public static void JesterExiled(byte jesterID)
         {

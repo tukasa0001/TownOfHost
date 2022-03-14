@@ -31,8 +31,8 @@ namespace TownOfHost
             main.BountyMeetingCheck = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
 
-            main.UsedButtonCount = 0;
-            main.SabotageMasterUsedSkillCount = 0;
+            Options.UsedButtonCount = 0;
+            Options.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
@@ -51,9 +51,9 @@ namespace TownOfHost
 
                 main.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
-                if(main.IsHideAndSeek) {
-                    main.HideAndSeekKillDelayTimer = main.HideAndSeekKillDelay;
-                    main.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
+                if(Options.IsHideAndSeek) {
+                    Options.HideAndSeekKillDelayTimer = Options.HideAndSeekKillDelay;
+                    Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
         }
@@ -64,15 +64,15 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
-            if(!main.IsHideAndSeek) {
+            if(!Options.IsHideAndSeek) {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                int AdditionalEngineerNum = main.MadmateCount + main.TerroristCount;// - EngineerNum;
+                int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount + main.ShapeMasterCount;//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();//- ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 
@@ -81,8 +81,8 @@ namespace TownOfHost
                     AllPlayers.Add(pc);
                 }
 
-                if(main.SheriffCount > 0)
-                for(var i = 0; i < main.SheriffCount; i++) {
+                if(CustomRoles.Sheriff.isEnable())
+                for(var i = 0; i < CustomRoles.Sheriff.getCount(); i++) {
                     if(AllPlayers.Count <= 0) break;
                     var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count)];
                     AllPlayers.Remove(sheriff);
@@ -113,7 +113,7 @@ namespace TownOfHost
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
-            if(main.IsHideAndSeek) {
+            if(Options.IsHideAndSeek) {
                 rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
 
@@ -130,14 +130,14 @@ namespace TownOfHost
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
                     }
-                    if(main.IgnoreCosmetics) {
+                    if(Options.IgnoreCosmetics) {
                         pc.RpcSetHat("");
                         pc.RpcSetSkin("");
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
-                int FixedFoxCount = Math.Clamp(main.FoxCount,0,Crewmates.Count);
-                int FixedTrollCount = Math.Clamp(main.TrollCount,0,Crewmates.Count - FixedFoxCount);
+                int FixedFoxCount = Math.Clamp(CustomRoles.Fox.getCount(),0,Crewmates.Count);
+                int FixedTrollCount = Math.Clamp(CustomRoles.Troll.getCount(),0,Crewmates.Count - FixedFoxCount);
                 List<PlayerControl> FoxList = new List<PlayerControl>();
                 List<PlayerControl> TrollList = new List<PlayerControl>();
                 //役職設定処理
@@ -254,11 +254,11 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum -= main.MadmateCount + main.TerroristCount;
+                EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= main.MafiaCount + main.SerialKillerCount + main.BountyHunterCount + main.WarlockCount;
+                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

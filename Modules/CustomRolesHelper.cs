@@ -1,10 +1,7 @@
-
 namespace TownOfHost {
     static class CustomRolesHelper {
         public static bool isImpostor(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
+            return
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.BountyHunter ||
@@ -14,18 +11,22 @@ namespace TownOfHost {
                 role == CustomRoles.Warlock ||
                 role == CustomRoles.SerialKiller ||
                 role == CustomRoles.Mafia;
-            return isImpostor;
         }
-        public static bool isImpostorTeam(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
-                role.isImpostor() ||
+        public static bool isMadmate(this CustomRoles role) {
+            return
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian ||
                 role == CustomRoles.MadSnitch;
-            return isImpostor;
+        }
+        public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
+        public static bool isNeutral(this CustomRoles role) {
+            return
+                role == CustomRoles.Jester ||
+                role == CustomRoles.Opportunist ||
+                role == CustomRoles.Terrorist ||
+                role == CustomRoles.Troll ||
+                role == CustomRoles.Fox;
         }
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
@@ -42,41 +43,16 @@ namespace TownOfHost {
             }
             return canUse;
         }
-        public static IntroTypes GetIntroType(this CustomRoles role) {
+        public static IntroTypes getIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
-            switch(role) {
-                case CustomRoles.Impostor:
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Vampire:
-                case CustomRoles.Mafia:
-                case CustomRoles.BountyHunter:
-                case CustomRoles.Witch:
-                case CustomRoles.ShapeMaster:
-                case CustomRoles.Warlock:
-                case CustomRoles.SerialKiller:
-                    type = IntroTypes.Impostor;
-                    break;
-
-                case CustomRoles.Jester:
-                case CustomRoles.Opportunist:
-                case CustomRoles.Terrorist:
-                case CustomRoles.Troll:
-                case CustomRoles.Fox:
-                    type = IntroTypes.Neutral;
-                    break;
-
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                case CustomRoles.SKMadmate:
-                case CustomRoles.MadSnitch:
-                    type = IntroTypes.Madmate;
-                    break;
-            }
+            if(role.isImpostor()) type = IntroTypes.Impostor;
+            if(role.isNeutral()) type = IntroTypes.Neutral;
+            if(role.isMadmate()) type = IntroTypes.Madmate;
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) {
-            main.SetRoleCount(role, num);
-        }
+        public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
+        public static int getCount(this CustomRoles role) => Options.getRoleCount(role);
+        public static bool isEnable(this CustomRoles role) => Options.getRoleCount(role) > 0;
     }
     public enum IntroTypes {
         Crewmate,

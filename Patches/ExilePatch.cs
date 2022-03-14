@@ -58,7 +58,7 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
-                if(main.BountyHunterCount == 0)main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
+                if(CustomRoles.BountyHunter.getCount() == 0)main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             foreach(var wr in PlayerControl.AllPlayerControls){
                 if(wr.isSerialKiller()){
