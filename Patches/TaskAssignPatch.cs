@@ -75,8 +75,8 @@ namespace TownOfHost
 
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
             foreach(var task in ShipStatus.Instance.NormalTasks)
-                LongTasks.Add(task);
-            Shuffle<NormalPlayerTask>(LongTasks);
+                ShortTasks.Add(task);
+            Shuffle<NormalPlayerTask>(ShortTasks);
 
             ShipStatus.Instance.AddTasksFromList(
                 ref start2,
@@ -99,8 +99,13 @@ namespace TownOfHost
             }
 
         }
-        public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> self, int startAt = 0) {
-            Extensions.Shuffle<T>((Il2CppSystem.Collections.Generic.IList<T>)(IList<T>)self);
+        public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> list) {
+            for(int i = 0; i < list.Count - 1; i++) {
+                T obj = list[i];
+                int rand = UnityEngine.Random.Range(i, list.Count);
+                list[i] = list[rand];
+                list[rand] = obj;
+            }
         }
     }
 }
