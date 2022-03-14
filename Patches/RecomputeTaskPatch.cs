@@ -12,7 +12,7 @@ namespace TownOfHost
             foreach (var p in __instance.AllPlayers)
             {
                 if(p == null) continue;
-                var hasTasks = main.hasTasks(p);
+                var hasTasks = Utils.hasTasks(p);
                 if (hasTasks)
                 {
 //                    if(p.Tasks == null) {
@@ -35,7 +35,7 @@ namespace TownOfHost
         public static void Postfix(GameData __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
 
-            main.NotifyRoles();
+            Utils.NotifyRoles();
         }
     }
 }

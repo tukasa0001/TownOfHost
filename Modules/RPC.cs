@@ -162,7 +162,7 @@ namespace TownOfHost
                 case (byte)CustomRPC.SetBountyTarget:
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
-                    var target = main.getPlayerById(TargetId);
+                    var target = Utils.getPlayerById(TargetId);
                     if(target != null) main.BountyTargets[HunterId] = target;
                     break;
                 case (byte)CustomRPC.SetKillOrSpell:
