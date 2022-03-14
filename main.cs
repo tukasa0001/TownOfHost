@@ -1072,7 +1072,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfo, "変身し、敵を混乱させよう"},
                 {lang.WarlockInfo, "敵を呪い殺そう"},
                 {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
-                {lang.LighterInfo, "タスクを終わらせて光ろう"},
+                {lang.LighterInfo, "すべてを照らそう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
                 //役職解説(長)
@@ -1205,7 +1205,7 @@ namespace TownOfHost
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
                 {lang.SerialKillerInfo, "Keep killing to win"},
-                {lang.LighterInfo, "Let's finish the task and shine"},
+                {lang.LighterInfo, "Let's light it all up"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
                 //役職解説(長)
