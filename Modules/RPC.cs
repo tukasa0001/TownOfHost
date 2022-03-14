@@ -91,7 +91,7 @@ namespace TownOfHost
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
-                    RPCProcedure.SyncCustomSettings(
+                    RPC.SyncCustomSettings(
                         Options.roleCounts,
                         IsHideAndSeek,
                         NoGameEnd,
@@ -140,24 +140,24 @@ namespace TownOfHost
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
-                    RPCProcedure.JesterExiled(exiledJester);
+                    RPC.JesterExiled(exiledJester);
                     break;
                 case (byte)CustomRPC.TerroristWin:
                     byte wonTerrorist = reader.ReadByte();
-                    RPCProcedure.TerroristWin(wonTerrorist);
+                    RPC.TerroristWin(wonTerrorist);
                     break;
                 case (byte)CustomRPC.EndGame:
-                    RPCProcedure.EndGame();
+                    RPC.EndGame();
                     break;
                 case (byte)CustomRPC.PlaySound:
                     byte playerID = reader.ReadByte();
                     Sounds sound = (Sounds)reader.ReadByte();
-                    RPCProcedure.PlaySound(playerID, sound);
+                    RPC.PlaySound(playerID, sound);
                     break;
                 case (byte)CustomRPC.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
                     CustomRoles role = (CustomRoles)reader.ReadByte();
-                    RPCProcedure.SetCustomRole(CustomRoleTargetId, role);
+                    RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
                 case (byte)CustomRPC.SetBountyTarget:
                     byte HunterId = reader.ReadByte();
@@ -174,20 +174,20 @@ namespace TownOfHost
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
                     string color = reader.ReadString();
-                    RPCProcedure.AddNameColorData(addSeerId, addTargetId, color);
+                    RPC.AddNameColorData(addSeerId, addTargetId, color);
                     break;
                 case (byte)CustomRPC.RemoveNameColorData:
                     byte removeSeerId = reader.ReadByte();
                     byte removeTargetId = reader.ReadByte();
-                    RPCProcedure.RemoveNameColorData(removeSeerId, removeTargetId);
+                    RPC.RemoveNameColorData(removeSeerId, removeTargetId);
                     break;
                 case (byte)CustomRPC.ResetNameColorData:
-                    RPCProcedure.ResetNameColorData();
+                    RPC.ResetNameColorData();
                     break;
             }
         }
     }
-    static class RPCProcedure {
+    static class RPC {
         public static void SyncCustomSettings(
                 Dictionary<CustomRoles,int> roleCounts,
                 bool isHideAndSeek,

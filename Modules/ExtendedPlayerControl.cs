@@ -159,7 +159,7 @@ namespace TownOfHost {
             writer.Write(KilledById);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-            RPCProcedure.BeKilled(player.PlayerId, KilledById);
+            RPC.BeKilled(player.PlayerId, KilledById);
         }*/
         public static void CustomSyncSettings(this PlayerControl player) {
             if(player == null || !AmongUsClient.Instance.AmHost) return;
