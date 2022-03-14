@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -514,6 +514,37 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
         public static bool MadGuardianCanSeeWhoTriedToKill;
+        public class OverrideTasksData {
+            public CustomRoles TargetRole;
+            public bool doOverride;
+            public bool hasCommonTasks;
+            public int NumLongTasks;
+            public int NumShortTasks;
+            public void Serialize(MessageWriter writer) {
+                writer.Write((byte)TargetRole);
+                writer.Write(doOverride);
+                writer.Write(hasCommonTasks);
+                writer.Write(NumLongTasks);
+                writer.Write(NumShortTasks);
+            }
+            public void DeserializeAndReplace(MessageReader reader) {
+                CustomRoles recevedRole = (CustomRoles)reader.ReadByte();
+                if(this.TargetRole != recevedRole) {
+                    TownOfHost.Logger.warn($"警告:受信したOverrideTasksDataのTargetRoleがローカルと一致しません(ローカル:{TargetRole.ToString()},受信:{recevedRole.ToString()})");
+                }
+                this.doOverride = reader.ReadBoolean();
+                this.hasCommonTasks = reader.ReadBoolean();
+                this.NumLongTasks = reader.ReadInt32();
+                this.NumShortTasks = reader.ReadInt32();
+            }
+            public OverrideTasksData(CustomRoles TargetRole) {
+                this.TargetRole = TargetRole;
+                doOverride = false;
+                hasCommonTasks = true;
+                NumLongTasks = 1;
+                NumShortTasks = 1;
+            }
+        }
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
