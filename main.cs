@@ -523,6 +523,20 @@ namespace TownOfHost
             public bool hasCommonTasks;
             public int NumLongTasks;
             public int NumShortTasks;
+            public void CheckAndSet(
+                CustomRoles currentTargetRole,
+                ref bool doOverride,
+                ref bool hasCommonTasks,
+                ref int NumLongTasks,
+                ref int NumShortTasks
+            ) {
+                if(currentTargetRole == this.TargetRole) {
+                    doOverride = true;
+                    hasCommonTasks = this.hasCommonTasks;
+                    NumLongTasks = this.NumLongTasks;
+                    NumShortTasks = this.NumShortTasks;
+                }
+            }
             public void Serialize(MessageWriter writer) {
                 writer.Write(doOverride);
                 writer.Write(hasCommonTasks);

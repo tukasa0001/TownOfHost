@@ -39,21 +39,20 @@ namespace TownOfHost
                 return;
             }
 
-            CustomRoles? role = main.getPlayerById(playerId)?.getCustomRole();
+            CustomRoles? RoleNullable = main.getPlayerById(playerId)?.getCustomRole();
+            CustomRoles role = CustomRoles.Default;
+            if(RoleNullable == null) return;
+            else role = RoleNullable.Value;
+            
             bool doOverride = false;
 
             bool hasCommonTasks = true;
             int NumLongTasks = main.RealOptionsData.NumLongTasks;
             int NumShortTasks = main.RealOptionsData.NumShortTasks;
-            if(role == null) return;
-            switch(role) {
-                case CustomRoles.Madmate:
-                    doOverride = true;
-                    hasCommonTasks = true;
-                    NumLongTasks = 1;
-                    NumShortTasks = 1;
-                    break;
-            }
+            
+            main.MadGuardianTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            main.TerroristTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            main.SnitchTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
 
             if(!doOverride) return;
             Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
