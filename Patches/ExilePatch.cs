@@ -52,7 +52,7 @@ namespace TownOfHost
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
-                    main.CheckTerroristWin(exiled);
+                    Utils.CheckTerroristWin(exiled);
                 }
                 PlayerState.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
@@ -77,8 +77,8 @@ namespace TownOfHost
                 }
             }
             main.BountyMeetingCheck = true;
-            main.CustomSyncAllSettings();
-            main.NotifyRoles();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
         }
     }
 }

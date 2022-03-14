@@ -143,29 +143,29 @@ namespace TownOfHost
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
-            string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Crewmate);
+            string CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
 
             switch(main.currentWinner) {
                 //通常勝利
                 case CustomWinner.Impostor:
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Impostor)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Impostor)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Impostor);
                     break;
                 case CustomWinner.Crewmate:
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Crewmate)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Crewmate);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Crewmate)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:
-                    __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Jester)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Jester);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Jester);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Jester)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Jester);
                     break;
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
                     __instance.BackgroundBar.material.color = Color.green;
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Terrorist)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Terrorist);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
@@ -179,10 +179,10 @@ namespace TownOfHost
 
             foreach(var additionalwinners in main.additionalwinners) {
                 if (main.additionalwinners.Contains(AdditionalWinners.Opportunist)) {
-                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>";
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox)) {
-                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
                 if(Options.IsHideAndSeek) {
@@ -191,8 +191,8 @@ namespace TownOfHost
                             var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                             if(hasRole && role == CustomRoles.Troll) {
                                 __instance.BackgroundBar.material.color = Color.green;
-                                CustomWinnerText = $"{main.getRoleName(CustomRoles.Troll)}";
-                                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Troll);
+                                CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
+                                CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
                             }
                         }
                     }
@@ -209,7 +209,7 @@ namespace TownOfHost
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
-            //main.ApplySuffix();
+            //Utils.ApplySuffix();
         }
     }
 }

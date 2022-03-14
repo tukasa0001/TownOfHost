@@ -143,7 +143,7 @@ namespace TownOfHost {
         }
 
         public static void SendDM(this PlayerControl target, string text) {
-            main.SendMessage(text, target.PlayerId);
+            Utils.SendMessage(text, target.PlayerId);
         }
 
         /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
@@ -294,7 +294,7 @@ namespace TownOfHost {
 
         public static TaskState getPlayerTaskState(this PlayerControl player) {
             if(player == null || player.Data == null || player.Data.Tasks == null) return new TaskState();
-            if(!main.hasTasks(player.Data, false)) return new TaskState();
+            if(!Utils.hasTasks(player.Data, false)) return new TaskState();
             int AllTasksCount = 0;
             int CompletedTaskCount = 0;
             foreach(var task in player.Data.Tasks) {
@@ -325,10 +325,10 @@ namespace TownOfHost {
         }
 
         public static string getRoleName(this PlayerControl player) {
-            return main.getRoleName(player.getCustomRole());
+            return Utils.getRoleName(player.getCustomRole());
         }
         public static string getRoleColorCode(this PlayerControl player) {
-            return main.getRoleColorCode(player.getCustomRole());
+            return Utils.getRoleColorCode(player.getCustomRole());
         }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f) {
             if(pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;

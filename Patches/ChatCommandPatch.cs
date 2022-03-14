@@ -23,13 +23,13 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        main.SendToAll("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
+                        Utils.SendMessage("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
                     case "/lastroles":
                         canceled = true;
-                        main.ShowLastRoles();
+                        Utils.ShowLastRoles();
                         break;
 
                     case "/r":
@@ -41,7 +41,7 @@ namespace TownOfHost
                     case "/n":
                     case "/now":
                         canceled = true;
-                        main.ShowActiveSettings();
+                        Utils.ShowActiveSettings();
                         break;
 
                     case "/dis":
@@ -71,7 +71,7 @@ namespace TownOfHost
                         canceled = true;
                         if(args.Length < 2)
                         {
-                            main.ShowHelp();
+                            Utils.ShowHelp();
                             break;
                         }
                         switch (args[1])
@@ -84,31 +84,31 @@ namespace TownOfHost
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
+                                if(args.Length < 3){Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
                                 switch (args[2])
                                 {
                                     case "hideandseek":
                                     case "has":
-                                        main.SendToAll(getString("HideAndSeekInfo"));
+                                        Utils.SendMessage(getString("HideAndSeekInfo"));
                                         break;
 
                                     case "nogameend":
                                     case "nge":
-                                        main.SendToAll(getString("NoGameEndInfo"));
+                                        Utils.SendMessage(getString("NoGameEndInfo"));
                                         break;
 
                                     case "syncbuttonmode":
                                     case "sbm":
-                                        main.SendToAll(getString("SyncButtonModeInfo"));
+                                        Utils.SendMessage(getString("SyncButtonModeInfo"));
                                         break;
 
                                     case "randommapsmode":
                                     case "rmm":
-                                        main.SendToAll(getString("RandomMapsModeInfo"));
+                                        Utils.SendMessage(getString("RandomMapsModeInfo"));
                                         break;
 
                                     default:
-                                        main.SendToAll("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -116,11 +116,11 @@ namespace TownOfHost
 
                                 case "n":
                                 case "now":
-                                    main.ShowActiveRoles();
+                                    Utils.ShowActiveRoles();
                                     break;
 
                             default:
-                                main.ShowHelp();
+                                Utils.ShowHelp();
                                 break;
                             }
                             break;
@@ -146,111 +146,111 @@ namespace TownOfHost
             {
                 case "jester":
                 case "je":
-                    main.SendToAll(getString("JesterInfoLong"));
+                    Utils.SendMessage(getString("JesterInfoLong"));
                     break;
 
                 case "madmate":
                 case "mm":
-                    main.SendToAll(getString("MadmateInfoLong"));
+                    Utils.SendMessage(getString("MadmateInfoLong"));
                     break;
 
                 case "sidekickmadmate":
                 case "sm":
-                    main.SendToAll(getString("SKMadmateInfoLong"));
+                    Utils.SendMessage(getString("SKMadmateInfoLong"));
                     break;
 
                 case "bait":
                 case "ba":
-                    main.SendToAll(getString("BaitInfoLong"));
+                    Utils.SendMessage(getString("BaitInfoLong"));
                     break;
 
                 case "terrorist":
                 case "te":
-                    main.SendToAll(getString("TerroristInfoLong"));
+                    Utils.SendMessage(getString("TerroristInfoLong"));
                     break;
 
                 case "mafia":
                 case "mf":
-                    main.SendToAll(getString("MafiaInfoLong"));
+                    Utils.SendMessage(getString("MafiaInfoLong"));
                     break;
 
                 case "vampire":
                 case "va":
-                    main.SendToAll(getString("VampireInfoLong"));
+                    Utils.SendMessage(getString("VampireInfoLong"));
                     break;
 
                 case "sabotagemaster":
                 case "sa":
-                    main.SendToAll(getString("SabotageMasterInfoLong"));
+                    Utils.SendMessage(getString("SabotageMasterInfoLong"));
                     break;
 
                 case "mayor":
                 case "my":
-                    main.SendToAll(getString("MayorInfoLong"));
+                    Utils.SendMessage(getString("MayorInfoLong"));
                     break;
 
                 case "madguardian":
                 case "mg":
-                    main.SendToAll(getString("MadGuardianInfoLong"));
+                    Utils.SendMessage(getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    main.SendToAll(getString("MadSnitchInfoLong"));
+                    Utils.SendMessage(getString("MadSnitchInfoLong"));
                     break;
 
                 case "opportunist":
                 case "op":
-                    main.SendToAll(getString("OpportunistInfoLong"));
+                    Utils.SendMessage(getString("OpportunistInfoLong"));
                     break;
 
                 case "snitch":
                 case "sn":
-                    main.SendToAll(getString("SnitchInfoLong"));
+                    Utils.SendMessage(getString("SnitchInfoLong"));
                     break;
 
                 case "sheriff":
                 case "sh":
-                    main.SendToAll(getString("SheriffInfoLong"));
+                    Utils.SendMessage(getString("SheriffInfoLong"));
                     break;
 
                 case "bountyhunter":
                 case "bo":
-                    main.SendToAll(getString("BountyHunterInfoLong"));
+                    Utils.SendMessage(getString("BountyHunterInfoLong"));
                     break;
                 
                 case "witch":
                 case "wi":
-                    main.SendToAll(getString("WitchInfoLong"));
+                    Utils.SendMessage(getString("WitchInfoLong"));
                     break;
 
                 case "shapemaster":
                 case "sha":
-                    main.SendToAll(getString("ShapeMasterInfoLong"));
+                    Utils.SendMessage(getString("ShapeMasterInfoLong"));
                     break;
                 
                 case "warlock":
                 case "wa":
-                    main.SendToAll(getString("WarlockInfoLong"));
+                    Utils.SendMessage(getString("WarlockInfoLong"));
                     break;
 
                 case "serialkiller":
                 case "sk":
-                    main.SendToAll(getString("SerialKillerInfoLong"));
+                    Utils.SendMessage(getString("SerialKillerInfoLong"));
                     break;
 
                 case "fox":
                 case "fo":
-                    main.SendToAll(getString("FoxInfoLong"));
+                    Utils.SendMessage(getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    main.SendToAll(getString("TrollInfoLong"));
+                    Utils.SendMessage(getString("TrollInfoLong"));
                     break;
 
                 default:
-                    main.SendToAll("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha),fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha),fox(fo), troll(tr)");
                     break;
             }
 
@@ -273,7 +273,7 @@ namespace TownOfHost
                 if(sendTo == byte.MaxValue) {
                     PlayerControl.LocalPlayer.RpcSendChat(msg);
                 } else {
-                    PlayerControl target = main.getPlayerById(sendTo);
+                    PlayerControl target = Utils.getPlayerById(sendTo);
                     if(target == null) return;
                     int clientId = target.getClientId();
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);
@@ -301,7 +301,7 @@ namespace TownOfHost
                     }
                     break;
                 case "/version":
-                    main.SendToAll($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
+                    Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
                     break;
                 default:
                     break;

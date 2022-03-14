@@ -5,7 +5,7 @@ namespace TownOfHost {
     class RpcMurderPlayerPatch {
         public static void Postfix(PlayerControl __instance)
         {
-            main.NotifyRoles();
+            Utils.NotifyRoles();
             main.BlockKilling[__instance.PlayerId] = false;
         }
     }

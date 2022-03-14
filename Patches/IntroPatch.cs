@@ -11,10 +11,10 @@ namespace TownOfHost
     class SetUpRoleTextPatch {
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            __instance.RoleText.text = main.getRoleName(role);
+            __instance.RoleText.text = Utils.getRoleName(role);
             __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
-            __instance.RoleText.color = main.getRoleColor(role);
-            __instance.RoleBlurbText.color = main.getRoleColor(role);
+            __instance.RoleText.color = Utils.getRoleColor(role);
+            __instance.RoleBlurbText.color = Utils.getRoleColor(role);
 
             if(PlayerControl.LocalPlayer.isSheriff()) __instance.YouAreText.color = Palette.CrewmateBlue; //シェリフ専用
         }
@@ -41,9 +41,9 @@ namespace TownOfHost
 
             switch(introType) {
                 case IntroTypes.Neutral:
-                    __instance.TeamTitle.text = main.getRoleName(role);
-                    __instance.TeamTitle.color = main.getRoleColor(role);
-                    __instance.BackgroundBar.material.color = main.getRoleColor(role);
+                    __instance.TeamTitle.text = Utils.getRoleName(role);
+                    __instance.TeamTitle.color = Utils.getRoleColor(role);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
                     break;
                 case IntroTypes.Madmate:
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);

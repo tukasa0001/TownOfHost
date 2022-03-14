@@ -38,14 +38,14 @@ namespace TownOfHost {
                     ) continue;*/
 
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
-                    button.Text.text = main.getRoleName(cRole);
+                    button.Text.text = Utils.getRoleName(cRole);
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
                     var roleBehaviour = new RoleBehaviour();
                     roleBehaviour.Role = ((RoleTypes)cRole + 1000);
                     button.Role = roleBehaviour;
 
                     Color IconColor = Color.white;
-                    var roleColor = main.getRoleColor(cRole);
+                    var roleColor = Utils.getRoleColor(cRole);
                     var IntroType = cRole.getIntroType();
 
                     button.FileImage.color = roleColor;

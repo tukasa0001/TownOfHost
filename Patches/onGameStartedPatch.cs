@@ -108,7 +108,7 @@ namespace TownOfHost
         public static void Postfix(RoleManager __instance) {
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
-            //main.ApplySuffix();
+            //Utils.ApplySuffix();
 
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
@@ -269,7 +269,7 @@ namespace TownOfHost
                     }
                 }, 3f, "SetImpostorForServer");
             }
-            main.CustomSyncAllSettings();
+            Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 
             Logger.msg("SelectRolesPatch.Postfix.End");
@@ -278,7 +278,7 @@ namespace TownOfHost
             if(players == null || players.Count <= 0) return null;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
-            if(RawCount == -1) count = Math.Clamp(main.GetCountFromRole(role), 0, players.Count);
+            if(RawCount == -1) count = Math.Clamp(role.getCount(), 0, players.Count);
             if(count <= 0) return null;
             List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
             for(var i = 0; i < count; i++) {

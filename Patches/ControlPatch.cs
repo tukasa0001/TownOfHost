@@ -32,7 +32,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
             {
-                main.ShowActiveRoles();
+                Utils.ShowActiveRoles();
             }
             //====================
             //##テスト用キーコマンド##
