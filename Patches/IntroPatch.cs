@@ -25,7 +25,7 @@ namespace TownOfHost
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
             var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.GetIntroType() == IntroTypes.Neutral) {
+            if (role.getIntroType() == IntroTypes.Neutral) {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
@@ -37,7 +37,7 @@ namespace TownOfHost
             //チーム表示変更
             var rand = new System.Random();
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            IntroTypes introType = role.GetIntroType();
+            IntroTypes introType = role.getIntroType();
 
             switch(introType) {
                 case IntroTypes.Neutral:

@@ -50,7 +50,7 @@ namespace TownOfHost {
             }
             return canUse;
         }
-        public static IntroTypes GetIntroType(this CustomRoles role) {
+        public static IntroTypes getIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
             if(role.isImpostor()) type = IntroTypes.Impostor;
             if(role.isNeutral()) type = IntroTypes.Neutral;
