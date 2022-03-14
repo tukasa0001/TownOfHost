@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -24,6 +25,82 @@ namespace TownOfHost
                 Logger.msg("削除: " + task.TaskType.ToString());
                 unusedTasks.Remove(task);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
+    class RpcSetTasksPatch {
+        public static void Prefix(GameData __instance,
+        [HarmonyArgument(0)] byte playerId,
+        [HarmonyArgument(1)] ref UnhollowerBaseLib.Il2CppStructArray<byte> taskTypeIds) {
+            //null対策
+            if(main.RealOptionsData == null) {
+                Logger.warn("警告:RealOptionsDataがnullです。(RppcSetTasksPatch.Prefix)");
+                return;
+            }
+
+            CustomRoles? role = main.getPlayerById(playerId)?.getCustomRole();
+            bool doOverride = false;
+
+            bool hasCommonTasks = true;
+            int NumLongTasks = main.RealOptionsData.NumLongTasks;
+            int NumShortTasks = main.RealOptionsData.NumShortTasks;
+            if(role == null) return;
+            switch(role) {
+                case CustomRoles.Madmate:
+                    doOverride = true;
+                    hasCommonTasks = true;
+                    NumLongTasks = 1;
+                    NumShortTasks = 1;
+                    break;
+            }
+
+            if(!doOverride) return;
+            Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
+            foreach(var num in taskTypeIds)
+                TasksList.Add(num);
+            
+            //参考:ShipStatus.Begin
+            if(hasCommonTasks) TasksList.RemoveRange(main.RealOptionsData.NumCommonTasks, TasksList.Count - main.RealOptionsData.NumCommonTasks);
+            else TasksList.Clear();
+
+            Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new Il2CppSystem.Collections.Generic.HashSet<TaskTypes>();
+            int start2 = 0;
+            int start3 = 0;
+
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            foreach(var task in ShipStatus.Instance.LongTasks)
+                LongTasks.Add(task);
+            Shuffle<NormalPlayerTask>(LongTasks);
+
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            foreach(var task in ShipStatus.Instance.NormalTasks)
+                LongTasks.Add(task);
+            Shuffle<NormalPlayerTask>(LongTasks);
+
+            ShipStatus.Instance.AddTasksFromList(
+                ref start2,
+                NumLongTasks,
+                TasksList,
+                usedTaskTypes,
+                LongTasks
+            );
+            ShipStatus.Instance.AddTasksFromList(
+                ref start3,
+                NumShortTasks,
+                TasksList,
+                usedTaskTypes,
+                ShortTasks
+            );
+
+            taskTypeIds = new UnhollowerBaseLib.Il2CppStructArray<byte>(TasksList.Count);
+            for(int i = 0; i < TasksList.Count; i++) {
+                taskTypeIds[i] = TasksList[i];
+            }
+
+        }
+        public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> self, int startAt = 0) {
+            Extensions.Shuffle<T>((Il2CppSystem.Collections.Generic.IList<T>)(IList<T>)self);
         }
     }
 }
