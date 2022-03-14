@@ -1,9 +1,6 @@
-
 namespace TownOfHost {
     static class CustomRolesHelper {
         public static bool isImpostor(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             return
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
@@ -16,8 +13,6 @@ namespace TownOfHost {
                 role == CustomRoles.Mafia;
         }
         public static bool isMadmate(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             return
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.SKMadmate ||
@@ -26,8 +21,6 @@ namespace TownOfHost {
         }
         public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
         public static bool isNeutral(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
             return
                 role == CustomRoles.Jester ||
                 role == CustomRoles.Opportunist ||
@@ -55,6 +48,7 @@ namespace TownOfHost {
             if(role.isImpostor()) type = IntroTypes.Impostor;
             if(role.isNeutral()) type = IntroTypes.Neutral;
             if(role.isMadmate()) type = IntroTypes.Madmate;
+            Logger.info($"{main.getRoleName(role)}:{type}");
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
