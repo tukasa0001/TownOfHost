@@ -1032,6 +1032,11 @@ namespace TownOfHost
                 {lang.SuffixMode, "名前の二行目"},
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
+                {lang.OverrideTaskCount, "役職ごとのタスク数"},
+                {lang.doOverride, "%role%のタスクを上書きする"},
+                {lang.hasCommonTasks, "%role%に通常タスクを割り当てる"},
+                {lang.roleLongTasksNum, "%role%のロングタスクの数"},
+                {lang.roleShortTasksNum, "%role%のショートタスクの数"},
                 //その他
                 {lang.WitchCurrentMode, "現在のモード"},
                 {lang.WitchModeKill, "キル"},
@@ -1139,6 +1144,11 @@ namespace TownOfHost
                 {lang.SuffixMode, "Suffix"},
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
+                {lang.OverrideTaskCount, "Amount Of Tasks By Roles"},
+                {lang.doOverride, "Override %role%'s Tasks"},
+                {lang.hasCommonTasks, "Assign Common Tasks For %role%"},
+                {lang.roleLongTasksNum, "Amount Of Long Tasks For %role%"},
+                {lang.roleShortTasksNum, "Amount Of Short Tasks For %role%"},
                 //その他
                 {lang.WitchCurrentMode, "Current Mode"},
                 {lang.WitchModeKill, "Kill"},
