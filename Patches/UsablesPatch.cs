@@ -10,7 +10,7 @@ namespace TownOfHost
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
             if (__instance.AllowImpostor) return true;
-            if (!main.hasTasks(PlayerControl.LocalPlayer.Data, false))
+            if (!Utils.hasTasks(PlayerControl.LocalPlayer.Data, false))
             {
                 return false;
             }

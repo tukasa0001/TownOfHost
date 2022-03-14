@@ -18,7 +18,7 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay -= Time.fixedDeltaTime;
             } else if(!float.IsNaN(main.RefixCooldownDelay)) {
-                main.CustomSyncAllSettings();
+                Utils.CustomSyncAllSettings();
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
             }
@@ -27,7 +27,7 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
                     Logger.SendToFile("HaSKillDelayTimer: " + Options.HideAndSeekKillDelayTimer);
                 } else if(!float.IsNaN(Options.HideAndSeekKillDelayTimer)) {
-                    main.CustomSyncAllSettings();
+                    Utils.CustomSyncAllSettings();
                     Options.HideAndSeekKillDelayTimer = float.NaN;
                     Logger.info("キル能力解禁");
                 }
@@ -45,7 +45,7 @@ namespace TownOfHost
                         DoNotifyRoles = true;
                     }
                 }
-                if(DoNotifyRoles) main.NotifyRoles();
+                if(DoNotifyRoles) Utils.NotifyRoles();
             }
         }
     }
@@ -153,7 +153,7 @@ namespace TownOfHost
             return true;
         }
         public static void Postfix(ShipStatus __instance) {
-            main.CustomSyncAllSettings();
+            Utils.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
             var Ids = new List<int>();
@@ -200,7 +200,7 @@ namespace TownOfHost
     class BeginPatch {
         public static void Postfix() {
             Logger.info("ShipStatus.Begin");
-            main.NotifyRoles();
+            Utils.NotifyRoles();
         }
     }
 }

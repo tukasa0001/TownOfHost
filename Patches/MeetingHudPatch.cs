@@ -29,7 +29,7 @@ namespace TownOfHost
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if(ps == null) continue;
                 Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
-                var voter = main.getPlayerById(ps.TargetPlayerId);
+                var voter = Utils.getPlayerById(ps.TargetPlayerId);
                 if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                 if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                 {
@@ -147,7 +147,7 @@ namespace TownOfHost
         public static void Prefix(MeetingHud __instance)
         {
             main.witchMeeting = true;
-            main.NotifyRoles(isMeeting:true);
+            Utils.NotifyRoles(isMeeting:true);
             main.witchMeeting = false;
         }
         public static void Postfix(MeetingHud __instance)
@@ -166,7 +166,7 @@ namespace TownOfHost
             if (Options.SyncButtonMode)
             {
                 if(AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                main.SendToAll("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。");
+                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。");
                 Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
@@ -183,7 +183,7 @@ namespace TownOfHost
 
             foreach(var pva in __instance.playerStates) {
                 if(pva == null) continue;
-                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                PlayerControl pc = Utils.getPlayerById(pva.TargetPlayerId);
                 if(pc == null) continue;
 
                 //会議画面での名前変更
@@ -207,7 +207,7 @@ namespace TownOfHost
                 pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
                 ) {
                     //変更対象にSnitchマークをつける
-                    pva.NameText.text += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                    pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
@@ -227,7 +227,7 @@ namespace TownOfHost
             foreach (var pva in __instance.playerStates)
             {
                 if(pva == null) continue;
-                PlayerControl pc = main.getPlayerById(pva.TargetPlayerId);
+                PlayerControl pc = Utils.getPlayerById(pva.TargetPlayerId);
                 if(pc == null) continue;
 
                 //役職表示系
@@ -237,9 +237,9 @@ namespace TownOfHost
                 if (RoleTextMeeting != null)
                 {
 
-                    var RoleTextData = main.GetRoleText(pc);
+                    var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && main.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + main.getTaskText(pc) + ")</color>";
+                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + Utils.getTaskText(pc) + ")</color>";
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
