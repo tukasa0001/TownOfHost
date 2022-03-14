@@ -52,34 +52,9 @@ namespace TownOfHost {
         }
         public static IntroTypes GetIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
-            switch(role) {
-                case CustomRoles.Impostor:
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Vampire:
-                case CustomRoles.Mafia:
-                case CustomRoles.BountyHunter:
-                case CustomRoles.Witch:
-                case CustomRoles.ShapeMaster:
-                case CustomRoles.Warlock:
-                case CustomRoles.SerialKiller:
-                    type = IntroTypes.Impostor;
-                    break;
-
-                case CustomRoles.Jester:
-                case CustomRoles.Opportunist:
-                case CustomRoles.Terrorist:
-                case CustomRoles.Troll:
-                case CustomRoles.Fox:
-                    type = IntroTypes.Neutral;
-                    break;
-
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                case CustomRoles.SKMadmate:
-                case CustomRoles.MadSnitch:
-                    type = IntroTypes.Madmate;
-                    break;
-            }
+            if(role.isImpostor()) type = IntroTypes.Impostor;
+            if(role.isNeutral()) type = IntroTypes.Neutral;
+            if(role.isMadmate()) type = IntroTypes.Madmate;
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
