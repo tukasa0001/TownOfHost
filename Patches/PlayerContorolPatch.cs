@@ -17,11 +17,11 @@ namespace TownOfHost
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
             if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
             {
-                main.ps.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
             }
             else
             {
-                main.ps.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+                PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
             }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)

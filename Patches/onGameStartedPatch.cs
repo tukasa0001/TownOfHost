@@ -24,8 +24,6 @@ namespace TownOfHost
 
             main.IgnoreReportPlayers = new List<byte>();
 
-            main.ps = new PlayerState();
-
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.isBountyKillSuccess = false;
