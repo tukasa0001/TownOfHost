@@ -4,7 +4,7 @@ namespace TownOfHost {
         public static bool isImpostor(this CustomRoles role) {
             if(!AmongUsClient.Instance.IsGameStarted && 
             AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
+            return
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter ||
                 role == CustomRoles.BountyHunter ||
@@ -14,19 +14,17 @@ namespace TownOfHost {
                 role == CustomRoles.Warlock ||
                 role == CustomRoles.SerialKiller ||
                 role == CustomRoles.Mafia;
-            return isImpostor;
         }
-        public static bool isImpostorTeam(this CustomRoles role) {
+        public static bool isMadmate(this CustomRoles role) {
             if(!AmongUsClient.Instance.IsGameStarted && 
             AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
-                role.isImpostor() ||
+            return
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian ||
                 role == CustomRoles.MadSnitch;
-            return isImpostor;
         }
+        public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
                 role.isImpostor() ||
