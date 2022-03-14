@@ -22,7 +22,7 @@ namespace TownOfHost
     {
         public static void Postfix(EmergencyMinigame __instance)
         {
-            if (main.IsHideAndSeek) __instance.Close();
+            if (Options.IsHideAndSeek) __instance.Close();
         }
     }
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]

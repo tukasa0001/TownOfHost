@@ -59,7 +59,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (main.currentWinner == CustomWinner.Jester && main.JesterCount > 0)
+            if (main.currentWinner == CustomWinner.Jester && CustomRoles.Jester.isEnable())
             { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -71,7 +71,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
+            if (main.currentWinner == CustomWinner.Terrorist && CustomRoles.Terrorist.isEnable())
             { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -95,7 +95,7 @@ namespace TownOfHost
             }
             
             //HideAndSeek専用
-            if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
+            if(Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
@@ -185,7 +185,7 @@ namespace TownOfHost
                     AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-                if(main.IsHideAndSeek) {
+                if(Options.IsHideAndSeek) {
                     foreach(var p in PlayerControl.AllPlayerControls) {
                         if(p.Data.IsDead) {
                             var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);

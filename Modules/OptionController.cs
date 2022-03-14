@@ -51,102 +51,91 @@ namespace TownOfHost
             var AdvRoleOptions = new PageObject(RoleOptions, () => getString("AdvancedRoleOptions"));
             var AdvImpostorRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedImpostorRoleOptions"));
 
-            var BountyTargetChangeTime = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyTargetChangeTime")}</color>(s): {main.BountyTargetChangeTime}{main.TextCursor}", true, () => {main.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref main.BountyTargetChangeTime, n, 999));
-            var BountySuccessKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountySuccessKillCooldown")}</color>(s): {main.BountySuccessKillCooldown}{main.TextCursor}", true, () => {main.BountySuccessKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BountySuccessKillCooldown, n, 999));
-            var BountyFailureKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyFailureKillCooldown")}</color>(s): {main.BountyFailureKillCooldown}{main.TextCursor}", true, () => {main.BountyFailureKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BountyFailureKillCooldown, n, 999));
-            var BHDefaultKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BHDefaultKillCooldown")}</color>(s): {main.BHDefaultKillCooldown}{main.TextCursor}", true, () => {main.BHDefaultKillCooldown = 0;}, (n) => main.ChangeInt(ref main.BHDefaultKillCooldown, n, 999));
-            var SerialKillerCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{getString("SerialKillerCooldown")}</color>(s): {main.SerialKillerCooldown}{main.TextCursor}", true, () => {main.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref main.SerialKillerCooldown, n, 100));
-            var SerialKillerLimit = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{getString("SerialKillerLimit")}</color>(s): {main.SerialKillerLimit}{main.TextCursor}", true, () => {main.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref main.SerialKillerLimit, n, 999));
-            var VampireKillDelay = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{getString("VampireKillDelay")}</color>(s): {main.VampireKillDelay}{main.TextCursor}", true, () => {main.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref main.VampireKillDelay, n, 999));
-            var ShapeMasterShapeshiftDuration = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{getString("ShapeMasterShapeshiftDuration")}</color>(s): {main.ShapeMasterShapeshiftDuration}{main.TextCursor}", true, () => {main.ShapeMasterShapeshiftDuration = 0;}, (n) => main.ChangeInt(ref main.ShapeMasterShapeshiftDuration, n, 100));
-            var MadmateCanFixLightsOut = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixLightsOut")}</color>: {main.getOnOff(main.MadmateCanFixLightsOut)}", true, () => {main.MadmateCanFixLightsOut = !main.MadmateCanFixLightsOut;});
-            var MadmateCanFixComms = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixComms")}</color>: {main.getOnOff(main.MadmateCanFixComms)}", true, () => { main.MadmateCanFixComms = !main.MadmateCanFixComms; });
-            var MadGuardianCanSeeBarrier = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{getString("MadGuardianCanSeeWhoTriedToKill")}</color>: {main.getOnOff(main.MadGuardianCanSeeWhoTriedToKill)}", true, () => {main.MadGuardianCanSeeWhoTriedToKill = !main.MadGuardianCanSeeWhoTriedToKill;});
-            var MadmateVisionAsImpostor = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateVisionAsImpostor")}</color>: {main.getOnOff(main.MadmateVisionAsImpostor)}", true, () => {main.MadmateVisionAsImpostor = !main.MadmateVisionAsImpostor;});
-            var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {main.CanMakeMadmateCount}{main.TextCursor}", true, () => {main.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref main.CanMakeMadmateCount, n, 999));
-            var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {main.MadSnitchTasks}{main.TextCursor}", true, () => { main.MadSnitchTasks = 0; }, (n) => main.ChangeInt(ref main.MadSnitchTasks, n, 99));
+            var BountyTargetChangeTime = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyTargetChangeTime")}</color>(s): {Options.BountyTargetChangeTime}{main.TextCursor}", true, () => {Options.BountyTargetChangeTime = 0;}, (n) => main.ChangeInt(ref Options.BountyTargetChangeTime, n, 999));
+            var BountySuccessKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountySuccessKillCooldown")}</color>(s): {Options.BountySuccessKillCooldown}{main.TextCursor}", true, () => {Options.BountySuccessKillCooldown = 0;}, (n) => main.ChangeInt(ref Options.BountySuccessKillCooldown, n, 999));
+            var BountyFailureKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyFailureKillCooldown")}</color>(s): {Options.BountyFailureKillCooldown}{main.TextCursor}", true, () => {Options.BountyFailureKillCooldown = 0;}, (n) => main.ChangeInt(ref Options.BountyFailureKillCooldown, n, 999));
+            var BHDefaultKillCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BHDefaultKillCooldown")}</color>(s): {Options.BHDefaultKillCooldown}{main.TextCursor}", true, () => {Options.BHDefaultKillCooldown = 0;}, (n) => main.ChangeInt(ref Options.BHDefaultKillCooldown, n, 999));
+            var SerialKillerCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{getString("SerialKillerCooldown")}</color>(s): {Options.SerialKillerCooldown}{main.TextCursor}", true, () => {Options.SerialKillerCooldown = 0;}, (n) => main.ChangeInt(ref Options.SerialKillerCooldown, n, 100));
+            var SerialKillerLimit = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SerialKiller)}>{getString("SerialKillerLimit")}</color>(s): {Options.SerialKillerLimit}{main.TextCursor}", true, () => {Options.SerialKillerLimit = 0;}, (n) => main.ChangeInt(ref Options.SerialKillerLimit, n, 999));
+            var VampireKillDelay = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Vampire)}>{getString("VampireKillDelay")}</color>(s): {Options.VampireKillDelay}{main.TextCursor}", true, () => {Options.VampireKillDelay = 0;}, (n) => main.ChangeInt(ref Options.VampireKillDelay, n, 999));
+            var ShapeMasterShapeshiftDuration = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.ShapeMaster)}>{getString("ShapeMasterShapeshiftDuration")}</color>(s): {Options.ShapeMasterShapeshiftDuration}{main.TextCursor}", true, () => {Options.ShapeMasterShapeshiftDuration = 0;}, (n) => main.ChangeInt(ref Options.ShapeMasterShapeshiftDuration, n, 100));
+            var MadmateCanFixLightsOut = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixLightsOut")}</color>: {main.getOnOff(Options.MadmateCanFixLightsOut)}", true, () => {Options.MadmateCanFixLightsOut = !Options.MadmateCanFixLightsOut;});
+            var MadmateCanFixComms = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixComms")}</color>: {main.getOnOff(Options.MadmateCanFixComms)}", true, () => { Options.MadmateCanFixComms = !Options.MadmateCanFixComms; });
+            var MadGuardianCanSeeBarrier = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{getString("MadGuardianCanSeeWhoTriedToKill")}</color>: {main.getOnOff(Options.MadGuardianCanSeeWhoTriedToKill)}", true, () => {Options.MadGuardianCanSeeWhoTriedToKill = !Options.MadGuardianCanSeeWhoTriedToKill;});
+            var MadmateVisionAsImpostor = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateVisionAsImpostor")}</color>: {main.getOnOff(Options.MadmateVisionAsImpostor)}", true, () => {Options.MadmateVisionAsImpostor = !Options.MadmateVisionAsImpostor;});
+            var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {Options.CanMakeMadmateCount}{main.TextCursor}", true, () => {Options.CanMakeMadmateCount = 0;}, (n) => main.ChangeInt(ref Options.CanMakeMadmateCount, n, 999));
+            var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {Options.MadSnitchTasks}{main.TextCursor}", true, () => { Options.MadSnitchTasks = 0; }, (n) => main.ChangeInt(ref Options.MadSnitchTasks, n, 99));
 
             var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedCrewmateRoleOptions"));
-            var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
-            var SabotageMasterSkillLimit = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterSkillLimit")}</color>: {main.SabotageMasterSkillLimit}{main.TextCursor}", true, () => {main.SabotageMasterSkillLimit = 0;}, (n) => main.ChangeInt(ref main.SabotageMasterSkillLimit, n, 999));
-            var SabotageMasterFixesDoors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesDoors")}</color>: {main.getOnOff(main.SabotageMasterFixesDoors)}", true, () => main.SabotageMasterFixesDoors = !main.SabotageMasterFixesDoors);
-            var SabotageMasterFixesReactors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesReactors")}</color>: {main.getOnOff(main.SabotageMasterFixesReactors)}", true, () => main.SabotageMasterFixesReactors = !main.SabotageMasterFixesReactors);
-            var SabotageMasterFixesOxygens = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesOxygens")}</color>: {main.getOnOff(main.SabotageMasterFixesOxygens)}", true, () => main.SabotageMasterFixesOxygens = !main.SabotageMasterFixesOxygens);
-            var SabotageMasterFixesComms = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesCommunications")}</color>: {main.getOnOff(main.SabotageMasterFixesCommunications)}", true, () => main.SabotageMasterFixesCommunications = !main.SabotageMasterFixesCommunications);
-            var SabotageMasterFixesElectrical = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesElectrical")}</color>: {main.getOnOff(main.SabotageMasterFixesElectrical)}", true, () => main.SabotageMasterFixesElectrical = !main.SabotageMasterFixesElectrical);
-            var SheriffKillCooldown = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffKillCooldown")}</color>: {main.SheriffKillCooldown}{main.TextCursor}", true, () => {main.SheriffKillCooldown = 0;}, (n) => main.ChangeInt(ref main.SheriffKillCooldown, n, 180));
-            var SheriffCanKillJester = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillJester")}</color>: {main.getOnOff(main.SheriffCanKillJester)}", true, () => main.SheriffCanKillJester = !main.SheriffCanKillJester);
-            var SheriffCanKillTerrorist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillTerrorist")}</color>: {main.getOnOff(main.SheriffCanKillTerrorist)}", true, () => main.SheriffCanKillTerrorist = !main.SheriffCanKillTerrorist);
-            var SheriffCanKillOpportunist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillOpportunist")}</color>: {main.getOnOff(main.SheriffCanKillOpportunist)}", true, () => main.SheriffCanKillOpportunist = !main.SheriffCanKillOpportunist);
+            var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {Options.MayorAdditionalVote}{main.TextCursor}", true, () => {Options.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref Options.MayorAdditionalVote, n, 99));
+            var SabotageMasterSkillLimit = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterSkillLimit")}</color>: {Options.SabotageMasterSkillLimit}{main.TextCursor}", true, () => {Options.SabotageMasterSkillLimit = 0;}, (n) => main.ChangeInt(ref Options.SabotageMasterSkillLimit, n, 999));
+            var SabotageMasterFixesDoors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesDoors")}</color>: {main.getOnOff(Options.SabotageMasterFixesDoors)}", true, () => Options.SabotageMasterFixesDoors = !Options.SabotageMasterFixesDoors);
+            var SabotageMasterFixesReactors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesReactors")}</color>: {main.getOnOff(Options.SabotageMasterFixesReactors)}", true, () => Options.SabotageMasterFixesReactors = !Options.SabotageMasterFixesReactors);
+            var SabotageMasterFixesOxygens = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesOxygens")}</color>: {main.getOnOff(Options.SabotageMasterFixesOxygens)}", true, () => Options.SabotageMasterFixesOxygens = !Options.SabotageMasterFixesOxygens);
+            var SabotageMasterFixesComms = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesCommunications")}</color>: {main.getOnOff(Options.SabotageMasterFixesCommunications)}", true, () => Options.SabotageMasterFixesCommunications = !Options.SabotageMasterFixesCommunications);
+            var SabotageMasterFixesElectrical = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesElectrical")}</color>: {main.getOnOff(Options.SabotageMasterFixesElectrical)}", true, () => Options.SabotageMasterFixesElectrical = !Options.SabotageMasterFixesElectrical);
+            var SheriffKillCooldown = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffKillCooldown")}</color>: {Options.SheriffKillCooldown}{main.TextCursor}", true, () => {Options.SheriffKillCooldown = 0;}, (n) => main.ChangeInt(ref Options.SheriffKillCooldown, n, 180));
+            var SheriffCanKillJester = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillJester")}</color>: {main.getOnOff(Options.SheriffCanKillJester)}", true, () => Options.SheriffCanKillJester = !Options.SheriffCanKillJester);
+            var SheriffCanKillTerrorist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillTerrorist")}</color>: {main.getOnOff(Options.SheriffCanKillTerrorist)}", true, () => Options.SheriffCanKillTerrorist = !Options.SheriffCanKillTerrorist);
+            var SheriffCanKillOpportunist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillOpportunist")}</color>: {main.getOnOff(Options.SheriffCanKillOpportunist)}", true, () => Options.SheriffCanKillOpportunist = !Options.SheriffCanKillOpportunist);
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
-            var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
+            var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + main.getOnOff(Options.IsHideAndSeek), true, () => Options.IsHideAndSeek = !Options.IsHideAndSeek);
             var HideAndSeekOptions = new PageObject(ModeOptions, () => getString("HideAndSeekOptions"));
-            var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + main.getOnOff(main.AllowCloseDoors), true, () => {main.AllowCloseDoors = !main.AllowCloseDoors;});
-            var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + main.HideAndSeekKillDelay, true, () => {main.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref main.HideAndSeekKillDelay, i, 180));
-            var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => getString("IgnoreCosmetics") + ": " + main.getOnOff(main.IgnoreCosmetics), true, () => {main.IgnoreCosmetics = !main.IgnoreCosmetics;});
-            var IgnoreVent = new PageObject(HideAndSeekOptions, () => getString("IgnoreVent") + ": " + main.getOnOff(main.IgnoreVent), true, () => {main.IgnoreVent = !main.IgnoreVent;});
+            var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + main.getOnOff(Options.AllowCloseDoors), true, () => {Options.AllowCloseDoors = !Options.AllowCloseDoors;});
+            var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + Options.HideAndSeekKillDelay, true, () => {Options.HideAndSeekKillDelay = 0;}, i => main.ChangeInt(ref Options.HideAndSeekKillDelay, i, 180));
+            var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => getString("IgnoreCosmetics") + ": " + main.getOnOff(Options.IgnoreCosmetics), true, () => {Options.IgnoreCosmetics = !Options.IgnoreCosmetics;});
+            var IgnoreVent = new PageObject(HideAndSeekOptions, () => getString("IgnoreVent") + ": " + main.getOnOff(Options.IgnoreVent), true, () => {Options.IgnoreVent = !Options.IgnoreVent;});
             var HideAndSeekRoles = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekRoles"));
-            var Fox = new PageObject(HideAndSeekRoles, () => $"<color=#e478ff>" + main.getRoleName(CustomRoles.Fox) + "</color>: " + main.FoxCount,
-                true,
-                () => {
-                    if(main.FoxCount == 0) main.FoxCount = 1;
-                    else main.FoxCount = 0;
-                },
-                i => main.ChangeInt(ref main.FoxCount, i, GameData.Instance.AllPlayers.Count - main.TrollCount)
-            );
-            var Troll = new PageObject(HideAndSeekRoles, () => $"<color=#00ff00>" + main.getRoleName(CustomRoles.Troll) + "</color>: " + main.TrollCount,
-                true,
-                () => {
-                    if(main.TrollCount == 0) main.TrollCount = 1;
-                    else main.TrollCount = 0;
-                },
-                i => main.ChangeInt(ref main.TrollCount, i, GameData.Instance.AllPlayers.Count - main.FoxCount)
-            );
+
+            
+            var Fox = new PageObject(HideAndSeekRoles, CustomRoles.Fox);
+            var Troll = new PageObject(HideAndSeekRoles, CustomRoles.Troll);
+            
 
             var SyncButtonMode = new PageObject(ModeOptions, () => getString("SyncButtonMode"));
-            var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => getString("SyncButtonMode") + ": " + main.getOnOff(main.SyncButtonMode), true, () => main.SyncButtonMode = !main.SyncButtonMode);
-            var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + main.SyncedButtonCount + main.TextCursor, true, () => {main.SyncedButtonCount = 0;}, i => main.ChangeInt(ref main.SyncedButtonCount, i, 100));
+            var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => getString("SyncButtonMode") + ": " + main.getOnOff(Options.SyncButtonMode), true, () => Options.SyncButtonMode = !Options.SyncButtonMode);
+            var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + Options.SyncedButtonCount + main.TextCursor, true, () => {Options.SyncedButtonCount = 0;}, i => main.ChangeInt(ref Options.SyncedButtonCount, i, 100));
 
             var DisableTasks = new PageObject(ModeOptions, () => getString("DisableTasks"));
-            var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + main.getOnOff(main.DisableSwipeCard), true, () => {main.DisableSwipeCard = !main.DisableSwipeCard;});
-            var dSubmitScan = new PageObject(DisableTasks, () => getString("DisableSubmitScanTask") + ": " + main.getOnOff(main.DisableSubmitScan), true, () => {main.DisableSubmitScan = !main.DisableSubmitScan;});
-            var dUnlockSafe = new PageObject(DisableTasks, () => getString("DisableUnlockSafeTask") + ": " + main.getOnOff(main.DisableUnlockSafe), true, () => {main.DisableUnlockSafe = !main.DisableUnlockSafe;});
-            var dUploadData = new PageObject(DisableTasks, () => getString("DisableUploadDataTask") + ": " + main.getOnOff(main.DisableUploadData), true, () => {main.DisableUploadData = !main.DisableUploadData;});
-            var dStartReactor = new PageObject(DisableTasks, () => getString("DisableStartReactorTask") + ": " + main.getOnOff(main.DisableStartReactor), true, () => {main.DisableStartReactor = !main.DisableStartReactor;});
-            var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + main.getOnOff(main.DisableResetBreaker), true, () => {main.DisableResetBreaker = !main.DisableResetBreaker;});
+            var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + main.getOnOff(Options.DisableSwipeCard), true, () => {Options.DisableSwipeCard = !Options.DisableSwipeCard;});
+            var dSubmitScan = new PageObject(DisableTasks, () => getString("DisableSubmitScanTask") + ": " + main.getOnOff(Options.DisableSubmitScan), true, () => {Options.DisableSubmitScan = !Options.DisableSubmitScan;});
+            var dUnlockSafe = new PageObject(DisableTasks, () => getString("DisableUnlockSafeTask") + ": " + main.getOnOff(Options.DisableUnlockSafe), true, () => {Options.DisableUnlockSafe = !Options.DisableUnlockSafe;});
+            var dUploadData = new PageObject(DisableTasks, () => getString("DisableUploadDataTask") + ": " + main.getOnOff(Options.DisableUploadData), true, () => {Options.DisableUploadData = !Options.DisableUploadData;});
+            var dStartReactor = new PageObject(DisableTasks, () => getString("DisableStartReactorTask") + ": " + main.getOnOff(Options.DisableStartReactor), true, () => {Options.DisableStartReactor = !Options.DisableStartReactor;});
+            var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + main.getOnOff(Options.DisableResetBreaker), true, () => {Options.DisableResetBreaker = !Options.DisableResetBreaker;});
 
             var RandomMapsMode = new PageObject(ModeOptions, () => getString("RandomMapsMode"));
-            var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + main.getOnOff(main.RandomMapsMode), true, () => main.RandomMapsMode = !main.RandomMapsMode);
-            var rmSkeld = new PageObject(RandomMapsMode, () => getString("AddedTheSkeld") + ": " + main.getOnOff(main.AddedTheSkeld), true, () => main.AddedTheSkeld = !main.AddedTheSkeld);
-            var rmMiraHQ = new PageObject(RandomMapsMode, () => getString("AddedMIRAHQ") + ": " + main.getOnOff(main.AddedMIRAHQ), true, () => main.AddedMIRAHQ = !main.AddedMIRAHQ);
-            var rmPolus = new PageObject(RandomMapsMode, () => getString("AddedPolus") + ": " + main.getOnOff(main.AddedPolus), true, () => main.AddedPolus = !main.AddedPolus);
-            //var rmDleks = new PageObject(RandomMapsMode, () => getString("AddedDleks") + ": " + main.getOnOff(main.AddedDleks), true, () => main.AddedDleks = !main.AddedDleks);
-            var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + main.getOnOff(main.AddedTheAirShip), true, () => main.AddedTheAirShip = !main.AddedTheAirShip);
-            var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + main.getOnOff(main.NoGameEnd), true, () => main.NoGameEnd = !main.NoGameEnd);
+            var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + main.getOnOff(Options.RandomMapsMode), true, () => Options.RandomMapsMode = !Options.RandomMapsMode);
+            var rmSkeld = new PageObject(RandomMapsMode, () => getString("AddedTheSkeld") + ": " + main.getOnOff(Options.AddedTheSkeld), true, () => Options.AddedTheSkeld = !Options.AddedTheSkeld);
+            var rmMiraHQ = new PageObject(RandomMapsMode, () => getString("AddedMIRAHQ") + ": " + main.getOnOff(Options.AddedMIRAHQ), true, () => Options.AddedMIRAHQ = !Options.AddedMIRAHQ);
+            var rmPolus = new PageObject(RandomMapsMode, () => getString("AddedPolus") + ": " + main.getOnOff(Options.AddedPolus), true, () => Options.AddedPolus = !Options.AddedPolus);
+            //var rmDleks = new PageObject(RandomMapsMode, () => getString("AddedDleks") + ": " + main.getOnOff(Options.AddedDleks), true, () => Options.AddedDleks = !Options.AddedDleks);
+            var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + main.getOnOff(Options.AddedTheAirShip), true, () => Options.AddedTheAirShip = !Options.AddedTheAirShip);
+            var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + main.getOnOff(Options.NoGameEnd), true, () => Options.NoGameEnd = !Options.NoGameEnd);
 
             var voteMode = new PageObject(ModeOptions, () => getString("VoteMode"));
-            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode),main.whenSkipVote)), true, () => {
-                var next = main.whenSkipVote + 1;
+            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode),Options.whenSkipVote)), true, () => {
+                var next = Options.whenSkipVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
-                main.whenSkipVote = next;
+                Options.whenSkipVote = next;
             });
-            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode),main.whenNonVote)), true, () => {
-                var next = main.whenNonVote + 1;
+            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode),Options.whenNonVote)), true, () => {
+                var next = Options.whenNonVote + 1;
                 if(next > VoteMode.SelfVote) next = VoteMode.Default;
-                main.whenNonVote = next;
+                Options.whenNonVote = next;
             });
-            var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + main.getOnOff(main.canTerroristSuicideWin), true, () => main.canTerroristSuicideWin = !main.canTerroristSuicideWin);
+            var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + main.getOnOff(Options.canTerroristSuicideWin), true, () => Options.canTerroristSuicideWin = !Options.canTerroristSuicideWin);
 
-            var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + main.currentSuffix.ToString(), true, () => {
-                var next = main.currentSuffix + 1;
+            var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + Options.currentSuffix.ToString(), true, () => {
+                var next = Options.currentSuffix + 1;
                 if(next > SuffixModes.Recording) next = SuffixModes.None;
-                main.currentSuffix = next;
+                Options.currentSuffix = next;
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
-            var forceJapanese = new PageObject(basePage, () => getString("ForceJapanese") + ": " + main.getOnOff(main.forceJapanese), false, () => main.forceJapanese = !main.forceJapanese);
-            var autoPrintLastRoles = new PageObject(basePage, () => getString("AutoDisplayLastResult") + ": " + main.getOnOff(main.autoDisplayLastRoles), false, () => main.autoDisplayLastRoles = !main.autoDisplayLastRoles);
+            var forceJapanese = new PageObject(basePage, () => getString("ForceJapanese") + ": " + main.getOnOff(Options.forceJapanese), false, () => Options.forceJapanese = !Options.forceJapanese);
+            var autoPrintLastRoles = new PageObject(basePage, () => getString("AutoDisplayLastResult") + ": " + main.getOnOff(Options.autoDisplayLastRoles), false, () => Options.autoDisplayLastRoles = !Options.autoDisplayLastRoles);
             autoPrintLastRoles.amVisible = () => AmongUsClient.Instance.AmHost;
         }
         public static void SetPage(PageObject page)

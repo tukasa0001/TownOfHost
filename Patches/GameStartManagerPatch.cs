@@ -31,7 +31,7 @@ namespace TownOfHost
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
 
-                if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && Options.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
                 {
                     new LateTask(() =>
                     {
@@ -98,7 +98,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
-            if (main.RandomMapsMode == true)
+            if (Options.RandomMapsMode == true)
             {
                 var rand = new System.Random();
                 System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
@@ -107,11 +107,11 @@ namespace TownOfHost
                 Polus      = 2
                 Dleks      = 3
                 TheAirShip = 4*/
-                if (main.AddedTheSkeld == true) RandomMaps.Add(0);
-                if (main.AddedMIRAHQ == true) RandomMaps.Add(1);
-                if (main.AddedPolus == true) RandomMaps.Add(2);
-                if (main.AddedDleks == true) RandomMaps.Add(3);
-                if (main.AddedTheAirShip == true) RandomMaps.Add(4);
+                if (Options.AddedTheSkeld == true) RandomMaps.Add(0);
+                if (Options.AddedMIRAHQ == true) RandomMaps.Add(1);
+                if (Options.AddedPolus == true) RandomMaps.Add(2);
+                if (Options.AddedDleks == true) RandomMaps.Add(3);
+                if (Options.AddedTheAirShip == true) RandomMaps.Add(4);
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
             

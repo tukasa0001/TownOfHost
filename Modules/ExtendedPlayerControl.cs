@@ -125,11 +125,11 @@ namespace TownOfHost {
             var cRole = player.getCustomRole();
             switch(cRole) {
                 case CustomRoles.Jester:
-                    return main.SheriffCanKillJester;
+                    return Options.SheriffCanKillJester;
                 case CustomRoles.Terrorist:
-                    return main.SheriffCanKillTerrorist;
+                    return Options.SheriffCanKillTerrorist;
                 case CustomRoles.Opportunist:
-                    return main.SheriffCanKillOpportunist;
+                    return Options.SheriffCanKillOpportunist;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
@@ -137,7 +137,7 @@ namespace TownOfHost {
                 case IntroTypes.Impostor:
                     return true;
                 case IntroTypes.Madmate:
-                    return main.SheriffCanKillMadmate;
+                    return Options.SheriffCanKillMadmate;
             }
             return false;
         }
@@ -170,7 +170,7 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
-                    if(main.MadmateVisionAsImpostor){
+                    if(Options.MadmateVisionAsImpostor){
                         opt.CrewLightMod = opt.ImpostorLightMod;
                         var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                         if(mm != null && mm.IsActive) {
@@ -186,41 +186,41 @@ namespace TownOfHost {
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = main.ShapeMasterShapeshiftDuration;
+                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration;
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     goto DefaultKillcooldown;
                 case CustomRoles.Vampire:
-                    if(main.BountyHunterCount > 0){
-                        if(main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown;
-                        if(!main.BountyMeetingCheck)opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                    if(CustomRoles.BountyHunter.isEnable()){
+                        if(main.BountyMeetingCheck)opt.KillCooldown = Options.BHDefaultKillCooldown;
+                        if(!main.BountyMeetingCheck)opt.KillCooldown = Options.BHDefaultKillCooldown*2;
                     }
                     if(main.RefixCooldownDelay <= 0){
                         opt.KillCooldown *= 2;
                     }
                     break;
                 case CustomRoles.Warlock:
-                    if(main.BountyHunterCount == 0){
+                    if(CustomRoles.BountyHunter.getCount() == 0){
                         opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
                         opt.KillCooldown *= 2;
                     }
-                    if(main.BountyHunterCount > 0){
-                        opt.RoleOptions.ShapeshifterCooldown = main.BHDefaultKillCooldown;
-                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                    if(CustomRoles.BountyHunter.isEnable()){
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown;
+                        opt.KillCooldown = Options.BHDefaultKillCooldown*2;
                     }
                     break;
                 case CustomRoles.SerialKiller:
-                    opt.RoleOptions.ShapeshifterCooldown = main.SerialKillerLimit;
-                    opt.KillCooldown = main.SerialKillerCooldown*2;
-                    if(main.BountyHunterCount > 0)opt.KillCooldown = opt.KillCooldown = main.SerialKillerCooldown*2;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit;
+                    opt.KillCooldown = Options.SerialKillerCooldown*2;
+                    if(CustomRoles.BountyHunter.isEnable())opt.KillCooldown = opt.KillCooldown = Options.SerialKillerCooldown*2;
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = main.BountyTargetChangeTime;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime;
                     if(main.BountyMeetingCheck){//会議後のキルクール
-                        opt.KillCooldown = main.BHDefaultKillCooldown*2;
+                        opt.KillCooldown = Options.BHDefaultKillCooldown*2;
                     }
                     else{
                         if(!main.isBountyKillSuccess){//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = main.BountyFailureKillCooldown;
+                            opt.KillCooldown = Options.BountyFailureKillCooldown;
                             Logger.info("ターゲット以外をキル");
                         }
                         if(!main.BountyTimerCheck){//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
@@ -228,7 +228,7 @@ namespace TownOfHost {
                             Logger.info("ターゲットリセット");
                         }
                         if(main.isBountyKillSuccess){//ターゲットをキルした時の処理
-                            opt.KillCooldown = main.BountySuccessKillCooldown*2;
+                            opt.KillCooldown = Options.BountySuccessKillCooldown*2;
                             Logger.info("ターゲットをキル");
                         }
                     }
@@ -239,7 +239,7 @@ namespace TownOfHost {
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;
                 case CustomRoles.Sheriff:
-                    opt.KillCooldown = main.SheriffKillCooldown;
+                    opt.KillCooldown = Options.SheriffKillCooldown;
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
@@ -253,12 +253,12 @@ namespace TownOfHost {
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 DefaultKillcooldown:
-                    if(main.BountyHunterCount > 0){
-                        opt.KillCooldown = main.BHDefaultKillCooldown;
+                    if(CustomRoles.BountyHunter.isEnable()){
+                        opt.KillCooldown = Options.BHDefaultKillCooldown;
                     }
                     break;
                 MadmateVision://マッドメイトの視野をインポスターと同じにする処理
-                    if(main.MadmateVisionAsImpostor){
+                    if(Options.MadmateVisionAsImpostor){
                         opt.CrewLightMod = opt.ImpostorLightMod;
                         var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                         if(sm != null && sm.IsActive) {
@@ -280,9 +280,9 @@ namespace TownOfHost {
             }
             if(player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
-            if(main.SyncButtonMode && main.SyncedButtonCount <= main.UsedButtonCount)
+            if(Options.SyncButtonMode && Options.SyncedButtonCount <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
+            if(Options.IsHideAndSeek && Options.HideAndSeekKillDelayTimer > 0) {
                 opt.ImpostorLightMod = 0f;
             }
 
@@ -306,7 +306,7 @@ namespace TownOfHost {
             switch (player.getCustomRole())
             {
                 case CustomRoles.MadSnitch:
-                    adjustedTasksCount = main.MadSnitchTasks;
+                    adjustedTasksCount = Options.MadSnitchTasks;
                     break;
                 default:
                     break;
