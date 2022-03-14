@@ -49,7 +49,7 @@ namespace TownOfHost {
         public static string getString(string s)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.CurrentLanguage.languageID : SupportedLangs.English; 
-            if(main.forceJapanese) langId = SupportedLangs.Japanese;
+            if(Options.forceJapanese) langId = SupportedLangs.Japanese;
             return getString(s,langId);
         }
 
