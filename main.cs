@@ -395,11 +395,11 @@ namespace TownOfHost
                 if(main.TerroristCount > 0) main.SendToAll(main.getLang(lang.TerroristInfoLong));
                 if(main.OpportunistCount > 0) main.SendToAll(main.getLang(lang.OpportunistInfoLong));
                 if(main.BaitCount > 0) main.SendToAll(main.getLang(lang.BaitInfoLong));
+                if(main.LighterCount > 0) main.SendToAll(main.getLang(lang.LighterInfoLong));
                 if(main.MayorCount > 0) main.SendToAll(main.getLang(lang.MayorInfoLong));
                 if(main.SabotageMasterCount > 0) main.SendToAll(main.getLang(lang.SabotageMasterInfoLong));
                 if(main.SheriffCount > 0) main.SendToAll(main.getLang(lang.SheriffInfoLong));
                 if(main.SnitchCount > 0) main.SendToAll(main.getLang(lang.SnitchInfoLong));
-                if(main.LighterCount > 0) main.SendToAll(main.getLang(lang.LighterInfoLong));
             }
             if(main.NoGameEnd){ main.SendToAll(main.getLang(lang.NoGameEndInfo)); }
         }
@@ -430,11 +430,11 @@ namespace TownOfHost
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
                 if(main.BaitCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Bait),main.BaitCount);
+                if(main.LighterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Lighter),main.LighterCount);
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
-                if(main.LighterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Lighter),main.LighterCount);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);

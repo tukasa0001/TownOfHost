@@ -39,11 +39,11 @@ namespace TownOfHost
             var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
+            var Lighter = new PageObject(RoleOptions, CustomRoles.Lighter);
             var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            var Lighter = new PageObject(RoleOptions, CustomRoles.Lighter);
 
 
 
