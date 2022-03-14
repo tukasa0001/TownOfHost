@@ -239,7 +239,7 @@ namespace TownOfHost
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPCProcedure.TerroristWin(Terrorist.PlayerId);
+                RPC.TerroristWin(Terrorist.PlayerId);
             }
         }
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)

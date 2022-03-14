@@ -140,7 +140,7 @@ namespace TownOfHost
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
         {
             if (AmongUsClient.Instance.AmHost)
-                RPCProcedure.PlaySound(PlayerID, sound);
+                RPC.PlaySound(PlayerID, sound);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
