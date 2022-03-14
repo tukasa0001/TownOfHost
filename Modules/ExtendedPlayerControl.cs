@@ -132,7 +132,7 @@ namespace TownOfHost {
                     return main.SheriffCanKillOpportunist;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.GetIntroType();
+            IntroTypes introType = role.getIntroType();
             switch(introType) {
                 case IntroTypes.Impostor:
                     return true;
@@ -268,7 +268,7 @@ namespace TownOfHost {
                     break;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.GetIntroType();
+            IntroTypes introType = role.getIntroType();
             switch(introType) {
                 case IntroTypes.Madmate:
                     opt.CrewLightMod = opt.ImpostorLightMod;

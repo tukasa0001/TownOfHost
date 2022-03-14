@@ -46,7 +46,7 @@ namespace TownOfHost {
 
                     Color IconColor = Color.white;
                     var roleColor = main.getRoleColor(cRole);
-                    var IntroType = cRole.GetIntroType();
+                    var IntroType = cRole.getIntroType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;

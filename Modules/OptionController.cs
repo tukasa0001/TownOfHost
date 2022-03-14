@@ -277,7 +277,7 @@ namespace TownOfHost
             this.getName = () => $"<color={main.getRoleColorCode(role)}>{main.getRoleName(role)}</color>: {main.GetCountFromRole(role)}";
             this.isHostOnly = true; //実行をホストのみに限定するか
             this.onEnter = () => main.SetRoleCountToggle(role); //実行時の動作
-            this.onInput = (n) => role.SetCount(n); //入力時の動作
+            this.onInput = (n) => role.setCount(n); //入力時の動作
 
             this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
             parent?.ChildPages.Add(this); //親のリストに自分を追加
