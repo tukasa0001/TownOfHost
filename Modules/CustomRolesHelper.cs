@@ -48,7 +48,6 @@ namespace TownOfHost {
             if(role.isImpostor()) type = IntroTypes.Impostor;
             if(role.isNeutral()) type = IntroTypes.Neutral;
             if(role.isMadmate()) type = IntroTypes.Madmate;
-            Logger.info($"{main.getRoleName(role)}:{type}");
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
