@@ -41,14 +41,14 @@ namespace TownOfHost {
         }
         public static CustomRoles getCustomRole(this GameData.PlayerInfo player)
         {
-            if(player == null || player.Object == null) return CustomRoles.Default;
+            if(player == null || player.Object == null) return CustomRoles.Crewmate;
             return player.Object.getCustomRole();
         }
 
         public static CustomRoles getCustomRole(this PlayerControl player) {
             if(player == null) {
                 Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
-                return CustomRoles.Default;
+                return CustomRoles.Crewmate;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
             if(!cRoleFound)
@@ -56,7 +56,7 @@ namespace TownOfHost {
                 switch(player.Data.Role.Role)
                 {
                     case RoleTypes.Crewmate:
-                        cRole = CustomRoles.Default;
+                        cRole = CustomRoles.Crewmate;
                         break;
                     case RoleTypes.Engineer:
                         cRole = CustomRoles.Engineer;
@@ -74,7 +74,7 @@ namespace TownOfHost {
                         cRole = CustomRoles.Shapeshifter;
                         break;
                     default:
-                        cRole = CustomRoles.Default;
+                        cRole = CustomRoles.Crewmate;
                         break;
                 }
             }
@@ -441,7 +441,7 @@ namespace TownOfHost {
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Default;}
+        public static bool isCrewmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Crewmate;}
         public static bool isEngineer(this PlayerControl target){return target.getCustomRole() == CustomRoles.Engineer;}
         public static bool isScientist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Scientist;}
         public static bool isGurdianAngel(this PlayerControl target){return target.getCustomRole() == CustomRoles.GuardianAngel;}

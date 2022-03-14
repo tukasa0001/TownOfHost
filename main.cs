@@ -311,7 +311,7 @@ namespace TownOfHost
                 default:
                     switch (hRole)
                     {
-                        case CustomRoles.Default:
+                        case CustomRoles.Crewmate:
                             text = "Crewmate";
                             color = Color.white;
                             break;
@@ -1019,7 +1019,7 @@ namespace TownOfHost
             try {
 
             roleColors = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "#ffffff"},
+                {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
@@ -1071,7 +1071,7 @@ namespace TownOfHost
                 {lang.WitchInfo, "敵に魔術をかけよう"},
                 {lang.ShapeMasterInfo, "変身し、敵を混乱させよう"},
                 {lang.WarlockInfo, "敵を呪い殺そう"},
-                {lang.SerialKillerInfo, "殺し続けて勝利を狙おう"},
+                {lang.SerialKillerInfo, "殺人衝動が抑えられない"},
                 {lang.LighterInfo, "タスクを終わらせて光ろう"},
                 {lang.FoxInfo, "とにかく生き残りましょう"},
                 {lang.TrollInfo, "自爆しよう"},
@@ -1094,7 +1094,7 @@ namespace TownOfHost
                 {lang.WitchInfoLong, "魔女:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "シェイプマスター:\n姿を変える、シフトに特化したインポスター。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "ウォーロック:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
-                {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
+                {lang.SerialKillerInfoLong, "シリアルキラー:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまう。"},
                 {lang.LighterInfoLong, "ライター:\nタスクを完了させると、自分の視界を広げることができる。"},
                 {lang.FoxInfoLong, "狐(HideAndSeek):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "トロール(HideAndSeek):\nインポスターにキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。"},
@@ -1204,7 +1204,7 @@ namespace TownOfHost
                 {lang.WitchInfo, "Spell your enemies"},
                 {lang.ShapeMasterInfo,"Transform and confuse your enemies"},
                 {lang.WarlockInfo, "Curse and kill your enemies"},
-                {lang.SerialKillerInfo, "Keep killing to win"},
+                {lang.SerialKillerInfo, "Uncontrollable Murderous Urges"},
                 {lang.LighterInfo, "Let's finish the task and shine"},
                 {lang.FoxInfo, "Do whatever it takes to survive"},
                 {lang.TrollInfo, "Die to win"},
@@ -1227,7 +1227,7 @@ namespace TownOfHost
                 {lang.WitchInfoLong, "Witch:\nキルボタンを押すと<kill>と<spell>が入れ替わり、<spell>モードの時にキルボタンを押すと相手に魔術がかかる。魔術がかかった人は会議で<s>マークがつき、その会議中に魔女を吊らなければ死んでしまう。"},
                 {lang.ShapeMasterInfoLong, "ShaapeMaster:\n姿を変える、シフトに特化したImpostor。変身のクールダウンを消すことができるが、変身は10秒間しかできない。"},
                 {lang.WarlockInfoLong, "Warlock:\n変身すると、変身した人の一番近くに呪いがかかる。次から変身ボタンを押すと、呪った人に一番近かった人が呪った人によってキルされる。\n誰かを呪った場合、普通のキルはできない。呪いがかかった人は次の会議でマークがつき、会議後に死にます。"},
-                {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまいます"},
+                {lang.SerialKillerInfoLong, "SerialKiller:\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆してしまう。"},
                 {lang.LighterInfoLong, "Lighter:\nタスクを完了させると、自分の視界を広げることができる。"},
                 {lang.FoxInfoLong, "Fox(HideAndSeek):\nTrollを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。"},
                 {lang.TrollInfoLong, "Troll(HideAndSeek):\nImpostorにキルされたときに単独勝利となる。この場合、Foxが生き残っていてもFoxは敗北となる。"},
@@ -1316,7 +1316,7 @@ namespace TownOfHost
                 {lang.Win, " Wins"},
             };
             EnglishRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "Crewmate"},
+                {CustomRoles.Crewmate, "Crewmate"},
                 {CustomRoles.Engineer, "Engineer"},
                 {CustomRoles.Scientist, "Scientist"},
                 {CustomRoles.GuardianAngel, "GuardianAngel"},
@@ -1346,7 +1346,7 @@ namespace TownOfHost
                 {CustomRoles.Troll, "Troll"},
             };
             JapaneseRoleNames = new Dictionary<CustomRoles, string>(){
-                {CustomRoles.Default, "クルー"},
+                {CustomRoles.Crewmate, "クルー"},
                 {CustomRoles.Engineer, "エンジニア"},
                 {CustomRoles.Scientist, "科学者"},
                 {CustomRoles.GuardianAngel, "守護天使"},
@@ -1554,7 +1554,7 @@ namespace TownOfHost
         Win,
     }
     public enum CustomRoles {
-        Default = 0,
+        Crewmate = 0,
         Engineer,
         Scientist,
         Impostor,

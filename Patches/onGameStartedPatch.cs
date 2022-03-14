@@ -124,7 +124,7 @@ namespace TownOfHost
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 //リスト作成兼色設定処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    main.AllPlayerCustomRoles.Add(pc.PlayerId,CustomRoles.Default);
+                    main.AllPlayerCustomRoles.Add(pc.PlayerId,CustomRoles.Crewmate);
                     if(pc.Data.Role.IsImpostor) {
                         Impostors.Add(pc);
                         pc.RpcSetColor(0);
@@ -160,8 +160,8 @@ namespace TownOfHost
                     Crewmates.RemoveAt(id);
                 }
                 //通常クルー・インポスター用RPC
-                foreach(var pc in Crewmates) pc.RpcSetCustomRole(CustomRoles.Default);
-                foreach(var pc in Impostors) pc.RpcSetCustomRole(CustomRoles.Default);
+                foreach(var pc in Crewmates) pc.RpcSetCustomRole(CustomRoles.Crewmate);
+                foreach(var pc in Impostors) pc.RpcSetCustomRole(CustomRoles.Crewmate);
             } else {
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 List<PlayerControl> Impostors = new List<PlayerControl>();
@@ -176,7 +176,7 @@ namespace TownOfHost
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Default);
+                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
                             break;
                         case RoleTypes.Impostor:
                             Impostors.Add(pc);
