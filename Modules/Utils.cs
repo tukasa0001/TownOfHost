@@ -173,6 +173,7 @@ namespace TownOfHost
                 SendMessage(text);
                 text = getString("Settings")+":";
                 if(CustomRoles.Vampire.isEnable()) text += String.Format("\n{0}:{1}",getString("VampireKillDelay"),Options.VampireKillDelay);
+                if(CustomRoles.Watcher.isEnable()) text += String.Format("\n{0}:{1}",getString("EvilWatcherChance"),Options.EvilWatcherChance);
                 if(CustomRoles.SabotageMaster.isEnable())
                 {
                     if(Options.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}",getString("SabotageMasterSkillLimit"),Options.SabotageMasterSkillLimit);
