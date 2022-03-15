@@ -245,8 +245,12 @@ namespace TownOfHost {
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
                     }
-                    goto DefaultKillcooldown;
+                    break;
 
+                case CustomRoles.Doctor:
+                    opt.RoleOptions.ScientistCooldown = 0f;
+                    opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedVatteryCharge;
+                    break;
 
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
@@ -452,6 +456,7 @@ namespace TownOfHost {
         public static bool isMayor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Mayor;}
         public static bool isOpportunist(this PlayerControl target){return target.getCustomRole() == CustomRoles.Opportunist;}
         public static bool isSnitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Snitch;}
+        public static bool isDoctor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Doctor;}
         public static bool isSheriff(this PlayerControl target){return target.getCustomRole() == CustomRoles.Sheriff;}
         public static bool isBountyHunter(this PlayerControl target){return target.getCustomRole() == CustomRoles.BountyHunter;}
         public static bool isWitch(this PlayerControl target){return target.getCustomRole() == CustomRoles.Witch;}

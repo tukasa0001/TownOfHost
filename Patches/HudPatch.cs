@@ -119,6 +119,9 @@ namespace TownOfHost
                 case CustomRoles.Snitch:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{Utils.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{getString("SnitchInfo")}</color>\r\n";
                     break;
+                case CustomRoles.Doctor:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getRoleName(CustomRoles.Doctor)}\r\n{getString("DoctorInfo")}</color>\r\n";
+                    break;
                 case CustomRoles.Sheriff:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{Utils.getRoleName(CustomRoles.Sheriff)}\r\n{getString("SheriffInfo")}</color>\r\n";
                     if(PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel) {

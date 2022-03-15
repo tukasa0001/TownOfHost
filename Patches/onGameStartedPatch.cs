@@ -75,7 +75,10 @@ namespace TownOfHost
                 int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();//- ShapeshifterNum;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
-                
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                int AdditionalScientistNum = CustomRoles.Doctor.getCount();
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
+
                 List<PlayerControl> AllPlayers = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     AllPlayers.Add(pc);
@@ -210,6 +213,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);

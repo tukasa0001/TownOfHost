@@ -36,6 +36,8 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
 
             Utils.NotifyRoles();
+            if(PlayerControl.LocalPlayer.isDoctor())
+                Utils.CustomSyncAllSettings();
         }
     }
 }
