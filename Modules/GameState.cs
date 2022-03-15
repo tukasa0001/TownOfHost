@@ -5,12 +5,23 @@ namespace TownOfHost {
         
         static PlayerState()
         {
-            foreach(var p in PlayerControl.AllPlayerControls)
+            Init();
+        }
+
+        public static void Init()
+        {
+            players = new();
+            isDead = new();
+            deathReasons = new();
+            isDead = new();
+
+            foreach (var p in PlayerControl.AllPlayerControls)
             {
                 players.Add(p.PlayerId);
                 isDead.Add(p.PlayerId,false);
                 deathReasons.Add(p.PlayerId,DeathReason.etc);
             }
+
         }
         public static List<byte> players = new List<byte>();
         public static Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
