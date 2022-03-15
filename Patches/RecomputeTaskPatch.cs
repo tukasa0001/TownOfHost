@@ -1,3 +1,4 @@
+
 using HarmonyLib;
 
 namespace TownOfHost
@@ -36,6 +37,9 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
 
             Utils.NotifyRoles();
+            if(1 ==CustomRoles.Lighter.getCount()) {
+                Utils.CustomSyncAllSettings();
+            }
         }
     }
 }

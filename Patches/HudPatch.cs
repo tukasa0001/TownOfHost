@@ -141,7 +141,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SerialKiller)}>{Utils.getRoleName(CustomRoles.SerialKiller)}\r\n{getString("SerialKillerInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Lighter:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("SerialKillerInfo")}</color>\r\n";
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
                     break;
             }
 

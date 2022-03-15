@@ -246,6 +246,14 @@ namespace TownOfHost {
                         opt.ImpostorLightMod /= 5;
                     }
                     goto DefaultKillcooldown;
+                case CustomRoles.Lighter:
+                    if(player.getPlayerTaskState().isTaskFinished){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(li != null && li.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
 
 
                 InfinityVent:
