@@ -312,84 +312,10 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
                 //Vampireの処理
-                if (main.BitPlayers.ContainsKey(__instance.PlayerId))
-                {
-                    //__instance:キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay)
-                    {
-                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        if (!__instance.Data.IsDead)
-                        {
-                            __instance.RpcMurderPlayer(__instance);
-                            RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                        }
-                        else
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                        main.BitPlayers.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.BitPlayers[__instance.PlayerId] =
-                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
-                    }
-                }
-                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
-                {
-                    if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit)
-                    {
-                        if(!__instance.Data.IsDead)
-                        {
-                            __instance.RpcMurderPlayer(__instance);
-                            RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
-                        }
-                        else
-                        main.SerialKillerTimer.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.SerialKillerTimer[__instance.PlayerId] =
-                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                    }
-                }
-                //バウハンのキルクールの変換とターゲットのリセット
-                if(main.BountyTimer.ContainsKey(__instance.PlayerId))
-                {
-                    if(main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
-                    {
-                        main.BountyMeetingCheck = false;
-                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
-                        main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
-                        main.BountyTimer.Add(__instance.PlayerId ,0f);
-                        main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
-                    }
-                    if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
-                    {
-                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
-                        main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
-                        main.BountyTimer.Add(__instance.PlayerId ,0f);
-                        main.BountyTimerCheck = true;
-                        main.isTargetKilled.Remove(__instance.PlayerId);
-                        main.isTargetKilled.Add(__instance.PlayerId, false);
-                    }
-                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
-                        main.BountyTimerCheck = false;
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
-                        __instance.ResetBountyTarget();//ターゲットの選びなおし
-                    }
-                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
-                        main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
-                        main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
-                    }
-                    else//時間を計る処理
-                    {
-                        main.BountyTimer[__instance.PlayerId] =
-                        (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                    }
-                }
+                VampireKilled(__instance);
+                SerialKillerKilled(__instance);
+                BountyTargetKilled(__instance);
+                LoversSuicide();
 
                 if(__instance.AmOwner) Utils.ApplySuffix();
                 if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -471,6 +397,11 @@ namespace TownOfHost
                     }
                 }
 
+                                //Loversにハートをつける
+                if(__instance.getCustomSubRole() == CustomSubRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomSubRoles.Lovers) {
+                    Mark += $"<color=#ffaaaa>♡</color>";
+                }
+
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
                 }*/
@@ -478,6 +409,107 @@ namespace TownOfHost
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
+            }
+        }
+
+        public static void VampireKilled(PlayerControl __instance) {
+            if (main.BitPlayers.ContainsKey(__instance.PlayerId))
+            {
+                //__instance:キルされる予定のプレイヤー
+                //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
+                if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay)
+                {
+                    byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
+                    if (!__instance.Data.IsDead)
+                    {
+                        __instance.RpcMurderPlayer(__instance);
+                        RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                        Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                    }
+                    else
+                        Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
+                    main.BitPlayers.Remove(__instance.PlayerId);
+                }
+                else
+                {
+                    main.BitPlayers[__instance.PlayerId] =
+                    (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                }
+            }
+        }
+        public static void SerialKillerKilled(PlayerControl __instance) {
+            if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+            {
+                if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit)
+                {
+                    if(!__instance.Data.IsDead)
+                    {
+                        __instance.RpcMurderPlayer(__instance);
+                        RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
+                    }
+                    else
+                    main.SerialKillerTimer.Remove(__instance.PlayerId);
+                }
+                else
+                {
+                    main.SerialKillerTimer[__instance.PlayerId] =
+                    (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                }
+            }
+        }
+
+        public static void BountyTargetKilled(PlayerControl __instance) {
+            //バウハンのキルクールの変換とターゲットのリセット
+            if(main.BountyTimer.ContainsKey(__instance.PlayerId))
+            {
+                if(main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
+                {
+                    main.BountyMeetingCheck = false;
+                    __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                    main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
+                    main.BountyTimer.Add(__instance.PlayerId ,0f);
+                    main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                }
+                if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
+                {
+                    __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                    main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
+                    main.BountyTimer.Add(__instance.PlayerId ,0f);
+                    main.BountyTimerCheck = true;
+                    main.isTargetKilled.Remove(__instance.PlayerId);
+                    main.isTargetKilled.Add(__instance.PlayerId, false);
+                }
+                if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
+                    main.BountyTimerCheck = false;
+                    Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                    __instance.ResetBountyTarget();//ターゲットの選びなおし
+                }
+                if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
+                    main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
+                    main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
+                    Utils.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
+                }
+                else//時間を計る処理
+                {
+                    main.BountyTimer[__instance.PlayerId] =
+                    (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                }
+            }
+        }
+        public static void LoversSuicide() {
+            if (main.isLoversDead == false) {
+                foreach(var loversPlayer in main.LoversPlayers) {
+                    foreach(var player in PlayerControl.AllPlayerControls) {
+                        if (player.Data.IsDead && loversPlayer.PlayerId == player.PlayerId) {
+                            main.isLoversDead = true;
+                            foreach(var partnerPlayer in main.LoversPlayers) {
+                                //残った恋人を全て殺す(2人以上可)
+                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId)loversPlayer.RpcMurderPlayer(partnerPlayer);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

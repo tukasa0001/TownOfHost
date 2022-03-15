@@ -108,7 +108,7 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage(getString("CanUsedArguments") + "hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -144,29 +144,35 @@ namespace TownOfHost
         {
             switch (role)
             {
-                case "jester":
-                case "je":
-                    Utils.SendMessage(getString("JesterInfoLong"));
+                ///imposotr team
+                case "bountyhunter":
+                case "bo":
+                    Utils.SendMessage(getString("BountyHunterInfoLong"));
                     break;
 
-                case "madmate":
-                case "mm":
-                    Utils.SendMessage(getString("MadmateInfoLong"));
+                case "serialkiller":
+                case "sk":
+                    Utils.SendMessage(getString("SerialKillerInfoLong"));
+                    break;
+                
+                case "shapemaster":
+                case "sha":
+                    Utils.SendMessage(getString("ShapeMasterInfoLong"));
+                    break;
+                
+                case "vampire":
+                case "va":
+                    Utils.SendMessage(getString("VampireInfoLong"));
                     break;
 
-                case "sidekickmadmate":
-                case "sm":
-                    Utils.SendMessage(getString("SKMadmateInfoLong"));
+                case "warlock":
+                case "wa":
+                    Utils.SendMessage(getString("WarlockInfoLong"));
                     break;
 
-                case "bait":
-                case "ba":
-                    Utils.SendMessage(getString("BaitInfoLong"));
-                    break;
-
-                case "terrorist":
-                case "te":
-                    Utils.SendMessage(getString("TerroristInfoLong"));
+                case "witch":
+                case "wi":
+                    Utils.SendMessage(getString("WitchInfoLong"));
                     break;
 
                 case "mafia":
@@ -174,21 +180,11 @@ namespace TownOfHost
                     Utils.SendMessage(getString("MafiaInfoLong"));
                     break;
 
-                case "vampire":
-                case "va":
-                    Utils.SendMessage(getString("VampireInfoLong"));
+                case "madmate":
+                case "mm":
+                    Utils.SendMessage(getString("MadmateInfoLong"));
                     break;
-
-                case "sabotagemaster":
-                case "sa":
-                    Utils.SendMessage(getString("SabotageMasterInfoLong"));
-                    break;
-
-                case "mayor":
-                case "my":
-                    Utils.SendMessage(getString("MayorInfoLong"));
-                    break;
-
+                
                 case "madguardian":
                 case "mg":
                     Utils.SendMessage(getString("MadGuardianInfoLong"));
@@ -199,46 +195,59 @@ namespace TownOfHost
                     Utils.SendMessage(getString("MadSnitchInfoLong"));
                     break;
 
-                case "opportunist":
-                case "op":
-                    Utils.SendMessage(getString("OpportunistInfoLong"));
+                case "sidekickmadmate":
+                case "sm":
+                    Utils.SendMessage(getString("SKMadmateInfoLong"));
+                    break;
+                
+                ///crewmate team
+                case "bait":
+                case "ba":
+                    Utils.SendMessage(getString("BaitInfoLong"));
+                    break;
+                
+                case "mayor":
+                case "my":
+                    Utils.SendMessage(getString("MayorInfoLong"));
                     break;
 
-                case "snitch":
-                case "sn":
-                    Utils.SendMessage(getString("SnitchInfoLong"));
+                case "sabotagemaster":
+                case "sa":
+                    Utils.SendMessage(getString("SabotageMasterInfoLong"));
                     break;
 
                 case "sheriff":
                 case "sh":
                     Utils.SendMessage(getString("SheriffInfoLong"));
                     break;
-
-                case "bountyhunter":
-                case "bo":
-                    Utils.SendMessage(getString("BountyHunterInfoLong"));
-                    break;
-                
-                case "witch":
-                case "wi":
-                    Utils.SendMessage(getString("WitchInfoLong"));
+                    
+                case "snitch":
+                case "sn":
+                    Utils.SendMessage(getString("SnitchInfoLong"));
                     break;
 
-                case "shapemaster":
-                case "sha":
-                    Utils.SendMessage(getString("ShapeMasterInfoLong"));
-                    break;
-                
-                case "warlock":
-                case "wa":
-                    Utils.SendMessage(getString("WarlockInfoLong"));
+                ///neutral team
+                case "jester":
+                case "je":
+                    Utils.SendMessage(getString("JesterInfoLong"));
                     break;
 
-                case "serialkiller":
-                case "sk":
-                    Utils.SendMessage(getString("SerialKillerInfoLong"));
+                case "opportunist":
+                case "op":
+                    Utils.SendMessage(getString("OpportunistInfoLong"));
                     break;
 
+                case "terrorist":
+                case "te":
+                    Utils.SendMessage(getString("TerroristInfoLong"));
+                    break;
+
+                case "Lovers":
+                case "lo":
+                    Utils.SendMessage(getString("LoversInfoLong"));
+                    break;
+
+                ///hide and seek
                 case "fox":
                 case "fo":
                     Utils.SendMessage(getString("FoxInfoLong"));
@@ -250,7 +259,22 @@ namespace TownOfHost
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha),fox(fo), troll(tr)");
+                    var canUseArguments = getString("CanUsedArguments") + "\n";
+
+                    canUseArguments += getString("ExplanationInpostorTeam") + "\n";
+                    canUseArguments += "bountyhunter(bo), serialkiller(sk), shapemaster(sha), vampire(va), " + "\n";
+                    canUseArguments += "warlock(wa), witch(wi), mafia(mf), " + "\n";
+                    canUseArguments += "madmate(mm), madguardian(mg), madsnitch(msn), sidekickmadmate(sm)" + "\n";
+
+                    canUseArguments += getString("ExplanationCrewmateTeam") + "\n";
+                    canUseArguments += "bait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn)" + "\n";
+
+                    canUseArguments += getString("ExplanationNeutralTeam") + "\n";
+                    canUseArguments += "jester(je), opportunist(op), terrorist(te), Lovers(lo)" + "\n";
+
+                    canUseArguments += getString("ExplanationHideAndSeek") + "\n";
+                    canUseArguments += "fox(fo), troll(tr)";
+                    Utils.SendMessage(canUseArguments);
                     break;
             }
 

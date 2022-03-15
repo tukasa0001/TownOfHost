@@ -302,6 +302,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
+            foreach(CustomSubRoles sr in Enum.GetValues(typeof(CustomSubRoles))) writer.Write(sr.getCount());
 
             writer.Write(Options.IsHideAndSeek);
             writer.Write(Options.NoGameEnd);

@@ -76,6 +76,22 @@ namespace TownOfHost
                     main.FirstCursedCheck.Add(wr.PlayerId, false);
                 }
             }
+            if (main.isLoversDead == false && CustomSubRoles.Lovers.isEnable()) {
+                foreach(var loversPlayer in main.LoversPlayers) {
+                    if (exiled.PlayerId == loversPlayer.PlayerId) {
+                        // Loversが死んだとき
+                        main.isLoversDead = true;
+                        foreach(var partnerPlayer in main.LoversPlayers) {
+                            //残った恋人を全て殺す(2人以上可)
+                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
+                            {
+                                loversPlayer.RpcMurderPlayer(partnerPlayer);
+                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);
+                            }
+                        }
+                    }
+                }
+            }
             main.BountyMeetingCheck = true;
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();

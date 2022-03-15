@@ -34,18 +34,17 @@ namespace TownOfHost
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
             var MadSnitch = new PageObject(RoleOptions, CustomRoles.MadSnitch);
-            ///第三陣営役職
-            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
-            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
-            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
             var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-
-
+            ///第三陣営役職
+            var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
+            var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
+            var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
+            var Lovers = new PageObject(RoleOptions, CustomSubRoles.Lovers);
 
             //役職の詳細設定
             var AdvRoleOptions = new PageObject(RoleOptions, () => getString("AdvancedRoleOptions"));
@@ -265,11 +264,77 @@ namespace TownOfHost
             this.parent = parent; //親オブジェクト
             this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role)}</color>: {role.getCount()}";
             this.isHostOnly = true; //実行をホストのみに限定するか
-            this.onEnter = () => Utils.SetRoleCountToggle(role); //実行時の動作
-            this.onInput = (n) => role.setCount(n); //入力時の動作
-
+            this.onEnter = () => SetRoleCountToggle(role); //実行時の動作
+            this.onInput = (n) => SetRoleCount(role,n); //入力時の動作
             this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
             parent?.ChildPages.Add(this); //親のリストに自分を追加
+        }
+        public PageObject( //サブ役職設定
+            PageObject parent,
+            CustomSubRoles subRole
+        )
+        {
+            switch (subRole)
+            {
+                case CustomSubRoles.Lovers:
+                    goto Lovers;
+                default:
+                    goto subRoleDefault;
+                Lovers:
+                    this.parent = parent; //親オブジェクト
+                    this.getName = () => $"<color={Utils.getRoleColor(subRole)}>{Utils.getRoleName(subRole)}</color>: {Utils.getOnOff(subRole.getCount() > 0)}";
+                    this.isHostOnly = false; //実行をホストのみに限定するか
+                    this.onEnter = () => 
+                    {
+                        //実行時の動作
+                        subRole.setCount(subRole.getCount() > 0 ? 0 : 2);
+                    };
+                    this.onInput = (n) => 
+                    {
+                        //入力時の動作
+                        subRole.setCount(n > 0 ? 2 : 0);
+                    };
+
+                    this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
+                    parent?.ChildPages.Add(this); //親のリストに自分を追加
+                    break;
+
+                subRoleDefault:
+                    this.parent = parent; //親オブジェクト
+                    this.getName = () => $"<color={Utils.getRoleColor(subRole)}>{Utils.getRoleName(subRole)}</color>: {subRole.getCount()}";
+                    this.isHostOnly = false; //実行をホストのみに限定するか
+                    this.onEnter = () => SetRoleCountToggle(subRole); //実行時の動作
+                    this.onInput = (n) => SetRoleCount(subRole, n); //入力時の動作
+//toDO:参考　            this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role)}</color>: {role.getCount()}";
+            this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
+            parent?.ChildPages.Add(this); //親のリストに自分を追加
+                    break;
+            }
+        }
+        public static void SetRoleCountToggle(CustomRoles role)
+        {
+            int count = role.getCount() > 0 ? 0 : 1;
+            role.setCount(count);
+        }
+        public static void SetRoleCountToggle(CustomSubRoles subRole)
+        {
+            int count = subRole.getCount() > 0 ? 0 : 1;
+            subRole.setCount(count);
+        }
+        public static void SetRoleCount(CustomRoles role, int addCount)
+        {
+            role.setCount(GetOptionPagesRoleCount(role.getCount(), addCount));
+        }
+        public static void SetRoleCount(CustomSubRoles subRole, int addCount)
+        {
+            subRole.setCount(GetOptionPagesRoleCount(subRole.getCount(), addCount));
+        }
+        public static int GetOptionPagesRoleCount(int currentCount, int addCount)
+        {
+            var fixedCount = currentCount * 10;
+            fixedCount += addCount;
+            fixedCount = Math.Clamp(fixedCount, 0, 99);
+            return fixedCount;
         }
     }
 }

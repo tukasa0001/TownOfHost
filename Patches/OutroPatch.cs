@@ -15,7 +15,7 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (TempData.DidHumansWin(endGameResult.GameOverReason))
+            if (TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLoversDead && CustomSubRoles.Lovers.isEnable())
             {
                 if (main.currentWinner == CustomWinner.Default) {
                     main.currentWinner = CustomWinner.Crewmate;
@@ -28,7 +28,7 @@ namespace TownOfHost
                     if(canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+            if (TempData.DidImpostorsWin(endGameResult.GameOverReason) && main.isLoversDead && CustomSubRoles.Lovers.isEnable())
             {
                 if (main.currentWinner == CustomWinner.Default) {
                     main.currentWinner = CustomWinner.Impostor;
@@ -82,6 +82,15 @@ namespace TownOfHost
                         winner = new();
                         winner.Add(p);
                     }
+                }
+            }
+            if (CustomSubRoles.Lovers.isEnable() && main.isLoversDead == false)
+            { //Loversの単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                main.currentWinner = CustomWinner.Lovers;
+                foreach (var lp in main.LoversPlayers)
+                {
+                    TempData.winners.Add(new WinningPlayerData(lp.Data));
                 }
             }
             //Opportunist
@@ -167,6 +176,13 @@ namespace TownOfHost
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
+                case CustomWinner.Lovers:
+                    __instance.Foreground.material.color = Utils.getRoleColor(CustomSubRoles.Lovers);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomSubRoles.Lovers);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomSubRoles.Lovers)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomSubRoles.Lovers);
+                    break;
+
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.BackgroundBar.material.color = Color.gray;
@@ -184,6 +200,13 @@ namespace TownOfHost
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox)) {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
+            }
+            if (CustomSubRoles.Lovers.isEnable() && main.isLoversDead == false)
+            {
+                var loversColor = Utils.getRoleColor(CustomSubRoles.Lovers);
+                __instance.Foreground.material.color = loversColor;
+                __instance.BackgroundBar.material.color = loversColor;
+                textRenderer.text = $"<color={loversColor}>恋人の勝利</color>";
             }
                 if(Options.IsHideAndSeek) {
                     foreach(var p in PlayerControl.AllPlayerControls) {

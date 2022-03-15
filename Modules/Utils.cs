@@ -9,20 +9,14 @@ namespace TownOfHost
     public static class Utils
     {
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
-        public static int SetRoleCountToggle(int currentCount)
-        {
-            if(currentCount > 0) return 0;
-            else return 1;
-        }
-        public static void SetRoleCountToggle(CustomRoles role)
-        {
-            int count = Options.getRoleCount(role);
-            count = SetRoleCountToggle(count);
-            Options.setRoleCount(role, count);
-        }
         public static string getRoleName(CustomRoles role) {
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || Options.forceJapanese) &&
             main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+            return getString(Enum.GetName(typeof(CustomRoles),role),lang);
+        }
+        public static string getRoleName(CustomSubRoles role) {
+            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || Options.forceJapanese) &&
+            main.JapaneseSubRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
             return getString(Enum.GetName(typeof(CustomRoles),role),lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)
@@ -35,9 +29,20 @@ namespace TownOfHost
             ColorUtility.TryParseHtmlString(hexColor,out Color c);
             return c;
         }
+        public static Color getRoleColor(CustomSubRoles subRole)
+        {
+            if(!main.subRoleColors.TryGetValue(subRole, out var hexColor))hexColor = "#ffffff";
+            ColorUtility.TryParseHtmlString(hexColor,out Color c);
+            return c;
+        }
         public static string getRoleColorCode(CustomRoles role)
         {
             if(!main.roleColors.TryGetValue(role, out var hexColor))hexColor = "#ffffff";
+            return hexColor;
+        }
+        public static string getRoleColorCode(CustomSubRoles subRole)
+        {
+            if(!main.subRoleColors.TryGetValue(subRole, out var hexColor))hexColor = "#ffffff";
             return hexColor;
         }
 
@@ -114,6 +119,10 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                 }
             }
+            var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
+            if(cSubRoleFound && cSubRole != CustomSubRoles.Default) {
+                if (cSubRole == CustomSubRoles.Lovers) hasTasks = false;
+            }
             return hasTasks;
         }
         public static string getTaskText(PlayerControl pc)
@@ -138,6 +147,10 @@ namespace TownOfHost
                     if(role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
                     if(role.isEnable()) SendMessage(getRoleName(role)+getString(Enum.GetName(typeof(CustomRoles),role)+"InfoLong"));
                 }
+                foreach(var subRole in Enum.GetValues(typeof(CustomSubRoles)).Cast<CustomSubRoles>())
+                {
+                    if(subRole.isEnable()) SendMessage(getRoleName(subRole)+getString(Enum.GetName(typeof(CustomRoles),subRole)+"InfoLong"));
+                }
             }
             if(Options.NoGameEnd){ SendMessage(getString("NoGameEndInfo")); }
         }
@@ -156,6 +169,10 @@ namespace TownOfHost
                 {
                     if(role.Key == CustomRoles.Fox || role.Key == CustomRoles.Troll) continue;
                     if(role.Key.isEnable()) text += String.Format("\n{0}:{1}",getRoleName(role.Key),role.Key.getCount());
+                }
+                foreach(var subRole in Options.roleSubCounts)
+                {
+                    if(subRole.Key.isEnable()) text += String.Format("\n{0}:{1}",getRoleName(subRole.Key),subRole.Key.getCount());
                 }
                 SendMessage(text);
                 text = getString("Settings")+":";
@@ -321,11 +338,14 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
-                //Loversのハートマークなどを入れてください。
+                //名前の後ろに付けるマーカー
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+
+                //自分にハートマークを付ける
+                if(seer.isLovers()) SelfMark += $"<color={getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>";
 
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
@@ -377,7 +397,7 @@ namespace TownOfHost
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
                     
-                    //Loversのハートマークなどを入れてください。
+                    //名前の後ろに付けるマーカー
                     string TargetMark = "";
                     //タスク完了直前のSnitchにマークを表示
                     if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
@@ -385,6 +405,7 @@ namespace TownOfHost
                         if(taskState.doExpose)
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                     }
+                    if(target.isLovers() && seer.isLovers()) TargetMark += $"<color={getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>";
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";

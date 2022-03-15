@@ -141,6 +141,12 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SerialKiller)}>{Utils.getRoleName(CustomRoles.SerialKiller)}\r\n{getString("SerialKillerInfo")}</color>\r\n";
                     break;
             }
+            switch(PlayerControl.LocalPlayer.getCustomSubRole())
+            {
+                case CustomSubRoles.Lovers:
+                    TaskTextPrefix += $"\r\n<color={Utils.getRoleColorCode(CustomSubRoles.Lovers)}>{Utils.getRoleName(CustomSubRoles.Lovers)}</color>\r\n<color={Utils.getRoleColorCode(CustomSubRoles.Lovers)}>{getString("LoversInfo")}</color>\r\n";
+                    break;
+            }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 

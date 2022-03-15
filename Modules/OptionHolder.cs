@@ -6,6 +6,7 @@ namespace TownOfHost
     public static class Options
     {
         public static Dictionary<CustomRoles, int> roleCounts;
+        public static Dictionary<CustomSubRoles, int> roleSubCounts;
         public static bool OptionControllerIsEnable = false;
 
         //詳細設定
@@ -82,6 +83,8 @@ namespace TownOfHost
             }
         }
         public static void setRoleCount(CustomRoles role, int count) { roleCounts[role] = count; }
+        public static void setRoleCount(CustomSubRoles subRole, int count) { roleSubCounts[subRole] = count; }
         public static int getRoleCount(CustomRoles role) { return roleCounts[role]; }
+        public static int getRoleCount(CustomSubRoles subRole) { return roleSubCounts[subRole]; }
     }
 }

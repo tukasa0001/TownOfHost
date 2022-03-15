@@ -34,6 +34,7 @@ namespace TownOfHost
         public static ConfigEntry<string> HideName {get; private set;}
         public static ConfigEntry<string> HideColor {get; private set;}
         public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
+        public static ConfigEntry<bool> JapaneseSubRoleName {get; private set;}
         public static ConfigEntry<bool> AmDebugger {get; private set;}
         public static ConfigEntry<int> BanTimestamp {get; private set;}
 
@@ -46,10 +47,11 @@ namespace TownOfHost
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
-        public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
+        public static Dictionary<byte, CustomSubRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> BlockKilling;
         public static bool OptionControllerIsEnable;
         public static Dictionary<CustomRoles,String> roleColors;
+        public static Dictionary<CustomSubRoles,String> subRoleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => CustomRoles.Vampire.isEnable();
@@ -63,6 +65,8 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static bool isLoversDead = true;
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
@@ -96,6 +100,7 @@ namespace TownOfHost
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{main.modColor}");
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+            JapaneseSubRoleName = Config.Bind("Client Options", "Japanese SubRole Name", false);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
@@ -107,6 +112,7 @@ namespace TownOfHost
             RealNames = new Dictionary<byte, string>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            AllPlayerCustomSubRoles = new Dictionary<byte, CustomSubRoles>();
             CustomWinTrigger = false;
             OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -162,6 +168,10 @@ namespace TownOfHost
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
+            };
+            subRoleColors = new Dictionary<CustomSubRoles, string>(){
+                {CustomSubRoles.Default, "#ffffff"},
+                {CustomSubRoles.Lovers, "#ffaaaa"}
             };
             }
             catch (ArgumentException ex) {
@@ -219,6 +229,10 @@ namespace TownOfHost
         Fox,
         Troll
     }
+    public enum CustomSubRoles {
+        Default = 0,
+        Lovers,
+    }
     //WinData
     public enum CustomWinner
     {
@@ -228,6 +242,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Lovers,
         Troll
     }
     public enum AdditionalWinners
