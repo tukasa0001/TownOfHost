@@ -214,7 +214,10 @@ namespace TownOfHost
 
                 //自分自身の名前の色を変更
                 if(pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
-                    pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
+                    if(pc.isWatcher() && Options.IsEvilWatcher(Options.EvilWatcherChance)) //ウォッチャーがイビルウォッチャー
+                        pva.NameText.text  = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{pva.NameText.text}</color>"; //名前の色を赤色に変更
+                    else
+                        pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を役職の色に変更
             }
         }
     }

@@ -238,6 +238,10 @@ namespace TownOfHost {
                 case CustomRoles.Mafia:
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;
+                case CustomRoles.Watcher:
+                    if(opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
+                    break;
                 case CustomRoles.Sheriff:
                     opt.KillCooldown = Options.SheriffKillCooldown;
                     opt.ImpostorLightMod = opt.CrewLightMod;
@@ -439,6 +443,7 @@ namespace TownOfHost {
         public static bool isGurdianAngel(this PlayerControl target){return target.getCustomRole() == CustomRoles.GuardianAngel;}
         public static bool isImpostor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Impostor;}
         public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
+        public static bool isWatcher(this PlayerControl target){return target.getCustomRole() == CustomRoles.Watcher;}
         public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
         public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
         public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}

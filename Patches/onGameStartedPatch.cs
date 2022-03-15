@@ -219,6 +219,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
+                if (Options.IsEvilWatcher(Options.EvilWatcherChance)) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
+                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {

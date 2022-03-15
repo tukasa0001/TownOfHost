@@ -34,6 +34,8 @@ namespace TownOfHost
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
             var MadGuardian = new PageObject(RoleOptions, CustomRoles.MadGuardian);
             var MadSnitch = new PageObject(RoleOptions, CustomRoles.MadSnitch);
+            ///両陣営可能役職
+            var Watcher = new PageObject(RoleOptions, CustomRoles.Watcher);
             ///第三陣営役職
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
             var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
@@ -65,6 +67,9 @@ namespace TownOfHost
             var MadmateVisionAsImpostor = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateVisionAsImpostor")}</color>: {Utils.getOnOff(Options.MadmateVisionAsImpostor)}", true, () => {Options.MadmateVisionAsImpostor = !Options.MadmateVisionAsImpostor;});
             var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {Options.CanMakeMadmateCount}{main.TextCursor}", true, () => {Options.CanMakeMadmateCount = 0;}, (n) => Utils.ChangeInt(ref Options.CanMakeMadmateCount, n, 999));
             var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {Options.MadSnitchTasks}{main.TextCursor}", true, () => { Options.MadSnitchTasks = 0; }, (n) => Utils.ChangeInt(ref Options.MadSnitchTasks, n, 99));
+            
+            var AdvBothRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedBothRoleOptions"));
+            var EvilWatcherChance = new PageObject(AdvBothRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Watcher)}>{getString("EvilWatcherChance")}(%)</color>: {Options.EvilWatcherChance}{main.TextCursor}", true, () => {Options.EvilWatcherChance = 0;}, (n) => Utils.ChangeInt(ref Options.EvilWatcherChance, n, 100));
 
             var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedCrewmateRoleOptions"));
             var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {Options.MayorAdditionalVote}{main.TextCursor}", true, () => {Options.MayorAdditionalVote = 0;}, (n) => Utils.ChangeInt(ref Options.MayorAdditionalVote, n, 99));

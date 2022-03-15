@@ -47,9 +47,22 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
-            RoleText = getRoleName(cRole);
 
-            return (RoleText, getRoleColor(cRole));
+            if (player.isWatcher() && Options.IsEvilWatcher(Options.EvilWatcherChance)) {
+                RoleText = Utils.getRoleName(CustomRoles.EvilWatcher);
+
+                return (RoleText, getRoleColor(CustomRoles.Impostor));
+            }
+            else if (player.isWatcher()) {
+                RoleText = Utils.getRoleName(CustomRoles.NiceWatcher);
+
+                return (RoleText, getRoleColor(CustomRoles.Watcher));
+            }
+            else {
+                RoleText = getRoleName(cRole);
+
+                return (RoleText, getRoleColor(cRole));
+            }
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
