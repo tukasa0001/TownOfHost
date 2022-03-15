@@ -15,7 +15,7 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLoversDead && CustomSubRoles.Lovers.isEnable())
+            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLoversDead && CustomSubRoles.Lovers.isEnable())
             {
                 if (main.currentWinner == CustomWinner.Default) {
                     main.currentWinner = CustomWinner.Crewmate;
