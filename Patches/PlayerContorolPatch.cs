@@ -431,7 +431,7 @@ namespace TownOfHost
                 //名前色変更処理
                 //自分自身の名前の色を変更
                 if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
-                    if(__instance.isWatcher() && Options.IsEvilWatcher(Options.EvilWatcherChance)) //ウォッチャーがイビルウォッチャーだったら
+                    if(__instance.isEvilWatcher()) //ウォッチャーがイビルウォッチャーだったら
                         RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //名前の色を赤色に変更
                     else //イビルウォッチャー以外
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を役職の色に変更

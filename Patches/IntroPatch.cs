@@ -17,13 +17,13 @@ namespace TownOfHost
             __instance.RoleBlurbText.color = Utils.getRoleColor(role);
             __instance.YouAreText.color = Utils.getRoleColor(role);
 
-            if (PlayerControl.LocalPlayer.isWatcher() && Options.IsEvilWatcher(Options.EvilWatcherChance)) {
+            if (PlayerControl.LocalPlayer.isEvilWatcher()) {
                 __instance.RoleText.text = Utils.getRoleName(CustomRoles.EvilWatcher);
                 __instance.RoleText.color = Utils.getRoleColor(CustomRoles.Impostor);
                 __instance.RoleBlurbText.color = Utils.getRoleColor(CustomRoles.Impostor);
                 __instance.YouAreText.color = Utils.getRoleColor(CustomRoles.Impostor);
             }
-            else if (PlayerControl.LocalPlayer.isWatcher()){
+            else if (PlayerControl.LocalPlayer.isEvilWatcher()){
                 __instance.RoleText.text = Utils.getRoleName(CustomRoles.NiceWatcher);
             }
         }

@@ -48,12 +48,12 @@ namespace TownOfHost
 
             var cRole = player.getCustomRole();
 
-            if (player.isWatcher() && Options.IsEvilWatcher(Options.EvilWatcherChance)) {
+            if (player.isEvilWatcher()) {
                 RoleText = Utils.getRoleName(CustomRoles.EvilWatcher);
 
                 return (RoleText, getRoleColor(CustomRoles.Impostor));
             }
-            else if (player.isWatcher()) {
+            else if (player.isEvilWatcher()) {
                 RoleText = Utils.getRoleName(CustomRoles.NiceWatcher);
 
                 return (RoleText, getRoleColor(CustomRoles.Watcher));
