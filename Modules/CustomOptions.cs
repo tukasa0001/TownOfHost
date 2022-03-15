@@ -30,7 +30,7 @@ namespace TownOfHost
                         ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 99);
                         break;
                     case StringNames.GameKillCooldown:
-                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0.001f, 180);
                         break;
                     case StringNames.GameRecommendedSettings:
                         ob.enabled = false;

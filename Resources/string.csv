@@ -20,6 +20,7 @@ Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
 Opportunist,Opportunist,オポチュニスト
 Bait,Bait,ベイト
+Lighter,Lighter,ライター
 Mayor,Mayor,メイヤー
 SabotageMaster,SabotageMaster,サボタージュマスター
 Sheriff,Sheriff,シェリフ
@@ -43,6 +44,7 @@ JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 BaitInfo,Bait your enemies,敵を罠にはめよう
+LighterInfo,Let's light it all up,すべてを照らそう
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
@@ -64,6 +66,7 @@ JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the
 TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
+LighterInfoLong,"(Crewmates):\nFinishing a task can expand one's view.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。
 MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them all together into one person or skip. (with settings),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
 SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
