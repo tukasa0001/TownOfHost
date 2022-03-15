@@ -38,7 +38,7 @@ namespace TownOfHost
 
             Utils.NotifyRoles();
             if(1 ==CustomRoles.Lighter.getCount()) {
-                Utils.CustomSyncAllSettings();
+                Utils.CustomSyncAllSettings();//ライターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
             }
         }
     }
