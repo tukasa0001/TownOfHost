@@ -69,14 +69,14 @@ namespace TownOfHost
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
         public static int SabotageMasterUsedSkillCount;
-
-        public static bool IsEvilWatcher(int EvilWatcherRate)
+        public static bool IsEvilWatcher = false;
+        public static void SetWatcherTeam(int EvilWatcherRate)
         {
             EvilWatcherRate = Options.EvilWatcherChance;
             if(UnityEngine.Random.Range( 1, 100 ) < EvilWatcherRate)
-                return true;
+                IsEvilWatcher = true;
             else
-                return false;
+                IsEvilWatcher = false;
         }
         static Options()
         {

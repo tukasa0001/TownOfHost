@@ -62,6 +62,9 @@ namespace TownOfHost
     class SelectRolesPatch {
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
+
+            Options.SetWatcherTeam(Options.EvilWatcherChance);
+
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if(!Options.IsHideAndSeek) {
@@ -219,7 +222,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
-                if (Options.IsEvilWatcher(Options.EvilWatcherChance)) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
+                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
 
                 //RPCによる同期

@@ -443,8 +443,8 @@ namespace TownOfHost {
         public static bool isGurdianAngel(this PlayerControl target){return target.getCustomRole() == CustomRoles.GuardianAngel;}
         public static bool isImpostor(this PlayerControl target){return target.getCustomRole() == CustomRoles.Impostor;}
         public static bool isShapeshifter(this PlayerControl target){return target.getCustomRole() == CustomRoles.Shapeshifter;}
-        public static bool isEvilWatcher(this PlayerControl target){return target.getCustomRole() == CustomRoles.Watcher && Options.IsEvilWatcher(Options.EvilWatcherChance);}
-        public static bool isNiceWatcher(this PlayerControl target){return target.getCustomRole() == CustomRoles.Watcher !& Options.IsEvilWatcher(Options.EvilWatcherChance);}
+        public static bool isEvilWatcher(this PlayerControl target){return target.getCustomRole() == CustomRoles.Watcher && Options.IsEvilWatcher;}
+        public static bool isNiceWatcher(this PlayerControl target){return target.getCustomRole() == CustomRoles.Watcher && !Options.IsEvilWatcher;}
         public static bool isJester(this PlayerControl target){return target.getCustomRole() == CustomRoles.Jester;}
         public static bool isMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.Madmate;}
         public static bool isSKMadmate(this PlayerControl target){return target.getCustomRole() == CustomRoles.SKMadmate;}

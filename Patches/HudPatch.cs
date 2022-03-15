@@ -84,7 +84,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{Utils.getRoleName(CustomRoles.MadSnitch)}\r\n{getString("MadSnitchInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Watcher:
-                    if (Options.IsEvilWatcher(Options.EvilWatcherChance))
+                    if (Options.IsEvilWatcher)
                         TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{Utils.getRoleName(CustomRoles.EvilWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
                     else
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Watcher)}>{getString("NiceWatcher")}\r\n{getString("WatcherInfo")}</color>\r\n";
