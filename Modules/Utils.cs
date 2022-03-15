@@ -118,11 +118,21 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                 }
+                var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
+                if(cSubRoleFound && cSubRole != CustomSubRoles.Default) {
+                    if (cSubRole == CustomSubRoles.Lovers)
+                    {   
+                        //クルーメイト以外のタスク処理は何もしない(メイン役職でtask付与しているので)
+                        if (cRole == CustomRoles.Terrorist || cRole == CustomRoles.MadSnitch || cRole == CustomRoles.MadGuardian)
+                        {
+                            //Nothing
+                        } else {
+                            hasTasks = false;
+                        }
+                    }
+                }
             }
-            var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
-            if(cSubRoleFound && cSubRole != CustomSubRoles.Default) {
-                if (cSubRole == CustomSubRoles.Lovers) hasTasks = false;
-            }
+            
             return hasTasks;
         }
         public static string getTaskText(PlayerControl pc)
