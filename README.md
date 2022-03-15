@@ -40,26 +40,27 @@
 
 | インポスター陣営 | クルーメイト陣営 | 第三陣営 |
 |----------|-------------|-----------------|
-| [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター) | [Bait/ベイト](###Bait/ベイト) | [Jester/ジェスター](###Jester/ジェスター) |
+| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) | [Jester/ジェスター](###Jester/ジェスター) |
 | [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー) | [Mayor/メイヤー](###Mayor/メイヤー) | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト) |
 | [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター) | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト) |
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) |  |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
-| [Witch/魔女](###Witch/魔女) |  |  |
+| [Witch/魔女](###Witch/魔女) | [Bait/ベイト](###Bait/ベイト) |  |
 | [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター) |  |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
 
-### BountyHunter/バウンティハンター
+### Watcher/ウォッチャー
 
-陣営 : インポスター<br>
-判定 : インポスター<br>
+陣営 : インポスターorクルーメイト<br>
+判定 : インポスターorクルーメイト<br>
 
-表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
-ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-また、設定でキルクールを2.5秒に設定する必要があります。<br>
-ターゲットは一定時間ごとに変更されます。<br>
+<br>
+<br>
+<br>
+<br>
 
 #### 設定
 
@@ -139,6 +140,16 @@
 マフィアではないインポスターが全員死亡すると、マフィアもキルすることができるようになります。<br>
 キルができない状態でもキルボタンはありますが、キルをすることはできません。<br>
 キルが可能になった後でも変身は継続して行うことができます。<br>
+
+### BountyHunter/バウンティハンター
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
+ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
+また、設定でキルクールを2.5秒に設定する必要があります。<br>
+ターゲットは一定時間ごとに変更されます。<br>
 
 ### Madmate/マッドメイト
 
@@ -394,7 +405,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 ## 参考など
 
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](###Opportunist/オポチュニスト)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

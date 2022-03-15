@@ -42,33 +42,31 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 
 | Impostors | Crewmates | Neutral |
 |----------|-------------|-----------------|
-| [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
+| [Evil Watcher](###Watcher) | [Nice Watcher](###Watcher) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
-| [Witch](###Witch) |  |  |
+| [Witch](###Witch) | [Bait](###Bait) |  |
 | [Mafia](###Mafia) |  |  |
+| [BountyHunter](###BountyHunter) |  |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
 
-### BountyHunter
+### Watcher
 
-Team : Impostors<br>
-Decision : Impostor<br>
+Team : Impostors or Crewmates<br>
+Decision : Impostor or Crewmates<br>
 
-If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
-If they kill the player who is not their target, they will keep their next kill cooldown.<br>
+<br>
+<br>
 
 #### Settings
 
 | Settings Name |
 |----------|
-| Time to change target(s) |
-| Cooldown time after killing the target(s) |
-| Cooldown time after killing anything other than the target(s) |
-| Kill cooldown time other than BountyHunter(s) |
+| EvilWatcherChance |
 
 ### SerialKiller
 
@@ -136,6 +134,23 @@ The Mafias can initially use vents, sabotage, and transformations, but they can 
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
+
+### BountyHunter
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
+If they kill the player who is not their target, they will keep their next kill cooldown.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Time to change target(s) |
+| Cooldown time after killing the target(s) |
+| Cooldown time after killing anything other than the target(s) |
+| Kill cooldown time other than BountyHunter(s) |
 
 ### Madmate
 
@@ -385,7 +400,7 @@ If the client language is English, this setting is meaningless unless the host h
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
