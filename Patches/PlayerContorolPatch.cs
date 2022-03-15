@@ -15,12 +15,9 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
-            if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
+            if (PlayerState.getDeathReason(target.PlayerId)==PlayerState.DeathReason.etc)
             {
-                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
-            }
-            else
-            {
+                //死因が設定されていない場合は死亡判定
                 PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
             }
             //When Bait is killed
@@ -161,6 +158,7 @@ namespace TownOfHost
                 }
 
                 if(!target.canBeKilledBySheriff()) {
+                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
@@ -264,6 +262,7 @@ namespace TownOfHost
                 {
                     if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
                     {
+                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bite);
                         pc.RpcMurderPlayer(pc);
                         RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
@@ -322,6 +321,7 @@ namespace TownOfHost
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
                         if (!__instance.Data.IsDead)
                         {
+                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
@@ -342,6 +342,7 @@ namespace TownOfHost
                     {
                         if(!__instance.Data.IsDead)
                         {
+                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
                         }
