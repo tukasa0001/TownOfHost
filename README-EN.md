@@ -292,6 +292,7 @@ Example of overlapping job titles: <br>
 ・ Sheriff Lover: You can kill in-posters as usual. Whether or not you can kill depends on the position of the duplicate source. (In-poster lover can be killed. Crewmate lover cannot be killed) <br>
 ・ Opportunist lover: Win if you survive. <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
 
 ## Mode
 
