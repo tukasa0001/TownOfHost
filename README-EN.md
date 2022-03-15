@@ -45,7 +45,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Lovers](###Lovers) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
 | [Witch](###Witch) |  |  |
 | [Mafia](###Mafia) |  |  |
@@ -272,6 +272,26 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+
+### Lovers
+
+Team : Neutral<br>
+Decision : -<br>
+Victory Conditions : Living and ending the match. (other than task completion)<br>
+
+Two of all players will be cast. (Duplicate to other positions) <br>
+If a position with a crew camp task becomes a lover, the task will disappear. <br>
+There is a heart symbol after each other's name. <br>
+If one dies, the other will die afterwards. <br>
+If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
+
+Example of overlapping job titles: <br>
+・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
+・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the in-poster. <br>
+・ Snitch lover: No task, in-poster remains unknown. <br>
+・ Sheriff Lover: You can kill in-posters as usual. Whether or not you can kill depends on the position of the duplicate source. (In-poster lover can be killed. Crewmate lover cannot be killed) <br>
+・ Opportunist lover: Win if you survive. <br>
+・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
 
 ## Mode
 
