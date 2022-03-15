@@ -530,7 +530,7 @@ namespace TownOfHost
                 ref int NumLongTasks,
                 ref int NumShortTasks
             ) {
-                if(currentTargetRole == this.TargetRole) {
+                if(currentTargetRole == this.TargetRole && doOverride) {
                     doOverride = true;
                     hasCommonTasks = this.hasCommonTasks;
                     NumLongTasks = this.NumLongTasks;
