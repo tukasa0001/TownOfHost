@@ -95,7 +95,7 @@ namespace TownOfHost
             }
             //Opportunist
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist && pc.getCustomSubRole() != CustomSubRoles.Lovers))
+                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist && pc.getCustomSubRole() != CustomSubRoles.Lovers)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
