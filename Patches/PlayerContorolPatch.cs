@@ -397,7 +397,7 @@ namespace TownOfHost
                     }
                 }
 
-                                //Loversにハートをつける
+                //Loversにハートをつける
                 if(__instance.getCustomSubRole() == CustomSubRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomSubRoles.Lovers) {
                     Mark += $"<color=#ffaaaa>♡</color>";
                 }
