@@ -68,6 +68,9 @@ namespace TownOfHost
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
         public static int SabotageMasterUsedSkillCount;
+        public static main.OverrideTasksData MadGuardianTasksData;
+        public static main.OverrideTasksData TerroristTasksData;
+        public static main.OverrideTasksData SnitchTasksData;
 
         static Options()
         {

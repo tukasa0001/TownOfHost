@@ -40,8 +40,8 @@ namespace TownOfHost
                 return;
             }
 
-            CustomRoles? RoleNullable = main.getPlayerById(playerId)?.getCustomRole();
-            CustomRoles role = CustomRoles.Default;
+            CustomRoles? RoleNullable = Utils.getPlayerById(playerId)?.getCustomRole();
+            CustomRoles role = CustomRoles.Crewmate;
             if(RoleNullable == null) return;
             else role = RoleNullable.Value;
             
@@ -51,9 +51,9 @@ namespace TownOfHost
             int NumLongTasks = main.RealOptionsData.NumLongTasks;
             int NumShortTasks = main.RealOptionsData.NumShortTasks;
             
-            main.MadGuardianTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
-            main.TerroristTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
-            main.SnitchTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            Options.MadGuardianTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            Options.TerroristTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            Options.SnitchTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
 
             if(!doOverride) return;
             Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
