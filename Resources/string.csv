@@ -20,11 +20,11 @@ Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
 Opportunist,Opportunist,オポチュニスト
 Bait,Bait,ベイト
+Doctor,Doctor,ドクター
 Mayor,Mayor,メイヤー
 SabotageMaster,SabotageMaster,サボタージュマスター
 Sheriff,Sheriff,シェリフ
 Snitch,Snitch,スニッチ
-Doctor,Doctor,ドクター
 Fox,Fox,狐
 Troll,Troll,トロール
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
@@ -44,11 +44,11 @@ JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 BaitInfo,Bait your enemies,敵を罠にはめよう
+DoctorInfo,Thus They Died,斯くして奴は死んだ
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
-DoctorInfo,Thus They Died,斯くして奴は死んだ
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TrollInfo,Die to win,自爆しよう
 BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
@@ -70,7 +70,7 @@ MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them a
 SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
-DoctorInfoLong,"(Crewmates):\nYou can know why players died at the vital.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nバイタルでプレイヤーの死因を知ることができます。\nまた、充電がある限りどこでもバイタルを確認できます。
+DoctorInfoLong,"(Crewmates):\nYou can know why players died at the vital.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nバイタルでプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 HideAndSeek,HideAndSeek,鬼ごっこ
@@ -106,8 +106,8 @@ SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターを�
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
-MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 DoctorTaskCompletedVatteryCharge,Doctor TaskCompletedVattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数
+MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール

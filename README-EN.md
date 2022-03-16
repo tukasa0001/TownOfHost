@@ -47,7 +47,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
-| [Witch](###Witch) |  |  |
+| [Witch](###Witch) | [Doctor](###Doctor) |  |
 | [Mafia](###Mafia) |  |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
@@ -244,6 +244,18 @@ Decision : Crewmate<br>
 
 When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+### Doctor
+
+Team : Crewmates<br>
+Decision : Scientist<br>
+
+You can know why players died at the vital.And you can use vitals anywhere with gadget charges.<br>
+
+#### Settings
+| Settings Name |
+|----------|
+| Doctor TaskCompletedVattery Charge |
 
 ### Jester
 
