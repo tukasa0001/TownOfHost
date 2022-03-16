@@ -161,6 +161,7 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -217,6 +218,7 @@ namespace TownOfHost
         ShapeMaster,
         Warlock,
         SerialKiller,
+        Lighter,
         Fox,
         Troll
     }
