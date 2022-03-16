@@ -75,7 +75,7 @@ namespace TownOfHost
                         file.CopyTo(@filename);
                         System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
                         Logger.info($"{filename}にログを保存しました。");
-                        main.SendToAll("デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                         break;
 
                     case "/h":
