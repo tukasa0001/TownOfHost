@@ -542,7 +542,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
     class SetNamePatch {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
-            PlayerState.names[__instance.PlayerId] = name;
+            PlayerState.realNames[__instance.PlayerId] = name;
         }
     }
 }

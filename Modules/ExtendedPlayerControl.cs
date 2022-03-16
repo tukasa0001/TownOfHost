@@ -376,10 +376,10 @@ namespace TownOfHost {
                 return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
             }
 
-            if(!PlayerState.names.TryGetValue(player.PlayerId, out RealName)) {
+            if(!PlayerState.realNames.TryGetValue(player.PlayerId, out RealName)) {
                 RealName = player.name;
                 if(RealName == "Player(Clone)") return RealName;
-                PlayerState.names[player.PlayerId] = RealName;
+                PlayerState.realNames[player.PlayerId] = RealName;
                 TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
             }
             return RealName;

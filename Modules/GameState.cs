@@ -10,18 +10,18 @@ namespace TownOfHost {
 
         public static void Init()
         {
-            names = new();
+            realNames = new();
             customRoles = new();
             deathReasons = new();
 
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                names.Add(p.PlayerId, p.name);
+                realNames.Add(p.PlayerId, p.name);
                 deathReasons.Add(p.PlayerId,DeathReason.Living);
             }
         }
 
-        public static Dictionary<byte, string> names;
+        public static Dictionary<byte, string> realNames;
         public static Dictionary<byte, CustomRoles> customRoles;
         public static Dictionary<byte,DeathReason> deathReasons;
 

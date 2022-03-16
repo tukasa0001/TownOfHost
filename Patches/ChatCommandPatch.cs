@@ -23,7 +23,7 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: "+string.Join(",",main.winnerList.Select(b=> PlayerState.names[b])));
+                        Utils.SendMessage("Winner: "+string.Join(",",main.winnerList.Select(b=> PlayerState.realNames[b])));
                         break;
 
                     case "/l":

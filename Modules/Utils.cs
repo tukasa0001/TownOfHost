@@ -203,14 +203,14 @@ namespace TownOfHost
             Dictionary<byte,CustomRoles> cloneRoles = new(PlayerState.customRoles);
             foreach(var id in main.winnerList)
             {
-                text += $"\n★ {PlayerState.names[id]}:{getRoleName(PlayerState.customRoles[id])}";
+                text += $"\n★ {PlayerState.realNames[id]}:{getRoleName(PlayerState.customRoles[id])}";
                 text += $" {getDeathReason(PlayerState.deathReasons[id])}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {PlayerState.names[id]} : {getRoleName(PlayerState.customRoles[id])}";
+                text += $"\n　 {PlayerState.realNames[id]} : {getRoleName(PlayerState.customRoles[id])}";
                 text += $" {getDeathReason(PlayerState.deathReasons[id])}";
             }
             SendMessage(text);
