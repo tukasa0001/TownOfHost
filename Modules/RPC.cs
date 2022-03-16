@@ -139,7 +139,11 @@ namespace TownOfHost
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
-                        MayorAdditionalVote
+                        MayorAdditionalVote,
+                        MadGuardianTasksData,
+                        TerroristTasksData,
+                        SnitchTasksData,
+                        MadSnitchTasksData
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -236,7 +240,11 @@ namespace TownOfHost
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
-                int MayorAdditionalVote
+                int MayorAdditionalVote,
+                main.OverrideTasksData MadGuardianTasksData,
+                main.OverrideTasksData TerroristTasksData,
+                main.OverrideTasksData SnitchTasksData,
+                main.OverrideTasksData MadSnitchTasksData
             ) {
             Options.roleCounts = roleCounts;
 
@@ -299,6 +307,11 @@ namespace TownOfHost
             Options.MadSnitchTasks = MadSnitchTasks;
 
             Options.MayorAdditionalVote = MayorAdditionalVote;
+
+            Options.MadGuardianTasksData = MadGuardianTasksData;
+            Options.TerroristTasksData = TerroristTasksData;
+            Options.SnitchTasksData = SnitchTasksData;
+            Options.MadSnitchTasksData = MadSnitchTasksData;
         }
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
