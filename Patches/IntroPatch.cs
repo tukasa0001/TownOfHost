@@ -16,8 +16,8 @@ namespace TownOfHost
             __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
             __instance.RoleText.color = Utils.getRoleColor(role);
             __instance.RoleBlurbText.color = Utils.getRoleColor(role);
+            __instance.YouAreText.color = Utils.getRoleColor(role);
 
-            if(PlayerControl.LocalPlayer.isSheriff()) __instance.YouAreText.color = Palette.CrewmateBlue; //シェリフ専用
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
