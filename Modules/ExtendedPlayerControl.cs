@@ -315,7 +315,7 @@ namespace TownOfHost {
             AllTasksCount = Math.Min(adjustedTasksCount, AllTasksCount);
             //調整後のタスク量までしか表示しない
             CompletedTaskCount = Math.Min(AllTasksCount, CompletedTaskCount);
-            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
+            Logger.info($"{player.name}: {CompletedTaskCount}/{AllTasksCount}","TaskCounts");
             return new TaskState(AllTasksCount, CompletedTaskCount);
         }
 
