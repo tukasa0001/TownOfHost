@@ -369,7 +369,7 @@ namespace TownOfHost
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
                 || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                || seer.isDoctor() && !seer.Data.IsDead //seerがドクター
+                || (seer.isDoctor() && !seer.Data.IsDead) //seerがドクター
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -402,14 +402,10 @@ namespace TownOfHost
                     }
 
                     string TargetDeathReason = "";
-                    Dictionary<byte, PlayerState.DeathReason> deadList = new();
-                    foreach(var kpv in PlayerState.deathReasons)
-                    {
-                        if (seer.isDoctor() && //seerがDoctor
-                        target.Data.IsDead //変更対象が死人
-                        ) {
-                            TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getDeathReason(kpv.Value)}</color>)";
-                        }
+                    if (seer.isDoctor() && //seerがDoctor
+                    target.Data.IsDead //変更対象が死人
+                    ) {
+                        TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getDeathReason(PlayerState.getDeathReason(target.PlayerId))}</color>)";
                     }
 
                     //全てのテキストを合成します。
