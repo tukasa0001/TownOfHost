@@ -1,7 +1,7 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using InnerNet;
-
+/*
 namespace TownOfHost {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch {
@@ -21,3 +21,4 @@ namespace TownOfHost {
         }
     }
 }
+*/

@@ -10,28 +10,29 @@ namespace TownOfHost {
 
         public static void Init()
         {
-            players = new();
-            isDead = new();
+            names = new();
+            customRoles = new();
             deathReasons = new();
-            isDead = new();
 
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                players.Add(p.PlayerId);
-                isDead.Add(p.PlayerId,false);
-                deathReasons.Add(p.PlayerId,DeathReason.etc);
+                names.Add(p.PlayerId, p.name);
+                deathReasons.Add(p.PlayerId,DeathReason.Living);
             }
-
         }
-        public static List<byte> players = new List<byte>();
-        public static Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
-        public static Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
+
+        public static Dictionary<byte, string> names;
+        public static Dictionary<byte, CustomRoles> customRoles;
+        public static Dictionary<byte,DeathReason> deathReasons;
+
         public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason getDeathReason(byte p) { return deathReasons[p]; }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
-        
+        public static bool isDead(byte p) { return deathReasons[p] != DeathReason.Living; }
+
         public enum DeathReason
         {
+            Living = 0,
             Kill,
             Vote,
             Suicide,

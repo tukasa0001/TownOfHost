@@ -94,13 +94,13 @@ namespace TownOfHost
             if (Options.IsHideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
-                var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                var hasRole = PlayerState.customRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
                     if (role == CustomRoles.Fox || role == CustomRoles.Troll) hasTasks = false;
                 }
             } else {
-                var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
+                var cRoleFound = PlayerState.customRoles.TryGetValue(p.PlayerId, out var cRole);
                 if(cRoleFound) {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
@@ -200,17 +200,17 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             var text = getString("LastResult")+":";
-            Dictionary<byte,CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
+            Dictionary<byte,CustomRoles> cloneRoles = new(PlayerState.customRoles);
             foreach(var id in main.winnerList)
             {
-                text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $"\n★ {PlayerState.names[id]}:{getRoleName(PlayerState.customRoles[id])}";
                 text += $" {getDeathReason(PlayerState.deathReasons[id])}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $"\n　 {PlayerState.names[id]} : {getRoleName(PlayerState.customRoles[id])}";
                 text += $" {getDeathReason(PlayerState.deathReasons[id])}";
             }
             SendMessage(text);

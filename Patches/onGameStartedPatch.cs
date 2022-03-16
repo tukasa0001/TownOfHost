@@ -36,14 +36,13 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
+            NameColorManager.Begin();
             NameColorManager.Instance.RpcReset();
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
-                main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name; 
             }
             if (__instance.AmHost)
@@ -64,7 +63,6 @@ namespace TownOfHost
     class SelectRolesPatch {
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
-            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if(!Options.IsHideAndSeek) {
                 //役職の人数を指定
@@ -88,7 +86,7 @@ namespace TownOfHost
                     if(AllPlayers.Count <= 0) break;
                     var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count)];
                     AllPlayers.Remove(sheriff);
-                    main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
+                    PlayerState.customRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
                     //ここからDesyncが始まる
                     if(sheriff.PlayerId != 0) {
                         //ただしホスト、お前はDesyncするな。
@@ -124,7 +122,7 @@ namespace TownOfHost
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 //リスト作成兼色設定処理
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    main.AllPlayerCustomRoles.Add(pc.PlayerId,CustomRoles.Crewmate);
+                    PlayerState.customRoles.Add(pc.PlayerId,CustomRoles.Crewmate);
                     if(pc.Data.Role.IsImpostor) {
                         Impostors.Add(pc);
                         pc.RpcSetColor(0);
@@ -146,7 +144,7 @@ namespace TownOfHost
                 for(var i = 0; i < FixedFoxCount; i++) {
                     var id = rand.Next(Crewmates.Count);
                     FoxList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Fox;
+                    PlayerState.customRoles[Crewmates[id].PlayerId] = CustomRoles.Fox;
                     Crewmates[id].RpcSetColor(3);
                     Crewmates[id].RpcSetCustomRole(CustomRoles.Fox);
                     Crewmates.RemoveAt(id);
@@ -154,7 +152,7 @@ namespace TownOfHost
                 for(var i = 0; i < FixedTrollCount; i++) {
                     var id = rand.Next(Crewmates.Count);
                     TrollList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Troll;
+                    PlayerState.customRoles[Crewmates[id].PlayerId] = CustomRoles.Troll;
                     Crewmates[id].RpcSetColor(2);
                     Crewmates[id].RpcSetCustomRole(CustomRoles.Troll);
                     Crewmates.RemoveAt(id);
@@ -172,31 +170,31 @@ namespace TownOfHost
 
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     pc.Data.IsDead = false; //プレイヤーの死を解除する
-                    if(main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
+                    if(PlayerState.customRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
                     switch(pc.Data.Role.Role) {
                         case RoleTypes.Crewmate:
                             Crewmates.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
                             break;
                         case RoleTypes.Impostor:
                             Impostors.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.Impostor);
                             break;
                         case RoleTypes.Scientist:
                             Scientists.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.Scientist);
                             break;
                         case RoleTypes.Engineer:
                             Engineers.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.Engineer);
                             break;
                         case RoleTypes.GuardianAngel:
                             GuardianAngels.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
                             break;
                         case RoleTypes.Shapeshifter:
                             Shapeshifters.Add(pc);
-                            main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
+                            PlayerState.customRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                             break;
                         default:
                             Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
@@ -223,15 +221,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
 
                 //RPCによる同期
-                foreach(var pair in main.AllPlayerCustomRoles) {
+                foreach(var pair in PlayerState.customRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-
-                //名前の記録
-                main.AllPlayerNames = new ();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key,main.RealNames[pair.Key]);
                 }
 
                 HudManager.Instance.SetHudActive(true);
@@ -287,7 +278,7 @@ namespace TownOfHost
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                main.AllPlayerCustomRoles[player.PlayerId] = role;
+                PlayerState.customRoles[player.PlayerId] = role;
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
             return AssignedPlayers;

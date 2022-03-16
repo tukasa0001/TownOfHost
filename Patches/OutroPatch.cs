@@ -98,7 +98,7 @@ namespace TownOfHost
             if(Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
-                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
+                    var hasRole = PlayerState.customRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
                     if(role == CustomRoles.Crewmate) {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
@@ -188,7 +188,7 @@ namespace TownOfHost
                 if(Options.IsHideAndSeek) {
                     foreach(var p in PlayerControl.AllPlayerControls) {
                         if(p.Data.IsDead) {
-                            var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                            var hasRole = PlayerState.customRoles.TryGetValue(p.PlayerId, out var role);
                             if(hasRole && role == CustomRoles.Troll) {
                                 __instance.BackgroundBar.material.color = Color.green;
                                 CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";

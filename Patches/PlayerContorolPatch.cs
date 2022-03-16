@@ -15,7 +15,7 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
-            if (PlayerState.getDeathReason(target.PlayerId)==PlayerState.DeathReason.etc)
+            if (!PlayerState.isDead(target.PlayerId))
             {
                 //死因が設定されていない場合は死亡判定
                 PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
@@ -216,6 +216,7 @@ namespace TownOfHost
 
 
             //==キル処理==
+            PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
             __instance.RpcMurderPlayer(target);
             //============
             return false;
@@ -403,7 +404,7 @@ namespace TownOfHost
             {
                 var RoleTextData = Utils.GetRoleText(__instance);
                 if(Options.IsHideAndSeek) {
-                    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                    var hasRole = PlayerState.customRoles.TryGetValue(__instance.PlayerId, out var role);
                     if(hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
                 RoleText.text = RoleTextData.Item1;
@@ -541,7 +542,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
     class SetNamePatch {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
-            main.RealNames[__instance.PlayerId] = name;
+            PlayerState.names[__instance.PlayerId] = name;
         }
     }
 }

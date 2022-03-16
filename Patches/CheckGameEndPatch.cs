@@ -123,7 +123,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
             foreach(var pc in PlayerControl.AllPlayerControls) {
-                var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
+                var hasRole = PlayerState.customRoles.TryGetValue(pc.PlayerId, out var role);
                 if(!hasRole) return false;
                 if(role == CustomRoles.Troll && pc.Data.IsDead) {
                     __instance.enabled = false;
@@ -189,7 +189,7 @@ namespace TownOfHost
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
                     GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
-                    var hasHideAndSeekRole = main.AllPlayerCustomRoles.TryGetValue((byte)i,out var role);
+                    var hasHideAndSeekRole = PlayerState.customRoles.TryGetValue((byte)i,out var role);
                     if (!playerInfo.Disconnected)
                     {
                         if (!playerInfo.IsDead)

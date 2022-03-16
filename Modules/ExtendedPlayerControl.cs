@@ -7,7 +7,7 @@ using InnerNet;
 namespace TownOfHost {
     static class ExtendedPlayerControl {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role) {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            PlayerState.customRoles[player.PlayerId] = role;
             if(AmongUsClient.Instance.AmHost) {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
@@ -24,7 +24,7 @@ namespace TownOfHost {
             }
         }
         public static void SetCustomRole(this PlayerControl player, CustomRoles role) {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            PlayerState.customRoles[player.PlayerId] = role;
         }
 
         public static void RpcExile(this PlayerControl player) {
@@ -50,7 +50,7 @@ namespace TownOfHost {
                 Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
                 return CustomRoles.Crewmate;
             }
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
+            var cRoleFound = PlayerState.customRoles.TryGetValue(player.PlayerId, out var cRole);
             if(!cRoleFound)
             {
                 switch(player.Data.Role.Role)
@@ -376,10 +376,10 @@ namespace TownOfHost {
                 return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
             }
 
-            if(!main.RealNames.TryGetValue(player.PlayerId, out RealName)) {
+            if(!PlayerState.names.TryGetValue(player.PlayerId, out RealName)) {
                 RealName = player.name;
                 if(RealName == "Player(Clone)") return RealName;
-                main.RealNames[player.PlayerId] = RealName;
+                PlayerState.names[player.PlayerId] = RealName;
                 TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
             }
             return RealName;

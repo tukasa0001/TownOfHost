@@ -142,12 +142,13 @@ VoteMode,VoteMode,投票モード
 Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
+DeathReason.Living,Living,生存
 DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Vote,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
 DeathReason.Bite,Bited,噛殺
-DeathReason.etc,Living,生存
+DeathReason.etc,Etc.,不明
 Win,Wins,勝利
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 commandError,Error:%1$,エラー:%1$
