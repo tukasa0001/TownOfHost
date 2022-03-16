@@ -282,7 +282,7 @@ namespace TownOfHost
                     goto subRoleDefault;
                 Lovers:
                     this.parent = parent; //親オブジェクト
-                    this.getName = () => $"<color={Utils.getRoleColor(subRole)}>{Utils.getRoleName(subRole)}</color>: {Utils.getOnOff(subRole.getCount() > 0)}";
+                    this.getName = () => $"<color={Utils.getRoleColorCode(subRole)}>{Utils.getRoleName(subRole)}</color>: {Utils.getOnOff(subRole.getCount() > 0)}";
                     this.isHostOnly = false; //実行をホストのみに限定するか
                     this.onEnter = () => 
                     {
@@ -301,7 +301,7 @@ namespace TownOfHost
 
                 subRoleDefault:
                     this.parent = parent; //親オブジェクト
-                    this.getName = () => $"<color={Utils.getRoleColor(subRole)}>{Utils.getRoleName(subRole)}</color>: {subRole.getCount()}";
+                    this.getName = () => $"<color={Utils.getRoleColorCode(subRole)}>{Utils.getRoleName(subRole)}</color>: {subRole.getCount()}";
                     this.isHostOnly = false; //実行をホストのみに限定するか
                     this.onEnter = () => SetRoleCountToggle(subRole); //実行時の動作
                     this.onInput = (n) => SetRoleCount(subRole, n); //入力時の動作
