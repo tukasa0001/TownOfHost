@@ -17,7 +17,7 @@ namespace TownOfHost
         public static string getRoleName(CustomSubRoles role) {
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || Options.forceJapanese) &&
             main.JapaneseSubRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
-            return getString(Enum.GetName(typeof(CustomRoles),role),lang);
+            return getString(Enum.GetName(typeof(CustomSubRoles),role),lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
