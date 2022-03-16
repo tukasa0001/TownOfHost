@@ -60,6 +60,27 @@ namespace TownOfHost
             var MadGuardianCanSeeWhoTriedToKill = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getLang(lang.MadGuardianCanSeeWhoTriedToKill)}</color>: {main.getOnOff(main.MadGuardianCanSeeWhoTriedToKill)}", true, () => {main.MadGuardianCanSeeWhoTriedToKill = !main.MadGuardianCanSeeWhoTriedToKill;});
             var MayorAdditionalVote = new PageObject(AdvRoleOptions, () => $"<color={main.getRoleColorCode(CustomRoles.Mayor)}>{main.getLang(lang.MayorAdditionalVote)}</color>: {main.MayorAdditionalVote}{main.TextCursor}", true, () => {main.MayorAdditionalVote = 0;}, (n) => main.ChangeInt(ref main.MayorAdditionalVote, n, 99));
 
+
+            var OverrideTaskCount = new PageObject(AdvRoleOptions, lang.OverrideTaskCount);
+
+            var MadGuardianTaskOptions = new PageObject(OverrideTaskCount, () => $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>");
+            var MadGuardianTask_doOverride = new PageObject(MadGuardianTaskOptions, () => main.getLang(lang.doOverride).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>") + ":" + main.getOnOff(main.MadGuardianTasksData.doOverride), true, () => main.MadGuardianTasksData.doOverride = !main.MadGuardianTasksData.doOverride);
+            var MadGuardianTask_hasCommonTasks = new PageObject(MadGuardianTaskOptions, () => main.getLang(lang.hasCommonTasks).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>") + ":" + main.getOnOff(main.MadGuardianTasksData.hasCommonTasks), true, () => main.MadGuardianTasksData.hasCommonTasks = !main.MadGuardianTasksData.hasCommonTasks);
+            var MadGuardianTask_LongTasksNum = new PageObject(MadGuardianTaskOptions, () => main.getLang(lang.roleLongTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>") + $":{main.MadGuardianTasksData.NumLongTasks}", true, () => main.MadGuardianTasksData.NumLongTasks = 0, n => main.ChangeInt(ref main.MadGuardianTasksData.NumLongTasks, n, 99));
+            var MadGuardianTask_ShortTasksNum = new PageObject(MadGuardianTaskOptions, () => main.getLang(lang.roleShortTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.MadGuardian)}>{main.getRoleName(CustomRoles.MadGuardian)}</color>") + $":{main.MadGuardianTasksData.NumShortTasks}", true, () => main.MadGuardianTasksData.NumShortTasks = 0, n => main.ChangeInt(ref main.MadGuardianTasksData.NumShortTasks, n, 99));
+
+            var TerroristTaskOptions = new PageObject(OverrideTaskCount, () => $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>");
+            var TerroristTask_doOverride = new PageObject(TerroristTaskOptions, () => main.getLang(lang.doOverride).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>") + ":" + main.getOnOff(main.TerroristTasksData.doOverride), true, () => main.TerroristTasksData.doOverride = !main.TerroristTasksData.doOverride);
+            var TerroristTask_hasCommonTasks = new PageObject(TerroristTaskOptions, () => main.getLang(lang.hasCommonTasks).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>") + ":" + main.getOnOff(main.TerroristTasksData.hasCommonTasks), true, () => main.TerroristTasksData.hasCommonTasks = !main.TerroristTasksData.hasCommonTasks);
+            var TerroristTask_LongTasksNum = new PageObject(TerroristTaskOptions, () => main.getLang(lang.roleLongTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>") + $":{main.TerroristTasksData.NumLongTasks}", true, () => main.TerroristTasksData.NumLongTasks = 0, n => main.ChangeInt(ref main.TerroristTasksData.NumLongTasks, n, 99));
+            var TerroristTask_ShortTasksNum = new PageObject(TerroristTaskOptions, () => main.getLang(lang.roleShortTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Terrorist)}>{main.getRoleName(CustomRoles.Terrorist)}</color>") + $":{main.TerroristTasksData.NumShortTasks}", true, () => main.TerroristTasksData.NumShortTasks = 0, n => main.ChangeInt(ref main.TerroristTasksData.NumShortTasks, n, 99));
+
+            var SnitchTaskOptions = new PageObject(OverrideTaskCount, () => $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>");
+            var SnitchTask_doOverride = new PageObject(SnitchTaskOptions, () => main.getLang(lang.doOverride).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>") + ":" + main.getOnOff(main.SnitchTasksData.doOverride), true, () => main.SnitchTasksData.doOverride = !main.SnitchTasksData.doOverride);
+            var SnitchTask_hasCommonTasks = new PageObject(SnitchTaskOptions, () => main.getLang(lang.hasCommonTasks).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>") + ":" + main.getOnOff(main.SnitchTasksData.hasCommonTasks), true, () => main.SnitchTasksData.hasCommonTasks = !main.SnitchTasksData.hasCommonTasks);
+            var SnitchTask_LongTasksNum = new PageObject(SnitchTaskOptions, () => main.getLang(lang.roleLongTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>") + $":{main.SnitchTasksData.NumLongTasks}", true, () => main.SnitchTasksData.NumLongTasks = 0, n => main.ChangeInt(ref main.SnitchTasksData.NumLongTasks, n, 99));
+            var SnitchTask_ShortTasksNum = new PageObject(SnitchTaskOptions, () => main.getLang(lang.roleShortTasksNum).Replace("%role%", $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>{main.getRoleName(CustomRoles.Snitch)}</color>") + $":{main.SnitchTasksData.NumShortTasks}", true, () => main.SnitchTasksData.NumShortTasks = 0, n => main.ChangeInt(ref main.SnitchTasksData.NumShortTasks, n, 99));
+
             //Mode Options
             var ModeOptions = new PageObject(basePage, lang.ModeOptions);
             var HideAndSeek = new PageObject(ModeOptions, () => main.getLang(lang.HideAndSeek) + ": " + main.getOnOff(main.IsHideAndSeek), true, () => main.IsHideAndSeek = !main.IsHideAndSeek);
@@ -211,6 +232,20 @@ namespace TownOfHost
         ) {
             this.parent = parent; //親オブジェクト
             this.getName = () => main.getLang(lang); //名前
+            this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
+            this.onEnter = () => CustomOptionController.SetPage(this);
+            this.onInput = (i) => {}; //入力時の動作
+
+            this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
+            parent?.ChildPages.Add(this); //親のリストに自分を追加
+        }
+        public PageObject( //フォルダー3
+            PageObject parent,
+            Func<string> name,
+            bool isHostOnly = false
+        ) {
+            this.parent = parent; //親オブジェクト
+            this.getName = name; //名前
             this.isHostOnly = isHostOnly; //実行をホストのみに限定するか
             this.onEnter = () => CustomOptionController.SetPage(this);
             this.onInput = (i) => {}; //入力時の動作

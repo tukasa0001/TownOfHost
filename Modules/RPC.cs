@@ -92,6 +92,11 @@ namespace TownOfHost
                     bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
+
+                    main.OverrideTasksData MadGuardianTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.MadGuardian);
+                    main.OverrideTasksData TerrorstTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Terrorist);
+                    main.OverrideTasksData SnitchTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Snitch);
+
                     RPCProcedure.SyncCustomSettings(
                         JesterCount,
                         MadmateCount,
@@ -139,7 +144,10 @@ namespace TownOfHost
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
                         MadGuardianCanSeeBarrier,
-                        MayorAdditionalVote
+                        MayorAdditionalVote,
+                        MadGuardianTasksData,
+                        TerrorstTasksData,
+                        SnitchTasksData
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -239,7 +247,10 @@ namespace TownOfHost
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
                 bool MadGuardianCanSeeBarrier,
-                int MayorAdditionalVote
+                int MayorAdditionalVote,
+                main.OverrideTasksData MadGuardianTasksData,
+                main.OverrideTasksData TerroristTasksData,
+                main.OverrideTasksData SnitchTasksData
             ) {
             main.JesterCount = JesterCount;
             main.MadmateCount = MadmateCount;
@@ -304,6 +315,10 @@ namespace TownOfHost
             main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
+
+            main.MadGuardianTasksData = MadGuardianTasksData;
+            main.TerroristTasksData = TerroristTasksData;
+            main.SnitchTasksData = SnitchTasksData;
         }
         public static void JesterExiled(byte jesterID)
         {

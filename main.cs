@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -514,6 +514,51 @@ namespace TownOfHost
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
         public static bool MadGuardianCanSeeWhoTriedToKill;
+        public static OverrideTasksData MadGuardianTasksData;
+        public static OverrideTasksData TerroristTasksData;
+        public static OverrideTasksData SnitchTasksData;
+        public class OverrideTasksData {
+            public CustomRoles TargetRole;
+            public bool doOverride;
+            public bool hasCommonTasks;
+            public int NumLongTasks;
+            public int NumShortTasks;
+            public void CheckAndSet(
+                CustomRoles currentTargetRole,
+                ref bool doOverride,
+                ref bool hasCommonTasks,
+                ref int NumLongTasks,
+                ref int NumShortTasks
+            ) {
+                if(currentTargetRole == this.TargetRole && this.doOverride) {
+                    doOverride = true;
+                    hasCommonTasks = this.hasCommonTasks;
+                    NumLongTasks = this.NumLongTasks;
+                    NumShortTasks = this.NumShortTasks;
+                }
+            }
+            public void Serialize(MessageWriter writer) {
+                writer.Write(doOverride);
+                writer.Write(hasCommonTasks);
+                writer.Write(NumLongTasks);
+                writer.Write(NumShortTasks);
+            }
+            public static OverrideTasksData Deserialize(MessageReader reader, CustomRoles targetRole) {
+                OverrideTasksData data = new OverrideTasksData(targetRole);
+                data.doOverride = reader.ReadBoolean();
+                data.hasCommonTasks = reader.ReadBoolean();
+                data.NumLongTasks = reader.ReadInt32();
+                data.NumShortTasks = reader.ReadInt32();
+                return data;
+            }
+            public OverrideTasksData(CustomRoles TargetRole) {
+                this.TargetRole = TargetRole;
+                doOverride = false;
+                hasCommonTasks = true;
+                NumLongTasks = 1;
+                NumShortTasks = 1;
+            }
+        }
         public static SuffixModes currentSuffix;
         public static string nickName = "";
         //SyncCustomSettingsRPC Sender
@@ -570,6 +615,10 @@ namespace TownOfHost
             writer.Write(MadmateCanFixComms);
             writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MayorAdditionalVote);
+
+            MadGuardianTasksData.Serialize(writer);
+            TerroristTasksData.Serialize(writer);
+            SnitchTasksData.Serialize(writer);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
@@ -894,6 +943,10 @@ namespace TownOfHost
             MadmateCanFixComms = false;
             MadGuardianCanSeeWhoTriedToKill = false;
 
+            MadGuardianTasksData = new OverrideTasksData(CustomRoles.MadGuardian);
+            TerroristTasksData = new OverrideTasksData(CustomRoles.Terrorist);
+            SnitchTasksData = new OverrideTasksData(CustomRoles.Snitch);
+
             MayorAdditionalVote = 1;
 
             SnitchExposeTaskLeft = 1;
@@ -1025,6 +1078,11 @@ namespace TownOfHost
                 {lang.SuffixMode, "名前の二行目"},
                 {lang.WhenSkipVote, "スキップ時"},
                 {lang.WhenNonVote, "無投票時"},
+                {lang.OverrideTaskCount, "役職ごとのタスク数"},
+                {lang.doOverride, "%role%のタスクを上書きする"},
+                {lang.hasCommonTasks, "%role%に通常タスクを割り当てる"},
+                {lang.roleLongTasksNum, "%role%のロングタスクの数"},
+                {lang.roleShortTasksNum, "%role%のショートタスクの数"},
                 //その他
                 {lang.WitchCurrentMode, "現在のモード"},
                 {lang.WitchModeKill, "キル"},
@@ -1132,6 +1190,11 @@ namespace TownOfHost
                 {lang.SuffixMode, "Suffix"},
                 {lang.WhenSkipVote, "When Skip Vote"},
                 {lang.WhenNonVote, "When Non-Vote"},
+                {lang.OverrideTaskCount, "Amount Of Tasks By Roles"},
+                {lang.doOverride, "Override %role%'s Tasks"},
+                {lang.hasCommonTasks, "Assign Common Tasks For %role%"},
+                {lang.roleLongTasksNum, "Amount Of Long Tasks For %role%"},
+                {lang.roleShortTasksNum, "Amount Of Short Tasks For %role%"},
                 //その他
                 {lang.WitchCurrentMode, "Current Mode"},
                 {lang.WitchModeKill, "Kill"},
@@ -1349,6 +1412,11 @@ namespace TownOfHost
         CanTerroristSuicideWin,
         commandError,
         InvalidArgs,
+        OverrideTaskCount,
+        doOverride,
+        hasCommonTasks,
+        roleLongTasksNum,
+        roleShortTasksNum,
         ON,
         OFF,
         Win,
