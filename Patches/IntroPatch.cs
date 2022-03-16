@@ -47,7 +47,10 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
                     break;
                 case IntroTypes.Madmate:
-                    StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
+                    __instance.TeamTitle.text = getString("Madmate");
+                    __instance.TeamTitle.color = Utils.getRoleColor(CustomRoles.Madmate);
+                    __instance.ImpostorText.text = getString("TeamImpostor");
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Madmate);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
             }
