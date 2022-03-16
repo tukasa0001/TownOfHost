@@ -157,3 +157,8 @@ CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の�
 Roles,Roles,役職
 Settings,Settings,設定
 RoleAssignment,Role Assignment,ロール割り当て
+OverrideTaskCount,Amount Of Tasks By Roles,役職ごとのタスク数
+doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
+hasCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
+roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
+roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
