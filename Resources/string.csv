@@ -154,6 +154,7 @@ DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Vote,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
+DeathReason.LoversSuicide,恋人心中
 DeathReason.etc,Living,生存
 Win,Wins,勝利
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち

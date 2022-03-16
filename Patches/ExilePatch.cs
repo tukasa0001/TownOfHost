@@ -86,6 +86,7 @@ namespace TownOfHost
                             if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
                             {
                                 loversPlayer.RpcMurderPlayer(partnerPlayer);
+                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                                 main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);
                             }
                         }
