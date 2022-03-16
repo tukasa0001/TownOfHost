@@ -216,13 +216,9 @@ namespace TownOfHost
                 if(pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
                     pva.NameText.text  = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
 
-                Dictionary<byte, PlayerState.DeathReason> deadList = new();
-                foreach(var kpv in PlayerState.deathReasons)
-                {
-                    if (PlayerControl.LocalPlayer.isDoctor() && //LocalPlayerがDoctor
-                    pc.Data.IsDead) { //変更対象が死人
-                        pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getDeathReason(kpv.Value)}</color>)";
-                    }
+                if (PlayerControl.LocalPlayer.isDoctor() && //LocalPlayerがDoctor
+                pc.Data.IsDead) { //変更対象が死人
+                    pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getDeathReason(PlayerState.getDeathReason(pc.PlayerId))}</color>)";
                 }
             }
         }
