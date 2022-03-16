@@ -17,7 +17,7 @@ namespace TownOfHost {
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 realNames.Add(p.PlayerId, p.name);
-                deathReasons.Add(p.PlayerId,DeathReason.Living);
+                deathReasons.Add(p.PlayerId,DeathReason.NotDead);
             }
         }
 
@@ -28,11 +28,11 @@ namespace TownOfHost {
         public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason getDeathReason(byte p) { return deathReasons[p]; }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
-        public static bool isDead(byte p) { return deathReasons[p] != DeathReason.Living; }
+        public static bool isDead(byte p) { return deathReasons[p] != DeathReason.NotDead; }
 
         public enum DeathReason
         {
-            Living = 0,
+            NotDead,
             Kill,
             Vote,
             Suicide,
