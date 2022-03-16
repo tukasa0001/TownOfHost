@@ -415,6 +415,7 @@ namespace TownOfHost
                 {
                     if(main.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",main.getLang(lang.MadmateCanFixLightsOut),getOnOff(main.MadmateCanFixLightsOut));
                     if(main.MadmateCanFixComms) text += String.Format("\n{0}:{1}", main.getLang(lang.MadmateCanFixComms), getOnOff(main.MadmateCanFixComms));
+                    if(main.MadmateHasImpostorVision) text += String.Format("\n{0}:{1}", main.getLang(lang.MadmateHasImpostorVision), getOnOff(main.MadmateHasImpostorVision));
                 }
                 if(main.MadGuardianCount > 0)
                 {
@@ -513,6 +514,7 @@ namespace TownOfHost
 
         public static bool MadmateCanFixLightsOut;
         public static bool MadmateCanFixComms;
+        public static bool MadmateHasImpostorVision;
         public static bool MadGuardianCanSeeWhoTriedToKill;
         public static OverrideTasksData MadGuardianTasksData;
         public static OverrideTasksData TerroristTasksData;
@@ -613,6 +615,7 @@ namespace TownOfHost
             writer.Write(IgnoreVent);
             writer.Write(MadmateCanFixLightsOut);
             writer.Write(MadmateCanFixComms);
+            writer.Write(MadmateHasImpostorVision);
             writer.Write(MadGuardianCanSeeWhoTriedToKill);
             writer.Write(MayorAdditionalVote);
 
@@ -941,6 +944,7 @@ namespace TownOfHost
 
             MadmateCanFixLightsOut = false;
             MadmateCanFixComms = false;
+            MadmateHasImpostorVision = true;
             MadGuardianCanSeeWhoTriedToKill = false;
 
             MadGuardianTasksData = new OverrideTasksData(CustomRoles.MadGuardian);
@@ -1045,6 +1049,7 @@ namespace TownOfHost
                 {lang.VampireKillDelay, "ヴァンパイアの殺害までの時間(秒)"},
                 {lang.MadmateCanFixLightsOut, "マッドメイト系役職が停電を直すことができる"},
                 {lang.MadmateCanFixComms, "マッドメイト系役職がコミュサボを直すことができる"},
+                {lang.MadmateHasImpostorVision, "マッドメイト系役職の視界がインポスターと同じ"},
                 {lang.MadGuardianCanSeeWhoTriedToKill, "マッドガーディアンが自身をキルしたインポスターを見ることができる"},
                 {lang.SabotageMasterSkillLimit, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)"},
                 {lang.SabotageMasterFixesDoors, "ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する"},
@@ -1159,6 +1164,7 @@ namespace TownOfHost
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Type Roles Can Fix Lights Out"},
                 {lang.MadmateCanFixComms, "Madmate Type Roles Can Fix Comms"},
+                {lang.MadmateHasImpostorVision, "Madmate Has Impostor Vision"},
                 {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
@@ -1365,6 +1371,7 @@ namespace TownOfHost
         VampireKillDelay,
         MadmateCanFixLightsOut,
         MadmateCanFixComms,
+        MadmateHasImpostorVision,
         MadGuardianCanSeeWhoTriedToKill,
         SabotageMasterFixesDoors,
         SabotageMasterSkillLimit,

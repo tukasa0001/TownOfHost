@@ -90,6 +90,7 @@ namespace TownOfHost
                     bool IgnoreVent = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
+                    bool MadmateHasImpostorVision = reader.ReadBoolean();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MayorAdditionalVote = reader.ReadInt32();
 
@@ -143,6 +144,7 @@ namespace TownOfHost
                         IgnoreVent,
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
+                        MadmateHasImpostorVision,
                         MadGuardianCanSeeBarrier,
                         MayorAdditionalVote,
                         MadGuardianTasksData,
@@ -246,6 +248,7 @@ namespace TownOfHost
                 bool IgnoreVent,
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
+                bool MadmateHasImpostorVision,
                 bool MadGuardianCanSeeBarrier,
                 int MayorAdditionalVote,
                 main.OverrideTasksData MadGuardianTasksData,
@@ -312,6 +315,7 @@ namespace TownOfHost
 
             main.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             main.MadmateCanFixComms = MadmateCanFixComms;
+            main.MadmateHasImpostorVision = MadmateHasImpostorVision;
             main.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
 
             main.MayorAdditionalVote = MayorAdditionalVote;
