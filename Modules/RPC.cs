@@ -91,6 +91,10 @@ namespace TownOfHost
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
+                    main.OverrideTasksData MadGuardianTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.MadGuardian);
+                    main.OverrideTasksData TerroristTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Terrorist);
+                    main.OverrideTasksData SnitchTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Snitch);
+                    main.OverrideTasksData MadSnitchTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.MadSnitch);
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
                         IsHideAndSeek,
@@ -349,6 +353,7 @@ namespace TownOfHost
             Options.MadGuardianTasksData.Serialize(writer);
             Options.TerroristTasksData.Serialize(writer);
             Options.SnitchTasksData.Serialize(writer);
+            Options.MadSnitchTasksData.Serialize(writer);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)

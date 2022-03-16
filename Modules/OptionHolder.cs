@@ -71,6 +71,7 @@ namespace TownOfHost
         public static main.OverrideTasksData MadGuardianTasksData;
         public static main.OverrideTasksData TerroristTasksData;
         public static main.OverrideTasksData SnitchTasksData;
+        public static main.OverrideTasksData MadSnitchTasksData;
 
         static Options()
         {
