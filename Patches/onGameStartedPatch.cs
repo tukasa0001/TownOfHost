@@ -63,6 +63,7 @@ namespace TownOfHost
         public static void Prefix(RoleManager __instance) {
             if(!AmongUsClient.Instance.AmHost) return;
 
+            //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance);
 
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
