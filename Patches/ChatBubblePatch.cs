@@ -8,7 +8,7 @@ namespace TownOfHost.Patches
     {
         public static void Postfix(ChatBubble __instance)
         {
-           if(main.isChatCommand) __instance.SetLeft();
+            if (main.isChatCommand) __instance.SetLeft();
         }
     }
 }

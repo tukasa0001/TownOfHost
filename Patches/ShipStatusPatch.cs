@@ -18,22 +18,22 @@ namespace TownOfHost
             {
                 main.RefixCooldownDelay -= Time.fixedDeltaTime;
             } else if(!float.IsNaN(main.RefixCooldownDelay)) {
-                main.CustomSyncAllSettings();
+                Utils.CustomSyncAllSettings();
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
             }
-            if(main.IsHideAndSeek) {
-                if(main.HideAndSeekKillDelayTimer > 0) {
-                    main.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
-                    Logger.SendToFile("HaSKillDelayTimer: " + main.HideAndSeekKillDelayTimer);
-                } else if(!float.IsNaN(main.HideAndSeekKillDelayTimer)) {
-                    main.CustomSyncAllSettings();
-                    main.HideAndSeekKillDelayTimer = float.NaN;
+            if(Options.IsHideAndSeek) {
+                if(Options.HideAndSeekKillDelayTimer > 0) {
+                    Options.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
+                    Logger.SendToFile("HaSKillDelayTimer: " + Options.HideAndSeekKillDelayTimer);
+                } else if(!float.IsNaN(Options.HideAndSeekKillDelayTimer)) {
+                    Utils.CustomSyncAllSettings();
+                    Options.HideAndSeekKillDelayTimer = float.NaN;
                     Logger.info("キル能力解禁");
                 }
             }
             //BountyHunterのターゲットが無効な場合にリセット
-            if(main.BountyHunterCount > 0) {
+            if(CustomRoles.BountyHunter.isEnable()) {
                 bool DoNotifyRoles = false;
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     if(!pc.isBountyHunter()) continue; //BountHutner以外おことわり
@@ -45,7 +45,7 @@ namespace TownOfHost
                         DoNotifyRoles = true;
                     }
                 }
-                if(DoNotifyRoles) main.NotifyRoles();
+                if(DoNotifyRoles) Utils.NotifyRoles();
             }
         }
     }
@@ -60,57 +60,57 @@ namespace TownOfHost
             Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
 
             if(!AmongUsClient.Instance.AmHost) return true;
-            if(main.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            if(Options.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
             if(player.isSabotageMaster()) {
                 switch(systemType){
                     case SystemTypes.Reactor:
-                        if(!main.SabotageMasterFixesReactors) break;
-                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
+                        if(!Options.SabotageMasterFixesReactors) break;
+                        if(Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
                         if(amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
-                            main.SabotageMasterUsedSkillCount++;
+                            Options.SabotageMasterUsedSkillCount++;
                         }
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
-                            main.SabotageMasterUsedSkillCount++;
+                            Options.SabotageMasterUsedSkillCount++;
                         }
                         break;
                     case SystemTypes.Laboratory:
-                        if(!main.SabotageMasterFixesReactors) break;
-                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
+                        if(!Options.SabotageMasterFixesReactors) break;
+                        if(Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
                         if(amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
-                            main.SabotageMasterUsedSkillCount++;
+                            Options.SabotageMasterUsedSkillCount++;
                         }
                         break;
                     case SystemTypes.LifeSupp:
-                        if(!main.SabotageMasterFixesOxygens) break;
-                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
+                        if(!Options.SabotageMasterFixesOxygens) break;
+                        if(Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
                         if(amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
-                            main.SabotageMasterUsedSkillCount++;
+                            Options.SabotageMasterUsedSkillCount++;
                         }
                         break;
                     case SystemTypes.Comms:
-                        if(!main.SabotageMasterFixesCommunications) break;
-                        if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) break;
+                        if(!Options.SabotageMasterFixesCommunications) break;
+                        if(Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
                         if(amount == 16 || amount == 17) {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
                         }
-                        main.SabotageMasterUsedSkillCount++;
+                        Options.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Doors:
-                        if(!main.SabotageMasterFixesDoors) break;
+                        if(!Options.SabotageMasterFixesDoors) break;
                         if(DoorsProgressing == true) break;
 
                         int mapId = PlayerControl.GameOptions.MapId;
@@ -138,12 +138,12 @@ namespace TownOfHost
                 }
             }
 
-            if(!main.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
+            if(!Options.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
+               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
                 return false;
-            if (!main.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
+            if (!Options.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;
@@ -153,7 +153,7 @@ namespace TownOfHost
             return true;
         }
         public static void Postfix(ShipStatus __instance) {
-            main.CustomSyncAllSettings();
+            Utils.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max) {
             var Ids = new List<int>();
@@ -172,7 +172,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CloseDoorsOfType))]
     class CloseDoorsPatch {
         public static bool Prefix(ShipStatus __instance) {
-            if(main.IsHideAndSeek && !main.AllowCloseDoors) return false;
+            if(Options.IsHideAndSeek && !Options.AllowCloseDoors) return false;
             return true;
         }
     }
@@ -180,12 +180,12 @@ namespace TownOfHost
     class SwitchSystemRepairPatch {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount) {
             if(player.isSabotageMaster()) {
-                if(!main.SabotageMasterFixesElectrical) return;
-                if(main.SabotageMasterSkillLimit > 0 && main.SabotageMasterUsedSkillCount >= main.SabotageMasterSkillLimit) return;
+                if(!Options.SabotageMasterFixesElectrical) return;
+                if(Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) return;
                 if(0 <= amount && amount <= 4) {
                     __instance.ActualSwitches = 0;
                     __instance.ExpectedSwitches = 0;
-                    main.SabotageMasterUsedSkillCount++;
+                    Options.SabotageMasterUsedSkillCount++;
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace TownOfHost
     class BeginPatch {
         public static void Postfix() {
             Logger.info("ShipStatus.Begin");
-            main.NotifyRoles();
+            Utils.NotifyRoles();
         }
     }
 }

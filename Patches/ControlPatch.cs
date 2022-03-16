@@ -18,7 +18,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPCProcedure.EndGame();
+                RPC.EndGame();
             }
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
             {
@@ -32,7 +32,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
             {
-                main.ShowActiveRoles();
+                Utils.ShowActiveRoles();
             }
             //====================
             //##テスト用キーコマンド##
@@ -77,7 +77,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
             {
-                main.SyncCustomSettingsRPC();
+                RPC.SyncCustomSettingsRPC();
             }
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
             {

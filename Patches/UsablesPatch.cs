@@ -10,7 +10,7 @@ namespace TownOfHost
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
             if (__instance.AllowImpostor) return true;
-            if (!main.hasTasks(PlayerControl.LocalPlayer.Data, false))
+            if (!Utils.hasTasks(PlayerControl.LocalPlayer.Data, false))
             {
                 return false;
             }
@@ -22,7 +22,7 @@ namespace TownOfHost
     {
         public static void Postfix(EmergencyMinigame __instance)
         {
-            if (main.IsHideAndSeek) __instance.Close();
+            if (Options.IsHideAndSeek) __instance.Close();
         }
     }
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]

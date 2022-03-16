@@ -11,13 +11,13 @@ namespace TownOfHost
             if (!GameData.Instance) return false;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
-            if (main.NoGameEnd) return false;
+            if (Options.NoGameEnd) return false;
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
             if(main.currentWinner == CustomWinner.Default)
             {
-                if(main.IsHideAndSeek)
+                if(Options.IsHideAndSeek)
                 {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
@@ -194,10 +194,10 @@ namespace TownOfHost
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if(!main.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
+                            if(!Options.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
                             else {
                                 //HideAndSeek中
-                                if(role == CustomRoles.Default) numTotalAlive++;
+                                if(role == CustomRoles.Crewmate) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 

@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -22,7 +23,7 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.GetIntroType();
+                    IntroTypes introType = role.getIntroType();
                     bool canWin = introType == IntroTypes.Crewmate;
                     if(canWin) winner.Add(p);
                 }
@@ -35,7 +36,7 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.GetIntroType();
+                    IntroTypes introType = role.getIntroType();
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if(canWin) winner.Add(p);
                 }
@@ -58,7 +59,7 @@ namespace TownOfHost
             }
 
             //単独勝利
-            if (main.currentWinner == CustomWinner.Jester && main.JesterCount > 0)
+            if (main.currentWinner == CustomWinner.Jester && CustomRoles.Jester.isEnable())
             { //Jester単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -70,7 +71,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
+            if (main.currentWinner == CustomWinner.Terrorist && CustomRoles.Terrorist.isEnable())
             { //Terrorist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -94,12 +95,12 @@ namespace TownOfHost
             }
             
             //HideAndSeek専用
-            if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
+            if(Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
                 var winners = new List<PlayerControl>();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
-                    if(role == CustomRoles.Default) {
+                    if(role == CustomRoles.Crewmate) {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                         if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
@@ -142,29 +143,29 @@ namespace TownOfHost
 
             string CustomWinnerText = "";
             string AdditionalWinnerText = "";
-            string CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+            string CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
 
             switch(main.currentWinner) {
                 //通常勝利
                 case CustomWinner.Impostor:
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Impostor)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Impostor);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Impostor)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Impostor);
                     break;
                 case CustomWinner.Crewmate:
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Default)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Default);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Crewmate)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:
-                    __instance.BackgroundBar.material.color = main.getRoleColor(CustomRoles.Jester);
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Jester)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Jester);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Jester);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Jester)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Jester);
                     break;
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
                     __instance.BackgroundBar.material.color = Color.green;
-                    CustomWinnerText = $"{main.getRoleName(CustomRoles.Terrorist)}";
-                    CustomWinnerColor = main.getRoleColorCode(CustomRoles.Terrorist);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
@@ -178,34 +179,37 @@ namespace TownOfHost
 
             foreach(var additionalwinners in main.additionalwinners) {
                 if (main.additionalwinners.Contains(AdditionalWinners.Opportunist)) {
-                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Opportunist)}>{main.getRoleName(CustomRoles.Opportunist)}</color>";
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox)) {
-                    AdditionalWinnerText += $"＆<color={main.getRoleColorCode(CustomRoles.Fox)}>{main.getRoleName(CustomRoles.Fox)}</color>";
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-                if(main.IsHideAndSeek) {
+                if(Options.IsHideAndSeek) {
                     foreach(var p in PlayerControl.AllPlayerControls) {
                         if(p.Data.IsDead) {
                             var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                             if(hasRole && role == CustomRoles.Troll) {
                                 __instance.BackgroundBar.material.color = Color.green;
-                                CustomWinnerText = $"{main.getRoleName(CustomRoles.Troll)}";
-                                CustomWinnerColor = main.getRoleColorCode(CustomRoles.Troll);
+                                CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
+                                CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
                             }
                         }
                     }
                 }
             if (main.currentWinner != CustomWinner.Draw) {
-                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{main.getLang(lang.Win)}</color>";
+                textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{getString("Win")}</color>";
             }
+            main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.SerialKillerTimer = new Dictionary<byte, float>(); 
+            
             NameColorManager.Instance.RpcReset();
             main.VisibleTasksCount = false;
             if(AmongUsClient.Instance.AmHost) {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
-            //main.ApplySuffix();
+            //Utils.ApplySuffix();
         }
     }
 }

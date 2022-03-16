@@ -29,7 +29,7 @@ namespace TownOfHost {
                 var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
                 foreach(var cRoleID in Enum.GetValues(typeof(CustomRoles))) {
                     CustomRoles cRole = (CustomRoles)cRoleID;
-                    /*if(cRole == CustomRoles.Default ||
+                    /*if(cRole == CustomRoles.Crewmate ||
                     cRole == CustomRoles.Impostor ||
                     cRole == CustomRoles.Scientist ||
                     cRole == CustomRoles.Engineer ||
@@ -38,15 +38,15 @@ namespace TownOfHost {
                     ) continue;*/
 
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
-                    button.Text.text = main.getRoleName(cRole);
+                    button.Text.text = Utils.getRoleName(cRole);
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
                     var roleBehaviour = new RoleBehaviour();
                     roleBehaviour.Role = ((RoleTypes)cRole + 1000);
                     button.Role = roleBehaviour;
 
                     Color IconColor = Color.white;
-                    var roleColor = main.getRoleColor(cRole);
-                    var IntroType = cRole.GetIntroType();
+                    var roleColor = Utils.getRoleColor(cRole);
+                    var IntroType = cRole.getIntroType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;
@@ -79,9 +79,12 @@ namespace TownOfHost {
             {CustomRoles.Impostor, RoleTypes.Impostor},
             {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
             {CustomRoles.Mafia, RoleTypes.Shapeshifter},
-            {CustomRoles.BountyHunter, RoleTypes.Impostor},
+            {CustomRoles.BountyHunter, RoleTypes.Shapeshifter},
             {CustomRoles.Witch, RoleTypes.Impostor},
+            {CustomRoles.Warlock, RoleTypes.Shapeshifter},
+            {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},
             {CustomRoles.Vampire, RoleTypes.Impostor},
+            {CustomRoles.ShapeMaster, RoleTypes.Shapeshifter},
             {CustomRoles.Madmate, RoleTypes.Engineer},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
         };

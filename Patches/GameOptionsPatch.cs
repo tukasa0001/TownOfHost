@@ -7,11 +7,10 @@ namespace TownOfHost
         public static void Postfix(RoleOptionSetting __instance) {
             bool forced = false;
             if(__instance.Role.Role == RoleTypes.Engineer) {
-                if(main.MadmateCount > 0) forced = true;
-                if(main.TerroristCount > 0) forced = true;
+                if(CustomRoles.Madmate.isEnable() || CustomRoles.Terrorist.isEnable()) forced = true;
             }
             if(__instance.Role.Role == RoleTypes.Shapeshifter) {
-                if(main.MafiaCount > 0) forced = true;
+                if(CustomRoles.Mafia.isEnable() || CustomRoles.SerialKiller.isEnable() || CustomRoles.Warlock.isEnable() || CustomRoles.BountyHunter.isEnable() || CustomRoles.ShapeMaster.isEnable()) forced = true;
             }
 
             if(forced) {
