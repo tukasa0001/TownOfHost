@@ -216,14 +216,14 @@ namespace TownOfHost
             foreach(var id in main.winnerList)
             {
                 text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
                 text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
             }
             SendMessage(text);
         }
