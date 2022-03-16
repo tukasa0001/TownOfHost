@@ -245,7 +245,7 @@ namespace TownOfHost {
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
                     }
-                    goto DefaultKillcooldown;
+                    break;
 
 
                 InfinityVent:
