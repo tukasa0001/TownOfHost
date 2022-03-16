@@ -11,6 +11,7 @@ namespace TownOfHost
     class SetUpRoleTextPatch {
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+            if(role.isVanilla()) return;
             __instance.RoleText.text = Utils.getRoleName(role);
             __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
             __instance.RoleText.color = Utils.getRoleColor(role);

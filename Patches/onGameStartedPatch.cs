@@ -9,6 +9,8 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {//注:この時点では役職は設定されていません。
+            PlayerState.Init();
+
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;

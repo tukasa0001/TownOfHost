@@ -27,7 +27,7 @@ namespace TownOfHost
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            return getString(Enum.GetName(typeof(PlayerState.DeathReason),status));
+            return getString("DeathReason."+Enum.GetName(typeof(PlayerState.DeathReason),status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
