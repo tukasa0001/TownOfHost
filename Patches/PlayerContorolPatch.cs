@@ -421,6 +421,7 @@ namespace TownOfHost
 
                 //変数定義
                 string RealName;
+                string DeathReason = "";
                 string Mark = "";
                 string Suffix = "";
 
@@ -476,7 +477,7 @@ namespace TownOfHost
                 }*/
 
                 //Mark・Suffixの適用
-                __instance.nameText.text = $"{RealName}{Mark}";
+                __instance.nameText.text = $"{RealName}{DeathReason}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
             }
         }

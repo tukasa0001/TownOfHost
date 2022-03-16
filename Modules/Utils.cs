@@ -369,6 +369,7 @@ namespace TownOfHost
                 || SeerKnowsImpostors //seerがインポスターを知っている状態
                 || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
                 || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                || seer.isDoctor() && !seer.Data.IsDead //seerがドクター
                 ) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
                     if(target == seer) continue;
@@ -400,8 +401,19 @@ namespace TownOfHost
                         TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                     }
 
+                    string TargetDeathReason = "";
+                    Dictionary<byte, PlayerState.DeathReason> deadList = new();
+                    foreach(var kpv in PlayerState.deathReasons)
+                    {
+                        if (seer.isDoctor() && //seerがDoctor
+                        target.Data.IsDead //変更対象が死人
+                        ) {
+                            TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getDeathReason(kpv.Value)}</color>)";
+                        }
+                    }
+
                     //全てのテキストを合成します。
-                    string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
+                    string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
                     //適用
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
