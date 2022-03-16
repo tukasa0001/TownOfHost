@@ -23,7 +23,7 @@ namespace TownOfHost
                 __instance.RoleBlurbText.color = Utils.getRoleColor(CustomRoles.Impostor);
                 __instance.YouAreText.color = Utils.getRoleColor(CustomRoles.Impostor);
             }
-            else if (PlayerControl.LocalPlayer.isEvilWatcher()){
+            else if (PlayerControl.LocalPlayer.isNiceWatcher()){
                 __instance.RoleText.text = Utils.getRoleName(CustomRoles.NiceWatcher);
             }
         }
