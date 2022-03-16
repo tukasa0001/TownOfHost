@@ -996,6 +996,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "追放されよう"},
                 {lang.MadmateInfo, "インポスターの援助をしよう"},
+                {lang.TeamImpostor, "インポスター陣営"},
                 {lang.MadGuardianInfo, "タスクを済ませ、インポスターの援助をしよう"},
                 {lang.BaitInfo, "敵を罠にはめよう"},
                 {lang.TerroristInfo, "タスクを済ませ、自爆しよう"},
@@ -1108,6 +1109,7 @@ namespace TownOfHost
                 //役職解説(短)
                 {lang.JesterInfo, "Get voted out"},
                 {lang.MadmateInfo, "Help the Impostors"},
+                {lang.TeamImpostor, "Team Impostor"},
                 {lang.MadGuardianInfo, "Finish your tasks to help the Impostors"},
                 {lang.BaitInfo, "Bait your enemies"},
                 {lang.TerroristInfo, "Die after finishing your tasks"},
@@ -1313,6 +1315,7 @@ namespace TownOfHost
         //役職解説(短)
         JesterInfo = 0,
         MadmateInfo,
+        TeamImpostor,
         BaitInfo,
         TerroristInfo,
         MafiaInfo,
