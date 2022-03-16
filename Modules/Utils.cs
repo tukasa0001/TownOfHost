@@ -59,7 +59,7 @@ namespace TownOfHost
             {
                 text = getString("DeathReason."+PlayerState.getDeathReason(player));
             } else {
-                text = getString("Living");
+                text = getString("Alive");
             }
             return text;
         }
