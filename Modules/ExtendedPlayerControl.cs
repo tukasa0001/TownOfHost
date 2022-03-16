@@ -245,7 +245,7 @@ namespace TownOfHost {
                     if(switchSystem != null && switchSystem.IsActive) {
                         opt.ImpostorLightMod /= 5;
                     }
-                    break;
+                    goto DefaultKillcooldown;
 
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
