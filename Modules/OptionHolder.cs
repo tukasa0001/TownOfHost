@@ -81,6 +81,11 @@ namespace TownOfHost
             {
                 roleCounts.Add(role, 0);
             }
+            roleSubCounts = new Dictionary<CustomSubRoles, int>();
+            foreach (var role in Enum.GetValues(typeof(CustomSubRoles)).Cast<CustomSubRoles>())
+            {
+                roleSubCounts.Add(role, 0);
+            }
         }
         public static void setRoleCount(CustomRoles role, int count) { roleCounts[role] = count; }
         public static void setRoleCount(CustomSubRoles subRole, int count) { roleSubCounts[subRole] = count; }
