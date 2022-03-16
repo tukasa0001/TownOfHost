@@ -40,11 +40,11 @@ namespace TownOfHost
             var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
+            var Doctor = new PageObject(RoleOptions, CustomRoles.Doctor);
             var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
             var Snitch = new PageObject(RoleOptions, CustomRoles.Snitch);
-            var Doctor = new PageObject(RoleOptions, CustomRoles.Doctor);
 
 
 
@@ -68,6 +68,7 @@ namespace TownOfHost
             var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {Options.MadSnitchTasks}{main.TextCursor}", true, () => { Options.MadSnitchTasks = 0; }, (n) => Utils.ChangeInt(ref Options.MadSnitchTasks, n, 99));
 
             var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedCrewmateRoleOptions"));
+            var DoctorTaskCompletedVatteryCharge = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{getString("DoctorTaskCompletedVatteryCharge")}(s)</color>: {Options.DoctorTaskCompletedVatteryCharge}{main.TextCursor}", true, () => {Options.DoctorTaskCompletedVatteryCharge = 0;}, (n) => Utils.ChangeInt(ref Options.DoctorTaskCompletedVatteryCharge, n, 10));
             var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {Options.MayorAdditionalVote}{main.TextCursor}", true, () => {Options.MayorAdditionalVote = 0;}, (n) => Utils.ChangeInt(ref Options.MayorAdditionalVote, n, 99));
             var SabotageMasterSkillLimit = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterSkillLimit")}</color>: {Options.SabotageMasterSkillLimit}{main.TextCursor}", true, () => {Options.SabotageMasterSkillLimit = 0;}, (n) => Utils.ChangeInt(ref Options.SabotageMasterSkillLimit, n, 999));
             var SabotageMasterFixesDoors = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterFixesDoors")}</color>: {Utils.getOnOff(Options.SabotageMasterFixesDoors)}", true, () => Options.SabotageMasterFixesDoors = !Options.SabotageMasterFixesDoors);
@@ -79,7 +80,6 @@ namespace TownOfHost
             var SheriffCanKillJester = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillJester")}</color>: {Utils.getOnOff(Options.SheriffCanKillJester)}", true, () => Options.SheriffCanKillJester = !Options.SheriffCanKillJester);
             var SheriffCanKillTerrorist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillTerrorist")}</color>: {Utils.getOnOff(Options.SheriffCanKillTerrorist)}", true, () => Options.SheriffCanKillTerrorist = !Options.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillOpportunist")}</color>: {Utils.getOnOff(Options.SheriffCanKillOpportunist)}", true, () => Options.SheriffCanKillOpportunist = !Options.SheriffCanKillOpportunist);
-            var DoctorTaskCompletedVatteryCharge = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{getString("DoctorTaskCompletedVatteryCharge")}(s)</color>: {Options.DoctorTaskCompletedVatteryCharge}{main.TextCursor}", true, () => {Options.DoctorTaskCompletedVatteryCharge = 0;}, (n) => Utils.ChangeInt(ref Options.DoctorTaskCompletedVatteryCharge, n, 10));
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
