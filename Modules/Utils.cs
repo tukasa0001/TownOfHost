@@ -51,6 +51,18 @@ namespace TownOfHost
 
             return (RoleText, getRoleColor(cRole));
         }
+
+        public static string getVitalText(PlayerControl player)
+        {
+            string text = null;
+            if(player.Data.IsDead)
+            {
+                text = getString("DeathReason."+PlayerState.getDeathReason(player.PlayerId));
+            } else {
+                text = getString("Living");
+            }
+            return text;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
