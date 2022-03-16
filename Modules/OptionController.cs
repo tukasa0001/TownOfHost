@@ -305,8 +305,8 @@ namespace TownOfHost
                     this.isHostOnly = false; //実行をホストのみに限定するか
                     this.onEnter = () => SetRoleCountToggle(subRole); //実行時の動作
                     this.onInput = (n) => SetRoleCount(subRole, n); //入力時の動作
-            this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
-            parent?.ChildPages.Add(this); //親のリストに自分を追加
+                    this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
+                    parent?.ChildPages.Add(this); //親のリストに自分を追加
                     break;
             }
         }
