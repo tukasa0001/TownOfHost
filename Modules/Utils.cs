@@ -52,12 +52,12 @@ namespace TownOfHost
             return (RoleText, getRoleColor(cRole));
         }
 
-        public static string getVitalText(PlayerControl player)
+        public static string getVitalText(byte player)
         {
             string text = null;
-            if(player.Data.IsDead)
+            if(PlayerState.isDead[player])
             {
-                text = getString("DeathReason."+PlayerState.getDeathReason(player.PlayerId));
+                text = getString("DeathReason."+PlayerState.getDeathReason(player));
             } else {
                 text = getString("Living");
             }
