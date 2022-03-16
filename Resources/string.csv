@@ -107,6 +107,7 @@ SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリス�
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
+DoctorTaskCompletedVatteryCharge,Doctor TaskCompletedVattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール

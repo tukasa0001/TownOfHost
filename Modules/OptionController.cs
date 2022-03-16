@@ -79,6 +79,7 @@ namespace TownOfHost
             var SheriffCanKillJester = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillJester")}</color>: {Utils.getOnOff(Options.SheriffCanKillJester)}", true, () => Options.SheriffCanKillJester = !Options.SheriffCanKillJester);
             var SheriffCanKillTerrorist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillTerrorist")}</color>: {Utils.getOnOff(Options.SheriffCanKillTerrorist)}", true, () => Options.SheriffCanKillTerrorist = !Options.SheriffCanKillTerrorist);
             var SheriffCanKillOpportunist = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{getString("SheriffCanKillOpportunist")}</color>: {Utils.getOnOff(Options.SheriffCanKillOpportunist)}", true, () => Options.SheriffCanKillOpportunist = !Options.SheriffCanKillOpportunist);
+            var DoctorTaskCompletedVatteryCharge = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{getString("DoctorTaskCompletedVatteryCharge")}(s)</color>: {Options.DoctorTaskCompletedVatteryCharge}{main.TextCursor}", true, () => {Options.DoctorTaskCompletedVatteryCharge = 0;}, (n) => Utils.ChangeInt(ref Options.DoctorTaskCompletedVatteryCharge, n, 10));
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
