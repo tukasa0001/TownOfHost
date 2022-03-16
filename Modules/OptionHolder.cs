@@ -57,7 +57,7 @@ namespace TownOfHost
         public static bool SheriffCanKillMadmate = true;
         public static int MayorAdditionalVote = 1;
         public static int SnitchExposeTaskLeft = 1;
-        public static bool MadmateVisionAsImpostor = true;
+        public static bool MadmateHasImpostorVision = true;
         public static bool MadmateCanFixLightsOut = false;
         public static bool MadmateCanFixComms = false;
         public static bool MadGuardianCanSeeWhoTriedToKill = false;
