@@ -179,7 +179,7 @@ namespace TownOfHost
                 }
                 if(CustomRoles.MadGuardian.isEnable() || CustomRoles.MadSnitch.isEnable() || CustomRoles.Madmate.isEnable() || CustomRoles.SKMadmate.isEnable() )
                 {
-                    if(Options.MadmateVisionAsImpostor) text += String.Format("\n{0}:{1}",getString("MadmateVisionAsImpostor"),getOnOff(Options.MadmateVisionAsImpostor));
+                    if(Options.MadmateHasImpostorVision) text += String.Format("\n{0}:{1}",getString("MadmateHasImpostorVision"),getOnOff(Options.MadmateHasImpostorVision));
                     if(Options.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",getString("MadmateCanFixLightsOut"),getOnOff(Options.MadmateCanFixLightsOut));
                     if(Options.MadmateCanFixComms) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(Options.MadmateCanFixComms));
                 }

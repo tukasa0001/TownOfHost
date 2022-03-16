@@ -90,7 +90,7 @@ VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時�
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直すことができる
-MadmateVisionAsImpostor,Madmate vision is as long as Impostor one,マッドメイトの視野がインポスターと同じ
+MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメイトの視野がインポスターと同じ
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
