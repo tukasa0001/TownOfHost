@@ -99,7 +99,8 @@ namespace TownOfHost
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
-
+            foreach(var pc in PlayerControl.AllPlayerControls)
+                Logger.info($"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}");
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
