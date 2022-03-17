@@ -227,6 +227,7 @@ namespace TownOfHost
                 +"\n/h now - 現在有効な設定の説明を表示"
                 +"\n/h roles <役職名> - 役職の説明を表示"
                 +"\n/h modes <モード名> - モードの説明を表示"
+                +"\n/dump - デスクトップにログを出力"
                 );
 
         }
