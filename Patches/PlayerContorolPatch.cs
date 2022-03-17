@@ -213,8 +213,9 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
-
-
+            if(!IntroTypes.Impostor.isLastImpostor()) {
+                main.AliveImpostorCount = Utils.NumOfAliveImpostors(main.AliveImpostorCount);
+            }
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============

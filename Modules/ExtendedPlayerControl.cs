@@ -259,6 +259,19 @@ namespace TownOfHost {
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
             switch(introType) {
+                case IntroTypes.Impostor:
+                    if(IntroTypes.Impostor.isLastImpostor() &&
+                        Options.EnableLastImpostor &&
+                        !player.isVampire() &&
+                        !player.isBountyHunter() &&
+                        !player.isSerialKiller()
+                        ) {
+                        if(opt.KillCooldown > Options.LastImpostorKillCooldownDiscount)
+                            opt.KillCooldown -= Options.LastImpostorKillCooldownDiscount;
+                        else
+                            opt.KillCooldown = 1;
+                    }
+                    break;
                 case IntroTypes.Madmate:
                     if(Options.MadmateHasImpostorVision) {
                         opt.CrewLightMod = opt.ImpostorLightMod;

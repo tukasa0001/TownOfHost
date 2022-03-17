@@ -74,6 +74,8 @@ SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can 
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+LastImpostorInfo,"LastImpostor:\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",ラストインポスター:\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostor,Last Impostor,ラストインポスター
 HideAndSeek,HideAndSeek,鬼ごっこ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
@@ -85,6 +87,8 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
+EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
+LastImpostorKillCooldownDiscount,LastImpostor KillCooldown Discount,ラストインポスターの減少キルクール
 BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール

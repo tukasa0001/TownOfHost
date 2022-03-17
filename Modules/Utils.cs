@@ -138,6 +138,7 @@ namespace TownOfHost
                     if(role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
                     if(role.isEnable()) SendMessage(getRoleName(role)+getString(Enum.GetName(typeof(CustomRoles),role)+"InfoLong"));
                 }
+                if(Options.EnableLastImpostor) { SendMessage(getString( "LastImpostor")+getString( "LastImpostorInfo")); }
             }
             if(Options.NoGameEnd){ SendMessage(getString("NoGameEndInfo")); }
         }
@@ -193,8 +194,9 @@ namespace TownOfHost
                 if(Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenSkipVote"),Options.whenSkipVote);
                 if(Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenNonVote"),Options.whenNonVote);
                 if((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}",getString("CanTerroristSuicideWin"),Options.canTerroristSuicideWin);
+                if(Options.EnableLastImpostor) text = String.Format("\n{0}:{1}",getString("LastImpostorKillCooldownDiscount"),Options.LastImpostorKillCooldownDiscount);
             }
-            if(Options.NoGameEnd)text += String.Format("\n{0}:{1}",getString("NoGameEnd"),getOnOff(Options.NoGameEnd));;
+            if(Options.NoGameEnd)text += String.Format("\n{0}:{1}",getString("NoGameEnd"),getOnOff(Options.NoGameEnd));
             SendMessage(text);
         }
         public static void ShowLastRoles()
@@ -226,6 +228,7 @@ namespace TownOfHost
                 +"\n/now - 現在有効な設定を表示"
                 +"\n/h now - 現在有効な設定の説明を表示"
                 +"\n/h roles <役職名> - 役職の説明を表示"
+                +"\n/h attributes <属性名> - 属性の説明を表示"
                 +"\n/h modes <モード名> - モードの説明を表示"
                 +"\n/dump - デスクトップにログを出力"
                 );
@@ -423,6 +426,17 @@ namespace TownOfHost
             var tmp = ChangeTo * 10;
             tmp += input;
             ChangeTo = Math.Clamp(tmp,0,max);
+        }
+        public static int NumOfAliveImpostors(int AliveImpostorCount)
+        {
+            AliveImpostorCount = 0;
+            foreach(var pc in PlayerControl.AllPlayerControls) {
+                CustomRoles pc_role = pc.getCustomRole();
+                if(pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
+            }
+            main.AliveImpostorCount = AliveImpostorCount;
+            TownOfHost.Logger.info("生存しているインポスター:" + main.AliveImpostorCount + "人");
+            return AliveImpostorCount;
         }
     }
 }

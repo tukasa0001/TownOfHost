@@ -36,6 +36,8 @@ namespace TownOfHost
         public static bool AddedTheAirShip;
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
+        public static bool EnableLastImpostor = false;
+        public static int LastImpostorKillCooldownDiscount = 15;
         public static int ShapeMasterShapeshiftDuration = 10;
         public static int SerialKillerCooldown = 20;
         public static int SerialKillerLimit = 60;

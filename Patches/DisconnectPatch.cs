@@ -9,6 +9,8 @@ namespace TownOfHost
         {
             main.VisibleTasksCount = false;
             main.OptionControllerIsEnable = false;
+            if(!IntroTypes.Impostor.isLastImpostor())
+                main.AliveImpostorCount = Utils.NumOfAliveImpostors(main.AliveImpostorCount);
         }
     }
 }

@@ -43,14 +43,14 @@ namespace TownOfHost {
                 role == CustomRoles.Sheriff;
 
             if(role == CustomRoles.Mafia) {
-                int AliveImpostorCount = 0;
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    CustomRoles pc_role = pc.getCustomRole();
-                    if(pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
-                }
-                if(AliveImpostorCount > 0) canUse = false;
+                if(!IntroTypes.Impostor.isLastImpostor()) canUse = false;
             }
             return canUse;
+        }
+        public static bool isLastImpostor(this IntroTypes introTypes) {
+            if(Utils.NumOfAliveImpostors(main.AliveImpostorCount) == 1)
+                return true;
+            return false;
         }
         public static IntroTypes getIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
