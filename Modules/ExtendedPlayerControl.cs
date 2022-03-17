@@ -266,8 +266,8 @@ namespace TownOfHost {
                         !player.isBountyHunter() &&
                         !player.isSerialKiller()
                         ) {
-                        if(opt.KillCooldown > Options.LastImpostorKillCooldownDiscount)
-                            opt.KillCooldown -= Options.LastImpostorKillCooldownDiscount;
+                        if(opt.KillCooldown > Options.LastImpostorKillCooldown)
+                            opt.KillCooldown = Options.LastImpostorKillCooldown;
                         else
                             opt.KillCooldown = 1;
                     }

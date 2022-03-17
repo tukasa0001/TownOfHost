@@ -88,7 +88,7 @@ AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
-LastImpostorKillCooldownDiscount,LastImpostor KillCooldown Discount,ラストインポスターの減少キルクール
+LastImpostorKillCooldown,LastImpostor KillCooldown Discount,ラストインポスターの減少キルクール
 BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール

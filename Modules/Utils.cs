@@ -194,7 +194,7 @@ namespace TownOfHost
                 if(Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenSkipVote"),Options.whenSkipVote);
                 if(Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenNonVote"),Options.whenNonVote);
                 if((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}",getString("CanTerroristSuicideWin"),Options.canTerroristSuicideWin);
-                if(Options.EnableLastImpostor) text = String.Format("\n{0}:{1}",getString("LastImpostorKillCooldownDiscount"),Options.LastImpostorKillCooldownDiscount);
+                if(Options.EnableLastImpostor) text = String.Format("\n{0}:{1}",getString("LastImpostorKillCooldown"),Options.LastImpostorKillCooldown);
             }
             if(Options.NoGameEnd)text += String.Format("\n{0}:{1}",getString("NoGameEnd"),getOnOff(Options.NoGameEnd));
             SendMessage(text);
