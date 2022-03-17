@@ -158,7 +158,7 @@ namespace TownOfHost
                 }
 
                 if(!target.canBeKilledBySheriff()) {
-                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Misfire);
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
