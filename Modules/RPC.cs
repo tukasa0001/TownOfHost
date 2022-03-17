@@ -79,7 +79,7 @@ namespace TownOfHost
                     bool IgnoreCosmetics = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
-                    bool MadmateVisionAsImpostor = reader.ReadBoolean();
+                    bool MadmateHasImpostorVision = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
                     bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
                     int MadSnitchTasks = reader.ReadInt32();
@@ -131,7 +131,7 @@ namespace TownOfHost
                         IgnoreCosmetics,
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
-                        MadmateVisionAsImpostor,
+                        MadmateHasImpostorVision,
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
@@ -228,7 +228,7 @@ namespace TownOfHost
                 bool IgnoreCosmetics,
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
-                bool MadmateVisionAsImpostor,
+                bool MadmateHasImpostorVision,
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
@@ -289,7 +289,7 @@ namespace TownOfHost
             Options.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
             Options.MadmateCanFixComms = MadmateCanFixComms;
             Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            Options.MadmateVisionAsImpostor = MadmateVisionAsImpostor;
+            Options.MadmateHasImpostorVision = MadmateHasImpostorVision;
             Options.CanMakeMadmateCount = CanMakeMadmateCount;
             Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             Options.MadSnitchTasks = MadSnitchTasks;
@@ -334,7 +334,7 @@ namespace TownOfHost
             writer.Write(Options.IgnoreCosmetics);
             writer.Write(Options.MadmateCanFixLightsOut);
             writer.Write(Options.MadmateCanFixComms);
-            writer.Write(Options.MadmateVisionAsImpostor);
+            writer.Write(Options.MadmateHasImpostorVision);
             writer.Write(Options.CanMakeMadmateCount);
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
             writer.Write(Options.MadSnitchTasks);

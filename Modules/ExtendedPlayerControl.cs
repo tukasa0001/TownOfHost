@@ -170,18 +170,7 @@ namespace TownOfHost {
 
             switch(player.getCustomRole()) {
                 case CustomRoles.Madmate:
-                    if(Options.MadmateVisionAsImpostor){
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var mm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if(mm != null && mm.IsActive) {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
                     goto InfinityVent;
-                case CustomRoles.MadGuardian:
-                case CustomRoles.SKMadmate:
-                case CustomRoles.MadSnitch:
-                    goto MadmateVision;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
@@ -246,6 +235,15 @@ namespace TownOfHost {
                         opt.ImpostorLightMod /= 5;
                     }
                     goto DefaultKillcooldown;
+                case CustomRoles.Lighter:
+                    if(player.getPlayerTaskState().isTaskFinished){
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(li != null && li.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -257,24 +255,17 @@ namespace TownOfHost {
                         opt.KillCooldown = Options.BHDefaultKillCooldown;
                     }
                     break;
-                MadmateVision://マッドメイトの視野をインポスターと同じにする処理
-                    if(Options.MadmateVisionAsImpostor){
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var sm = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if(sm != null && sm.IsActive) {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
-                    break;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
             switch(introType) {
                 case IntroTypes.Madmate:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if(switchSystem != null && switchSystem.IsActive) {
-                        opt.CrewLightMod *= 5;
+                    if(Options.MadmateHasImpostorVision) {
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if(switchSystem != null && switchSystem.IsActive) {
+                            opt.CrewLightMod *= 5;
+                        }
                     }
                     break;
             }
@@ -315,7 +306,7 @@ namespace TownOfHost {
             AllTasksCount = Math.Min(adjustedTasksCount, AllTasksCount);
             //調整後のタスク量までしか表示しない
             CompletedTaskCount = Math.Min(AllTasksCount, CompletedTaskCount);
-            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
+            Logger.info($"{player.name}: {CompletedTaskCount}/{AllTasksCount}","TaskCounts");
             return new TaskState(AllTasksCount, CompletedTaskCount);
         }
 
