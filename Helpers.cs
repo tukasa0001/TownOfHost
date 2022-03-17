@@ -46,4 +46,27 @@ namespace TownOfHost {
             return _callLoadImage.Invoke(tex.Pointer, il2cppArray.Pointer, markNonReadable);
         }
     }
+
+    public class PlayerVersion
+    {
+        public readonly Version version;
+        public readonly int beta_ver;
+        public readonly string tag;
+        public PlayerVersion(int major, int minor, int patch, int revision, int beta, string tag_str)
+        {
+            version = new Version(major,minor,patch,revision);
+            beta_ver = beta;
+            tag = tag_str;
+        }
+        public PlayerVersion(Version ver, int beta, string tag_str)
+        {
+            version = ver;
+            beta_ver = beta;
+            tag = tag_str;
+        }
+        public bool isEqual(PlayerVersion pv)
+        {
+            return (pv.version == version && pv.beta_ver == beta_ver && pv.tag == tag);
+        }
+    }
 }
