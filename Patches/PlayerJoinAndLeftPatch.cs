@@ -17,7 +17,6 @@ namespace TownOfHost {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason) {
             Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             main.RealNames.Remove(data.Character.PlayerId);
-            Logger.info("切断理由:" + reason.ToString());
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             PlayerState.isDead[data.Character.PlayerId] = true;
             Logger.info("切断理由:" + reason.ToString());
