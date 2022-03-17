@@ -186,6 +186,12 @@ Decision : Crewmate<br>
 
 When the Baits are killed, they can force the player who killed them to report their bodies.<br>
 
+### Lighter
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+
 ### Mayor
 
 Team : Crewmates<br>
