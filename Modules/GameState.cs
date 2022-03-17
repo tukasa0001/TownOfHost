@@ -37,6 +37,7 @@ namespace TownOfHost {
             Suicide,
             Spell,
             Bite,
+            Misfire,
             etc = -1
         }
     }

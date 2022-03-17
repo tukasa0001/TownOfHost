@@ -147,10 +147,11 @@ Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
 DeathReason.Kill,Kill,死亡
-DeathReason.Vote,Vote,追放
+DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
 DeathReason.Bite,Bited,噛殺
+DeathReason.Misfire,Misfire,誤爆
 DeathReason.etc,Living,生存
 Win,Wins,勝利
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
