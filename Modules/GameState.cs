@@ -38,6 +38,7 @@ namespace TownOfHost {
             Spell,
             Bite,
             Misfire,
+            Disconnected,
             etc = -1
         }
     }
