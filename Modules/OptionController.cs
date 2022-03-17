@@ -41,6 +41,7 @@ namespace TownOfHost
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
             var Doctor = new PageObject(RoleOptions, CustomRoles.Doctor);
+            var Lighter = new PageObject(RoleOptions, CustomRoles.Lighter);
             var Mayor = new PageObject(RoleOptions, CustomRoles.Mayor);
             var SabotageMaster = new PageObject(RoleOptions, CustomRoles.SabotageMaster);
             var Sheriff = new PageObject(RoleOptions, CustomRoles.Sheriff);
@@ -63,7 +64,7 @@ namespace TownOfHost
             var MadmateCanFixLightsOut = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixLightsOut")}</color>: {Utils.getOnOff(Options.MadmateCanFixLightsOut)}", true, () => {Options.MadmateCanFixLightsOut = !Options.MadmateCanFixLightsOut;});
             var MadmateCanFixComms = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateCanFixComms")}</color>: {Utils.getOnOff(Options.MadmateCanFixComms)}", true, () => { Options.MadmateCanFixComms = !Options.MadmateCanFixComms; });
             var MadGuardianCanSeeBarrier = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.MadGuardian)}>{getString("MadGuardianCanSeeWhoTriedToKill")}</color>: {Utils.getOnOff(Options.MadGuardianCanSeeWhoTriedToKill)}", true, () => {Options.MadGuardianCanSeeWhoTriedToKill = !Options.MadGuardianCanSeeWhoTriedToKill;});
-            var MadmateVisionAsImpostor = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateVisionAsImpostor")}</color>: {Utils.getOnOff(Options.MadmateVisionAsImpostor)}", true, () => {Options.MadmateVisionAsImpostor = !Options.MadmateVisionAsImpostor;});
+            var MadmateHasImpostorVision = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateHasImpostorVision")}</color>: {Utils.getOnOff(Options.MadmateHasImpostorVision)}", true, () => {Options.MadmateHasImpostorVision = !Options.MadmateHasImpostorVision;});
             var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {Options.CanMakeMadmateCount}{main.TextCursor}", true, () => {Options.CanMakeMadmateCount = 0;}, (n) => Utils.ChangeInt(ref Options.CanMakeMadmateCount, n, 999));
             var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {Options.MadSnitchTasks}{main.TextCursor}", true, () => { Options.MadSnitchTasks = 0; }, (n) => Utils.ChangeInt(ref Options.MadSnitchTasks, n, 99));
 

@@ -1,3 +1,4 @@
+
 using HarmonyLib;
 
 namespace TownOfHost
@@ -36,8 +37,8 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
 
             Utils.NotifyRoles();
-            if(PlayerControl.LocalPlayer.isDoctor())
-                Utils.CustomSyncAllSettings();
+            if(PlayerControl.LocalPlayer.isDoctor() || CustomRoles.Lighter.isEnable())
+                Utils.CustomSyncAllSettings(); //ライターかドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
+            }
         }
     }
-}

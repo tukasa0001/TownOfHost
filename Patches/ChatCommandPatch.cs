@@ -1,3 +1,4 @@
+using System.IO;
 using Hazel;
 using HarmonyLib;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 main.isChatCommand = true;
+                Logger.info(text,"SendChat");
                 switch (args[0])
                 {
                     case "/win":
@@ -64,6 +66,17 @@ namespace TownOfHost
                                 break;
                         }
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
+                        break;
+
+                    case "/dump":
+                        canceled = true;
+                        string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
+                        string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
+                        FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+                        file.CopyTo(@filename);
+                        System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+                        Logger.info($"{filename}にログを保存しました。");
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                         break;
 
                     case "/h":
@@ -146,67 +159,67 @@ namespace TownOfHost
             {
                 case "jester":
                 case "je":
-                    Utils.SendMessage(getString("JesterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Jester)+getString("JesterInfoLong"));
                     break;
 
                 case "madmate":
                 case "mm":
-                    Utils.SendMessage(getString("MadmateInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Madmate)+getString("MadmateInfoLong"));
                     break;
 
                 case "sidekickmadmate":
                 case "sm":
-                    Utils.SendMessage(getString("SKMadmateInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SKMadmate)+getString("SKMadmateInfoLong"));
                     break;
 
                 case "bait":
                 case "ba":
-                    Utils.SendMessage(getString("BaitInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Bait)+getString("BaitInfoLong"));
                     break;
 
                 case "terrorist":
                 case "te":
-                    Utils.SendMessage(getString("TerroristInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Terrorist)+getString("TerroristInfoLong"));
                     break;
 
                 case "mafia":
                 case "mf":
-                    Utils.SendMessage(getString("MafiaInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia)+getString("MafiaInfoLong"));
                     break;
 
                 case "vampire":
                 case "va":
-                    Utils.SendMessage(getString("VampireInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Vampire)+getString("VampireInfoLong"));
                     break;
 
                 case "sabotagemaster":
                 case "sa":
-                    Utils.SendMessage(getString("SabotageMasterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SabotageMaster)+getString("SabotageMasterInfoLong"));
                     break;
 
                 case "mayor":
                 case "my":
-                    Utils.SendMessage(getString("MayorInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mayor)+getString("MayorInfoLong"));
                     break;
 
                 case "madguardian":
                 case "mg":
-                    Utils.SendMessage(getString("MadGuardianInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian)+getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    Utils.SendMessage(getString("MadSnitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch)+getString("MadSnitchInfoLong"));
                     break;
 
                 case "opportunist":
                 case "op":
-                    Utils.SendMessage(getString("OpportunistInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Opportunist)+getString("OpportunistInfoLong"));
                     break;
 
                 case "snitch":
                 case "sn":
-                    Utils.SendMessage(getString("SnitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Snitch)+getString("SnitchInfoLong"));
                     break;
 
                 case "doctor":
@@ -216,46 +229,51 @@ namespace TownOfHost
 
                 case "sheriff":
                 case "sh":
-                    Utils.SendMessage(getString("SheriffInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Sheriff)+getString("SheriffInfoLong"));
                     break;
 
                 case "bountyhunter":
                 case "bo":
-                    Utils.SendMessage(getString("BountyHunterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.BountyHunter)+getString("BountyHunterInfoLong"));
                     break;
                 
                 case "witch":
                 case "wi":
-                    Utils.SendMessage(getString("WitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Witch)+getString("WitchInfoLong"));
                     break;
 
                 case "shapemaster":
                 case "sha":
-                    Utils.SendMessage(getString("ShapeMasterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.ShapeMaster)+getString("ShapeMasterInfoLong"));
                     break;
                 
                 case "warlock":
                 case "wa":
-                    Utils.SendMessage(getString("WarlockInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Warlock)+getString("WarlockInfoLong"));
                     break;
 
                 case "serialkiller":
                 case "sk":
-                    Utils.SendMessage(getString("SerialKillerInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller)+getString("SerialKillerInfoLong"));
+                    break;
+
+                case "Lighter":
+                case "li":
+                    Utils.SendMessage(getString("LighterInfoLong"));
                     break;
 
                 case "fox":
                 case "fo":
-                    Utils.SendMessage(getString("FoxInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox)+getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    Utils.SendMessage(getString("TrollInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll)+getString("TrollInfoLong"));
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn), doctor(doc),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha),fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn), doctor(doc),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li), fox(fo), troll(tr)");
                     break;
             }
 
