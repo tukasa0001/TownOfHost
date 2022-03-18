@@ -262,6 +262,7 @@ namespace TownOfHost
     {
         Default,
         Suicide,
-        SelfVote
+        SelfVote,
+        Skip
     }
 }
