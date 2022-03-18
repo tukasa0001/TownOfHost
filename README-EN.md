@@ -36,7 +36,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | Down | Cursor Down |
 | Right | Execute Item |
 | Left | Go Back One |
-| Number | Enter A Value |
+| Number(Numpad) | Enter A Value |
 
 ## Roles
 
@@ -104,7 +104,9 @@ They can not kill or sabotage, but they can use vents.<br>
 
 | Settings Name |
 |----------|
-| Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
+| Madmate Type Roles Can Fix Lights Out |
+| Madmate Type Roles Can Fix Comms |
+| Madmate Type Roles Have Impostor Vision |
 
 ### MadGuardian
 
@@ -120,8 +122,11 @@ They can not kill, sabotage, and using vents.<br>
 
 | Settings Name |
 |----------|
-| [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
-| MadGuardian Can See Own Cracked Barrier |
+| Madmate Type Roles Can Fix Lights Out |
+| Madmate Type Roles Can Fix Comms |
+| Madmate Type Roles Have Impostor Vision |
+| MadGuardian Can See Who Tried To Kill |
+| Amount Of Tasks By MadGuardian |
 
 ### Bait
 
@@ -177,9 +182,11 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Kill Cooldown |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill Madmate Type Roles |
 
 ### Snitch
 
@@ -188,6 +195,12 @@ Decision : Crewmate<br>
 
 When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Amount Of Tasks By Snitch |
 
 ### Jester
 
@@ -216,6 +229,12 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Amount Of Tasks By Terrorist |
 
 ## Mode
 
@@ -309,25 +328,40 @@ This is the mode in which all players' button counts are synchronised.<br>
 |----------|
 | Max Button Count |
 
-## OtherSettings
+### VoteMode
+
+This mode changes the behaviour when certain votes are cast.
+
+#### Settings
 
 | Settings Name |
 |----------|
 | When Skip Vote |
 | When Non-Vote |
+| Can Terrorist Suicide Win |
 
-#### Client Settings
-## HideCodes
+## OtherSettings
+
+| Settings Name |
+|----------|
+| Suffix |
+| Force Japanese |
+| Auto Display Last Result |
+
+## Client Settings
+
+### HideGameCodes
 
 By activating, you can hide the lobby code.
 
 You can rewrite the``Hide Game Code Name``in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
 You can also change the text color as you like by rewriting``Hide Game Code Color``.
 
-## JapaneseRoleName
+### JapaneseRoleName
 
 By activating, the job title can be displayed in Japanese.
 If the client language is English, this setting is meaningless unless the host has``ForceJapanese``enabled.
+
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
