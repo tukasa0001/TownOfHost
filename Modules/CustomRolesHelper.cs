@@ -28,6 +28,15 @@ namespace TownOfHost {
                 role == CustomRoles.Troll ||
                 role == CustomRoles.Fox;
         }
+        public static bool isVanilla(this CustomRoles role) {
+            return
+                role == CustomRoles.Crewmate ||
+                role == CustomRoles.Engineer ||
+                role == CustomRoles.Scientist ||
+                role == CustomRoles.GuardianAngel ||
+                role == CustomRoles.Impostor ||
+                role == CustomRoles.Shapeshifter;
+        }
         public static bool CanUseKillButton(this CustomRoles role) {
             bool canUse =
                 role.isImpostor() ||

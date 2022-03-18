@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System;
@@ -28,6 +29,7 @@ namespace TownOfHost
         public static List<string> disableList = new List<string>();
         public static List<string> sendToGameList = new List<string>();
         public static List<string> sendToWebhookList = new List<string>();
+        public static bool isDetail = false;
         public static void enable() => isEnable = true;
         public static void disable() => isEnable = false;
         public static void enable(string tag, bool toGame = false, bool toWebhook = false)
@@ -53,33 +55,41 @@ namespace TownOfHost
             if(DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
             //SendToFile("<InGame>" + text);
         }
-        public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag ="")
+        public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag = "")
         {
             if(!isEnable || disableList.Contains(tag)) return;
             string t = DateTime.Now.ToString("HH:mm:ss");
             if(sendToGameList.Contains(tag)) SendInGame($"[{tag}]{text}");
             if(sendToWebhookList.Contains(tag)) webhook.send($"[{t}][{tag}]{text}");
+            string log_text = $"[{t}][{tag}]{text}";
+            if(isDetail && main.AmDebugger.Value)
+            {
+                StackFrame stack = new StackFrame(2);
+                string class_name = stack.GetMethod().ReflectedType.Name;
+                string method_name = stack.GetMethod().Name;
+                log_text = $"[{t}][{class_name}.{method_name}][{tag}]{text}";
+            }
             var logger = main.Logger;
             switch (level)
             {
                 case LogLevel.Normal:
-                    logger.LogInfo($"[{t}][{tag}]{text}");
+                    logger.LogInfo(log_text);
                     break;
                 case LogLevel.Warning:
-                    logger.LogWarning($"[{t}][{tag}]{text}");
+                    logger.LogWarning(log_text);
                     break;
                 case LogLevel.Error:
-                    logger.LogError($"[{t}][{tag}]{text}");
+                    logger.LogError(log_text);
                     break;
                 case LogLevel.Fatal:
-                    logger.LogFatal($"[{t}][{tag}]{text}");
+                    logger.LogFatal(log_text);
                     break;
                 case LogLevel.Message:
-                    logger.LogMessage($"[{t}][{tag}]{text}");
+                    logger.LogMessage(log_text);
                     break;
                 default:
                     logger.LogWarning("Error:Invalid LogLevel");
-                    logger.LogInfo($"[{t}][{tag}]{text}");
+                    logger.LogInfo(log_text);
                     break;
             }
         }

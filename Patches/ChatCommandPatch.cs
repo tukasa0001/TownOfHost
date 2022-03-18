@@ -1,3 +1,4 @@
+using System.IO;
 using Hazel;
 using HarmonyLib;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 main.isChatCommand = true;
+                Logger.info(text,"SendChat");
                 switch (args[0])
                 {
                     case "/win":
@@ -64,6 +66,17 @@ namespace TownOfHost
                                 break;
                         }
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
+                        break;
+
+                    case "/dump":
+                        canceled = true;
+                        string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
+                        string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
+                        FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+                        file.CopyTo(@filename);
+                        System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+                        Logger.info($"{filename}にログを保存しました。");
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                         break;
 
                     case "/h":
@@ -177,7 +190,7 @@ namespace TownOfHost
 
                 case "mafia":
                 case "mf":
-                    Utils.SendMessage(getString("MafiaInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia)+getString("MafiaInfoLong"));
                     break;
 
                 case "madmate":
@@ -187,12 +200,12 @@ namespace TownOfHost
                 
                 case "madguardian":
                 case "mg":
-                    Utils.SendMessage(getString("MadGuardianInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian)+getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    Utils.SendMessage(getString("MadSnitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch)+getString("MadSnitchInfoLong"));
                     break;
 
                 case "sidekickmadmate":
@@ -204,6 +217,11 @@ namespace TownOfHost
                 case "bait":
                 case "ba":
                     Utils.SendMessage(getString("BaitInfoLong"));
+                    break;
+
+                case "Lighter":
+                case "li":
+                    Utils.SendMessage(getString("LighterInfoLong"));
                     break;
                 
                 case "mayor":
@@ -218,7 +236,7 @@ namespace TownOfHost
 
                 case "sheriff":
                 case "sh":
-                    Utils.SendMessage(getString("SheriffInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Sheriff)+getString("SheriffInfoLong"));
                     break;
                     
                 case "snitch":
@@ -235,6 +253,7 @@ namespace TownOfHost
                 case "opportunist":
                 case "op":
                     Utils.SendMessage(getString("OpportunistInfoLong"));
+
                     break;
 
                 case "terrorist":
@@ -250,12 +269,12 @@ namespace TownOfHost
                 ///hide and seek
                 case "fox":
                 case "fo":
-                    Utils.SendMessage(getString("FoxInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox)+getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    Utils.SendMessage(getString("TrollInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll)+getString("TrollInfoLong"));
                     break;
 
                 default:
@@ -267,7 +286,7 @@ namespace TownOfHost
                     canUseArguments += "madmate(mm), madguardian(mg), madsnitch(msn), sidekickmadmate(sm)" + "\n";
 
                     canUseArguments += getString("ExplanationCrewmateTeam") + "\n";
-                    canUseArguments += "bait(ba), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn)" + "\n";
+                    canUseArguments += "bait(ba), lighter(li), mayor(my), sabotagemaster(sa), sheriff(sh), snitch(sn)" + "\n";
 
                     canUseArguments += getString("ExplanationNeutralTeam") + "\n";
                     canUseArguments += "jester(je), opportunist(op), terrorist(te), Lovers(lo)" + "\n";

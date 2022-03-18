@@ -11,12 +11,13 @@ namespace TownOfHost
     class SetUpRoleTextPatch {
         public static void Postfix(IntroCutscene __instance) {
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+            if(role.isVanilla()) return;
             __instance.RoleText.text = Utils.getRoleName(role);
             __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
             __instance.RoleText.color = Utils.getRoleColor(role);
             __instance.RoleBlurbText.color = Utils.getRoleColor(role);
+            __instance.YouAreText.color = Utils.getRoleColor(role);
 
-            if(PlayerControl.LocalPlayer.isSheriff()) __instance.YouAreText.color = Palette.CrewmateBlue; //シェリフ専用
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
@@ -46,6 +47,9 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
                     break;
                 case IntroTypes.Madmate:
+                    __instance.TeamTitle.text = getString("Madmate");
+                    __instance.TeamTitle.color = Utils.getRoleColor(CustomRoles.Madmate);
+                    __instance.ImpostorText.text = getString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
