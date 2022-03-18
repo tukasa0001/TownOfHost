@@ -146,6 +146,7 @@ VoteMode,VoteMode,投票モード
 Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
+Skip,Skip,スキップ
 DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
