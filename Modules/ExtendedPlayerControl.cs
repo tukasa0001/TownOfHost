@@ -266,10 +266,7 @@ namespace TownOfHost {
                         !player.isBountyHunter() &&
                         !player.isSerialKiller()
                         ) {
-                        if(opt.KillCooldown > Options.LastImpostorKillCooldown)
-                            opt.KillCooldown = Options.LastImpostorKillCooldown;
-                        else
-                            opt.KillCooldown = 1;
+                        opt.KillCooldown = Options.LastImpostorKillCooldown;
                     }
                     break;
                 case IntroTypes.Madmate:
