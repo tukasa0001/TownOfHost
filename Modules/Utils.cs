@@ -51,6 +51,18 @@ namespace TownOfHost
 
             return (RoleText, getRoleColor(cRole));
         }
+
+        public static string getVitalText(byte player)
+        {
+            string text = null;
+            if(PlayerState.isDead[player])
+            {
+                text = getString("DeathReason."+PlayerState.getDeathReason(player));
+            } else {
+                text = getString("Alive");
+            }
+            return text;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -204,14 +216,14 @@ namespace TownOfHost
             foreach(var id in main.winnerList)
             {
                 text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
                 text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
             }
             SendMessage(text);
         }
