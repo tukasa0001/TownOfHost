@@ -24,6 +24,7 @@ namespace TownOfHost
             MeetingHud.VoterState[] states;
             GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
             bool tie = false;
+            recall = false;
 
             List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
             for(var i = 0; i < __instance.playerStates.Length; i++) {
@@ -107,6 +108,20 @@ namespace TownOfHost
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
             __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+            foreach(var p in main.SpelledPlayer)
+            {
+                PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                main.IgnoreReportPlayers.Add(p.PlayerId);
+                p.RpcMurderPlayer(p);
+                recall = true;
+            }
+            foreach(var p in main.CursedPlayerDie)
+            {
+                PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                main.IgnoreReportPlayers.Add(p.PlayerId);
+                p.RpcMurderPlayer(p);
+                recall = true;
+            }
 
             //霊界用暗転バグ対処
             foreach(var pc in PlayerControl.AllPlayerControls)
