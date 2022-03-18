@@ -68,6 +68,23 @@ Decision : Impostor or Crewmates<br>
 |----------|
 | EvilWatcherChance |
 
+### BountyHunter
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
+If they kill the player who is not their target, they will keep their next kill cooldown.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Time to change target(s) |
+| Cooldown time after killing the target(s) |
+| Cooldown time after killing anything other than the target(s) |
+| Kill cooldown time other than BountyHunter(s) |
+
 ### SerialKiller
 
 Team : Impostor<br>
@@ -136,23 +153,6 @@ The Mafias can initially use vents, sabotage, and transformations, but they can 
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
-
-### BountyHunter
-
-Team : Impostors<br>
-Decision : Impostor<br>
-
-If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
-If they kill the player who is not their target, they will keep their next kill cooldown.<br>
-
-#### Settings
-
-| Settings Name |
-|----------|
-| Time to change target(s) |
-| Cooldown time after killing the target(s) |
-| Cooldown time after killing anything other than the target(s) |
-| Kill cooldown time other than BountyHunter(s) |
 
 ### Madmate
 
