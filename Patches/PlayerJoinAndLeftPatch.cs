@@ -9,7 +9,7 @@ namespace TownOfHost {
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            new LateTask(() => RPCProcedure.RpcVersionCheck(),0.5f,"RpcVersionCheck");
+            new LateTask(() => RPC.RpcVersionCheck(),0.5f,"RpcVersionCheck");
 
             NameColorManager.Begin();
         }
@@ -18,7 +18,7 @@ namespace TownOfHost {
     class OnPlayerJoinedPatch {
         public static void Postfix(AmongUsClient __instance) {
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            RPCProcedure.RpcVersionCheck();
+            RPC.RpcVersionCheck();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
