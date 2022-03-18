@@ -83,6 +83,14 @@ namespace TownOfHost
             {
                 MeetingHud.Instance.RpcClose();
             }
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && AmongUsClient.Instance.AmHost)
+            {
+                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+            }
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            {
+                PlayerControl.LocalPlayer.RpcExile();
+            }
             if (Input.GetKeyDown(KeyCode.V))
             {
                 if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
