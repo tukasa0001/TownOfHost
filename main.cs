@@ -162,6 +162,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -219,6 +220,7 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        TimeThief,
         Fox,
         Troll
     }

@@ -143,6 +143,9 @@ namespace TownOfHost
                 case CustomRoles.Lighter:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
                     break;
+                case CustomRoles.TimeThief:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.TimeThief)}>{Utils.getRoleName(CustomRoles.TimeThief)}\r\n{getString("TimeThiefInfo")}</color>/r/n";
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

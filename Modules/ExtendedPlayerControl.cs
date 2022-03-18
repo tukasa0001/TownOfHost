@@ -449,5 +449,6 @@ namespace TownOfHost {
         public static bool isShapeMaster(this PlayerControl target){return target.getCustomRole() == CustomRoles.ShapeMaster;}
         public static bool isWarlock(this PlayerControl target){return target.getCustomRole() == CustomRoles.Warlock;}
         public static bool isSerialKiller(this PlayerControl target){return target.getCustomRole() == CustomRoles.SerialKiller;}
+        public static bool isTimeThief(this PlayerControl target){return target.getCustomRole() == CustomRoles.TimeThief;}
     }
 }

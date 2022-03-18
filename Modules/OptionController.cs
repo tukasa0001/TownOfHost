@@ -26,6 +26,7 @@ namespace TownOfHost
             var BountyHunter = new PageObject(RoleOptions, CustomRoles.BountyHunter);
             var SerialKiller = new PageObject(RoleOptions, CustomRoles.SerialKiller);
             var ShapeMaster = new PageObject(RoleOptions, CustomRoles.ShapeMaster);
+            var TimeThief = new PageObject(RoleOptions, CustomRoles.TimeThief);
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
             var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
