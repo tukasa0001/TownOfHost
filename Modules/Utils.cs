@@ -27,7 +27,7 @@ namespace TownOfHost
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            return getString(Enum.GetName(typeof(PlayerState.DeathReason),status));
+            return getString("DeathReason."+Enum.GetName(typeof(PlayerState.DeathReason),status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -63,6 +63,18 @@ namespace TownOfHost
 
                 return (RoleText, getRoleColor(cRole));
             }
+        }
+
+        public static string getVitalText(byte player)
+        {
+            string text = null;
+            if(PlayerState.isDead[player])
+            {
+                text = getString("DeathReason."+PlayerState.getDeathReason(player));
+            } else {
+                text = getString("Alive");
+            }
+            return text;
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
@@ -193,7 +205,7 @@ namespace TownOfHost
                 }
                 if(CustomRoles.MadGuardian.isEnable() || CustomRoles.MadSnitch.isEnable() || CustomRoles.Madmate.isEnable() || CustomRoles.SKMadmate.isEnable() )
                 {
-                    if(Options.MadmateVisionAsImpostor) text += String.Format("\n{0}:{1}",getString("MadmateVisionAsImpostor"),getOnOff(Options.MadmateVisionAsImpostor));
+                    if(Options.MadmateHasImpostorVision) text += String.Format("\n{0}:{1}",getString("MadmateHasImpostorVision"),getOnOff(Options.MadmateHasImpostorVision));
                     if(Options.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}",getString("MadmateCanFixLightsOut"),getOnOff(Options.MadmateCanFixLightsOut));
                     if(Options.MadmateCanFixComms) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(Options.MadmateCanFixComms));
                 }
@@ -218,14 +230,14 @@ namespace TownOfHost
             foreach(var id in main.winnerList)
             {
                 text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
                 text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getDeathReason(PlayerState.deathReasons[id])}";
+                text += $" {getVitalText(id)}";
             }
             SendMessage(text);
         }
@@ -241,6 +253,7 @@ namespace TownOfHost
                 +"\n/h now - 現在有効な設定の説明を表示"
                 +"\n/h roles <役職名> - 役職の説明を表示"
                 +"\n/h modes <モード名> - モードの説明を表示"
+                +"\n/dump - デスクトップにログを出力"
                 );
 
         }

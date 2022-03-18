@@ -9,6 +9,8 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {//注:この時点では役職は設定されていません。
+            PlayerState.Init();
+
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.OptionControllerIsEnable = false;
@@ -225,6 +227,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
 
                 //RPCによる同期
                 foreach(var pair in main.AllPlayerCustomRoles) {
