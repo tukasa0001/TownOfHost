@@ -45,8 +45,8 @@
 | [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター) | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト) |
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) |  |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
-| [Witch/魔女](###Witch/魔女) | [Doctor/ドクター](###Doctor/ドクター) |  |
-| [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
+| [Mafia/マフィア](###Mafia/マフィア) | [Doctor/ドクター](###Doctor/ドクター) |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
@@ -92,6 +92,7 @@
 
 シェイプマスターは変身後のクールダウンを無視し、再度変身することができます。<br>
 通常では10秒しか変身できませんが、設定によって変身継続時間を変更することができます。<br>
+#### 設定
 
 | 設定名 |
 |----------|
@@ -201,7 +202,7 @@
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
 
-タスクを完了させると、自分の視界が広がり、停電の視界減少の影響を受けなくなる。<br>
+タスクを完了させると、自分の視界が広がり、停電の視界減少の影響を受けなくなります。<br>
 
 ### Mayor/メイヤー
 
@@ -412,7 +413,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 クライアントの言語を英語にしている場合、ホストが``ForceJapanese``を有効にしていないとこの設定は意味のないものとなります。
 ## 参考など
 
-[バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
+[バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
 [オポチュニスト](###Opportunist/オポチュニスト)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [ドクター](###Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>

@@ -47,8 +47,8 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
-| [Witch](###Witch) | [Doctor](###Doctor) |  |
-| [Mafia](###Mafia) |  |  |
+| [Witch](###Witch) | [Lighter](###Lighter)|  |
+| [Mafia](###Mafia) | [Doctor](###Doctor) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -90,6 +90,8 @@ Decision : ShapeShifter<br>
 
 Shape Master ignores the cooldown after a transformation and can transform again.<br>
 Normally, the transformation lasts only 10 seconds, but the duration of the transformation can be changed through settings.<br>
+
+#### Settings
 
 | Settings Name |
 |----------|
@@ -190,6 +192,7 @@ When the Baits are killed, they can force the player who killed them to report t
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
+
 Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
 
 ### Mayor
@@ -402,7 +405,7 @@ By activating, the job title can be displayed in Japanese.
 If the client language is English, this setting is meaningless unless the host has``ForceJapanese``enabled.
 ## Credits
 
-[BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch) roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+[BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
