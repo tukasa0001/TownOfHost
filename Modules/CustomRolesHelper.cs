@@ -47,7 +47,7 @@ namespace TownOfHost {
             }
             return canUse;
         }
-        public static bool isLastImpostor(this PlayerControl pc) {
+        public static bool isLastImpostor(this PlayerControl pc) { //キルクールを変更するインポスター役職は省く
             if(pc.getCustomRole().isImpostor() &&
                 !pc.Data.IsDead &&
                 Options.EnableLastImpostor &&
