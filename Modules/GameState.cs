@@ -27,7 +27,7 @@ namespace TownOfHost {
         public static Dictionary<byte,bool> isDead = new Dictionary<byte, bool>();
         public static Dictionary<byte,DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
         public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public static DeathReason getDeathReason(byte p) { return deathReasons[p]; }
+        public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p,out var reason) ? reason : DeathReason.etc; }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
         
         public enum DeathReason
@@ -37,6 +37,8 @@ namespace TownOfHost {
             Suicide,
             Spell,
             Bite,
+            Misfire,
+            Disconnected,
             etc = -1
         }
     }

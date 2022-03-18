@@ -45,6 +45,7 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
+            PlayerState.isDead[target.PlayerId] = true;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -158,7 +159,7 @@ namespace TownOfHost
                 }
 
                 if(!target.canBeKilledBySheriff()) {
-                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Misfire);
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
