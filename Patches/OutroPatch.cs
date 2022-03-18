@@ -9,6 +9,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
+            Logger.info("ゲームが終了","Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();

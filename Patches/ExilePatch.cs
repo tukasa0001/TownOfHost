@@ -55,6 +55,7 @@ namespace TownOfHost
             }
             main.CustomSyncAllSettings();
             main.NotifyRoles();
+            Logger.info("タスクフェイズ開始","Phase");
         }
     }
 }
