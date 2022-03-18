@@ -194,6 +194,31 @@ namespace TownOfHost
     class StartPatch {
         public static void Postfix() {
             Logger.info("ShipStatus.Start");
+            Logger.info("ゲームが開始","Phase");
+            
+            Logger.info("--------名前表示--------");
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
+                main.RealNames[pc.PlayerId] = pc.name;
+                pc.nameText.text = pc.name; 
+            }
+            Logger.info("----------環境----------");
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
+                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
+                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                {
+                    text += $":Mod({pv.version}:";
+                    text += pv.beta_ver == -1? ":" : pv.beta_ver+":";
+                    text += $"{pv.tag})";
+                }else text += ":Vanilla";
+                Logger.info(text);
+            }
+            Logger.info("---------その他---------");
+            Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
+            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]

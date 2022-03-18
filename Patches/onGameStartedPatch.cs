@@ -29,12 +29,6 @@ namespace TownOfHost
             main.BlockKilling = new Dictionary<byte, bool>();
 
             NameColorManager.Instance.RpcReset();
-            foreach(var pc in PlayerControl.AllPlayerControls)
-            {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
-                main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
-            }
             if (__instance.AmHost)
             {
 
@@ -99,17 +93,6 @@ namespace TownOfHost
             Logger.msg("SelectRolesPatch.Postfix.Start");
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
-            foreach(var pc in PlayerControl.AllPlayerControls)
-            {
-                var text = $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
-                {
-                    text += $":Mod({pv.version}:";
-                    text += pv.beta_ver == -1? ":" : pv.beta_ver+":";
-                    text += $"{pv.tag})";
-                }else text += ":Vanilla";
-                Logger.info(text);
-            }
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
