@@ -260,12 +260,7 @@ namespace TownOfHost {
             IntroTypes introType = role.getIntroType();
             switch(introType) {
                 case IntroTypes.Impostor:
-                    if(IntroTypes.Impostor.isLastImpostor() &&
-                        Options.EnableLastImpostor &&
-                        !player.isVampire() &&
-                        !player.isBountyHunter() &&
-                        !player.isSerialKiller()
-                        ) {
+                    if(player.isLastImpostor()) {
                         opt.KillCooldown = Options.LastImpostorKillCooldown;
                     }
                     break;

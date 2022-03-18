@@ -134,7 +134,7 @@ namespace TownOfHost
 
             if (__instance.isMafia())
             {
-                if (!CustomRoles.Mafia.CanUseKillButton())
+                if (!__instance.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     main.BlockKilling[__instance.PlayerId] = false;
@@ -213,9 +213,7 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
-            if(!IntroTypes.Impostor.isLastImpostor()) {
-                main.AliveImpostorCount = Utils.NumOfAliveImpostors(main.AliveImpostorCount);
-            }
+            Utils.NumOfAliveImpostors();
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============

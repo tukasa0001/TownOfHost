@@ -37,18 +37,24 @@ namespace TownOfHost {
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter;
         }
-        public static bool CanUseKillButton(this CustomRoles role) {
+        public static bool CanUseKillButton(this PlayerControl pc) {
             bool canUse =
-                role.isImpostor() ||
-                role == CustomRoles.Sheriff;
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff();
 
-            if(role == CustomRoles.Mafia) {
-                if(!IntroTypes.Impostor.isLastImpostor()) canUse = false;
+            if(pc.isMafia()) {
+                if(Utils.NumOfAliveImpostors() > 1) canUse = false;
             }
             return canUse;
         }
-        public static bool isLastImpostor(this IntroTypes introTypes) {
-            if(Utils.NumOfAliveImpostors(main.AliveImpostorCount) == 1)
+        public static bool isLastImpostor(this PlayerControl pc) {
+            if(pc.getCustomRole().isImpostor() &&
+                !pc.Data.IsDead &&
+                Options.EnableLastImpostor &&
+                !pc.isVampire() &&
+                !pc.isBountyHunter() &&
+                !pc.isSerialKiller() &&
+                Utils.NumOfAliveImpostors() == 1)
                 return true;
             return false;
         }

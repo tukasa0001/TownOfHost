@@ -91,6 +91,8 @@ namespace TownOfHost
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
+                    bool EnableLastImpostor = reader.ReadBoolean();
+                    int LastImpostorKillCooldown = reader.ReadInt32();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
                         IsHideAndSeek,
@@ -120,6 +122,8 @@ namespace TownOfHost
                         BountyFailureKillCooldown,
                         BHDefaultKillCooldown,
                         ShapeMasterShapeshiftDuration,
+                        EnableLastImpostor,
+                        LastImpostorKillCooldown,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -217,6 +221,8 @@ namespace TownOfHost
                 int BountyFailureKillCooldown,
                 int BHDefaultKillCooldown,
                 int ShapeMasterShapeshiftDuration,
+                bool EnableLastImpostor,
+                int LastImpostorKillCooldown,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -273,6 +279,8 @@ namespace TownOfHost
             Options.BountyFailureKillCooldown = BountyFailureKillCooldown;
             Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
             Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
+            Options.EnableLastImpostor = EnableLastImpostor;
+            Options.LastImpostorKillCooldown = LastImpostorKillCooldown;
 
             Options.SyncButtonMode = SyncButtonMode;
             Options.SyncedButtonCount = SyncedButtonCount;
@@ -346,6 +354,8 @@ namespace TownOfHost
             writer.Write(Options.BountyFailureKillCooldown);
             writer.Write(Options.BHDefaultKillCooldown);
             writer.Write(Options.ShapeMasterShapeshiftDuration);
+            writer.Write(Options.EnableLastImpostor);
+            writer.Write(Options.LastImpostorKillCooldown);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)

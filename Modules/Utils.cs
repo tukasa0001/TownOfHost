@@ -47,15 +47,11 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
-            RoleText = getRoleName(cRole);
-            if(IntroTypes.Impostor.isLastImpostor() &&
-                Options.EnableLastImpostor &&
-                !player.isVampire() &&
-                !player.isBountyHunter() &&
-                !player.isSerialKiller()
-            ) {
-                RoleText += $" ({getString("Last")})";
+            if(player.isLastImpostor()) {
+                RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
             }
+            else
+                RoleText = getRoleName(cRole);
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -356,6 +352,8 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if(seer.isLastImpostor())
+                    SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()} {getString("Last")}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
@@ -435,15 +433,14 @@ namespace TownOfHost
             tmp += input;
             ChangeTo = Math.Clamp(tmp,0,max);
         }
-        public static int NumOfAliveImpostors(int AliveImpostorCount)
+        public static int NumOfAliveImpostors()
         {
-            AliveImpostorCount = 0;
+            int AliveImpostorCount = 0;
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 CustomRoles pc_role = pc.getCustomRole();
                 if(pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
             }
-            main.AliveImpostorCount = AliveImpostorCount;
-            TownOfHost.Logger.info("生存しているインポスター:" + main.AliveImpostorCount + "人");
+            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人");
             return AliveImpostorCount;
         }
     }
