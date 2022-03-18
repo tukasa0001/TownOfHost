@@ -47,17 +47,6 @@ namespace TownOfHost {
             }
             return canUse;
         }
-        public static bool isLastImpostor(this PlayerControl pc) { //キルクールを変更するインポスター役職は省く
-            if(pc.getCustomRole().isImpostor() &&
-                !pc.Data.IsDead &&
-                Options.EnableLastImpostor &&
-                !pc.isVampire() &&
-                !pc.isBountyHunter() &&
-                !pc.isSerialKiller() &&
-                Utils.NumOfAliveImpostors() == 1)
-                return true;
-            return false;
-        }
         public static IntroTypes getIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
             if(role.isImpostor()) type = IntroTypes.Impostor;
