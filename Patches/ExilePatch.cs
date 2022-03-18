@@ -79,6 +79,7 @@ namespace TownOfHost
             main.BountyMeetingCheck = true;
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Logger.info("タスクフェイズ開始","Phase");
         }
     }
 }

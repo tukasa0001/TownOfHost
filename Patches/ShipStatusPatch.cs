@@ -194,6 +194,7 @@ namespace TownOfHost
     class StartPatch {
         public static void Postfix() {
             Logger.info("ShipStatus.Start");
+            Logger.info("ゲームが開始","Phase");
             
             Logger.info("--------名前表示--------");
             foreach(var pc in PlayerControl.AllPlayerControls)
