@@ -202,8 +202,8 @@ namespace TownOfHost
                 if(CustomRoles.MadSnitch.isEnable())text += String.Format("\n{0}:{1}",getString("MadSnitchTasks"),Options.MadSnitchTasks);
                 if(CustomRoles.Mayor.isEnable()) text += String.Format("\n{0}:{1}",getString("MayorAdditionalVote"),Options.MayorAdditionalVote);
                 if(Options.SyncButtonMode) text += String.Format("\n{0}:{1}",getString("SyncedButtonCount"),Options.SyncedButtonCount);
-                if(Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenSkipVote"),Options.whenSkipVote);
-                if(Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenNonVote"),Options.whenNonVote);
+                if(Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenSkipVote"),getString(Options.whenSkipVote.ToString()));
+                if(Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}",getString("WhenNonVote"),getString(Options.whenNonVote.ToString()));
                 if((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}",getString("CanTerroristSuicideWin"),Options.canTerroristSuicideWin);
             }
             if(Options.NoGameEnd)text += String.Format("\n{0}:{1}",getString("NoGameEnd"),getOnOff(Options.NoGameEnd));;
