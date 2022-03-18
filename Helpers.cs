@@ -54,7 +54,7 @@ namespace TownOfHost {
         public readonly string tag;
         public PlayerVersion(int major, int minor, int patch, int revision, int beta, string tag_str)
         {
-            version = new Version(major,minor,patch,revision);
+            version = new Version(major,minor,patch == -1?0:patch,revision == -1?0:revision);
             beta_ver = beta;
             tag = tag_str;
         }
