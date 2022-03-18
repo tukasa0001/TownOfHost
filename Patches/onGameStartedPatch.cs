@@ -100,7 +100,16 @@ namespace TownOfHost
             if(!AmongUsClient.Instance.AmHost) return;
             //main.ApplySuffix();
             foreach(var pc in PlayerControl.AllPlayerControls)
-                Logger.info($"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}");
+            {
+                var text = $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
+                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                {
+                    text += $":Mod({pv.version}:";
+                    text += pv.beta_ver == -1? ":" : pv.beta_ver+":";
+                    text += $"{pv.tag})";
+                }else text += ":Vanilla";
+                Logger.info(text);
+            }
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
