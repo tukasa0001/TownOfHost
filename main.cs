@@ -167,6 +167,11 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             BanTimestamp = Config.Bind("Other", "lastTime", 0);
 
+            Options.MadGuardianTasksData = new(CustomRoles.MadGuardian);
+            Options.TerroristTasksData = new(CustomRoles.Terrorist);
+            Options.SnitchTasksData = new(CustomRoles.Snitch);
+            Options.MadSnitchTasksData = new(CustomRoles.MadSnitch);
+
             CustomOptionController.begin();
             NameColorManager.Begin();
 
