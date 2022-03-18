@@ -292,7 +292,7 @@ namespace TownOfHost
             foreach(var cp in main.CursedPlayerDie){
                 cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
-
+            Utils.NotifyRoles();
             Utils.CustomSyncAllSettings();
             return true;
         }

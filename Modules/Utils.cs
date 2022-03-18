@@ -418,7 +418,7 @@ namespace TownOfHost
                     if (seer.isDoctor() && //seerがDoctor
                     target.Data.IsDead //変更対象が死人
                     ) {
-                        TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getDeathReason(PlayerState.getDeathReason(target.PlayerId))}</color>)";
+                        TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getVitalText(target.PlayerId)}</color>)";
                     }
 
                     //全てのテキストを合成します。

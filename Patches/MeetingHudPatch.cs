@@ -218,7 +218,7 @@ namespace TownOfHost
 
                 if (PlayerControl.LocalPlayer.isDoctor() && //LocalPlayerがDoctor
                 pc.Data.IsDead) { //変更対象が死人
-                    pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getDeathReason(PlayerState.getDeathReason(pc.PlayerId))}</color>)";
+                    pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(pc.PlayerId)}</color>)";
                 }
             }
         }
