@@ -18,6 +18,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
+            if(PlayerControl.LocalPlayer == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
