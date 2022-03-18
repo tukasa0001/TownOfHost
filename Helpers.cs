@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.InteropServices;
+using System;
 using System.Reflection;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -60,7 +62,7 @@ namespace TownOfHost {
         }
         public PlayerVersion(Version ver, int beta, string tag_str)
         {
-            version = ver;
+            version = new Version(ver.Major,ver.Minor,ver.Build,ver.Revision);
             beta_ver = beta;
             tag = tag_str;
         }
