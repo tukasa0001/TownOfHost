@@ -1,4 +1,3 @@
-using System.Data;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ namespace TownOfHost
 {
     enum CustomRPC
     {
+        VersionCheck = 60,
         SyncCustomSettings = 80,
         JesterExiled,
         TerroristWin,
@@ -45,6 +45,15 @@ namespace TownOfHost
             byte packetID = callId;
             switch (packetID)
             {
+                case (byte)CustomRPC.VersionCheck:
+                    int major = reader.ReadPackedInt32();
+                    int minor = reader.ReadPackedInt32();
+                    int patch = reader.ReadPackedInt32();
+                    int revision = reader.ReadPackedInt32();
+                    int beta = reader.ReadPackedInt32();
+                    string tag = reader.ReadString();
+                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major,minor,patch,revision,beta,tag);
+                    break;
                 case (byte)CustomRPC.SyncCustomSettings:
                     foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
 
@@ -368,6 +377,18 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
+        }
+        public static void RpcVersionCheck()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
+            writer.WritePacked(main.version.Major);
+            writer.WritePacked(main.version.Minor);
+            writer.WritePacked(main.version.Build);
+            writer.WritePacked(main.version.Revision);
+            writer.WritePacked(Int32.Parse(main.BetaVersion));
+            writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version,Int32.Parse(main.BetaVersion),$"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void JesterExiled(byte jesterID)
         {

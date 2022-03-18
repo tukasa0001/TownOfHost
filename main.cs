@@ -24,6 +24,7 @@ namespace TownOfHost
         public const string BetaName = "**** Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
+        public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;
@@ -38,6 +39,7 @@ namespace TownOfHost
         public static ConfigEntry<int> BanTimestamp {get; private set;}
 
         public static LanguageUnit EnglishLang {get; private set;}
+        public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
