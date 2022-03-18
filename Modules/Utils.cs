@@ -354,7 +354,7 @@ namespace TownOfHost
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
 
-                //自分にハートマークを付ける
+                //ハートマークを付ける(自分に)
                 if(seer.isLovers()) SelfMark += $"<color={getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>";
 
                 //Markとは違い、改行してから追記されます。
@@ -415,7 +415,6 @@ namespace TownOfHost
                         if(taskState.doExpose)
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                     }
-                    if(target.isLovers() && seer.isLovers()) TargetMark += $"<color={getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>";
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
@@ -438,6 +437,20 @@ namespace TownOfHost
                     HudManagerPatch.LastSetNameDesyncCount++;
 
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
+                }
+                //ハートマークを付ける(相手に)
+                if(seer.isLovers())
+                {
+                    foreach(var target in PlayerControl.AllPlayerControls) {
+                        if(target == seer) continue;
+                        if(target.isLovers()) 
+                        {
+                            target.RpcSetNamePrivate(target.getRealName(isMeeting) + $"<color={getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>", true, seer);
+                            HudManagerPatch.LastSetNameDesyncCount++;
+
+                            TownOfHost.Logger.info("NotifyRoles-Loop3-" + target.name + ":END","NotifyRoles");
+                        }
+                    }
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
             }

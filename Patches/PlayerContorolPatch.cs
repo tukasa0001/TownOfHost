@@ -397,9 +397,9 @@ namespace TownOfHost
                     }
                 }
 
-                //Loversにハートをつける
+                //ハートマークを付ける(会議中ホスト視点)
                 if(__instance.getCustomSubRole() == CustomSubRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomSubRoles.Lovers) {
-                    Mark += $"<color=#ffaaaa>♡</color>";
+                    Mark += $"<color={Utils.getRoleColorCode(CustomSubRoles.Lovers)}>♡</color>";
                 }
 
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {

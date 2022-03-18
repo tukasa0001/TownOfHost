@@ -297,7 +297,6 @@ namespace TownOfHost
                 //Loversを初期化
                 main.LoversPlayers.Clear();
                 main.isLoversDead = false;
-                var rand = new System.Random();
                 //ランダムに2人選出
                 AssignLoversRoles();
             }
