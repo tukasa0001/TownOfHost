@@ -8,12 +8,21 @@ namespace TownOfHost {
         public static void Postfix(AmongUsClient __instance) {
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
+            main.playerVersion = new Dictionary<byte, PlayerVersion>();
+            new LateTask(() => RPCProcedure.RpcVersionCheck(),0.5f,"RpcVersionCheck");
 
             NameColorManager.Begin();
         }
     }
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
     class OnPlayerJoinedPatch {
+        public static void Postfix(AmongUsClient __instance) {
+            main.playerVersion = new Dictionary<byte, PlayerVersion>();
+            RPCProcedure.RpcVersionCheck();
+        }
+    }
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
+    class OnPlayerLeftPatch {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason) {
             Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             main.RealNames.Remove(data.Character.PlayerId);
