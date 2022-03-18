@@ -48,6 +48,14 @@ namespace TownOfHost
 
             var cRole = player.getCustomRole();
             RoleText = getRoleName(cRole);
+            if(IntroTypes.Impostor.isLastImpostor() &&
+                Options.EnableLastImpostor &&
+                !player.isVampire() &&
+                !player.isBountyHunter() &&
+                !player.isSerialKiller()
+            ) {
+                RoleText += $" ({getString("Last")})";
+            }
 
             return (RoleText, getRoleColor(cRole));
         }
