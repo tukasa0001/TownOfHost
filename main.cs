@@ -41,7 +41,7 @@ namespace TownOfHost
         //Lang-arrangement
         private static Dictionary<lang, string> JapaneseTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> JapaneseRoleNames = new Dictionary<CustomRoles, string>();
-        private static Dictionary<PlayerState.DeathReason, string> JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(); 
+        private static Dictionary<PlayerState.DeathReason, string> JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>();
         private static Dictionary<lang, string> EnglishTexts = new Dictionary<lang, string>();
         private static Dictionary<CustomRoles, string> EnglishRoleNames = new Dictionary<CustomRoles, string>();
         private static Dictionary<PlayerState.DeathReason, string> EnglishDeathReason = new Dictionary<PlayerState.DeathReason, string>();
@@ -304,7 +304,7 @@ namespace TownOfHost
             {
                 if(p.Role.IsImpostor)
                     hasTasks = false; //タスクはバニラ役職で判定される
-                
+
                 if (p.IsDead) hasTasks = false;
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
@@ -787,27 +787,27 @@ namespace TownOfHost
                 //このリストに入ってあるいずれかのFuncがtrueを返したとき、そのプレイヤーをtargetとしたループを実行する
                 //このリストの中身が空の時、foreach自体が実行されなくなる
                 List<Func<PlayerControl, bool>> conditions = new List<Func<PlayerControl, bool>>();
-                
+
                 //seerが死んでいる
-                if(seer.Data.IsDead) 
+                if(seer.Data.IsDead)
                     //常時
                     conditions.Add(target => true);
-                
+
                 //seerがインポスターを知っている
-                if(SeerKnowsImpostors) 
+                if(SeerKnowsImpostors)
                     //targetがインポスター
                     conditions.Add(target => target.getCustomRole().isImpostor());
 
                 //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                if(seer.getCustomRole().isImpostor() && ShowSnitchWarning) 
+                if(seer.getCustomRole().isImpostor() && ShowSnitchWarning)
                     //targetがSnitch
                     conditions.Add(target => target.isSnitch());
 
                 //seer視点用の名前色データが一つ以上ある
-                if(NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0) 
+                if(NameColorManager.Instance.GetDatasBySeer(seer.PlayerId).Count > 0)
                     //seer視点用のtargetに対する名前色データが存在する
                     conditions.Add(target => NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId).color != null);
-                
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if(conditions.Count > 0) foreach(var target in PlayerControl.AllPlayerControls) {
                     //targetがseer自身の場合は何もしない
@@ -822,7 +822,7 @@ namespace TownOfHost
                         }
                     }
                     if(doCancel) continue;
-                    
+
                     TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
 
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
@@ -1106,7 +1106,7 @@ namespace TownOfHost
                 {lang.Default, "デフォルト"},
                 {lang.Suicide, "切腹"},
                 {lang.SelfVote, "自投票"},
-                {lang.CanTerroristSuicideWin, "テロリストの自殺勝ち"},
+                {lang.CanTerroristSuicideWin, "テロリストの自殺勝利"},
                 {lang.commandError, "エラー:%1$"},
                 {lang.InvalidArgs, "無効な引数"},
                 {lang.ON, "ON"},
@@ -1167,7 +1167,7 @@ namespace TownOfHost
                 {lang.SabotageMasterSkillLimit, "SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors)"},
                 {lang.MadmateCanFixLightsOut, "Madmate Type Roles Can Fix Lights Out"},
                 {lang.MadmateCanFixComms, "Madmate Type Roles Can Fix Comms"},
-                {lang.MadmateHasImpostorVision, "Madmate Has Impostor Vision"},
+                {lang.MadmateHasImpostorVision, "Madmate Type Roles Have Impostor Vision"},
                 {lang.MadGuardianCanSeeWhoTriedToKill, "MadGuardian Can See Who Tried To Kill"},
                 {lang.SabotageMasterFixesDoors, "SabotageMaster Can Fixes Multiple Doors"},
                 {lang.SabotageMasterFixesReactors, "SabotageMaster Can Fixes Both Reactors"},
