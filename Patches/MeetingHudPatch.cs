@@ -59,6 +59,9 @@ namespace TownOfHost
                         case VoteMode.SelfVote:
                             ps.VotedFor = ps.TargetPlayerId;
                             break;
+                        case VoteMode.Skip:
+                            ps.VotedFor = 253;
+                            break;
                         default:
                             break;
                     }
