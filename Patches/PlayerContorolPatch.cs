@@ -289,7 +289,7 @@ namespace TownOfHost
                 ) {
                     RealName = $"<color=#ff0000>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
-                else
+                else if(PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
