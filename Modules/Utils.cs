@@ -346,121 +346,122 @@ namespace TownOfHost
                     }
                 }
 
-            //seer:ここで行われた変更を見ることができるプレイヤー
-            //target:seerが見ることができる変更の対象となるプレイヤー
-            foreach (var seer in PlayerControl.AllPlayerControls)
-            {
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START", "NotifyRoles");
-                //Loop1-bottleのSTART-END間でKeyNotFoundException
-                //seerが落ちているときに何もしない
-                if (seer.Data.Disconnected) continue;
-
-                //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
-                //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
-                //Loversのハートマークなどを入れてください。
-                string SelfMark = "";
-                //インポスターに対するSnitch警告
-                if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
-                    SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-
-                //Markとは違い、改行してから追記されます。
-                string SelfSuffix = "";
-
-                if (seer.isBountyHunter() && seer.getBountyTarget() != null)
+                //seer:ここで行われた変更を見ることができるプレイヤー
+                //target:seerが見ることができる変更の対象となるプレイヤー
+                foreach (var seer in PlayerControl.AllPlayerControls)
                 {
-                    string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
-                    SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
-                }
-                if (seer.isWitch())
-                {
-                    if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + getString("WitchModeKill");
-                    if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + getString("WitchModeSpell");
-                }
+                    TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START", "NotifyRoles");
+                    //Loop1-bottleのSTART-END間でKeyNotFoundException
+                    //seerが落ちているときに何もしない
+                    if (seer.Data.Disconnected) continue;
 
-                //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.getRealName(isMeeting);
+                    //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
+                    //seerがタスクを持っていない：空
+                    string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
+                    //Loversのハートマークなどを入れてください。
+                    string SelfMark = "";
+                    //インポスターに対するSnitch警告
+                    if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
+                        SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
 
-                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+                    //Markとは違い、改行してから追記されます。
+                    string SelfSuffix = "";
 
-                //適用
-                seer.RpcSetNamePrivate(SelfName, true);
-                HudManagerPatch.LastSetNameDesyncCount++;
-
-                //他人用の変数定義
-                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                //タスクを終えたSnitchがインポスターを確認できる
-                if (seer.isSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-                if (seer.isMadSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-
-                //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if (seer.Data.IsDead //seerが死んでいる
-                    || SeerKnowsImpostors //seerがインポスターを知っている状態
-                    || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                    || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                )
-                {
-                    foreach (var target in PlayerControl.AllPlayerControls)
+                    if (seer.isBountyHunter() && seer.getBountyTarget() != null)
                     {
-                        //targetがseer自身の場合は何もしない
-                        if (target == seer) continue;
-                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START", "NotifyRoles");
-
-                        //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
-
-                        //Loversのハートマークなどを入れてください。
-                        string TargetMark = "";
-                        //タスク完了直前のSnitchにマークを表示
-                        if (target.isSnitch() && seer.getCustomRole().isImpostor())
-                        {
-                            var taskState = target.getPlayerTaskState();
-                            if (taskState.doExpose)
-                                TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
-                        }
-
-                        //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
-
-                        //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                        string TargetPlayerName = target.getRealName(isMeeting);
-
-                        //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
-                        {
-                            TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
-                        }
-                        else
-                        {
-                            //NameColorManager準拠の処理
-                            var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
-                            TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
-                        }
-
-                        //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
-                        //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer);
-                        HudManagerPatch.LastSetNameDesyncCount++;
-
-                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
+                        string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
+                        SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
                     }
+                    if (seer.isWitch())
+                    {
+                        if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + getString("WitchModeKill");
+                        if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + getString("WitchModeSpell");
+                    }
+
+                    //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                    string SeerRealName = seer.getRealName(isMeeting);
+
+                    //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                    string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                    SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+
+                    //適用
+                    seer.RpcSetNamePrivate(SelfName, true);
+                    HudManagerPatch.LastSetNameDesyncCount++;
+
+                    //他人用の変数定義
+                    bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                                                     //タスクを終えたSnitchがインポスターを確認できる
+                    if (seer.isSnitch())
+                    {
+                        var TaskState = seer.getPlayerTaskState();
+                        if (TaskState.isTaskFinished)
+                            SeerKnowsImpostors = true;
+                    }
+                    if (seer.isMadSnitch())
+                    {
+                        var TaskState = seer.getPlayerTaskState();
+                        if (TaskState.isTaskFinished)
+                            SeerKnowsImpostors = true;
+                    }
+
+                    //seerが死んでいる場合など、必要なときのみ第二ループを実行する
+                    if (seer.Data.IsDead //seerが死んでいる
+                        || SeerKnowsImpostors //seerがインポスターを知っている状態
+                        || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                        || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                    )
+                    {
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            //targetがseer自身の場合は何もしない
+                            if (target == seer) continue;
+                            TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START", "NotifyRoles");
+
+                            //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
+                            string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
+
+                            //Loversのハートマークなどを入れてください。
+                            string TargetMark = "";
+                            //タスク完了直前のSnitchにマークを表示
+                            if (target.isSnitch() && seer.getCustomRole().isImpostor())
+                            {
+                                var taskState = target.getPlayerTaskState();
+                                if (taskState.doExpose)
+                                    TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                            }
+
+                            //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
+                            string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+
+                            //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                            string TargetPlayerName = target.getRealName(isMeeting);
+
+                            //ターゲットのプレイヤー名の色を書き換えます。
+                            if (SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                            {
+                                TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                            }
+                            else
+                            {
+                                //NameColorManager準拠の処理
+                                var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
+                                TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
+                            }
+
+                            //全てのテキストを合成します。
+                            string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
+                            //適用
+                            target.RpcSetNamePrivate(TargetName, true, seer);
+                            HudManagerPatch.LastSetNameDesyncCount++;
+
+                            TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
+                        }
+                    }
+                    TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
                 }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
+                main.witchMeeting = false;
             }
-            main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
         {

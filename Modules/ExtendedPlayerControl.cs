@@ -415,7 +415,7 @@ namespace TownOfHost
                 return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
             }
 
-            if (!main.RealNames.TryGetValue(player.PlayerId, out var RealName))
+            if (!main.RealNames.TryGetValue(player.PlayerId, out RealName))
             {
                 RealName = player.name;
                 if (RealName == "Player(Clone)") return RealName;
