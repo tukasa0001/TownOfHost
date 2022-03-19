@@ -15,14 +15,16 @@ namespace TownOfHost
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if(main.currentWinner == CustomWinner.Default)
+            if (main.currentWinner == CustomWinner.Default)
             {
-                if(Options.IsHideAndSeek)
+                if (Options.IsHideAndSeek)
                 {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
-                } else {
+                }
+                else
+                {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
@@ -112,7 +114,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForHideAndSeek(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (0 == statistics.TotalAlive - statistics.TeamImpostorsAlive)
+            if (statistics.TotalAlive - statistics.TeamImpostorsAlive == 0)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -121,11 +123,14 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForTroll(ShipStatus __instance) {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
+        private static bool CheckAndEndGameForTroll(ShipStatus __instance)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                if(!hasRole) return false;
-                if(role == CustomRoles.Troll && pc.Data.IsDead) {
+                if (!hasRole) return false;
+                if (role == CustomRoles.Troll && pc.Data.IsDead)
+                {
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -134,8 +139,10 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForJester(ShipStatus __instance) {
-            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger) {
+        private static bool CheckAndEndGameForJester(ShipStatus __instance)
+        {
+            if (main.currentWinner == CustomWinner.Jester && main.CustomWinTrigger)
+            {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
@@ -160,13 +167,17 @@ namespace TownOfHost
             ResetRoleAndEndGame(GameOverReason.ImpostorBySabotage, false);
             return;
         }
-        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd) {
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.getCustomRole() == CustomRoles.Sheriff) {
+        private static void ResetRoleAndEndGame(GameOverReason reason, bool showAd)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.getCustomRole() == CustomRoles.Sheriff)
+                {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
             }
-            new LateTask(() => {
+            new LateTask(() =>
+            {
                 ShipStatus.RpcEndGame(reason, showAd);
             }, 0.5f, "EndGameTask");
         }
@@ -189,18 +200,22 @@ namespace TownOfHost
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
                     GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
-                    var hasHideAndSeekRole = main.AllPlayerCustomRoles.TryGetValue((byte)i,out var role);
+                    var hasHideAndSeekRole = main.AllPlayerCustomRoles.TryGetValue((byte)i, out var role);
                     if (!playerInfo.Disconnected)
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if(!Options.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
-                            else {
+                            if (!Options.IsHideAndSeek || !hasHideAndSeekRole)
+                            {
+                                numTotalAlive++;//HideAndSeek以外
+                            }
+                            else
+                            {
                                 //HideAndSeek中
-                                if(role == CustomRoles.Crewmate) numTotalAlive++;
+                                if (role == CustomRoles.Crewmate) numTotalAlive++;
                             }
 
-                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor && 
+                            if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&
                             playerInfo.getCustomRole() != CustomRoles.Sheriff)
                             {
                                 numImpostorsAlive++;
