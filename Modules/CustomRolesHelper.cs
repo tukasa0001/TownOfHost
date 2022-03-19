@@ -37,16 +37,6 @@ namespace TownOfHost {
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter;
         }
-        public static bool CanUseKillButton(this PlayerControl pc) {
-            bool canUse =
-                pc.getCustomRole().isImpostor() ||
-                pc.isSheriff();
-
-            if(pc.isMafia()) {
-                if(Utils.NumOfAliveImpostors() > 1) canUse = false;
-            }
-            return canUse;
-        }
         public static IntroTypes getIntroType(this CustomRoles role) {
             IntroTypes type = IntroTypes.Crewmate;
             if(role.isImpostor()) type = IntroTypes.Impostor;

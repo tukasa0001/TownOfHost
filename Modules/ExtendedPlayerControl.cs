@@ -433,6 +433,18 @@ namespace TownOfHost {
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static bool CanUseKillButton(this PlayerControl pc)
+        {
+            bool canUse =
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff();
+
+            if (pc.isMafia())
+            {
+                if (Utils.NumOfAliveImpostors() > 1) canUse = false;
+            }
+            return canUse;
+        }
         public static bool isLastImpostor(this PlayerControl pc) { //キルクールを変更するインポスター役職は省く
             if(pc.getCustomRole().isImpostor() &&
                 !pc.Data.IsDead &&
