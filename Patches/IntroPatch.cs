@@ -86,7 +86,7 @@ namespace TownOfHost
                 __instance.TeamTitle.text = "Town Of Host";
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
-                "\r\nOut Now on Github";
+                    "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
@@ -132,7 +132,10 @@ namespace TownOfHost
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 yourTeam.Add(PlayerControl.LocalPlayer);
-                foreach (var pc in PlayerControl.AllPlayerControls) if (!pc.AmOwner) yourTeam.Add(pc);
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.AmOwner) yourTeam.Add(pc);
+                }
                 __instance.BeginCrewmate(yourTeam);
                 __instance.overlayHandle.color = Palette.CrewmateBlue;
                 return false;

@@ -25,7 +25,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
-                AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                    AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
                     PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f, 127f);
                 }
@@ -72,8 +72,9 @@ namespace TownOfHost
                 LowerInfoText.enabled = false;
             }
             if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+            {
                 LowerInfoText.enabled = false;
-
+            }
 
             switch (PlayerControl.LocalPlayer.getCustomRole())
             {
@@ -242,7 +243,7 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
             if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff &&
-            __instance.Data.Role.Role != RoleTypes.GuardianAngel)
+                __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 protecting = true;
             }

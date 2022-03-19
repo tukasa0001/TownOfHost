@@ -129,7 +129,7 @@ namespace TownOfHost
             var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.whenNonVote)), true, () =>
             {
                 var next = Options.whenNonVote + 1;
-                if (next > VoteMode.SelfVote) next = VoteMode.Default;
+                if (next > VoteMode.Skip) next = VoteMode.Default;
                 Options.whenNonVote = next;
             });
             var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + Utils.getOnOff(Options.canTerroristSuicideWin), true, () => Options.canTerroristSuicideWin = !Options.canTerroristSuicideWin);

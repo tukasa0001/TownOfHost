@@ -114,7 +114,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForHideAndSeek(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (0 == statistics.TotalAlive - statistics.TeamImpostorsAlive)
+            if (statistics.TotalAlive - statistics.TeamImpostorsAlive == 0)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -205,7 +205,10 @@ namespace TownOfHost
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if (!Options.IsHideAndSeek || !hasHideAndSeekRole) numTotalAlive++;//HideAndSeek以外
+                            if (!Options.IsHideAndSeek || !hasHideAndSeekRole)
+                            {
+                                numTotalAlive++;//HideAndSeek以外
+                            }
                             else
                             {
                                 //HideAndSeek中
