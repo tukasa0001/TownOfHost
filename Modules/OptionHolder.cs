@@ -73,7 +73,7 @@ namespace TownOfHost
         public static void SetWatcherTeam(int EvilWatcherRate)
         {
             EvilWatcherRate = Options.EvilWatcherChance;
-            if(UnityEngine.Random.Range( 1, 100 ) < EvilWatcherRate)
+            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
                 IsEvilWatcher = true;
             else
                 IsEvilWatcher = false;

@@ -14,7 +14,8 @@ using System.Threading.Tasks;
 
 namespace TownOfHost
 {
-    public class NameColorManager {
+    public class NameColorManager
+    {
         public static NameColorManager Instance;
 
         public List<NameColorData> NameColors;
@@ -22,26 +23,31 @@ namespace TownOfHost
 
         public List<NameColorData> GetDataBySeer(byte seerId)
             => NameColors.Where(data => data.seerId == seerId).ToList();
-        
-        public NameColorData GetData(byte seerId, byte targetId) {
+
+        public NameColorData GetData(byte seerId, byte targetId)
+        {
             NameColorData data = NameColors.Where(data => data.seerId == seerId && data.targetId == targetId).FirstOrDefault();
-            if(data == null) data = DefaultData;
+            if (data == null) data = DefaultData;
             return data;
         }
-        public void Add(byte seerId, byte targetId, string color) {
+        public void Add(byte seerId, byte targetId, string color)
+        {
             Add(new NameColorData(seerId, targetId, color));
         }
-        public void Add(NameColorData data) {
+        public void Add(NameColorData data)
+        {
             Remove(data.seerId, data.targetId);
             NameColors.Add(data);
         }
-        public void Remove(byte seerId, byte targetId) {
+        public void Remove(byte seerId, byte targetId)
+        {
             NameColors.RemoveAll(data => data.seerId == seerId && data.targetId == targetId);
         }
 
-        public void RpcAdd(byte seerId, byte targetId, string color) {
-            if(!AmongUsClient.Instance.AmHost) return;
-            
+        public void RpcAdd(byte seerId, byte targetId, string color)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddNameColorData, SendOption.Reliable, -1);
             writer.Write(seerId);
             writer.Write(targetId);
@@ -51,8 +57,9 @@ namespace TownOfHost
 
             RPC.AddNameColorData(seerId, targetId, color);
         }
-        public void RpcRemove(byte seerId, byte targetId) {
-            if(!AmongUsClient.Instance.AmHost) return;
+        public void RpcRemove(byte seerId, byte targetId)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
 
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveNameColorData, SendOption.Reliable, -1);
             writer.Write(seerId);
@@ -61,8 +68,9 @@ namespace TownOfHost
 
             RPC.RemoveNameColorData(seerId, targetId);
         }
-        public void RpcReset() {
-            if(!AmongUsClient.Instance.AmHost) return;
+        public void RpcReset()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
 
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetNameColorData, SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -70,21 +78,25 @@ namespace TownOfHost
             RPC.ResetNameColorData();
         }
 
-        public NameColorManager() {
+        public NameColorManager()
+        {
             NameColors = new List<NameColorData>();
-            DefaultData = new NameColorData(0,0,null);
+            DefaultData = new NameColorData(0, 0, null);
         }
 
-        public static void Begin() {
+        public static void Begin()
+        {
             Logger.info("NameColorManagerをリセット");
             Instance = new NameColorManager();
         }
     }
-    public class NameColorData {
+    public class NameColorData
+    {
         public byte seerId;
         public byte targetId;
         public string color;
-        public NameColorData(byte seerId, byte targetId, string color) {
+        public NameColorData(byte seerId, byte targetId, string color)
+        {
             this.seerId = seerId;
             this.targetId = targetId;
             this.color = color == null || color.StartsWith('#') ? color : "#" + color;
