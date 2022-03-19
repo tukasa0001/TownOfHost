@@ -49,9 +49,11 @@ namespace TownOfHost
             //====================
 
 
-            if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value) {
+            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
-                if(bot == null) {
+                if (bot == null)
+                {
                     bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
                     bot.PlayerId = 15;
                     GameData.Instance.AddPlayer(bot);
@@ -67,8 +69,8 @@ namespace TownOfHost
                 bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
                 bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
 
-                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0,15)), 0.2f, "Bot TP Task");
-                new LateTask(() => {foreach(var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot);}, 0.4f, "Bot Kill Task");
+                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
+                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
                 new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
             if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
@@ -115,7 +117,8 @@ namespace TownOfHost
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            if (Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            {
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
@@ -191,22 +194,29 @@ namespace TownOfHost
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
-    class ConsoleJoystickHandleHUDPatch {
-        public static void Postfix() {
+    class ConsoleJoystickHandleHUDPatch
+    {
+        public static void Postfix()
+        {
             HandleHUDPatch.Postfix(ConsoleJoystick.player);
         }
     }
     [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
-    class KeyboardJoystickHandleHUDPatch {
-        public static void Postfix() {
+    class KeyboardJoystickHandleHUDPatch
+    {
+        public static void Postfix()
+        {
             HandleHUDPatch.Postfix(KeyboardJoystick.player);
         }
     }
-    class HandleHUDPatch {
-        public static void Postfix(Rewired.Player player) {
-            if(player.GetButtonDown(8) && 
+    class HandleHUDPatch
+    {
+        public static void Postfix(Rewired.Player player)
+        {
+            if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            PlayerControl.LocalPlayer.isSheriff()) {
+            PlayerControl.LocalPlayer.isSheriff())
+            {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
         }

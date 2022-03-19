@@ -30,14 +30,14 @@ namespace TownOfHost
         public static bool ExceptionMessageIsShown = false;
         public static string credentialsText;
         //Client Options
-        public static ConfigEntry<bool> HideCodes {get; private set;}
-        public static ConfigEntry<string> HideName {get; private set;}
-        public static ConfigEntry<string> HideColor {get; private set;}
-        public static ConfigEntry<bool> JapaneseRoleName {get; private set;}
-        public static ConfigEntry<bool> AmDebugger {get; private set;}
-        public static ConfigEntry<int> BanTimestamp {get; private set;}
+        public static ConfigEntry<bool> HideCodes { get; private set; }
+        public static ConfigEntry<string> HideName { get; private set; }
+        public static ConfigEntry<string> HideColor { get; private set; }
+        public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
+        public static ConfigEntry<bool> AmDebugger { get; private set; }
+        public static ConfigEntry<int> BanTimestamp { get; private set; }
 
-        public static LanguageUnit EnglishLang {get; private set;}
+        public static LanguageUnit EnglishLang { get; private set; }
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -49,7 +49,7 @@ namespace TownOfHost
         public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
         public static Dictionary<byte, bool> BlockKilling;
         public static bool OptionControllerIsEnable;
-        public static Dictionary<CustomRoles,String> roleColors;
+        public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool isFixedCooldown => CustomRoles.Vampire.isEnable();
@@ -70,7 +70,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isTargetKilled = new Dictionary<byte, bool>();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
         public static List<PlayerControl> CursedPlayerDie = new List<PlayerControl>();
-        public static List <PlayerControl> SpelledPlayer = new List<PlayerControl>();
+        public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
@@ -134,9 +134,10 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
-            try {
+            try
+            {
 
-            roleColors = new Dictionary<CustomRoles, string>(){
+                roleColors = new Dictionary<CustomRoles, string>(){
                 {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
@@ -168,33 +169,37 @@ namespace TownOfHost
                 {CustomRoles.Troll, "#00ff00"}
             };
             }
-            catch (ArgumentException ex) {
+            catch (ArgumentException ex)
+            {
                 TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
                 TownOfHost.Logger.error(ex.Message);
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}","GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}","GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
+            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
             Harmony.PatchAll();
         }
 
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
-        class TranslationControllerAwakePatch {
-            public static void Postfix(TranslationController __instance) {
+        class TranslationControllerAwakePatch
+        {
+            public static void Postfix(TranslationController __instance)
+            {
                 var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
                 EnglishLang = new LanguageUnit(english);
             }
         }
     }
-    public enum CustomRoles {
+    public enum CustomRoles
+    {
         Crewmate = 0,
         Engineer,
         Scientist,
@@ -248,7 +253,8 @@ namespace TownOfHost
         Troll = 1,
         Fox = 2
     }*/
-    public enum SuffixModes {
+    public enum SuffixModes
+    {
         None = 0,
         TOH,
         Streaming,
