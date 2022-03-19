@@ -12,20 +12,22 @@ namespace TownOfHost
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            new LateTask(() => RPC.RpcVersionCheck(),0.5f,"RpcVersionCheck");
+            new LateTask(() => RPC.RpcVersionCheck(), 0.5f, "RpcVersionCheck");
 
             NameColorManager.Begin();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
-    class OnPlayerJoinedPatch {
-        public static void Postfix(AmongUsClient __instance) {
+    class OnPlayerJoinedPatch
+    {
+        public static void Postfix(AmongUsClient __instance)
+        {
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
-    class OnPlayerJoinedPatch
+    class OnPlayerLeftPatch
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
