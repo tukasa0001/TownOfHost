@@ -26,7 +26,8 @@ namespace TownOfHost
                 timer = 600f;
 
                 // Make Public Button
-                if(main.PluginVersionType == VersionTypes.Beta) {
+                if (main.PluginVersionType == VersionTypes.Beta)
+                {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
@@ -64,9 +65,15 @@ namespace TownOfHost
                     {
                         lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
                     }
-                    else lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    else
+                    {
+                        lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    }
                 }
-                else lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                else
+                {
+                    lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                }
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
@@ -77,7 +84,7 @@ namespace TownOfHost
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
-                if(timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
+                if (timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -88,7 +95,7 @@ namespace TownOfHost
         {
             private static void Postfix(TextBoxTMP __instance)
             {
-                if(__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
+                if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
             }
         }
     }
@@ -114,7 +121,7 @@ namespace TownOfHost
                 if (Options.AddedTheAirShip == true) RandomMaps.Add(4);
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
-            
+
             }
             return continueStart;
         }

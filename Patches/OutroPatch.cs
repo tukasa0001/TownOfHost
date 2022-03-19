@@ -17,7 +17,8 @@ namespace TownOfHost
             //勝者リスト作成
             if (TempData.DidHumansWin(endGameResult.GameOverReason))
             {
-                if (main.currentWinner == CustomWinner.Default) {
+                if (main.currentWinner == CustomWinner.Default)
+                {
                     main.currentWinner = CustomWinner.Crewmate;
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -25,12 +26,13 @@ namespace TownOfHost
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.getIntroType();
                     bool canWin = introType == IntroTypes.Crewmate;
-                    if(canWin) winner.Add(p);
+                    if (canWin) winner.Add(p);
                 }
             }
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
-                if (main.currentWinner == CustomWinner.Default) {
+                if (main.currentWinner == CustomWinner.Default)
+                {
                     main.currentWinner = CustomWinner.Impostor;
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
@@ -38,7 +40,7 @@ namespace TownOfHost
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.getIntroType();
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
-                    if(canWin) winner.Add(p);
+                    if (canWin) winner.Add(p);
                 }
             }
 
@@ -64,7 +66,8 @@ namespace TownOfHost
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.PlayerId == main.ExiledJesterID) {
+                    if (p.PlayerId == main.ExiledJesterID)
+                    {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                         winner = new();
                         winner.Add(p);
@@ -85,32 +88,38 @@ namespace TownOfHost
                 }
             }
             //Opportunist
-            foreach(var pc in PlayerControl.AllPlayerControls) {
-                if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
-            
+
             //HideAndSeek専用
-            if(Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
+            if (Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw)
+            {
                 var winners = new List<PlayerControl>();
-                foreach(var pc in PlayerControl.AllPlayerControls) {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
-                    if(!hasRole) continue;
-                    if(role == CustomRoles.Crewmate) {
-                        if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                    if (!hasRole) continue;
+                    if (role == CustomRoles.Crewmate)
+                    {
+                        if (pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
-                        if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                     }
-                    if(role == CustomRoles.Fox && !pc.Data.IsDead) {
+                    if (role == CustomRoles.Fox && !pc.Data.IsDead)
+                    {
                         winners.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.Fox);
                     }
-                    if(role == CustomRoles.Troll && pc.Data.IsDead) {
+                    if (role == CustomRoles.Troll && pc.Data.IsDead)
+                    {
                         main.currentWinner = CustomWinner.Troll;
                         winners = new List<PlayerControl>();
                         winners.Add(pc);
@@ -118,7 +127,8 @@ namespace TownOfHost
                     }
                 }
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                foreach(var pc in winners) {
+                foreach (var pc in winners)
+                {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                 }
             }
@@ -145,7 +155,8 @@ namespace TownOfHost
             string AdditionalWinnerText = "";
             string CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
 
-            switch(main.currentWinner) {
+            switch (main.currentWinner)
+            {
                 //通常勝利
                 case CustomWinner.Impostor:
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Impostor)}";
@@ -177,36 +188,45 @@ namespace TownOfHost
                     break;
             }
 
-            foreach(var additionalwinners in main.additionalwinners) {
-                if (main.additionalwinners.Contains(AdditionalWinners.Opportunist)) {
+            foreach (var additionalwinners in main.additionalwinners)
+            {
+                if (main.additionalwinners.Contains(AdditionalWinners.Opportunist))
+                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
-                if (main.additionalwinners.Contains(AdditionalWinners.Fox)) {
+                if (main.additionalwinners.Contains(AdditionalWinners.Fox))
+                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-                if(Options.IsHideAndSeek) {
-                    foreach(var p in PlayerControl.AllPlayerControls) {
-                        if(p.Data.IsDead) {
-                            var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                            if(hasRole && role == CustomRoles.Troll) {
-                                __instance.BackgroundBar.material.color = Color.green;
-                                CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
-                                CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
-                            }
+            if (Options.IsHideAndSeek)
+            {
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Data.IsDead)
+                    {
+                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
+                        if (hasRole && role == CustomRoles.Troll)
+                        {
+                            __instance.BackgroundBar.material.color = Color.green;
+                            CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
+                            CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
                         }
                     }
                 }
-            if (main.currentWinner != CustomWinner.Draw) {
+            }
+            if (main.currentWinner != CustomWinner.Draw)
+            {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{getString("Win")}</color>";
             }
             main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            main.SerialKillerTimer = new Dictionary<byte, float>(); 
-            
+            main.SerialKillerTimer = new Dictionary<byte, float>();
+
             NameColorManager.Instance.RpcReset();
             main.VisibleTasksCount = false;
-            if(AmongUsClient.Instance.AmHost) {
+            if (AmongUsClient.Instance.AmHost)
+            {
                 PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
             }
             //Utils.ApplySuffix();
