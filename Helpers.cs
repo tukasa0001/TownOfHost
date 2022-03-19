@@ -60,7 +60,7 @@ namespace TownOfHost {
         }
         public PlayerVersion(Version ver, int beta, string tag_str)
         {
-            version = ver;
+            version = new Version(ver.Major,ver.Minor,ver.Build == -1?0:ver.Build,ver.Revision == -1?0:ver.Revision);
             beta_ver = beta;
             tag = tag_str;
         }
