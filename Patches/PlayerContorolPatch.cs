@@ -15,7 +15,7 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
-            if (PlayerState.getDeathReason(target.PlayerId)==PlayerState.DeathReason.etc)
+            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
                 PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
@@ -28,17 +28,18 @@ namespace TownOfHost
             }
             else
             //BountyHunter
-            if(__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
+            if (__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
             {
                 main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
-                if(target == __instance.getBountyTarget()) {//ターゲットをキルした場合
+                if (target == __instance.getBountyTarget())
+                {//ターゲットをキルした場合
                     main.isBountyKillSuccess = true;//キルクール減少処理に変換
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                     main.isTargetKilled.Remove(__instance.PlayerId);
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
             }
-            if(__instance.isVampire() && CustomRoles.BountyHunter.isEnable())main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+            if (__instance.isVampire() && CustomRoles.BountyHunter.isEnable()) main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
@@ -55,27 +56,28 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
-            if(__instance.isWarlock())
+            if (__instance.isWarlock())
             {
-                if(main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
+                if (main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
                 {
-                    if(main.CursedPlayers[__instance.PlayerId].Data.IsDead){//のろわれた人が死んだ場合
+                    if (main.CursedPlayers[__instance.PlayerId].Data.IsDead)
+                    {//のろわれた人が死んだ場合
                         main.CursedPlayers.Remove(__instance.PlayerId);
                         main.FirstCursedCheck.Remove(__instance.PlayerId);
                         main.FirstCursedCheck.Add(__instance.PlayerId, false);
                     }
-                    if(main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
+                    if (main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
                     {
                         var cp = main.CursedPlayers[__instance.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
                         Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
                         float dis;
-                        foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                         {
-                            if(!p.Data.IsDead && p != cp)
+                            if (!p.Data.IsDead && p != cp)
                             {
-                                dis = Vector2.Distance(cppos,p.transform.position);
-                                cpdistance.Add(p,dis);
+                                dis = Vector2.Distance(cppos, p.transform.position);
+                                cpdistance.Add(p, dis);
                                 Logger.info($"{p.name}の位置{dis}");
                             }
                         }
@@ -86,20 +88,20 @@ namespace TownOfHost
                     }
                 }
             }
-            if(Options.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
+            if (Options.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
                 float dis;
-                foreach(PlayerControl p in PlayerControl.AllPlayerControls)
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    if(!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.isImpostor() && !p.isBountyHunter() && !p.isWitch() && !p.isSKMadmate())
+                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.isImpostor() && !p.isBountyHunter() && !p.isWitch() && !p.isSKMadmate())
                     {
-                        dis = Vector2.Distance(__instancepos,p.transform.position);
-                        mpdistance.Add(p,dis);
+                        dis = Vector2.Distance(__instancepos, p.transform.position);
+                        mpdistance.Add(p, dis);
                     }
                 }
-                if(mpdistance.Count() != 0)
+                if (mpdistance.Count() != 0)
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
@@ -121,14 +123,16 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
-            if(Options.IsHideAndSeek && Options.HideAndSeekKillDelayTimer > 0) {
+            if (Options.IsHideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
 
-            if(__instance.isSKMadmate())return false;//シェリフがサイドキックされた場合
+            if (__instance.isSKMadmate()) return false;//シェリフがサイドキックされた場合
 
-            if(main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked){
+            if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
+            {
                 Logger.info("キルをブロックしました。");
                 return false;
             }
@@ -142,47 +146,54 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     main.BlockKilling[__instance.PlayerId] = false;
                     return false;
-                } else {
+                }
+                else
+                {
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
-            if(__instance.isSerialKiller())
+            if (__instance.isSerialKiller())
             {
                 __instance.RpcMurderPlayer(target);
                 __instance.RpcGuardAndKill(target);
                 main.SerialKillerTimer.Remove(__instance.PlayerId);
-                main.SerialKillerTimer.Add(__instance.PlayerId,0f);
+                main.SerialKillerTimer.Add(__instance.PlayerId, 0f);
                 return false;
             }
-            if(__instance.isSheriff()) {
-                if(__instance.Data.IsDead) {
+            if (__instance.isSheriff())
+            {
+                if (__instance.Data.IsDead)
+                {
                     main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 }
 
-                if(!target.canBeKilledBySheriff()) {
-                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
+                if (!target.canBeKilledBySheriff())
+                {
+                    PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Misfire);
                     __instance.RpcMurderPlayer(__instance);
                     return false;
                 }
             }
-            if(target.isMadGuardian()) {
+            if (target.isMadGuardian())
+            {
                 var taskState = target.getPlayerTaskState();
-                if(taskState.isTaskFinished) {
+                if (taskState.isTaskFinished)
+                {
                     int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
-                    if(Options.MadGuardianCanSeeWhoTriedToKill)
+                    if (Options.MadGuardianCanSeeWhoTriedToKill)
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                    
+
                     main.BlockKilling[__instance.PlayerId] = false;
-                    if(dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                    if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                         Utils.NotifyRoles();
                     return false;
                 }
             }
             if (__instance.isWitch())
             {
-                if(__instance.GetKillOrSpell() && !main.SpelledPlayer.Contains(target))
+                if (__instance.GetKillOrSpell() && !main.SpelledPlayer.Contains(target))
                 {
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
@@ -196,19 +207,20 @@ namespace TownOfHost
                 if (!main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     __instance.RpcGuardAndKill(target);
-                    main.CursedPlayers.Add(__instance.PlayerId,target);
+                    main.CursedPlayers.Add(__instance.PlayerId, target);
                     main.CursedPlayerDie.Add(target);
                     main.FirstCursedCheck.Remove(__instance.PlayerId);
                     main.FirstCursedCheck.Add(__instance.PlayerId, true);
                     return false;
                 }
-                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId]){//呪われてる人がいないくて変身してるときに通常キルになる
+                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                {//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
                 //Warlockが誰かを呪った時にキルできなくなる処理
-                if (main.FirstCursedCheck[__instance.PlayerId])return false;
+                if (main.FirstCursedCheck[__instance.PlayerId]) return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
@@ -234,12 +246,12 @@ namespace TownOfHost
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
-                if(main.IgnoreReportPlayers.Contains(target.PlayerId))
+                if (main.IgnoreReportPlayers.Contains(target.PlayerId))
                 {
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
-                foreach(var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId)return false;
+                foreach (var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId) return false;
             }
 
             if (Options.SyncButtonMode && target == null)
@@ -274,29 +286,33 @@ namespace TownOfHost
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
-            if(__instance.Data.IsDead) return true;
+            if (__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            if(Options.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead) {
+            if (Options.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
+            {
                 //SyncButtonMode中にホストが死んでいる場合
                 ChangeLocalNameAndRevert(
                     "緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。",
                     1000
                 );
             }
-            foreach(var sp in main.SpelledPlayer) {
+            foreach (var sp in main.SpelledPlayer)
+            {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
             }
-            foreach(var cp in main.CursedPlayerDie){
+            foreach (var cp in main.CursedPlayerDie)
+            {
                 cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
 
             Utils.CustomSyncAllSettings();
             return true;
         }
-        public static async void ChangeLocalNameAndRevert(string name, int time) {
+        public static async void ChangeLocalNameAndRevert(string name, int time)
+        {
             //async Taskじゃ警告出るから仕方ないよね。
             var revertName = PlayerControl.LocalPlayer.name;
             PlayerControl.LocalPlayer.RpcSetName(name);
@@ -337,18 +353,18 @@ namespace TownOfHost
                         (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
-                if(main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit)
                     {
-                        if(!__instance.Data.IsDead)
+                        if (!__instance.Data.IsDead)
                         {
                             PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
                         }
                         else
-                        main.SerialKillerTimer.Remove(__instance.PlayerId);
+                            main.SerialKillerTimer.Remove(__instance.PlayerId);
                     }
                     else
                     {
@@ -357,31 +373,33 @@ namespace TownOfHost
                     }
                 }
                 //バウハンのキルクールの変換とターゲットのリセット
-                if(main.BountyTimer.ContainsKey(__instance.PlayerId))
+                if (main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if(main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
+                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime)//時間経過でターゲットをリセットする処理
                     {
                         main.BountyMeetingCheck = false;
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
-                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
                     }
-                    if(main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
+                    if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
                         __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
-                        main.BountyTimer.Add(__instance.PlayerId ,0f);
+                        main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.BountyTimerCheck = true;
                         main.isTargetKilled.Remove(__instance.PlayerId);
                         main.isTargetKilled.Add(__instance.PlayerId, false);
                     }
-                    if(main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck){//キルクールを変化させないようにする処理
+                    if (main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck)
+                    {//キルクールを変化させないようにする処理
                         main.BountyTimerCheck = false;
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
-                    if(main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck){//選びなおしてから１秒後の処理
+                    if (main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck)
+                    {//選びなおしてから１秒後の処理
                         main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
                         main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
@@ -393,8 +411,8 @@ namespace TownOfHost
                     }
                 }
 
-                if(__instance.AmOwner) Utils.ApplySuffix();
-                if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
+                if (__instance.AmOwner) Utils.ApplySuffix();
+                if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             //役職テキストの表示
@@ -403,9 +421,10 @@ namespace TownOfHost
             if (RoleText != null && __instance != null)
             {
                 var RoleTextData = Utils.GetRoleText(__instance);
-                if(Options.IsHideAndSeek) {
+                if (Options.IsHideAndSeek)
+                {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
-                    if(hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
+                    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                 }
                 RoleText.text = RoleTextData.Item1;
                 RoleText.color = RoleTextData.Item2;
@@ -415,11 +434,11 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                 {
                     RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                    if(!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                    if (!__instance.AmOwner) __instance.nameText.text = __instance.name;
                 }
                 if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                     RoleText.text += $" <color=#e6b422>({Utils.getTaskText(__instance)})</color>"; //ロールの横にタスク表示
-                
+
 
                 //変数定義
                 string RealName;
@@ -432,18 +451,19 @@ namespace TownOfHost
 
                 //名前色変更処理
                 //自分自身の名前の色を変更
-                if(__instance.AmOwner && AmongUsClient.Instance.IsGameStarted) { //__instanceが自分自身
+                if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
+                { //__instanceが自分自身
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
                 }
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
-                else if(PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                else if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
                 //タスクを終わらせたSnitchがインポスターを確認できる
-                else if(PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                else if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
@@ -456,17 +476,21 @@ namespace TownOfHost
                 }
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
-                if(PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                 __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
-                ) {
+                )
+                {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                if(__instance.AmOwner && __instance.getCustomRole().isImpostor()) { //__instanceがインポスターかつ自分自身
-                    foreach(var pc in PlayerControl.AllPlayerControls) { //全員分ループ
-                        if(!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
-                        if(pc.getPlayerTaskState().doExpose) { //タスクが終わりそうなSnitchが見つかった時
+                if (__instance.AmOwner && __instance.getCustomRole().isImpostor())
+                { //__instanceがインポスターかつ自分自身
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    { //全員分ループ
+                        if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
+                        if (pc.getPlayerTaskState().doExpose)
+                        { //タスクが終わりそうなSnitchが見つかった時
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
                             break; //無駄なループは行わない
                         }
@@ -497,13 +521,16 @@ namespace TownOfHost
             roleText.enabled = false;
         }
     }
-    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.SetColor))]
-    class SetColorPatch {
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetColor))]
+    class SetColorPatch
+    {
         public static bool IsAntiGlitchDisabled = false;
-        public static bool Prefix(PlayerControl __instance, int bodyColor) {
+        public static bool Prefix(PlayerControl __instance, int bodyColor)
+        {
             //色変更バグ対策
-            if(!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if(AmongUsClient.Instance.IsGameStarted && Options.IsHideAndSeek) {
+            if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
+            if (AmongUsClient.Instance.IsGameStarted && Options.IsHideAndSeek)
+            {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);
             }
@@ -512,21 +539,28 @@ namespace TownOfHost
     }
 
     [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
-    class EnterVentPatch {
-        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc) {
-            if(Options.IsHideAndSeek && Options.IgnoreVent)
+    class EnterVentPatch
+    {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+        {
+            if (Options.IsHideAndSeek && Options.IgnoreVent)
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
-    class CoEnterVentPatch {
-        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id) {
-            if(AmongUsClient.Instance.AmHost){
-                if(__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate()) {
+    class CoEnterVentPatch
+    {
+        public static bool Prefix(PlayerPhysics __instance, [HarmonyArgument(0)] int id)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate())
+                {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    new LateTask(() => {
+                    new LateTask(() =>
+                    {
                         int clientId = __instance.myPlayer.getClientId();
                         MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
                         writer2.Write(id);
@@ -540,8 +574,10 @@ namespace TownOfHost
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetName))]
-    class SetNamePatch {
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name) {
+    class SetNamePatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
+        {
             main.RealNames[__instance.PlayerId] = name;
         }
     }

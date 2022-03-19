@@ -1,8 +1,10 @@
 using HarmonyLib;
 
-namespace TownOfHost {
+namespace TownOfHost
+{
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcMurderPlayer))]
-    class RpcMurderPlayerPatch {
+    class RpcMurderPlayerPatch
+    {
         public static void Postfix(PlayerControl __instance)
         {
             Utils.NotifyRoles();
@@ -11,8 +13,10 @@ namespace TownOfHost {
     }
 
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.IsGameOverDueToDeath))]
-    class DontBlackoutPatch {
-        public static void Postfix(ShipStatus __instance, ref bool __result) {
+    class DontBlackoutPatch
+    {
+        public static void Postfix(ShipStatus __instance, ref bool __result)
+        {
             __result = false;
         }
     }
