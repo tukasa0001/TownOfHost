@@ -63,34 +63,18 @@ namespace TownOfHost
                 return CustomRoles.Crewmate;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
-            if (!cRoleFound)
+            if (cRoleFound) return cRole;
+
+            switch (player.Data.Role.Role)
             {
-                switch (player.Data.Role.Role)
-                {
-                    case RoleTypes.Crewmate:
-                        cRole = CustomRoles.Crewmate;
-                        break;
-                    case RoleTypes.Engineer:
-                        cRole = CustomRoles.Engineer;
-                        break;
-                    case RoleTypes.Scientist:
-                        cRole = CustomRoles.Scientist;
-                        break;
-                    case RoleTypes.GuardianAngel:
-                        cRole = CustomRoles.GuardianAngel;
-                        break;
-                    case RoleTypes.Impostor:
-                        cRole = CustomRoles.Impostor;
-                        break;
-                    case RoleTypes.Shapeshifter:
-                        cRole = CustomRoles.Shapeshifter;
-                        break;
-                    default:
-                        cRole = CustomRoles.Crewmate;
-                        break;
-                }
+                case RoleTypes.Crewmate: return CustomRoles.Crewmate;
+                case RoleTypes.Engineer: return CustomRoles.Engineer;
+                case RoleTypes.Scientist: return CustomRoles.Scientist;
+                case RoleTypes.GuardianAngel: return CustomRoles.GuardianAngel;
+                case RoleTypes.Impostor: return CustomRoles.Impostor;
+                case RoleTypes.Shapeshifter: return CustomRoles.Shapeshifter;
+                default: return CustomRoles.Crewmate;
             }
-            return cRole;
         }
 
 
@@ -127,14 +111,19 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 if (target.protectedByGuardian)
+                {
                     killer.RpcMurderPlayer(target);
+                }
             }, 0.5f, "GuardAndKill");
         }
 
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
+            {
                 dic[role] = 0;
+            }
+
             return dic[role];
         }
 
@@ -186,7 +175,10 @@ namespace TownOfHost
         {
             if (player == null || !AmongUsClient.Instance.AmHost) return;
             if (main.RealOptionsData == null)
+            {
                 main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            }
+
             var clientId = player.getClientId();
             var opt = main.RealOptionsData.DeepCopy();
 
@@ -417,14 +409,13 @@ namespace TownOfHost
 
         public static string getRealName(this PlayerControl player, bool isMeeting = false)
         {
-
             string RealName;
             if (player.CurrentOutfitType == PlayerOutfitType.Shapeshifted && isMeeting == false)
             {
                 return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
             }
 
-            if (!main.RealNames.TryGetValue(player.PlayerId, out RealName))
+            if (!main.RealNames.TryGetValue(player.PlayerId, out var RealName))
             {
                 RealName = player.name;
                 if (RealName == "Player(Clone)") return RealName;
@@ -438,8 +429,8 @@ namespace TownOfHost
         {
             if (player == null) return null;
             if (main.BountyTargets == null) main.BountyTargets = new Dictionary<byte, PlayerControl>();
-            PlayerControl target;
-            if (!main.BountyTargets.TryGetValue(player.PlayerId, out target))
+
+            if (!main.BountyTargets.TryGetValue(player.PlayerId, out var target))
             {
                 target = player.ResetBountyTarget();
             }
@@ -450,10 +441,16 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
             List<PlayerControl> cTargets = new List<PlayerControl>();
             foreach (var pc in PlayerControl.AllPlayerControls)
-                if (!pc.Data.IsDead && //死者を除外
-                !pc.Data.Disconnected && //切断者を除外
-                !pc.getCustomRole().isImpostor() //インポスターを除外
-                ) cTargets.Add(pc);
+            {
+                // 死者/切断者/インポスターを除外
+                if (!pc.Data.IsDead &&
+                    !pc.Data.Disconnected &&
+                    !pc.getCustomRole().isImpostor()
+                )
+                {
+                    cTargets.Add(pc);
+                }
+            }
 
             var rand = new System.Random();
             if (cTargets.Count <= 0)
@@ -474,8 +471,7 @@ namespace TownOfHost
         }
         public static bool GetKillOrSpell(this PlayerControl player)
         {
-            bool KillOrSpell;
-            if (!main.KillOrSpell.TryGetValue(player.PlayerId, out KillOrSpell))
+            if (!main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
             {
                 main.KillOrSpell[player.PlayerId] = false;
                 KillOrSpell = false;

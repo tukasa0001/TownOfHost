@@ -13,16 +13,12 @@ namespace TownOfHost
         {
             try
             {
-
-
                 if (!AmongUsClient.Instance.AmHost) return true;
                 foreach (var ps in __instance.playerStates)
                 {
-                    if (!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
-                        return false;
+                    //死んでいないプレイヤーが投票していない
+                    if (!(ps.AmDead || ps.DidVote)) return false;
                 }
-
-
 
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
@@ -64,6 +60,9 @@ namespace TownOfHost
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
                                 break;
+                            case VoteMode.Skip:
+                                ps.VotedFor = 253;
+                                break;
                             default:
                                 break;
                         }
@@ -74,6 +73,7 @@ namespace TownOfHost
                         VotedForId = ps.VotedFor
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
+                    {
                         for (var i2 = 0; i2 < Options.MayorAdditionalVote; i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
@@ -82,6 +82,7 @@ namespace TownOfHost
                                 VotedForId = ps.VotedFor
                             });
                         }
+                    }
                 }
                 states = statesList.ToArray();
 
@@ -115,11 +116,11 @@ namespace TownOfHost
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
+                {
                     if (pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                }
 
                 return false;
-
-
             }
             catch (Exception ex)
             {
@@ -211,19 +212,23 @@ namespace TownOfHost
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
                 if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
-                PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
+                {
                     LocalPlayerKnowsImpostor = true;
+                }
 
                 if (LocalPlayerKnowsImpostor)
                 {
                     if (pc != null && pc.getCustomRole().isImpostor()) //変更先がインポスター
+                    {
                         //変更対象の名前を赤くする
                         pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                    }
                 }
 
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
-                pc.isSnitch() && //変更対象がSnitch
-                pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
+                    pc.isSnitch() && //変更対象がSnitch
+                    pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
                 )
                 {
                     //変更対象にSnitchマークをつける
@@ -234,7 +239,9 @@ namespace TownOfHost
 
                 //自分自身の名前の色を変更
                 if (pc != null && pc.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
+                {
                     pva.NameText.text = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
+                }
             }
         }
     }
@@ -244,6 +251,7 @@ namespace TownOfHost
         public static void Postfix(MeetingHud __instance)
         {
             if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
+
             foreach (var pva in __instance.playerStates)
             {
                 if (pva == null) continue;

@@ -213,8 +213,8 @@ namespace TownOfHost
                 if (CustomRoles.MadSnitch.isEnable()) text += String.Format("\n{0}:{1}", getString("MadSnitchTasks"), Options.MadSnitchTasks);
                 if (CustomRoles.Mayor.isEnable()) text += String.Format("\n{0}:{1}", getString("MayorAdditionalVote"), Options.MayorAdditionalVote);
                 if (Options.SyncButtonMode) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
-                if (Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), Options.whenSkipVote);
-                if (Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.whenNonVote);
+                if (Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), getString(Options.whenSkipVote.ToString()));
+                if (Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), getString(Options.whenNonVote.ToString()));
                 if ((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.canTerroristSuicideWin);
             }
             if (Options.NoGameEnd) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd)); ;
@@ -332,13 +332,17 @@ namespace TownOfHost
 
             //Snitch警告表示のON/OFF
             bool ShowSnitchWarning = false;
-            if (CustomRoles.Snitch.isEnable()) foreach (var snitch in PlayerControl.AllPlayerControls)
+            if (CustomRoles.Snitch.isEnable())
+            {
+                foreach (var snitch in PlayerControl.AllPlayerControls)
                 {
                     if (snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected)
                     {
                         var taskState = snitch.getPlayerTaskState();
                         if (taskState.doExpose)
+                        {
                             ShowSnitchWarning = true;
+                        }
                     }
                 }
 
@@ -403,10 +407,12 @@ namespace TownOfHost
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
-                || SeerKnowsImpostors //seerがインポスターを知っている状態
-                || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
-                || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
-                ) foreach (var target in PlayerControl.AllPlayerControls)
+                    || SeerKnowsImpostors //seerがインポスターを知っている状態
+                    || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                    || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                )
+                {
+                    foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
                         if (target == seer) continue;
@@ -433,9 +439,12 @@ namespace TownOfHost
 
                         //ターゲットのプレイヤー名の色を書き換えます。
                         if (SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        {
                             TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                        }
                         else
-                        {//NameColorManager準拠の処理
+                        {
+                            //NameColorManager準拠の処理
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
@@ -448,6 +457,7 @@ namespace TownOfHost
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }
+                }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
             }
             main.witchMeeting = false;

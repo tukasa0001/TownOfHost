@@ -453,7 +453,7 @@ namespace TownOfHost
                 //自分自身の名前の色を変更
                 if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
                 { //__instanceが自分自身
-                    RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色をに変更
+                    RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
                 }
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
                 else if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch

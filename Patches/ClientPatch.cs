@@ -22,11 +22,16 @@ namespace TownOfHost
                         DestroyableSingleton<HudManager>.Instance.KillOverlay.ShowKillAnimation(PlayerControl.LocalPlayer.Data, PlayerControl.LocalPlayer.Data);
                     }
                     else
+                    {
                         //通常処理
                         HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "ベータ版では公開ルームにできません。");
+                    }
+
                     if (blockCount >= 10 && blockCount % 10 == 0 && blockCount % 100 != 0 && !HudManager.Instance.Chat.IsOpen)
+                    {
                         //10回ごとに強制チャット表示
                         HudManager.Instance.Chat.Toggle();
+                    }
                 }
                 isPublic = false;
             }

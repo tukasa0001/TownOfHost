@@ -50,7 +50,6 @@ namespace TownOfHost
 
         private static bool LoadImage(Texture2D tex, byte[] data, bool markNonReadable)
         {
-
             _callLoadImage ??= IL2CPP.ResolveICall<DelegateLoadImage>("UnityEngine.ImageConversion::LoadImage");
             var il2cppArray = (Il2CppStructArray<byte>)data;
 
