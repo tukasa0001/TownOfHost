@@ -344,6 +344,7 @@ namespace TownOfHost
                         }
                     }
                 }
+            }
 
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
@@ -462,9 +463,10 @@ namespace TownOfHost
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
+                    TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
+                }
+                main.witchMeeting = false;
             }
-            main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
         {
