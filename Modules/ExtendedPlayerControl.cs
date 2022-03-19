@@ -261,7 +261,11 @@ namespace TownOfHost {
             switch(introType) {
                 case IntroTypes.Impostor:
                     if(player.isLastImpostor()) {
-                        opt.KillCooldown = Options.LastImpostorKillCooldown;
+                        if(Options.LastImpostorKillCooldown > 0) {
+                            opt.KillCooldown = Options.LastImpostorKillCooldown;
+                        }
+                        else
+                            opt.KillCooldown = 0.01f;
                     }
                     break;
                 case IntroTypes.Madmate:
