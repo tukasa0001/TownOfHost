@@ -178,7 +178,11 @@ namespace TownOfHost {
                         opt.KillCooldown *= 2;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.KillCooldown = main.SheriffKillCooldown;
+                    if(main.SheriffKillCooldown > 0) {
+                        opt.KillCooldown = main.SheriffKillCooldown;
+                    }
+                    else
+                        opt.KillCooldown = 0.01f;
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if(switchSystem != null && switchSystem.IsActive) {
