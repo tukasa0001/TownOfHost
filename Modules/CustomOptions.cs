@@ -22,7 +22,7 @@ namespace TownOfHost
         {
             foreach (var ob in __instance.Children)
             {
-                switch(ob.Title)
+                switch (ob.Title)
                 {
                     case StringNames.GameShortTasks:
                     case StringNames.GameLongTasks:

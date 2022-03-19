@@ -12,14 +12,15 @@ namespace TownOfHost
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
             {
-                if(p == null) continue;
+                if (p == null) continue;
                 var hasTasks = Utils.hasTasks(p);
                 if (hasTasks)
                 {
-//                    if(p.Tasks == null) {
-//                        Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
-//                        continue;//これより下を実行しない
-//                    }
+                    // if (p.Tasks == null)
+                    // {
+                    //     Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
+                    //     continue;//これより下を実行しない
+                    // }
                     foreach (var task in p.Tasks)
                     {
                         __instance.TotalTasks++;
@@ -32,13 +33,15 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-    class CompleteTaskPatch {
-        public static void Postfix(GameData __instance) {
-            if(!AmongUsClient.Instance.AmHost) return;
+    class CompleteTaskPatch
+    {
+        public static void Postfix(GameData __instance)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
 
             Utils.NotifyRoles();
-            if(CustomRoles.Lighter.isEnable())
+            if (CustomRoles.Lighter.isEnable())
                 Utils.CustomSyncAllSettings();//ライターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
-            }
         }
     }
+}
