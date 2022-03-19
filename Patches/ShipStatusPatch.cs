@@ -68,8 +68,9 @@ namespace TownOfHost
         {
             Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
             if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
-
+            }
             if (!AmongUsClient.Instance.AmHost) return true;
             if (Options.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
 

@@ -29,8 +29,8 @@ namespace TownOfHost
     class CanUseVentPatch
     {
         public static void Postfix([HarmonyArgument(0)] GameData.PlayerInfo pc,
-        [HarmonyArgument(1)] ref bool canUse,
-        [HarmonyArgument(2)] ref bool couldUse)
+            [HarmonyArgument(1)] ref bool canUse,
+            [HarmonyArgument(2)] ref bool couldUse)
         {
             if (pc.Object.isSheriff())
                 canUse = couldUse = false;

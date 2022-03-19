@@ -65,9 +65,15 @@ namespace TownOfHost
                     {
                         lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
                     }
-                    else lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    else
+                    {
+                        lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    }
                 }
-                else lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                else
+                {
+                    lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                }
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;

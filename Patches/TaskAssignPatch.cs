@@ -7,7 +7,7 @@ namespace TownOfHost
     class AddTasksFromListPatch
     {
         public static void Prefix(ShipStatus __instance,
-        [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
+            [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
             List<NormalPlayerTask> disabledTasks = new List<NormalPlayerTask>();
             for (var i = 0; i < unusedTasks.Count; i++)

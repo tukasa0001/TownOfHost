@@ -8,7 +8,8 @@ namespace TownOfHost
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
-        {//注:この時点では役職は設定されていません。
+        {
+            //注:この時点では役職は設定されていません。
             PlayerState.Init();
 
             main.currentWinner = CustomWinner.Default;
@@ -89,6 +90,7 @@ namespace TownOfHost
                 }
 
                 if (CustomRoles.Sheriff.isEnable())
+                {
                     for (var i = 0; i < CustomRoles.Sheriff.getCount(); i++)
                     {
                         if (AllPlayers.Count <= 0) break;
@@ -114,6 +116,7 @@ namespace TownOfHost
                         }
                         sheriff.Data.IsDead = true;
                     }
+                }
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
         }
