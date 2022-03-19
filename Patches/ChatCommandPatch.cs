@@ -15,10 +15,27 @@ namespace TownOfHost
             string[] args = text.Split(' ');
             var canceled = false;
             var cancelVal = "";
+            main.isChatCommand = true;
+            Logger.info(text,"SendChat");
+            switch (args[0])
+            {
+                case "/dump":
+                    canceled = true;
+                    string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
+                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
+                    FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+                    file.CopyTo(@filename);
+                    System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+                    Logger.info($"{filename}にログを保存しました。");
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                    break;
+                default:
+                    main.isChatCommand = false;
+                    break;
+            }
             if (AmongUsClient.Instance.AmHost)
             {
                 main.isChatCommand = true;
-                Logger.info(text,"SendChat");
                 switch (args[0])
                 {
                     case "/win":
@@ -65,17 +82,6 @@ namespace TownOfHost
                                 break;
                         }
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
-                        break;
-
-                    case "/dump":
-                        canceled = true;
-                        string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
-                        string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
-                        FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-                        file.CopyTo(@filename);
-                        System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
-                        Logger.info($"{filename}にログを保存しました。");
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                         break;
 
                     case "/h":
