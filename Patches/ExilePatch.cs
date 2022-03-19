@@ -77,9 +77,9 @@ namespace TownOfHost
                 }
             }
             main.BountyMeetingCheck = true;
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Utils.NumOfAliveImpostors();
         }
     }
 }

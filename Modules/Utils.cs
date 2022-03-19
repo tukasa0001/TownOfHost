@@ -433,7 +433,7 @@ namespace TownOfHost
             tmp += input;
             ChangeTo = Math.Clamp(tmp,0,max);
         }
-        public static int NumOfAliveImpostors()
+        public static void CountAliveImpostors()
         {
             int AliveImpostorCount = 0;
             foreach(var pc in PlayerControl.AllPlayerControls) {
@@ -441,7 +441,7 @@ namespace TownOfHost
                 if(pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
             }
             TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人");
-            return AliveImpostorCount;
+            main.AliveImpostorCount= AliveImpostorCount;
         }
     }
 }

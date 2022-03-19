@@ -272,6 +272,7 @@ namespace TownOfHost
                     }
                 }, 3f, "SetImpostorForServer");
             }
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 

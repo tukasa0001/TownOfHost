@@ -441,7 +441,7 @@ namespace TownOfHost {
 
             if (pc.isMafia())
             {
-                if (Utils.NumOfAliveImpostors() > 1) canUse = false;
+                if (main.AliveImpostorCount> 1) canUse = false;
             }
             return canUse;
         }
@@ -452,7 +452,7 @@ namespace TownOfHost {
                 !pc.isVampire() &&
                 !pc.isBountyHunter() &&
                 !pc.isSerialKiller() &&
-                Utils.NumOfAliveImpostors() == 1)
+                main.AliveImpostorCount == 1)
                 return true;
             return false;
         }
