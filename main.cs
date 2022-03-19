@@ -150,6 +150,8 @@ namespace TownOfHost
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
                 {CustomRoles.Watcher, "#800080"},
+                {CustomRoles.EvilWatcher, "#ff0000"},
+                {CustomRoles.NiceWatcher, "#800080"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},

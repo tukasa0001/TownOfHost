@@ -230,6 +230,12 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
 
                 //RPCによる同期
+                foreach(var pc in PlayerControl.AllPlayerControls) {
+                    if(pc.isWatcher() && Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
+                    if(pc.isWatcher() && !Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
+                }
                 foreach(var pair in main.AllPlayerCustomRoles) {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }

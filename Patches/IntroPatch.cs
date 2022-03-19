@@ -13,20 +13,14 @@ namespace TownOfHost
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
             if(role.isVanilla()) return;
             __instance.RoleText.text = Utils.getRoleName(role);
-            __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
             __instance.RoleText.color = Utils.getRoleColor(role);
             __instance.RoleBlurbText.color = Utils.getRoleColor(role);
             __instance.YouAreText.color = Utils.getRoleColor(role);
 
-            if (PlayerControl.LocalPlayer.isEvilWatcher()) {
-                __instance.RoleText.text = Utils.getRoleName(CustomRoles.EvilWatcher);
-                __instance.RoleText.color = Utils.getRoleColor(CustomRoles.Impostor);
-                __instance.RoleBlurbText.color = Utils.getRoleColor(CustomRoles.Impostor);
-                __instance.YouAreText.color = Utils.getRoleColor(CustomRoles.Impostor);
-            }
-            else if (PlayerControl.LocalPlayer.isNiceWatcher()){
-                __instance.RoleText.text = Utils.getRoleName(CustomRoles.NiceWatcher);
-            }
+            if (PlayerControl.LocalPlayer.isEvilWatcher() ||PlayerControl.LocalPlayer.isNiceWatcher())
+                __instance.RoleBlurbText.text = getString("WatcherInfo");
+            else
+                __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]

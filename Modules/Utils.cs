@@ -47,22 +47,9 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
-
-            if (player.isEvilWatcher()) {
-                RoleText = Utils.getRoleName(CustomRoles.EvilWatcher);
-
-                return (RoleText, getRoleColor(CustomRoles.Impostor));
-            }
-            else if (player.isNiceWatcher()) {
-                RoleText = Utils.getRoleName(CustomRoles.NiceWatcher);
-
-                return (RoleText, getRoleColor(CustomRoles.Watcher));
-            }
-            else {
-                RoleText = getRoleName(cRole);
+            RoleText = getRoleName(cRole);
 
                 return (RoleText, getRoleColor(cRole));
-            }
         }
 
         public static string getVitalText(byte player)
@@ -370,14 +357,8 @@ namespace TownOfHost
                 string SeerRealName = seer.getRealName(isMeeting);
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string RoleName = "";
-                if(seer.isEvilWatcher())
-                    RoleName = $"<size=1.5><color={getRoleColorCode(CustomRoles.Impostor)}>{getRoleName(CustomRoles.EvilWatcher)}</color>";
-                else if(seer.isNiceWatcher())
-                    RoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{getRoleName(CustomRoles.NiceWatcher)}</color>";
-                else
-                    RoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
-                string SelfName = $"{RoleName}{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}" + SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
