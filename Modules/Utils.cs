@@ -49,7 +49,7 @@ namespace TownOfHost
             var cRole = player.getCustomRole();
             RoleText = getRoleName(cRole);
 
-                return (RoleText, getRoleColor(cRole));
+            return (RoleText, getRoleColor(cRole));
         }
 
         public static string getVitalText(byte player)
