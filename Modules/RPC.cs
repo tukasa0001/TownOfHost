@@ -25,8 +25,10 @@ namespace TownOfHost
         KillSound
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
-    class RPCHandlerPatch {
-        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+    class RPCHandlerPatch
+    {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
+        {
             byte packetID = callId;
             switch (packetID)
             {
@@ -34,14 +36,16 @@ namespace TownOfHost
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
-                    if(!DontShowOnModdedClient){
+                    if (!DontShowOnModdedClient)
+                    {
                         __instance.SetName(name);
                     }
                     return false;
             }
             return true;
         }
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)]byte callId, [HarmonyArgument(1)]MessageReader reader) {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
+        {
             byte packetID = callId;
             switch (packetID)
             {
@@ -55,7 +59,7 @@ namespace TownOfHost
                     main.playerVersion[__instance.PlayerId] = new PlayerVersion(major,minor,patch,revision,beta,tag);
                     break;
                 case (byte)CustomRPC.SyncCustomSettings:
-                    foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
+                    foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
 
                     bool IsHideAndSeek = reader.ReadBoolean();
                     bool NoGameEnd = reader.ReadBoolean();
@@ -172,7 +176,7 @@ namespace TownOfHost
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
                     var target = Utils.getPlayerById(TargetId);
-                    if(target != null) main.BountyTargets[HunterId] = target;
+                    if (target != null) main.BountyTargets[HunterId] = target;
                     break;
                 case (byte)CustomRPC.SetKillOrSpell:
                     byte playerId = reader.ReadByte();
@@ -196,9 +200,10 @@ namespace TownOfHost
             }
         }
     }
-    static class RPC {
+    static class RPC
+    {
         public static void SyncCustomSettings(
-                Dictionary<CustomRoles,int> roleCounts,
+                Dictionary<CustomRoles, int> roleCounts,
                 bool isHideAndSeek,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
@@ -242,7 +247,8 @@ namespace TownOfHost
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
                 int MayorAdditionalVote
-            ) {
+            )
+        {
             Options.roleCounts = roleCounts;
 
             Options.IsHideAndSeek = isHideAndSeek;
@@ -310,7 +316,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach(CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
+            foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
 
             writer.Write(Options.IsHideAndSeek);
             writer.Write(Options.NoGameEnd);
@@ -408,7 +414,8 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var imp in Impostors) {
+                foreach (var imp in Impostors)
+                {
                     imp.RpcSetRole(RoleTypes.GuardianAngel);
                 }
                 new LateTask(() => main.CustomWinTrigger = true,
@@ -431,7 +438,8 @@ namespace TownOfHost
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var imp in Impostors) {
+                foreach (var imp in Impostors)
+                {
                     imp.RpcSetRole(RoleTypes.GuardianAngel);
                 }
                 new LateTask(() => main.CustomWinTrigger = true,
@@ -459,18 +467,22 @@ namespace TownOfHost
                 }
             }
         }
-        public static void SetCustomRole(byte targetId, CustomRoles role) {
+        public static void SetCustomRole(byte targetId, CustomRoles role)
+        {
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
         }
 
-        public static void AddNameColorData(byte seerId, byte targetId, string color) {
+        public static void AddNameColorData(byte seerId, byte targetId, string color)
+        {
             NameColorManager.Instance.Add(seerId, targetId, color);
         }
-        public static void RemoveNameColorData(byte seerId, byte targetId) {
+        public static void RemoveNameColorData(byte seerId, byte targetId)
+        {
             NameColorManager.Instance.Remove(seerId, targetId);
         }
-        public static void ResetNameColorData() {
+        public static void ResetNameColorData()
+        {
             NameColorManager.Begin();
         }
     }
