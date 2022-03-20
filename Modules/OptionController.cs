@@ -121,8 +121,8 @@ namespace TownOfHost
             });
 
             var voteMode = new PageObject(ModeOptions, () => getString("VoteMode"));
-            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetVoteMode(Options.WhenSkipVote))), true, () =>{});
-            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetVoteMode(Options.WhenNonVote))), true, () => {});
+            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetWhenSkipVote())), true, () =>{});
+            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetWhenNonVote())), true, () => {});
             var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + Utils.getOnOff(Options.CanTerroristSuicideWin.GetBool()), true, () => {});
 
             var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + getString($"SuffixMode_{Enum.GetName(typeof(SuffixModes), Options.GetSuffixMode())}"),  true,
