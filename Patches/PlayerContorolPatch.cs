@@ -180,7 +180,7 @@ namespace TownOfHost
                 {
                     int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                     NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
-                    if (Options.MadGuardianCanSeeWhoTriedToKill)
+                    if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                         NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
 
                     main.BlockKilling[__instance.PlayerId] = false;

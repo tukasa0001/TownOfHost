@@ -55,7 +55,7 @@ namespace TownOfHost
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
-        public static CustomOption R_MadGuardianCanSeeBarrier;
+        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
         public static CustomOption R_MadSnitchTasks;
         public static CustomOption R_CanMakeMadmateCount;
 
@@ -125,7 +125,6 @@ namespace TownOfHost
 
         public static bool autoDisplayLastRoles = false;
         public static int SnitchExposeTaskLeft = 1;
-        public static bool MadGuardianCanSeeWhoTriedToKill = false;
         public static int MadSnitchTasks = 4;
         public static int CanMakeMadmateCount;
         public static bool forceJapanese = false;
@@ -202,9 +201,9 @@ namespace TownOfHost
             MadmateCanFixComms = CustomOption.Create(100, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             MadmateHasImpostorVision = CustomOption.Create(100, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             SetupRoleOptions(CustomRoles.MadGuardian);
-            R_MadGuardianCanSeeBarrier = CustomOption.Create(100, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, RoleSpawnChances[CustomRoles.MadGuardian]);
+            MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(100, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(CustomRoles.MadSnitch);
-            R_MadGuardianCanSeeBarrier = CustomOption.Create(100, Color.white, "MadSnitchTasks", false, RoleSpawnChances[CustomRoles.MadSnitch]);
+            MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(100, Color.white, "MadSnitchTasks", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
 
             SetupRoleOptions(CustomRoles.Bait);
             SetupRoleOptions(CustomRoles.Lighter);

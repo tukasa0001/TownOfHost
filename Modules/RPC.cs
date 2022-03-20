@@ -317,9 +317,8 @@ namespace TownOfHost
             Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
             Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
             Options.MadmateHasImpostorVision.UpdateSelection(MadmateHasImpostorVision);
-            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
+            Options.MadGuardianCanSeeWhoTriedToKill.UpdateSelection(MadGuardianCanSeeBarrier);
             Options.CanMakeMadmateCount = CanMakeMadmateCount;
-            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             Options.MadSnitchTasks = MadSnitchTasks;
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
@@ -369,7 +368,7 @@ namespace TownOfHost
             writer.Write(Options.MadmateCanFixComms.GetBool());
             writer.Write(Options.MadmateHasImpostorVision.GetBool());
             writer.Write(Options.CanMakeMadmateCount);
-            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
+            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill.GetBool());
             writer.Write(Options.MadSnitchTasks);
             writer.Write(Options.MayorAdditionalVote.GetSelection());
             writer.Write(Options.SerialKillerCooldown.GetSelection());

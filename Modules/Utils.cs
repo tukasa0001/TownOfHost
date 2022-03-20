@@ -207,7 +207,7 @@ namespace TownOfHost
                 }
                 if (CustomRoles.MadGuardian.isEnable())
                 {
-                    if (Options.MadGuardianCanSeeWhoTriedToKill) text += String.Format("\n{0}:{1}", getString("MadGuardianCanSeeWhoTriedToKill"), getOnOff(Options.MadGuardianCanSeeWhoTriedToKill));
+                    if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool()) text += String.Format("\n{0}:{1}", getString("MadGuardianCanSeeWhoTriedToKill"), getOnOff(Options.MadGuardianCanSeeWhoTriedToKill.GetBool()));
                 }
                 if (CustomRoles.MadSnitch.isEnable()) text += String.Format("\n{0}:{1}", getString("MadSnitchTasks"), Options.MadSnitchTasks);
                 if (CustomRoles.Mayor.isEnable()) text += String.Format("\n{0}:{1}", getString("MayorAdditionalVote"), Options.MayorAdditionalVote);
