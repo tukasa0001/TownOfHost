@@ -50,8 +50,8 @@ namespace TownOfHost
         public static CustomOption BHDefaultKillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
-        public static CustomOption R_VampireKillDelay;
-        public static CustomOption R_ShapeMasterShapeshiftDuration;
+        public static CustomOption VampireKillDelay;
+        public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -124,8 +124,6 @@ namespace TownOfHost
 
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
-        public static int ShapeMasterShapeshiftDuration = 10;
-        public static int VampireKillDelay = 10;
         public static int MayorAdditionalVote = 1;
         public static int SnitchExposeTaskLeft = 1;
         public static bool MadGuardianCanSeeWhoTriedToKill = false;
@@ -195,9 +193,9 @@ namespace TownOfHost
             SerialKillerCooldown = CustomOption.Create(100, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SerialKillerLimit = CustomOption.Create(100, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SetupRoleOptions(CustomRoles.ShapeMaster);
-            R_ShapeMasterShapeshiftDuration = CustomOption.Create(100, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, RoleSpawnChances[CustomRoles.ShapeMaster]);
+            ShapeMasterShapeshiftDuration = CustomOption.Create(100, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(CustomRoles.Vampire);
-            R_VampireKillDelay = CustomOption.Create(100, Color.white, "VampireKillDelay", 10, 1, 1000, 1, RoleSpawnChances[CustomRoles.Vampire]);
+            VampireKillDelay = CustomOption.Create(100, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(CustomRoles.Warlock);
             SetupRoleOptions(CustomRoles.Witch);
             SetupRoleOptions(CustomRoles.Mafia);

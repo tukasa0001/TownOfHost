@@ -190,7 +190,7 @@ namespace TownOfHost
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration;
+                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     goto DefaultKillcooldown;
                 case CustomRoles.Vampire:

@@ -333,7 +333,7 @@ namespace TownOfHost
                     //__instance:キルされる予定のプレイヤー
                     //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
                     //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay)
+                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                     {
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
                         if (!__instance.Data.IsDead)
