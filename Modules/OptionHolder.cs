@@ -56,8 +56,8 @@ namespace TownOfHost
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
-        public static CustomOption R_MadSnitchTasks;
-        public static CustomOption R_CanMakeMadmateCount;
+        public static CustomOption MadSnitchTasks;
+        public static CustomOption CanMakeMadmateCount;
 
         public static CustomOption MayorAdditionalVote;
         public static CustomOption SabotageMasterSkillLimit;
@@ -125,8 +125,6 @@ namespace TownOfHost
 
         public static bool autoDisplayLastRoles = false;
         public static int SnitchExposeTaskLeft = 1;
-        public static int MadSnitchTasks = 4;
-        public static int CanMakeMadmateCount;
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
 
@@ -193,6 +191,7 @@ namespace TownOfHost
             SetupRoleOptions(CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(100, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(CustomRoles.Warlock);
+            CanMakeMadmateCount = CustomOption.Create(100, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(CustomRoles.Witch);
             SetupRoleOptions(CustomRoles.Mafia);
 
@@ -203,7 +202,7 @@ namespace TownOfHost
             SetupRoleOptions(CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(100, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(CustomRoles.MadSnitch);
-            MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(100, Color.white, "MadSnitchTasks", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchTasks = CustomOption.Create(100, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
 
             SetupRoleOptions(CustomRoles.Bait);
             SetupRoleOptions(CustomRoles.Lighter);
