@@ -273,7 +273,7 @@ namespace TownOfHost
 
             main.VisibleTasksCount = true;
 
-            Options.VampireKillDelay = VampireKillDelay;
+            Options.VampireKillDelay.UpdateSelection(VampireKillDelay);
 
             Options.SabotageMasterSkillLimit.UpdateSelection(SabotageMasterSkillLimit);
             Options.SabotageMasterFixesDoors.UpdateSelection(SabotageMasterFixesDoors);
@@ -294,7 +294,7 @@ namespace TownOfHost
             Options.BountySuccessKillCooldown.UpdateSelection(BountySuccessKillCooldown);
             Options.BountyFailureKillCooldown.UpdateSelection(BountyFailureKillCooldown);
             Options.BHDefaultKillCooldown.UpdateSelection(BHDefaultKillCooldown);
-            Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
+            Options.ShapeMasterShapeshiftDuration.UpdateSelection(ShapeMasterShapeshiftDuration);
 
             Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
             Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
@@ -339,7 +339,7 @@ namespace TownOfHost
             writer.Write(Options.DisableUploadData.GetBool());
             writer.Write(Options.DisableStartReactor.GetBool());
             writer.Write(Options.DisableResetBreaker.GetBool());
-            writer.Write(Options.VampireKillDelay);
+            writer.Write(Options.VampireKillDelay.GetSelection());
             writer.Write(Options.SabotageMasterSkillLimit.GetSelection());
             writer.Write(Options.SabotageMasterFixesDoors.GetBool());
             writer.Write(Options.SabotageMasterFixesReactors.GetBool());
@@ -378,7 +378,7 @@ namespace TownOfHost
             writer.Write(Options.BountySuccessKillCooldown.GetSelection());
             writer.Write(Options.BountyFailureKillCooldown.GetSelection());
             writer.Write(Options.BHDefaultKillCooldown.GetSelection());
-            writer.Write(Options.ShapeMasterShapeshiftDuration);
+            writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
