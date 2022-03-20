@@ -364,7 +364,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return $"{Utils.getRoleName(player.getCustomRole())} ({getString("Last")})";
+            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
         public static string getRoleColorCode(this PlayerControl player)
         {

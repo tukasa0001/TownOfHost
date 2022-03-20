@@ -48,12 +48,12 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
-            if (player.isLastImpostor())
+            /*if (player.isLastImpostor())
             {
                 RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
             }
-            else
-                RoleText = getRoleName(cRole);
+            else*/
+            RoleText = getRoleName(cRole);
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -391,8 +391,6 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                //if (seer.isLastImpostor())
-                //    SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()} {getString("Last")}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
