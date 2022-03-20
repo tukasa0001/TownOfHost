@@ -27,6 +27,9 @@ namespace TownOfHost
         };
 
         public static CustomOption GameMode;
+        public static CustomGameMode CurrentGameMode
+            => GameMode.Selection == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
+        
         public static readonly string[] gameModes =
         {
             "Standard", "HideAndSeek",
@@ -170,6 +173,8 @@ namespace TownOfHost
         public static SuffixModes currentSuffix = SuffixModes.None;
         public static int SabotageMasterUsedSkillCount;
 
+        private static bool IsLoaded = false; 
+
         static Options()
         {
             resetRoleCounts();
@@ -190,6 +195,8 @@ namespace TownOfHost
 
         public static void Load()
         {
+            if (IsLoaded) return;
+            
             Preset = CustomOption.Create(0, new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset", presets, presets[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(CustomGameMode.All);
@@ -316,6 +323,8 @@ namespace TownOfHost
 
             AutoDisplayLastResult = CustomOption.Create(count, Color.white, "AutoDisplayLastResult", false, null, true)
                 .SetGameMode(CustomGameMode.All);
+
+            IsLoaded = true;
         }
 
         private static int count = 100;

@@ -2,28 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Configuration;
+using Hazel;
 using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class CustomGameModes
-    {
-        private static List<CustomGameMode> AllGameModes = new List<CustomGameMode>()
-        {
-            CustomGameMode.Standard,
-            CustomGameMode.HideAndSeek
-        };
-
-        public static CustomGameMode GetGameMode(int gameModeIndex)
-        {
-            if (AllGameModes.Count > gameModeIndex && gameModeIndex >= 0)
-            {
-                return AllGameModes[gameModeIndex];
-            }
-         
-            return AllGameModes[0];
-        }
-    }
     public class CustomOption
     {
         public static readonly List<CustomOption> Options = new List<CustomOption>();
@@ -46,8 +29,6 @@ namespace TownOfHost
         public bool _isHidden;
         private bool _isHiddenOnDisplay;
         public CustomGameMode GameMode;
-
-        static public CustomGameMode CurrentGameMode = CustomGameMode.Standard;
 
         public List<CustomOption> PrerequisiteOptions;
         public List<CustomOption> PrerequisiteOptionsInv;
@@ -191,12 +172,13 @@ namespace TownOfHost
         {
             if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null) return;
 
-            // MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareOptions, Hazel.SendOption.Reliable);
-            // messageWriter.WritePacked((uint)CustomOption.options.Count);
-            // foreach (CustomOption option in CustomOption.options)
+            RPC.SyncCustomSettingsRPC();
+            // MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncCustomSettings, Hazel.SendOption.Reliable);
+            // messageWriter.WritePacked((uint)CustomOption.Options.Count);
+            // foreach (CustomOption option in CustomOption.Options)
             // {
-            //     messageWriter.WritePacked((uint)option.id);
-            //     messageWriter.WritePacked((uint)Convert.ToUInt32(option.selection));
+            //     messageWriter.WritePacked((uint)option.Id);
+            //     messageWriter.WritePacked((uint)Convert.ToUInt32(option.Selection));
             // }
             // messageWriter.EndMessage();
         }
