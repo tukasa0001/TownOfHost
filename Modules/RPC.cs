@@ -264,7 +264,7 @@ namespace TownOfHost
             Options.DisableSubmitScan.UpdateSelection(SubmitScanDisabled);
             Options.DisableUnlockSafe.UpdateSelection(UnlockSafeDisabled);
             Options.DisableUploadData.UpdateSelection(UploadDataDisabled);
-            
+
             Options.DisableStartReactor.UpdateSelection(StartReactorDisabled);
             Options.DisableResetBreaker.UpdateSelection(ResetBreakerDisabled);
 
@@ -282,11 +282,11 @@ namespace TownOfHost
             Options.SabotageMasterFixesComms.UpdateSelection(SabotageMasterFixesCommunications);
             Options.SabotageMasterFixesElectrical.UpdateSelection(SabotageMasterFixesElectrical);
 
-            Options.SheriffKillCooldown = SheriffKillCooldown;
-            Options.SheriffCanKillJester = SheriffCanKillJester;
-            Options.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
-            Options.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
-            Options.SheriffCanKillMadmate = SheriffCanKillMadmate;
+            Options.SheriffKillCooldown.UpdateSelection(SheriffKillCooldown);
+            Options.SheriffCanKillJester.UpdateSelection(SheriffCanKillJester);
+            Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
+            Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
+            Options.SheriffCanKillMadmate.UpdateSelection(SheriffCanKillMadmate);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
             Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
@@ -302,7 +302,7 @@ namespace TownOfHost
             Options.whenSkipVote = (VoteMode)whenSkipVote;
             Options.whenNonVote = (VoteMode)whenNonVote;
             Options.canTerroristSuicideWin = canTerroristSuicideWin;
-            
+
             Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
             Options.AddedTheSkeld.UpdateSelection(AddedTheSkeld);
             Options.AddedMiraHQ.UpdateSelection(AddedMiraHQ);
@@ -346,11 +346,11 @@ namespace TownOfHost
             writer.Write(Options.SabotageMasterFixesOxygens.GetBool());
             writer.Write(Options.SabotageMasterFixesComms.GetBool());
             writer.Write(Options.SabotageMasterFixesElectrical.GetBool());
-            writer.Write(Options.SheriffKillCooldown);
-            writer.Write(Options.SheriffCanKillJester);
-            writer.Write(Options.SheriffCanKillTerrorist);
-            writer.Write(Options.SheriffCanKillOpportunist);
-            writer.Write(Options.SheriffCanKillMadmate);
+            writer.Write(Options.SheriffKillCooldown.GetSelection());
+            writer.Write(Options.SheriffCanKillJester.GetBool());
+            writer.Write(Options.SheriffCanKillTerrorist.GetBool());
+            writer.Write(Options.SheriffCanKillOpportunist.GetBool());
+            writer.Write(Options.SheriffCanKillMadmate.GetBool());
             writer.Write(Options.SyncButtonMode.GetBool());
             writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.whenSkipVote);

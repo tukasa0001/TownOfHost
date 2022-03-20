@@ -133,11 +133,11 @@ namespace TownOfHost
             switch (cRole)
             {
                 case CustomRoles.Jester:
-                    return Options.SheriffCanKillJester;
+                    return Options.SheriffCanKillJester.GetBool();
                 case CustomRoles.Terrorist:
-                    return Options.SheriffCanKillTerrorist;
+                    return Options.SheriffCanKillTerrorist.GetBool();
                 case CustomRoles.Opportunist:
-                    return Options.SheriffCanKillOpportunist;
+                    return Options.SheriffCanKillOpportunist.GetBool();
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
@@ -146,7 +146,7 @@ namespace TownOfHost
                 case IntroTypes.Impostor:
                     return true;
                 case IntroTypes.Madmate:
-                    return Options.SheriffCanKillMadmate;
+                    return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
         }
@@ -252,7 +252,7 @@ namespace TownOfHost
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;
                 case CustomRoles.Sheriff:
-                    opt.KillCooldown = Options.SheriffKillCooldown;
+                    opt.KillCooldown = Options.SheriffKillCooldown.GetFloat();
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if (switchSystem != null && switchSystem.IsActive)

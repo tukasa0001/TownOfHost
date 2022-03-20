@@ -66,11 +66,13 @@ namespace TownOfHost
         public static CustomOption SabotageMasterFixesOxygens;
         public static CustomOption SabotageMasterFixesComms;
         public static CustomOption SabotageMasterFixesElectrical;
-        public static CustomOption R_SheriffKillCooldown;
-        public static CustomOption R_SheriffCanKillJester;
-        public static CustomOption R_SheriffCanKillTerrorist;
-        public static CustomOption R_SheriffCanKillOpportunist;
-        
+        public static int SabotageMasterUsedSkillCount;
+        public static CustomOption SheriffKillCooldown;
+        public static CustomOption SheriffCanKillMadmate;
+        public static CustomOption SheriffCanKillJester;
+        public static CustomOption SheriffCanKillTerrorist;
+        public static CustomOption SheriffCanKillOpportunist;
+
         // HideAndSeek
         public static CustomOption HideAndSeek_AllowCloseDoors;
         public static CustomOption HideNadSeek_WaitingTime;
@@ -119,16 +121,11 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay = 30;
         public static float HideAndSeekKillDelayTimer = 0f;
         public static float HideAndSeekImpVisionMin = 0.25f;
-        
+
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
         public static int ShapeMasterShapeshiftDuration = 10;
         public static int VampireKillDelay = 10;
-        public static int SheriffKillCooldown = 30;
-        public static bool SheriffCanKillJester = true;
-        public static bool SheriffCanKillTerrorist = true;
-        public static bool SheriffCanKillOpportunist = false;
-        public static bool SheriffCanKillMadmate = true;
         public static int MayorAdditionalVote = 1;
         public static int SnitchExposeTaskLeft = 1;
         public static bool MadmateHasImpostorVision = true;
@@ -141,7 +138,7 @@ namespace TownOfHost
         public static VoteMode whenNonVote = VoteMode.Default;
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
-        public static int SabotageMasterUsedSkillCount;
+        
 
         private static bool IsLoaded = false; 
 
@@ -229,10 +226,11 @@ namespace TownOfHost
             SabotageMasterFixesComms = CustomOption.Create(100, Color.white, "SabotageMasterFixesCommunications", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesElectrical = CustomOption.Create(100, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SetupRoleOptions(CustomRoles.Sheriff);
-            R_SheriffKillCooldown = CustomOption.Create(100, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, RoleSpawnChances[CustomRoles.Sheriff]);
-            R_SheriffCanKillJester = CustomOption.Create(100, Color.white, "SheriffCanKillJester", true, RoleSpawnChances[CustomRoles.Sheriff]);
-            R_SheriffCanKillTerrorist = CustomOption.Create(100, Color.white, "SheriffCanKillTerrorist", true, RoleSpawnChances[CustomRoles.Sheriff]);
-            R_SheriffCanKillOpportunist= CustomOption.Create(100, Color.white, "SheriffCanKillOpportunist", true, RoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffKillCooldown = CustomOption.Create(100, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillMadmate = CustomOption.Create(100, Color.white, "SheriffCanKillMadmate", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillJester = CustomOption.Create(100, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillTerrorist = CustomOption.Create(100, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillOpportunist = CustomOption.Create(100, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(CustomRoles.Snitch);
 
             SetupRoleOptions(CustomRoles.Jester);

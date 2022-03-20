@@ -194,10 +194,10 @@ namespace TownOfHost
                 if (CustomRoles.Sheriff.isEnable())
                 {
                     if (CustomRoles.Sheriff.isEnable()) text += String.Format("\n{0}:{1}", getString("SheriffKillCooldown"), Options.SheriffKillCooldown);
-                    if (Options.SheriffCanKillJester) text += String.Format("\n{0}:{1}", getString("SheriffCanKillJester"), getOnOff(Options.SheriffCanKillJester));
-                    if (Options.SheriffCanKillTerrorist) text += String.Format("\n{0}:{1}", getString("SheriffCanKillTerrorist"), getOnOff(Options.SheriffCanKillTerrorist));
-                    if (Options.SheriffCanKillOpportunist) text += String.Format("\n{0}:{1}", getString("SheriffCanKillOpportunist"), getOnOff(Options.SheriffCanKillOpportunist));
-                    if (Options.SheriffCanKillMadmate) text += String.Format("\n{0}:{1}", getString("SheriffCanKillMadmate"), getOnOff(Options.SheriffCanKillMadmate));
+                    if (Options.SheriffCanKillJester.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillJester"), getOnOff(Options.SheriffCanKillJester.GetBool()));
+                    if (Options.SheriffCanKillTerrorist.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillTerrorist"), getOnOff(Options.SheriffCanKillTerrorist.GetBool()));
+                    if (Options.SheriffCanKillOpportunist.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillOpportunist"), getOnOff(Options.SheriffCanKillOpportunist.GetBool()));
+                    if (Options.SheriffCanKillMadmate.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillMadmate"), getOnOff(Options.SheriffCanKillMadmate.GetBool()));
                 }
                 if (CustomRoles.MadGuardian.isEnable() || CustomRoles.MadSnitch.isEnable() || CustomRoles.Madmate.isEnable() || CustomRoles.SKMadmate.isEnable())
                 {
