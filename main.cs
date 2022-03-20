@@ -646,6 +646,18 @@ namespace TownOfHost
             }
             if (isAllCompleted && (!main.ps.isSuicide(Terrorist.PlayerId) || canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
+                foreach(var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.Data.IsDead)
+                    {
+                        pc.MurderPlayer(pc);
+                        main.ps.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                    }
+                    if (pc.isTerrorist() && pc.Data.IsDead)
+                    {
+                        main.ps.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                    }
+                }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -1280,6 +1292,7 @@ namespace TownOfHost
                 {PlayerState.DeathReason.Vote,"Vote" },
                 {PlayerState.DeathReason.Suicide,"Suicide" },
                 {PlayerState.DeathReason.Spell,"Spelled" },
+                {PlayerState.DeathReason.Bombed,"Bombed" },
                 {PlayerState.DeathReason.etc,"Living" },
             };
             JapaneseDeathReason = new Dictionary<PlayerState.DeathReason, string>(){
@@ -1287,6 +1300,7 @@ namespace TownOfHost
                 {PlayerState.DeathReason.Vote,"追放" },
                 {PlayerState.DeathReason.Suicide,"自爆" },
                 {PlayerState.DeathReason.Spell,"呪殺" },
+                {PlayerState.DeathReason.Bombed,"爆死" },
                 {PlayerState.DeathReason.etc,"生存" },
             };
 
