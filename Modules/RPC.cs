@@ -52,7 +52,7 @@ namespace TownOfHost
                 case (byte)CustomRPC.SyncCustomSettings:
                     foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
 
-                    int CurrentGameMode = reader.ReadByte();
+                    int CurrentGameMode = reader.ReadInt32();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
                     bool SubmitScanDisabled = reader.ReadBoolean();
@@ -243,14 +243,15 @@ namespace TownOfHost
             Options.roleCounts = roleCounts;
 
             Options.GameMode.UpdateSelection(CurrentGameMode);
-            Options.NoGameEnd = NoGameEnd;
+            Options.NoGameEnd.UpdateSelection(NoGameEnd);
 
-            Options.DisableSwipeCard = SwipeCardDisabled;
-            Options.DisableSubmitScan = SubmitScanDisabled;
-            Options.DisableUnlockSafe = UnlockSafeDisabled;
-            Options.DisableUploadData = UploadDataDisabled;
-            Options.DisableStartReactor = StartReactorDisabled;
-            Options.DisableResetBreaker = ResetBreakerDisabled;
+            Options.DisableSwipeCard.UpdateSelection(SwipeCardDisabled);
+            Options.DisableSubmitScan.UpdateSelection(SubmitScanDisabled);
+            Options.DisableUnlockSafe.UpdateSelection(UnlockSafeDisabled);
+            Options.DisableUploadData.UpdateSelection(UploadDataDisabled);
+            
+            Options.DisableStartReactor.UpdateSelection(StartReactorDisabled);
+            Options.DisableResetBreaker.UpdateSelection(ResetBreakerDisabled);
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
@@ -310,13 +311,13 @@ namespace TownOfHost
             foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
 
             writer.Write(Options.GameMode.Selection);
-            writer.Write(Options.NoGameEnd);
-            writer.Write(Options.DisableSwipeCard);
-            writer.Write(Options.DisableSubmitScan);
-            writer.Write(Options.DisableUnlockSafe);
-            writer.Write(Options.DisableUploadData);
-            writer.Write(Options.DisableStartReactor);
-            writer.Write(Options.DisableResetBreaker);
+            writer.Write(Options.NoGameEnd.GetBool());
+            writer.Write(Options.DisableSwipeCard.GetBool());
+            writer.Write(Options.DisableSubmitScan.GetBool());
+            writer.Write(Options.DisableUnlockSafe.GetBool());
+            writer.Write(Options.DisableUploadData.GetBool());
+            writer.Write(Options.DisableStartReactor.GetBool());
+            writer.Write(Options.DisableResetBreaker.GetBool());
             writer.Write(Options.VampireKillDelay);
             writer.Write(Options.SabotageMasterSkillLimit);
             writer.Write(Options.SabotageMasterFixesDoors);

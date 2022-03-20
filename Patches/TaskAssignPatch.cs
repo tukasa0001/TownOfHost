@@ -13,12 +13,12 @@ namespace TownOfHost
             for (var i = 0; i < unusedTasks.Count; i++)
             {
                 var task = unusedTasks[i];
-                if (task.TaskType == TaskTypes.SwipeCard && Options.DisableSwipeCard) disabledTasks.Add(task);//カードタスク
-                if (task.TaskType == TaskTypes.SubmitScan && Options.DisableSubmitScan) disabledTasks.Add(task);//スキャンタスク
-                if (task.TaskType == TaskTypes.UnlockSafe && Options.DisableUnlockSafe) disabledTasks.Add(task);//金庫タスク
-                if (task.TaskType == TaskTypes.UploadData && Options.DisableUploadData) disabledTasks.Add(task);//アップロードタスク
-                if (task.TaskType == TaskTypes.StartReactor && Options.DisableStartReactor) disabledTasks.Add(task);//リアクターの3x3タスク
-                if (task.TaskType == TaskTypes.ResetBreakers && Options.DisableResetBreaker) disabledTasks.Add(task);//レバータスク
+                if (task.TaskType == TaskTypes.SwipeCard && Options.DisableSwipeCard.GetBool()) disabledTasks.Add(task);//カードタスク
+                if (task.TaskType == TaskTypes.SubmitScan && Options.DisableSubmitScan.GetBool()) disabledTasks.Add(task);//スキャンタスク
+                if (task.TaskType == TaskTypes.UnlockSafe && Options.DisableUnlockSafe.GetBool()) disabledTasks.Add(task);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && Options.DisableUploadData.GetBool()) disabledTasks.Add(task);//アップロードタスク
+                if (task.TaskType == TaskTypes.StartReactor && Options.DisableStartReactor.GetBool()) disabledTasks.Add(task);//リアクターの3x3タスク
+                if (task.TaskType == TaskTypes.ResetBreakers && Options.DisableResetBreaker.GetBool()) disabledTasks.Add(task);//レバータスク
             }
             foreach (var task in disabledTasks)
             {

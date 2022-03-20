@@ -82,13 +82,12 @@ namespace TownOfHost
         public static CustomOption Button_SyncedButtonCount;
 
         // タスク無効化
-        public static CustomOption DisableTasks;
-        public static CustomOption Task_DisableSwipeCard;
-        public static CustomOption Task_DisableSubmitScan;
-        public static CustomOption Task_DisableUnlockScan;
-        public static CustomOption Task_DisableUploadData;
-        public static CustomOption Task_DisableStartReactor;
-        public static CustomOption Task_DisableResetBreaker;
+        public static CustomOption DisableSwipeCard;
+        public static CustomOption DisableSubmitScan;
+        public static CustomOption DisableUnlockSafe;
+        public static CustomOption DisableUploadData;
+        public static CustomOption DisableStartReactor;
+        public static CustomOption DisableResetBreaker;
 
         // ランダムマップ
         public static CustomOption RandomMapMode;
@@ -98,7 +97,7 @@ namespace TownOfHost
         public static CustomOption MapAirship;
         public static CustomOption MapDleks;
 
-        public static CustomOption N_NoGameEnd;
+        public static CustomOption NoGameEnd;
 
         // 投票モード
         public static CustomOption N_WhenSkipVote;
@@ -123,14 +122,7 @@ namespace TownOfHost
         public static int SyncedButtonCount = 10;
         public static int UsedButtonCount = 0;
         public static bool RandomMapsMode;
-        public static bool NoGameEnd = false;
-        //タスク無効化
-        public static bool DisableSwipeCard = false;
-        public static bool DisableSubmitScan = false;
-        public static bool DisableUnlockSafe = false;
-        public static bool DisableUploadData = false;
-        public static bool DisableStartReactor = false;
-        public static bool DisableResetBreaker = false;
+
         //ランダムマップ
         public static bool AddedTheSkeld;
         public static bool AddedMIRAHQ;
@@ -274,19 +266,17 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
-            DisableTasks = CustomOption.Create(count, Color.white, "DisableTasks", false, null, true)
+            DisableSwipeCard = CustomOption.Create(count, Color.white, "DisableSwipeCardTask", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            Task_DisableSwipeCard = CustomOption.Create(count, Color.white, "DisableSwipeCardTask", false, DisableTasks)
+            DisableSubmitScan = CustomOption.Create(count, Color.white, "DisableSubmitScanTask", false)
                 .SetGameMode(CustomGameMode.All);
-            Task_DisableSubmitScan = CustomOption.Create(count, Color.white, "DisableSubmitScanTask", false, DisableTasks)
+            DisableUnlockSafe = CustomOption.Create(count, Color.white, "DisableUnlockSafeTask", false)
                 .SetGameMode(CustomGameMode.All);
-            Task_DisableUnlockScan = CustomOption.Create(count, Color.white, "DisableUnlockSafeTask", false, DisableTasks)
+            DisableUploadData = CustomOption.Create(count, Color.white, "DisableUploadDataTask", false)
                 .SetGameMode(CustomGameMode.All);
-            Task_DisableUploadData = CustomOption.Create(count, Color.white, "DisableUploadDataTask", false, DisableTasks)
+            DisableStartReactor = CustomOption.Create(count, Color.white, "DisableStartReactorTask", false)
                 .SetGameMode(CustomGameMode.All);
-            Task_DisableStartReactor = CustomOption.Create(count, Color.white, "DisableStartReactorTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-            Task_DisableResetBreaker = CustomOption.Create(count, Color.white, "DisableResetBreakerTask", false, DisableTasks)
+            DisableResetBreaker = CustomOption.Create(count, Color.white, "DisableResetBreakerTask", false)
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ
@@ -303,10 +293,7 @@ namespace TownOfHost
             // MapDleks = CustomOption.Create(count, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
 
-            Task_DisableResetBreaker = CustomOption.Create(count, Color.white, "DisableResetBreakerTask", false, DisableTasks)
-                .SetGameMode(CustomGameMode.All);
-
-            N_NoGameEnd = CustomOption.Create(count, Color.white, "NoGameEnd", false, null, true)
+            NoGameEnd = CustomOption.Create(count, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
 
             N_WhenSkipVote = CustomOption.Create(count, Color.white, "WhenSkipVote", voteModes, voteModes[0], null, true)

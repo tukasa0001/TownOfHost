@@ -159,7 +159,7 @@ namespace TownOfHost
                     if (role.isEnable()) SendMessage(getRoleName(role) + getString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
             }
-            if (Options.NoGameEnd) { SendMessage(getString("NoGameEndInfo")); }
+            if (Options.NoGameEnd.GetBool()) { SendMessage(getString("NoGameEndInfo")); }
         }
         public static void ShowActiveSettings()
         {
@@ -216,7 +216,7 @@ namespace TownOfHost
                 if (Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), getString(Options.whenNonVote.ToString()));
                 if ((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.canTerroristSuicideWin);
             }
-            if (Options.NoGameEnd) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd)); ;
+            if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd.GetBool())); ;
             SendMessage(text);
         }
         public static void ShowLastRoles()

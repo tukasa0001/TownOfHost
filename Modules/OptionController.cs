@@ -101,12 +101,12 @@ namespace TownOfHost
             var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + Options.SyncedButtonCount + main.TextCursor, true, () => { Options.SyncedButtonCount = 0; }, i => Utils.ChangeInt(ref Options.SyncedButtonCount, i, 100));
 
             var DisableTasks = new PageObject(ModeOptions, () => getString("DisableTasks"));
-            var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + Utils.getOnOff(Options.DisableSwipeCard), true, () => { Options.DisableSwipeCard = !Options.DisableSwipeCard; });
-            var dSubmitScan = new PageObject(DisableTasks, () => getString("DisableSubmitScanTask") + ": " + Utils.getOnOff(Options.DisableSubmitScan), true, () => { Options.DisableSubmitScan = !Options.DisableSubmitScan; });
-            var dUnlockSafe = new PageObject(DisableTasks, () => getString("DisableUnlockSafeTask") + ": " + Utils.getOnOff(Options.DisableUnlockSafe), true, () => { Options.DisableUnlockSafe = !Options.DisableUnlockSafe; });
-            var dUploadData = new PageObject(DisableTasks, () => getString("DisableUploadDataTask") + ": " + Utils.getOnOff(Options.DisableUploadData), true, () => { Options.DisableUploadData = !Options.DisableUploadData; });
-            var dStartReactor = new PageObject(DisableTasks, () => getString("DisableStartReactorTask") + ": " + Utils.getOnOff(Options.DisableStartReactor), true, () => { Options.DisableStartReactor = !Options.DisableStartReactor; });
-            var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + Utils.getOnOff(Options.DisableResetBreaker), true, () => { Options.DisableResetBreaker = !Options.DisableResetBreaker; });
+            var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + Utils.getOnOff(Options.DisableSwipeCard.GetBool()), true, () => { /* Options.Task_DisableSwipeCard.UpdateSelection()*/ });
+            var dSubmitScan = new PageObject(DisableTasks, () => getString("DisableSubmitScanTask") + ": " + Utils.getOnOff(Options.DisableSubmitScan.GetBool()), true, () => { /*Options.DisableSubmitScan = !Options.DisableSubmitScan;*/ });
+            var dUnlockSafe = new PageObject(DisableTasks, () => getString("DisableUnlockSafeTask") + ": " + Utils.getOnOff(Options.DisableUnlockSafe.GetBool()), true, () => { /*Options.DisableUnlockSafe = !Options.DisableUnlockSafe;*/ });
+            var dUploadData = new PageObject(DisableTasks, () => getString("DisableUploadDataTask") + ": " + Utils.getOnOff(Options.DisableUploadData.GetBool()), true, () => { /*Options.DisableUploadData = !Options.DisableUploadData;*/ });
+            var dStartReactor = new PageObject(DisableTasks, () => getString("DisableStartReactorTask") + ": " + Utils.getOnOff(Options.DisableStartReactor.GetBool()), true, () => { /*Options.DisableStartReactor = !Options.DisableStartReactor;*/ });
+            var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + Utils.getOnOff(Options.DisableResetBreaker.GetBool()), true, () => { /*Options.DisableResetBreaker = !Options.DisableResetBreaker;*/ });
 
             var RandomMapsMode = new PageObject(ModeOptions, () => getString("RandomMapsMode"));
             var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + Utils.getOnOff(Options.RandomMapsMode), true, () => Options.RandomMapsMode = !Options.RandomMapsMode);
@@ -115,7 +115,10 @@ namespace TownOfHost
             var rmPolus = new PageObject(RandomMapsMode, () => getString("AddedPolus") + ": " + Utils.getOnOff(Options.AddedPolus), true, () => Options.AddedPolus = !Options.AddedPolus);
             //var rmDleks = new PageObject(RandomMapsMode, () => getString("AddedDleks") + ": " + Utils.getOnOff(Options.AddedDleks), true, () => Options.AddedDleks = !Options.AddedDleks);
             var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + Utils.getOnOff(Options.AddedTheAirShip), true, () => Options.AddedTheAirShip = !Options.AddedTheAirShip);
-            var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + Utils.getOnOff(Options.NoGameEnd), true, () => Options.NoGameEnd = !Options.NoGameEnd);
+            var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + Utils.getOnOff(Options.NoGameEnd.GetBool()), true, () =>
+            {
+                 /* Options.NoGameEnd = !Options.NoGameEnd; */
+            });
 
             var voteMode = new PageObject(ModeOptions, () => getString("VoteMode"));
             var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.whenSkipVote)), true, () =>

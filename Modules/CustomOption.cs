@@ -252,6 +252,11 @@ namespace TownOfHost
         {
             return Helpers.ColorString(Color, Translator.getString(Name));
         }
+
+        public void UpdateSelection(bool enable)
+        {
+            UpdateSelection(enable ? 1 : 0);
+        }
         
         public void UpdateSelection(int newSelection)
         {
