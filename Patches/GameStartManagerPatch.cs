@@ -105,7 +105,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
-            if (Options.RandomMapsMode == true)
+            if (Options.RandomMapsMode.GetBool())
             {
                 var rand = new System.Random();
                 System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
@@ -114,11 +114,11 @@ namespace TownOfHost
                 Polus      = 2
                 Dleks      = 3
                 TheAirShip = 4*/
-                if (Options.AddedTheSkeld == true) RandomMaps.Add(0);
-                if (Options.AddedMIRAHQ == true) RandomMaps.Add(1);
-                if (Options.AddedPolus == true) RandomMaps.Add(2);
-                if (Options.AddedDleks == true) RandomMaps.Add(3);
-                if (Options.AddedTheAirShip == true) RandomMaps.Add(4);
+                if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
+                if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
+                if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
+                // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
+                if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
 

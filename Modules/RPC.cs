@@ -77,6 +77,11 @@ namespace TownOfHost
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
                     bool canTerroristSuicideWin = reader.ReadBoolean();
+                    bool RandomMapsMode = reader.ReadBoolean();
+                    bool AddedTheSkeld = reader.ReadBoolean();
+                    bool AddedMiraHQ = reader.ReadBoolean();
+                    bool AddedPolus = reader.ReadBoolean();
+                    bool AddedTheAirShip = reader.ReadBoolean();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -129,6 +134,11 @@ namespace TownOfHost
                         whenSkipVote,
                         whenNonVote,
                         canTerroristSuicideWin,
+                        RandomMapsMode,
+                        AddedTheSkeld,
+                        AddedMiraHQ,
+                        AddedPolus,
+                        AddedTheAirShip,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -227,6 +237,11 @@ namespace TownOfHost
                 int whenSkipVote,
                 int whenNonVote,
                 bool canTerroristSuicideWin,
+                bool RandomMapsMode,
+                bool AddedTheSkeld,
+                bool AddedMiraHQ,
+                bool AddedPolus,
+                bool AddedTheAirShip,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -287,6 +302,12 @@ namespace TownOfHost
             Options.whenSkipVote = (VoteMode)whenSkipVote;
             Options.whenNonVote = (VoteMode)whenNonVote;
             Options.canTerroristSuicideWin = canTerroristSuicideWin;
+            
+            Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
+            Options.AddedTheSkeld.UpdateSelection(AddedTheSkeld);
+            Options.AddedMiraHQ.UpdateSelection(AddedMiraHQ);
+            Options.AddedPolus.UpdateSelection(AddedPolus);
+            Options.AddedTheAirShip.UpdateSelection(AddedTheAirShip);
 
             Options.AllowCloseDoors = AllowCloseDoors;
             Options.HideAndSeekKillDelay = HaSKillDelay;
@@ -335,6 +356,11 @@ namespace TownOfHost
             writer.Write((int)Options.whenSkipVote);
             writer.Write((int)Options.whenNonVote);
             writer.Write(Options.canTerroristSuicideWin);
+            writer.Write(Options.RandomMapsMode.GetBool());
+            writer.Write(Options.AddedTheSkeld.GetBool());
+            writer.Write(Options.AddedMiraHQ.GetBool());
+            writer.Write(Options.AddedPolus.GetBool());
+            writer.Write(Options.AddedTheAirShip.GetBool());
             writer.Write(Options.AllowCloseDoors);
             writer.Write(Options.HideAndSeekKillDelay);
             writer.Write(Options.IgnoreVent);

@@ -91,12 +91,12 @@ namespace TownOfHost
         public static CustomOption DisableResetBreaker;
 
         // ランダムマップ
-        public static CustomOption RandomMapMode;
-        public static CustomOption MapSkeld;
-        public static CustomOption MapMiraHQ;
-        public static CustomOption MapPolus;
-        public static CustomOption MapAirship;
-        public static CustomOption MapDleks;
+        public static CustomOption RandomMapsMode;
+        public static CustomOption AddedTheSkeld;
+        public static CustomOption AddedMiraHQ;
+        public static CustomOption AddedPolus;
+        public static CustomOption AddedTheAirShip;
+        public static CustomOption AddedDleks;
 
         public static CustomOption NoGameEnd;
 
@@ -120,14 +120,6 @@ namespace TownOfHost
         public static float HideAndSeekKillDelayTimer = 0f;
         public static float HideAndSeekImpVisionMin = 0.25f;
         
-        public static bool RandomMapsMode;
-
-        //ランダムマップ
-        public static bool AddedTheSkeld;
-        public static bool AddedMIRAHQ;
-        public static bool AddedPolus;
-        public static bool AddedDleks;
-        public static bool AddedTheAirShip;
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
         public static int ShapeMasterShapeshiftDuration = 10;
@@ -279,15 +271,15 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ
-            RandomMapMode = CustomOption.Create(count, Color.white, "RandomMapsMode", false, null, true)
+            RandomMapsMode = CustomOption.Create(count, Color.white, "RandomMapsMode", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            MapSkeld = CustomOption.Create(count, Color.white, "AddedTheSkeld", false, RandomMapMode)
+            AddedTheSkeld = CustomOption.Create(count, Color.white, "AddedTheSkeld", false, RandomMapsMode)
                 .SetGameMode(CustomGameMode.All);
-            MapMiraHQ = CustomOption.Create(count, Color.white, "AddedMIRAHQ", false, RandomMapMode)
+            AddedMiraHQ = CustomOption.Create(count, Color.white, "AddedMIRAHQ", false, RandomMapsMode)
                 .SetGameMode(CustomGameMode.All);
-            MapPolus = CustomOption.Create(count, Color.white, "AddedPolus", false, RandomMapMode)
+            AddedPolus = CustomOption.Create(count, Color.white, "AddedPolus", false, RandomMapsMode)
                 .SetGameMode(CustomGameMode.All);
-            MapAirship = CustomOption.Create(count, Color.white, "AddedTheAirShip", false, RandomMapMode)
+            AddedTheAirShip = CustomOption.Create(count, Color.white, "AddedTheAirShip", false, RandomMapsMode)
                 .SetGameMode(CustomGameMode.All);
             // MapDleks = CustomOption.Create(count, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);

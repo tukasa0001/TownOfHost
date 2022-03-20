@@ -152,7 +152,7 @@ namespace TownOfHost
             else
             {
                 if (Options.SyncButtonMode.GetBool()) { SendMessage(getString("SyncButtonModeInfo")); }
-                if (Options.RandomMapsMode) { SendMessage(getString("RandomMapsModeInfo")); }
+                if (Options.RandomMapsMode.GetBool()) { SendMessage(getString("RandomMapsModeInfo")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;

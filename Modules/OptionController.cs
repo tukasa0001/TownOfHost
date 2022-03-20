@@ -109,12 +109,12 @@ namespace TownOfHost
             var dResetBreaker = new PageObject(DisableTasks, () => getString("DisableResetBreakerTask") + ": " + Utils.getOnOff(Options.DisableResetBreaker.GetBool()), true, () => { /*Options.DisableResetBreaker = !Options.DisableResetBreaker;*/ });
 
             var RandomMapsMode = new PageObject(ModeOptions, () => getString("RandomMapsMode"));
-            var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + Utils.getOnOff(Options.RandomMapsMode), true, () => Options.RandomMapsMode = !Options.RandomMapsMode);
-            var rmSkeld = new PageObject(RandomMapsMode, () => getString("AddedTheSkeld") + ": " + Utils.getOnOff(Options.AddedTheSkeld), true, () => Options.AddedTheSkeld = !Options.AddedTheSkeld);
-            var rmMiraHQ = new PageObject(RandomMapsMode, () => getString("AddedMIRAHQ") + ": " + Utils.getOnOff(Options.AddedMIRAHQ), true, () => Options.AddedMIRAHQ = !Options.AddedMIRAHQ);
-            var rmPolus = new PageObject(RandomMapsMode, () => getString("AddedPolus") + ": " + Utils.getOnOff(Options.AddedPolus), true, () => Options.AddedPolus = !Options.AddedPolus);
-            //var rmDleks = new PageObject(RandomMapsMode, () => getString("AddedDleks") + ": " + Utils.getOnOff(Options.AddedDleks), true, () => Options.AddedDleks = !Options.AddedDleks);
-            var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + Utils.getOnOff(Options.AddedTheAirShip), true, () => Options.AddedTheAirShip = !Options.AddedTheAirShip);
+            var RandomMapsModeEnabled = new PageObject(RandomMapsMode, () => getString("RandomMapsMode") + ": " + Utils.getOnOff(Options.RandomMapsMode.GetBool()), true);
+            var rmSkeld = new PageObject(RandomMapsMode, () => getString("AddedTheSkeld") + ": " + Utils.getOnOff(Options.AddedTheSkeld.GetBool()), true);
+            var rmMiraHQ = new PageObject(RandomMapsMode, () => getString("AddedMIRAHQ") + ": " + Utils.getOnOff(Options.AddedMiraHQ.GetBool()), true);
+            var rmPolus = new PageObject(RandomMapsMode, () => getString("AddedPolus") + ": " + Utils.getOnOff(Options.AddedPolus.GetBool()), true);
+            //var rmDleks = new PageObject(RandomMapsMode, () => getString("AddedDleks") + ": " + Utils.getOnOff(Options.AddedDleks.GetBool()), true);
+            var rmAirship = new PageObject(RandomMapsMode, () => getString("AddedTheAirShip") + ": " + Utils.getOnOff(Options.AddedTheAirShip.GetBool()), true);
             var NoGameEnd = new PageObject(ModeOptions, () => getString("NoGameEnd") + ": " + Utils.getOnOff(Options.NoGameEnd.GetBool()), true, () =>
             {
                  /* Options.NoGameEnd = !Options.NoGameEnd; */
