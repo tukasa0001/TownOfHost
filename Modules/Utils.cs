@@ -22,8 +22,10 @@ namespace TownOfHost
         }
         public static string getRoleName(CustomRoles role)
         {
-            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || Options.forceJapanese) &&
-            main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+            var forceJapanese = Options.ForceJapanese != null && Options.ForceJapanese.GetBool();
+
+            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
+                       main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
             return getString(Enum.GetName(typeof(CustomRoles), role), lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)

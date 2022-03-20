@@ -132,7 +132,7 @@ namespace TownOfHost
                 Options.currentSuffix = next;
             });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
-            var forceJapanese = new PageObject(basePage, () => getString("ForceJapanese") + ": " + Utils.getOnOff(Options.forceJapanese), false, () => Options.forceJapanese = !Options.forceJapanese);
+            var forceJapanese = new PageObject(basePage, () => getString("ForceJapanese") + ": " + Utils.getOnOff(Options.ForceJapanese.GetBool()), false, () => {});
             var autoPrintLastRoles = new PageObject(basePage, () => getString("AutoDisplayLastResult") + ": " + Utils.getOnOff(Options.AutoDisplayLastResult.GetBool()), false, () => {});
             autoPrintLastRoles.amVisible = () => AmongUsClient.Instance.AmHost;
         }

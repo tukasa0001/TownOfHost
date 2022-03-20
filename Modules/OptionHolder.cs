@@ -122,9 +122,10 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
 
         //詳細設定
+        public const int PresetId = 0;
+        public const int ForceJapaneseOptionId = 9999;
 
         public static int SnitchExposeTaskLeft = 1;
-        public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
 
 
@@ -283,7 +284,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
 
-            ForceJapanese = CustomOption.Create(count, Color.white, "ForceJapanese", false, null, true)
+            ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
                 .SetGameMode(CustomGameMode.All);
 
             AutoDisplayLastResult = CustomOption.Create(count, Color.white, "AutoDisplayLastResult", false, null, true)

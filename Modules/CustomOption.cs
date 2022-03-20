@@ -168,6 +168,22 @@ namespace TownOfHost
             }
         }
 
+        public static void Refresh()
+        {
+            foreach (var option in Options)
+            {
+                if (option.Id <= 0) continue;
+
+                option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
+                if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
+                {
+                    stringOption.oldValue = stringOption.Value = option.Selection;
+                    stringOption.ValueText.text = option.GetString();
+                    stringOption.TitleText.text = option.GetName();
+                }
+            }
+        }
+
         public static void ShareOptionSelections()
         {
             if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null) return;
@@ -277,9 +293,17 @@ namespace TownOfHost
 
                 if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer)
                 {
-                    if (Id == 0) SwitchPreset(Selection);
+                    if (Id == TownOfHost.Options.PresetId)
+                    {
+                        SwitchPreset(Selection);
+                    }
                     else if (Entry != null) Entry.Value = Selection;
 
+                    if (Id == TownOfHost.Options.ForceJapaneseOptionId)
+                    {
+                        Refresh();
+                    }
+                    
                     ShareOptionSelections();
                 }
             }
