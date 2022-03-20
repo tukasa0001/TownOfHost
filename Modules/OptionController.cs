@@ -97,8 +97,8 @@ namespace TownOfHost
 
 
             var SyncButtonMode = new PageObject(ModeOptions, () => getString("SyncButtonMode"));
-            var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => getString("SyncButtonMode") + ": " + Utils.getOnOff(Options.SyncButtonMode), true, () => Options.SyncButtonMode = !Options.SyncButtonMode);
-            var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + Options.SyncedButtonCount + main.TextCursor, true, () => { Options.SyncedButtonCount = 0; }, i => Utils.ChangeInt(ref Options.SyncedButtonCount, i, 100));
+            var SyncButtonModeEnabled = new PageObject(SyncButtonMode, () => getString("SyncButtonMode") + ": " + Utils.getOnOff(Options.SyncButtonMode.GetBool()), true, () => {});
+            var SyncedButtonCount = new PageObject(SyncButtonMode, () => getString("SyncedButtonCount") + ": " + Options.SyncedButtonCount.GetSelection() + main.TextCursor, true, () => { }, i =>{});
 
             var DisableTasks = new PageObject(ModeOptions, () => getString("DisableTasks"));
             var dSwipeCard = new PageObject(DisableTasks, () => getString("DisableSwipeCardTask") + ": " + Utils.getOnOff(Options.DisableSwipeCard.GetBool()), true, () => { /* Options.Task_DisableSwipeCard.UpdateSelection()*/ });

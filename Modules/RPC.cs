@@ -281,8 +281,8 @@ namespace TownOfHost
             Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
             Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
-            Options.SyncButtonMode = SyncButtonMode;
-            Options.SyncedButtonCount = SyncedButtonCount;
+            Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
+            Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
 
             Options.whenSkipVote = (VoteMode)whenSkipVote;
             Options.whenNonVote = (VoteMode)whenNonVote;
@@ -330,8 +330,8 @@ namespace TownOfHost
             writer.Write(Options.SheriffCanKillTerrorist);
             writer.Write(Options.SheriffCanKillOpportunist);
             writer.Write(Options.SheriffCanKillMadmate);
-            writer.Write(Options.SyncButtonMode);
-            writer.Write(Options.SyncedButtonCount);
+            writer.Write(Options.SyncButtonMode.GetBool());
+            writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.whenSkipVote);
             writer.Write((int)Options.whenNonVote);
             writer.Write(Options.canTerroristSuicideWin);

@@ -78,8 +78,9 @@ namespace TownOfHost
         public static CustomOption HideNadSeek_IgnoreVent;
 
         // ボタン回数
-        public static CustomOption N_SyncButtonMode;
-        public static CustomOption Button_SyncedButtonCount;
+        public static CustomOption SyncButtonMode;
+        public static CustomOption SyncedButtonCount;
+        public static int UsedButtonCount = 0;
 
         // タスク無効化
         public static CustomOption DisableSwipeCard;
@@ -118,9 +119,7 @@ namespace TownOfHost
         public static int HideAndSeekKillDelay = 30;
         public static float HideAndSeekKillDelayTimer = 0f;
         public static float HideAndSeekImpVisionMin = 0.25f;
-        public static bool SyncButtonMode = false;
-        public static int SyncedButtonCount = 10;
-        public static int UsedButtonCount = 0;
+        
         public static bool RandomMapsMode;
 
         //ランダムマップ
@@ -260,9 +259,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             // ボタン回数同期
-            N_SyncButtonMode = CustomOption.Create(count, Color.white, "SyncButtonMode", false, null, true)
+            SyncButtonMode = CustomOption.Create(count, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            Button_SyncedButtonCount = CustomOption.Create(count, Color.white, "SyncedButtonCount", 10, 0, 100, 1, N_SyncButtonMode)
+            SyncedButtonCount = CustomOption.Create(count, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化

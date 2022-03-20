@@ -254,16 +254,16 @@ namespace TownOfHost
                 foreach (var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId) return false;
             }
 
-            if (Options.SyncButtonMode && target == null)
+            if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.SendToFile("最大:" + Options.SyncedButtonCount + ", 現在:" + Options.UsedButtonCount, LogLevel.Message);
-                if (Options.SyncedButtonCount <= Options.UsedButtonCount)
+                if (Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 {
                     Logger.SendToFile("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", LogLevel.Message);
                     return false;
                 }
                 else Options.UsedButtonCount++;
-                if (Options.SyncedButtonCount == Options.UsedButtonCount)
+                if (Options.SyncedButtonCount.GetSelection() == Options.UsedButtonCount)
                 {
                     Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
                 }
@@ -291,11 +291,11 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            if (Options.SyncButtonMode && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
+            if (Options.SyncButtonMode.GetBool() && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
             {
                 //SyncButtonMode中にホストが死んでいる場合
                 ChangeLocalNameAndRevert(
-                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。",
+                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。",
                     1000
                 );
             }

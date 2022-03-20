@@ -181,11 +181,11 @@ namespace TownOfHost
                 roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled = false;
             }
-            if (Options.SyncButtonMode)
+            if (Options.SyncButtonMode.GetBool())
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。");
+                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
             if (AmongUsClient.Instance.AmHost)
