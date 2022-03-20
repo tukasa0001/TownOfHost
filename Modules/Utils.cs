@@ -201,9 +201,9 @@ namespace TownOfHost
                 }
                 if (CustomRoles.MadGuardian.isEnable() || CustomRoles.MadSnitch.isEnable() || CustomRoles.Madmate.isEnable() || CustomRoles.SKMadmate.isEnable())
                 {
-                    if (Options.MadmateHasImpostorVision) text += String.Format("\n{0}:{1}", getString("MadmateHasImpostorVision"), getOnOff(Options.MadmateHasImpostorVision));
-                    if (Options.MadmateCanFixLightsOut) text += String.Format("\n{0}:{1}", getString("MadmateCanFixLightsOut"), getOnOff(Options.MadmateCanFixLightsOut));
-                    if (Options.MadmateCanFixComms) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(Options.MadmateCanFixComms));
+                    if (Options.MadmateHasImpostorVision.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateHasImpostorVision"), getOnOff(Options.MadmateHasImpostorVision.GetBool()));
+                    if (Options.MadmateCanFixLightsOut.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateCanFixLightsOut"), getOnOff(Options.MadmateCanFixLightsOut.GetBool()));
+                    if (Options.MadmateCanFixComms.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(Options.MadmateCanFixComms.GetBool()));
                 }
                 if (CustomRoles.MadGuardian.isEnable())
                 {
