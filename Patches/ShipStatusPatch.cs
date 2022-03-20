@@ -80,8 +80,8 @@ namespace TownOfHost
                 switch (systemType)
                 {
                     case SystemTypes.Reactor:
-                        if (!Options.SabotageMasterFixesReactors) break;
-                        if (Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
+                        if (!Options.SabotageMasterFixesReactors.GetBool()) break;
+                        if (Options.SabotageMasterSkillLimit.GetSelection() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetSelection()) break;
                         if (amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
@@ -96,8 +96,8 @@ namespace TownOfHost
                         }
                         break;
                     case SystemTypes.Laboratory:
-                        if (!Options.SabotageMasterFixesReactors) break;
-                        if (Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
+                        if (!Options.SabotageMasterFixesReactors.GetBool()) break;
+                        if (Options.SabotageMasterSkillLimit.GetSelection() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetSelection()) break;
                         if (amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
@@ -106,8 +106,8 @@ namespace TownOfHost
                         }
                         break;
                     case SystemTypes.LifeSupp:
-                        if (!Options.SabotageMasterFixesOxygens) break;
-                        if (Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
+                        if (!Options.SabotageMasterFixesOxygens.GetBool()) break;
+                        if (Options.SabotageMasterSkillLimit.GetSelection() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetSelection()) break;
                         if (amount == 64 || amount == 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
@@ -116,8 +116,8 @@ namespace TownOfHost
                         }
                         break;
                     case SystemTypes.Comms:
-                        if (!Options.SabotageMasterFixesCommunications) break;
-                        if (Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) break;
+                        if (!Options.SabotageMasterFixesComms.GetBool()) break;
+                        if (Options.SabotageMasterSkillLimit.GetSelection() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetSelection()) break;
                         if (amount == 16 || amount == 17)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
@@ -126,7 +126,7 @@ namespace TownOfHost
                         Options.SabotageMasterUsedSkillCount++;
                         break;
                     case SystemTypes.Doors:
-                        if (!Options.SabotageMasterFixesDoors) break;
+                        if (!Options.SabotageMasterFixesDoors.GetBool()) break;
                         if (DoorsProgressing == true) break;
 
                         int mapId = PlayerControl.GameOptions.MapId;
@@ -209,8 +209,13 @@ namespace TownOfHost
         {
             if (player.isSabotageMaster())
             {
-                if (!Options.SabotageMasterFixesElectrical) return;
-                if (Options.SabotageMasterSkillLimit > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit) return;
+                if (!Options.SabotageMasterFixesElectrical.GetBool()) return;
+                if (Options.SabotageMasterSkillLimit.GetSelection() > 0 &&
+                    Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetSelection())
+                {
+                    return;
+                }
+                
                 if (0 <= amount && amount <= 4)
                 {
                     __instance.ActualSwitches = 0;

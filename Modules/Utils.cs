@@ -184,12 +184,12 @@ namespace TownOfHost
                 if (CustomRoles.Vampire.isEnable()) text += String.Format("\n{0}:{1}", getString("VampireKillDelay"), Options.VampireKillDelay);
                 if (CustomRoles.SabotageMaster.isEnable())
                 {
-                    if (Options.SabotageMasterSkillLimit > 0) text += String.Format("\n{0}:{1}", getString("SabotageMasterSkillLimit"), Options.SabotageMasterSkillLimit);
-                    if (Options.SabotageMasterFixesDoors) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesDoors"), getOnOff(Options.SabotageMasterFixesDoors));
-                    if (Options.SabotageMasterFixesReactors) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesReactors"), getOnOff(Options.SabotageMasterFixesReactors));
-                    if (Options.SabotageMasterFixesOxygens) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesOxygens"), getOnOff(Options.SabotageMasterFixesOxygens));
-                    if (Options.SabotageMasterFixesCommunications) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesCommunications"), getOnOff(Options.SabotageMasterFixesCommunications));
-                    if (Options.SabotageMasterFixesElectrical) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesElectrical"), getOnOff(Options.SabotageMasterFixesElectrical));
+                    if (Options.SabotageMasterSkillLimit.GetSelection() > 0) text += String.Format("\n{0}:{1}", getString("SabotageMasterSkillLimit"), Options.SabotageMasterSkillLimit.GetSelection());
+                    if (Options.SabotageMasterFixesDoors.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesDoors"), getOnOff(Options.SabotageMasterFixesDoors.GetBool()));
+                    if (Options.SabotageMasterFixesReactors.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesReactors"), getOnOff(Options.SabotageMasterFixesReactors.GetBool()));
+                    if (Options.SabotageMasterFixesOxygens.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesOxygens"), getOnOff(Options.SabotageMasterFixesOxygens.GetBool()));
+                    if (Options.SabotageMasterFixesComms.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesCommunications"), getOnOff(Options.SabotageMasterFixesComms.GetBool()));
+                    if (Options.SabotageMasterFixesElectrical.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesElectrical"), getOnOff(Options.SabotageMasterFixesElectrical.GetBool()));
                 }
                 if (CustomRoles.Sheriff.isEnable())
                 {

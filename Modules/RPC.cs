@@ -275,12 +275,12 @@ namespace TownOfHost
 
             Options.VampireKillDelay = VampireKillDelay;
 
-            Options.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
-            Options.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
-            Options.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
-            Options.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
-            Options.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
-            Options.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+            Options.SabotageMasterSkillLimit.UpdateSelection(SabotageMasterSkillLimit);
+            Options.SabotageMasterFixesDoors.UpdateSelection(SabotageMasterFixesDoors);
+            Options.SabotageMasterFixesReactors.UpdateSelection(SabotageMasterFixesReactors);
+            Options.SabotageMasterFixesOxygens.UpdateSelection(SabotageMasterFixesOxygens);
+            Options.SabotageMasterFixesComms.UpdateSelection(SabotageMasterFixesCommunications);
+            Options.SabotageMasterFixesElectrical.UpdateSelection(SabotageMasterFixesElectrical);
 
             Options.SheriffKillCooldown = SheriffKillCooldown;
             Options.SheriffCanKillJester = SheriffCanKillJester;
@@ -340,12 +340,12 @@ namespace TownOfHost
             writer.Write(Options.DisableStartReactor.GetBool());
             writer.Write(Options.DisableResetBreaker.GetBool());
             writer.Write(Options.VampireKillDelay);
-            writer.Write(Options.SabotageMasterSkillLimit);
-            writer.Write(Options.SabotageMasterFixesDoors);
-            writer.Write(Options.SabotageMasterFixesReactors);
-            writer.Write(Options.SabotageMasterFixesOxygens);
-            writer.Write(Options.SabotageMasterFixesCommunications);
-            writer.Write(Options.SabotageMasterFixesElectrical);
+            writer.Write(Options.SabotageMasterSkillLimit.GetSelection());
+            writer.Write(Options.SabotageMasterFixesDoors.GetBool());
+            writer.Write(Options.SabotageMasterFixesReactors.GetBool());
+            writer.Write(Options.SabotageMasterFixesOxygens.GetBool());
+            writer.Write(Options.SabotageMasterFixesComms.GetBool());
+            writer.Write(Options.SabotageMasterFixesElectrical.GetBool());
             writer.Write(Options.SheriffKillCooldown);
             writer.Write(Options.SheriffCanKillJester);
             writer.Write(Options.SheriffCanKillTerrorist);
