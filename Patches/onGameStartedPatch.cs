@@ -56,7 +56,7 @@ namespace TownOfHost
                 main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
-                    Options.HideAndSeekKillDelayTimer = Options.HideAndSeekKillDelay;
+                    Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
@@ -151,7 +151,7 @@ namespace TownOfHost
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
                     }
-                    if (Options.IgnoreCosmetics)
+                    if (Options.IgnoreCosmetics.GetBool())
                     {
                         pc.RpcSetHat("");
                         pc.RpcSetSkin("");

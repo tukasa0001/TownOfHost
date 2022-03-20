@@ -74,11 +74,13 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillOpportunist;
 
         // HideAndSeek
-        public static CustomOption HideAndSeek_AllowCloseDoors;
-        public static CustomOption HideNadSeek_WaitingTime;
-        public static CustomOption HideNadSeek_IgnoreCosmetics;
-        public static CustomOption HideNadSeek_IgnoreVent;
-
+        public static CustomOption AllowCloseDoors;
+        public static CustomOption KillDelay;
+        public static CustomOption IgnoreCosmetics;
+        public static CustomOption IgnoreVent;
+        public static float HideAndSeekKillDelayTimer = 0f;
+        public static float HideAndSeekImpVisionMin = 0.25f;
+        
         // ボタン回数
         public static CustomOption SyncButtonMode;
         public static CustomOption SyncedButtonCount;
@@ -115,12 +117,6 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
 
         //詳細設定
-        public static bool AllowCloseDoors = false;
-        public static bool IgnoreVent = false;
-        public static bool IgnoreCosmetics = false;
-        public static int HideAndSeekKillDelay = 30;
-        public static float HideAndSeekKillDelayTimer = 0f;
-        public static float HideAndSeekImpVisionMin = 0.25f;
 
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
@@ -235,13 +231,13 @@ namespace TownOfHost
             // HideAndSeek
             SetupRoleOptions(CustomRoles.Fox, CustomGameMode.HideAndSeek);
             SetupRoleOptions(CustomRoles.Troll, CustomGameMode.HideAndSeek);
-            HideAndSeek_AllowCloseDoors = CustomOption.Create(count, Color.white, "AllowCloseDoors", false, null, true)
+            AllowCloseDoors = CustomOption.Create(count, Color.white, "AllowCloseDoors", false, null, true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
-            HideNadSeek_WaitingTime = CustomOption.Create(count, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5)
+            KillDelay = CustomOption.Create(count, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5)
                 .SetGameMode(CustomGameMode.HideAndSeek);
-            HideNadSeek_IgnoreCosmetics = CustomOption.Create(count, Color.white, "IgnoreCosmetics", false)
+            IgnoreCosmetics = CustomOption.Create(count, Color.white, "IgnoreCosmetics", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
-            HideNadSeek_IgnoreVent = CustomOption.Create(count, Color.white, "IgnoreVent", false)
+            IgnoreVent = CustomOption.Create(count, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             // ボタン回数同期

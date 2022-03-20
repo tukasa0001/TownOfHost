@@ -543,7 +543,7 @@ namespace TownOfHost
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }

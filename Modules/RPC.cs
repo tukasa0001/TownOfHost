@@ -309,10 +309,10 @@ namespace TownOfHost
             Options.AddedPolus.UpdateSelection(AddedPolus);
             Options.AddedTheAirShip.UpdateSelection(AddedTheAirShip);
 
-            Options.AllowCloseDoors = AllowCloseDoors;
-            Options.HideAndSeekKillDelay = HaSKillDelay;
-            Options.IgnoreVent = IgnoreVent;
-            Options.IgnoreCosmetics = IgnoreCosmetics;
+            Options.AllowCloseDoors.UpdateSelection(AllowCloseDoors);
+            Options.KillDelay.UpdateSelection(HaSKillDelay);
+            Options.IgnoreVent.UpdateSelection(IgnoreVent);
+            Options.IgnoreCosmetics.UpdateSelection(IgnoreCosmetics);
 
             Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
             Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
@@ -361,10 +361,10 @@ namespace TownOfHost
             writer.Write(Options.AddedMiraHQ.GetBool());
             writer.Write(Options.AddedPolus.GetBool());
             writer.Write(Options.AddedTheAirShip.GetBool());
-            writer.Write(Options.AllowCloseDoors);
-            writer.Write(Options.HideAndSeekKillDelay);
-            writer.Write(Options.IgnoreVent);
-            writer.Write(Options.IgnoreCosmetics);
+            writer.Write(Options.AllowCloseDoors.GetBool());
+            writer.Write(Options.KillDelay.GetSelection());
+            writer.Write(Options.IgnoreVent.GetBool());
+            writer.Write(Options.IgnoreCosmetics.GetBool());
             writer.Write(Options.MadmateCanFixLightsOut.GetBool());
             writer.Write(Options.MadmateCanFixComms.GetBool());
             writer.Write(Options.MadmateHasImpostorVision.GetBool());

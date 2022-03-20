@@ -198,7 +198,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && !Options.AllowCloseDoors) return false;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && !Options.AllowCloseDoors.GetBool()) return false;
             return true;
         }
     }

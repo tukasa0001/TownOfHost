@@ -85,10 +85,10 @@ namespace TownOfHost
             var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
             var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + Utils.getOnOff(Options.CurrentGameMode == CustomGameMode.HideAndSeek), true, () => { /*Options.IsHideAndSeek = !Options.IsHideAndSeek*/ });
             var HideAndSeekOptions = new PageObject(ModeOptions, () => getString("HideAndSeekOptions"));
-            var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + Utils.getOnOff(Options.AllowCloseDoors), true, () => { Options.AllowCloseDoors = !Options.AllowCloseDoors; });
-            var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + Options.HideAndSeekKillDelay, true, () => { Options.HideAndSeekKillDelay = 0; }, i => Utils.ChangeInt(ref Options.HideAndSeekKillDelay, i, 180));
-            var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => getString("IgnoreCosmetics") + ": " + Utils.getOnOff(Options.IgnoreCosmetics), true, () => { Options.IgnoreCosmetics = !Options.IgnoreCosmetics; });
-            var IgnoreVent = new PageObject(HideAndSeekOptions, () => getString("IgnoreVent") + ": " + Utils.getOnOff(Options.IgnoreVent), true, () => { Options.IgnoreVent = !Options.IgnoreVent; });
+            var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + Utils.getOnOff(Options.AllowCloseDoors.GetBool()), true, () => { });
+            var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + Options.KillDelay.GetFloat(), true, () => { Options.KillDelay.UpdateSelection(0);}, i => {});
+            var IgnoreCosmetics = new PageObject(HideAndSeekOptions, () => getString("IgnoreCosmetics") + ": " + Utils.getOnOff(Options.IgnoreCosmetics.GetBool()), true, () => {});
+            var IgnoreVent = new PageObject(HideAndSeekOptions, () => getString("IgnoreVent") + ": " + Utils.getOnOff(Options.IgnoreVent.GetBool()), true, () => {});
             var HideAndSeekRoles = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekRoles"));
 
 
