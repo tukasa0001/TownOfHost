@@ -212,9 +212,9 @@ namespace TownOfHost
                 if (CustomRoles.MadSnitch.isEnable()) text += String.Format("\n{0}:{1}", getString("MadSnitchTasks"), Options.MadSnitchTasks);
                 if (CustomRoles.Mayor.isEnable()) text += String.Format("\n{0}:{1}", getString("MayorAdditionalVote"), Options.MayorAdditionalVote);
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
-                if (Options.whenSkipVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), getString(Options.whenSkipVote.ToString()));
-                if (Options.whenNonVote != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), getString(Options.whenNonVote.ToString()));
-                if ((Options.whenNonVote == VoteMode.Suicide || Options.whenSkipVote == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.canTerroristSuicideWin);
+                if (Options.GetVoteMode(Options.WhenSkipVote) != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), getString(Options.WhenSkipVote.ToString()));
+                if (Options.GetVoteMode(Options.WhenNonVote) != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), getString(Options.WhenNonVote.GetString()));
+                if ((Options.GetVoteMode(Options.WhenNonVote) == VoteMode.Suicide || Options.GetVoteMode(Options.WhenSkipVote) == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
             }
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd.GetBool())); ;
             SendMessage(text);
@@ -257,7 +257,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             var taskState = getPlayerById(Terrorist.PlayerId).getPlayerTaskState();
-            if (taskState.isTaskFinished && (!PlayerState.isSuicide(Terrorist.PlayerId) || Options.canTerroristSuicideWin)) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            if (taskState.isTaskFinished && (!PlayerState.isSuicide(Terrorist.PlayerId) || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
                 writer.Write(Terrorist.PlayerId);

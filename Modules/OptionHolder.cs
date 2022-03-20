@@ -59,7 +59,7 @@ namespace TownOfHost
         public static CustomOption R_MadSnitchTasks;
         public static CustomOption R_CanMakeMadmateCount;
 
-        public static CustomOption R_MayorAdditionalVote;
+        public static CustomOption MayorAdditionalVote;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
         public static CustomOption SabotageMasterFixesReactors;
@@ -105,33 +105,34 @@ namespace TownOfHost
         public static CustomOption NoGameEnd;
 
         // 投票モード
-        public static CustomOption N_WhenSkipVote;
-        public static CustomOption N_WhenNonVote;
-        public static CustomOption N_CanTerroristSuicideWin;
+        public static CustomOption WhenSkipVote;
+        public static CustomOption WhenNonVote;
+        public static CustomOption CanTerroristSuicideWin;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "Skip"
         };
+        public static VoteMode GetVoteMode(CustomOption option)
+        {
+            return (VoteMode) option.GetSelection();
+        }
+        
 
         public static CustomOption ForceJapanese;
         public static CustomOption AutoDisplayLastResult;
 
         //詳細設定
 
-        public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
-        public static int MayorAdditionalVote = 1;
         public static int SnitchExposeTaskLeft = 1;
         public static bool MadGuardianCanSeeWhoTriedToKill = false;
         public static int MadSnitchTasks = 4;
         public static int CanMakeMadmateCount;
-        public static VoteMode whenSkipVote = VoteMode.Default;
-        public static VoteMode whenNonVote = VoteMode.Default;
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;
-        
 
-        private static bool IsLoaded = false; 
+
+        private static bool IsLoaded = false;
 
         static Options()
         {
@@ -277,11 +278,11 @@ namespace TownOfHost
             NoGameEnd = CustomOption.Create(count, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
 
-            N_WhenSkipVote = CustomOption.Create(count, Color.white, "WhenSkipVote", voteModes, voteModes[0], null, true)
+            WhenSkipVote = CustomOption.Create(count, Color.white, "WhenSkipVote", voteModes, voteModes[0], null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            N_WhenNonVote = CustomOption.Create(count, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
+            WhenNonVote = CustomOption.Create(count, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
                 .SetGameMode(CustomGameMode.Standard);
-            N_CanTerroristSuicideWin = CustomOption.Create(count, Color.white, "CanTerroristSuicideWin", false, null, false)
+            CanTerroristSuicideWin = CustomOption.Create(count, Color.white, "CanTerroristSuicideWin", false, null, false)
                 .SetGameMode(CustomGameMode.Standard);
 
 

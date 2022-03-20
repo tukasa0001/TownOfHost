@@ -121,19 +121,9 @@ namespace TownOfHost
             });
 
             var voteMode = new PageObject(ModeOptions, () => getString("VoteMode"));
-            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.whenSkipVote)), true, () =>
-            {
-                var next = Options.whenSkipVote + 1;
-                if (next > VoteMode.SelfVote) next = VoteMode.Default;
-                Options.whenSkipVote = next;
-            });
-            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.whenNonVote)), true, () =>
-            {
-                var next = Options.whenNonVote + 1;
-                if (next > VoteMode.Skip) next = VoteMode.Default;
-                Options.whenNonVote = next;
-            });
-            var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + Utils.getOnOff(Options.canTerroristSuicideWin), true, () => Options.canTerroristSuicideWin = !Options.canTerroristSuicideWin);
+            var WhenSkipVote = new PageObject(voteMode, () => getString("WhenSkipVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetVoteMode(Options.WhenSkipVote))), true, () =>{});
+            var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetVoteMode(Options.WhenNonVote))), true, () => {});
+            var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + Utils.getOnOff(Options.CanTerroristSuicideWin.GetBool()), true, () => {});
 
             var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + Options.currentSuffix.ToString(), true, () =>
             {

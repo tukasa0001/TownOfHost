@@ -34,7 +34,7 @@ namespace TownOfHost
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                     {
-                        switch (Options.whenSkipVote)
+                        switch (Options.GetVoteMode(Options.WhenSkipVote))
                         {
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
@@ -50,7 +50,7 @@ namespace TownOfHost
                     }
                     if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                     {
-                        switch (Options.whenNonVote)
+                        switch (Options.GetVoteMode(Options.WhenNonVote))
                         {
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);

@@ -299,9 +299,9 @@ namespace TownOfHost
             Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
             Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
 
-            Options.whenSkipVote = (VoteMode)whenSkipVote;
-            Options.whenNonVote = (VoteMode)whenNonVote;
-            Options.canTerroristSuicideWin = canTerroristSuicideWin;
+            Options.WhenSkipVote.UpdateSelection(whenSkipVote);
+            Options.WhenNonVote.UpdateSelection(whenNonVote);
+            Options.CanTerroristSuicideWin.UpdateSelection(canTerroristSuicideWin);
 
             Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
             Options.AddedTheSkeld.UpdateSelection(AddedTheSkeld);
@@ -353,9 +353,9 @@ namespace TownOfHost
             writer.Write(Options.SheriffCanKillMadmate.GetBool());
             writer.Write(Options.SyncButtonMode.GetBool());
             writer.Write(Options.SyncedButtonCount.GetSelection());
-            writer.Write((int)Options.whenSkipVote);
-            writer.Write((int)Options.whenNonVote);
-            writer.Write(Options.canTerroristSuicideWin);
+            writer.Write((int)Options.WhenSkipVote.GetSelection());
+            writer.Write((int)Options.WhenNonVote.GetSelection());
+            writer.Write(Options.CanTerroristSuicideWin.GetBool());
             writer.Write(Options.RandomMapsMode.GetBool());
             writer.Write(Options.AddedTheSkeld.GetBool());
             writer.Write(Options.AddedMiraHQ.GetBool());
