@@ -174,7 +174,7 @@ namespace TownOfHost
             }
             else
             {
-                foreach (var role in Options.roleCounts)
+                foreach (var role in Options.CustomRoleCounts)
                 {
                     if (role.Key == CustomRoles.Fox || role.Key == CustomRoles.Troll) continue;
                     if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());

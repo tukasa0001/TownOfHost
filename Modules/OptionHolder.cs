@@ -35,8 +35,8 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
-        public static Dictionary<CustomRoles, CustomOption> RoleCounts;
-        public static Dictionary<CustomRoles, CustomOption> RoleSpawnChances;
+        public static Dictionary<CustomRoles, CustomOption> CustomRoleCounts;
+        public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
             "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
@@ -172,8 +172,21 @@ namespace TownOfHost
                 roleSpawnChances.Add(role, 0);
             }
         }
-        public static void setRoleCount(CustomRoles role, int count) { roleCounts[role] = count; }
-        public static int getRoleCount(CustomRoles role) { return roleCounts[role]; }
+
+        public static void setRoleCount(CustomRoles role, int count)
+        {
+            roleCounts[role] = count;
+
+            if (CustomRoleCounts.TryGetValue(role, out var option))
+            {
+                option.UpdateSelection(count);
+            }
+        }
+
+        public static int getRoleCount(CustomRoles role)
+        {
+            return CustomRoleCounts.TryGetValue(role, out var option) ? option.GetSelection() : roleCounts[role];
+        }
 
         public static void Load()
         {
@@ -188,8 +201,8 @@ namespace TownOfHost
 
 
             // === スタンダード役職 ===
-            RoleCounts = new Dictionary<CustomRoles, CustomOption>();
-            RoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
+            CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
+            CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             
             SetupRoleOptions(CustomRoles.BountyHunter);
             R_BountyTargetChangeTime = CustomOption.Create(100, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, RoleSpawnChances[CustomRoles.BountyHunter]);
@@ -311,12 +324,12 @@ namespace TownOfHost
             var spawnOption = CustomOption.Create(count, Utils.getRoleColor(role), Utils.getRoleName(role), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(count + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(count + 1, Color.white, "Maximum", 0, 0, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
-            RoleSpawnChances.Add(role, spawnOption);
-            RoleCounts.Add(role, countOption);
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
 
             count += 2;
         }
