@@ -86,8 +86,12 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
 
+        public static main Instance;
+
         public override void Load()
         {
+            Instance = this;
+            
             TextCursorTimer = 0f;
             TextCursorVisible = true;
 
