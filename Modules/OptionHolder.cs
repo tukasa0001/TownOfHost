@@ -123,7 +123,6 @@ namespace TownOfHost
 
         //詳細設定
 
-        public static bool autoDisplayLastRoles = false;
         public static int SnitchExposeTaskLeft = 1;
         public static bool forceJapanese = false;
         public static SuffixModes currentSuffix = SuffixModes.None;

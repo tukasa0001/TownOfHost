@@ -100,6 +100,7 @@ namespace TownOfHost
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
+                    bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
                         CurrentGameMode,
@@ -149,7 +150,8 @@ namespace TownOfHost
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
-                        MayorAdditionalVote
+                        MayorAdditionalVote,
+                        AutoDisplayLastResult
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -252,7 +254,8 @@ namespace TownOfHost
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
-                int MayorAdditionalVote
+                int MayorAdditionalVote,
+                bool AutoDisplayLastResult
             )
         {
             Options.roleCounts = roleCounts;
@@ -322,6 +325,8 @@ namespace TownOfHost
             Options.MadSnitchTasks.UpdateSelection(MadSnitchTasks);
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
+            
+            Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -378,6 +383,7 @@ namespace TownOfHost
             writer.Write(Options.BountyFailureKillCooldown.GetSelection());
             writer.Write(Options.BHDefaultKillCooldown.GetSelection());
             writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
+            writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
