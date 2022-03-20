@@ -106,7 +106,7 @@ namespace TownOfHost
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
@@ -143,7 +143,7 @@ namespace TownOfHost
         public static void ShowActiveRoles()
         {
             SendMessage(getString("CurrentActiveSettingHelps") + ":");
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 SendMessage(getString("HideAndSeekInfo"));
                 if (CustomRoles.Fox.isEnable()) { SendMessage(getRoleName(CustomRoles.Fox) + getString("FoxInfoLong")); }
@@ -164,7 +164,7 @@ namespace TownOfHost
         public static void ShowActiveSettings()
         {
             var text = getString("Roles") + ":";
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (CustomRoles.Fox.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.Fox), CustomRoles.Fox.getCount());
                 if (CustomRoles.Troll.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.Troll), CustomRoles.Troll.getCount());

@@ -121,7 +121,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
-            if (Options.IsHideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
@@ -239,7 +239,7 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
-            if (Options.IsHideAndSeek) return false;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
             main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
@@ -421,7 +421,7 @@ namespace TownOfHost
             if (RoleText != null && __instance != null)
             {
                 var RoleTextData = Utils.GetRoleText(__instance);
-                if (Options.IsHideAndSeek)
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
                     if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
@@ -529,7 +529,7 @@ namespace TownOfHost
         {
             //色変更バグ対策
             if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if (AmongUsClient.Instance.IsGameStarted && Options.IsHideAndSeek)
+            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);
@@ -543,7 +543,7 @@ namespace TownOfHost
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
-            if (Options.IsHideAndSeek && Options.IgnoreVent)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent)
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }

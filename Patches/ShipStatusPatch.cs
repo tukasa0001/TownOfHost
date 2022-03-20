@@ -24,7 +24,7 @@ namespace TownOfHost
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
             }
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -72,7 +72,7 @@ namespace TownOfHost
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            if (Options.IsHideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
             if (player.isSabotageMaster())
@@ -198,7 +198,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            if (Options.IsHideAndSeek && !Options.AllowCloseDoors) return false;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && !Options.AllowCloseDoors) return false;
             return true;
         }
     }

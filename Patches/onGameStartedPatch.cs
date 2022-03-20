@@ -54,7 +54,7 @@ namespace TownOfHost
 
                 RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
-                if (Options.IsHideAndSeek)
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.HideAndSeekKillDelay;
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
@@ -70,7 +70,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
-            if (!Options.IsHideAndSeek)
+            if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -129,7 +129,7 @@ namespace TownOfHost
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;

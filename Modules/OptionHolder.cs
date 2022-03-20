@@ -113,7 +113,6 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
 
         //詳細設定
-        public static bool IsHideAndSeek = false;
         public static bool AllowCloseDoors = false;
         public static bool IgnoreVent = false;
         public static bool IgnoreCosmetics = false;

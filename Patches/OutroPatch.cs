@@ -99,7 +99,8 @@ namespace TownOfHost
             }
 
             //HideAndSeek専用
-            if (Options.IsHideAndSeek && main.currentWinner != CustomWinner.Draw)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
+                main.currentWinner != CustomWinner.Draw)
             {
                 var winners = new List<PlayerControl>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -199,7 +200,7 @@ namespace TownOfHost
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {

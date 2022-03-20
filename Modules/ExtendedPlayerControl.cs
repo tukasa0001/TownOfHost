@@ -304,7 +304,7 @@ namespace TownOfHost
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode && Options.SyncedButtonCount <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if (Options.IsHideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
                 opt.ImpostorLightMod = 0f;
             }

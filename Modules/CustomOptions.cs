@@ -71,8 +71,6 @@ namespace TownOfHost
 
                 return;
             }
-            
-            Options.Load();
 
             var template = Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
@@ -194,9 +192,7 @@ namespace TownOfHost
                     enabled = false;
                 }
 
-                CustomOption.CurrentGameMode = CustomGameModes.GetGameMode(Options.GameMode.GetSelection());
-
-                if (option.IsHidden(CustomOption.CurrentGameMode))
+                if (option.IsHidden(Options.CurrentGameMode))
                 {
                     enabled = false;
                 }

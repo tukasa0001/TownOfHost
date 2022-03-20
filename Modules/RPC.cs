@@ -52,7 +52,7 @@ namespace TownOfHost
                 case (byte)CustomRPC.SyncCustomSettings:
                     foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
 
-                    bool IsHideAndSeek = reader.ReadBoolean();
+                    int CurrentGameMode = reader.ReadByte();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
                     bool SubmitScanDisabled = reader.ReadBoolean();
@@ -97,7 +97,7 @@ namespace TownOfHost
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
-                        IsHideAndSeek,
+                        CurrentGameMode,
                         NoGameEnd,
                         SwipeCardDisabled,
                         SubmitScanDisabled,
@@ -195,7 +195,7 @@ namespace TownOfHost
     {
         public static void SyncCustomSettings(
                 Dictionary<CustomRoles, int> roleCounts,
-                bool isHideAndSeek,
+                int CurrentGameMode,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
                 bool SubmitScanDisabled,
@@ -242,7 +242,7 @@ namespace TownOfHost
         {
             Options.roleCounts = roleCounts;
 
-            Options.IsHideAndSeek = isHideAndSeek;
+            Options.GameMode.UpdateSelection(CurrentGameMode);
             Options.NoGameEnd = NoGameEnd;
 
             Options.DisableSwipeCard = SwipeCardDisabled;
@@ -309,7 +309,7 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
 
-            writer.Write(Options.IsHideAndSeek);
+            writer.Write(Options.GameMode.Selection);
             writer.Write(Options.NoGameEnd);
             writer.Write(Options.DisableSwipeCard);
             writer.Write(Options.DisableSubmitScan);

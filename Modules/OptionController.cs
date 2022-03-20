@@ -83,7 +83,7 @@ namespace TownOfHost
 
             //Mode Options
             var ModeOptions = new PageObject(basePage, () => getString("ModeOptions"));
-            var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + Utils.getOnOff(Options.IsHideAndSeek), true, () => Options.IsHideAndSeek = !Options.IsHideAndSeek);
+            var HideAndSeek = new PageObject(ModeOptions, () => getString("HideAndSeek") + ": " + Utils.getOnOff(Options.CurrentGameMode == CustomGameMode.HideAndSeek), true, () => { /*Options.IsHideAndSeek = !Options.IsHideAndSeek*/ });
             var HideAndSeekOptions = new PageObject(ModeOptions, () => getString("HideAndSeekOptions"));
             var AllowCloseDoors = new PageObject(HideAndSeekOptions, () => getString("AllowCloseDoors") + ": " + Utils.getOnOff(Options.AllowCloseDoors), true, () => { Options.AllowCloseDoors = !Options.AllowCloseDoors; });
             var HideAndSeekWaitingTime = new PageObject(HideAndSeekOptions, () => getString("HideAndSeekWaitingTime") + ": " + Options.HideAndSeekKillDelay, true, () => { Options.HideAndSeekKillDelay = 0; }, i => Utils.ChangeInt(ref Options.HideAndSeekKillDelay, i, 180));
