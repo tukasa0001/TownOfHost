@@ -196,8 +196,8 @@ namespace TownOfHost
                 case CustomRoles.Vampire:
                     if (CustomRoles.BountyHunter.isEnable())
                     {
-                        if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown;
-                        if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown * 2;
+                        if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                        if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
                     if (main.RefixCooldownDelay <= 0)
                     {
@@ -212,8 +212,8 @@ namespace TownOfHost
                     }
                     if (CustomRoles.BountyHunter.isEnable())
                     {
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown;
-                        opt.KillCooldown = Options.BHDefaultKillCooldown * 2;
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
                     break;
                 case CustomRoles.SerialKiller:
@@ -222,16 +222,16 @@ namespace TownOfHost
                     if (CustomRoles.BountyHunter.isEnable()) opt.KillCooldown = opt.KillCooldown = Options.SerialKillerCooldown * 2;
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
                     if (main.BountyMeetingCheck)
                     {//会議後のキルクール
-                        opt.KillCooldown = Options.BHDefaultKillCooldown * 2;
+                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
                     else
                     {
                         if (!main.isBountyKillSuccess)
                         {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown;
+                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat();
                             Logger.info("ターゲット以外をキル");
                         }
                         if (!main.BountyTimerCheck)
@@ -241,7 +241,7 @@ namespace TownOfHost
                         }
                         if (main.isBountyKillSuccess)
                         {//ターゲットをキルした時の処理
-                            opt.KillCooldown = Options.BountySuccessKillCooldown * 2;
+                            opt.KillCooldown = Options.BountySuccessKillCooldown.GetFloat() * 2;
                             Logger.info("ターゲットをキル");
                         }
                     }
@@ -280,7 +280,7 @@ namespace TownOfHost
                 DefaultKillcooldown:
                     if (CustomRoles.BountyHunter.isEnable())
                     {
-                        opt.KillCooldown = Options.BHDefaultKillCooldown;
+                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
                     }
                     break;
             }

@@ -44,10 +44,10 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
-        public static CustomOption R_BountyTargetChangeTime;
-        public static CustomOption R_BountySuccessKillCooldown;
-        public static CustomOption R_BountyFailureKillCooldown;
-        public static CustomOption R_BHDefaultKillCooldown;
+        public static CustomOption BountyTargetChangeTime;
+        public static CustomOption BountySuccessKillCooldown;
+        public static CustomOption BountyFailureKillCooldown;
+        public static CustomOption BHDefaultKillCooldown;
         public static CustomOption R_SerialKillerCooldown;
         public static CustomOption R_SerialKillerLimit;
         public static CustomOption R_VampireKillDelay;
@@ -125,10 +125,6 @@ namespace TownOfHost
         public static int ShapeMasterShapeshiftDuration = 10;
         public static int SerialKillerCooldown = 20;
         public static int SerialKillerLimit = 60;
-        public static int BountyTargetChangeTime = 150;
-        public static int BountySuccessKillCooldown = 2;
-        public static int BountyFailureKillCooldown = 50;
-        public static int BHDefaultKillCooldown = 30;
         public static int VampireKillDelay = 10;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors = false;
@@ -205,10 +201,10 @@ namespace TownOfHost
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             
             SetupRoleOptions(CustomRoles.BountyHunter);
-            R_BountyTargetChangeTime = CustomOption.Create(100, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, RoleSpawnChances[CustomRoles.BountyHunter]);
-            R_BountySuccessKillCooldown = CustomOption.Create(100, Color.white, "BountySuccessKillCooldown", 2, 5, 999, 1, RoleSpawnChances[CustomRoles.BountyHunter]);
-            R_BountyFailureKillCooldown = CustomOption.Create(100, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 1, RoleSpawnChances[CustomRoles.BountyHunter]);
-            R_BHDefaultKillCooldown = CustomOption.Create(100, Color.white, "BHDefaultKillCooldown", 30, 2, 999, 1, RoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyTargetChangeTime = CustomOption.Create(100, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountySuccessKillCooldown = CustomOption.Create(100, Color.white, "BountySuccessKillCooldown", 2, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyFailureKillCooldown = CustomOption.Create(100, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BHDefaultKillCooldown = CustomOption.Create(100, Color.white, "BHDefaultKillCooldown", 30, 2, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(CustomRoles.SerialKiller);
             R_SerialKillerCooldown = CustomOption.Create(100, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, RoleSpawnChances[CustomRoles.SerialKiller]);
             R_SerialKillerLimit = CustomOption.Create(100, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, RoleSpawnChances[CustomRoles.SerialKiller]);

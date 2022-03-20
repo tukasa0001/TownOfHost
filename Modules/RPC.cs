@@ -290,10 +290,10 @@ namespace TownOfHost
 
             Options.SerialKillerCooldown = SerialKillerCooldown;
             Options.SerialKillerLimit = SerialKillerLimit;
-            Options.BountyTargetChangeTime = BountyTargetChangeTime;
-            Options.BountySuccessKillCooldown = BountySuccessKillCooldown;
-            Options.BountyFailureKillCooldown = BountyFailureKillCooldown;
-            Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
+            Options.BountyTargetChangeTime.UpdateSelection(BountyTargetChangeTime);
+            Options.BountySuccessKillCooldown.UpdateSelection(BountySuccessKillCooldown);
+            Options.BountyFailureKillCooldown.UpdateSelection(BountyFailureKillCooldown);
+            Options.BHDefaultKillCooldown.UpdateSelection(BHDefaultKillCooldown);
             Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
             Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
@@ -374,10 +374,10 @@ namespace TownOfHost
             writer.Write(Options.MayorAdditionalVote);
             writer.Write(Options.SerialKillerCooldown);
             writer.Write(Options.SerialKillerLimit);
-            writer.Write(Options.BountyTargetChangeTime);
-            writer.Write(Options.BountySuccessKillCooldown);
-            writer.Write(Options.BountyFailureKillCooldown);
-            writer.Write(Options.BHDefaultKillCooldown);
+            writer.Write(Options.BountyTargetChangeTime.GetSelection());
+            writer.Write(Options.BountySuccessKillCooldown.GetSelection());
+            writer.Write(Options.BountyFailureKillCooldown.GetSelection());
+            writer.Write(Options.BHDefaultKillCooldown.GetSelection());
             writer.Write(Options.ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
