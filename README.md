@@ -1,7 +1,7 @@
 # Town Of Host
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 
-Discord Server: https://discord.gg/v8SFfdebpz
+Discord Server: https://discord.gg/Et9RbMs6Y6
 ## modについて
 
 このmodは非公式のものであり、このmodの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
