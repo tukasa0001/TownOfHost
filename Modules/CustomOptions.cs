@@ -92,7 +92,7 @@ namespace TownOfHost
             var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
             var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background")
                 .GetComponent<SpriteRenderer>();
-            // torTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.loadSpriteFromResources("TheOtherRoles.Resources.TabIcon.png", 100f);
+            tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
 
             gameTab.transform.position += Vector3.left * 0.5f;
             tohTab.transform.position += Vector3.right * 0.5f;
