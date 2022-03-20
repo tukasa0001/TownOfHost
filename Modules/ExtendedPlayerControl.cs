@@ -217,9 +217,9 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.SerialKiller:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit;
-                    opt.KillCooldown = Options.SerialKillerCooldown * 2;
-                    if (CustomRoles.BountyHunter.isEnable()) opt.KillCooldown = opt.KillCooldown = Options.SerialKillerCooldown * 2;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
+                    opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
+                    if (CustomRoles.BountyHunter.isEnable()) opt.KillCooldown = opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();

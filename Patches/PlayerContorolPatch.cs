@@ -355,7 +355,7 @@ namespace TownOfHost
                 }
                 if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit)
+                    if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
                     {
                         if (!__instance.Data.IsDead)
                         {

@@ -288,8 +288,8 @@ namespace TownOfHost
             Options.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
             Options.SheriffCanKillMadmate = SheriffCanKillMadmate;
 
-            Options.SerialKillerCooldown = SerialKillerCooldown;
-            Options.SerialKillerLimit = SerialKillerLimit;
+            Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
+            Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
             Options.BountyTargetChangeTime.UpdateSelection(BountyTargetChangeTime);
             Options.BountySuccessKillCooldown.UpdateSelection(BountySuccessKillCooldown);
             Options.BountyFailureKillCooldown.UpdateSelection(BountyFailureKillCooldown);
@@ -372,8 +372,8 @@ namespace TownOfHost
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
             writer.Write(Options.MadSnitchTasks);
             writer.Write(Options.MayorAdditionalVote);
-            writer.Write(Options.SerialKillerCooldown);
-            writer.Write(Options.SerialKillerLimit);
+            writer.Write(Options.SerialKillerCooldown.GetSelection());
+            writer.Write(Options.SerialKillerLimit.GetSelection());
             writer.Write(Options.BountyTargetChangeTime.GetSelection());
             writer.Write(Options.BountySuccessKillCooldown.GetSelection());
             writer.Write(Options.BountyFailureKillCooldown.GetSelection());

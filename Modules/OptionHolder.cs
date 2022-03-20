@@ -48,8 +48,8 @@ namespace TownOfHost
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
         public static CustomOption BHDefaultKillCooldown;
-        public static CustomOption R_SerialKillerCooldown;
-        public static CustomOption R_SerialKillerLimit;
+        public static CustomOption SerialKillerCooldown;
+        public static CustomOption SerialKillerLimit;
         public static CustomOption R_VampireKillDelay;
         public static CustomOption R_ShapeMasterShapeshiftDuration;
         public static CustomOption R_MadmateCanFixLightOut; // TODO:mii-47 マッド役職統一
@@ -123,8 +123,6 @@ namespace TownOfHost
         public static bool canTerroristSuicideWin = false;
         public static bool autoDisplayLastRoles = false;
         public static int ShapeMasterShapeshiftDuration = 10;
-        public static int SerialKillerCooldown = 20;
-        public static int SerialKillerLimit = 60;
         public static int VampireKillDelay = 10;
         public static int SabotageMasterSkillLimit = 0;
         public static bool SabotageMasterFixesDoors = false;
@@ -206,8 +204,8 @@ namespace TownOfHost
             BountyFailureKillCooldown = CustomOption.Create(100, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BHDefaultKillCooldown = CustomOption.Create(100, Color.white, "BHDefaultKillCooldown", 30, 2, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(CustomRoles.SerialKiller);
-            R_SerialKillerCooldown = CustomOption.Create(100, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, RoleSpawnChances[CustomRoles.SerialKiller]);
-            R_SerialKillerLimit = CustomOption.Create(100, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, RoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerCooldown = CustomOption.Create(100, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerLimit = CustomOption.Create(100, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SetupRoleOptions(CustomRoles.ShapeMaster);
             R_ShapeMasterShapeshiftDuration = CustomOption.Create(100, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, RoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(CustomRoles.Vampire);
