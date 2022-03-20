@@ -208,7 +208,7 @@ namespace TownOfHost
             SetupRoleOptions(CustomRoles.Bait);
             SetupRoleOptions(CustomRoles.Lighter);
             SetupRoleOptions(CustomRoles.Mayor);
-            R_MayorAdditionalVote = CustomOption.Create(100, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, RoleSpawnChances[CustomRoles.Mayor]);
+            MayorAdditionalVote = CustomOption.Create(100, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
             SetupRoleOptions(CustomRoles.SabotageMaster);
             SabotageMasterSkillLimit = CustomOption.Create(100, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesDoors = CustomOption.Create(100, Color.white, "SabotageMasterFixesDoors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);

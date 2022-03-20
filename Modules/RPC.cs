@@ -322,7 +322,7 @@ namespace TownOfHost
             Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             Options.MadSnitchTasks = MadSnitchTasks;
 
-            Options.MayorAdditionalVote = MayorAdditionalVote;
+            Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
         }
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -371,7 +371,7 @@ namespace TownOfHost
             writer.Write(Options.CanMakeMadmateCount);
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
             writer.Write(Options.MadSnitchTasks);
-            writer.Write(Options.MayorAdditionalVote);
+            writer.Write(Options.MayorAdditionalVote.GetSelection());
             writer.Write(Options.SerialKillerCooldown.GetSelection());
             writer.Write(Options.SerialKillerLimit.GetSelection());
             writer.Write(Options.BountyTargetChangeTime.GetSelection());

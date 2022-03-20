@@ -74,7 +74,7 @@ namespace TownOfHost
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote; i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetSelection(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -151,7 +151,7 @@ namespace TownOfHost
                 {
                     int num;
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote + 1;
+                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote.GetSelection() + 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
