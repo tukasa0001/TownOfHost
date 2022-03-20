@@ -314,10 +314,10 @@ namespace TownOfHost
             Options.IgnoreVent = IgnoreVent;
             Options.IgnoreCosmetics = IgnoreCosmetics;
 
-            Options.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
-            Options.MadmateCanFixComms = MadmateCanFixComms;
+            Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
+            Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
+            Options.MadmateHasImpostorVision.UpdateSelection(MadmateHasImpostorVision);
             Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            Options.MadmateHasImpostorVision = MadmateHasImpostorVision;
             Options.CanMakeMadmateCount = CanMakeMadmateCount;
             Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
             Options.MadSnitchTasks = MadSnitchTasks;
@@ -365,9 +365,9 @@ namespace TownOfHost
             writer.Write(Options.HideAndSeekKillDelay);
             writer.Write(Options.IgnoreVent);
             writer.Write(Options.IgnoreCosmetics);
-            writer.Write(Options.MadmateCanFixLightsOut);
-            writer.Write(Options.MadmateCanFixComms);
-            writer.Write(Options.MadmateHasImpostorVision);
+            writer.Write(Options.MadmateCanFixLightsOut.GetBool());
+            writer.Write(Options.MadmateCanFixComms.GetBool());
+            writer.Write(Options.MadmateHasImpostorVision.GetBool());
             writer.Write(Options.CanMakeMadmateCount);
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
             writer.Write(Options.MadSnitchTasks);

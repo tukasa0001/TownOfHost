@@ -156,12 +156,12 @@ namespace TownOfHost
                 }
             }
 
-            if (!Options.MadmateCanFixLightsOut && //Madmateが停電を直せる設定がオフ
+            if (!Options.MadmateCanFixLightsOut.GetBool() && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
                (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
                 return false;
-            if (!Options.MadmateCanFixComms && //Madmateがコミュサボを直せる設定がオフ
+            if (!Options.MadmateCanFixComms.GetBool() && //Madmateがコミュサボを直せる設定がオフ
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
                 return false;

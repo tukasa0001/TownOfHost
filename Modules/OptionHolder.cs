@@ -52,9 +52,9 @@ namespace TownOfHost
         public static CustomOption SerialKillerLimit;
         public static CustomOption R_VampireKillDelay;
         public static CustomOption R_ShapeMasterShapeshiftDuration;
-        public static CustomOption R_MadmateCanFixLightOut; // TODO:mii-47 マッド役職統一
-        public static CustomOption R_MadmateCanFixComms;
-        public static CustomOption R_MadmateHasImpostorVision;
+        public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
+        public static CustomOption MadmateCanFixComms;
+        public static CustomOption MadmateHasImpostorVision;
         public static CustomOption R_MadGuardianCanSeeBarrier;
         public static CustomOption R_MadSnitchTasks;
         public static CustomOption R_CanMakeMadmateCount;
@@ -128,9 +128,6 @@ namespace TownOfHost
         public static int VampireKillDelay = 10;
         public static int MayorAdditionalVote = 1;
         public static int SnitchExposeTaskLeft = 1;
-        public static bool MadmateHasImpostorVision = true;
-        public static bool MadmateCanFixLightsOut = false;
-        public static bool MadmateCanFixComms = false;
         public static bool MadGuardianCanSeeWhoTriedToKill = false;
         public static int MadSnitchTasks = 4;
         public static int CanMakeMadmateCount;
@@ -206,9 +203,9 @@ namespace TownOfHost
             SetupRoleOptions(CustomRoles.Mafia);
 
             SetupRoleOptions(CustomRoles.Madmate);
-            R_MadmateCanFixLightOut = CustomOption.Create(100, Color.white, "MadmateCanFixLightsOut", false, RoleSpawnChances[CustomRoles.Madmate]);
-            R_MadmateCanFixComms = CustomOption.Create(100, Color.white, "MadmateCanFixComms", false, RoleSpawnChances[CustomRoles.Madmate]);
-            R_MadmateHasImpostorVision = CustomOption.Create(100, Color.white, "MadmateHasImpostorVision", false, RoleSpawnChances[CustomRoles.Madmate]);
+            MadmateCanFixLightsOut = CustomOption.Create(100, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateCanFixComms = CustomOption.Create(100, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateHasImpostorVision = CustomOption.Create(100, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             SetupRoleOptions(CustomRoles.MadGuardian);
             R_MadGuardianCanSeeBarrier = CustomOption.Create(100, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, RoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(CustomRoles.MadSnitch);

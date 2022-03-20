@@ -289,7 +289,7 @@ namespace TownOfHost
             switch (introType)
             {
                 case IntroTypes.Madmate:
-                    if (Options.MadmateHasImpostorVision)
+                    if (Options.MadmateHasImpostorVision.GetBool())
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
                         var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
