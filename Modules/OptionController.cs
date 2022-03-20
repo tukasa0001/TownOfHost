@@ -125,12 +125,8 @@ namespace TownOfHost
             var WhenNonVote = new PageObject(voteMode, () => getString("WhenNonVote") + ": " + getString(Enum.GetName(typeof(VoteMode), Options.GetVoteMode(Options.WhenNonVote))), true, () => {});
             var canTerroristSuicideWin = new PageObject(voteMode, () => getString("CanTerroristSuicideWin") + ": " + Utils.getOnOff(Options.CanTerroristSuicideWin.GetBool()), true, () => {});
 
-            var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + Options.currentSuffix.ToString(), true, () =>
-            {
-                var next = Options.currentSuffix + 1;
-                if (next > SuffixModes.Recording) next = SuffixModes.None;
-                Options.currentSuffix = next;
-            });
+            var Suffix = new PageObject(basePage, () => getString("SuffixMode") + ": " + getString($"SuffixMode_{Enum.GetName(typeof(SuffixModes), Options.GetSuffixMode())}"),  true,
+                () => { });
             Suffix.amVisible = () => AmongUsClient.Instance.AmHost;
             var forceJapanese = new PageObject(basePage, () => getString("ForceJapanese") + ": " + Utils.getOnOff(Options.ForceJapanese.GetBool()), false, () => {});
             var autoPrintLastRoles = new PageObject(basePage, () => getString("AutoDisplayLastResult") + ": " + Utils.getOnOff(Options.AutoDisplayLastResult.GetBool()), false, () => {});

@@ -120,13 +120,25 @@ namespace TownOfHost
 
         public static CustomOption ForceJapanese;
         public static CustomOption AutoDisplayLastResult;
+        public static CustomOption SuffixMode;
+        public static readonly string[] suffixModes =
+        {
+            "SuffixMode_Node",
+            "SuffixMode_Version", 
+            "SuffixMode_Streaming",
+            "SuffixMode_Recording"
+        };
+
+        public static SuffixModes GetSuffixMode()
+        {
+            return (SuffixModes) SuffixMode.GetSelection();
+        }
 
         //詳細設定
         public const int PresetId = 0;
         public const int ForceJapaneseOptionId = 9999;
 
         public static int SnitchExposeTaskLeft = 1;
-        public static SuffixModes currentSuffix = SuffixModes.None;
 
 
         private static bool IsLoaded = false;
@@ -286,8 +298,9 @@ namespace TownOfHost
 
             ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-
-            AutoDisplayLastResult = CustomOption.Create(count, Color.white, "AutoDisplayLastResult", false, null, true)
+            AutoDisplayLastResult = CustomOption.Create(count, Color.white, "AutoDisplayLastResult", false)
+                .SetGameMode(CustomGameMode.All);
+            SuffixMode = CustomOption.Create(count, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;

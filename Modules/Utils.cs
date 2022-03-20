@@ -297,7 +297,7 @@ namespace TownOfHost
             if (main.nickName != "") name = main.nickName;
             if (!AmongUsClient.Instance.IsGameStarted)
             {
-                switch (Options.currentSuffix)
+                switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
                         break;
