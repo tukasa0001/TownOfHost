@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Linq;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -363,7 +364,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return Utils.getRoleName(player.getCustomRole());
+            return $"{Utils.getRoleName(player.getCustomRole())} ({getString("Last")})";
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
