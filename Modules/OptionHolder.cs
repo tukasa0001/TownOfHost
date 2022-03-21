@@ -113,7 +113,7 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static readonly string[] voteModes =
         {
-            "Default", "Suicide", "Skip"
+            "Default", "Suicide", "SelfVote", "Skip"
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
