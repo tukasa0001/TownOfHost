@@ -183,42 +183,22 @@ namespace TownOfHost
                 }
                 SendMessage(text);
                 text = getString("Settings") + ":";
-                if (CustomRoles.Vampire.isEnable()) text += String.Format("\n{0}:{1}", getString("VampireKillDelay"), Options.VampireKillDelay);
-                if (CustomRoles.SabotageMaster.isEnable())
+                foreach (var role in Options.CustomRoleCounts)
                 {
-                    if (Options.SabotageMasterSkillLimit.GetSelection() > 0) text += String.Format("\n{0}:{1}", getString("SabotageMasterSkillLimit"), Options.SabotageMasterSkillLimit.GetSelection());
-                    if (Options.SabotageMasterFixesDoors.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesDoors"), getOnOff(Options.SabotageMasterFixesDoors.GetBool()));
-                    if (Options.SabotageMasterFixesReactors.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesReactors"), getOnOff(Options.SabotageMasterFixesReactors.GetBool()));
-                    if (Options.SabotageMasterFixesOxygens.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesOxygens"), getOnOff(Options.SabotageMasterFixesOxygens.GetBool()));
-                    if (Options.SabotageMasterFixesComms.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesCommunications"), getOnOff(Options.SabotageMasterFixesComms.GetBool()));
-                    if (Options.SabotageMasterFixesElectrical.GetBool()) text += String.Format("\n{0}:{1}", getString("SabotageMasterFixesElectrical"), getOnOff(Options.SabotageMasterFixesElectrical.GetBool()));
+                    if (!role.Key.isEnable()) continue;
+                    bool isFirst = true;
+                    foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
+                    {
+                        if (isFirst) { isFirst = false; continue; }
+                        text += $"\n{getString(c.Name)}:{c.GetString()}";
+                    }
                 }
-                if (CustomRoles.Sheriff.isEnable())
-                {
-                    if (CustomRoles.Sheriff.isEnable()) text += String.Format("\n{0}:{1}", getString("SheriffKillCooldown"), Options.SheriffKillCooldown);
-                    if (Options.SheriffCanKillJester.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillJester"), getOnOff(Options.SheriffCanKillJester.GetBool()));
-                    if (Options.SheriffCanKillTerrorist.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillTerrorist"), getOnOff(Options.SheriffCanKillTerrorist.GetBool()));
-                    if (Options.SheriffCanKillOpportunist.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillOpportunist"), getOnOff(Options.SheriffCanKillOpportunist.GetBool()));
-                    if (Options.SheriffCanKillMadmate.GetBool()) text += String.Format("\n{0}:{1}", getString("SheriffCanKillMadmate"), getOnOff(Options.SheriffCanKillMadmate.GetBool()));
-                }
-                if (CustomRoles.MadGuardian.isEnable() || CustomRoles.MadSnitch.isEnable() || CustomRoles.Madmate.isEnable() || CustomRoles.SKMadmate.isEnable())
-                {
-                    if (Options.MadmateHasImpostorVision.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateHasImpostorVision"), getOnOff(Options.MadmateHasImpostorVision.GetBool()));
-                    if (Options.MadmateCanFixLightsOut.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateCanFixLightsOut"), getOnOff(Options.MadmateCanFixLightsOut.GetBool()));
-                    if (Options.MadmateCanFixComms.GetBool()) text += String.Format("\n{0}:{1}", getString("MadmateCanFixComms"), getOnOff(Options.MadmateCanFixComms.GetBool()));
-                }
-                if (CustomRoles.MadGuardian.isEnable())
-                {
-                    if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool()) text += String.Format("\n{0}:{1}", getString("MadGuardianCanSeeWhoTriedToKill"), getOnOff(Options.MadGuardianCanSeeWhoTriedToKill.GetBool()));
-                }
-                if (CustomRoles.MadSnitch.isEnable()) text += String.Format("\n{0}:{1}", getString("MadSnitchTasks"), Options.MadSnitchTasks);
-                if (CustomRoles.Mayor.isEnable()) text += String.Format("\n{0}:{1}", getString("MayorAdditionalVote"), Options.MayorAdditionalVote);
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
                 if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), Options.WhenSkipVote.GetString());
                 if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.WhenNonVote.GetString());
                 if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
             }
-            if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd.GetBool())); ;
+            if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text);
         }
         public static void ShowLastRoles()
