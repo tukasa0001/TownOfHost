@@ -131,10 +131,10 @@ AddedPolus,Added Polus,Polusを追加
 AddedDleks,Added Dleks,Dleksを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
 SuffixMode,Suffix,名前の二行目
-SuffixMode_Node,None,なし
-SuffixMode_Version,Version,バージョン
-SuffixMode_Streaming,Streaming,配信中
-SuffixMode_Recording,Recording,録画中
+SuffixMode.None,None,なし
+SuffixMode.Version,Version,バージョン
+SuffixMode.Streaming,Streaming,配信中
+SuffixMode.Recording,Recording,録画中
 WhenSkipVote,When Skip Vote,スキップ時
 WhenNonVote,When Non-Vote,無投票時
 WitchCurrentMode,Current Mode,現在のモード

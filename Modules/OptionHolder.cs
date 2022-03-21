@@ -125,10 +125,10 @@ namespace TownOfHost
         public static CustomOption SuffixMode;
         public static readonly string[] suffixModes =
         {
-            "SuffixMode_Node",
-            "SuffixMode_Version",
-            "SuffixMode_Streaming",
-            "SuffixMode_Recording"
+            "SuffixMode.None",
+            "SuffixMode.Version",
+            "SuffixMode.Streaming",
+            "SuffixMode.Recording"
         };
         public static SuffixModes GetSuffixMode()
         {
