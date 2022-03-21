@@ -170,7 +170,9 @@ namespace TownOfHost
 
         public static int getRoleCount(CustomRoles role)
         {
-            return CustomRoleCounts.TryGetValue(role, out var option) ? option.GetSelection() : roleCounts[role];
+            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
+            if (chance == 0) return 0;
+            return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
 
         public static void Load()
@@ -312,7 +314,7 @@ namespace TownOfHost
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 0, 0, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
