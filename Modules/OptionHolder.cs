@@ -287,7 +287,7 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // 投票モード
-            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes, voteModes[0], null, true)
+            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], null, true)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100501, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
                 .SetGameMode(CustomGameMode.Standard);
