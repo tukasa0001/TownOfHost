@@ -25,9 +25,9 @@ namespace TownOfHost
         public OptionBehaviour OptionBehaviour;
         public CustomOption Parent;
         public List<CustomOption> Children;
-        public bool IsHeader;
-        public bool _isHidden;
-        private bool _isHiddenOnDisplay;
+        public bool isHeader;
+        public bool isHidden;
+        private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
 
         public List<CustomOption> PrerequisiteOptions;
@@ -37,7 +37,7 @@ namespace TownOfHost
 
         public CustomOption HiddenOnDisplay(bool hidden)
         {
-            _isHiddenOnDisplay = hidden;
+            isHiddenOnDisplay = hidden;
             return this;
         }
 
@@ -49,14 +49,14 @@ namespace TownOfHost
 
         public bool IsHidden(CustomGameMode gameMode)
         {
-            return _isHidden || (0 == (int)(gameMode & GameMode))
+            return isHidden || (0 == (int)(gameMode & GameMode))
                              || PrerequisiteOptions.Count > 0 && PrerequisiteOptions.Any((option) => !option.Enabled || option.IsHidden(gameMode))
                              || PrerequisiteOptionsInv.Count > 0 && PrerequisiteOptionsInv.Any((option) => option.Enabled || option.IsHidden(gameMode));
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
         {
-            return _isHiddenOnDisplay || IsHidden(gameMode);
+            return isHiddenOnDisplay || IsHidden(gameMode);
         }
 
         // Option creation
@@ -64,7 +64,7 @@ namespace TownOfHost
         {
         }
 
-        public CustomOption(int id, Color color, string name, System.Object[] selections, System.Object defaultValue, CustomOption parent, bool isHeader, bool isHidden, string format)
+        public CustomOption(int id, Color color, string name, System.Object[] selections, System.Object defaultValue, CustomOption parent, bool _isHeader, bool _isHidden, string format)
         {
             Id = id;
             Color = color;
@@ -74,13 +74,13 @@ namespace TownOfHost
             var index = Array.IndexOf(selections, defaultValue);
             DefaultSelection = index >= 0 ? index : 0;
             Parent = parent;
-            IsHeader = isHeader;
-            _isHidden = isHidden;
+            isHeader = _isHeader;
+            isHidden = _isHidden;
 
             Prefix = null;
             Suffix = null;
 
-            _isHiddenOnDisplay = false;
+            isHiddenOnDisplay = false;
 
             Children = new List<CustomOption>();
             parent?.Children.Add(this);
@@ -100,12 +100,12 @@ namespace TownOfHost
 
         public static CustomOption Create(int id,
             Color color,
-            string name, 
+            string name,
             string[] selections,
-            string defaultValue, 
-            CustomOption parent = null, 
-            bool isHeader = false, 
-            bool isHidden = false, 
+            string defaultValue,
+            CustomOption parent = null,
+            bool isHeader = false,
+            bool isHidden = false,
             string format = "")
         {
             return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format);
@@ -114,12 +114,12 @@ namespace TownOfHost
         public static CustomOption Create(int id,
             Color color,
             string name,
-            float defaultValue, 
+            float defaultValue,
             float min,
             float max,
-            float step, 
+            float step,
             CustomOption parent = null,
-            bool isHeader = false, 
+            bool isHeader = false,
             bool isHidden = false,
             string format = "")
         {
@@ -132,13 +132,13 @@ namespace TownOfHost
             return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format);
         }
 
-        public static CustomOption Create(int id, 
-            Color color, 
+        public static CustomOption Create(int id,
+            Color color,
             string name,
-            bool defaultValue, 
-            CustomOption parent = null, 
+            bool defaultValue,
+            CustomOption parent = null,
             bool isHeader = false,
-            bool isHidden = false, 
+            bool isHidden = false,
             string format = "")
         {
             return new CustomOption(id, color, name, new string[] { "Off", "On" }, defaultValue ? "On" : "Off", parent, isHeader, isHidden, format);
@@ -250,7 +250,7 @@ namespace TownOfHost
             {
                 text = Translator.getString("option.prefix." + Prefix) + text;
             }
-            
+
             if (Suffix != null)
             {
                 text += Translator.getString("option.suffix." + Suffix);
@@ -264,7 +264,7 @@ namespace TownOfHost
             return Helpers.ColorString(Color, Translator.getString(Name));
         }
 
-        public virtual string getName(bool display=false)
+        public virtual string getName(bool display = false)
         {
             return Helpers.ColorString(Color, Translator.getString(Name));
         }
@@ -273,7 +273,7 @@ namespace TownOfHost
         {
             UpdateSelection(enable ? 1 : 0);
         }
-        
+
         public void UpdateSelection(int newSelection)
         {
             if (newSelection < 0)
@@ -303,7 +303,7 @@ namespace TownOfHost
                     {
                         Refresh();
                     }
-                    
+
                     ShareOptionSelections();
                 }
             }
