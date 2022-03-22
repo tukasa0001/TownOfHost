@@ -147,7 +147,7 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
-            if (__instance.isSerialKiller())
+            if (__instance.isSerialKiller() && !target.isSchrodingerCat())
             {
                 __instance.RpcMurderPlayer(target);
                 __instance.RpcGuardAndKill(target);
@@ -224,6 +224,88 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            //ここからシュレディンガーの猫の切られた場合の役職変化スタート
+            if (__instance.isSheriff() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#f8cd46");
+                return false;
+            }
+            if (__instance.isImpostor() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isSerialKiller() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isBountyHunter() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isShapeshifter() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isVampire() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isWarlock() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isWitch() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isShapeMaster() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            if (__instance.isMafia() && target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            //シュレディンガーの猫の役職変化処理終了
+            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
 
             //==キル処理==

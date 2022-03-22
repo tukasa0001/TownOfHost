@@ -138,6 +138,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillTerrorist.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
+                case CustomRoles.SchrodingerCat:
+                    return true;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
@@ -488,5 +490,6 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
     }
 }
