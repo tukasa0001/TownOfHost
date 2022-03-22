@@ -137,6 +137,9 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
+                    if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
+                    if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                 }
             }
             return hasTasks;

@@ -21,7 +21,8 @@ namespace TownOfHost
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian ||
-                role == CustomRoles.MadSnitch;
+                role == CustomRoles.MadSnitch ||
+                role == CustomRoles.SchrodingerCat;
         }
         public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
         public static bool isNeutral(this CustomRoles role)

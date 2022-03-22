@@ -38,6 +38,7 @@ namespace TownOfHost
             ///第三陣営役職
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
             var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
+            var SchrodingerCat = new PageObject(RoleOptions, CustomRoles.SchrodingerCat);
             var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
