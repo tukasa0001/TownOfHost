@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         // オプションId
         public const int PresetId = 0;
-        public const int ForceJapaneseOptionId = 999999;
+        public const int ForceJapaneseOptionId = -1;
 
         // プリセット
         private static readonly string[] presets =
@@ -113,7 +113,7 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static readonly string[] voteModes =
         {
-            "Default", "Suicide", "Skip"
+            "Default", "Suicide", "SelfVote", "Skip"
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
@@ -125,10 +125,10 @@ namespace TownOfHost
         public static CustomOption SuffixMode;
         public static readonly string[] suffixModes =
         {
-            "SuffixMode_Node",
-            "SuffixMode_Version",
-            "SuffixMode_Streaming",
-            "SuffixMode_Recording"
+            "SuffixMode.None",
+            "SuffixMode.Version",
+            "SuffixMode.Streaming",
+            "SuffixMode.Recording"
         };
         public static SuffixModes GetSuffixMode()
         {
@@ -164,19 +164,23 @@ namespace TownOfHost
 
             if (CustomRoleCounts.TryGetValue(role, out var option))
             {
-                option.UpdateSelection(count);
+                option.UpdateSelection(count - 1);
             }
         }
 
         public static int getRoleCount(CustomRoles role)
         {
-            return CustomRoleCounts.TryGetValue(role, out var option) ? option.GetSelection() : roleCounts[role];
+            var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
+            if (chance == 0) return 0;
+            return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
 
         public static void Load()
         {
             if (IsLoaded) return;
 
+            ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
+                .SetGameMode(CustomGameMode.All);
             // プリセット
             _ = CustomOption.Create(0, new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset", presets, presets[0], null, true)
                 .HiddenOnDisplay(true)
@@ -287,7 +291,7 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // 投票モード
-            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes, voteModes[0], null, true)
+            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], null, true)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100501, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
                 .SetGameMode(CustomGameMode.Standard);
@@ -295,8 +299,6 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
-            ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
-                .SetGameMode(CustomGameMode.All);
             NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, false)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)
@@ -312,7 +314,7 @@ namespace TownOfHost
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 0, 0, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 

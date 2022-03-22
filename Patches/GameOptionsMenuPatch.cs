@@ -25,7 +25,7 @@ namespace TownOfHost
     public static class GameOptionsMenuPatch
     {
         private const string TownOfHostObjectName = "TOHSettings";
-        
+
         public static void Postfix(GameOptionsMenu __instance)
         {
             foreach (var ob in __instance.Children)
@@ -59,7 +59,7 @@ namespace TownOfHost
                         break;
                 }
             }
-            
+
             if (GameObject.Find(TownOfHostObjectName) != null)
             {
                 GameObject.Find(TownOfHostObjectName)
@@ -98,38 +98,38 @@ namespace TownOfHost
             tohTab.transform.position += Vector3.right * 0.5f;
             roleTab.transform.position += Vector3.left * 0.5f;
 
-            var tabs = new[] {gameTab, roleTab, tohTab};
+            var tabs = new[] { gameTab, roleTab, tohTab };
             for (var i = 0; i < tabs.Length; i++)
             {
                 var button = tabs[i].GetComponentInChildren<PassiveButton>();
                 if (button == null) continue;
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                button.OnClick.AddListener((UnityEngine.Events.UnityAction) (() =>
-                {
-                    gameSettingMenu.RegularGameSettings.SetActive(false);
-                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                    tohSettings.gameObject.SetActive(false);
-                    gameSettingMenu.GameSettingsHightlight.enabled = false;
-                    gameSettingMenu.RolesSettingsHightlight.enabled = false;
-                    tohTabHighlight.enabled = false;
+                button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+               {
+                   gameSettingMenu.RegularGameSettings.SetActive(false);
+                   gameSettingMenu.RolesSettings.gameObject.SetActive(false);
+                   tohSettings.gameObject.SetActive(false);
+                   gameSettingMenu.GameSettingsHightlight.enabled = false;
+                   gameSettingMenu.RolesSettingsHightlight.enabled = false;
+                   tohTabHighlight.enabled = false;
 
-                    switch (copiedIndex)
-                    {
-                        case 0:
-                            gameSettingMenu.RegularGameSettings.SetActive(true);
-                            gameSettingMenu.GameSettingsHightlight.enabled = true;
-                            break;
-                        case 1:
-                            gameSettingMenu.RolesSettings.gameObject.SetActive(true);
-                            gameSettingMenu.RolesSettingsHightlight.enabled = true;
-                            break;
-                        case 2:
-                            tohSettings.gameObject.SetActive(true);
-                            tohTabHighlight.enabled = true;
-                            break;
-                    }
-                }));
+                   switch (copiedIndex)
+                   {
+                       case 0:
+                           gameSettingMenu.RegularGameSettings.SetActive(true);
+                           gameSettingMenu.GameSettingsHightlight.enabled = true;
+                           break;
+                       case 1:
+                           gameSettingMenu.RolesSettings.gameObject.SetActive(true);
+                           gameSettingMenu.RolesSettingsHightlight.enabled = true;
+                           break;
+                       case 2:
+                           tohSettings.gameObject.SetActive(true);
+                           tohTabHighlight.enabled = true;
+                           break;
+                   }
+               }));
             }
 
             foreach (var option in tohMenu.GetComponentsInChildren<OptionBehaviour>())
@@ -160,7 +160,7 @@ namespace TownOfHost
             tohSettings.gameObject.SetActive(false);
         }
     }
-    
+
     [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
     public class GameOptionsMenuUpdatePatch
     {
@@ -202,17 +202,17 @@ namespace TownOfHost
                     enabled = parent.Enabled;
                     parent = parent.Parent;
                 }
-                
+
                 option.OptionBehaviour.gameObject.SetActive(enabled);
                 if (enabled)
                 {
-                    offset -= option.IsHeader ? 0.75f : 0.5f;
+                    offset -= option.isHeader ? 0.75f : 0.5f;
                     option.OptionBehaviour.transform.localPosition = new Vector3(
                         option.OptionBehaviour.transform.localPosition.x,
                         offset,
                         option.OptionBehaviour.transform.localPosition.z);
 
-                    if (option.IsHeader)
+                    if (option.isHeader)
                     {
                         numItems += 0.5f;
                     }
@@ -243,7 +243,7 @@ namespace TownOfHost
             return false;
         }
     }
-    
+
     [HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
     public class StringOptionIncreasePatch
     {
@@ -251,7 +251,7 @@ namespace TownOfHost
         {
             var option = CustomOption.Options.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
-            
+
             option.UpdateSelection(option.Selection + 1);
             return false;
         }
@@ -264,7 +264,7 @@ namespace TownOfHost
         {
             var option = CustomOption.Options.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
-            
+
             option.UpdateSelection(option.Selection - 1);
             return false;
         }

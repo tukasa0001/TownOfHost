@@ -103,10 +103,10 @@ SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼ�
 SabotageMasterFixesCommunications,SabotageMaster Can Fixes Both Communications In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える
 SabotageMasterFixesElectrical,SabotageMaster Can Fixes Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
-SheriffCanKillJester,Sheriff Can Kill <color=#ec62a5>Jester</color>,シェリフが<color=#ec62a5>ジェスター</color>をキルできる
-SheriffCanKillTerrorist,Sheriff Can Kill <color=#00ff00>Terrorist</color>,シェリフが<color=#00ff00>テロリスト</color>をキルできる
-SheriffCanKillOpportunist,Sheriff Can Kill <color=#00ff00Opportunist</color>,シェリフが<color=#00ff00>オポチュニスト</color>をキルできる
-SheriffCanKillMadmate,Sheriff Can Kill <color=#ff0000>Madmate</color>,シェリフが<color=#ff0000>マッドメイト</color>をキルできる
+SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
+SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
+SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
+SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
@@ -131,10 +131,10 @@ AddedPolus,Added Polus,Polusを追加
 AddedDleks,Added Dleks,Dleksを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
 SuffixMode,Suffix,名前の二行目
-SuffixMode_Node,None,なし
-SuffixMode_Version,Version,バージョン
-SuffixMode_Streaming,Streaming,配信中
-SuffixMode_Recording,Recording,録画中
+SuffixMode.None,None,なし
+SuffixMode.Version,Version,バージョン
+SuffixMode.Streaming,Streaming,配信中
+SuffixMode.Recording,Recording,録画中
 WhenSkipVote,When Skip Vote,スキップ時
 WhenNonVote,When Non-Vote,無投票時
 WitchCurrentMode,Current Mode,現在のモード
