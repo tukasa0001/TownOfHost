@@ -164,7 +164,7 @@ namespace TownOfHost
 
             if (CustomRoleCounts.TryGetValue(role, out var option))
             {
-                option.UpdateSelection(count);
+                option.UpdateSelection(count - 1);
             }
         }
 
