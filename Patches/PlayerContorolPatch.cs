@@ -54,6 +54,7 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             if (__instance.isWarlock())
             {
                 if (main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
