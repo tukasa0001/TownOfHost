@@ -69,7 +69,6 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> BountyTargets;
         public static Dictionary<byte, bool> isTargetKilled = new Dictionary<byte, bool>();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
-        public static List<PlayerControl> CursedPlayerDie = new List<PlayerControl>();
         public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> FirstCursedCheck = new Dictionary<byte, bool>();
@@ -116,7 +115,6 @@ namespace TownOfHost
             BountyTimer = new Dictionary<byte, float>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
-            CursedPlayerDie = new List<PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             winnerList = new();
             VisibleTasksCount = false;

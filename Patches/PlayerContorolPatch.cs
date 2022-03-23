@@ -206,7 +206,6 @@ namespace TownOfHost
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers.Add(__instance.PlayerId, target);
-                    main.CursedPlayerDie.Add(target);
                     main.FirstCursedCheck.Remove(__instance.PlayerId);
                     main.FirstCursedCheck.Add(__instance.PlayerId, true);
                     return false;
@@ -251,7 +250,6 @@ namespace TownOfHost
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
-                foreach (var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId) return false;
             }
 
             if (Options.SyncButtonMode && target == null)
@@ -302,10 +300,6 @@ namespace TownOfHost
             foreach (var sp in main.SpelledPlayer)
             {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
-            }
-            foreach (var cp in main.CursedPlayerDie)
-            {
-                cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
 
             Utils.CustomSyncAllSettings();

@@ -32,13 +32,6 @@ namespace TownOfHost
                 main.IgnoreReportPlayers.Add(p.PlayerId);
                 p.RpcMurderPlayer(p);
             }
-            foreach (var p in main.CursedPlayerDie)
-            {
-                PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                main.IgnoreReportPlayers.Add(p.PlayerId);
-                p.RpcMurderPlayer(p);
-            }
-            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);//呪われた人が死んだ場合にリストから削除する
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {

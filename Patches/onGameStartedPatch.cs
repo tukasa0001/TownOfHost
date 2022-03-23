@@ -21,7 +21,6 @@ namespace TownOfHost
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            main.CursedPlayerDie = new List<PlayerControl>();
             main.FirstCursedCheck = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
 
