@@ -212,13 +212,14 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
-            MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            // Madmate Common Options
+            MadmateCanFixLightsOut = CustomOption.Create(11000, Color.white, "MadmateCanFixLightsOut", false, null, true);
+            MadmateCanFixComms = CustomOption.Create(11001, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(11002, Color.white, "MadmateHasImpostorVision", false);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
