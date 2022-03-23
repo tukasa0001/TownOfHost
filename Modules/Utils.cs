@@ -130,6 +130,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.Arsonist) hasTasks = false;
                 }
             }
             return hasTasks;

@@ -82,6 +82,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -164,6 +165,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"}
             };
@@ -225,6 +227,7 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        Arsonist,
         Fox,
         Troll
     }
@@ -237,6 +240,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Arsonist,
         Troll
     }
     public enum AdditionalWinners

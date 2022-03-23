@@ -117,6 +117,34 @@ namespace TownOfHost
                         sheriff.Data.IsDead = true;
                     }
                 }
+                if (CustomRoles.Arsonist.isEnable())
+                {
+                    for (var i = 0; i < CustomRoles.Arsonist.getCount(); i++)
+                    {
+                        if (AllPlayers.Count <= 0) break;
+                        var arsonist = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                        AllPlayers.Remove(arsonist);
+                        main.AllPlayerCustomRoles[arsonist.PlayerId] = CustomRoles.Arsonist;
+                        //ここからDesyncが始まる
+                        if (arsonist.PlayerId != 0)
+                        {
+                            //ただしホスト、お前はDesyncするな。
+                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == arsonist) continue;
+                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                            }
+                        }
+                        else
+                        {
+                            //ホストは代わりに普通のクルーにする
+                            arsonist.RpcSetRole(RoleTypes.Crewmate);
+                        }
+                        arsonist.Data.IsDead = true;
+                    }
+                }
             }
             Logger.msg("SelectRolesPatch.Prefix.End");
         }

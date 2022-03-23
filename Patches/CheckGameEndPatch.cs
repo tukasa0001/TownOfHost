@@ -15,6 +15,7 @@ namespace TownOfHost
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
+            if (CheckAndEndGameForArsonist(__instance)) return false;
             if (main.currentWinner == CustomWinner.Default)
             {
                 if (Options.IsHideAndSeek)
@@ -159,6 +160,16 @@ namespace TownOfHost
             }
             return false;
         }
+        private static bool CheckAndEndGameForArsonist(ShipStatus __instance)
+        {
+            if (main.currentWinner == CustomWinner.Arsonist && main.CustomWinTrigger)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
 
 
         private static void EndGameForSabotage(ShipStatus __instance)
@@ -171,7 +182,7 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.getCustomRole() == CustomRoles.Sheriff)
+                if (pc.getCustomRole() == CustomRoles.Sheriff || pc.getCustomRole() == CustomRoles.Arsonist)
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
@@ -216,7 +227,7 @@ namespace TownOfHost
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&
-                            playerInfo.getCustomRole() != CustomRoles.Sheriff)
+                            (playerInfo.getCustomRole() != CustomRoles.Sheriff || playerInfo.getCustomRole() != CustomRoles.Arsonist))
                             {
                                 numImpostorsAlive++;
                             }

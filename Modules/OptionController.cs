@@ -39,6 +39,7 @@ namespace TownOfHost
             var Jester = new PageObject(RoleOptions, CustomRoles.Jester);
             var Opportunist = new PageObject(RoleOptions, CustomRoles.Opportunist);
             var Terrorist = new PageObject(RoleOptions, CustomRoles.Terrorist);
+            var Arsonist = new PageObject(RoleOptions, CustomRoles.Arsonist);
             ///クルー役職
             var Bait = new PageObject(RoleOptions, CustomRoles.Bait);
             var Lighter = new PageObject(RoleOptions, CustomRoles.Lighter);

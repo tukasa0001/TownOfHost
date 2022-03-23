@@ -138,6 +138,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillTerrorist;
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist;
+                case CustomRoles.Arsonist:
+                    return true;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
@@ -259,7 +261,15 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
-                    goto DefaultKillcooldown;
+                    break;
+                case CustomRoles.Arsonist:
+                    opt.ImpostorLightMod = opt.CrewLightMod;
+                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystema != null && switchSystema.IsActive)
+                    {
+                        opt.ImpostorLightMod /= 5;
+                    }
+                    break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
                     {
@@ -504,5 +514,6 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
     }
 }

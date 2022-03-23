@@ -223,7 +223,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            PlayerControl.LocalPlayer.isSheriff())
+            (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist()))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }

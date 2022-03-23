@@ -11,6 +11,7 @@ namespace TownOfHost
         SyncCustomSettings = 80,
         JesterExiled,
         TerroristWin,
+        ArsonistWin,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -149,6 +150,10 @@ namespace TownOfHost
                 case (byte)CustomRPC.TerroristWin:
                     byte wonTerrorist = reader.ReadByte();
                     RPC.TerroristWin(wonTerrorist);
+                    break;
+                case (byte)CustomRPC.ArsonistWin:
+                    byte wonArsonist = reader.ReadByte();
+                    RPC.ArsonistWin(wonArsonist);
                     break;
                 case (byte)CustomRPC.EndGame:
                     RPC.EndGame();
@@ -412,6 +417,32 @@ namespace TownOfHost
                 if (p.PlayerId == terroristID) Terrorist = p;
                 if (p.Data.Role.IsImpostor)
                 {
+                    Impostors.Add(p);
+                }
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var imp in Impostors)
+                {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
+            }
+        }
+        public static void ArsonistWin(byte arsonistID)
+        {
+            main.WonArsonistID = arsonistID;
+            main.currentWinner = CustomWinner.Arsonist;
+            PlayerControl Arsonist = null;
+            PlayerControl Imp = null;
+            List<PlayerControl> Impostors = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p.PlayerId == arsonistID) Arsonist = p;
+                if (p.Data.Role.IsImpostor)
+                {
+                    if (Imp == null) Imp = p;
                     Impostors.Add(p);
                 }
             }
