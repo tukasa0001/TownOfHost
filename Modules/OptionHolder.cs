@@ -92,6 +92,7 @@ namespace TownOfHost
         public static int UsedButtonCount = 0;
 
         // タスク無効化
+        public static CustomOption DisableTasks;
         public static CustomOption DisableSwipeCard;
         public static CustomOption DisableSubmitScan;
         public static CustomOption DisableUnlockSafe;
@@ -264,17 +265,19 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
-            DisableSwipeCard = CustomOption.Create(100300, Color.white, "DisableSwipeCardTask", false, null, true)
+            DisableTasks = CustomOption.Create(100300, Color.white, "DisableSwipeCardTask", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            DisableSubmitScan = CustomOption.Create(100301, Color.white, "DisableSubmitScanTask", false)
+            DisableSwipeCard = CustomOption.Create(100300, Color.white, "DisableSwipeCardTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableUnlockSafe = CustomOption.Create(100302, Color.white, "DisableUnlockSafeTask", false)
+            DisableSubmitScan = CustomOption.Create(100301, Color.white, "DisableSubmitScanTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableUploadData = CustomOption.Create(100303, Color.white, "DisableUploadDataTask", false)
+            DisableUnlockSafe = CustomOption.Create(100302, Color.white, "DisableUnlockSafeTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableStartReactor = CustomOption.Create(100304, Color.white, "DisableStartReactorTask", false)
+            DisableUploadData = CustomOption.Create(100303, Color.white, "DisableUploadDataTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableResetBreaker = CustomOption.Create(100305, Color.white, "DisableResetBreakerTask", false)
+            DisableStartReactor = CustomOption.Create(100304, Color.white, "DisableStartReactorTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableResetBreaker = CustomOption.Create(100305, Color.white, "DisableResetBreakerTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ
