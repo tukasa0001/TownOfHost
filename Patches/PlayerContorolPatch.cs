@@ -77,6 +77,7 @@ namespace TownOfHost
                         PlayerControl targetw = min.Key;
                         Logger.info($"{targetw.name}was killed");
                         cp.RpcMurderPlayer(targetw);//殺す
+                        __instance.RpcGuardAndKill(__instance);
                     }
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
@@ -199,8 +200,12 @@ namespace TownOfHost
             {
                 if (!main.CheckShapeshift[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
+                    main.isCursed = true;
+                    Utils.CustomSyncAllSettings();
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers[__instance.PlayerId] = (target);
+                    main.isCursed = false;
+                    Utils.CustomSyncAllSettings();
                     return false;
                 }
                 if (main.CheckShapeshift[__instance.PlayerId])

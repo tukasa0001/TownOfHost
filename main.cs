@@ -73,6 +73,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
+        public static bool isCursed;
         public static bool isShipStart;
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;

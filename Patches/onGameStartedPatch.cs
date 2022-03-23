@@ -22,6 +22,7 @@ namespace TownOfHost
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.SKMadmateNowCount = 0;
+            main.isCursed = false;
 
             main.IgnoreReportPlayers = new List<byte>();
 
