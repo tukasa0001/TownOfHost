@@ -56,15 +56,9 @@ namespace TownOfHost
         {
             if (__instance.isWarlock())
             {
-                if (main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
+                if (main.CursedPlayers[__instance.PlayerId] != null)//呪われた人がいるか確認
                 {
-                    if (main.CursedPlayers[__instance.PlayerId].Data.IsDead)
-                    {//のろわれた人が死んだ場合
-                        main.CursedPlayers.Remove(__instance.PlayerId);
-                        main.FirstCursedCheck.Remove(__instance.PlayerId);
-                        main.FirstCursedCheck.Add(__instance.PlayerId, false);
-                    }
-                    if (main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
+                    if (!main.CheckShapeshift[__instance.PlayerId] && !main.CursedPlayers[__instance.PlayerId].Data.IsDead)//変身解除の時に反応しない
                     {
                         var cp = main.CursedPlayers[__instance.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
@@ -84,6 +78,7 @@ namespace TownOfHost
                         Logger.info($"{targetw.name}was killed");
                         cp.RpcMurderPlayer(targetw);//殺す
                     }
+                    main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
             if (Options.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
@@ -202,22 +197,18 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (!main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                if (!main.CheckShapeshift[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     __instance.RpcGuardAndKill(target);
-                    main.CursedPlayers.Add(__instance.PlayerId, target);
-                    main.FirstCursedCheck.Remove(__instance.PlayerId);
-                    main.FirstCursedCheck.Add(__instance.PlayerId, true);
+                    main.CursedPlayers[__instance.PlayerId] = (target);
                     return false;
                 }
-                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                if (main.CheckShapeshift[__instance.PlayerId])
                 {//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
-                //Warlockが誰かを呪った時にキルできなくなる処理
-                if (main.FirstCursedCheck[__instance.PlayerId]) return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理

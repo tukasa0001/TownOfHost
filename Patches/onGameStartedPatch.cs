@@ -21,7 +21,6 @@ namespace TownOfHost
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            main.FirstCursedCheck = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
 
             main.IgnoreReportPlayers = new List<byte>();
@@ -279,7 +278,7 @@ namespace TownOfHost
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                     }
-                    if (pc.isWarlock()) main.FirstCursedCheck.Add(pc.PlayerId, false);
+                    if (pc.isWarlock()) main.CursedPlayers.Add(pc.PlayerId, null);
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                 }
 

@@ -68,9 +68,7 @@ namespace TownOfHost
                 if (wr.isWarlock())
                 {
                     wr.RpcGuardAndKill(wr);
-                    main.CursedPlayers.Remove(wr.PlayerId);
-                    main.FirstCursedCheck.Remove(wr.PlayerId);
-                    main.FirstCursedCheck.Add(wr.PlayerId, false);
+                    main.CursedPlayers[wr.PlayerId] = (null);
                 }
             }
             main.BountyMeetingCheck = true;
