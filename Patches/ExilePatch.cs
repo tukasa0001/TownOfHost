@@ -51,7 +51,7 @@ namespace TownOfHost
                 }
                 PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
             }
-            if(exiled == null && main.SpelledPlayer != null)
+            if (exiled == null && main.SpelledPlayer != null)
             {
                 foreach (var p in main.SpelledPlayer)
                 {
@@ -81,6 +81,7 @@ namespace TownOfHost
                 {
                     wr.RpcGuardAndKill(wr);
                     main.CursedPlayers[wr.PlayerId] = (null);
+                    main.isCurseAndKill[wr.PlayerId] = false;
                 }
             }
             main.BountyMeetingCheck = true;

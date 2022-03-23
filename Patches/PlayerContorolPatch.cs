@@ -78,6 +78,7 @@ namespace TownOfHost
                         Logger.info($"{targetw.name}was killed");
                         cp.RpcMurderPlayer(targetw);//殺す
                         __instance.RpcGuardAndKill(__instance);
+                        main.isCurseAndKill[__instance.PlayerId] = true;
                     }
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
@@ -198,14 +199,13 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (!main.CheckShapeshift[__instance.PlayerId])
+                if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
                     main.isCursed = true;
                     Utils.CustomSyncAllSettings();
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers[__instance.PlayerId] = (target);
-                    main.isCursed = false;
-                    Utils.CustomSyncAllSettings();
+                    main.WarlockTimer.Add(__instance.PlayerId, 0f);
                     return false;
                 }
                 if (main.CheckShapeshift[__instance.PlayerId])
@@ -214,6 +214,8 @@ namespace TownOfHost
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
+                if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);//1ターンに2人以上殺すとバンされる
+                return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
@@ -361,6 +363,17 @@ namespace TownOfHost
                         main.SerialKillerTimer[__instance.PlayerId] =
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
+                }
+                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.WarlockTimer[__instance.PlayerId] >= 1f)
+                    {
+                        __instance.RpcGuardAndKill(__instance);
+                        main.isCursed = false;
+                        Utils.CustomSyncAllSettings();
+                        main.WarlockTimer.Remove(__instance.PlayerId);
+                    }
+                    else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
                 //バウハンのキルクールの変換とターゲットのリセット
                 if (main.BountyTimer.ContainsKey(__instance.PlayerId))
