@@ -388,7 +388,7 @@ namespace TownOfHost
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
-                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        __instance.RpcGuardAndKill(__instance);//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.BountyTimerCheck = true;
