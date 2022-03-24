@@ -209,9 +209,10 @@ namespace TownOfHost
             SetupRoleOptions(1300, CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
-            CanMakeMadmateCount = CustomOption.Create(1410, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+
+            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, null, true);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);

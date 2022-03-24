@@ -50,6 +50,10 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
                 }
+                if (kvp.Key == CustomRoles.Shapeshifter || kvp.Key == CustomRoles.ShapeMaster || kvp.Key == CustomRoles.Mafia || kvp.Key == CustomRoles.BountyHunter || kvp.Key == CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
+                {
+                    text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
+                }
                 text += "\n";
             }
             //Onの時に子要素まで表示するメソッド
