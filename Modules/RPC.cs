@@ -341,6 +341,11 @@ namespace TownOfHost
                 writer.Write(kvp.Value.GetSelection());
                 writer.Write(kvp.Key.getCount());
             }
+            foreach (var kvp in Options.CustomSubRoleSpawnChances)
+            {
+                writer.Write(kvp.Value.GetSelection());
+                writer.Write(kvp.Key.getCount());
+            }
 
             writer.Write(Options.GameMode.Selection);
             writer.Write(Options.NoGameEnd.GetBool());
