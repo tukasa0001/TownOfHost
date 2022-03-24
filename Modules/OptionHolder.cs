@@ -77,6 +77,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
+        public static CustomOption CanTerroristSuicideWin;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -109,9 +110,9 @@ namespace TownOfHost
         public static CustomOption AddedDleks;
 
         // 投票モード
+        public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
-        public static CustomOption CanTerroristSuicideWin;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
@@ -244,6 +245,8 @@ namespace TownOfHost
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
+            CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
+                .SetGameMode(CustomGameMode.Standard);
             #endregion
 
             // HideAndSeek
@@ -295,15 +298,15 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // 投票モード
-            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], null, true)
+            VoteMode = CustomOption.Create(100500, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenNonVote = CustomOption.Create(100501, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
+            WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
-            CanTerroristSuicideWin = CustomOption.Create(100502, Color.white, "CanTerroristSuicideWin", false, null, false)
+            WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
-            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, false)
+            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)
                 .SetGameMode(CustomGameMode.All);
