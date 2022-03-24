@@ -57,15 +57,9 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (__instance.isWarlock())
             {
-                if (main.FirstCursedCheck[__instance.PlayerId])//呪われた人がいるか確認
+                if (main.CursedPlayers[__instance.PlayerId] != null)//呪われた人がいるか確認
                 {
-                    if (main.CursedPlayers[__instance.PlayerId].Data.IsDead)
-                    {//のろわれた人が死んだ場合
-                        main.CursedPlayers.Remove(__instance.PlayerId);
-                        main.FirstCursedCheck.Remove(__instance.PlayerId);
-                        main.FirstCursedCheck.Add(__instance.PlayerId, false);
-                    }
-                    if (main.CursedPlayers[__instance.PlayerId] != null && !main.CheckShapeshift[__instance.PlayerId])//変身解除の時に反応しない
+                    if (!main.CheckShapeshift[__instance.PlayerId] && !main.CursedPlayers[__instance.PlayerId].Data.IsDead)//変身解除の時に反応しない
                     {
                         var cp = main.CursedPlayers[__instance.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
@@ -84,7 +78,10 @@ namespace TownOfHost
                         PlayerControl targetw = min.Key;
                         Logger.info($"{targetw.name}was killed");
                         cp.RpcMurderPlayer(targetw);//殺す
+                        __instance.RpcGuardAndKill(__instance);
+                        main.isCurseAndKill[__instance.PlayerId] = true;
                     }
+                    main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
             if (Options.CanMakeMadmateCount > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
@@ -203,23 +200,23 @@ namespace TownOfHost
             }
             if (__instance.isWarlock())
             {
-                if (!main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
+                    main.isCursed = true;
+                    Utils.CustomSyncAllSettings();
                     __instance.RpcGuardAndKill(target);
-                    main.CursedPlayers.Add(__instance.PlayerId, target);
-                    main.CursedPlayerDie.Add(target);
-                    main.FirstCursedCheck.Remove(__instance.PlayerId);
-                    main.FirstCursedCheck.Add(__instance.PlayerId, true);
+                    main.CursedPlayers[__instance.PlayerId] = (target);
+                    main.WarlockTimer.Add(__instance.PlayerId, 0f);
                     return false;
                 }
-                if (main.CheckShapeshift[__instance.PlayerId] && !main.FirstCursedCheck[__instance.PlayerId])
+                if (main.CheckShapeshift[__instance.PlayerId])
                 {//呪われてる人がいないくて変身してるときに通常キルになる
                     __instance.RpcMurderPlayer(target);
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
-                //Warlockが誰かを呪った時にキルできなくなる処理
-                if (main.FirstCursedCheck[__instance.PlayerId]) return false;
+                if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);//1ターンに2人以上殺すとバンされる
+                return false;
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
@@ -252,7 +249,6 @@ namespace TownOfHost
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
                 }
-                foreach (var cp in main.CursedPlayerDie) if (target.PlayerId == cp.Data.PlayerId) return false;
             }
 
             if (Options.SyncButtonMode && target == null)
@@ -303,10 +299,6 @@ namespace TownOfHost
             foreach (var sp in main.SpelledPlayer)
             {
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
-            }
-            foreach (var cp in main.CursedPlayerDie)
-            {
-                cp.RpcSetName("<color=#ff0000>†</color>" + cp.getRealName());
             }
 
             Utils.CustomSyncAllSettings();
@@ -373,6 +365,17 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.WarlockTimer[__instance.PlayerId] >= 1f)
+                    {
+                        __instance.RpcGuardAndKill(__instance);
+                        main.isCursed = false;
+                        Utils.CustomSyncAllSettings();
+                        main.WarlockTimer.Remove(__instance.PlayerId);
+                    }
+                    else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                }
                 //バウハンのキルクールの変換とターゲットのリセット
                 if (main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
@@ -386,7 +389,7 @@ namespace TownOfHost
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
-                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        __instance.RpcGuardAndKill(__instance);//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.BountyTimerCheck = true;

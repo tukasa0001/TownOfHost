@@ -207,12 +207,14 @@ namespace TownOfHost
                 case CustomRoles.Warlock:
                     if (CustomRoles.BountyHunter.getCount() == 0)
                     {
-                        opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                        if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
+                        if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                         opt.KillCooldown *= 2;
                     }
                     if (CustomRoles.BountyHunter.isEnable())
                     {
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown;
+                        if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown;
+                        if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                         opt.KillCooldown = Options.BHDefaultKillCooldown * 2;
                     }
                     break;
