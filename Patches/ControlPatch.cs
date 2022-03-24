@@ -165,9 +165,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
-                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = CustomOptionController.basePage;
-                CustomOptionController.currentCursor = 0;
+                OptionShower.next();
             }
             if (main.OptionControllerIsEnable)
             {
