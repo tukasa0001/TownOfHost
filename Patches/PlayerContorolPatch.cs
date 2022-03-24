@@ -197,7 +197,7 @@ namespace TownOfHost
                 Utils.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.isWarlock())
+            if (__instance.isWarlock() && !target.isSchrodingerCat())
             {
                 if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
@@ -218,85 +218,20 @@ namespace TownOfHost
                 if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);
                 return false;
             }
-            if (__instance.isVampire() && !target.isBait())
+            if (__instance.isVampire() && !target.isBait() && !target.isSchrodingerCat())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
-            //ここからシュレディンガーの猫の切られた場合の役職変化スタート
+            //シュレディンガーの猫の切られた場合の役職変化スタート
             if (__instance.isSheriff() && target.isSchrodingerCat())
             {
                 __instance.RpcGuardAndKill(target);
                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#f8cd46");
                 return false;
             }
-            if (__instance.isImpostor() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isSerialKiller() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isBountyHunter() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isShapeshifter() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isVampire() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isWarlock() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isWitch() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isShapeMaster() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            if (__instance.isMafia() && target.isSchrodingerCat())
+            if (__instance.getCustomRole().isImpostor() && target.isSchrodingerCat())
             {
                 __instance.RpcGuardAndKill(target);
                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);

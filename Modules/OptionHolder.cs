@@ -79,6 +79,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
         public static CustomOption CanTerroristSuicideWin;
+        public static CustomOption SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -251,6 +252,7 @@ namespace TownOfHost
             CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
             SetupRoleOptions(50300, CustomRoles.SchrodingerCat);
+            SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam = CustomOption.Create(50310, Color.white, "SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             #endregion
 
             // HideAndSeek

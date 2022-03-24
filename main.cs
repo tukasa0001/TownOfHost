@@ -254,6 +254,7 @@ namespace TownOfHost
     {
         None = 0,
         Opportunist,
+        SchrodingerCat,
         Fox
     }
     /*public enum CustomRoles : byte

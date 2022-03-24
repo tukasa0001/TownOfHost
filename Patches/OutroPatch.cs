@@ -97,6 +97,17 @@ namespace TownOfHost
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
+            //SchrodingerCat
+            if (Options.SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam.GetBool())
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.isSchrodingerCat() && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist && main.currentWinner != CustomWinner.Jester && main.currentWinner != CustomWinner.Impostor)
+                {
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    winner.Add(pc);
+                    main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                }
+            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
