@@ -248,8 +248,10 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.Impostor:
                 case CustomRoles.Shapeshifter:
+                    if (CustomRoles.ShapeMaster.isEnable() || CustomRoles.Warlock.isEnable()) opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown;
+                    goto DefaultKillcooldown;
+                case CustomRoles.Impostor:
                 case CustomRoles.Mafia:
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;

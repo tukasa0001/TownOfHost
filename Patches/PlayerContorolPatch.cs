@@ -78,7 +78,7 @@ namespace TownOfHost
                         Logger.info($"{targetw.name}was killed");
                         cp.RpcMurderPlayer(targetw);//殺す
                         __instance.RpcGuardAndKill(__instance);
-                        main.isCurseAndKill[__instance.PlayerId] = true;
+                        main.isCurseAndKill[__instance.PlayerId] = false;
                     }
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
@@ -206,6 +206,7 @@ namespace TownOfHost
                     __instance.RpcGuardAndKill(target);
                     main.CursedPlayers[__instance.PlayerId] = (target);
                     main.WarlockTimer.Add(__instance.PlayerId, 0f);
+                    main.isCurseAndKill[__instance.PlayerId] = true;
                     return false;
                 }
                 if (main.CheckShapeshift[__instance.PlayerId])
@@ -214,7 +215,7 @@ namespace TownOfHost
                     __instance.RpcGuardAndKill(target);
                     return false;
                 }
-                if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);//1ターンに2人以上殺すとバンされる
+                if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);
                 return false;
             }
             if (__instance.isVampire() && !target.isBait())

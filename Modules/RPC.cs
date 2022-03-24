@@ -94,6 +94,7 @@ namespace TownOfHost
                     int BountySuccessKillCooldown = reader.ReadInt32();
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
+                    int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
@@ -123,6 +124,7 @@ namespace TownOfHost
                         BountySuccessKillCooldown,
                         BountyFailureKillCooldown,
                         BHDefaultKillCooldown,
+                        DefaultShapeshiftCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -221,6 +223,7 @@ namespace TownOfHost
                 int BountySuccessKillCooldown,
                 int BountyFailureKillCooldown,
                 int BHDefaultKillCooldown,
+                int DefaultShapeshiftCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -278,6 +281,7 @@ namespace TownOfHost
             Options.BountySuccessKillCooldown = BountySuccessKillCooldown;
             Options.BountyFailureKillCooldown = BountyFailureKillCooldown;
             Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
+            Options.DefaultShapeshiftCooldown = DefaultShapeshiftCooldown;
             Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
 
             Options.SyncButtonMode = SyncButtonMode;
@@ -351,6 +355,7 @@ namespace TownOfHost
             writer.Write(Options.BountySuccessKillCooldown);
             writer.Write(Options.BountyFailureKillCooldown);
             writer.Write(Options.BHDefaultKillCooldown);
+            writer.Write(Options.DefaultShapeshiftCooldown);
             writer.Write(Options.ShapeMasterShapeshiftDuration);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
