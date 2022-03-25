@@ -271,7 +271,7 @@ namespace TownOfHost
             this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
             parent?.ChildPages.Add(this); //親のリストに自分を追加
         }
-        public PageObject( //役職設定
+        public PageObject( //サブ役職設定
             PageObject parent,
             CustomSubRoles subRole
         )
