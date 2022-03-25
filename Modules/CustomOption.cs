@@ -28,7 +28,7 @@ namespace TownOfHost
         public bool isHidden;
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
-        
+
         public bool Enabled => this.GetBool();
 
         public CustomOption HiddenOnDisplay(bool hidden)
@@ -66,13 +66,13 @@ namespace TownOfHost
         }
 
         public CustomOption(int id,
-            Color color, 
+            Color color,
             string name,
             System.Object[] selections,
             System.Object defaultValue,
-            CustomOption parent, 
+            CustomOption parent,
             bool isHeader,
-            bool isHidden, 
+            bool isHidden,
             string format)
         {
             Id = id;
@@ -85,7 +85,7 @@ namespace TownOfHost
             this.isHeader = isHeader;
             this.isHidden = isHidden;
             Format = format;
-            
+
             isHiddenOnDisplay = false;
 
             Children = new List<CustomOption>();
