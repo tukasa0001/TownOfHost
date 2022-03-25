@@ -30,7 +30,6 @@ namespace TownOfHost
             var Vampire = new PageObject(RoleOptions, CustomRoles.Vampire);
             var Warlock = new PageObject(RoleOptions, CustomRoles.Warlock);
             var Witch = new PageObject(RoleOptions, CustomRoles.Witch);
-            var Shapeshifter = new PageObject(RoleOptions, CustomRoles.Shapeshifter);
             var Mafia = new PageObject(RoleOptions, CustomRoles.Mafia);
             ///Madmate系役職
             var Madmate = new PageObject(RoleOptions, CustomRoles.Madmate);
