@@ -26,6 +26,11 @@ namespace TownOfHost
 
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
                        main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+
+            return getRoleName(role, lang);
+        }
+        public static string getRoleName(CustomRoles role, SupportedLangs lang)
+        {
             return getString(Enum.GetName(typeof(CustomRoles), role), lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)

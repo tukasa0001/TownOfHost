@@ -264,7 +264,7 @@ namespace TownOfHost
         )
         {
             this.parent = parent; //親オブジェクト
-            this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role)}</color>: {role.getCount()}";
+            this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role, SupportedLangs.English)}</color>: {role.getCount()}";
             this.isHostOnly = true; //実行をホストのみに限定するか
             this.onEnter = () => Utils.SetRoleCountToggle(role); //実行時の動作
             this.onInput = (n) => role.setCount(n); //入力時の動作
