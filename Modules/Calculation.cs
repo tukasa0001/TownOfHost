@@ -10,7 +10,7 @@ namespace TownOfHost
             var rand = new System.Random();
             int[] randList = new int[count];
             List<int> intList = new List<int>();
-            for (int i = 0; i < rangeEnd - rangeBegin; i++)
+            for (int i = rangeBegin; i < rangeEnd; i++)
             {
                 intList.Add(i);
             }
@@ -18,7 +18,7 @@ namespace TownOfHost
             int n = count;
             while (n > 0)
             {
-                int k = rand.Next(0, rangeEnd - rangeBegin + n - count);
+                int k = rand.Next(0, rangeEnd - rangeBegin + 1 + n - count);
                 n--;
                 int intListValue = intList[k];
                 randList[n] = intListValue;
