@@ -198,7 +198,6 @@ namespace TownOfHost
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(1100, CustomRoles.SerialKiller);
             SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
@@ -209,6 +208,8 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+            SetupRoleOptions(1700, CustomRoles.Impostor);
+            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, CustomRoleSpawnChances[CustomRoles.Impostor]);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);

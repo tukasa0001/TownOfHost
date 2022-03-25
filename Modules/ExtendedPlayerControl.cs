@@ -194,32 +194,16 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     goto DefaultKillcooldown;
                 case CustomRoles.Vampire:
-                    if (CustomRoles.BountyHunter.isEnable())
-                    {
-                        if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                        if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
-                    }
-                    if (main.RefixCooldownDelay <= 0)
-                    {
-                        opt.KillCooldown *= 2;
-                    }
+                    if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.Warlock:
-                    if (CustomRoles.BountyHunter.getCount() == 0)
-                    {
-                        opt.RoleOptions.ShapeshifterCooldown = opt.KillCooldown;
-                        opt.KillCooldown *= 2;
-                    }
-                    if (CustomRoles.BountyHunter.isEnable())
-                    {
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
-                    }
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
-                    if (CustomRoles.BountyHunter.isEnable()) opt.KillCooldown = opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
@@ -278,10 +262,7 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
                 DefaultKillcooldown:
-                    if (CustomRoles.BountyHunter.isEnable())
-                    {
-                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    }
+                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
                     break;
             }
             CustomRoles role = player.getCustomRole();
