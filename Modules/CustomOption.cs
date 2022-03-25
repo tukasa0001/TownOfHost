@@ -45,7 +45,14 @@ namespace TownOfHost
 
         public bool IsHidden(CustomGameMode gameMode)
         {
-            return isHidden || (0 == (int) (gameMode & GameMode));
+            if (isHidden) return true;
+
+            /*  自身に設定されたGameModeが All or 引数gameMode 以外なら非表示
+                GameMode:Standard    & gameMode:Standard != 0
+                GameMode:HideAndSeek & gameMode:Standard == 0
+                GameMode:All         & gameMode:Standard != 0
+            */
+            return ((int)(gameMode & GameMode) == 0);
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
