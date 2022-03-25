@@ -168,9 +168,6 @@ namespace TownOfHost
         {
             foreach (var option in Options)
             {
-                if (option.Id <= 0) continue;
-
-                option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
