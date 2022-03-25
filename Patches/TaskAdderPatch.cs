@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace TownOfHost {
+namespace TownOfHost
+{
     [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
-    class ShowFolderPatch {
+    class ShowFolderPatch
+    {
         private static TaskFolder CustomRolesFolder;
-        public static void Prefix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder) {
-            if(__instance.Root == taskFolder && CustomRolesFolder == null) {
+        public static void Prefix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
+        {
+            if (__instance.Root == taskFolder && CustomRolesFolder == null)
+            {
                 TaskFolder rolesFolder = UnityEngine.Object.Instantiate<TaskFolder>(
                     __instance.RootFolderPrefab,
                     __instance.transform
@@ -20,14 +24,17 @@ namespace TownOfHost {
                 __instance.Root.SubFolders.Add(rolesFolder);
             }
         }
-        public static void Postfix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder) {
+        public static void Postfix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
+        {
             Logger.info("Opened " + taskFolder.FolderName);
             float xCursor = 0f;
             float yCursor = 0f;
             float maxHeight = 0f;
-            if(CustomRolesFolder != null && CustomRolesFolder.FolderName == taskFolder.FolderName) {
+            if (CustomRolesFolder != null && CustomRolesFolder.FolderName == taskFolder.FolderName)
+            {
                 var crewBehaviour = DestroyableSingleton<RoleManager>.Instance.AllRoles.Where(role => role.Role == RoleTypes.Crewmate).FirstOrDefault();
-                foreach(var cRoleID in Enum.GetValues(typeof(CustomRoles))) {
+                foreach (var cRoleID in Enum.GetValues(typeof(CustomRoles)))
+                {
                     CustomRoles cRole = (CustomRoles)cRoleID;
                     /*if(cRole == CustomRoles.Crewmate ||
                     cRole == CustomRoles.Impostor ||
@@ -57,20 +64,26 @@ namespace TownOfHost {
     }
 
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.Update))]
-    class TaskAddButtonUpdatePatch {
-        public static bool Prefix(TaskAddButton __instance) {
-            try {
-                if((int)__instance.Role.Role >= 1000) {
+    class TaskAddButtonUpdatePatch
+    {
+        public static bool Prefix(TaskAddButton __instance)
+        {
+            try
+            {
+                if ((int)__instance.Role.Role >= 1000)
+                {
                     var PlayerCustomRole = PlayerControl.LocalPlayer.getCustomRole();
                     CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
                     ((Renderer)__instance.Overlay).enabled = PlayerCustomRole == FileCustomRole;
                 }
-            } catch{}
+            }
+            catch { }
             return true;
         }
     }
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
-    class AddTaskButtonPatch {
+    class AddTaskButtonPatch
+    {
         private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
             {CustomRoles.Engineer, RoleTypes.Engineer},
@@ -88,17 +101,21 @@ namespace TownOfHost {
             {CustomRoles.Madmate, RoleTypes.Engineer},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
         };
-        public static bool Prefix(TaskAddButton __instance) {
-            try {
-                if((int)__instance.Role.Role >= 1000) {
+        public static bool Prefix(TaskAddButton __instance)
+        {
+            try
+            {
+                if ((int)__instance.Role.Role >= 1000)
+                {
                     CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
                     PlayerControl.LocalPlayer.RpcSetCustomRole(FileCustomRole);
                     RoleTypes oRole;
-                    if(!RolePairs.TryGetValue(FileCustomRole, out oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                    if (!RolePairs.TryGetValue(FileCustomRole, out oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     else PlayerControl.LocalPlayer.RpcSetRole(oRole);
                     return false;
                 }
-            } catch{}
+            }
+            catch { }
             return true;
         }
     }

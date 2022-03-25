@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-namespace TownOfHost {
+namespace TownOfHost
+{
     public static class Translator
     {
         public static Dictionary<string, Dictionary<int, string>> tr;
@@ -26,9 +27,9 @@ namespace TownOfHost {
                 string[] values = line.Split(',');
                 List<string> fields = new List<string>(values);
                 Dictionary<int, string> tmp = new Dictionary<int, string>();
-                for(var i=1; i < fields.Count; ++i)
+                for (var i = 1; i < fields.Count; ++i)
                 {
-                    if(fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
+                    if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                     {
                         while (fields[i].TrimEnd()[fields[i].TrimEnd().Length - 1] != '"')
                         {
@@ -37,40 +38,46 @@ namespace TownOfHost {
                         }
                     }
                 }
-                for(var i=1; i < fields.Count; i++)
+                for (var i = 1; i < fields.Count; i++)
                 {
-                    var tmp_str = fields[i].Replace("\\n","\n").Trim('"');
-                    tmp.Add(Int32.Parse(header[i]),tmp_str);
+                    var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
+                    tmp.Add(Int32.Parse(header[i]), tmp_str);
                 }
-                tr.Add(fields[0],tmp);
+                tr.Add(fields[0], tmp);
             }
         }
 
         public static string getString(string s)
         {
-            var langId = TranslationController.InstanceExists ? TranslationController.Instance.CurrentLanguage.languageID : SupportedLangs.English; 
-            if(Options.forceJapanese) langId = SupportedLangs.Japanese;
-            return getString(s,langId);
+            var langId = TranslationController.InstanceExists ? TranslationController.Instance.CurrentLanguage.languageID : SupportedLangs.English;
+            if (Options.forceJapanese) langId = SupportedLangs.Japanese;
+            return getString(s, langId);
         }
 
-        public static string getString(string s,SupportedLangs langId)
+        public static string getString(string s, SupportedLangs langId)
         {
             var res = "";
-            if(tr.TryGetValue(s,out var dic))
+            if (tr.TryGetValue(s, out var dic))
             {
-                if(dic.TryGetValue((int)langId,out res))
+                if (dic.TryGetValue((int)langId, out res))
                 {
                     return res;
-                } else {
-                    if(dic.TryGetValue(0,out res))
+                }
+                else
+                {
+                    if (dic.TryGetValue(0, out res))
                     {
                         Logger.info($"Redirect to English: {res}");
                         return res;
-                    }else{
+                    }
+                    else
+                    {
                         return $"<INVALID:{s}>";
                     }
                 }
-            } else {
+            }
+            else
+            {
                 return $"<INVALID:{s}>";
             }
         }
