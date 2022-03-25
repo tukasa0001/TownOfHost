@@ -34,7 +34,6 @@ namespace TownOfHost
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
-        public static ConfigEntry<bool> JapaneseSubRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<int> BanTimestamp { get; private set; }
 
@@ -101,8 +100,6 @@ namespace TownOfHost
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{main.modColor}");
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
-            JapaneseSubRoleName = Config.Bind("Client Options", "Japanese SubRole Name", false);
-
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
