@@ -20,12 +20,6 @@ namespace TownOfHost
             count = SetRoleCountToggle(count);
             Options.setRoleCount(role, count);
         }
-        public static void SetRoleCountToggle(CustomSubRoles role)
-        {
-            int count = Options.getRoleCount(role);
-            count = SetRoleCountToggle(count);
-            Options.setRoleCount(role, count);
-        }
         public static string getRoleName(CustomRoles role)
         {
             var forceJapanese = Options.ForceJapanese != null && Options.ForceJapanese.GetBool();
@@ -33,14 +27,6 @@ namespace TownOfHost
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
                     main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
             return getString(Enum.GetName(typeof(CustomRoles), role), lang);
-        }
-        public static string getRoleName(CustomSubRoles subRole)
-        {
-            var forceJapanese = Options.ForceJapanese != null && Options.ForceJapanese.GetBool();
-
-            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
-                    main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
-            return getString(Enum.GetName(typeof(CustomSubRoles), subRole), lang);
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
@@ -52,24 +38,11 @@ namespace TownOfHost
             ColorUtility.TryParseHtmlString(hexColor, out Color c);
             return c;
         }
-        public static Color getRoleColor(CustomSubRoles subRole)
-        {
-            if (!main.subRoleColors.TryGetValue(subRole, out var hexColor)) hexColor = "#ffffff";
-            ColorUtility.TryParseHtmlString(hexColor, out Color c);
-            return c;
-        }
         public static string getRoleColorCode(CustomRoles role)
         {
             if (!main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
             return hexColor;
         }
-
-        public static string getRoleColorCode(CustomSubRoles subRole)
-        {
-            if (!main.subRoleColors.TryGetValue(subRole, out var hexColor)) hexColor = "#ffffff";
-            return hexColor;
-        }
-
         public static (string, Color) GetRoleText(PlayerControl player)
         {
             string RoleText = "Invalid Role";
@@ -181,10 +154,6 @@ namespace TownOfHost
             {
                 if (Options.SyncButtonMode.GetBool()) { SendMessage(getString("SyncButtonModeInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(getString("RandomMapsModeInfo")); }
-                foreach (var subRole in Enum.GetValues(typeof(CustomSubRoles)).Cast<CustomSubRoles>())
-                {
-                    if (subRole.isEnable()) SendMessage(getRoleName(subRole) + getString(Enum.GetName(typeof(CustomRoles), subRole) + "InfoLong"));
-                }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
@@ -210,10 +179,6 @@ namespace TownOfHost
                 {
                     if (role.Key == CustomRoles.Fox || role.Key == CustomRoles.Troll) continue;
                     if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());
-                }
-                foreach (var subRole in Options.subRoleCounts)
-                {
-                    if (subRole.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(subRole.Key), subRole.Key.getCount());
                 }
                 SendMessage(text);
                 text = getString("Settings") + ":";

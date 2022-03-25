@@ -70,11 +70,8 @@ namespace TownOfHost
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
-        public static void setCount(this CustomSubRoles subRole, int num) => Options.setRoleCount(subRole, num);
         public static int getCount(this CustomRoles role) => Options.getRoleCount(role);
-        public static int getCount(this CustomSubRoles subRole) => Options.getRoleCount(subRole);
         public static bool isEnable(this CustomRoles role) => Options.getRoleCount(role) > 0;
-        public static bool isEnable(this CustomSubRoles subRole) => Options.getRoleCount(subRole) > 0;
     }
     public enum IntroTypes
     {

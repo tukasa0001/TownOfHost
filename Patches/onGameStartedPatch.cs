@@ -69,7 +69,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomSubRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {

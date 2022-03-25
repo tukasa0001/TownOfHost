@@ -271,19 +271,5 @@ namespace TownOfHost
             this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
             parent?.ChildPages.Add(this); //親のリストに自分を追加
         }
-        public PageObject( //サブ役職設定
-            PageObject parent,
-            CustomSubRoles subRole
-        )
-        {
-            this.parent = parent; //親オブジェクト
-            this.getName = () => $"<color={Utils.getRoleColorCode(subRole)}>{Utils.getRoleName(subRole)}</color>: {subRole.getCount()}";
-            this.isHostOnly = true; //実行をホストのみに限定するか
-            this.onEnter = () => Utils.SetRoleCountToggle(subRole); //実行時の動作
-            this.onInput = (n) => subRole.setCount(n); //入力時の動作
-
-            this.ChildPages = new List<PageObject>(); //子オブジェクトリストを初期化
-            parent?.ChildPages.Add(this); //親のリストに自分を追加
-        }
     }
 }

@@ -38,14 +38,10 @@ namespace TownOfHost
 
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
-        public static Dictionary<CustomSubRoles, int> subRoleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
-        public static Dictionary<CustomSubRoles, float> subRoleSpawnChances;
         public static bool OptionControllerIsEnable = false;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleCounts;
-        public static Dictionary<CustomSubRoles, CustomOption> CustomSubRoleCounts;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
-        public static Dictionary<CustomSubRoles, CustomOption> CustomSubRoleSpawnChances;
         public static readonly string[] rates =
         {
             "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
@@ -156,17 +152,11 @@ namespace TownOfHost
         {
             roleCounts = new Dictionary<CustomRoles, int>();
             roleSpawnChances = new Dictionary<CustomRoles, float>();
-            subRoleCounts = new Dictionary<CustomSubRoles, int>();
-            subRoleSpawnChances = new Dictionary<CustomSubRoles, float>();
 
             foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
             {
                 roleCounts.Add(role, 0);
                 roleSpawnChances.Add(role, 0);
-            }
-            foreach (var subRole in Enum.GetValues(typeof(CustomSubRoles)).Cast<CustomSubRoles>())
-            {
-                subRoleCounts.Add(subRole, 0);
             }
         }
 
@@ -180,29 +170,12 @@ namespace TownOfHost
             }
         }
 
-        public static void setRoleCount(CustomSubRoles subRole, int count)
-        {
-            subRoleCounts[subRole] = count;
-
-            if (CustomSubRoleCounts.TryGetValue(subRole, out var option))
-            {
-                option.UpdateSelection(count - 1);
-            }
-        }
-
         public static int getRoleCount(CustomRoles role)
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
             if (chance == 0) return 0;
             return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
-        public static int getRoleCount(CustomSubRoles subRole)
-        {
-            var chance = CustomSubRoleSpawnChances.TryGetValue(subRole, out var sc) ? sc.GetSelection() : 0;
-            if (chance == 0) return 0;
-            return CustomSubRoleCounts.TryGetValue(subRole, out var option) ? (int)option.GetFloat() : subRoleCounts[subRole];
-        }
-
         public static void Load()
         {
             if (IsLoaded) return;
