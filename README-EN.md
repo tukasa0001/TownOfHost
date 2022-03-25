@@ -21,6 +21,7 @@ However, please note that the following restrictions apply.<br>
 
 Please use Option Controler in Town Of Host to change options and change their value to 0.
 - Killcooldown (in Impostor Options)
+- ShapeshifterCooldwn (in Shapeshifter Options)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
