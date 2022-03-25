@@ -50,8 +50,11 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
-
+                    foreach (var kvp in Options.CustomRoleSpawnChances)
+                    {
+                        kvp.Value.Selection = reader.ReadInt32();
+                        kvp.Key.setCount(reader.ReadInt32());
+                    }
                     int CurrentGameMode = reader.ReadInt32();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
@@ -325,7 +328,7 @@ namespace TownOfHost
             Options.MadSnitchTasks.UpdateSelection(MadSnitchTasks);
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
-            
+
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
         //SyncCustomSettingsRPC Sender
@@ -333,7 +336,11 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
+            foreach (var kvp in Options.CustomRoleSpawnChances)
+            {
+                writer.Write(kvp.Value.GetSelection());
+                writer.Write(kvp.Key.getCount());
+            }
 
             writer.Write(Options.GameMode.Selection);
             writer.Write(Options.NoGameEnd.GetBool());

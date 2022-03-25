@@ -77,6 +77,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
+        public static CustomOption CanTerroristSuicideWin;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -92,6 +93,7 @@ namespace TownOfHost
         public static int UsedButtonCount = 0;
 
         // タスク無効化
+        public static CustomOption DisableTasks;
         public static CustomOption DisableSwipeCard;
         public static CustomOption DisableSubmitScan;
         public static CustomOption DisableUnlockSafe;
@@ -108,9 +110,9 @@ namespace TownOfHost
         public static CustomOption AddedDleks;
 
         // 投票モード
+        public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
-        public static CustomOption CanTerroristSuicideWin;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
@@ -209,16 +211,18 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+
+            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, null, true);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
-            MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            CanMakeMadmateCount = CustomOption.Create(1410, Color.red, "CanMakeMadmateCount", 0, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Madmate]);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            // Madmate Common Options
+            MadmateCanFixLightsOut = CustomOption.Create(11000, Color.white, "MadmateCanFixLightsOut", false, null, true);
+            MadmateCanFixComms = CustomOption.Create(11001, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(11002, Color.white, "MadmateHasImpostorVision", false);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
@@ -242,6 +246,8 @@ namespace TownOfHost
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
+            CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
+                .SetGameMode(CustomGameMode.Standard);
             #endregion
 
             // HideAndSeek
@@ -263,17 +269,19 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
-            DisableSwipeCard = CustomOption.Create(100300, Color.white, "DisableSwipeCardTask", false, null, true)
+            DisableTasks = CustomOption.Create(100300, Color.white, "DisableTasks", false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            DisableSubmitScan = CustomOption.Create(100301, Color.white, "DisableSubmitScanTask", false)
+            DisableSwipeCard = CustomOption.Create(100301, Color.white, "DisableSwipeCardTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableUnlockSafe = CustomOption.Create(100302, Color.white, "DisableUnlockSafeTask", false)
+            DisableSubmitScan = CustomOption.Create(100302, Color.white, "DisableSubmitScanTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableUploadData = CustomOption.Create(100303, Color.white, "DisableUploadDataTask", false)
+            DisableUnlockSafe = CustomOption.Create(100303, Color.white, "DisableUnlockSafeTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableStartReactor = CustomOption.Create(100304, Color.white, "DisableStartReactorTask", false)
+            DisableUploadData = CustomOption.Create(100304, Color.white, "DisableUploadDataTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
-            DisableResetBreaker = CustomOption.Create(100305, Color.white, "DisableResetBreakerTask", false)
+            DisableStartReactor = CustomOption.Create(100305, Color.white, "DisableStartReactorTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableResetBreaker = CustomOption.Create(100306, Color.white, "DisableResetBreakerTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ
@@ -291,15 +299,15 @@ namespace TownOfHost
             //     .SetGameMode(CustomGameMode.All);
 
             // 投票モード
-            WhenSkipVote = CustomOption.Create(100500, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], null, true)
+            VoteMode = CustomOption.Create(100500, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            WhenNonVote = CustomOption.Create(100501, Color.white, "WhenNonVote", voteModes, voteModes[0], null, false)
+            WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
-            CanTerroristSuicideWin = CustomOption.Create(100502, Color.white, "CanTerroristSuicideWin", false, null, false)
+            WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
-            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, false)
+            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)
                 .SetGameMode(CustomGameMode.All);
