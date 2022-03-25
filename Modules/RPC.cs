@@ -99,6 +99,7 @@ namespace TownOfHost
                     int BountySuccessKillCooldown = reader.ReadInt32();
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
+                    int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
@@ -129,6 +130,7 @@ namespace TownOfHost
                         BountySuccessKillCooldown,
                         BountyFailureKillCooldown,
                         BHDefaultKillCooldown,
+                        DefaultShapeshiftCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
@@ -233,6 +235,7 @@ namespace TownOfHost
                 int BountySuccessKillCooldown,
                 int BountyFailureKillCooldown,
                 int BHDefaultKillCooldown,
+                int DefaultShapeshiftCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
@@ -298,6 +301,7 @@ namespace TownOfHost
             Options.BountyFailureKillCooldown.UpdateSelection(BountyFailureKillCooldown);
             Options.BHDefaultKillCooldown.UpdateSelection(BHDefaultKillCooldown);
             Options.ShapeMasterShapeshiftDuration.UpdateSelection(ShapeMasterShapeshiftDuration);
+            Options.DefaultShapeshiftCooldown.UpdateSelection(DefaultShapeshiftCooldown);
 
             Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
             Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
@@ -325,7 +329,7 @@ namespace TownOfHost
             Options.MadSnitchTasks.UpdateSelection(MadSnitchTasks);
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
-            
+
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
         //SyncCustomSettingsRPC Sender
@@ -383,6 +387,7 @@ namespace TownOfHost
             writer.Write(Options.BountyFailureKillCooldown.GetSelection());
             writer.Write(Options.BHDefaultKillCooldown.GetSelection());
             writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
+            writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

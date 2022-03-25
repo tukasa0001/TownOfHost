@@ -57,6 +57,7 @@ namespace TownOfHost
         public static CustomOption SerialKillerLimit;
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
+        public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -210,6 +211,8 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia);
             SetupRoleOptions(1700, CustomRoles.Impostor);
             BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, CustomRoleSpawnChances[CustomRoles.Impostor]);
+            SetupRoleOptions(1800, CustomRoles.Shapeshifter);
+            DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.Shapeshifter]);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);

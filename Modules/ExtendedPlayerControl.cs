@@ -198,7 +198,8 @@ namespace TownOfHost
                     if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.Warlock:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.SerialKiller:
@@ -230,9 +231,11 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.Impostor:
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    goto DefaultKillcooldown;
+                case CustomRoles.Impostor:
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;
                 case CustomRoles.Sheriff:
