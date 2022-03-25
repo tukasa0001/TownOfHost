@@ -196,18 +196,17 @@ namespace TownOfHost
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 2, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(1100, CustomRoles.SerialKiller);
-            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
-            CanMakeMadmateCount = CustomOption.Create(1410, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
             // Madmate
@@ -215,6 +214,7 @@ namespace TownOfHost
             MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            CanMakeMadmateCount = CustomOption.Create(1410, Color.red, "CanMakeMadmateCount", 0, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Madmate]);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
@@ -314,7 +314,7 @@ namespace TownOfHost
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 0, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 

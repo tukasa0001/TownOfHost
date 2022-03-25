@@ -236,7 +236,7 @@ namespace TownOfHost
                         }
                         if (!main.BountyTimerCheck)
                         {//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
-                            opt.KillCooldown = 0;
+                            opt.KillCooldown = 10;
                             Logger.info("ターゲットリセット");
                         }
                         if (main.isBountyKillSuccess)
