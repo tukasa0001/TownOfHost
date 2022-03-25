@@ -39,6 +39,7 @@ namespace TownOfHost
             Suicide,
             Spell,
             Bite,
+            Bombed,
             Misfire,
             Disconnected,
             etc = -1

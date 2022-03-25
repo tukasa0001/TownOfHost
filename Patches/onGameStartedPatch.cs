@@ -17,13 +17,14 @@ namespace TownOfHost
             main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
+            main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            main.CursedPlayerDie = new List<PlayerControl>();
-            main.FirstCursedCheck = new Dictionary<byte, bool>();
+            main.isCurseAndKill = new Dictionary<byte, bool>();
             main.SKMadmateNowCount = 0;
+            main.isCursed = false;
 
             main.IgnoreReportPlayers = new List<byte>();
 
@@ -265,11 +266,6 @@ namespace TownOfHost
 
                 HudManager.Instance.SetHudActive(true);
                 main.KillOrSpell = new Dictionary<byte, bool>();
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.isWitch()) main.KillOrSpell.Add(pc.PlayerId, false);
-                }
-
                 //BountyHunterのターゲットを初期化
                 main.BountyTargets = new Dictionary<byte, PlayerControl>();
                 main.BountyTimer = new Dictionary<byte, float>();
@@ -281,7 +277,12 @@ namespace TownOfHost
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                     }
-                    if (pc.isWarlock()) main.FirstCursedCheck.Add(pc.PlayerId, false);
+                    if (pc.isWitch()) main.KillOrSpell.Add(pc.PlayerId, false);
+                    if (pc.isWarlock())
+                    {
+                        main.CursedPlayers.Add(pc.PlayerId, null);
+                        main.isCurseAndKill.Add(pc.PlayerId, false);
+                    }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                 }
 
@@ -292,7 +293,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount();
+                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

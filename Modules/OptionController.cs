@@ -67,6 +67,7 @@ namespace TownOfHost
             var MadmateHasImpostorVision = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateHasImpostorVision")}</color>: {Utils.getOnOff(Options.MadmateHasImpostorVision.GetBool())}", true, () => { });
             var CanMakeMadmateCount = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("CanMakeMadmateCount")}</color>: {Options.CanMakeMadmateCount.GetFloat()}{main.TextCursor}", true, () => { Options.CanMakeMadmateCount.UpdateSelection(0); }, (n) => { });
             var MadSnitchTasks = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchTasks")}</color>: {Options.MadSnitchTasks.GetFloat()}{main.TextCursor}", true, () => { Options.MadSnitchTasks.UpdateSelection(0); }, (n) => { });
+            var DefaultShapeshiftCooldown = new PageObject(AdvImpostorRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Shapeshifter)}>{getString("DefaultShapeshiftCooldown")}</color>(s): {Options.DefaultShapeshiftCooldown.GetFloat()}{main.TextCursor}", true, () => { Options.DefaultShapeshiftCooldown.UpdateSelection(0); }, (n) => { });
 
             var AdvCrewmateRoleOptions = new PageObject(AdvRoleOptions, () => getString("AdvancedCrewmateRoleOptions"));
             var MayorAdditionalVote = new PageObject(AdvCrewmateRoleOptions, () => $"<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorAdditionalVote")}</color>: {Options.MayorAdditionalVote.GetFloat()}{main.TextCursor}", true, () => { Options.MayorAdditionalVote.UpdateSelection(0); }, (n) => { });
@@ -263,7 +264,7 @@ namespace TownOfHost
         )
         {
             this.parent = parent; //親オブジェクト
-            this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role)}</color>: {role.getCount()}";
+            this.getName = () => $"<color={Utils.getRoleColorCode(role)}>{Utils.getRoleName(role, SupportedLangs.English)}</color>: {role.getCount()}";
             this.isHostOnly = true; //実行をホストのみに限定するか
             this.onEnter = () => Utils.SetRoleCountToggle(role); //実行時の動作
             this.onInput = (n) => role.setCount(n); //入力時の動作

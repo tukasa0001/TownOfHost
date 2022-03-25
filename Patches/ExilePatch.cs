@@ -26,20 +26,6 @@ namespace TownOfHost
         {
             main.witchMeeting = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
-            foreach (var p in main.SpelledPlayer)
-            {
-                PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                main.IgnoreReportPlayers.Add(p.PlayerId);
-                p.RpcMurderPlayer(p);
-            }
-            foreach (var p in main.CursedPlayerDie)
-            {
-                PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                main.IgnoreReportPlayers.Add(p.PlayerId);
-                p.RpcMurderPlayer(p);
-            }
-            main.CursedPlayerDie.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);//呪われた人が死んだ場合にリストから削除する
-            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (exiled != null)
             {
                 var role = exiled.getCustomRole();
@@ -54,12 +40,31 @@ namespace TownOfHost
                 {
                     Utils.CheckTerroristWin(exiled);
                 }
+                if (role != CustomRoles.Witch && main.SpelledPlayer != null)
+                {
+                    foreach (var p in main.SpelledPlayer)
+                    {
+                        PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        main.IgnoreReportPlayers.Add(p.PlayerId);
+                        p.RpcMurderPlayer(p);
+                    }
+                }
                 PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+            }
+            if (exiled == null && main.SpelledPlayer != null)
+            {
+                foreach (var p in main.SpelledPlayer)
+                {
+                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                    main.IgnoreReportPlayers.Add(p.PlayerId);
+                    p.RpcMurderPlayer(p);
+                }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
                 if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
+            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var wr in PlayerControl.AllPlayerControls)
             {
                 if (wr.isSerialKiller())
@@ -75,9 +80,8 @@ namespace TownOfHost
                 if (wr.isWarlock())
                 {
                     wr.RpcGuardAndKill(wr);
-                    main.CursedPlayers.Remove(wr.PlayerId);
-                    main.FirstCursedCheck.Remove(wr.PlayerId);
-                    main.FirstCursedCheck.Add(wr.PlayerId, false);
+                    main.CursedPlayers[wr.PlayerId] = (null);
+                    main.isCurseAndKill[wr.PlayerId] = false;
                 }
             }
             main.BountyMeetingCheck = true;
