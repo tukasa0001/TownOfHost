@@ -57,6 +57,7 @@ namespace TownOfHost
         public static CustomOption SerialKillerLimit;
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
+        public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -197,12 +198,11 @@ namespace TownOfHost
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 2, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(1100, CustomRoles.SerialKiller);
-            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
@@ -210,8 +210,10 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
+            DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
 
-            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 1, 15, 1, null, true);
+            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
@@ -321,7 +323,7 @@ namespace TownOfHost
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 0, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 

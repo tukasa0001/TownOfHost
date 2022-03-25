@@ -278,4 +278,22 @@ namespace TownOfHost
             CustomOption.ShareOptionSelections();
         }
     }
+    [HarmonyPatch(typeof(RolesSettingsMenu), nameof(RolesSettingsMenu.Start))]
+    public static class RolesSettingsMenuPatch
+    {
+        public static void Postfix(RolesSettingsMenu __instance)
+        {
+            foreach (var ob in __instance.Children)
+            {
+                switch (ob.Title)
+                {
+                    case StringNames.ShapeshifterCooldown:
+                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }
