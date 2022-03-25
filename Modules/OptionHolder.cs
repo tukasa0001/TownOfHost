@@ -43,8 +43,8 @@ namespace TownOfHost
         public static Dictionary<CustomSubRoles, float> subRoleSpawnChances;
         public static bool OptionControllerIsEnable = false;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleCounts;
-        public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static Dictionary<CustomSubRoles, CustomOption> CustomSubRoleCounts;
+        public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static Dictionary<CustomSubRoles, CustomOption> CustomSubRoleSpawnChances;
         public static readonly string[] rates =
         {
