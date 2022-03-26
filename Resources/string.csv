@@ -116,7 +116,7 @@ SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリス�
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
-SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam,SchrodingerCat Before The Change CanWin As A Crewmate Team,変化前のシュレディンガーの猫がクルー陣営として勝利できる
+SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
