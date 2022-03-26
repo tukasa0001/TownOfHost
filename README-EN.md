@@ -427,5 +427,3 @@ If the client language is English, this setting is meaningless unless the host h
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
-
-Translated with https://www.deepl.com<br>
