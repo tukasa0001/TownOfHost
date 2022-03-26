@@ -369,13 +369,6 @@ namespace TownOfHost
             writer.Write((byte)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetCustomRole(PlayerControl targetPlayer, CustomRoles role)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
-            writer.Write((byte)targetPlayer.PlayerId);
-            writer.Write((byte)role);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void ExileAsync(PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, Hazel.SendOption.Reliable, -1);
