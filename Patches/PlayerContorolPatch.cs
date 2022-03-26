@@ -224,7 +224,7 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
-            //シュレディンガーの猫の切られた場合の役職変化スタート
+            //シュレディンガーの猫が切られた場合の役職変化スタート
             if (__instance.isSheriff() && target.isSchrodingerCat())
             {
                 __instance.RpcGuardAndKill(target);

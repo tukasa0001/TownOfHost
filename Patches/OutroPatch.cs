@@ -206,6 +206,10 @@ namespace TownOfHost
                 {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
                 }
+                if (main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
+                {
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}</color>";
+                }
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox))
                 {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
