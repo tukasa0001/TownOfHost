@@ -9,6 +9,7 @@ namespace TownOfHost
     {
         private static Vector3? origin;
         private static ToggleButtonBehaviour HideCodesButton;
+        private static ToggleButtonBehaviour ForceJapanese;
         private static ToggleButtonBehaviour JapaneseRoleName;
         public static float xOffset = 1.75f;
         public static float yOffset = -0.25f;
@@ -54,6 +55,16 @@ namespace TownOfHost
                 {
                     main.HideCodes.Value = !main.HideCodes.Value;
                     updateToggle(HideCodesButton, "Hide Game Codes: ", main.HideCodes.Value);
+                }
+            }
+            if ((ForceJapanese == null || ForceJapanese?.gameObject == null))
+            {
+                ForceJapanese = createCustomToggle("Force Japanese: ", main.ForceJapanese.Value, new Vector3(-xOffset, yOffset, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
+
+                void ForceJapaneseButtonToggle()
+                {
+                    main.ForceJapanese.Value = !main.ForceJapanese.Value;
+                    updateToggle(ForceJapanese, "Force Japanese: ", main.ForceJapanese.Value);
                 }
             }
             if ((JapaneseRoleName == null || JapaneseRoleName.gameObject == null))
