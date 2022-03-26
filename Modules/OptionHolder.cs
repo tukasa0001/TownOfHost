@@ -39,7 +39,6 @@ namespace TownOfHost
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
-        public static bool OptionControllerIsEnable = false;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleCounts;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =

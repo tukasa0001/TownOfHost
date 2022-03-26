@@ -14,7 +14,6 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
-            main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();

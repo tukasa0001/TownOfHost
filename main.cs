@@ -48,7 +48,6 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<string, CustomRoles> lastAllPlayerCustomRoles;
         public static Dictionary<byte, bool> BlockKilling;
-        public static bool OptionControllerIsEnable;
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -92,7 +91,7 @@ namespace TownOfHost
         public override void Load()
         {
             Instance = this;
-            
+
             TextCursorTimer = 0f;
             TextCursorVisible = true;
 
@@ -115,7 +114,6 @@ namespace TownOfHost
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
-            OptionControllerIsEnable = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             SerialKillerTimer = new Dictionary<byte, float>();
             BountyTimer = new Dictionary<byte, float>();
@@ -132,7 +130,6 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             BanTimestamp = Config.Bind("Other", "lastTime", 0);
 
-            CustomOptionController.begin();
             NameColorManager.Begin();
 
             BlockKilling = new Dictionary<byte, bool>();
