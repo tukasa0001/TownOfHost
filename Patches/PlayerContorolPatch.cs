@@ -103,6 +103,7 @@ namespace TownOfHost
                     PlayerControl targetm = min.Key;
                     targetm.SetCustomRole(CustomRoles.SKMadmate);
                     main.SKMadmateNowCount++;
+                    RPC.RpcSetCustomRole(targetm, CustomRoles.SKMadmate);
                     Utils.CustomSyncAllSettings();
                     Utils.NotifyRoles();
                 }
