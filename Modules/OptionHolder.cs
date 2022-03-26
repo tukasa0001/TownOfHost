@@ -321,7 +321,7 @@ namespace TownOfHost
 
         private static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role, SupportedLangs.English), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 0, 15, 1, spawnOption, false)
