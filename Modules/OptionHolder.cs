@@ -17,7 +17,6 @@ namespace TownOfHost
     {
         // オプションId
         public const int PresetId = 0;
-        public const int ForceJapaneseOptionId = -1;
 
         // プリセット
         private static readonly string[] presets =
@@ -122,7 +121,6 @@ namespace TownOfHost
 
         // その他
         public static CustomOption NoGameEnd;
-        public static CustomOption ForceJapanese;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static readonly string[] suffixModes =
@@ -180,9 +178,6 @@ namespace TownOfHost
         public static void Load()
         {
             if (IsLoaded) return;
-
-            ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
-                .SetGameMode(CustomGameMode.All);
             // プリセット
             _ = CustomOption.Create(0, new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset", presets, presets[0], null, true)
                 .HiddenOnDisplay(true)
