@@ -159,7 +159,7 @@ namespace TownOfHost
 
             __instance.GameSettings.text = OptionShower.getText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || Options.ForceJapanese.GetBool()) ? 1.05f : 1.2f;
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) ? 1.05f : 1.2f;
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {

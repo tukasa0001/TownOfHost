@@ -28,7 +28,7 @@ namespace TownOfHost
                 //役職一覧
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode == CustomGameMode.Standard || kvp.Value.GameMode == CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
-                        text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{kvp.Value.GetName()}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
+                        text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{Utils.getRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
                 pages.Add(text + "\n\n");
                 text = "";
             }
@@ -38,7 +38,7 @@ namespace TownOfHost
             {
                 if (!kvp.Key.isEnable()) continue;
                 if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{kvp.Value.GetName()}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
+                text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{Utils.getRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
                 foreach (var c in kvp.Value.Children) //詳細設定をループする
                 {
                     if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす

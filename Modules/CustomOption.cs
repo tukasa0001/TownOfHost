@@ -264,11 +264,6 @@ namespace TownOfHost
                     }
                     else if (Entry != null) Entry.Value = Selection;
 
-                    if (Id == TownOfHost.Options.ForceJapaneseOptionId)
-                    {
-                        Refresh();
-                    }
-
                     ShareOptionSelections();
                 }
             }
