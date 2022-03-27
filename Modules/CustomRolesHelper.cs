@@ -11,6 +11,7 @@ namespace TownOfHost
                 role == CustomRoles.Vampire ||
                 role == CustomRoles.Witch ||
                 role == CustomRoles.ShapeMaster ||
+                role == CustomRoles.Mare ||
                 role == CustomRoles.Warlock ||
                 role == CustomRoles.SerialKiller ||
                 role == CustomRoles.Mafia;
@@ -58,6 +59,12 @@ namespace TownOfHost
                     if (pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
                 }
                 if (AliveImpostorCount > 0) canUse = false;
+            }
+            if (role == CustomRoles.Mare)
+            {
+                var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                if (ma != null && !ma.IsActive)
+                    canUse = false;
             }
             return canUse;
         }

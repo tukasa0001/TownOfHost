@@ -224,6 +224,19 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            if (__instance.isMare())
+            {
+                if (!CustomRoles.Mare.CanUseKillButton())
+                {
+                    Logger.SendToFile(__instance.name + "のキルは停電中ではなかったので、キルはキャンセルされました。");
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+                else
+                {
+                    Logger.SendToFile(__instance.name + "はMareですが、停電中だったのでキルが許可されました。");
+                }
+            }
 
 
             //==キル処理==

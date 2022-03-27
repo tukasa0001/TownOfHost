@@ -273,7 +273,14 @@ namespace TownOfHost
                         }
                     }
                     break;
-
+                case CustomRoles.Mare:
+                    var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (ma != null && ma.IsActive)
+                    {//もし停電発生した場合
+                        opt.PlayerSpeedMod += 1;//Mareの速度を通常速度+1する
+                        opt.KillCooldown /= 2;//Mareのキルクールを÷2する
+                    }
+                    goto DefaultKillcooldown;
 
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
@@ -504,6 +511,7 @@ namespace TownOfHost
         public static bool isBountyHunter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.BountyHunter; }
         public static bool isWitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Witch; }
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
+        public static bool isMare(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mare; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
     }
