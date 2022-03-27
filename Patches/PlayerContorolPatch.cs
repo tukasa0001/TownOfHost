@@ -231,13 +231,18 @@ namespace TownOfHost
                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                 return false;
             }
-            if (__instance.getCustomRole().isImpostor() && target.isSchrodingerCat())
+            if (target.isSchrodingerCat())
             {
+                int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                 __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                 NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                Utils.CustomSyncAllSettings();
-                return false;
+                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
+                if (__instance.getCustomRole().isImpostor()){
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                    Utils.NotifyRoles();
+                    Utils.CustomSyncAllSettings();
+                    return false;
+                }
             }
             //シュレディンガーの猫の役職変化処理終了
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
@@ -337,7 +342,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                //Vampireの処理
+             //Vampireの処理
                 if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                 {
                     //__instance:キルされる予定のプレイヤー
