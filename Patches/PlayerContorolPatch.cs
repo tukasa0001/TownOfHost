@@ -101,7 +101,6 @@ namespace TownOfHost
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
-                    targetm.SetCustomRole(CustomRoles.SKMadmate);
                     targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
                     main.SKMadmateNowCount++;
                     Utils.CustomSyncAllSettings();
