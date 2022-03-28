@@ -101,7 +101,7 @@ namespace TownOfHost
             if (Options.SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam.GetBool())
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.isSchrodingerCat() && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist && main.currentWinner != CustomWinner.Jester && main.currentWinner != CustomWinner.Impostor)
+                if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
