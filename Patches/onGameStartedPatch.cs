@@ -68,6 +68,10 @@ namespace TownOfHost
         public static void Prefix(RoleManager __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return;
+
+            //ウォッチャーの陣営抽選
+            Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
+
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
@@ -249,8 +253,17 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
+                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
+                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
 
                 //RPCによる同期
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.isWatcher() && Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
+                    if (pc.isWatcher() && !Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
+                }
                 foreach (var pair in main.AllPlayerCustomRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
