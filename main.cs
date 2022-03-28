@@ -86,6 +86,60 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
+        public static int AliveImpostorsCount;
+        public static List<CustomRoles> CrewmateRoles = new()
+        {
+            CustomRoles.Crewmate,
+            CustomRoles.Engineer,
+            CustomRoles.GuardianAngel,
+            CustomRoles.Scientist,
+            CustomRoles.Bait,
+            CustomRoles.Lighter,
+            CustomRoles.Mayor,
+            CustomRoles.SabotageMaster,
+            CustomRoles.Sheriff,
+            CustomRoles.Snitch,
+        };
+        public static List<CustomRoles> ImpostorRoles = new()
+        {
+            CustomRoles.Impostor,
+            CustomRoles.Shapeshifter,
+            CustomRoles.BountyHunter,
+            CustomRoles.Mafia,
+            CustomRoles.SerialKiller,
+            CustomRoles.ShapeMaster,
+            CustomRoles.Vampire,
+            CustomRoles.Warlock,
+            CustomRoles.Witch,
+        };
+        public static List<CustomRoles> MadmateRoles = new()
+        {
+            CustomRoles.MadGuardian,
+            CustomRoles.Madmate,
+            CustomRoles.MadSnitch,
+            CustomRoles.SKMadmate,
+        };
+        public static List<CustomRoles> NeutralRoles = new()
+        {
+            CustomRoles.Jester,
+            CustomRoles.Opportunist,
+            CustomRoles.Terrorist,
+            CustomRoles.Fox,
+            CustomRoles.Troll,
+        };
+        public static List<CustomRoles> EngineerBaseRoles = new()
+        {
+            CustomRoles.Madmate,
+            CustomRoles.Terrorist,
+        };
+        public static List<CustomRoles> ShapeShifterBaseRoles = new()
+        {
+            CustomRoles.Shapeshifter,
+            CustomRoles.BountyHunter,
+            CustomRoles.Mafia,
+            CustomRoles.SerialKiller,
+            CustomRoles.Warlock,
+        };
 
         public static main Instance;
 

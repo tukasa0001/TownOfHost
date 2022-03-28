@@ -76,11 +76,11 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
+                int AdditionalEngineerNum = Utils.CountEngineerBaseRoles();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = Utils.CountShapeshifterBaseRoles();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
@@ -288,11 +288,11 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
+                EngineerNum -= Utils.CountEngineerBaseRoles();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();
+                ShapeshifterNum -= Utils.CountShapeshifterBaseRoles();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

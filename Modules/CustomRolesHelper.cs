@@ -4,34 +4,40 @@ namespace TownOfHost
     {
         public static bool isImpostor(this CustomRoles role)
         {
-            return
-                role == CustomRoles.Impostor ||
-                role == CustomRoles.Shapeshifter ||
-                role == CustomRoles.BountyHunter ||
-                role == CustomRoles.Vampire ||
-                role == CustomRoles.Witch ||
-                role == CustomRoles.ShapeMaster ||
-                role == CustomRoles.Warlock ||
-                role == CustomRoles.SerialKiller ||
-                role == CustomRoles.Mafia;
+            return main.ImpostorRoles.Contains(role);
+            /*
+            role == CustomRoles.Impostor ||
+            role == CustomRoles.Shapeshifter ||
+            role == CustomRoles.BountyHunter ||
+            role == CustomRoles.Vampire ||
+            role == CustomRoles.Witch ||
+            role == CustomRoles.ShapeMaster ||
+            role == CustomRoles.Warlock ||
+            role == CustomRoles.SerialKiller ||
+            role == CustomRoles.Mafia;
+            */
         }
         public static bool isMadmate(this CustomRoles role)
         {
-            return
-                role == CustomRoles.Madmate ||
-                role == CustomRoles.SKMadmate ||
-                role == CustomRoles.MadGuardian ||
-                role == CustomRoles.MadSnitch;
+            return main.MadmateRoles.Contains(role);
+            /*
+            role == CustomRoles.Madmate ||
+            role == CustomRoles.SKMadmate ||
+            role == CustomRoles.MadGuardian ||
+            role == CustomRoles.MadSnitch;
+            */
         }
         public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
         public static bool isNeutral(this CustomRoles role)
         {
-            return
-                role == CustomRoles.Jester ||
-                role == CustomRoles.Opportunist ||
-                role == CustomRoles.Terrorist ||
-                role == CustomRoles.Troll ||
-                role == CustomRoles.Fox;
+            return main.NeutralRoles.Contains(role);
+            /*
+            role == CustomRoles.Jester ||
+            role == CustomRoles.Opportunist ||
+            role == CustomRoles.Terrorist ||
+            role == CustomRoles.Troll ||
+            role == CustomRoles.Fox;
+            */
         }
         public static bool isVanilla(this CustomRoles role)
         {
