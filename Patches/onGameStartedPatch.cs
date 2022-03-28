@@ -14,7 +14,6 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
-            main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
@@ -55,9 +54,9 @@ namespace TownOfHost
 
                 RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
-                if (Options.IsHideAndSeek)
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
-                    Options.HideAndSeekKillDelayTimer = Options.HideAndSeekKillDelay;
+                    Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
@@ -70,8 +69,9 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
-            if (!Options.IsHideAndSeek)
+            if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -130,7 +130,7 @@ namespace TownOfHost
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
-            if (Options.IsHideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 rand = new System.Random();
                 SetColorPatch.IsAntiGlitchDisabled = true;
@@ -152,7 +152,7 @@ namespace TownOfHost
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
                     }
-                    if (Options.IgnoreCosmetics)
+                    if (Options.IgnoreCosmetics.GetBool())
                     {
                         pc.RpcSetHat("");
                         pc.RpcSetSkin("");
@@ -292,7 +292,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount();
+                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

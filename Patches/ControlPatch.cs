@@ -165,38 +165,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
             {
                 //Logger.SendInGame("tabキーが押されました");
-                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = CustomOptionController.basePage;
-                CustomOptionController.currentCursor = 0;
-            }
-            if (main.OptionControllerIsEnable)
-            {
-                main.TextCursorTimer += Time.deltaTime;
-                if (main.TextCursorTimer > 0.5f)
-                {
-                    main.TextCursorTimer = 0f;
-                    main.TextCursorVisible = !main.TextCursorVisible;
-                }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) CustomOptionController.Up();
-                if (Input.GetKeyDown(KeyCode.DownArrow)) CustomOptionController.Down();
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    CustomOptionController.Enter();
-                }
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    CustomOptionController.Return();
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)) CustomOptionController.Input(0);
-                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) CustomOptionController.Input(1);
-                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) CustomOptionController.Input(2);
-                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) CustomOptionController.Input(3);
-                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)) CustomOptionController.Input(4);
-                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5)) CustomOptionController.Input(5);
-                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6)) CustomOptionController.Input(6);
-                if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7)) CustomOptionController.Input(7);
-                if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8)) CustomOptionController.Input(8);
-                if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9)) CustomOptionController.Input(9);
+                OptionShower.next();
             }
         }
     }

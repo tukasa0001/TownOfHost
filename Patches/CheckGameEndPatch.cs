@@ -11,13 +11,13 @@ namespace TownOfHost
             if (!GameData.Instance) return false;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
-            if (Options.NoGameEnd) return false;
+            if (Options.NoGameEnd.GetBool()) return false;
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
             if (main.currentWinner == CustomWinner.Default)
             {
-                if (Options.IsHideAndSeek)
+                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
@@ -205,7 +205,7 @@ namespace TownOfHost
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if (!Options.IsHideAndSeek || !hasHideAndSeekRole)
+                            if (Options.CurrentGameMode != CustomGameMode.HideAndSeek || !hasHideAndSeekRole)
                             {
                                 numTotalAlive++;//HideAndSeek以外
                             }
