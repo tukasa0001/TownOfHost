@@ -138,6 +138,19 @@ namespace TownOfHost
             return dic[role];
         }
 
+        public static bool CanUseKillButton(this PlayerControl player)
+        {
+            var role = player.getCustomRole();
+            bool canUse =
+                role.isImpostor() ||
+                role == CustomRoles.Sheriff;
+
+            if (role == CustomRoles.Mafia)
+            {
+                if (main.AliveImpostorsCount !=1) canUse = false;
+            }
+            return canUse;
+        }
         public static bool canBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.getCustomRole();

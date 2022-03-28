@@ -140,7 +140,7 @@ namespace TownOfHost
 
             if (__instance.isMafia())
             {
-                if (!CustomRoles.Mafia.CanUseKillButton())
+                if (!__instance.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     main.BlockKilling[__instance.PlayerId] = false;
