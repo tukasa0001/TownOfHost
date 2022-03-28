@@ -475,6 +475,15 @@ namespace TownOfHost
             tmp += input;
             ChangeTo = Math.Clamp(tmp, 0, max);
         }
+        public static void CountAliveImpostors()
+        {
+            main.AliveImpostorsCount = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                CustomRoles pc_role = pc.getCustomRole();
+                if (pc_role.isImpostor() && !pc.Data.IsDead) main.AliveImpostorsCount++;
+            }
+        }
         public static int CountEngineerBaseRoles()
         {
             return main.EngineerBaseRoles.Select(r => r.getCount()).Sum();

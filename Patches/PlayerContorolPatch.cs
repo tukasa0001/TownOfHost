@@ -47,6 +47,9 @@ namespace TownOfHost
                 Utils.CheckTerroristWin(target.Data);
             }
             PlayerState.isDead[target.PlayerId] = true;
+            Utils.CountAliveImpostors();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]

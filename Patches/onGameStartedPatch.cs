@@ -307,6 +307,7 @@ namespace TownOfHost
             }
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
+            Utils.CountAliveImpostors();
 
             Logger.msg("SelectRolesPatch.Postfix.End");
         }
