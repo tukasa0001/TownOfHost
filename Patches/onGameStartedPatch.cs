@@ -14,7 +14,6 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
-            main.OptionControllerIsEnable = false;
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
@@ -70,6 +69,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {

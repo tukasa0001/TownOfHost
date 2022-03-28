@@ -54,6 +54,7 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             if (__instance.isWarlock())
             {
                 if (main.CursedPlayers[__instance.PlayerId] != null)//呪われた人がいるか確認
@@ -100,7 +101,7 @@ namespace TownOfHost
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
-                    targetm.SetCustomRole(CustomRoles.SKMadmate);
+                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
                     main.SKMadmateNowCount++;
                     Utils.CustomSyncAllSettings();
                     Utils.NotifyRoles();
@@ -407,7 +408,7 @@ namespace TownOfHost
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
-                        __instance.RpcGuardAndKill(__instance.getBountyTarget());//守護天使バグ対策で上の処理のターゲットをキル対象に変更
+                        __instance.RpcGuardAndKill(__instance);//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.BountyTimerCheck = true;

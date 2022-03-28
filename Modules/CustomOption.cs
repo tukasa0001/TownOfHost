@@ -16,7 +16,6 @@ namespace TownOfHost
         public Color Color;
         public string Name;
         public string Format;
-        public string Prefix, Suffix;
         public System.Object[] Selections;
 
         public int DefaultSelection;
@@ -29,9 +28,6 @@ namespace TownOfHost
         public bool isHidden;
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
-
-        public List<CustomOption> PrerequisiteOptions;
-        public List<CustomOption> PrerequisiteOptionsInv;
 
         public bool Enabled => this.GetBool();
 
@@ -49,9 +45,14 @@ namespace TownOfHost
 
         public bool IsHidden(CustomGameMode gameMode)
         {
-            return isHidden || (0 == (int)(gameMode & GameMode))
-                             || PrerequisiteOptions.Count > 0 && PrerequisiteOptions.Any((option) => !option.Enabled || option.IsHidden(gameMode))
-                             || PrerequisiteOptionsInv.Count > 0 && PrerequisiteOptionsInv.Any((option) => option.Enabled || option.IsHidden(gameMode));
+            if (isHidden) return true;
+
+            /*  自身に設定されたGameModeが All or 引数gameMode 以外なら非表示
+                GameMode:Standard    & gameMode:Standard != 0
+                GameMode:HideAndSeek & gameMode:Standard == 0
+                GameMode:All         & gameMode:Standard != 0
+            */
+            return ((int)(gameMode & GameMode) == 0);
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
@@ -64,21 +65,26 @@ namespace TownOfHost
         {
         }
 
-        public CustomOption(int id, Color color, string name, System.Object[] selections, System.Object defaultValue, CustomOption parent, bool _isHeader, bool _isHidden, string format)
+        public CustomOption(int id,
+            Color color,
+            string name,
+            System.Object[] selections,
+            System.Object defaultValue,
+            CustomOption parent,
+            bool isHeader,
+            bool isHidden,
+            string format)
         {
             Id = id;
             Color = color;
             Name = name;
-            Format = format;
             Selections = selections;
             var index = Array.IndexOf(selections, defaultValue);
             DefaultSelection = index >= 0 ? index : 0;
             Parent = parent;
-            isHeader = _isHeader;
-            isHidden = _isHidden;
-
-            Prefix = null;
-            Suffix = null;
+            this.isHeader = isHeader;
+            this.isHidden = isHidden;
+            Format = format;
 
             isHiddenOnDisplay = false;
 
@@ -92,9 +98,6 @@ namespace TownOfHost
                 Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
             Options.Add(this);
-
-            PrerequisiteOptions = new List<CustomOption>();
-            PrerequisiteOptionsInv = new List<CustomOption>();
             GameMode = CustomGameMode.Standard;
         }
 
@@ -172,9 +175,6 @@ namespace TownOfHost
         {
             foreach (var option in Options)
             {
-                if (option.Id <= 0) continue;
-
-                option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
@@ -189,24 +189,6 @@ namespace TownOfHost
             if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null) return;
 
             RPC.SyncCustomSettingsRPC();
-            // MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncCustomSettings, Hazel.SendOption.Reliable);
-            // messageWriter.WritePacked((uint)CustomOption.Options.Count);
-            // foreach (CustomOption option in CustomOption.Options)
-            // {
-            //     messageWriter.WritePacked((uint)option.Id);
-            //     messageWriter.WritePacked((uint)Convert.ToUInt32(option.Selection));
-            // }
-            // messageWriter.EndMessage();
-        }
-
-        public void AddPrerequisite(CustomOption option)
-        {
-            PrerequisiteOptions.Add(option);
-        }
-
-        public void AddInvPrerequisite(CustomOption option)
-        {
-            PrerequisiteOptionsInv.Add(option);
         }
 
         // Getter
@@ -226,7 +208,7 @@ namespace TownOfHost
             return (float)Selections[Selection];
         }
 
-        protected string GetStringSelection()
+        public string GetString()
         {
             string sel = Selections[Selection].ToString();
             if (Format != "")
@@ -240,23 +222,6 @@ namespace TownOfHost
             }
 
             return Translator.getString(sel);
-        }
-
-        public string GetString()
-        {
-            var text = GetStringSelection();
-
-            if (Prefix != null)
-            {
-                text = Translator.getString("option.prefix." + Prefix) + text;
-            }
-
-            if (Suffix != null)
-            {
-                text += Translator.getString("option.suffix." + Suffix);
-            }
-
-            return text;
         }
 
         public string GetName()
@@ -298,11 +263,6 @@ namespace TownOfHost
                         SwitchPreset(Selection);
                     }
                     else if (Entry != null) Entry.Value = Selection;
-
-                    if (Id == TownOfHost.Options.ForceJapaneseOptionId)
-                    {
-                        Refresh();
-                    }
 
                     ShareOptionSelections();
                 }

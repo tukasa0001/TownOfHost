@@ -77,6 +77,17 @@ namespace TownOfHost
             }
         }
 
+        public static CustomRoles getCustomSubRole(this PlayerControl player)
+        {
+            if (player == null)
+            {
+                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。");
+                return CustomRoles.NoSubRoleAssigned;
+            }
+            var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
+            if (cRoleFound) return cRole;
+            else return CustomRoles.NoSubRoleAssigned;
+        }
 
         public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null)
         {
