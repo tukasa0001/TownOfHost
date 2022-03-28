@@ -230,13 +230,26 @@ namespace TownOfHost
                     }
                 }
 
+                bool LocalPlayerKnowsMSchrodingerCat = false;
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     pc.isSnitch() && //変更対象がSnitch
                     pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
                 )
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor())
+                {
+                    LocalPlayerKnowsMSchrodingerCat = true;
+                }
                 {
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+                if (LocalPlayerKnowsMSchrodingerCat)
+                {
+                    if (pc != null && pc.isMSchrodingerCat()) //変更先がインポスター
+                    {
+                        //変更対象の名前を赤くする
+                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                    }
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
