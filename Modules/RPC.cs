@@ -64,6 +64,7 @@ namespace TownOfHost
                     bool StartReactorDisabled = reader.ReadBoolean();
                     bool ResetBreakerDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    int EvilWatcherChance = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -135,6 +136,7 @@ namespace TownOfHost
                         BHDefaultKillCooldown,
                         DefaultShapeshiftCooldown,
                         ShapeMasterShapeshiftDuration,
+                        EvilWatcherChance,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -232,6 +234,7 @@ namespace TownOfHost
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
                 bool SheriffCanKillMadmate,
+                int EvilWatcherChance,
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
@@ -296,6 +299,8 @@ namespace TownOfHost
             Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
             Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
             Options.SheriffCanKillMadmate.UpdateSelection(SheriffCanKillMadmate);
+
+            Options.EvilWatcherChance.UpdateSelection(EvilWatcherChance);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
             Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
@@ -387,6 +392,7 @@ namespace TownOfHost
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill.GetBool());
             writer.Write(Options.MadSnitchTasks.GetSelection());
             writer.Write(Options.MayorAdditionalVote.GetSelection());
+            writer.Write(Options.EvilWatcherChance.GetSelection());
             writer.Write(Options.SerialKillerCooldown.GetSelection());
             writer.Write(Options.SerialKillerLimit.GetSelection());
             writer.Write(Options.BountyTargetChangeTime.GetSelection());
