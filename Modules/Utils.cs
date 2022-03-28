@@ -475,5 +475,13 @@ namespace TownOfHost
             tmp += input;
             ChangeTo = Math.Clamp(tmp, 0, max);
         }
+        public static int CountEngineerBaseRoles()
+        {
+            return main.EngineerBaseRoles.Select(r => r.getCount()).Sum();
+        }
+        public static int CountShapeshifterBaseRoles()
+        {
+            return main.ShapeShifterBaseRoles.Select(r => r.getCount()).Sum();
+        }
     }
 }
