@@ -47,6 +47,8 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
+        public static CustomOption EnableLastImpostor;
+        public static CustomOption LastImpostorKillCooldown;
         public static CustomOption BountyTargetChangeTime;
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
@@ -190,6 +192,10 @@ namespace TownOfHost
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
+            EnableLastImpostor = CustomOption.Create(01000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            LastImpostorKillCooldown = CustomOption.Create(01010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+                .SetGameMode(CustomGameMode.Standard);
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);

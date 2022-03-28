@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Linq;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -283,6 +284,17 @@ namespace TownOfHost
             IntroTypes introType = role.getIntroType();
             switch (introType)
             {
+                case IntroTypes.Impostor:
+                    if (player.isLastImpostor())
+                    {
+                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
+                        {
+                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
+                        }
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                    break;
                 case IntroTypes.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
@@ -347,7 +359,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return Utils.getRoleName(player.getCustomRole());
+            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -473,6 +485,30 @@ namespace TownOfHost
             writer.Write(player.PlayerId);
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static bool CanUseKillButton(this PlayerControl pc)
+        {
+            bool canUse =
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff();
+
+            if (pc.isMafia())
+            {
+                if (main.AliveImpostorCount > 1) canUse = false;
+            }
+            return canUse;
+        }
+        public static bool isLastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            if (pc.getCustomRole().isImpostor() &&
+                !pc.Data.IsDead &&
+                Options.EnableLastImpostor.GetBool() &&
+                !pc.isVampire() &&
+                !pc.isBountyHunter() &&
+                !pc.isSerialKiller() &&
+                main.AliveImpostorCount == 1)
+                return true;
+            return false;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }

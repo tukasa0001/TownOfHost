@@ -34,6 +34,14 @@ namespace TownOfHost
             }
             //有効な役職と詳細設定一覧
             pages.Add("");
+            if (Options.CurrentGameMode == CustomGameMode.Standard)
+            {
+                if (Options.EnableLastImpostor.GetBool())
+                {
+                    text += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{getString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    text += $"\t{getString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n";
+                }
+            }
             foreach (var kvp in Options.CustomRoleSpawnChances)
             {
                 if (!kvp.Key.isEnable()) continue;

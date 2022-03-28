@@ -46,7 +46,9 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
-            PlayerState.isDead[target.PlayerId] = true;
+            Utils.CountAliveImpostors();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -137,7 +139,7 @@ namespace TownOfHost
 
             if (__instance.isMafia())
             {
-                if (!CustomRoles.Mafia.CanUseKillButton())
+                if (!__instance.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     main.BlockKilling[__instance.PlayerId] = false;

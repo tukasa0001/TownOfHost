@@ -96,6 +96,22 @@ namespace TownOfHost
                                 getRolesInfo(args[2]);
                                 break;
 
+                            case "att":
+                            case "attributes":
+                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)"); break; }
+                                switch (args[2])
+                                {
+                                    case "lastimpostor":
+                                    case "limp":
+                                        Utils.SendMessage(getString("LastImpostor") + getString("LastImpostorInfo"));
+                                        break;
+
+                                    default:
+                                        Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)");
+                                        break;
+                                }
+                                break;
+
                             case "m":
                             case "modes":
                                 if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)"); break; }
