@@ -17,7 +17,6 @@ namespace TownOfHost
     {
         // オプションId
         public const int PresetId = 0;
-        public const int ForceJapaneseOptionId = -1;
 
         // プリセット
         private static readonly string[] presets =
@@ -39,7 +38,6 @@ namespace TownOfHost
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
-        public static bool OptionControllerIsEnable = false;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleCounts;
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =
@@ -123,7 +121,6 @@ namespace TownOfHost
 
         // その他
         public static CustomOption NoGameEnd;
-        public static CustomOption ForceJapanese;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static readonly string[] suffixModes =
@@ -180,9 +177,6 @@ namespace TownOfHost
         public static void Load()
         {
             if (IsLoaded) return;
-
-            ForceJapanese = CustomOption.Create(ForceJapaneseOptionId, Color.white, "ForceJapanese", false, null, true)
-                .SetGameMode(CustomGameMode.All);
             // プリセット
             _ = CustomOption.Create(0, new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset", presets, presets[0], null, true)
                 .HiddenOnDisplay(true)
@@ -320,10 +314,10 @@ namespace TownOfHost
 
         private static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), Utils.getRoleName(role, SupportedLangs.English), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 0, 15, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 

@@ -28,7 +28,7 @@ namespace TownOfHost
         public bool isHidden;
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
-        
+
         public bool Enabled => this.GetBool();
 
         public CustomOption HiddenOnDisplay(bool hidden)
@@ -45,7 +45,14 @@ namespace TownOfHost
 
         public bool IsHidden(CustomGameMode gameMode)
         {
-            return isHidden || (0 == (int) (gameMode & GameMode));
+            if (isHidden) return true;
+
+            /*  自身に設定されたGameModeが All or 引数gameMode 以外なら非表示
+                GameMode:Standard    & gameMode:Standard != 0
+                GameMode:HideAndSeek & gameMode:Standard == 0
+                GameMode:All         & gameMode:Standard != 0
+            */
+            return ((int)(gameMode & GameMode) == 0);
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
@@ -59,13 +66,13 @@ namespace TownOfHost
         }
 
         public CustomOption(int id,
-            Color color, 
+            Color color,
             string name,
             System.Object[] selections,
             System.Object defaultValue,
-            CustomOption parent, 
+            CustomOption parent,
             bool isHeader,
-            bool isHidden, 
+            bool isHidden,
             string format)
         {
             Id = id;
@@ -78,7 +85,7 @@ namespace TownOfHost
             this.isHeader = isHeader;
             this.isHidden = isHidden;
             Format = format;
-            
+
             isHiddenOnDisplay = false;
 
             Children = new List<CustomOption>();
@@ -168,9 +175,6 @@ namespace TownOfHost
         {
             foreach (var option in Options)
             {
-                if (option.Id <= 0) continue;
-
-                option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
@@ -259,11 +263,6 @@ namespace TownOfHost
                         SwitchPreset(Selection);
                     }
                     else if (Entry != null) Entry.Value = Selection;
-
-                    if (Id == TownOfHost.Options.ForceJapaneseOptionId)
-                    {
-                        Refresh();
-                    }
 
                     ShareOptionSelections();
                 }
