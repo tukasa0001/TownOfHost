@@ -174,7 +174,6 @@ namespace TownOfHost
             if (chance == 0) return 0;
             return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
-
         public static void Load()
         {
             if (IsLoaded) return;

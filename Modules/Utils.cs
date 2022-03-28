@@ -22,9 +22,8 @@ namespace TownOfHost
         }
         public static string getRoleName(CustomRoles role)
         {
-
             var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) &&
-                       main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+                main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
 
             return getRoleName(role, lang);
         }
@@ -47,7 +46,6 @@ namespace TownOfHost
             if (!main.roleColors.TryGetValue(role, out var hexColor)) hexColor = "#ffffff";
             return hexColor;
         }
-
         public static (string, Color) GetRoleText(PlayerControl player)
         {
             string RoleText = "Invalid Role";
