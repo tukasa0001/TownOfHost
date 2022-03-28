@@ -233,7 +233,6 @@ namespace TownOfHost
                 if (__instance.getCustomRole().isImpostor())
                 {
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                    NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                 }
                 if (__instance.isSheriff())
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
