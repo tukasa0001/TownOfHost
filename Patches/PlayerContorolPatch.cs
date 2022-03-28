@@ -225,24 +225,20 @@ namespace TownOfHost
                 return false;
             }
             //シュレディンガーの猫が切られた場合の役職変化スタート
-            if (__instance.isSheriff() && target.isSchrodingerCat())
-            {
-                __instance.RpcGuardAndKill(target);
-                target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                return false;
-            }
             if (target.isSchrodingerCat())
             {
-                int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                 __instance.RpcGuardAndKill(target);
-                NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
-                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
-                if (__instance.getCustomRole().isImpostor()){
+                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                if (__instance.getCustomRole().isImpostor())
+                {
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                    Utils.NotifyRoles();
-                    Utils.CustomSyncAllSettings();
-                    return false;
+                    NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
                 }
+                if (__instance.isSheriff())
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                Utils.NotifyRoles();
+                Utils.CustomSyncAllSettings();
+                return false;
             }
             //シュレディンガーの猫の役職変化処理終了
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください

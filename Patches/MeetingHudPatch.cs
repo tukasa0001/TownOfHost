@@ -216,6 +216,10 @@ namespace TownOfHost
                 {
                     LocalPlayerKnowsImpostor = true;
                 }
+                if (PlayerControl.LocalPlayer.isMSchrodingerCat())
+                {
+                    LocalPlayerKnowsImpostor = true;
+                }
 
                 if (LocalPlayerKnowsImpostor)
                 {
