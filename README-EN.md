@@ -286,6 +286,17 @@ They are the Neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
+## Attribute
+
+### LastImpostor
+
+This is the attribute given to the last in-poster.<br>
+Not given to BountyHunter, SerialKiller, or Vampire.<br>
+
+| Settings Name |
+|----------|
+| LastImpostor KillCooldown |
+
 ## Mode
 
 ### DisableTasks
