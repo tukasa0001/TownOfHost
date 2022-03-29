@@ -104,7 +104,7 @@ namespace TownOfHost
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
-                    int SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam = reader.ReadInt32();
+                    bool BeforeSchrodingerCatWinTheCrewmate = reader.ReadBoolean();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
@@ -157,7 +157,7 @@ namespace TownOfHost
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
                         MayorAdditionalVote,
-                        SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam,
+                        BeforeSchrodingerCatWinTheCrewmate,
                         AutoDisplayLastResult
                     );
                     break;
@@ -263,7 +263,7 @@ namespace TownOfHost
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
                 int MayorAdditionalVote,
-                int SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam,
+                bool BeforeSchrodingerCatWinTheCrewmate,
                 bool AutoDisplayLastResult
             )
         {
@@ -336,7 +336,7 @@ namespace TownOfHost
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
 
-            Options.SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam.UpdateSelection(SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam);
+            Options.BeforeSchrodingerCatWinTheCrewmate.UpdateSelection(BeforeSchrodingerCatWinTheCrewmate);
 
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
@@ -400,7 +400,7 @@ namespace TownOfHost
             writer.Write(Options.BHDefaultKillCooldown.GetSelection());
             writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
             writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
-            writer.Write(Options.SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam.GetSelection());
+            writer.Write(Options.BeforeSchrodingerCatWinTheCrewmate.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

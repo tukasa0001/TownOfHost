@@ -98,7 +98,7 @@ namespace TownOfHost
                 }
             }
             //SchrodingerCat
-            if (Options.SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam.GetBool())
+            if (Options.BeforeSchrodingerCatWinTheCrewmate.GetBool())
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
