@@ -238,9 +238,10 @@ namespace TownOfHost
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
             // Other
-            SetupRoleOptions(50000, CustomRoles.Jester);
-            SetupRoleOptions(50100, CustomRoles.Opportunist);
-            SetupRoleOptions(50200, CustomRoles.Terrorist);
+            SetupRoleOptions(50000, CustomRoles.Arsonist);
+            SetupRoleOptions(50100, CustomRoles.Jester);
+            SetupRoleOptions(50200, CustomRoles.Opportunist);
+            SetupRoleOptions(50300, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
