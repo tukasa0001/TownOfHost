@@ -13,6 +13,7 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
 
             NameColorManager.Begin();
+            Options.Load();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]

@@ -51,9 +51,12 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
-                    foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) r.setCount(reader.ReadInt32());
-
-                    bool IsHideAndSeek = reader.ReadBoolean();
+                    foreach (var kvp in Options.CustomRoleSpawnChances)
+                    {
+                        kvp.Value.Selection = reader.ReadInt32();
+                        kvp.Key.setCount(reader.ReadInt32());
+                    }
+                    int CurrentGameMode = reader.ReadInt32();
                     bool NoGameEnd = reader.ReadBoolean();
                     bool SwipeCardDisabled = reader.ReadBoolean();
                     bool SubmitScanDisabled = reader.ReadBoolean();
@@ -78,6 +81,11 @@ namespace TownOfHost
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
                     bool canTerroristSuicideWin = reader.ReadBoolean();
+                    bool RandomMapsMode = reader.ReadBoolean();
+                    bool AddedTheSkeld = reader.ReadBoolean();
+                    bool AddedMiraHQ = reader.ReadBoolean();
+                    bool AddedPolus = reader.ReadBoolean();
+                    bool AddedTheAirShip = reader.ReadBoolean();
                     bool AllowCloseDoors = reader.ReadBoolean();
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
@@ -95,10 +103,12 @@ namespace TownOfHost
                     int BountySuccessKillCooldown = reader.ReadInt32();
                     int BountyFailureKillCooldown = reader.ReadInt32();
                     int BHDefaultKillCooldown = reader.ReadInt32();
+                    int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
+                    bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
-                        IsHideAndSeek,
+                        CurrentGameMode,
                         NoGameEnd,
                         SwipeCardDisabled,
                         SubmitScanDisabled,
@@ -124,12 +134,18 @@ namespace TownOfHost
                         BountySuccessKillCooldown,
                         BountyFailureKillCooldown,
                         BHDefaultKillCooldown,
+                        DefaultShapeshiftCooldown,
                         ShapeMasterShapeshiftDuration,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
                         whenNonVote,
                         canTerroristSuicideWin,
+                        RandomMapsMode,
+                        AddedTheSkeld,
+                        AddedMiraHQ,
+                        AddedPolus,
+                        AddedTheAirShip,
                         AllowCloseDoors,
                         HaSKillDelay,
                         IgnoreVent,
@@ -140,7 +156,8 @@ namespace TownOfHost
                         CanMakeMadmateCount,
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
-                        MayorAdditionalVote
+                        MayorAdditionalVote,
+                        AutoDisplayLastResult
                     );
                     break;
                 case (byte)CustomRPC.JesterExiled:
@@ -200,7 +217,7 @@ namespace TownOfHost
     {
         public static void SyncCustomSettings(
                 Dictionary<CustomRoles, int> roleCounts,
-                bool isHideAndSeek,
+                int CurrentGameMode,
                 bool NoGameEnd,
                 bool SwipeCardDisabled,
                 bool SubmitScanDisabled,
@@ -226,12 +243,18 @@ namespace TownOfHost
                 int BountySuccessKillCooldown,
                 int BountyFailureKillCooldown,
                 int BHDefaultKillCooldown,
+                int DefaultShapeshiftCooldown,
                 int ShapeMasterShapeshiftDuration,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
                 int whenNonVote,
                 bool canTerroristSuicideWin,
+                bool RandomMapsMode,
+                bool AddedTheSkeld,
+                bool AddedMiraHQ,
+                bool AddedPolus,
+                bool AddedTheAirShip,
                 bool AllowCloseDoors,
                 int HaSKillDelay,
                 bool IgnoreVent,
@@ -242,121 +265,142 @@ namespace TownOfHost
                 int CanMakeMadmateCount,
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
-                int MayorAdditionalVote
+                int MayorAdditionalVote,
+                bool AutoDisplayLastResult
             )
         {
             Options.roleCounts = roleCounts;
 
-            Options.IsHideAndSeek = isHideAndSeek;
-            Options.NoGameEnd = NoGameEnd;
+            Options.GameMode.UpdateSelection(CurrentGameMode);
+            Options.NoGameEnd.UpdateSelection(NoGameEnd);
 
-            Options.DisableSwipeCard = SwipeCardDisabled;
-            Options.DisableSubmitScan = SubmitScanDisabled;
-            Options.DisableUnlockSafe = UnlockSafeDisabled;
-            Options.DisableUploadData = UploadDataDisabled;
-            Options.DisableStartReactor = StartReactorDisabled;
-            Options.DisableResetBreaker = ResetBreakerDisabled;
+            Options.DisableSwipeCard.UpdateSelection(SwipeCardDisabled);
+            Options.DisableSubmitScan.UpdateSelection(SubmitScanDisabled);
+            Options.DisableUnlockSafe.UpdateSelection(UnlockSafeDisabled);
+            Options.DisableUploadData.UpdateSelection(UploadDataDisabled);
+
+            Options.DisableStartReactor.UpdateSelection(StartReactorDisabled);
+            Options.DisableResetBreaker.UpdateSelection(ResetBreakerDisabled);
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
 
             main.VisibleTasksCount = true;
 
-            Options.VampireKillDelay = VampireKillDelay;
+            Options.VampireKillDelay.UpdateSelection(VampireKillDelay);
 
-            Options.SabotageMasterSkillLimit = SabotageMasterSkillLimit;
-            Options.SabotageMasterFixesDoors = SabotageMasterFixesDoors;
-            Options.SabotageMasterFixesReactors = SabotageMasterFixesReactors;
-            Options.SabotageMasterFixesOxygens = SabotageMasterFixesOxygens;
-            Options.SabotageMasterFixesCommunications = SabotageMasterFixesCommunications;
-            Options.SabotageMasterFixesElectrical = SabotageMasterFixesElectrical;
+            Options.SabotageMasterSkillLimit.UpdateSelection(SabotageMasterSkillLimit);
+            Options.SabotageMasterFixesDoors.UpdateSelection(SabotageMasterFixesDoors);
+            Options.SabotageMasterFixesReactors.UpdateSelection(SabotageMasterFixesReactors);
+            Options.SabotageMasterFixesOxygens.UpdateSelection(SabotageMasterFixesOxygens);
+            Options.SabotageMasterFixesComms.UpdateSelection(SabotageMasterFixesCommunications);
+            Options.SabotageMasterFixesElectrical.UpdateSelection(SabotageMasterFixesElectrical);
 
-            Options.SheriffKillCooldown = SheriffKillCooldown;
-            Options.SheriffCanKillJester = SheriffCanKillJester;
-            Options.SheriffCanKillTerrorist = SheriffCanKillTerrorist;
-            Options.SheriffCanKillOpportunist = SheriffCanKillOpportunist;
-            Options.SheriffCanKillMadmate = SheriffCanKillMadmate;
+            Options.SheriffKillCooldown.UpdateSelection(SheriffKillCooldown);
+            Options.SheriffCanKillJester.UpdateSelection(SheriffCanKillJester);
+            Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
+            Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
+            Options.SheriffCanKillMadmate.UpdateSelection(SheriffCanKillMadmate);
 
-            Options.SerialKillerCooldown = SerialKillerCooldown;
-            Options.SerialKillerLimit = SerialKillerLimit;
-            Options.BountyTargetChangeTime = BountyTargetChangeTime;
-            Options.BountySuccessKillCooldown = BountySuccessKillCooldown;
-            Options.BountyFailureKillCooldown = BountyFailureKillCooldown;
-            Options.BHDefaultKillCooldown = BHDefaultKillCooldown;
-            Options.ShapeMasterShapeshiftDuration = ShapeMasterShapeshiftDuration;
+            Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
+            Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
+            Options.BountyTargetChangeTime.UpdateSelection(BountyTargetChangeTime);
+            Options.BountySuccessKillCooldown.UpdateSelection(BountySuccessKillCooldown);
+            Options.BountyFailureKillCooldown.UpdateSelection(BountyFailureKillCooldown);
+            Options.BHDefaultKillCooldown.UpdateSelection(BHDefaultKillCooldown);
+            Options.ShapeMasterShapeshiftDuration.UpdateSelection(ShapeMasterShapeshiftDuration);
+            Options.DefaultShapeshiftCooldown.UpdateSelection(DefaultShapeshiftCooldown);
 
-            Options.SyncButtonMode = SyncButtonMode;
-            Options.SyncedButtonCount = SyncedButtonCount;
+            Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
+            Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
 
-            Options.whenSkipVote = (VoteMode)whenSkipVote;
-            Options.whenNonVote = (VoteMode)whenNonVote;
-            Options.canTerroristSuicideWin = canTerroristSuicideWin;
+            Options.WhenSkipVote.UpdateSelection(whenSkipVote);
+            Options.WhenNonVote.UpdateSelection(whenNonVote);
+            Options.CanTerroristSuicideWin.UpdateSelection(canTerroristSuicideWin);
 
-            Options.AllowCloseDoors = AllowCloseDoors;
-            Options.HideAndSeekKillDelay = HaSKillDelay;
-            Options.IgnoreVent = IgnoreVent;
-            Options.IgnoreCosmetics = IgnoreCosmetics;
+            Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
+            Options.AddedTheSkeld.UpdateSelection(AddedTheSkeld);
+            Options.AddedMiraHQ.UpdateSelection(AddedMiraHQ);
+            Options.AddedPolus.UpdateSelection(AddedPolus);
+            Options.AddedTheAirShip.UpdateSelection(AddedTheAirShip);
 
-            Options.MadmateCanFixLightsOut = MadmateCanFixLightsOut;
-            Options.MadmateCanFixComms = MadmateCanFixComms;
-            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            Options.MadmateHasImpostorVision = MadmateHasImpostorVision;
-            Options.CanMakeMadmateCount = CanMakeMadmateCount;
-            Options.MadGuardianCanSeeWhoTriedToKill = MadGuardianCanSeeBarrier;
-            Options.MadSnitchTasks = MadSnitchTasks;
+            Options.AllowCloseDoors.UpdateSelection(AllowCloseDoors);
+            Options.KillDelay.UpdateSelection(HaSKillDelay);
+            Options.IgnoreVent.UpdateSelection(IgnoreVent);
+            Options.IgnoreCosmetics.UpdateSelection(IgnoreCosmetics);
 
-            Options.MayorAdditionalVote = MayorAdditionalVote;
+            Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
+            Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
+            Options.MadmateHasImpostorVision.UpdateSelection(MadmateHasImpostorVision);
+            Options.MadGuardianCanSeeWhoTriedToKill.UpdateSelection(MadGuardianCanSeeBarrier);
+            Options.CanMakeMadmateCount.UpdateSelection(CanMakeMadmateCount);
+            Options.MadSnitchTasks.UpdateSelection(MadSnitchTasks);
+
+            Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
+
+            Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (CustomRoles r in Enum.GetValues(typeof(CustomRoles))) writer.Write(r.getCount());
+            foreach (var kvp in Options.CustomRoleSpawnChances)
+            {
+                writer.Write(kvp.Value.GetSelection());
+                writer.Write(kvp.Key.getCount());
+            }
 
-            writer.Write(Options.IsHideAndSeek);
-            writer.Write(Options.NoGameEnd);
-            writer.Write(Options.DisableSwipeCard);
-            writer.Write(Options.DisableSubmitScan);
-            writer.Write(Options.DisableUnlockSafe);
-            writer.Write(Options.DisableUploadData);
-            writer.Write(Options.DisableStartReactor);
-            writer.Write(Options.DisableResetBreaker);
-            writer.Write(Options.VampireKillDelay);
-            writer.Write(Options.SabotageMasterSkillLimit);
-            writer.Write(Options.SabotageMasterFixesDoors);
-            writer.Write(Options.SabotageMasterFixesReactors);
-            writer.Write(Options.SabotageMasterFixesOxygens);
-            writer.Write(Options.SabotageMasterFixesCommunications);
-            writer.Write(Options.SabotageMasterFixesElectrical);
-            writer.Write(Options.SheriffKillCooldown);
-            writer.Write(Options.SheriffCanKillJester);
-            writer.Write(Options.SheriffCanKillTerrorist);
-            writer.Write(Options.SheriffCanKillOpportunist);
-            writer.Write(Options.SheriffCanKillMadmate);
-            writer.Write(Options.SyncButtonMode);
-            writer.Write(Options.SyncedButtonCount);
-            writer.Write((int)Options.whenSkipVote);
-            writer.Write((int)Options.whenNonVote);
-            writer.Write(Options.canTerroristSuicideWin);
-            writer.Write(Options.AllowCloseDoors);
-            writer.Write(Options.HideAndSeekKillDelay);
-            writer.Write(Options.IgnoreVent);
-            writer.Write(Options.IgnoreCosmetics);
-            writer.Write(Options.MadmateCanFixLightsOut);
-            writer.Write(Options.MadmateCanFixComms);
-            writer.Write(Options.MadmateHasImpostorVision);
-            writer.Write(Options.CanMakeMadmateCount);
-            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill);
-            writer.Write(Options.MadSnitchTasks);
-            writer.Write(Options.MayorAdditionalVote);
-            writer.Write(Options.SerialKillerCooldown);
-            writer.Write(Options.SerialKillerLimit);
-            writer.Write(Options.BountyTargetChangeTime);
-            writer.Write(Options.BountySuccessKillCooldown);
-            writer.Write(Options.BountyFailureKillCooldown);
-            writer.Write(Options.BHDefaultKillCooldown);
-            writer.Write(Options.ShapeMasterShapeshiftDuration);
+            writer.Write(Options.GameMode.Selection);
+            writer.Write(Options.NoGameEnd.GetBool());
+            writer.Write(Options.DisableSwipeCard.GetBool());
+            writer.Write(Options.DisableSubmitScan.GetBool());
+            writer.Write(Options.DisableUnlockSafe.GetBool());
+            writer.Write(Options.DisableUploadData.GetBool());
+            writer.Write(Options.DisableStartReactor.GetBool());
+            writer.Write(Options.DisableResetBreaker.GetBool());
+            writer.Write(Options.VampireKillDelay.GetSelection());
+            writer.Write(Options.SabotageMasterSkillLimit.GetSelection());
+            writer.Write(Options.SabotageMasterFixesDoors.GetBool());
+            writer.Write(Options.SabotageMasterFixesReactors.GetBool());
+            writer.Write(Options.SabotageMasterFixesOxygens.GetBool());
+            writer.Write(Options.SabotageMasterFixesComms.GetBool());
+            writer.Write(Options.SabotageMasterFixesElectrical.GetBool());
+            writer.Write(Options.SheriffKillCooldown.GetSelection());
+            writer.Write(Options.SheriffCanKillJester.GetBool());
+            writer.Write(Options.SheriffCanKillTerrorist.GetBool());
+            writer.Write(Options.SheriffCanKillOpportunist.GetBool());
+            writer.Write(Options.SheriffCanKillMadmate.GetBool());
+            writer.Write(Options.SyncButtonMode.GetBool());
+            writer.Write(Options.SyncedButtonCount.GetSelection());
+            writer.Write((int)Options.WhenSkipVote.GetSelection());
+            writer.Write((int)Options.WhenNonVote.GetSelection());
+            writer.Write(Options.CanTerroristSuicideWin.GetBool());
+            writer.Write(Options.RandomMapsMode.GetBool());
+            writer.Write(Options.AddedTheSkeld.GetBool());
+            writer.Write(Options.AddedMiraHQ.GetBool());
+            writer.Write(Options.AddedPolus.GetBool());
+            writer.Write(Options.AddedTheAirShip.GetBool());
+            writer.Write(Options.AllowCloseDoors.GetBool());
+            writer.Write(Options.KillDelay.GetSelection());
+            writer.Write(Options.IgnoreVent.GetBool());
+            writer.Write(Options.IgnoreCosmetics.GetBool());
+            writer.Write(Options.MadmateCanFixLightsOut.GetBool());
+            writer.Write(Options.MadmateCanFixComms.GetBool());
+            writer.Write(Options.MadmateHasImpostorVision.GetBool());
+            writer.Write(Options.CanMakeMadmateCount.GetSelection());
+            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill.GetBool());
+            writer.Write(Options.MadSnitchTasks.GetSelection());
+            writer.Write(Options.MayorAdditionalVote.GetSelection());
+            writer.Write(Options.SerialKillerCooldown.GetSelection());
+            writer.Write(Options.SerialKillerLimit.GetSelection());
+            writer.Write(Options.BountyTargetChangeTime.GetSelection());
+            writer.Write(Options.BountySuccessKillCooldown.GetSelection());
+            writer.Write(Options.BountyFailureKillCooldown.GetSelection());
+            writer.Write(Options.BHDefaultKillCooldown.GetSelection());
+            writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
+            writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
+            writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)

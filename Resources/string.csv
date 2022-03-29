@@ -58,7 +58,7 @@ BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a ta
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
-WarlockInfoLong,"(Impostors):\nWhen he transforms, the curse is placed on the nearest person.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you curse someone, you cannot get a normal kill.\nThe cursed person is marked at the next meeting and dies after the meeting.",(インポスター陣営):\n変身すると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n誰かを呪った場合、普通のキルはできない。呪われた人は次の会議でマークがつき、会議後に死ぬ。
+WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
@@ -91,7 +91,8 @@ AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役
 BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
-BHDefaultKillCooldown,Bounty Default Kill Cooldown,バウンティハンターのデフォルトのキルクール
+BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
+DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
@@ -134,6 +135,10 @@ AddedPolus,Added Polus,Polusを追加
 AddedDleks,Added Dleks,Dleksを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
 SuffixMode,Suffix,名前の二行目
+SuffixMode.None,None,なし
+SuffixMode.Version,Version,バージョン
+SuffixMode.Streaming,Streaming,配信中
+SuffixMode.Recording,Recording,録画中
 WhenSkipVote,When Skip Vote,スキップ時
 WhenNonVote,When Non-Vote,無投票時
 WitchCurrentMode,Current Mode,現在のモード
@@ -170,3 +175,26 @@ CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の�
 Roles,Roles,役職
 Settings,Settings,設定
 RoleAssignment,Role Assignment,ロール割り当て
+Maximum,Maximum,最大数
+Rate0,0%,0%
+Rate10,10%,10%
+Rate20,20%,20%
+Rate30,30%,30%
+Rate40,40%,40%
+Rate50,50%,50%
+Rate60,60%,60%
+Rate70,70%,70%
+Rate80,80%,80%
+Rate90,90%,90%
+Rate100,100%,100%
+Preset,Preset,プリセット
+Preset_1,Preset 1,プリセット1
+Preset_2,Preset 2,プリセット2
+Preset_3,Preset 3,プリセット3
+Preset_4,Preset 4,プリセット4
+Preset_5,Preset 5,プリセット5
+Standard,Standard,スタンダード
+GameMode,GameMode,ゲームモード
+PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
+On,On,オン
+Off,Off,オフ

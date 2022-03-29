@@ -164,18 +164,9 @@ namespace TownOfHost
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
-            if (main.OptionControllerIsEnable)
-            {
-                __instance.GameSettings.text = CustomOptionController.GetOptionText();
-                __instance.GameSettings.fontSizeMin = 2f;
-                __instance.GameSettings.fontSizeMax = 2f;
-                __instance.GameSettings.m_maxHeight = 0.5f;
-            }
-            else
-            {
-                __instance.GameSettings.fontSizeMin = 1.3f;
-                __instance.GameSettings.fontSizeMax = 1.3f;
-            }
+            __instance.GameSettings.text = OptionShower.getText();
+            __instance.GameSettings.fontSizeMin =
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) ? 1.05f : 1.2f;
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
