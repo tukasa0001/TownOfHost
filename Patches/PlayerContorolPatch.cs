@@ -112,6 +112,24 @@ namespace TownOfHost
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
+    class CheckProtectPatch
+    {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (!AmongUsClient.Instance.AmHost) return false;
+            Logger.SendToFile("CheckProtect発生: " + __instance.name + "=>" + target.name);
+            if (__instance.isSheriff())
+            {
+                if (__instance.Data.IsDead)
+                {
+                    Logger.info("守護をブロックしました。");
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
