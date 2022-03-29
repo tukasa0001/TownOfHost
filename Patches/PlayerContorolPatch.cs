@@ -414,6 +414,7 @@ namespace TownOfHost
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                LoversSuicide();
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
                 if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -501,6 +502,12 @@ namespace TownOfHost
                     }
                 }
 
+                //ハートマークを付ける(会議中ホスト視点)
+                if (__instance.getCustomSubRole() == CustomRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomRoles.Lovers)
+                {
+                    Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                }
+
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
                 }*/
@@ -508,6 +515,28 @@ namespace TownOfHost
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
+            }
+        }
+
+        public static void LoversSuicide()
+        {
+            if (main.isLoversDead == false)
+            {
+                foreach (var loversPlayer in main.LoversPlayers)
+                {
+                    foreach (var player in PlayerControl.AllPlayerControls)
+                    {
+                        if (player.Data.IsDead && loversPlayer.PlayerId == player.PlayerId)
+                        {
+                            main.isLoversDead = true;
+                            foreach (var partnerPlayer in main.LoversPlayers)
+                            {
+                                //残った恋人を全て殺す(2人以上可)
+                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId) loversPlayer.RpcMurderPlayer(partnerPlayer);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -135,6 +135,22 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                 }
+                var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
+                if (cSubRoleFound)
+                {
+                    if (cSubRole == CustomRoles.Lovers)
+                    {
+                        //クルーメイト以外のタスク保持役職のタスク処理は何もしない(メイン役職でtask付与しているので)
+                        if (cRole == CustomRoles.Terrorist || cRole == CustomRoles.MadSnitch || cRole == CustomRoles.MadGuardian)
+                        {
+                            //Nothing
+                        }
+                        else
+                        {
+                            hasTasks = false;
+                        }
+                    }
+                }
             }
             return hasTasks;
         }
@@ -357,11 +373,14 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
-                //Loversのハートマークなどを入れてください。
+                //名前の後ろに付けるマーカー
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+
+                //ハートマークを付ける(自分に)
+                if (seer.isLovers()) SelfMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
@@ -420,7 +439,7 @@ namespace TownOfHost
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
 
-                        //Loversのハートマークなどを入れてください。
+                        //名前の後ろに付けるマーカー
                         string TargetMark = "";
                         //タスク完了直前のSnitchにマークを表示
                         if (target.isSnitch() && seer.getCustomRole().isImpostor())
@@ -455,6 +474,21 @@ namespace TownOfHost
                         HudManagerPatch.LastSetNameDesyncCount++;
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
+                    }
+                    //ハートマークを付ける(相手に)
+                    if (seer.isLovers())
+                    {
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (target == seer) continue;
+                            if (target.isLovers())
+                            {
+                                target.RpcSetNamePrivate(target.getRealName(isMeeting) + $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>", true, seer);
+                                HudManagerPatch.LastSetNameDesyncCount++;
+
+                                TownOfHost.Logger.info("NotifyRoles-Loop3-" + target.name + ":END", "NotifyRoles");
+                            }
+                        }
                     }
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");

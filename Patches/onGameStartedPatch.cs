@@ -249,6 +249,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
+                AssignLoversRolesFromList();
 
                 //RPCによる同期
                 foreach (var pair in main.AllPlayerCustomRoles)
@@ -327,6 +328,29 @@ namespace TownOfHost
                 Logger.info("役職設定:" + player.name + " = " + role.ToString());
             }
             return AssignedPlayers;
+        }
+
+        private static void AssignLoversRolesFromList()
+        {
+            if (CustomRoles.Lovers.isEnable())
+            {
+                //Loversを初期化
+                main.LoversPlayers.Clear();
+                main.isLoversDead = false;
+                //ランダムに2人選出
+                AssignLoversRoles();
+            }
+        }
+        private static void AssignLoversRoles()
+        {
+            int[] randList = Calculation.GetRandomlySelectedMultiple(0, PlayerControl.AllPlayerControls.Count, 2);
+            foreach (int i in randList)
+            {
+                var player = PlayerControl.AllPlayerControls[i];
+                main.AllPlayerCustomSubRoles[player.PlayerId] = CustomRoles.Lovers;
+                main.LoversPlayers.Add(player);
+                Logger.info("役職設定:" + player.name + " = " + CustomRoles.Lovers.ToString());
+            }
         }
     }
 }

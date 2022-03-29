@@ -15,7 +15,7 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (TempData.DidHumansWin(endGameResult.GameOverReason))
+            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLoversDead && CustomRoles.Lovers.isEnable())
             {
                 if (main.currentWinner == CustomWinner.Default)
                 {
@@ -29,7 +29,7 @@ namespace TownOfHost
                     if (canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+            if (TempData.DidImpostorsWin(endGameResult.GameOverReason) && main.isLoversDead && CustomRoles.Lovers.isEnable())
             {
                 if (main.currentWinner == CustomWinner.Default)
                 {
@@ -87,10 +87,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.currentWinner == CustomWinner.Default && CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
+            { //Loversの単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                main.currentWinner = CustomWinner.Lovers;
+                foreach (var lp in main.LoversPlayers)
+                {
+                    TempData.winners.Add(new WinningPlayerData(lp.Data));
+                }
+            }
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
+                if (pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist && pc.getCustomSubRole() != CustomRoles.Lovers)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
@@ -179,6 +188,12 @@ namespace TownOfHost
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
+                case CustomWinner.Lovers:
+                    __instance.Foreground.material.color = Utils.getRoleColor(CustomRoles.Lovers);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Lovers);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Lovers)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Lovers);
+                    break;
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.BackgroundBar.material.color = Color.gray;
@@ -199,6 +214,13 @@ namespace TownOfHost
                 {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
+            }
+            if (main.currentWinner == CustomWinner.Lovers)
+            {
+                var loversColor = Utils.getRoleColor(CustomRoles.Lovers);
+                __instance.Foreground.material.color = loversColor;
+                __instance.BackgroundBar.material.color = loversColor;
+                textRenderer.text = $"<color={loversColor}>恋人の勝利</color>";
             }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
