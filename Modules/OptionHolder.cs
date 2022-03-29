@@ -244,7 +244,7 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
-            SetupRoleOptions(50300, CustomRoles.SchrodingerCat);
+            SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam = CustomOption.Create(50310, Color.white, "SchrodingerCatBeforeTheChangeCanWinAsACrewmateTeam", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             #endregion
 
