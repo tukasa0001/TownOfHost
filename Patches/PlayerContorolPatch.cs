@@ -225,6 +225,14 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            if (__instance.isArsonist())
+            {
+                __instance.RpcGuardAndKill(target);
+                float dis;
+                dis = Vector2.Distance(__instance.transform.position, target.transform.position);
+                Logger.info("ターゲットとの距離は" + $"{dis}");
+                return false;
+            }
 
 
             //==キル処理==
