@@ -267,6 +267,8 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
+                    if (!main.ArsonistKillCooldownCheck) opt.KillCooldown = Options.ArsonistCooldown.GetFloat() * 2;
+                    if (main.ArsonistKillCooldownCheck) opt.KillCooldown = 10f;
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
@@ -483,6 +485,16 @@ namespace TownOfHost
             writer.Write(player.PlayerId);
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
+        {
+            bool isDoused = main.isDoused[(arsonist.PlayerId, target.PlayerId)];
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
+            writer.Write(arsonist.PlayerId);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            return isDoused;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }

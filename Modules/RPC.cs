@@ -17,6 +17,7 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData
@@ -80,6 +81,8 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
+                    int ArsonistDouseTime = reader.ReadInt32();
+                    int ArsonistCooldown = reader.ReadInt32();
                     bool canTerroristSuicideWin = reader.ReadBoolean();
                     bool RandomMapsMode = reader.ReadBoolean();
                     bool AddedTheSkeld = reader.ReadBoolean();
@@ -140,6 +143,8 @@ namespace TownOfHost
                         SyncedButtonCount,
                         whenSkipVote,
                         whenNonVote,
+                        ArsonistDouseTime,
+                        ArsonistCooldown,
                         canTerroristSuicideWin,
                         RandomMapsMode,
                         AddedTheSkeld,
@@ -196,6 +201,12 @@ namespace TownOfHost
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
                     break;
+                case (byte)CustomRPC.SetDousedPlayer:
+                    byte ArsonistId = reader.ReadByte();
+                    byte DousedId = reader.ReadByte();
+                    bool doused = reader.ReadBoolean();
+                    main.isDoused[(ArsonistId, DousedId)] = doused;
+                    break;
                 case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
@@ -249,6 +260,8 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 int whenSkipVote,
                 int whenNonVote,
+                int ArsonistDouseTime,
+                int ArsonistCooldown,
                 bool canTerroristSuicideWin,
                 bool RandomMapsMode,
                 bool AddedTheSkeld,
@@ -316,6 +329,8 @@ namespace TownOfHost
 
             Options.WhenSkipVote.UpdateSelection(whenSkipVote);
             Options.WhenNonVote.UpdateSelection(whenNonVote);
+            Options.ArsonistDouseTime.UpdateSelection(ArsonistDouseTime);
+            Options.ArsonistCooldown.UpdateSelection(ArsonistCooldown);
             Options.CanTerroristSuicideWin.UpdateSelection(canTerroristSuicideWin);
 
             Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
@@ -375,6 +390,8 @@ namespace TownOfHost
             writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.WhenSkipVote.GetSelection());
             writer.Write((int)Options.WhenNonVote.GetSelection());
+            writer.Write(Options.ArsonistDouseTime.GetSelection());
+            writer.Write(Options.ArsonistCooldown.GetSelection());
             writer.Write(Options.CanTerroristSuicideWin.GetBool());
             writer.Write(Options.RandomMapsMode.GetBool());
             writer.Write(Options.AddedTheSkeld.GetBool());

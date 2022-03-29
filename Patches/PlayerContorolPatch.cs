@@ -227,10 +227,10 @@ namespace TownOfHost
             }
             if (__instance.isArsonist())
             {
+                main.ArsonistKillCooldownCheck = true;
+                Utils.CustomSyncAllSettings();
                 __instance.RpcGuardAndKill(target);
-                float dis;
-                dis = Vector2.Distance(__instance.transform.position, target.transform.position);
-                Logger.info("ターゲットとの距離は" + $"{dis}");
+                if (!main.isDoused[(__instance.PlayerId, target.PlayerId)]) main.ArsonistTimer.Add(__instance.PlayerId, (target, 0f));
                 return false;
             }
 
@@ -423,6 +423,55 @@ namespace TownOfHost
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))
+                {
+                    var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;
+                    if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())
+                    {
+                        __instance.RpcGuardAndKill(artarget);
+                        main.ArsonistKillCooldownCheck = false;
+                        Utils.CustomSyncAllSettings();
+                        main.ArsonistTimer.Remove(__instance.PlayerId);
+                        main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
+                        main.DousedPlayerCount[__instance.PlayerId]--;
+                        artarget.RpcSetNamePrivate(artarget.getRealName() + $"<color=#ff6633>▲</color>", true, __instance);
+                    }
+                    else
+                    {
+                        float dis;
+                        dis = Vector2.Distance(__instance.transform.position, artarget.transform.position);
+                        if (dis <= 1.75f)
+                        {
+                            main.ArsonistTimer[__instance.PlayerId] =
+                            (main.ArsonistTimer[__instance.PlayerId].Item1, main.ArsonistTimer[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        }
+                        else
+                        {
+                            main.ArsonistTimer.Remove(__instance.PlayerId);
+                        }
+                    }
+                }
+                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
+                    {
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(__instance.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ArsonistWin(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])
+                            {
+                                main.DousedPlayerCount[__instance.PlayerId]--;
+                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
+                            }
+                        }
+                    }
+                }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
                 if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -494,6 +543,17 @@ namespace TownOfHost
                 )
                 {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
+                }
+                if (PlayerControl.LocalPlayer.isArsonist())
+                {
+                    foreach (var ar in PlayerControl.AllPlayerControls)
+                    {
+                        if (PlayerControl.LocalPlayer.isDousedPlayer(ar))
+                        {
+                            __instance = ar;
+                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                        }
+                    }
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される

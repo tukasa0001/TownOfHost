@@ -18,6 +18,10 @@ namespace TownOfHost
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
+            main.isDoused = new Dictionary<(byte, byte), bool>();
+            main.DousedPlayerCount = new Dictionary<byte, int>();
+            main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            main.ArsonistKillCooldownCheck = true;
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -311,6 +315,14 @@ namespace TownOfHost
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
+                    if (pc.isArsonist())
+                    {
+                        main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
+                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        {
+                            main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                        }
+                    }
                 }
 
                 //役職の人数を戻す

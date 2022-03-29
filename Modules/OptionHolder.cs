@@ -77,6 +77,8 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
         public static CustomOption CanTerroristSuicideWin;
+        public static CustomOption ArsonistDouseTime;
+        public static CustomOption ArsonistCooldown;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -239,6 +241,8 @@ namespace TownOfHost
             SetupRoleOptions(20500, CustomRoles.Snitch);
             // Other
             SetupRoleOptions(50000, CustomRoles.Arsonist);
+            ArsonistDouseTime = CustomOption.Create(100101, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            ArsonistCooldown = CustomOption.Create(100102, Color.white, "ArsonistCooldown", 10, 1, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50100, CustomRoles.Jester);
             SetupRoleOptions(50200, CustomRoles.Opportunist);
             SetupRoleOptions(50300, CustomRoles.Terrorist);
