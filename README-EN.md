@@ -249,6 +249,8 @@ They do not have tasks.<br>
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill Crewmates As It |
+| Sheriff Shot Limit |
 
 ### Snitch
 
