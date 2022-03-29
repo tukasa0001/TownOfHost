@@ -282,6 +282,8 @@ namespace TownOfHost
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
                 }
             }
+            Utils.NotifyRoles();
+            Utils.CustomSyncAllSettings();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
             if (__instance.Data.IsDead) return true;
@@ -302,6 +304,7 @@ namespace TownOfHost
                 sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
             }
 
+            Utils.NotifyRoles();
             Utils.CustomSyncAllSettings();
             return true;
         }
@@ -447,6 +450,7 @@ namespace TownOfHost
 
                 //変数定義
                 string RealName;
+                string DeathReason = "";
                 string Mark = "";
                 string Suffix = "";
 
@@ -493,7 +497,7 @@ namespace TownOfHost
                 { //__instanceがインポスターかつ自分自身
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     { //全員分ループ
-                        if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
+                        if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない
                         if (pc.getPlayerTaskState().doExpose)
                         { //タスクが終わりそうなSnitchが見つかった時
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
@@ -507,7 +511,7 @@ namespace TownOfHost
                 }*/
 
                 //Mark・Suffixの適用
-                __instance.nameText.text = $"{RealName}{Mark}";
+                __instance.nameText.text = $"{RealName}{DeathReason}{Mark}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
             }
         }

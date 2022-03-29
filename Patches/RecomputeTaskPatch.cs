@@ -40,8 +40,8 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
 
             Utils.NotifyRoles();
-            if (CustomRoles.Lighter.isEnable())
-                Utils.CustomSyncAllSettings();//ライターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
+            if (CustomRoles.Lighter.isEnable() || PlayerControl.LocalPlayer.isDoctor())
+                Utils.CustomSyncAllSettings(); //ライターかドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
         }
     }
 }

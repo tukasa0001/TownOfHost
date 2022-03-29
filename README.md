@@ -50,7 +50,7 @@
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) |  |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
-| [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [Mafia/マフィア](###Mafia/マフィア) | [Doctor/ドクター](###Doctor/ドクター) |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
@@ -267,6 +267,18 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 スニッチはタスクを完了させると人外の名前が赤色に変化します。<br>
 しかし、スニッチのタスクが少なくなると人外に通知されます。
 
+### Doctor/ドクター
+
+陣営 : クルーメイト<br>
+判定 : 科学者<br>
+
+ドクターはプレイヤーの死因を知ることができ、遠隔でバイタルをみることができます。<br>
+
+#### 設定
+| 設定名 |
+|----------|
+| ドクターがタスクを終わらせたときにセットされるバイタルの秒数 |
+
 ### Jester/ジェスター
 
 陣営 : 第三<br>
@@ -407,6 +419,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
 [オポチュニスト](###Opportunist/オポチュニスト)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[ドクター](###Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
