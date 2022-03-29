@@ -253,9 +253,9 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller) + getString("SerialKillerInfoLong"));
                     break;
 
-                case "lighter":
+                case "Lighter":
                 case "li":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Lighter) + getString("LighterInfoLong"));
+                    Utils.SendMessage(getString("LighterInfoLong"));
                     break;
 
                 case "schrodingercat":
