@@ -112,6 +112,24 @@ namespace TownOfHost
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
+    class CheckProtectPatch
+    {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (!AmongUsClient.Instance.AmHost) return false;
+            Logger.SendToFile("CheckProtect発生: " + __instance.name + "=>" + target.name);
+            if (__instance.isSheriff())
+            {
+                if (__instance.Data.IsDead)
+                {
+                    Logger.info("守護をブロックしました。");
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -148,7 +166,7 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
-            if (__instance.isSerialKiller())
+            if (__instance.isSerialKiller() && !target.isSchrodingerCat())
             {
                 __instance.RpcMurderPlayer(target);
                 __instance.RpcGuardAndKill(target);
@@ -164,10 +182,25 @@ namespace TownOfHost
                     return false;
                 }
 
+                if (main.SheriffShotLimit[__instance.PlayerId] == 0)
+                {
+                    //Logger.info($"シェリフ:{__instance.getRealName()}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
+                    //__instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
+                    //Utils.hasTasks(__instance.Data, false);
+                    //Utils.NotifyRoles();
+                    return false;
+                }
+
+                main.SheriffShotLimit[__instance.PlayerId]--;
+                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
+
                 if (!target.canBeKilledBySheriff())
                 {
                     PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Misfire);
                     __instance.RpcMurderPlayer(__instance);
+                    if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
+                        __instance.RpcMurderPlayer(target);
+
                     return false;
                 }
             }
@@ -198,7 +231,7 @@ namespace TownOfHost
                 Utils.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.isWarlock())
+            if (__instance.isWarlock() && !target.isSchrodingerCat())
             {
                 if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
@@ -219,12 +252,29 @@ namespace TownOfHost
                 if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);
                 return false;
             }
-            if (__instance.isVampire() && !target.isBait())
+            if (__instance.isVampire() && !target.isBait() && !target.isSchrodingerCat())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            //シュレディンガーの猫が切られた場合の役職変化スタート
+            if (target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                if (__instance.getCustomRole().isImpostor())
+                {
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                }
+                if (__instance.isSheriff())
+                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                Utils.NotifyRoles();
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            //シュレディンガーの猫の役職変化処理終了
+            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
 
             //==キル処理==
@@ -324,7 +374,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                //Vampireの処理
+             //Vampireの処理
                 if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                 {
                     //__instance:キルされる予定のプレイヤー
@@ -478,7 +528,7 @@ namespace TownOfHost
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
-                else
+                else if(PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
