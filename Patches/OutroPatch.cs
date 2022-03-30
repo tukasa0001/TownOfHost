@@ -110,6 +110,17 @@ namespace TownOfHost
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
             }
+            //SchrodingerCat
+            if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                {
+                    TempData.winners.Add(new WinningPlayerData(pc.Data));
+                    winner.Add(pc);
+                    main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                }
+            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
@@ -212,6 +223,10 @@ namespace TownOfHost
                 if (main.additionalwinners.Contains(AdditionalWinners.Opportunist))
                 {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
+                }
+                if (main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
+                {
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}</color>";
                 }
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox))
                 {
