@@ -33,6 +33,7 @@ namespace TownOfHost
             main.BountyTimerCheck = false;
             main.BountyMeetingCheck = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
+            main.SpeedBoostTarget = new Dictionary<byte, byte>();
 
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
