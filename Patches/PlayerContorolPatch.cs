@@ -184,13 +184,15 @@ namespace TownOfHost
 
                 if (main.SheriffShotLimit[__instance.PlayerId] == 0)
                 {
-                    main.BlockKilling[__instance.PlayerId] = false;
-                    Logger.info($"シェリフ:{__instance.getRealName()}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
+                    //Logger.info($"シェリフ:{__instance.getRealName()}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
                     //__instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
                     //Utils.hasTasks(__instance.Data, false);
                     //Utils.NotifyRoles();
                     return false;
                 }
+
+                main.SheriffShotLimit[__instance.PlayerId]--;
+                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
 
                 if (!target.canBeKilledBySheriff())
                 {
@@ -198,10 +200,9 @@ namespace TownOfHost
                     __instance.RpcMurderPlayer(__instance);
                     if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
                         __instance.RpcMurderPlayer(target);
+
+                    return false;
                 }
-                main.SheriffShotLimit[__instance.PlayerId]--;
-                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
-                return false;
             }
             if (target.isMadGuardian())
             {
