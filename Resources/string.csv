@@ -108,6 +108,8 @@ SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターを�
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
+SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
+SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する

@@ -40,6 +40,8 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
+            main.SheriffShotLimit = new Dictionary<byte, float>();
+
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -270,6 +272,11 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    if (pc.isSheriff())
+                    {
+                        main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                    }
                     if (pc.isBountyHunter())
                     {
                         pc.ResetBountyTarget();

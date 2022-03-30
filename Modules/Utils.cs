@@ -134,6 +134,10 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    //foreach (var pc in PlayerControl.AllPlayerControls)
+                    //{
+                    //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
+                    //}
                 }
             }
             return hasTasks;
