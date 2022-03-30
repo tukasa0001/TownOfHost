@@ -150,7 +150,7 @@ namespace TownOfHost
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
-                    return true;
+                    return Options.SheriffCanKillArsonist.GetBool();
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();

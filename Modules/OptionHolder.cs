@@ -72,6 +72,7 @@ namespace TownOfHost
         public static CustomOption SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
         public static CustomOption SheriffKillCooldown;
+        public static CustomOption SheriffCanKillArsonist;
         public static CustomOption SheriffCanKillMadmate;
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
@@ -234,10 +235,11 @@ namespace TownOfHost
             SabotageMasterFixesElectrical = CustomOption.Create(20315, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SetupRoleOptions(20400, CustomRoles.Sheriff);
             SheriffKillCooldown = CustomOption.Create(20410, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillMadmate = CustomOption.Create(20411, Color.white, "SheriffCanKillMadmate", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillJester = CustomOption.Create(20412, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillArsonist = CustomOption.Create(20411, Color.white, "SheriffCanKillArsonist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillMadmate = CustomOption.Create(20412, Color.white, "SheriffCanKillMadmate", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillJester = CustomOption.Create(20413, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillTerrorist = CustomOption.Create(20414, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillOpportunist = CustomOption.Create(20415, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
             // Other
             SetupRoleOptions(50000, CustomRoles.Arsonist);

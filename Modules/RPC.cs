@@ -73,6 +73,7 @@ namespace TownOfHost
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     int SheriffKillCooldown = reader.ReadInt32();
+                    bool SheriffCanKillArsonist = reader.ReadBoolean();
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
@@ -127,6 +128,7 @@ namespace TownOfHost
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
                         SheriffKillCooldown,
+                        SheriffCanKillArsonist,
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
@@ -244,6 +246,7 @@ namespace TownOfHost
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
                 int SheriffKillCooldown,
+                bool SheriffCanKillArsonist,
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
@@ -310,6 +313,7 @@ namespace TownOfHost
             Options.SabotageMasterFixesElectrical.UpdateSelection(SabotageMasterFixesElectrical);
 
             Options.SheriffKillCooldown.UpdateSelection(SheriffKillCooldown);
+            Options.SheriffCanKillArsonist.UpdateSelection(SheriffCanKillArsonist);
             Options.SheriffCanKillJester.UpdateSelection(SheriffCanKillJester);
             Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
             Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
@@ -382,6 +386,7 @@ namespace TownOfHost
             writer.Write(Options.SabotageMasterFixesComms.GetBool());
             writer.Write(Options.SabotageMasterFixesElectrical.GetBool());
             writer.Write(Options.SheriffKillCooldown.GetSelection());
+            writer.Write(Options.SheriffCanKillArsonist.GetBool());
             writer.Write(Options.SheriffCanKillJester.GetBool());
             writer.Write(Options.SheriffCanKillTerrorist.GetBool());
             writer.Write(Options.SheriffCanKillOpportunist.GetBool());

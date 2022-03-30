@@ -434,7 +434,7 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);
                         main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
                         main.DousedPlayerCount[__instance.PlayerId]--;
-                        artarget.RpcSetNamePrivate(artarget.getRealName() + $"<color=#ff6633>▲</color>", true, __instance);
+                        Utils.NotifyRoles();
                     }
                     else
                     {
@@ -544,16 +544,9 @@ namespace TownOfHost
                 {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                 }
-                if (PlayerControl.LocalPlayer.isArsonist())
+                if (PlayerControl.LocalPlayer.isArsonist() && PlayerControl.LocalPlayer.isDousedPlayer(__instance))
                 {
-                    foreach (var ar in PlayerControl.AllPlayerControls)
-                    {
-                        if (PlayerControl.LocalPlayer.isDousedPlayer(ar))
-                        {
-                            __instance = ar;
-                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
-                        }
-                    }
+                    Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される

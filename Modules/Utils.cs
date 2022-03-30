@@ -411,6 +411,7 @@ namespace TownOfHost
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                    || seer.isArsonist()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -430,6 +431,10 @@ namespace TownOfHost
                             var taskState = target.getPlayerTaskState();
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                        }
+                        if (seer.isArsonist() && seer.isDousedPlayer(target))
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
