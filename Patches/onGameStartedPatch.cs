@@ -353,7 +353,7 @@ namespace TownOfHost
             for (var i = 0; i < count; i++)
             {
                 var player = players[rand.Next(0, players.Count)];
-                main.LoversPlayers[i] = player;
+                main.LoversPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                 Logger.info("役職設定:" + player.name + " = " + loversRole.ToString());
