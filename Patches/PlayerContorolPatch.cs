@@ -507,7 +507,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
+                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
                 {
                     if (main.DousedPlayerCount[__instance.PlayerId] == 0)
                     {
