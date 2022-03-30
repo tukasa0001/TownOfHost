@@ -492,11 +492,6 @@ namespace TownOfHost
             if (target == null) return false;
             if (main.isDoused == null) return false;
             main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
-            writer.Write(arsonist.PlayerId);
-            writer.Write(target.PlayerId);
-            writer.Write(isDoused);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
             return isDoused;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }

@@ -434,6 +434,11 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);
                         main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
                         main.DousedPlayerCount[__instance.PlayerId]--;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
+                        writer.Write(__instance.PlayerId);
+                        writer.Write(artarget.PlayerId);
+                        writer.Write(true);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
                         Utils.NotifyRoles();
                     }
                     else
