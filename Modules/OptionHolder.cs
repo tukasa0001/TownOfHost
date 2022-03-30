@@ -338,7 +338,7 @@ namespace TownOfHost
                 .SetGameMode(customGameMode);
 
             CustomRoleSpawnChances.Add(role, spawnOption);
-            CustomRoleCounts.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
         }
 
     }
