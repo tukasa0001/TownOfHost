@@ -52,7 +52,10 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
-            RoleText = getRoleName(cRole);
+            if (player.isSheriff())
+                RoleText = $"{getRoleName(cRole)} ({main.SheriffShotLimit[player.PlayerId]})";
+            else
+                RoleText = getRoleName(cRole);
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -388,8 +391,14 @@ namespace TownOfHost
                 string SeerRealName = seer.getRealName(isMeeting);
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+                string SelfRoleName = "";
+                if (seer.isSheriff())
+                    SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.SheriffShotLimit[seer.PlayerId]})</color>";
+                else
+                    SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
+                string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                SelfName = SelfRoleName += SelfName;
+                SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
