@@ -254,7 +254,8 @@ namespace TownOfHost
             switch (PlayerControl.LocalPlayer.getCustomRole())
             {
                 case CustomRoles.Sheriff:
-                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);

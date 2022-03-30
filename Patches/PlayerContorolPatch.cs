@@ -112,6 +112,24 @@ namespace TownOfHost
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
+    class CheckProtectPatch
+    {
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (!AmongUsClient.Instance.AmHost) return false;
+            Logger.SendToFile("CheckProtect発生: " + __instance.name + "=>" + target.name);
+            if (__instance.isSheriff())
+            {
+                if (__instance.Data.IsDead)
+                {
+                    Logger.info("守護をブロックしました。");
+                    return false;
+                }
+            }
+            return false;
+        }
+    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
@@ -164,10 +182,25 @@ namespace TownOfHost
                     return false;
                 }
 
+                if (main.SheriffShotLimit[__instance.PlayerId] == 0)
+                {
+                    //Logger.info($"シェリフ:{__instance.getRealName()}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
+                    //__instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
+                    //Utils.hasTasks(__instance.Data, false);
+                    //Utils.NotifyRoles();
+                    return false;
+                }
+
+                main.SheriffShotLimit[__instance.PlayerId]--;
+                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
+
                 if (!target.canBeKilledBySheriff())
                 {
                     PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Misfire);
                     __instance.RpcMurderPlayer(__instance);
+                    if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
+                        __instance.RpcMurderPlayer(target);
+
                     return false;
                 }
             }
