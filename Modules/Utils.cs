@@ -105,6 +105,7 @@ namespace TownOfHost
         {
             //Tasksがnullの場合があるのでその場合タスク無しとする
             if (p.Tasks == null) return false;
+            if (p.Role == null) return false;
 
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
