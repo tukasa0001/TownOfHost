@@ -476,6 +476,13 @@ namespace TownOfHost
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetSheriffKillLimit(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffKillLimit, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.SheriffShotLimit[player.PlayerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }

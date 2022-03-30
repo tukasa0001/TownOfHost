@@ -52,10 +52,9 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
+            RoleText = getRoleName(cRole);
             if (player.isSheriff())
-                RoleText = $"{getRoleName(cRole)} ({main.SheriffShotLimit[player.PlayerId]})";
-            else
-                RoleText = getRoleName(cRole);
+                RoleText += $" ({main.SheriffShotLimit[player.PlayerId]})";
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -447,7 +446,11 @@ namespace TownOfHost
                         }
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                        string TargetRoleText = "";
+                        if (target.isSheriff())
+                            TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
+                        else
+                            TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.getRealName(isMeeting);

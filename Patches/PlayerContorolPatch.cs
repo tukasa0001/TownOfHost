@@ -193,6 +193,7 @@ namespace TownOfHost
 
                 main.SheriffShotLimit[__instance.PlayerId]--;
                 Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
+                __instance.RpcSetSheriffKillLimit();
 
                 if (!target.canBeKilledBySheriff())
                 {
