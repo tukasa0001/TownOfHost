@@ -238,8 +238,8 @@ namespace TownOfHost
             SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
-            SetupRoleOptions(20600, CustomRoles.Doctor);
-            DoctorTaskCompletedVatteryCharge = CustomOption.Create(20610, Color.white, "DoctorTaskCompletedVatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
+            SetupRoleOptions(20700, CustomRoles.Doctor);
+            DoctorTaskCompletedVatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedVatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             // Other
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
