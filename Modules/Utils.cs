@@ -252,17 +252,20 @@ namespace TownOfHost
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.Data.IsDead)
+                    if (pc.isTerrorist())
+                    {
+                        if (PlayerState.getDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        {
+                            //キルされた場合は自爆扱い
+                            PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        }
+                    }
+                    else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.MurderPlayer(pc);
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.isDead[pc.PlayerId] = true;
-                    }
-                    if (pc.isTerrorist() && pc.Data.IsDead)
-                    {
-                        //キルされた場合は自爆扱い
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
                     }
                 }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
