@@ -78,7 +78,10 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
+        public static CustomOption SheriffCanKillCrewmatesAsIt;
+        public static CustomOption SheriffShotLimit;
         public static CustomOption CanTerroristSuicideWin;
+        public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -238,6 +241,8 @@ namespace TownOfHost
             SheriffCanKillJester = CustomOption.Create(20412, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
             // Other
             SetupRoleOptions(50000, CustomRoles.Jester);
@@ -245,7 +250,8 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
-            // Attribute
+            SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
+            CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             EnableLastImpostor = CustomOption.Create(80000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)

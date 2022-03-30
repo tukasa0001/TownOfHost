@@ -19,6 +19,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
+            if(PlayerControl.LocalPlayer == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
@@ -153,6 +154,15 @@ namespace TownOfHost
                 case CustomRoles.Lighter:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
                     break;
+                case CustomRoles.SchrodingerCat:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.CSchrodingerCat:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.CSchrodingerCat)}>{Utils.getRoleName(CustomRoles.CSchrodingerCat)}\r\n{getString("CSchrodingerCatInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.MSchrodingerCat:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MSchrodingerCat)}>{Utils.getRoleName(CustomRoles.MSchrodingerCat)}\r\n{getString("MSchrodingerCatInfo")}</color>\r\n";
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
@@ -245,7 +255,8 @@ namespace TownOfHost
             switch (PlayerControl.LocalPlayer.getCustomRole())
             {
                 case CustomRoles.Sheriff:
-                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
