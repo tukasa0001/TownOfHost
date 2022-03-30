@@ -40,6 +40,8 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
+            FireWorks.Init(Options.FireWorksMaxCount.GetSelection(), Options.FireWorksRadius.GetFloat());
+
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -231,6 +233,7 @@ namespace TownOfHost
                     }
                 }
 
+                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
@@ -282,6 +285,7 @@ namespace TownOfHost
                         main.CursedPlayers.Add(pc.PlayerId, null);
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
+                    if (pc.Is(CustomRoles.FireWorks)) FireWorks.Add(pc.PlayerId);
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                 }
 

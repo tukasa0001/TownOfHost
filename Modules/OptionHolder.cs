@@ -51,6 +51,8 @@ namespace TownOfHost
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
         public static CustomOption BHDefaultKillCooldown;
+        public static CustomOption FireWorksMaxCount;
+        public static CustomOption FireWorksRadius;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
         public static CustomOption VampireKillDelay;
@@ -194,6 +196,7 @@ namespace TownOfHost
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            FireWorks.SetupCustomOption();
             SetupRoleOptions(1100, CustomRoles.SerialKiller);
             SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
@@ -312,7 +315,7 @@ namespace TownOfHost
             IsLoaded = true;
         }
 
-        private static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
+        public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)

@@ -19,7 +19,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
-            var TaskTextPrefix = "";
+             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -65,6 +65,12 @@ namespace TownOfHost
                 var ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
                 LowerInfoText.enabled = true;
+            }
+            else if (PlayerControl.LocalPlayer.Is(CustomRoles.FireWorks))
+            {
+                var text = FireWorks.GetStateText(PlayerControl.LocalPlayer);
+                LowerInfoText.text = text;
+                LowerInfoText.enabled = text!="";
             }
             else
             {

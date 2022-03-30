@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -87,6 +87,7 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static int AliveImpostorsCount;
+
         public static List<CustomRoles> CrewmateRoles = new()
         {
             CustomRoles.Crewmate,
@@ -139,6 +140,14 @@ namespace TownOfHost
             CustomRoles.Mafia,
             CustomRoles.SerialKiller,
             CustomRoles.Warlock,
+        };
+        public static List<CustomRoles> CanmakeSKMadmateRoles = new()
+        {
+            CustomRoles.Shapeshifter,
+            CustomRoles.BountyHunter,
+            CustomRoles.Mafia,
+            CustomRoles.SerialKiller,
+            CustomRoles.ShapeMaster,
         };
 
         public static main Instance;
@@ -284,6 +293,7 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        FireWorks,
         Fox,
         Troll,
         // Sub-roll after 500

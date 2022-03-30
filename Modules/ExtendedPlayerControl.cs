@@ -147,8 +147,9 @@ namespace TownOfHost
 
             if (role == CustomRoles.Mafia)
             {
-                if (main.AliveImpostorsCount !=1) canUse = false;
+                if (main.AliveImpostorsCount != 1) canUse = false;
             }
+            if (player.Is(CustomRoles.FireWorks)) canUse = FireWorks.CanUseKillButton(player);
             return canUse;
         }
         public static bool canBeKilledBySheriff(this PlayerControl player)

@@ -15,6 +15,7 @@ namespace TownOfHost
         PlaySound,
         SetCustomRole,
         SetBountyTarget,
+        SendFireWorksState,
         SetKillOrSpell,
         AddNameColorData,
         RemoveNameColorData,
@@ -204,6 +205,11 @@ namespace TownOfHost
                     break;
                 case (byte)CustomRPC.ResetNameColorData:
                     RPC.ResetNameColorData();
+                    break;
+                case (byte)CustomRPC.SendFireWorksState:
+                    byte fireWorksID=reader.ReadByte();
+                    int state= reader.ReadInt32();
+                    FireWorks.RecieveState(fireWorksID, state);
                     break;
             }
         }

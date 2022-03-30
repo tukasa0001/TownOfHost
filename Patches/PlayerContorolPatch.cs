@@ -87,7 +87,11 @@ namespace TownOfHost
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetSelection() > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
+            if (__instance.Is(CustomRoles.FireWorks))
+            {
+                FireWorks.ShapeShiftCheck(__instance, main.CheckShapeshift[__instance.PlayerId]);
+            }
+            if (Options.CanMakeMadmateCount.GetSelection() > main.SKMadmateNowCount && main.CanmakeSKMadmateRoles.Contains(__instance.getCustomRole()) && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
