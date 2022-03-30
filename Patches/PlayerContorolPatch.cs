@@ -269,6 +269,7 @@ namespace TownOfHost
             //シュレディンガーの猫が切られた場合の役職変化スタート
             if (target.isSchrodingerCat())
             {
+                if (__instance.isArsonist()) return false;
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (__instance.getCustomRole().isImpostor())
