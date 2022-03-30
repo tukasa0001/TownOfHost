@@ -32,7 +32,7 @@ namespace TownOfHost
             [HarmonyArgument(1)] ref bool canUse,
             [HarmonyArgument(2)] ref bool couldUse)
         {
-            if (pc.Object.isSheriff())
+            if (pc.Object.isSheriff() || pc.Object.isArsonist())
                 canUse = couldUse = false;
         }
     }
