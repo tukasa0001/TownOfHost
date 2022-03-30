@@ -76,6 +76,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
+        public static CustomOption SpeedBoosterUpSpeed;
         public static CustomOption CanTerroristSuicideWin;
 
         // HideAndSeek
@@ -237,6 +238,8 @@ namespace TownOfHost
             SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
+            SetupRoleOptions(20600, CustomRoles.SpeedBooster);
+            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f,0.25f,10f,0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             // Other
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);

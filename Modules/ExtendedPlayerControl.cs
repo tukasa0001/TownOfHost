@@ -269,6 +269,33 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.SpeedBooster:
+                    Logger.info("スピードブースターチェック");
+                    if (player.getPlayerTaskState().isTaskFinished)
+                    {
+                        Logger.info("スピードブースタースピードアップ");
+                        
+                        if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                        {
+                            var rand = new System.Random();
+                            List<PlayerControl> targetplayers = new List<PlayerControl>();
+                            //切断者を除外
+                            foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                            {
+                                if (!p.Data.Disconnected) targetplayers.Add(p);
+                            }
+                            //ターゲットが0ならアップ先をプレイヤーをnullに
+                            if (targetplayers.Count >= 1) {
+                                PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                                Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
+                                main.SpeedBoostTarget.Add(player.PlayerId, target);
+                            } else
+                            {
+                                main.SpeedBoostTarget.Add(player.PlayerId, null);
+                            }
+                        }
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -294,6 +321,10 @@ namespace TownOfHost
                         }
                     }
                     break;
+            }
+            if (main.SpeedBoostTarget.ContainsValue(player))
+            {
+                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -499,5 +530,6 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
     }
 }
