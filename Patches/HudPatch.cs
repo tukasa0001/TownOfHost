@@ -228,7 +228,7 @@ namespace TownOfHost
         {
             if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) && !PlayerControl.LocalPlayer.Data.IsDead)
             {
-                ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+                ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
             }
         }
     }

@@ -488,6 +488,9 @@ namespace TownOfHost
         }
         public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
+            if (arsonist == null) return false;
+            if (target == null) return false;
+            if (main.isDoused == null) return false;
             bool isDoused = main.isDoused[(arsonist.PlayerId, target.PlayerId)];
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
             writer.Write(arsonist.PlayerId);

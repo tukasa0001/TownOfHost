@@ -459,6 +459,7 @@ namespace TownOfHost
                         writer.Write(__instance.PlayerId);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
                         RPC.ArsonistWin(__instance.PlayerId);
+                        main.DousedPlayerCount[__instance.PlayerId] = 1;
                     }
                     else
                     {
