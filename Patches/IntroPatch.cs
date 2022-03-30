@@ -82,6 +82,10 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
 
+                case CustomRoles.SchrodingerCat:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+                    break;
+
             }
 
             if (Input.GetKey(KeyCode.RightShift))

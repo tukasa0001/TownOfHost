@@ -57,13 +57,14 @@ namespace TownOfHost
 
         public static CustomRoles getCustomRole(this PlayerControl player)
         {
+            var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
                 Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
-                return CustomRoles.Crewmate;
+                return cRole;
             }
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
-            if (cRoleFound) return cRole;
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
+            if (cRoleFound || player.Data.Role == null) return cRole;
 
             switch (player.Data.Role.Role)
             {
@@ -149,6 +150,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillTerrorist.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
+                case CustomRoles.SchrodingerCat:
+                    return true;
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
@@ -507,5 +510,8 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
+        public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
+        public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
     }
 }

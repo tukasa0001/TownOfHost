@@ -47,7 +47,7 @@
 | [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター) | [Bait/ベイト](###Bait/ベイト) | [Jester/ジェスター](###Jester/ジェスター) |
 | [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー) | [Mayor/メイヤー](###Mayor/メイヤー) | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト) |
 | [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター) | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト) |
-| [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) |  |
+| [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
 | [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
@@ -271,6 +271,8 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 | シェリフが[ジェスター](###Jester/ジェスター)をキルできる |
 | シェリフが[テロリスト](###Terrorist/テロリスト)をキルできる |
 | シェリフが[オポチュニスト](###Opportunist/オポチュニスト)をキルできる |
+| シェリフがクルーをそのままキルできる |
+| シェリフのキル可能回数 |
 
 ### Snitch/スニッチ
 
@@ -306,6 +308,29 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職です。<br>
 タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となります。<br>
+
+### SchrodingerCat/シュレディンガーの猫
+
+陣営 : 第三<br>
+判定 : クルーメイト<br>
+勝利条件 : なし<br>
+
+デフォルトでは勝利条件を持たず、条件を満たすと初めて勝利条件を持ちます。<br>
+
+1.インポスターにキルされるとキルを防いでインポスター陣営となる<br>
+2.シェリフにキルされるとキルを防いでクルー陣営となる<br>
+3.第三陣営にキルされるとキルを防いで第三陣営となる<br>
+4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br>
+5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br>
+6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
+
+また、全シュレディンガーの猫共通でタスクがありません。
+
+#### 設定
+
+| 設定名 |
+|----------|
+| 役職変化前であれば、クルー陣営と勝利できる |
 
 ## モード
 
@@ -420,6 +445,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
 [オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

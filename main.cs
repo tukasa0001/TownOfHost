@@ -49,6 +49,7 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> BlockKilling;
+        public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -171,6 +172,9 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.SchrodingerCat, "#696969"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
@@ -236,6 +240,9 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         Fox,
         Troll,
         // Sub-roll after 500
@@ -256,6 +263,7 @@ namespace TownOfHost
     {
         None = 0,
         Opportunist,
+        SchrodingerCat,
         Fox
     }
     /*public enum CustomRoles : byte
