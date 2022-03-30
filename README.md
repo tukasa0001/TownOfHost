@@ -50,7 +50,7 @@
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) |  |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
-| [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [Mafia/マフィア](###Mafia/マフィア) | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター) |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |

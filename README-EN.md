@@ -52,7 +52,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
