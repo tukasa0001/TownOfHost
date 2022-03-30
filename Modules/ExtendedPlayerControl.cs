@@ -270,28 +270,30 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.SpeedBooster:
-                    Logger.info("スピードブースターチェック");
-                    if (player.getPlayerTaskState().isTaskFinished)
+                    if (!player.Data.IsDead)
                     {
-                        Logger.info("スピードブースタースピードアップ");
-                        
-                        if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                        if (player.getPlayerTaskState().isTaskFinished)
                         {
-                            var rand = new System.Random();
-                            List<PlayerControl> targetplayers = new List<PlayerControl>();
-                            //切断者を除外
-                            foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                            if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
                             {
-                                if (!p.Data.Disconnected) targetplayers.Add(p);
-                            }
-                            //ターゲットが0ならアップ先をプレイヤーをnullに
-                            if (targetplayers.Count >= 1) {
-                                PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
-                                main.SpeedBoostTarget.Add(player.PlayerId, target);
-                            } else
-                            {
-                                main.SpeedBoostTarget.Add(player.PlayerId, null);
+                                var rand = new System.Random();
+                                List<PlayerControl> targetplayers = new List<PlayerControl>();
+                                //切断者と死亡者を除外
+                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                                {
+                                    if (!p.Data.Disconnected && !p.Data.IsDead && !main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                                }
+                                //ターゲットが0ならアップ先をプレイヤーをnullに
+                                if (targetplayers.Count >= 1)
+                                {
+                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                                    //Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
+                                    main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                                }
+                                else
+                                {
+                                    main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                                }
                             }
                         }
                     }
@@ -322,7 +324,7 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (main.SpeedBoostTarget.ContainsValue(player))
+            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
             {
                 opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
             }

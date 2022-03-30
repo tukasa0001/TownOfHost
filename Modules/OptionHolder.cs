@@ -239,7 +239,7 @@ namespace TownOfHost
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f,0.25f,10f,0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
+            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f,0.25f,3f,0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             // Other
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);

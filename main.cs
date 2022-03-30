@@ -73,7 +73,7 @@ namespace TownOfHost
         public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
-        public static Dictionary<byte, PlayerControl> SpeedBoostTarget = new Dictionary<byte, PlayerControl>();
+        public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
