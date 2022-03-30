@@ -257,10 +257,12 @@ namespace TownOfHost
                 case "li":
                     Utils.SendMessage(getString("LighterInfoLong"));
                     break;
+
                 case "SpeedBooster":
                 case "sb":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
                     break;
+
                 case "fox":
                 case "fo":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox) + getString("FoxInfoLong"));
