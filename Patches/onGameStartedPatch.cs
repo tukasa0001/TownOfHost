@@ -338,18 +338,25 @@ namespace TownOfHost
                 main.LoversPlayers.Clear();
                 main.isLoversDead = false;
                 //ランダムに2人選出
-                AssignLoversRoles();
+                AssignLoversRoles(2);
             }
         }
-        private static void AssignLoversRoles()
+        private static void AssignLoversRoles(int RawCount = -1)
         {
-            int[] randList = Calculation.GetRandomlySelectedMultiple(0, PlayerControl.AllPlayerControls.Count, 2);
-            foreach (int i in randList)
+            var loversRole = CustomRoles.Lovers;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, PlayerControl.AllPlayerControls.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.getCount(), 0, PlayerControl.AllPlayerControls.Count);
+            if (count <= 0) return;
+
+            var players = PlayerControl.AllPlayerControls;
+            for (var i = 0; i < count; i++)
             {
-                var player = PlayerControl.AllPlayerControls[i];
-                main.AllPlayerCustomSubRoles[player.PlayerId] = CustomRoles.Lovers;
-                main.LoversPlayers.Add(player);
-                Logger.info("役職設定:" + player.name + " = " + CustomRoles.Lovers.ToString());
+                var player = players[rand.Next(0, players.Count)];
+                main.LoversPlayers[i] = player;
+                players.Remove(player);
+                main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Logger.info("役職設定:" + player.name + " = " + loversRole.ToString());
             }
         }
     }
