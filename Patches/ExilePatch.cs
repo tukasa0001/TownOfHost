@@ -35,6 +35,7 @@ namespace TownOfHost
             }
             if (exiled != null)
             {
+                main.ps.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -47,7 +48,6 @@ namespace TownOfHost
                 {
                     main.CheckTerroristWin(exiled);
                 }
-                main.ps.setDeathReason(exiled.PlayerId,PlayerState.DeathReason.Vote);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
             {
