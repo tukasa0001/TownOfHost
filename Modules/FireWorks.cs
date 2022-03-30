@@ -50,6 +50,12 @@ namespace TownOfHost
         public static void Init(int _maxFireWorksCount, float _fireWorksRadius)
         {
             var instance=GetInstance();
+
+            instance.playerIdList = new();
+            instance.nowFireWorksCount = new();
+            instance.fireWorksPosition = new();
+            instance.state = new();
+            instance.fireWorksBombKill = new();
             instance.maxFireWorksCount = _maxFireWorksCount;
             instance.fireWorksRadius = _fireWorksRadius;
         }
