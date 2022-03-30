@@ -166,7 +166,7 @@ namespace TownOfHost
                     Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
                 }
             }
-            if (__instance.isSerialKiller())
+            if (__instance.isSerialKiller() && !target.isSchrodingerCat())
             {
                 __instance.RpcMurderPlayer(target);
                 __instance.RpcGuardAndKill(target);
@@ -231,7 +231,7 @@ namespace TownOfHost
                 Utils.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.isWarlock())
+            if (__instance.isWarlock() && !target.isSchrodingerCat())
             {
                 if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
@@ -252,12 +252,29 @@ namespace TownOfHost
                 if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);
                 return false;
             }
-            if (__instance.isVampire() && !target.isBait())
+            if (__instance.isVampire() && !target.isBait() && !target.isSchrodingerCat())
             { //キルキャンセル&自爆処理
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            //シュレディンガーの猫が切られた場合の役職変化スタート
+            if (target.isSchrodingerCat())
+            {
+                __instance.RpcGuardAndKill(target);
+                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                if (__instance.getCustomRole().isImpostor())
+                {
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                }
+                if (__instance.isSheriff())
+                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                Utils.NotifyRoles();
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            //シュレディンガーの猫の役職変化処理終了
+            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
 
             //==キル処理==
@@ -354,7 +371,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                //Vampireの処理
+             //Vampireの処理
                 if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                 {
                     //__instance:キルされる予定のプレイヤー

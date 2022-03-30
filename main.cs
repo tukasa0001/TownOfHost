@@ -169,6 +169,9 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.SchrodingerCat, "#696969"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
@@ -231,6 +234,9 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         Fox,
         Troll,
         // Sub-roll after 500
@@ -251,6 +257,7 @@ namespace TownOfHost
     {
         None = 0,
         Opportunist,
+        SchrodingerCat,
         Fox
     }
     /*public enum CustomRoles : byte

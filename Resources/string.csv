@@ -18,6 +18,9 @@ MadSnitch,MadSnitch,マッドスニッチ
 SKMadmate,SideKickMadmate,サイドキックマッドメイト
 Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
+SchrodingerCat,SchrodingerCat,シュレディンガーの猫
+CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
 Bait,Bait,ベイト
 Lighter,Lighter,ライター
@@ -43,6 +46,9 @@ MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、�
 SKMadmateInfo,You are Sidekick,サイドキックにされた
 JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
+SchrodingerCatInfo,You belong to the team that got killed,殺された陣営に所属しろ
+CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方になった
+MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 BaitInfo,Bait your enemies,敵を罠にはめよう
 LighterInfo,Let's light it all up,すべてを照らそう
@@ -65,6 +71,7 @@ MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey ca
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
 TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
 LighterInfoLong,"(Crewmates):\nFinishing a task can expand one's view.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。
@@ -111,6 +118,7 @@ SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイト
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
+CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール

@@ -288,6 +288,29 @@ They are the Neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
+### SchrodingerCat
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : None<br>
+
+By default, it has no victory condition, and only when the condition is met does it have a victory condition.<br>
+
+1.If you are killed by an Imposter, you prevent a kill and become an Imposter.<br>
+2.If you are killed by a sheriff, you prevent a kill and become a crewmate.<br>
+3.If you are killed by a neutral, you prevent the kill and become a neutral.<br>
+4.If you are expelled, your position does not change and you die with the same victory conditions as before.<br>
+5.If you are killed by a warlock's ability, the victory condition remains the same and you die.<br>
+6.If a player is killed by suicide kills (except vampire kills), the victory condition remains the same and the player dies.<br>
+
+Also common to all Schrodinger's cats, there are no tasks.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| SchrodingerCat Before The Change CanWin As A Crewmate Team |
+
 ## Mode
 
 ### DisableTasks
@@ -401,6 +424,7 @@ If the client language is English, this setting is meaningless unless the host h
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
