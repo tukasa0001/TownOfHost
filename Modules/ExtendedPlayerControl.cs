@@ -151,6 +151,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillTerrorist.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
+                case CustomRoles.Arsonist:
+                    return Options.SheriffCanKillArsonist.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -261,7 +263,17 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
-                    goto DefaultKillcooldown;
+                    break;
+                case CustomRoles.Arsonist:
+                    opt.ImpostorLightMod = opt.CrewLightMod;
+                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystema != null && switchSystema.IsActive)
+                    {
+                        opt.ImpostorLightMod /= 5;
+                    }
+                    if (!main.ArsonistKillCooldownCheck) opt.KillCooldown = Options.ArsonistCooldown.GetFloat() * 2;
+                    if (main.ArsonistKillCooldownCheck) opt.KillCooldown = 10f;
+                    break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
                     {
@@ -493,7 +505,8 @@ namespace TownOfHost
         {
             bool canUse =
                 pc.getCustomRole().isImpostor() ||
-                pc.isSheriff();
+                pc.isSheriff() ||
+                pc.isArsonist();
 
             if (pc.isMafia())
             {
@@ -512,6 +525,13 @@ namespace TownOfHost
                 main.AliveImpostorCount == 1)
                 return true;
             return false;
+        public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
+        {
+            if (arsonist == null) return false;
+            if (target == null) return false;
+            if (main.isDoused == null) return false;
+            main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
+            return isDoused;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
@@ -538,6 +558,7 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }

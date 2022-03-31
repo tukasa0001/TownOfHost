@@ -84,6 +84,7 @@ namespace TownOfHost
                     main.CursedPlayers[wr.PlayerId] = (null);
                     main.isCurseAndKill[wr.PlayerId] = false;
                 }
+                if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
             }
             main.BountyMeetingCheck = true;
             Utils.CountAliveImpostors();

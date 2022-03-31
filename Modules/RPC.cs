@@ -11,11 +11,13 @@ namespace TownOfHost
         SyncCustomSettings = 80,
         JesterExiled,
         TerroristWin,
+        ArsonistWin,
         EndGame,
         PlaySound,
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData
@@ -71,6 +73,7 @@ namespace TownOfHost
                     bool SabotageMasterFixesCommunications = reader.ReadBoolean();
                     bool SabotageMasterFixesElectrical = reader.ReadBoolean();
                     int SheriffKillCooldown = reader.ReadInt32();
+                    bool SheriffCanKillArsonist = reader.ReadBoolean();
                     bool SheriffCanKillJester = reader.ReadBoolean();
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
@@ -79,6 +82,8 @@ namespace TownOfHost
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
                     int whenNonVote = reader.ReadInt32();
+                    int ArsonistDouseTime = reader.ReadInt32();
+                    int ArsonistCooldown = reader.ReadInt32();
                     bool canTerroristSuicideWin = reader.ReadBoolean();
                     bool RandomMapsMode = reader.ReadBoolean();
                     bool AddedTheSkeld = reader.ReadBoolean();
@@ -126,6 +131,7 @@ namespace TownOfHost
                         SabotageMasterFixesCommunications,
                         SabotageMasterFixesElectrical,
                         SheriffKillCooldown,
+                        SheriffCanKillArsonist,
                         SheriffCanKillJester,
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
@@ -144,6 +150,8 @@ namespace TownOfHost
                         SyncedButtonCount,
                         whenSkipVote,
                         whenNonVote,
+                        ArsonistDouseTime,
+                        ArsonistCooldown,
                         canTerroristSuicideWin,
                         RandomMapsMode,
                         AddedTheSkeld,
@@ -173,6 +181,10 @@ namespace TownOfHost
                     byte wonTerrorist = reader.ReadByte();
                     RPC.TerroristWin(wonTerrorist);
                     break;
+                case (byte)CustomRPC.ArsonistWin:
+                    byte wonArsonist = reader.ReadByte();
+                    RPC.ArsonistWin(wonArsonist);
+                    break;
                 case (byte)CustomRPC.EndGame:
                     RPC.EndGame();
                     break;
@@ -196,6 +208,12 @@ namespace TownOfHost
                     byte playerId = reader.ReadByte();
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
+                    break;
+                case (byte)CustomRPC.SetDousedPlayer:
+                    byte ArsonistId = reader.ReadByte();
+                    byte DousedId = reader.ReadByte();
+                    bool doused = reader.ReadBoolean();
+                    main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
                 case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
@@ -234,6 +252,7 @@ namespace TownOfHost
                 bool SabotageMasterFixesCommunications,
                 bool SabotageMasterFixesElectrical,
                 int SheriffKillCooldown,
+                bool SheriffCanKillArsonist,
                 bool SheriffCanKillJester,
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
@@ -252,6 +271,8 @@ namespace TownOfHost
                 int SyncedButtonCount,
                 int whenSkipVote,
                 int whenNonVote,
+                int ArsonistDouseTime,
+                int ArsonistCooldown,
                 bool canTerroristSuicideWin,
                 bool RandomMapsMode,
                 bool AddedTheSkeld,
@@ -301,6 +322,7 @@ namespace TownOfHost
             Options.SabotageMasterFixesElectrical.UpdateSelection(SabotageMasterFixesElectrical);
 
             Options.SheriffKillCooldown.UpdateSelection(SheriffKillCooldown);
+            Options.SheriffCanKillArsonist.UpdateSelection(SheriffCanKillArsonist);
             Options.SheriffCanKillJester.UpdateSelection(SheriffCanKillJester);
             Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
             Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
@@ -322,6 +344,8 @@ namespace TownOfHost
 
             Options.WhenSkipVote.UpdateSelection(whenSkipVote);
             Options.WhenNonVote.UpdateSelection(whenNonVote);
+            Options.ArsonistDouseTime.UpdateSelection(ArsonistDouseTime);
+            Options.ArsonistCooldown.UpdateSelection(ArsonistCooldown);
             Options.CanTerroristSuicideWin.UpdateSelection(canTerroristSuicideWin);
 
             Options.RandomMapsMode.UpdateSelection(RandomMapsMode);
@@ -375,6 +399,7 @@ namespace TownOfHost
             writer.Write(Options.SabotageMasterFixesComms.GetBool());
             writer.Write(Options.SabotageMasterFixesElectrical.GetBool());
             writer.Write(Options.SheriffKillCooldown.GetSelection());
+            writer.Write(Options.SheriffCanKillArsonist.GetBool());
             writer.Write(Options.SheriffCanKillJester.GetBool());
             writer.Write(Options.SheriffCanKillTerrorist.GetBool());
             writer.Write(Options.SheriffCanKillOpportunist.GetBool());
@@ -383,6 +408,8 @@ namespace TownOfHost
             writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.WhenSkipVote.GetSelection());
             writer.Write((int)Options.WhenNonVote.GetSelection());
+            writer.Write(Options.ArsonistDouseTime.GetSelection());
+            writer.Write(Options.ArsonistCooldown.GetSelection());
             writer.Write(Options.CanTerroristSuicideWin.GetBool());
             writer.Write(Options.RandomMapsMode.GetBool());
             writer.Write(Options.AddedTheSkeld.GetBool());
@@ -472,6 +499,32 @@ namespace TownOfHost
                 if (p.PlayerId == terroristID) Terrorist = p;
                 if (p.Data.Role.IsImpostor)
                 {
+                    Impostors.Add(p);
+                }
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var imp in Impostors)
+                {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
+            }
+        }
+        public static void ArsonistWin(byte arsonistID)
+        {
+            main.WonArsonistID = arsonistID;
+            main.currentWinner = CustomWinner.Arsonist;
+            PlayerControl Arsonist = null;
+            PlayerControl Imp = null;
+            List<PlayerControl> Impostors = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p.PlayerId == arsonistID) Arsonist = p;
+                if (p.Data.Role.IsImpostor)
+                {
+                    if (Imp == null) Imp = p;
                     Impostors.Add(p);
                 }
             }
