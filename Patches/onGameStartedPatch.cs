@@ -52,6 +52,13 @@ namespace TownOfHost
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
+
+                if (!__instance.AmHost || pc.isSheriff())
+                {
+                    main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                    pc.RpcSetSheriffShotLimit();
+                    Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                }
             }
             if (__instance.AmHost)
             {
@@ -66,6 +73,16 @@ namespace TownOfHost
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
+            else
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.isSheriff())
+                    {
+                        main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        pc.RpcSetSheriffShotLimit();
+                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                    }
+                }
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -308,6 +325,7 @@ namespace TownOfHost
                     if (pc.isSheriff())
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        pc.RpcSetSheriffShotLimit();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
                     if (pc.isBountyHunter())
