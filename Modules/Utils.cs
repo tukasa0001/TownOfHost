@@ -107,6 +107,7 @@ namespace TownOfHost
         {
             //Tasksがnullの場合があるのでその場合タスク無しとする
             if (p.Tasks == null) return false;
+            if (p.Role == null) return false;
 
             var hasTasks = true;
             if (p.Disconnected) hasTasks = false;
@@ -136,6 +137,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.Arsonist) hasTasks = false;
                     if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
@@ -254,17 +256,20 @@ namespace TownOfHost
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.Data.IsDead)
+                    if (pc.isTerrorist())
+                    {
+                        if (PlayerState.getDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        {
+                            //キルされた場合は自爆扱い
+                            PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        }
+                    }
+                    else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.MurderPlayer(pc);
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.isDead[pc.PlayerId] = true;
-                    }
-                    if (pc.isTerrorist() && pc.Data.IsDead)
-                    {
-                        //キルされた場合は自爆扱い
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
                     }
                 }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
@@ -386,6 +391,7 @@ namespace TownOfHost
                     if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + getString("WitchModeSpell");
                 }
 
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.getRealName(isMeeting);
 
@@ -424,6 +430,7 @@ namespace TownOfHost
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
+                    || seer.isArsonist()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -443,6 +450,10 @@ namespace TownOfHost
                             var taskState = target.getPlayerTaskState();
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                        }
+                        if (seer.isArsonist() && seer.isDousedPlayer(target))
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。

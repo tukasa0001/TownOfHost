@@ -32,6 +32,7 @@ namespace TownOfHost
                 role == CustomRoles.Opportunist ||
                 role == CustomRoles.SchrodingerCat ||
                 role == CustomRoles.Terrorist ||
+                role == CustomRoles.Arsonist ||
                 role == CustomRoles.Troll ||
                 role == CustomRoles.Fox;
         }
@@ -49,7 +50,8 @@ namespace TownOfHost
         {
             bool canUse =
                 role.isImpostor() ||
-                role == CustomRoles.Sheriff;
+                role == CustomRoles.Sheriff ||
+                role == CustomRoles.Arsonist;
 
             if (role == CustomRoles.Mafia)
             {

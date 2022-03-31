@@ -28,6 +28,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
+                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -49,7 +50,7 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
-                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                PlayerState.isDead[exiled.PlayerId] = true;
             }
             if (exiled == null && main.SpelledPlayer != null)
             {
@@ -83,6 +84,7 @@ namespace TownOfHost
                     main.CursedPlayers[wr.PlayerId] = (null);
                     main.isCurseAndKill[wr.PlayerId] = false;
                 }
+                if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
             }
             main.BountyMeetingCheck = true;
             Utils.CustomSyncAllSettings();
