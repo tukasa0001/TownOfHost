@@ -95,7 +95,7 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
-BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
+BountyTargetChangeTime,Bounty Target Change Time\n(Added to Bounty Failure Kill Cooldown),バウンティハンターのターゲット変更時間\n(ターゲット以外殺害時のキルクールダウンにプラス)
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
 BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール

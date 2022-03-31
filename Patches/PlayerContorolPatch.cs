@@ -447,7 +447,7 @@ namespace TownOfHost
                 //バウハンのキルクールの変換とターゲットのリセット
                 if (main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat())//時間経過でターゲットをリセットする処理
+                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat())//時間経過でターゲットをリセットする処理
                     {
                         main.BountyMeetingCheck = false;
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill

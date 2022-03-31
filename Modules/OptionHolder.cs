@@ -197,7 +197,7 @@ namespace TownOfHost
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
-            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 150, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 10, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             SetupRoleOptions(1100, CustomRoles.SerialKiller);

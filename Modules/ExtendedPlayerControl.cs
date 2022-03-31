@@ -223,7 +223,7 @@ namespace TownOfHost
                     opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
                     if (main.BountyMeetingCheck)
                     {//会議後のキルクール
                         opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
