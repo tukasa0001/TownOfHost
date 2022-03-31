@@ -247,9 +247,9 @@ namespace TownOfHost
             SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
             // Other
-            SetupRoleOptions(50400, CustomRoles.Arsonist);
-            ArsonistDouseTime = CustomOption.Create(50410, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
-            ArsonistCooldown = CustomOption.Create(50411, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            SetupRoleOptions(50500, CustomRoles.Arsonist);
+            ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
