@@ -192,7 +192,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.isSheriff() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
+            ((PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist()) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }

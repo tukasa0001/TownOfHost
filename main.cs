@@ -74,9 +74,13 @@ namespace TownOfHost
         public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
+        public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
+        public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
+        public static bool ArsonistKillCooldownCheck;
         public static bool isShipStart;
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;
@@ -84,6 +88,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -124,6 +129,9 @@ namespace TownOfHost
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
+            isDoused = new Dictionary<(byte, byte), bool>();
+            DousedPlayerCount = new Dictionary<byte, int>();
+            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -172,6 +180,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
@@ -240,6 +249,7 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        Arsonist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
@@ -257,6 +267,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Arsonist,
         Troll
     }
     public enum AdditionalWinners

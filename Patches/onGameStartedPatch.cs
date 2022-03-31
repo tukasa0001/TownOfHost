@@ -18,6 +18,10 @@ namespace TownOfHost
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
+            main.isDoused = new Dictionary<(byte, byte), bool>();
+            main.DousedPlayerCount = new Dictionary<byte, int>();
+            main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            main.ArsonistKillCooldownCheck = true;
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -122,6 +126,34 @@ namespace TownOfHost
                             sheriff.RpcSetRole(RoleTypes.Crewmate);
                         }
                         sheriff.Data.IsDead = true;
+                    }
+                }
+                if (CustomRoles.Arsonist.isEnable())
+                {
+                    for (var i = 0; i < CustomRoles.Arsonist.getCount(); i++)
+                    {
+                        if (AllPlayers.Count <= 0) break;
+                        var arsonist = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                        AllPlayers.Remove(arsonist);
+                        main.AllPlayerCustomRoles[arsonist.PlayerId] = CustomRoles.Arsonist;
+                        //ここからDesyncが始まる
+                        if (arsonist.PlayerId != 0)
+                        {
+                            //ただしホスト、お前はDesyncするな。
+                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == arsonist) continue;
+                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                            }
+                        }
+                        else
+                        {
+                            //ホストは代わりに普通のクルーにする
+                            arsonist.RpcSetRole(RoleTypes.Crewmate);
+                        }
+                        arsonist.Data.IsDead = true;
                     }
                 }
             }
@@ -304,6 +336,14 @@ namespace TownOfHost
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
+                    if (pc.isArsonist())
+                    {
+                        main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
+                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        {
+                            main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                        }
+                    }
                 }
 
                 //役職の人数を戻す

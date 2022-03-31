@@ -48,7 +48,7 @@
 | [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー) | [Mayor/メイヤー](###Mayor/メイヤー) | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト) |
 | [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター) | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト) |
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
-| [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) |  |
+| [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) | [Arsonist/アーソニスト](###Arsonist/アーソニスト) |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
 | [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
 | [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) |  |  |
@@ -268,6 +268,8 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 | 設定名 |
 |----------|
+| シェリフが[アーソニスト](###Arsonist/アーソニスト)をキルできる |
+| シェリフが[マッドメイト](###Madmate/マッドメイト)をキルできる |
 | シェリフが[ジェスター](###Jester/ジェスター)をキルできる |
 | シェリフが[テロリスト](###Terrorist/テロリスト)をキルできる |
 | シェリフが[オポチュニスト](###Opportunist/オポチュニスト)をキルできる |
@@ -308,6 +310,22 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 自身のタスクを全て完了させた状態で死亡したときに単独勝利となる第三陣営の役職です。<br>
 タスクを完了させずに死亡したり、死亡しないまま試合が終了すると敗北となります。<br>
+
+### Arsonist/アーソニスト
+
+陣営 : 第三<br>
+判定 : インポスター<br>
+勝利条件 : 生存者全員にオイルをかけること
+
+キルボタンを押して、一定時間近くに居ると、相手にオイルが塗れます。<br>
+生存者全員にオイルを塗ったら単独勝利します。それ以外では敗北します。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| 塗りつけるのに必要な時間 |
+| 塗るためのクールダウン |
 
 ### SchrodingerCat/シュレディンガーの猫
 

@@ -258,9 +258,18 @@ namespace TownOfHost
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
+            if (__instance.isArsonist())
+            {
+                main.ArsonistKillCooldownCheck = true;
+                Utils.CustomSyncAllSettings();
+                __instance.RpcGuardAndKill(target);
+                if (!main.isDoused[(__instance.PlayerId, target.PlayerId)]) main.ArsonistTimer.Add(__instance.PlayerId, (target, 0f));
+                return false;
+            }
             //シュレディンガーの猫が切られた場合の役職変化スタート
             if (target.isSchrodingerCat())
             {
+                if (__instance.isArsonist()) return false;
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (__instance.getCustomRole().isImpostor())
@@ -465,6 +474,61 @@ namespace TownOfHost
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
+                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))
+                {
+                    var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;
+                    if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())
+                    {
+                        __instance.RpcGuardAndKill(artarget);
+                        main.ArsonistKillCooldownCheck = false;
+                        Utils.CustomSyncAllSettings();
+                        main.ArsonistTimer.Remove(__instance.PlayerId);
+                        main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
+                        main.DousedPlayerCount[__instance.PlayerId]--;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
+                        writer.Write(__instance.PlayerId);
+                        writer.Write(artarget.PlayerId);
+                        writer.Write(true);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        Utils.NotifyRoles();
+                    }
+                    else
+                    {
+                        float dis;
+                        dis = Vector2.Distance(__instance.transform.position, artarget.transform.position);
+                        if (dis <= 1.75f)
+                        {
+                            main.ArsonistTimer[__instance.PlayerId] =
+                            (main.ArsonistTimer[__instance.PlayerId].Item1, main.ArsonistTimer[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        }
+                        else
+                        {
+                            main.ArsonistTimer.Remove(__instance.PlayerId);
+                        }
+                    }
+                }
+                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
+                {
+                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
+                    {
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(__instance.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ArsonistWin(__instance.PlayerId);
+                        main.DousedPlayerCount[__instance.PlayerId] = 1;
+                    }
+                    else
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])
+                            {
+                                main.DousedPlayerCount[__instance.PlayerId]--;
+                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
+                            }
+                        }
+                    }
+                }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
                 if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
@@ -524,7 +588,7 @@ namespace TownOfHost
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
-                else if(PlayerControl.LocalPlayer != null)
+                else if (PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
@@ -536,6 +600,10 @@ namespace TownOfHost
                 )
                 {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
+                }
+                if (PlayerControl.LocalPlayer.isArsonist() && PlayerControl.LocalPlayer.isDousedPlayer(__instance))
+                {
+                    Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
@@ -609,7 +677,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
-                if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate())
+                if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate() || __instance.myPlayer.isArsonist())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
