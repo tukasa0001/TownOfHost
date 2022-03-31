@@ -39,11 +39,6 @@ namespace TownOfHost
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
             }
-            if (__instance.isVampire())
-            {
-                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
-                Utils.CustomSyncAllSettings();
-            }
             //Terrorist
             if (target.isTerrorist())
             {
@@ -258,6 +253,8 @@ namespace TownOfHost
             }
             if (__instance.isVampire() && !target.isBait() && !target.isSchrodingerCat())
             { //キルキャンセル&自爆処理
+                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+                Utils.CustomSyncAllSettings();
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
