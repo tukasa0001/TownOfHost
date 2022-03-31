@@ -1335,8 +1335,8 @@ namespace TownOfHost
             Harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
-        class TranslationControllerAwakePatch {
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
+        class TranslationControllerInitializePatch {
             public static void Postfix(TranslationController __instance) {
                 var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
                 EnglishLang = new LanguageUnit(english);
