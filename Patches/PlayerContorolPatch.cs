@@ -285,10 +285,18 @@ namespace TownOfHost
             //シュレディンガーの猫の役職変化処理終了
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
-
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
+
+            if (__instance.isBountyHunter() && target != __instance.getBountyTarget())
+            {
+                __instance.RpcGuardAndKill(target);
+                __instance.ResetBountyTarget();
+                main.BountyTimerCheck = false;
+                main.BountyTimer[__instance.PlayerId] = 0f;
+            }
+
             return false;
         }
     }
@@ -461,6 +469,7 @@ namespace TownOfHost
                         main.BountyTimerCheck = false;
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
+                        Utils.NotifyRoles();
                     }
                     if (main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck)
                     {//選びなおしてから１秒後の処理

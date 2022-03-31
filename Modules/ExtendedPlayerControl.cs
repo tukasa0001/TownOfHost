@@ -232,7 +232,7 @@ namespace TownOfHost
                     {
                         if (!main.isBountyKillSuccess)
                         {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat();
+                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat() * 2;
                             Logger.info("ターゲット以外をキル");
                         }
                         if (!main.BountyTimerCheck)
