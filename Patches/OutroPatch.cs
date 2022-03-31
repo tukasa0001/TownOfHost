@@ -87,6 +87,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
+            { //Arsonist単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == main.WonArsonistID)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
+                }
+            }
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -190,6 +203,11 @@ namespace TownOfHost
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
+                case CustomWinner.Arsonist:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Arsonist)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Arsonist);
+                    break;
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.BackgroundBar.material.color = Color.gray;
@@ -238,6 +256,7 @@ namespace TownOfHost
             main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
+            main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
             main.VisibleTasksCount = false;

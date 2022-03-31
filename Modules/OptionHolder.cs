@@ -73,6 +73,7 @@ namespace TownOfHost
         public static int SabotageMasterUsedSkillCount;
         public static CustomOption DoctorTaskCompletedVatteryCharge;
         public static CustomOption SheriffKillCooldown;
+        public static CustomOption SheriffCanKillArsonist;
         public static CustomOption SheriffCanKillMadmate;
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
@@ -80,6 +81,8 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
         public static CustomOption CanTerroristSuicideWin;
+        public static CustomOption ArsonistDouseTime;
+        public static CustomOption ArsonistCooldown;
         public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
 
         // HideAndSeek
@@ -236,6 +239,7 @@ namespace TownOfHost
             SabotageMasterFixesElectrical = CustomOption.Create(20315, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SetupRoleOptions(20400, CustomRoles.Sheriff);
             SheriffKillCooldown = CustomOption.Create(20410, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillArsonist = CustomOption.Create(20417, Color.white, "SheriffCanKillArsonist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillMadmate = CustomOption.Create(20411, Color.white, "SheriffCanKillMadmate", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillJester = CustomOption.Create(20412, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
@@ -246,6 +250,9 @@ namespace TownOfHost
             SetupRoleOptions(20700, CustomRoles.Doctor);
             DoctorTaskCompletedVatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedVatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             // Other
+            SetupRoleOptions(50500, CustomRoles.Arsonist);
+            ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);

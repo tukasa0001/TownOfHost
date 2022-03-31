@@ -19,7 +19,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
-            if(PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.LocalPlayer == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
@@ -157,6 +157,13 @@ namespace TownOfHost
                 case CustomRoles.Lighter:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
                     break;
+                case CustomRoles.Arsonist:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{Utils.getRoleName(CustomRoles.Arsonist)}\r\n{getString("ArsonistInfo")}</color>\r\n";
+                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+                    {
+                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                    }
+                    break;
                 case CustomRoles.SchrodingerCat:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
                     break;
@@ -232,9 +239,9 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead)
+            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) && !PlayerControl.LocalPlayer.Data.IsDead)
             {
-                ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", Color.yellow);
+                ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
             }
         }
     }
@@ -243,7 +250,7 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
-            if (PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff &&
+            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 protecting = true;
@@ -264,6 +271,12 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.Arsonist:
+                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
             }
         }
     }
@@ -272,7 +285,7 @@ namespace TownOfHost
     {
         public static void Prefix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff())
+            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
             {
                 __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
                 PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -281,7 +294,7 @@ namespace TownOfHost
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff())
+            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
             {
                 PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
             }

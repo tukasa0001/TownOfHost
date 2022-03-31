@@ -49,7 +49,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
 | [Mafia](###Mafia) | [Doctor](###Doctor) |  |
@@ -246,6 +246,8 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Can Kill [Arsonist](###Arsonist) |
+| Sheriff Can Kill [Madmate](###Madmate) |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
@@ -299,6 +301,22 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates, they will win.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Dousing time |
+| Cooldown  |
 
 ### SchrodingerCat
 
