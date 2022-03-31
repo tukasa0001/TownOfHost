@@ -210,6 +210,7 @@ namespace TownOfHost
                     byte SheriffId = reader.ReadByte();
                     float Limit = reader.ReadSingle();
                     main.SheriffShotLimit[SheriffId] = Limit;
+                    break;
                 case (byte)CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
