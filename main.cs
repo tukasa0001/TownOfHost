@@ -128,19 +128,19 @@ namespace TownOfHost
         //langのenumに対応した値をリストから持ってくる
         public static string getLang(lang lang)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
+            var dic = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseTexts : EnglishTexts;
             var isSuccess = dic.TryGetValue(lang, out var text);
             return isSuccess ? text : "<Not Found:" + lang.ToString() + ">";
         }
         public static string getRoleName(CustomRoles role) {
-            var dic = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
+            var dic = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || forceJapanese) &&
             JapaneseRoleName.Value == true ? JapaneseRoleNames : EnglishRoleNames;
             var isSuccess = dic.TryGetValue(role, out var text);
             return isSuccess ? text : "<Not Found:" + role.ToString() + ">";
         }
         public static string getDeathReason(PlayerState.DeathReason status)
         {
-            var dic = TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseDeathReason : EnglishDeathReason;
+            var dic = TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || forceJapanese ? JapaneseDeathReason : EnglishDeathReason;
             var isSuccess = dic.TryGetValue(status, out var text);
             return isSuccess ? text : "<Not Found:" + status.ToString() + ">";
         }
