@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
-    class SetUpRoleTextPatch {
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
+    class ShowRolePatch {
         static Dictionary<CustomRoles, lang> RoleAndInfo = new Dictionary<CustomRoles, lang>() {
             {CustomRoles.Jester, lang.JesterInfo},
             {CustomRoles.Madmate, lang.MadmateInfo},
@@ -27,29 +27,31 @@ namespace TownOfHost
             {CustomRoles.Troll, lang.TrollInfo}
         };
         public static void Postfix(IntroCutscene __instance) {
-            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            __instance.RoleText.text = main.getRoleName(role);
-            if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.getLang(info);
-            __instance.RoleText.color = main.getRoleColor(role);
-            __instance.RoleBlurbText.color = main.getRoleColor(role);
+            new LateTask(() => {
+                CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+                __instance.RoleText.text = main.getRoleName(role);
+                if(RoleAndInfo.TryGetValue(role, out var info)) __instance.RoleBlurbText.text = main.getLang(info);
+                __instance.RoleText.color = main.getRoleColor(role);
+                __instance.RoleBlurbText.color = main.getRoleColor(role);
 
-            if(PlayerControl.LocalPlayer.isSheriff()) __instance.YouAreText.color = Palette.CrewmateBlue; //シェリフ専用
+                if(PlayerControl.LocalPlayer.isSheriff()) __instance.YouAreText.color = Palette.CrewmateBlue; //シェリフ専用
+            },0.01f,"Override Role Text");
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     class BeginCrewmatePatch
     {
-        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             var role = PlayerControl.LocalPlayer.getCustomRole();
             if (role.GetIntroType() == IntroTypes.Neutral) {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
-                yourTeam = soloTeam;
+                teamToDisplay = soloTeam;
             }
         }
-        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             //チーム表示変更
             var rand = new System.Random();
