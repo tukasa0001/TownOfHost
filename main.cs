@@ -436,7 +436,7 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             if (AmongUsClient.Instance.IsGameStarted)
-                main.SendToAll("試合中に使用することはできません");
+                main.SendToAll("試合中に/lastrolesを使用することはできません。");
             else
             {
                 var text = getLang(lang.LastResult);
