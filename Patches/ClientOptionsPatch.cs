@@ -46,19 +46,19 @@ namespace TownOfHost{
             }
 
             if ((HideCodesButton == null || HideCodesButton.gameObject == null)) {
-                HideCodesButton = createCustomToggle("Hide Game Codes: ", main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
+                HideCodesButton = createCustomToggle(main.getLang(lang.HideGameCode) + ": ", main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
 
                 void HideCodesButtonToggle() {
                     main.HideCodes.Value = !main.HideCodes.Value;
-                    updateToggle(HideCodesButton, "Hide Game Codes: ", main.HideCodes.Value);
+                    updateToggle(HideCodesButton, main.getLang(lang.HideGameCode) + ": ", main.HideCodes.Value);
                 }
             }
             if ((JapaneseRoleName == null || JapaneseRoleName.gameObject == null)) {
-                JapaneseRoleName = createCustomToggle("Japanese Role Name: ", main.JapaneseRoleName.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+                JapaneseRoleName = createCustomToggle(main.getLang(lang.JapaneseRoleName) + ": ", main.JapaneseRoleName.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 
                 void LangModeButtonToggle() {
                     main.JapaneseRoleName.Value = !main.JapaneseRoleName.Value;
-                    updateToggle(JapaneseRoleName, "Japanese Role Name: ", main.JapaneseRoleName.Value);
+                    updateToggle(JapaneseRoleName, main.getLang(lang.JapaneseRoleName) + ": ", main.JapaneseRoleName.Value);
                 }
             }
         }
