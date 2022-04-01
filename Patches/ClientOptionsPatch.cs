@@ -54,7 +54,7 @@ namespace TownOfHost{
                 }
             }
             if ((JapaneseRoleName == null || JapaneseRoleName.gameObject == null)) {
-                JapaneseRoleName = createCustomToggle("Japanese Role Name: ", main.JapaneseRoleName.Value, new Vector3(0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+                JapaneseRoleName = createCustomToggle("Japanese Role Name: ", main.JapaneseRoleName.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 
                 void LangModeButtonToggle() {
                     main.JapaneseRoleName.Value = !main.JapaneseRoleName.Value;
