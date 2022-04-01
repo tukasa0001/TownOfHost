@@ -19,8 +19,8 @@ namespace TownOfHost
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4";
         public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "4";
-        public const string BetaName = "BugFix Beta";
+        public const string BetaVersion = "5";
+        public const string BetaName = "Update BugFix Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
@@ -1335,8 +1335,8 @@ namespace TownOfHost
             Harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
-        class TranslationControllerAwakePatch {
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
+        class TranslationControllerInitializePatch {
             public static void Postfix(TranslationController __instance) {
                 var english = __instance.Languages.Where(lang => lang.languageID == SupportedLangs.English).FirstOrDefault();
                 EnglishLang = new LanguageUnit(english);
