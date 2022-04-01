@@ -379,7 +379,14 @@ namespace TownOfHost
                 text = "設定:";
                 text += main.getLang(lang.HideAndSeek);
             }else{
-                if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Vampire),main.VampireCount);
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                int GuardianAngelNum = roleOpt.GetNumPerGame(RoleTypes.GuardianAngel);
+
+                if(ShapeshifterNum > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Shapeshifter), ShapeshifterNum);
+                if(main.VampireCount > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Vampire), main.VampireCount);
                 if(main.BountyHunterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.BountyHunter),main.BountyHunterCount);
                 if(main.WitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Witch),main.WitchCount);
                 if(main.MafiaCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mafia),main.MafiaCount);
@@ -388,11 +395,14 @@ namespace TownOfHost
                 if(main.JesterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Jester),main.JesterCount);
                 if(main.OpportunistCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Opportunist),main.OpportunistCount);
                 if(main.TerroristCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Terrorist),main.TerroristCount);
+                if(EngineerNum > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Engineer), EngineerNum);
+                if(ScientistNum > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.Scientist), ScientistNum);
                 if(main.BaitCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Bait),main.BaitCount);
                 if(main.MayorCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Mayor),main.MayorCount);
                 if(main.SabotageMasterCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.SabotageMaster),main.SabotageMasterCount);
                 if(main.SheriffCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Sheriff),main.SheriffCount);
                 if(main.SnitchCount > 0) text += String.Format("\n{0}:{1}",main.getRoleName(CustomRoles.Snitch),main.SnitchCount);
+                if(GuardianAngelNum > 0) text += String.Format("\n{0}:{1}", main.getRoleName(CustomRoles.GuardianAngel), GuardianAngelNum);
                 main.SendToAll(text);
                 text = "設定:";
                 if(main.VampireCount > 0) text += String.Format("\n{0}:{1}",main.getLang(lang.VampireKillDelay),main.VampireKillDelay);
