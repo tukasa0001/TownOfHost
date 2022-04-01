@@ -179,7 +179,7 @@ namespace TownOfHost
 
             __instance.GameSettings.text = OptionShower.getText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) ? 1.05f : 1.2f;
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -241,7 +241,7 @@ namespace TownOfHost
         {
             if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) && !PlayerControl.LocalPlayer.Data.IsDead)
             {
-                ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
+                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
             }
         }
     }
