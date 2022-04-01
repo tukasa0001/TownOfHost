@@ -19,6 +19,10 @@ However, please note that the following restrictions apply.<br>
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
+Please use Option Controler in Town Of Host to change options and change their value to 0.
+- Killcooldown (in Impostor Options)
+- ShapeshifterCooldwn (in Shapeshifter Options)
+
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
 - Display of the special role's own start screen.
@@ -45,7 +49,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
 | [Mafia](###Mafia) |  |  |
@@ -242,9 +246,13 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Can Kill [Arsonist](###Arsonist) |
+| Sheriff Can Kill [Madmate](###Madmate) |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill Crewmates As It |
+| Sheriff Shot Limit |
 
 ### Snitch
 
@@ -281,6 +289,45 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates, they will win.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Dousing time |
+| Cooldown  |
+
+### SchrodingerCat
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : None<br>
+
+By default, it has no victory condition, and only when the condition is met does it have a victory condition.<br>
+
+1.If you are killed by an Imposter, you prevent a kill and become an Imposter.<br>
+2.If you are killed by a sheriff, you prevent a kill and become a crewmate.<br>
+3.If you are killed by a neutral, you prevent the kill and become a neutral.<br>
+4.If you are expelled, your position does not change and you die with the same victory conditions as before.<br>
+5.If you are killed by a warlock's ability, the victory condition remains the same and you die.<br>
+6.If a player is killed by suicide kills (except vampire kills), the victory condition remains the same and the player dies.<br>
+
+Also common to all Schrodinger's cats, there are no tasks.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| SchrodingerCat Before The Change CanWin As A Crewmate Team |
 
 ## Mode
 
@@ -395,6 +442,7 @@ If the client language is English, this setting is meaningless unless the host h
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

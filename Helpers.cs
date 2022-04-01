@@ -55,5 +55,16 @@ namespace TownOfHost
 
             return _callLoadImage.Invoke(tex.Pointer, il2cppArray.Pointer, markNonReadable);
         }
+        
+        public static string ColorString(Color c, string s)
+        {
+            return $"<color=#{ToByte(c.r):X2}{ToByte(c.g):X2}{ToByte(c.b):X2}{ToByte(c.a):X2}>{s}</color>";
+        }
+        
+        private static byte ToByte(float f)
+        {
+            f = Mathf.Clamp01(f);
+            return (byte)(f * 255);
+        }
     }
 }
