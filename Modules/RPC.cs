@@ -109,10 +109,10 @@ namespace TownOfHost
                     int BHDefaultKillCooldown = reader.ReadInt32();
                     int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
-                    main.OverrideTasksData MadGuardianTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.MadGuardian);
-                    main.OverrideTasksData TerroristTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Terrorist);
-                    main.OverrideTasksData SnitchTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.Snitch);
-                    main.OverrideTasksData MadSnitchTasksData = main.OverrideTasksData.Deserialize(reader, CustomRoles.MadSnitch);
+                    Options.MadGuardianTasksData.Deserialize(reader);
+                    Options.TerroristTasksData.Deserialize(reader);
+                    Options.SnitchTasksData.Deserialize(reader);
+                    Options.MadSnitchTasksData.Deserialize(reader);
                     bool CanBeforeSchrodingerCatWinTheCrewmate = reader.ReadBoolean();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
@@ -169,10 +169,6 @@ namespace TownOfHost
                         MadGuardianCanSeeBarrier,
                         MadSnitchTasks,
                         MayorAdditionalVote,
-                        MadGuardianTasksData,
-                        TerroristTasksData,
-                        SnitchTasksData,
-                        MadSnitchTasksData,
                         CanBeforeSchrodingerCatWinTheCrewmate,
                         AutoDisplayLastResult
                     );
@@ -292,10 +288,6 @@ namespace TownOfHost
                 bool MadGuardianCanSeeBarrier,
                 int MadSnitchTasks,
                 int MayorAdditionalVote,
-                main.OverrideTasksData MadGuardianTasksData,
-                main.OverrideTasksData TerroristTasksData,
-                main.OverrideTasksData SnitchTasksData,
-                main.OverrideTasksData MadSnitchTasksData,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
                 bool AutoDisplayLastResult
             )
@@ -362,11 +354,6 @@ namespace TownOfHost
             Options.KillDelay.UpdateSelection(HaSKillDelay);
             Options.IgnoreVent.UpdateSelection(IgnoreVent);
             Options.IgnoreCosmetics.UpdateSelection(IgnoreCosmetics);
-
-            Options.MadGuardianTasksData = MadGuardianTasksData;
-            Options.TerroristTasksData = TerroristTasksData;
-            Options.SnitchTasksData = SnitchTasksData;
-            Options.MadSnitchTasksData = MadSnitchTasksData;
 
             Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
             Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);

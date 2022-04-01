@@ -94,10 +94,10 @@ namespace TownOfHost
         public class OverrideTasksData
         {
             public CustomRoles TargetRole;
-            public bool doOverride;
-            public bool hasCommonTasks;
-            public int NumLongTasks;
-            public int NumShortTasks;
+            public CustomOption doOverride;
+            public CustomOption hasCommonTasks;
+            public CustomOption NumLongTasks;
+            public CustomOption NumShortTasks;
             public void CheckAndSet(
                 CustomRoles currentTargetRole,
                 ref bool doOverride,
@@ -106,37 +106,37 @@ namespace TownOfHost
                 ref int NumShortTasks
             )
             {
-                if (currentTargetRole == this.TargetRole && this.doOverride)
+                if (currentTargetRole == this.TargetRole && this.doOverride.GetBool())
                 {
                     doOverride = true;
-                    hasCommonTasks = this.hasCommonTasks;
-                    NumLongTasks = this.NumLongTasks;
-                    NumShortTasks = this.NumShortTasks;
+                    hasCommonTasks = this.hasCommonTasks.GetBool();
+                    NumLongTasks = (int)this.NumLongTasks.GetFloat();
+                    NumShortTasks = (int)this.NumShortTasks.GetFloat();
                 }
             }
             public void Serialize(MessageWriter writer)
             {
-                writer.Write(doOverride);
-                writer.Write(hasCommonTasks);
-                writer.Write(NumLongTasks);
-                writer.Write(NumShortTasks);
+                writer.Write(doOverride.GetBool());
+                writer.Write(hasCommonTasks.GetBool());
+                writer.Write((int)NumLongTasks.GetFloat());
+                writer.Write((int)NumShortTasks.GetFloat());
             }
-            public static OverrideTasksData Deserialize(MessageReader reader, CustomRoles targetRole)
+            public void Deserialize(MessageReader reader)
             {
-                OverrideTasksData data = new OverrideTasksData(targetRole);
-                data.doOverride = reader.ReadBoolean();
-                data.hasCommonTasks = reader.ReadBoolean();
-                data.NumLongTasks = reader.ReadInt32();
-                data.NumShortTasks = reader.ReadInt32();
+                this.doOverride.UpdateSelection(reader.ReadBoolean());
+                this.hasCommonTasks.UpdateSelection(reader.ReadBoolean());
+                this.NumLongTasks.UpdateSelection(reader.ReadInt32());
+                this.NumShortTasks.UpdateSelection(reader.ReadInt32());
+            }
+            public OverrideTasksData Create(CustomRoles targetRole, int offset)
+            {
+                var data = new OverrideTasksData();
+                data.TargetRole = targetRole;
+                data.doOverride = CustomOption.Create(offset, Utils.getRoleColor(targetRole), "doOverride", false, Options.CustomRoleSpawnChances[targetRole]);
+                data.hasCommonTasks = CustomOption.Create(offset + 1, Utils.getRoleColor(targetRole), "hasCommonTasks", false, data.doOverride);
+                data.NumLongTasks = CustomOption.Create(offset + 2, Utils.getRoleColor(targetRole), "roleLongTasksNum", false, data.doOverride);
+                data.NumShortTasks = CustomOption.Create(offset + 3, Utils.getRoleColor(targetRole), "roleShortTasksNum", false, data.doOverride);
                 return data;
-            }
-            public OverrideTasksData(CustomRoles TargetRole)
-            {
-                this.TargetRole = TargetRole;
-                doOverride = false;
-                hasCommonTasks = true;
-                NumLongTasks = 1;
-                NumShortTasks = 1;
             }
         }
         public static string nickName = "";
@@ -188,11 +188,6 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             BanTimestamp = Config.Bind("Other", "lastTime", 0);
-
-            Options.MadGuardianTasksData = new(CustomRoles.MadGuardian);
-            Options.TerroristTasksData = new(CustomRoles.Terrorist);
-            Options.SnitchTasksData = new(CustomRoles.Snitch);
-            Options.MadSnitchTasksData = new(CustomRoles.MadSnitch);
 
             NameColorManager.Begin();
 
