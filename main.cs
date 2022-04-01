@@ -1125,6 +1125,8 @@ namespace TownOfHost
                 {lang.roleLongTasksNum, "%role%のロングタスクの数"},
                 {lang.roleShortTasksNum, "%role%のショートタスクの数"},
                 //その他
+                {lang.HideGameCode, "コードを隠す"},
+                {lang.JapaneseRoleName, "役職名を日本語化"},
                 {lang.WitchCurrentMode, "現在のモード"},
                 {lang.WitchModeKill, "キル"},
                 {lang.WitchModeSpell, "スペル"},
@@ -1239,6 +1241,8 @@ namespace TownOfHost
                 {lang.roleLongTasksNum, "Amount Of Long Tasks For %role%"},
                 {lang.roleShortTasksNum, "Amount Of Short Tasks For %role%"},
                 //その他
+                {lang.HideGameCode, "Hide Game Code"},
+                {lang.JapaneseRoleName, "Japanese Role Name"},
                 {lang.WitchCurrentMode, "Current Mode"},
                 {lang.WitchModeKill, "Kill"},
                 {lang.WitchModeSpell, "Spell"},
@@ -1443,6 +1447,8 @@ namespace TownOfHost
         AddedDleks,
         AddedTheAirShip,
         //その他
+        HideGameCode,
+        JapaneseRoleName,
         WitchCurrentMode,
         WitchModeKill,
         WitchModeSpell,
