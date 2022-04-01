@@ -436,9 +436,10 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             if (AmongUsClient.Instance.IsGameStarted)
-                main.SendToAll("試合中に/lastrolesを使用することはできません。");
-            else
             {
+                main.SendToAll("試合中に/lastrolesを使用することはできません。");
+                return;
+            }
                 var text = getLang(lang.LastResult);
                 Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
                 foreach(var id in winnerList)
@@ -454,7 +455,6 @@ namespace TownOfHost
                     text += $" {main.getDeathReason(ps.deathReasons[id])}";
                 }
                 main.SendToAll(text);
-            }
         }
 
         public static void ShowHelp()
