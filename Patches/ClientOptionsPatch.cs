@@ -43,19 +43,19 @@ namespace TownOfHost
             if (__instance.CensorChatButton != null)
             {
                 if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;// + Vector3.up * 0.075f;
-                __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f;
+                __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f + Vector3.up * 0.2f;
                 __instance.CensorChatButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.EnableFriendInvitesButton != null)
             {
                 if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;// + Vector3.up * 0.075f;
-                __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f;
+                __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.2f;
                 __instance.EnableFriendInvitesButton.transform.localScale = Vector3.one * 0.7f;
             }
 
             if ((HideCodesButton == null || HideCodesButton.gameObject == null))
             {
-                HideCodesButton = createCustomToggle("Hide Game Codes: ", main.HideCodes.Value, new Vector3(1.375f, 0, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
+                HideCodesButton = createCustomToggle("Hide Game Codes: ", main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
 
                 void HideCodesButtonToggle()
                 {
@@ -65,7 +65,7 @@ namespace TownOfHost
             }
             if ((ForceJapanese == null || ForceJapanese?.gameObject == null))
             {
-                ForceJapanese = createCustomToggle("Force Japanese: ", main.ForceJapanese.Value, new Vector3(-0.375f, yOffset, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
+                ForceJapanese = createCustomToggle("Force Japanese: ", main.ForceJapanese.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
 
                 void ForceJapaneseButtonToggle()
                 {
@@ -75,7 +75,7 @@ namespace TownOfHost
             }
             if ((JapaneseRoleName == null || JapaneseRoleName.gameObject == null))
             {
-                JapaneseRoleName = createCustomToggle("Japanese Role Name: ", main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
+                JapaneseRoleName = createCustomToggle("Japanese Role Name: ", main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 
                 void LangModeButtonToggle()
                 {
