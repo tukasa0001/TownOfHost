@@ -435,21 +435,26 @@ namespace TownOfHost
 
         public static void ShowLastRoles()
         {
-            var text = getLang(lang.LastResult);
-            Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
-            foreach(var id in winnerList)
+            if (AmongUsClient.Instance.IsGameStarted)
+                main.SendToAll("試合中に使用することはできません");
+            else
             {
-                text += $"\n★ {AllPlayerNames[id]}:{main.getRoleName(AllPlayerCustomRoles[id])}";
-                text += $" {main.getDeathReason(ps.deathReasons[id])}";
-                cloneRoles.Remove(id);
+                var text = getLang(lang.LastResult);
+                Dictionary<byte,CustomRoles> cloneRoles = new(AllPlayerCustomRoles);
+                foreach(var id in winnerList)
+                {
+                    text += $"\n★ {AllPlayerNames[id]}:{main.getRoleName(AllPlayerCustomRoles[id])}";
+                    text += $" {main.getDeathReason(ps.deathReasons[id])}";
+                    cloneRoles.Remove(id);
+                }
+                foreach (var kvp in cloneRoles)
+                {
+                    var id = kvp.Key;
+                    text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(AllPlayerCustomRoles[id])}";
+                    text += $" {main.getDeathReason(ps.deathReasons[id])}";
+                }
+                main.SendToAll(text);
             }
-            foreach (var kvp in cloneRoles)
-            {
-                var id = kvp.Key;
-                text += $"\n　 {AllPlayerNames[id]} : {main.getRoleName(AllPlayerCustomRoles[id])}";
-                text += $" {main.getDeathReason(ps.deathReasons[id])}";
-            }
-            main.SendToAll(text);
         }
 
         public static void ShowHelp()
