@@ -215,25 +215,25 @@ namespace TownOfHost
         public static void ShowLastRoles()
         {
             if (AmongUsClient.Instance.IsGameStarted)
-                SendMessage("試合中に/lastrolesを使用することはできません。");
-            else
             {
-                var text = getString("LastResult") + ":";
-                Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
-                foreach (var id in main.winnerList)
-                {
-                    text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
-                    text += $" {getVitalText(id)}";
-                    cloneRoles.Remove(id);
-                }
-                foreach (var kvp in cloneRoles)
-                {
-                    var id = kvp.Key;
-                    text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
-                    text += $" {getVitalText(id)}";
-                }
-                SendMessage(text);
+                SendMessage("試合中に/lastrolesを使用することはできません。");
+                return;
             }
+            var text = getString("LastResult") + ":";
+            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
+            foreach (var id in main.winnerList)
+            {
+                text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $" {getVitalText(id)}";
+                cloneRoles.Remove(id);
+            }
+            foreach (var kvp in cloneRoles)
+            {
+                var id = kvp.Key;
+                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $" {getVitalText(id)}";
+            }
+            SendMessage(text);
         }
 
         public static void ShowHelp()
