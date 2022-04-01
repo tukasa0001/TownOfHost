@@ -1000,6 +1000,10 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
+
+            main.ps = new PlayerState();
+            main.IgnoreReportPlayers = new List<byte>();
+            
             try {
 
             roleColors = new Dictionary<CustomRoles, string>(){
