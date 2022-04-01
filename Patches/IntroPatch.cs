@@ -7,17 +7,20 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class SetUpRoleTextPatch
     {
         public static void Postfix(IntroCutscene __instance)
         {
-            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.isVanilla()) return;
-            __instance.RoleText.text = Utils.getRoleName(role);
-            __instance.RoleText.color = Utils.getRoleColor(role);
-            __instance.RoleBlurbText.color = Utils.getRoleColor(role);
-            __instance.YouAreText.color = Utils.getRoleColor(role);
+            new LateTask(() =>
+            {
+                CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+                if (role.isVanilla()) return;
+                __instance.RoleText.text = Utils.getRoleName(role);
+                __instance.RoleText.color = Utils.getRoleColor(role);
+                __instance.RoleBlurbText.color = Utils.getRoleColor(role);
+                __instance.YouAreText.color = Utils.getRoleColor(role);
+            }, 0.01f, "Override Role Text");
 
             if (PlayerControl.LocalPlayer.isEvilWatcher() || PlayerControl.LocalPlayer.isNiceWatcher())
                 __instance.RoleBlurbText.text = getString("WatcherInfo");
@@ -28,7 +31,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     class BeginCrewmatePatch
     {
-        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             var role = PlayerControl.LocalPlayer.getCustomRole();
             if (role.getIntroType() == IntroTypes.Neutral)
@@ -36,10 +39,10 @@ namespace TownOfHost
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
-                yourTeam = soloTeam;
+                teamToDisplay = soloTeam;
             }
         }
-        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             //チーム表示変更
             var rand = new System.Random();
