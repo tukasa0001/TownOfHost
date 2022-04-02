@@ -284,8 +284,8 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
-                //if (main.RealOptionsData.NumImpostors > 1)
-                AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                if (main.RealOptionsData.NumImpostors > 1)
+                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
 
                 //RPCによる同期
                 foreach (var pair in main.AllPlayerCustomRoles)
