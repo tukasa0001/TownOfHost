@@ -135,6 +135,11 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
+            if (main.AirshipMeetingCheck)
+            {
+                main.AirshipMeetingCheck = false;
+                Utils.CustomSyncAllSettings();
+            }
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
@@ -482,6 +487,31 @@ namespace TownOfHost
                     {
                         main.BountyTimer[__instance.PlayerId] =
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
+                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
+                    {
+                        if (__instance.isSerialKiller())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                            main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
+                        }
+                        if (__instance.isBountyHunter())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                            main.BountyTimer.Add(__instance.PlayerId, 10f);
+                        }
+                        if (__instance.isWarlock())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                        }
+                        main.AirshipMeetingTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき

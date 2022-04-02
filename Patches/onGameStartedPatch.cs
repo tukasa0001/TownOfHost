@@ -26,6 +26,8 @@ namespace TownOfHost
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.isCurseAndKill = new Dictionary<byte, bool>();
+            main.AirshipMeetingTimer = new Dictionary<byte, float>();
+            main.AirshipMeetingCheck = false;
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
 
