@@ -187,10 +187,10 @@ namespace TownOfHost
             }
             else
             {
-                foreach (var role in Options.CustomRoleCounts)
+                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
-                    if (role.Key == CustomRoles.Fox || role.Key == CustomRoles.Troll) continue;
-                    if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());
+                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
+                    if (role.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role), role.getCount());
                 }
                 SendMessage(text);
                 text = getString("Settings") + ":";

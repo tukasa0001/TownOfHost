@@ -74,8 +74,27 @@ namespace TownOfHost
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
-        public static int getCount(this CustomRoles role) => Options.getRoleCount(role);
-        public static bool isEnable(this CustomRoles role) => Options.getRoleCount(role) > 0;
+        public static int getCount(this CustomRoles role)
+        {
+            if (role.isVanilla())
+            {
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                return role switch
+                {
+                    CustomRoles.Engineer => roleOpt.GetNumPerGame(RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetNumPerGame(RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetNumPerGame(RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetNumPerGame(RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetNumPerGame(RoleTypes.Crewmate),
+                    _ => 0
+                };
+            }
+            else
+            {
+                return Options.getRoleCount(role);
+            }
+        }
+        public static bool isEnable(this CustomRoles role) => role.getCount() > 0;
     }
     public enum IntroTypes
     {
