@@ -588,19 +588,19 @@ namespace TownOfHost
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
+                else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
+                else if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがエゴイスト陣営のシュレディンガーの猫
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
                 else if (PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
-                else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() &&
-                    __instance.isEgoist()
-                )
-                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
-                else if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() &&
-                    __instance.isEgoist()
-                )
-                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
 
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる

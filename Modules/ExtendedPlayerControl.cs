@@ -286,6 +286,14 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystem != null && switchSystem.IsActive)
+                    {
+                        opt.CrewLightMod *= 5;
+                    }
+                    break;
 
 
                 InfinityVent:
