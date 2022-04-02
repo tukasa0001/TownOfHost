@@ -40,6 +40,7 @@ namespace TownOfHost
             Spell,
             Bite,
             Bombed,
+            Torched,
             Misfire,
             Disconnected,
             etc = -1
