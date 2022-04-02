@@ -32,9 +32,7 @@ namespace TownOfHost
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default)
-                {
                     main.currentWinner = CustomWinner.Impostor;
-                }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
@@ -42,7 +40,8 @@ namespace TownOfHost
                     bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if (canWin) winner.Add(p);
                     if (CustomRoles.Egoist.isEnable() && (p.isEgoist() && !p.Data.IsDead))
-                        main.currentWinner = CustomWinner.Egoist;
+                        if (main.currentWinner == CustomWinner.Impostor)
+                            main.currentWinner = CustomWinner.Egoist;
                 }
             }
 
