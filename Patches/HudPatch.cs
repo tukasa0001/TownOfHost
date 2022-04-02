@@ -159,6 +159,8 @@ namespace TownOfHost
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
                     {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                        if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
+                            PlayerControl.LocalPlayer.Data.Role.CanVent = true;
                     }
                     break;
                 case CustomRoles.SchrodingerCat:
@@ -271,7 +273,13 @@ namespace TownOfHost
                 case CustomRoles.Arsonist:
                     __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
+                    {
+                        __instance.ImpostorVentButton.Show();
+                        __instance.ImpostorVentButton.gameObject.SetActive(true);
+                    }
+                    else
+                        __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }

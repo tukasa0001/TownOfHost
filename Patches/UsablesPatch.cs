@@ -34,6 +34,8 @@ namespace TownOfHost
         {
             if (pc.Object.isSheriff() || pc.Object.isArsonist())
                 canUse = couldUse = false;
+            if (main.DousedPlayerCount[pc.PlayerId] == 0)
+                canUse = couldUse = true;
         }
     }
 }
