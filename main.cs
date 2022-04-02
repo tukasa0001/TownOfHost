@@ -147,6 +147,8 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
+
+            main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
