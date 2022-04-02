@@ -257,6 +257,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            SetupRoleOptions(50600, CustomRoles.Egoist);
             #endregion
 
             // HideAndSeek

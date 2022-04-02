@@ -183,6 +183,7 @@ namespace TownOfHost
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
+                {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
@@ -249,6 +250,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        Egoist,
         Fox,
         Troll,
         // Sub-roll after 500
@@ -264,6 +266,7 @@ namespace TownOfHost
         Jester,
         Terrorist,
         Arsonist,
+        Egoist,
         Troll
     }
     public enum AdditionalWinners

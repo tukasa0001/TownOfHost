@@ -170,6 +170,9 @@ namespace TownOfHost
                 case CustomRoles.MSchrodingerCat:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MSchrodingerCat)}>{Utils.getRoleName(CustomRoles.MSchrodingerCat)}\r\n{getString("MSchrodingerCatInfo")}</color>\r\n";
                     break;
+                case CustomRoles.Egoist:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{Utils.getRoleName(CustomRoles.Egoist)}\r\n{getString("EgoistInfo")}</color>\r\n";
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

@@ -139,6 +139,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
+                    if (cRole == CustomRoles.Egoist) hasTasks = false;
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
                     //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
