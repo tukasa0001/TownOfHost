@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -219,39 +219,48 @@ namespace TownOfHost
     }
     public enum CustomRoles
     {
+    //Default
         Crewmate = 0,
-        Engineer,
-        Scientist,
+    //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
-        GuardianAngel,
-        Jester,
-        Madmate,
-        SKMadmate,
-        Bait,
-        Terrorist,
-        Mafia,
-        Vampire,
-        SabotageMaster,
-        MadGuardian,
-        MadSnitch,
-        Mayor,
-        Opportunist,
-        Snitch,
-        Sheriff,
+     //Impostor
         BountyHunter,
-        Witch,
-        ShapeMaster,
-        Warlock,
+        Mafia,
         SerialKiller,
+        ShapeMaster,
+        Vampire,
+        Witch,
+        Warlock,
+    //Madmate
+        MadGuardian,
+        Madmate,
+        MadSnitch,
+        SKMadmate,
+     //両陣営
+     //Crewmate(Vanilla)
+        Engineer,
+        GuardianAngel,
+        Scientist,
+     //Crewmate
+        Bait,
         Lighter,
+        Mayor,
+        SabotageMaster,
+        Sheriff,
+        Snitch,
+    //第三陣営
         Arsonist,
+        Jester,
+        Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        Terrorist,
+    //HideAndSeak
         Fox,
         Troll,
-        // Sub-roll after 500
+     // Sub-roll after 500
         NoSubRoleAssigned = 500,
     }
     //WinData
