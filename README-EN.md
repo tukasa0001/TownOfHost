@@ -336,13 +336,13 @@ Team : Neutral<br>
 Decision : Shapeshifter<br>
 Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
 
-Impostor knows the egoist.
-Egoist also know Impostor.
-Impostor and Egoist cannot kill each other.
-You win when the other Impostor are wiped out.
-If the Egoist wins, the Impostor will be defeated.
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
 
-The conditions for defeat are as follows.
+The conditions for defeat are as follows.<br>
 
 1.Egoist dies.<br>
 2.Imposter victory with allies remaining.<br>
