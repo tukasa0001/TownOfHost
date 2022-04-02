@@ -426,7 +426,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
-                    || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                    || (seer.getCustomRole().isImpostor()) //seerがインポスター
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
                 )
@@ -465,6 +465,8 @@ namespace TownOfHost
                         {
                             TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
                         }
+                        else if (seer.getCustomRole().isImpostor() && target.isEgoist())
+                            TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
                         else
                         {
                             //NameColorManager準拠の処理

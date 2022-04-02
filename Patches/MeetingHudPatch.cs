@@ -234,6 +234,13 @@ namespace TownOfHost
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                    pc.isSnitch() //変更対象がEgoist
+                )
+                {
+                    //変更対象にSnitchマークをつける
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 

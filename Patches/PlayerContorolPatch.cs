@@ -593,6 +593,11 @@ namespace TownOfHost
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
+                else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() &&
+                    __instance.isEgoist()
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
