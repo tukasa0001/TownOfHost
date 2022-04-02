@@ -497,6 +497,15 @@ namespace TownOfHost
             main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
+        public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
+        {
+            var rand = new System.Random();
+            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new System.Collections.Generic.List<CustomRoles>();
+            RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
+            RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
+            var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
+            player.RpcSetCustomRole(SchrodingerTeam);
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
