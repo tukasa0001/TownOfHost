@@ -104,7 +104,9 @@ namespace TownOfHost
                 List<PlayerControl> Impostors = new List<PlayerControl>();
                 List<PlayerControl> Crewmates = new List<PlayerControl>();
                 //リスト作成兼色設定処理
+                main.AllPlayerNames = new();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
+                    main.AllPlayerNames.Add(pc.PlayerId,pc.name);
                     main.AllPlayerCustomRoles.Add(pc.PlayerId,CustomRoles.Default);
                     if(pc.Data.Role.IsImpostor) {
                         Impostors.Add(pc);
