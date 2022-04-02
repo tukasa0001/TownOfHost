@@ -214,6 +214,11 @@ namespace TownOfHost
         }
         public static void ShowLastRoles()
         {
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                SendMessage("試合中に/lastrolesを使用することはできません。");
+                return;
+            }
             var text = getString("LastResult") + ":";
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
