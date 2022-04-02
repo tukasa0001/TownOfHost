@@ -509,15 +509,7 @@ namespace TownOfHost
                 }
                 if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
-                    {
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
-                        writer.Write(__instance.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        RPC.ArsonistWin(__instance.PlayerId);
-                        main.DousedPlayerCount[__instance.PlayerId] = 1;
-                    }
-                    else
+                    if (!(main.DousedPlayerCount[__instance.PlayerId] == 0))
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
@@ -677,6 +669,28 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
+                if (main.DousedPlayerCount.ContainsKey(__instance.myPlayer.PlayerId) && AmongUsClient.Instance.IsGameStarted)
+                {
+                    if (main.DousedPlayerCount[__instance.myPlayer.PlayerId] == 0)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.Data.IsDead && !pc.isArsonist())
+                            {
+                                //生存者は焼殺
+                                pc.RpcMurderPlayer(pc);
+                                PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
+                                PlayerState.isDead[pc.PlayerId] = true;
+                            }
+                        }
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(__instance.myPlayer.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                        main.DousedPlayerCount[__instance.myPlayer.PlayerId] = 1;
+                        return true;
+                    }
+                }
                 if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate() || __instance.myPlayer.isArsonist())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
