@@ -107,7 +107,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.isEgoist() && !p.Data.IsDead)
+                    if ((p.isEgoist() && !p.Data.IsDead) || p.isEgoSchrodingerCat())
                     {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                         winner.Add(p);
