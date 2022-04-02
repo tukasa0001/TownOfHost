@@ -11,10 +11,13 @@ namespace TownOfHost
         {
             Logger.info("ゲームが終了","Phase");
             //winnerListリセット
-            TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-            main.additionalwinners = new HashSet<AdditionalWinners>();
-            var winner = new List<PlayerControl>();
-            //勝者リスト作成
+            TempData.winners = new();
+            main.winnerList = new();
+            main.additionalwinners = new();
+
+            //作業用勝者リストの作成
+            List<PlayerControl> winner = new();
+
             if (TempData.DidHumansWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default) {
@@ -47,39 +50,32 @@ namespace TownOfHost
             endGameResult.GameOverReason == GameOverReason.ImpostorDisconnect ||
             main.currentWinner == CustomWinner.Draw)
             {
-                winner = new List<PlayerControl>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     winner.Add(p);
                 }
             }
-            foreach (var p in winner)
-            {
-                TempData.winners.Add(new WinningPlayerData(p.Data));
-            }
 
             //単独勝利
             if (main.currentWinner == CustomWinner.Jester && main.JesterCount > 0)
             { //Jester単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.PlayerId == main.ExiledJesterID) {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
+                    if (p.PlayerId == main.ExiledJesterID)
+                    {
                         winner.Add(p);
                     }
                 }
             }
             if (main.currentWinner == CustomWinner.Terrorist && main.TerroristCount> 0)
             { //Terrorist単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonTerroristID)
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
                         winner.Add(p);
                     }
                 }
@@ -88,7 +84,6 @@ namespace TownOfHost
             foreach(var pc in PlayerControl.AllPlayerControls) {
                 if(pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
@@ -96,35 +91,33 @@ namespace TownOfHost
             
             //HideAndSeek専用
             if(main.IsHideAndSeek && main.currentWinner != CustomWinner.Draw) {
-                var winners = new List<PlayerControl>();
+                winner = new();
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
                     if(role == CustomRoles.Default) {
                         if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
-                            winners.Add(pc);
+                            winner.Add(pc);
                         if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
-                            winners.Add(pc);
+                            winner.Add(pc);
                     }
                     if(role == CustomRoles.Fox && !pc.Data.IsDead) {
-                        winners.Add(pc);
+                        winner.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.Fox);
                     }
                     if(role == CustomRoles.Troll && pc.Data.IsDead) {
                         main.currentWinner = CustomWinner.Troll;
-                        winners = new List<PlayerControl>();
-                        winners.Add(pc);
+                        winner = new();
+                        winner.Add(pc);
                         break;
                     }
                 }
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                foreach(var pc in winners) {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
-                }
             }
-            main.winnerList = new();
+
+            //勝者リスト登録
             foreach (var pc in winner)
             {
+                TempData.winners.Add(new WinningPlayerData(pc.Data));
                 main.winnerList.Add(pc.PlayerId);
             }
         }
