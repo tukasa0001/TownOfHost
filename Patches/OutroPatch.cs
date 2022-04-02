@@ -95,10 +95,14 @@ namespace TownOfHost
                 foreach(var pc in PlayerControl.AllPlayerControls) {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if(!hasRole) continue;
-                    if(role == CustomRoles.Default) {
-                        if(pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                    if (role == CustomRoles.Impostor)
+                    {
+                        if (pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winner.Add(pc);
-                        if(!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
+                    }
+                    if (role == CustomRoles.Default)
+                    {
+                            if (!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
                             winner.Add(pc);
                     }
                     if(role == CustomRoles.Fox && !pc.Data.IsDead) {
