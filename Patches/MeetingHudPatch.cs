@@ -235,10 +235,17 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
-                    pc.isSnitch() //変更対象がEgoist
+                    pc.isEgoist() //変更対象がEgoist
                 )
                 {
-                    //変更対象にSnitchマークをつける
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+                if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがEgoSchrodingerCat
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
                     pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
 

@@ -273,11 +273,11 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (__instance.getCustomRole().isImpostor())
-                {
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                }
                 if (__instance.isSheriff())
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                if (__instance.isEgoist())
+                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
                 Utils.NotifyRoles();
                 Utils.CustomSyncAllSettings();
                 return false;
@@ -596,7 +596,11 @@ namespace TownOfHost
                 else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() &&
                     __instance.isEgoist()
                 )
-                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
+                else if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() &&
+                    __instance.isEgoist()
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
 
 
                 //インポスターがタスクが終わりそうなSnitchを確認できる

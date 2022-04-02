@@ -183,6 +183,7 @@ namespace TownOfHost
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
+                {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                 {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
@@ -250,6 +251,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Egoist,
         Fox,
         Troll,
