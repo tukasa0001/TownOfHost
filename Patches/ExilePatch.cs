@@ -100,7 +100,6 @@ namespace TownOfHost
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
-                main.AirshipMeetingCheck = true;
             }
             main.ArsonistKillCooldownCheck = true;
             main.BountyMeetingCheck = true;
