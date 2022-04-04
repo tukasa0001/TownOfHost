@@ -602,7 +602,6 @@ namespace TownOfHost
                     RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                 }
 
-
                 //インポスターがタスクが終わりそうなSnitchを確認できる
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                 __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
