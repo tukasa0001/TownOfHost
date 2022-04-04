@@ -147,6 +147,8 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
+
+            main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
@@ -163,6 +165,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
@@ -177,7 +180,6 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
-                {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
@@ -205,8 +207,8 @@ namespace TownOfHost
             Harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
-        class TranslationControllerAwakePatch
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
+        class TranslationControllerInitializePatch
         {
             public static void Postfix(TranslationController __instance)
             {

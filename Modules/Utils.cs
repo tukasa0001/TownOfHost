@@ -22,7 +22,7 @@ namespace TownOfHost
         }
         public static string getRoleName(CustomRoles role)
         {
-            var lang = (TranslationController.Instance.CurrentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) &&
+            var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) &&
                 main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
 
             return getRoleName(role, lang);
@@ -216,6 +216,11 @@ namespace TownOfHost
         }
         public static void ShowLastRoles()
         {
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                SendMessage("試合中に/lastrolesを使用することはできません。");
+                return;
+            }
             var text = getString("LastResult") + ":";
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)

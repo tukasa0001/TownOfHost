@@ -79,6 +79,8 @@ namespace TownOfHost
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
                     bool SheriffCanKillMadmate = reader.ReadBoolean();
+                    bool SheriffCanKillCrewmatesAsIt = reader.ReadBoolean();
+                    int SheriffShotLimit = reader.ReadInt32();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -135,6 +137,8 @@ namespace TownOfHost
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
                         SheriffCanKillMadmate,
+                        SheriffCanKillCrewmatesAsIt,
+                        SheriffShotLimit,
                         SerialKillerCooldown,
                         SerialKillerLimit,
                         BountyTargetChangeTime,
@@ -262,6 +266,8 @@ namespace TownOfHost
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
                 bool SheriffCanKillMadmate,
+                bool SheriffCanKillCrewmatesAsIt,
+                int SheriffShotLimit,
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
@@ -330,6 +336,8 @@ namespace TownOfHost
             Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
             Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
             Options.SheriffCanKillMadmate.UpdateSelection(SheriffCanKillMadmate);
+            Options.SheriffCanKillCrewmatesAsIt.UpdateSelection(SheriffCanKillCrewmatesAsIt);
+            Options.SheriffShotLimit.UpdateSelection(SheriffShotLimit);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
             Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
@@ -405,6 +413,8 @@ namespace TownOfHost
             writer.Write(Options.SheriffCanKillTerrorist.GetBool());
             writer.Write(Options.SheriffCanKillOpportunist.GetBool());
             writer.Write(Options.SheriffCanKillMadmate.GetBool());
+            writer.Write(Options.SheriffCanKillCrewmatesAsIt.GetBool());
+            writer.Write(Options.SheriffShotLimit.GetSelection());
             writer.Write(Options.SyncButtonMode.GetBool());
             writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.WhenSkipVote.GetSelection());
