@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.StartGame))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
@@ -30,6 +30,8 @@ namespace TownOfHost
             main.isCursed = false;
 
             main.IgnoreReportPlayers = new List<byte>();
+
+            main.SheriffShotLimit = new Dictionary<byte, float>();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
@@ -322,7 +324,6 @@ namespace TownOfHost
                 {
                     if (pc.isSheriff())
                     {
-                        main.SheriffShotLimit = new Dictionary<byte, float>();
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
