@@ -52,7 +52,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) |  |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -198,6 +198,19 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+
+### SpeedBooster
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Completing the task will make a random surviving player speed up.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Speed at speed up |
 
 ### Mayor
 

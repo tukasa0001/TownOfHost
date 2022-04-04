@@ -284,6 +284,35 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.SpeedBooster:
+                    if (!player.Data.IsDead)
+                    {
+                        if (player.getPlayerTaskState().isTaskFinished)
+                        {
+                            if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                            {
+                                var rand = new System.Random();
+                                List<PlayerControl> targetplayers = new List<PlayerControl>();
+                                //切断者と死亡者を除外
+                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                                {
+                                    if (!p.Data.Disconnected && !p.Data.IsDead && !main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                                }
+                                //ターゲットが0ならアップ先をプレイヤーをnullに
+                                if (targetplayers.Count >= 1)
+                                {
+                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                                    //Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
+                                    main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                                }
+                                else
+                                {
+                                    main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                                }
+                            }
+                        }
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -309,6 +338,10 @@ namespace TownOfHost
                         }
                     }
                     break;
+            }
+            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+            {
+                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -523,6 +556,7 @@ namespace TownOfHost
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
+        public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
