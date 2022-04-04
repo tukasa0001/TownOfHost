@@ -20,12 +20,13 @@ namespace TownOfHost
                 __instance.RoleText.color = Utils.getRoleColor(role);
                 __instance.RoleBlurbText.color = Utils.getRoleColor(role);
                 __instance.YouAreText.color = Utils.getRoleColor(role);
+
+                if (PlayerControl.LocalPlayer.isEvilWatcher() || PlayerControl.LocalPlayer.isNiceWatcher())
+                    __instance.RoleBlurbText.text = getString("WatcherInfo");
+                else
+                    __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
             }, 0.01f, "Override Role Text");
 
-            if (PlayerControl.LocalPlayer.isEvilWatcher() || PlayerControl.LocalPlayer.isNiceWatcher())
-                __instance.RoleBlurbText.text = getString("WatcherInfo");
-            else
-                __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
