@@ -273,11 +273,11 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (__instance.getCustomRole().isImpostor())
-                {
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                }
                 if (__instance.isSheriff())
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                if (__instance.isEgoist())
+                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
                 Utils.NotifyRoles();
                 Utils.CustomSyncAllSettings();
                 return false;
@@ -588,6 +588,14 @@ namespace TownOfHost
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
+                else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
+                else if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがエゴイスト陣営のシュレディンガーの猫
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
                 else if (PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);

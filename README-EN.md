@@ -50,7 +50,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
-| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
+| [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
 | [Mafia](###Mafia) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
@@ -264,6 +264,7 @@ They do not have tasks.<br>
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill [Egoist](###Egoist) |
 | Sheriff Can Kill Crewmates As It |
 | Sheriff Shot Limit |
 
@@ -342,6 +343,23 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 |----------|
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
 
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
 ## Mode
 
 ### DisableTasks
