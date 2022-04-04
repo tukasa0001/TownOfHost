@@ -116,9 +116,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
-                var list = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
-                list.Add(PlayerControl.LocalPlayer);
-                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro(list));
+                HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro());
             }
             if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
             {
@@ -192,7 +190,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.isSheriff() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
+            ((PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist()) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }

@@ -49,8 +49,8 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
-| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
+| [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
 | [Mafia](###Mafia) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
@@ -259,9 +259,12 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Can Kill [Arsonist](###Arsonist) |
+| Sheriff Can Kill [Madmate](###Madmate) |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill [Egoist](###Egoist) |
 | Sheriff Can Kill Crewmates As It |
 | Sheriff Shot Limit |
 
@@ -301,6 +304,22 @@ They are the Neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates, they will win.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Dousing time |
+| Cooldown  |
+
 ### SchrodingerCat
 
 Team : Neutral<br>
@@ -324,6 +343,23 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 |----------|
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
 
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
 ## Mode
 
 ### DisableTasks

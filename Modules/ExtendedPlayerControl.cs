@@ -57,13 +57,14 @@ namespace TownOfHost
 
         public static CustomRoles getCustomRole(this PlayerControl player)
         {
+            var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
                 Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
-                return CustomRoles.Crewmate;
+                return cRole;
             }
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out var cRole);
-            if (cRoleFound) return cRole;
+            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
+            if (cRoleFound || player.Data.Role == null) return cRole;
 
             switch (player.Data.Role.Role)
             {
@@ -149,6 +150,12 @@ namespace TownOfHost
                     return Options.SheriffCanKillTerrorist.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
+                case CustomRoles.Arsonist:
+                    return Options.SheriffCanKillArsonist.GetBool();
+                case CustomRoles.Egoist:
+                    return Options.SheriffCanKillEgoist.GetBool();
+                case CustomRoles.EgoSchrodingerCat:
+                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -259,7 +266,17 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
-                    goto DefaultKillcooldown;
+                    break;
+                case CustomRoles.Arsonist:
+                    opt.ImpostorLightMod = opt.CrewLightMod;
+                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystema != null && switchSystema.IsActive)
+                    {
+                        opt.ImpostorLightMod /= 5;
+                    }
+                    if (!main.ArsonistKillCooldownCheck) opt.KillCooldown = Options.ArsonistCooldown.GetFloat() * 2;
+                    if (main.ArsonistKillCooldownCheck) opt.KillCooldown = 10f;
+                    break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
                     {
@@ -298,6 +315,14 @@ namespace TownOfHost
                                 }
                             }
                         }
+                    }
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystem != null && switchSystem.IsActive)
+                    {
+                        opt.CrewLightMod *= 5;
                     }
                     break;
 
@@ -509,6 +534,14 @@ namespace TownOfHost
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
+        {
+            if (arsonist == null) return false;
+            if (target == null) return false;
+            if (main.isDoused == null) return false;
+            main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
+            return isDoused;
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
@@ -534,9 +567,12 @@ namespace TownOfHost
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
+        public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
+        public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
+        public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
     }
 }
