@@ -154,6 +154,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillArsonist.GetBool();
                 case CustomRoles.Egoist:
                     return Options.SheriffCanKillEgoist.GetBool();
+                case CustomRoles.EgoSchrodingerCat:
+                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
