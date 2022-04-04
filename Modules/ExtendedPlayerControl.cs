@@ -152,6 +152,10 @@ namespace TownOfHost
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
                     return Options.SheriffCanKillArsonist.GetBool();
+                case CustomRoles.Egoist:
+                    return Options.SheriffCanKillEgoist.GetBool();
+                case CustomRoles.EgoSchrodingerCat:
+                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -282,6 +286,14 @@ namespace TownOfHost
                         {
                             opt.CrewLightMod *= 5;
                         }
+                    }
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystem != null && switchSystem.IsActive)
+                    {
+                        opt.CrewLightMod *= 5;
                     }
                     break;
 
@@ -535,5 +547,7 @@ namespace TownOfHost
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
+        public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
+        public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
     }
 }

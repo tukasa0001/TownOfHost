@@ -33,6 +33,8 @@ namespace TownOfHost
                 role == CustomRoles.SchrodingerCat ||
                 role == CustomRoles.Terrorist ||
                 role == CustomRoles.Arsonist ||
+                role == CustomRoles.Egoist ||
+                role == CustomRoles.EgoSchrodingerCat ||
                 role == CustomRoles.Troll ||
                 role == CustomRoles.Fox;
         }
