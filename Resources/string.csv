@@ -16,6 +16,9 @@ Madmate,Madmate,マッドメイト
 MadGuardian,MadGuardian,マッドガーディアン
 MadSnitch,MadSnitch,マッドスニッチ
 SKMadmate,SideKickMadmate,サイドキックマッドメイト
+NiceWatcher,Nice Watcher,ナイスウォッチャー
+EvilWatcher,Evil Watcher,イビルウォッチャー
+Watcher,Watcher,ウォッチャー
 Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
 SchrodingerCat,SchrodingerCat,シュレディンガーの猫
@@ -48,6 +51,7 @@ MadmateInfo,Help the Impostors,インポスターの援助をしよう
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
+WatcherInfo,Pay close attention to the crew's votes,みんなの投票に目を光らせよう
 ArsonistInfo,Let them burn,燃やせ
 JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -77,6 +81,7 @@ MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
 MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
+WatcherInfoLong,(Impostors or Crewmates):\nYou can see where everyone is voting.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
 TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
@@ -116,6 +121,7 @@ MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメ�
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
+EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
