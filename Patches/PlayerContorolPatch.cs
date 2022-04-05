@@ -692,6 +692,8 @@ namespace TownOfHost
                                 PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
                                 PlayerState.isDead[pc.PlayerId] = true;
                             }
+                            else
+                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
                         writer.Write(__instance.myPlayer.PlayerId);

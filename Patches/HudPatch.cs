@@ -165,8 +165,6 @@ namespace TownOfHost
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
                     {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                        if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
-                            PlayerControl.LocalPlayer.Data.Role.CanVent = true;
                     }
                     break;
                 case CustomRoles.SpeedBooster:
@@ -294,8 +292,10 @@ namespace TownOfHost
                         __instance.ImpostorVentButton.gameObject.SetActive(true);
                     }
                     else
-                        __instance.ImpostorVentButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(false);
+                    {
+                        __instance.ImpostorVentButton.Hide();
+                        __instance.ImpostorVentButton.gameObject.SetActive(false);
+                    }
                     break;
             }
         }
