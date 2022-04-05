@@ -12,6 +12,7 @@ namespace TownOfHost
         JesterExiled,
         TerroristWin,
         ArsonistWin,
+        SchrodingerCatExiled,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -113,6 +114,7 @@ namespace TownOfHost
                     int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     bool CanBeforeSchrodingerCatWinTheCrewmate = reader.ReadBoolean();
+                    bool SchrodingerCatExiledTeamChanges = reader.ReadBoolean();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
@@ -172,6 +174,7 @@ namespace TownOfHost
                         MadSnitchTasks,
                         MayorAdditionalVote,
                         CanBeforeSchrodingerCatWinTheCrewmate,
+                        SchrodingerCatExiledTeamChanges,
                         AutoDisplayLastResult
                     );
                     break;
@@ -186,6 +189,9 @@ namespace TownOfHost
                 case (byte)CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
                     RPC.ArsonistWin(wonArsonist);
+                    break;
+                case (byte)CustomRPC.SchrodingerCatExiled:
+                    byte exiledSchrodingerCat = reader.ReadByte();
                     break;
                 case (byte)CustomRPC.EndGame:
                     RPC.EndGame();
@@ -294,6 +300,7 @@ namespace TownOfHost
                 int MadSnitchTasks,
                 int MayorAdditionalVote,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
+                bool SchrodingerCatExiledTeamChanges,
                 bool AutoDisplayLastResult
             )
         {
@@ -374,6 +381,7 @@ namespace TownOfHost
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
 
             Options.CanBeforeSchrodingerCatWinTheCrewmate.UpdateSelection(CanBeforeSchrodingerCatWinTheCrewmate);
+            Options.SchrodingerCatExiledTeamChanges.UpdateSelection(SchrodingerCatExiledTeamChanges);
 
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
@@ -444,6 +452,7 @@ namespace TownOfHost
             writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
             writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
+            writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
