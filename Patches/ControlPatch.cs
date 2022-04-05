@@ -194,6 +194,12 @@ namespace TownOfHost
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
+            if (player.GetButtonDown(50) &&
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
+            (PlayerControl.LocalPlayer.isArsonist() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
+            {
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
+            }
         }
     }
 }
