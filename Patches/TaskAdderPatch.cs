@@ -84,7 +84,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
     class AddTaskButtonPatch
     {
-        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
+        public static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
             {CustomRoles.Engineer, RoleTypes.Engineer},
             {CustomRoles.Scientist, RoleTypes.Scientist},

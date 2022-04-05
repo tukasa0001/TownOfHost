@@ -203,16 +203,6 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Mayor) + getString("MayorInfoLong"));
                     break;
 
-                case "madguardian":
-                case "mg":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian) + getString("MadGuardianInfoLong"));
-                    break;
-
-                case "madsnitch":
-                case "msn":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch) + getString("MadSnitchInfoLong"));
-                    break;
-
                 case "opportunist":
                 case "op":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Opportunist) + getString("OpportunistInfoLong"));
@@ -279,7 +269,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), fox(fo), troll(tr)");
                     break;
             }
 

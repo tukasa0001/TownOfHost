@@ -204,20 +204,23 @@ namespace TownOfHost
                     return false;
                 }
             }
-            if (target.isMadGuardian())
+            if (target.isMadmate())
             {
-                var taskState = target.getPlayerTaskState();
-                if (taskState.isTaskFinished)
+                if (Options.MadmateHasAShieldAfterFinishingTasks.GetBool())
                 {
-                    int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
-                    if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                        NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
+                    var taskState = target.getPlayerTaskState();
+                    if (taskState.isTaskFinished)
+                    {
+                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
+                        NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, "#ff0000");
+                        if (Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetBool())
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, __instance.PlayerId, "#ff0000");
 
-                    main.BlockKilling[__instance.PlayerId] = false;
-                    if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                        Utils.NotifyRoles();
-                    return false;
+                        main.BlockKilling[__instance.PlayerId] = false;
+                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                            Utils.NotifyRoles();
+                        return false;
+                    }
                 }
             }
             if (__instance.isWitch())
@@ -575,9 +578,11 @@ namespace TownOfHost
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
                 }
                 //タスクを終わらせたMadSnitchがインポスターを確認できる
-                else if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                else if (PlayerControl.LocalPlayer.isMadmate() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
-                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
+                    PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished && //LocalPlayerのタスクが終わっている
+                    Options.MadmateHasTasks.GetBool() &&
+                    Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool())
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
@@ -611,7 +616,7 @@ namespace TownOfHost
                 { //__instanceがインポスターかつ自分自身
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     { //全員分ループ
-                        if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
+                        if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない
                         if (pc.getPlayerTaskState().doExpose)
                         { //タスクが終わりそうなSnitchが見つかった時
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
@@ -705,4 +710,3 @@ namespace TownOfHost
         }
     }
 }
-

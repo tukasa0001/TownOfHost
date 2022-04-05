@@ -152,6 +152,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
                     return Options.SheriffCanKillArsonist.GetBool();
+                case CustomRoles.Madmate:
+                    return Options.SheriffCanKillMadmate.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -161,8 +163,6 @@ namespace TownOfHost
             {
                 case IntroTypes.Impostor:
                     return true;
-                case IntroTypes.Madmate:
-                    return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
         }
@@ -201,7 +201,21 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                    goto InfinityVent;
+                    if (Options.MadmateHasImpostorVision.GetBool())
+                    {
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if (switchSystem != null && switchSystem.IsActive)
+                        {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
+                    if (Options.MadmateCanUseVents.GetBool())
+                    {
+                        opt.RoleOptions.EngineerCooldown = 0;
+                        opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    }
+                    break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
@@ -257,16 +271,16 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     opt.KillCooldown = Options.SheriffKillCooldown.GetFloat();
                     opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
+                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystema != null && switchSystema.IsActive)
                     {
                         opt.ImpostorLightMod /= 5;
                     }
                     break;
                 case CustomRoles.Arsonist:
                     opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystema != null && switchSystema.IsActive)
+                    var switchSystemb = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystemb != null && switchSystemb.IsActive)
                     {
                         opt.ImpostorLightMod /= 5;
                     }
@@ -296,20 +310,6 @@ namespace TownOfHost
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
-            switch (introType)
-            {
-                case IntroTypes.Madmate:
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
-                    break;
-            }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
@@ -340,8 +340,11 @@ namespace TownOfHost
             var adjustedTasksCount = AllTasksCount;
             switch (player.getCustomRole())
             {
-                case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetSelection();
+                case CustomRoles.Madmate:
+                    if (Options.MadmateHasTasks.GetBool())
+                    {
+                        adjustedTasksCount = Options.MadmateTasksCount.GetSelection();
+                    }
                     break;
                 default:
                     break;
@@ -511,8 +514,6 @@ namespace TownOfHost
         public static bool isMafia(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mafia; }
         public static bool isVampire(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Vampire; }
         public static bool isSabotageMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SabotageMaster; }
-        public static bool isMadGuardian(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MadGuardian; }
-        public static bool isMadSnitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MadSnitch; }
         public static bool isMayor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mayor; }
         public static bool isOpportunist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Opportunist; }
         public static bool isSnitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Snitch; }

@@ -96,12 +96,16 @@ namespace TownOfHost
                     int HaSKillDelay = reader.ReadInt32();
                     bool IgnoreVent = reader.ReadBoolean();
                     bool IgnoreCosmetics = reader.ReadBoolean();
+                    bool MadmateCanUseVents = reader.ReadBoolean();
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadmateHasImpostorVision = reader.ReadBoolean();
+                    bool MadmateHasTasks = reader.ReadBoolean();
+                    int MadmateTasksCount = reader.ReadInt32();
+                    bool MadmateCanKnowImpostorAfterFinishingTasks = reader.ReadBoolean();
+                    bool MadmateHasAShieldAfterFinishingTasks = reader.ReadBoolean();
+                    bool MadmateCanSeeWhoTriedToKillIfMadmateHasAShield = reader.ReadBoolean();
                     int CanMakeMadmateCount = reader.ReadInt32();
-                    bool MadGuardianCanSeeBarrier = reader.ReadBoolean();
-                    int MadSnitchTasks = reader.ReadInt32();
                     int MayorAdditionalVote = reader.ReadInt32();
                     int SerialKillerCooldown = reader.ReadInt32();
                     int SerialKillerLimit = reader.ReadInt32();
@@ -162,12 +166,16 @@ namespace TownOfHost
                         HaSKillDelay,
                         IgnoreVent,
                         IgnoreCosmetics,
+                        MadmateCanUseVents,
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
                         MadmateHasImpostorVision,
+                        MadmateHasTasks,
+                        MadmateTasksCount,
+                        MadmateCanKnowImpostorAfterFinishingTasks,
+                        MadmateHasAShieldAfterFinishingTasks,
+                        MadmateCanSeeWhoTriedToKillIfMadmateHasAShield,
                         CanMakeMadmateCount,
-                        MadGuardianCanSeeBarrier,
-                        MadSnitchTasks,
                         MayorAdditionalVote,
                         CanBeforeSchrodingerCatWinTheCrewmate,
                         AutoDisplayLastResult
@@ -283,12 +291,16 @@ namespace TownOfHost
                 int HaSKillDelay,
                 bool IgnoreVent,
                 bool IgnoreCosmetics,
+                bool MadmateCanUseVents,
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
                 bool MadmateHasImpostorVision,
+                bool MadmateHasTasks,
+                int MadmateTasksCount,
+                bool MadmateCanKnowImpostorAfterFinishingTasks,
+                bool MadmateHasAShieldAfterFinishingTasks,
+                bool MadmateCanSeeWhoTriedToKillIfMadmateHasAShield,
                 int CanMakeMadmateCount,
-                bool MadGuardianCanSeeBarrier,
-                int MadSnitchTasks,
                 int MayorAdditionalVote,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
                 bool AutoDisplayLastResult
@@ -359,12 +371,16 @@ namespace TownOfHost
             Options.IgnoreVent.UpdateSelection(IgnoreVent);
             Options.IgnoreCosmetics.UpdateSelection(IgnoreCosmetics);
 
+            Options.MadmateCanUseVents.UpdateSelection(MadmateCanUseVents);
             Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
             Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
             Options.MadmateHasImpostorVision.UpdateSelection(MadmateHasImpostorVision);
-            Options.MadGuardianCanSeeWhoTriedToKill.UpdateSelection(MadGuardianCanSeeBarrier);
+            Options.MadmateHasTasks.UpdateSelection(MadmateHasTasks);
+            Options.MadmateTasksCount.UpdateSelection(MadmateTasksCount);
+            Options.MadmateCanKnowImpostorAfterFinishingTasks.UpdateSelection(MadmateCanKnowImpostorAfterFinishingTasks);
+            Options.MadmateHasAShieldAfterFinishingTasks.UpdateSelection(MadmateHasAShieldAfterFinishingTasks);
+            Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.UpdateSelection(MadmateCanSeeWhoTriedToKillIfMadmateHasAShield);
             Options.CanMakeMadmateCount.UpdateSelection(CanMakeMadmateCount);
-            Options.MadSnitchTasks.UpdateSelection(MadSnitchTasks);
 
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
 
@@ -422,12 +438,16 @@ namespace TownOfHost
             writer.Write(Options.KillDelay.GetSelection());
             writer.Write(Options.IgnoreVent.GetBool());
             writer.Write(Options.IgnoreCosmetics.GetBool());
+            writer.Write(Options.MadmateCanUseVents.GetBool());
             writer.Write(Options.MadmateCanFixLightsOut.GetBool());
             writer.Write(Options.MadmateCanFixComms.GetBool());
             writer.Write(Options.MadmateHasImpostorVision.GetBool());
+            writer.Write(Options.MadmateHasTasks.GetBool());
+            writer.Write(Options.MadmateTasksCount.GetSelection());
+            writer.Write(Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool());
+            writer.Write(Options.MadmateHasAShieldAfterFinishingTasks.GetBool());
+            writer.Write(Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetBool());
             writer.Write(Options.CanMakeMadmateCount.GetSelection());
-            writer.Write(Options.MadGuardianCanSeeWhoTriedToKill.GetBool());
-            writer.Write(Options.MadSnitchTasks.GetSelection());
             writer.Write(Options.MayorAdditionalVote.GetSelection());
             writer.Write(Options.SerialKillerCooldown.GetSelection());
             writer.Write(Options.SerialKillerLimit.GetSelection());

@@ -10,7 +10,7 @@ namespace TownOfHost
             bool forced = false;
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
-                if (CustomRoles.Madmate.isEnable() || CustomRoles.Terrorist.isEnable()) forced = true;
+                if (CustomRoles.Madmate.isEnable() && Options.MadmateCanUseVents.GetBool() || CustomRoles.Terrorist.isEnable()) forced = true;
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {

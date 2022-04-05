@@ -39,7 +39,7 @@ namespace TownOfHost
                 {
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
+                    bool canWin = introType == IntroTypes.Impostor || role == CustomRoles.Madmate;
                     if (canWin) winner.Add(p);
                 }
             }
@@ -112,15 +112,15 @@ namespace TownOfHost
             }
             //SchrodingerCat
             if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
-                    winner.Add(pc);
-                    main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                    if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(pc.Data));
+                        winner.Add(pc);
+                        main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                    }
                 }
-            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&

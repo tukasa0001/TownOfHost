@@ -46,9 +46,15 @@ namespace TownOfHost
                 }
                 if (kvp.Key.isMadmate()) //マッドメイトの時に追加する詳細設定
                 {
+                    text += $"\t{Options.MadmateCanUseVents.GetName()}: {Options.MadmateCanUseVents.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
+                    text += $"\t{Options.MadmateHasTasks.GetName()}: {Options.MadmateHasTasks.GetString()}\n";
+                    text += $"\t{Options.MadmateTasksCount.GetName()}: {Options.MadmateTasksCount.GetString()}\n";
+                    text += $"\t{Options.MadmateCanKnowImpostorAfterFinishingTasks.GetName()}: {Options.MadmateCanKnowImpostorAfterFinishingTasks.GetString()}\n";
+                    text += $"\t{Options.MadmateHasAShieldAfterFinishingTasks.GetName()}: {Options.MadmateHasAShieldAfterFinishingTasks.GetString()}\n";
+                    text += $"\t{Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetName()}: {Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetString()}\n";
                 }
                 if (kvp.Key == CustomRoles.Shapeshifter || kvp.Key == CustomRoles.ShapeMaster || kvp.Key == CustomRoles.Mafia || kvp.Key == CustomRoles.BountyHunter || kvp.Key == CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {

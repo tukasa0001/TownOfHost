@@ -42,8 +42,6 @@ MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をし�
 BeforeMafiaInfo,You can not kill now,今はキルをすることができない
 AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
-MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
-MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
 ArsonistInfo,Let them burn,燃やせ
 JesterInfo,Get voted out,追放されよう
@@ -68,8 +66,6 @@ WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by wa
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
-MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
-MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
@@ -102,12 +98,16 @@ BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
+MadmateCanUseVents,Madmate Can Use Vents,マッドメイトがベントを使用できる
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直すことができる
-MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメイトの視野がインポスターと同じ
+MadmateHasImpostorVision,Madmate Vision Is As Long As Impostor One,マッドメイトの視野がインポスターと同じ
+MadmateHasTasks,Madmate Has Tasks,マッドメイトのタスク
+MadmateTasksCount,Madmate Tasks Count,マッドメイトのタスクの数
+MadmateCanKnowImpostorAfterFinishingTasks,Madmate Can Know Impostor After Finishing Tasks,マッドメイトがタスクを完了するとインポスターがわかる
+MadmateHasAShieldAfterFinishingTasks,Madmate Has A Shield After Finishing Tasks,マッドメイトがタスクを完了するとシールドを得る
+MadmateCanSeeWhoTriedToKillIfMadmateHasAShield,Madmate Can See Who Tried To Kill If Madmate Has A Shield,マッドメイトがキルされたときシールドがあればキルしようとした人がわかる
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
-MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える

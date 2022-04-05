@@ -126,8 +126,10 @@ namespace TownOfHost
                 if (cRoleFound)
                 {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
-                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Madmate && ForRecompute)
+                    {
+                        if (!Options.MadmateHasTasks.GetBool()) hasTasks = false;
+                    }
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
@@ -415,11 +417,17 @@ namespace TownOfHost
                     if (TaskState.isTaskFinished)
                         SeerKnowsImpostors = true;
                 }
-                if (seer.isMadSnitch())
+                if (seer.isMadmate())
                 {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
+                    if (Options.MadmateHasTasks.GetBool())
+                    {
+                        if (Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool())
+                        {
+                            var TaskState = seer.getPlayerTaskState();
+                            if (TaskState.isTaskFinished)
+                                SeerKnowsImpostors = true;
+                        }
+                    }
                 }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
