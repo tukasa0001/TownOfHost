@@ -162,7 +162,7 @@ namespace TownOfHost
                 case IntroTypes.Impostor:
                     return true;
                 case IntroTypes.Madmate:
-                    return true;
+                    return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
         }
