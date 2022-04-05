@@ -63,6 +63,7 @@ namespace TownOfHost
         public static CustomOption MadSnitchTasks;
         public static CustomOption CanMakeMadmateCount;
 
+        public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
@@ -148,6 +149,15 @@ namespace TownOfHost
         public static int SnitchExposeTaskLeft = 1;
 
 
+        public static bool IsEvilWatcher = false;
+        public static void SetWatcherTeam(float EvilWatcherRate)
+        {
+            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
+            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
+                IsEvilWatcher = true;
+            else
+                IsEvilWatcher = false;
+        }
         private static bool IsLoaded = false;
 
         static Options()
@@ -226,6 +236,9 @@ namespace TownOfHost
             MadmateCanFixLightsOut = CustomOption.Create(11000, Color.white, "MadmateCanFixLightsOut", false, null, true);
             MadmateCanFixComms = CustomOption.Create(11001, Color.white, "MadmateCanFixComms", false);
             MadmateHasImpostorVision = CustomOption.Create(11002, Color.white, "MadmateHasImpostorVision", false);
+            // Both
+            SetupRoleOptions(30000, CustomRoles.Watcher);
+            EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);

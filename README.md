@@ -50,7 +50,8 @@
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) | [Arsonist/アーソニスト](###Arsonist/アーソニスト) |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) | [Egoist/エゴイスト](###Egoist/エゴイスト) |
-| [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
+| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) |  |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
@@ -194,6 +195,18 @@
 | [マッドメイト](###Madmate/マッドメイト)(マッドスニッチ)が停電を直すことができる |
 | マッドスニッチのタスク数 |
 
+### Watcher/ウォッチャー
+
+陣営 : インポスターorクルーメイト<br>
+判定 : インポスターorクルーメイト<br>
+
+ウォッチャーは会議中に全員の投票先を見ることができます。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| イビルウォッチャーになる確率(%) |
 ### Bait/ベイト
 
 陣営 : クルーメイト<br>
@@ -468,7 +481,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 ## 参考など
 
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](###Opportunist/オポチュニスト)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
