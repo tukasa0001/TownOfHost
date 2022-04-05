@@ -105,7 +105,7 @@ MadmateHasImpostorVision,Madmate Vision Is As Long As Impostor One,マッドメ�
 MadmateTasksCount,Madmate Tasks Count,マッドメイトのタスクの数
 MadmateCanKnowImpostorAfterFinishingTasks,Madmate Can Know Impostor After Finishing Tasks,マッドメイトがタスクを完了するとインポスターがわかる
 MadmateHasAShieldAfterFinishingTasks,Madmate Has A Shield After Finishing Tasks,マッドメイトがタスクを完了するとシールドを得る
-MadmateCanSeeWhoTriedToKillIfMadmateHasAShield,Madmate Can See Who Tried To Kill If Madmate Has A Shield,マッドメイトがキルされたときシールドがあればキルしようとした人がわかる
+MadmateCanSeeWhoTriedToKillIfMadmateHasAShield,Madmate Can See Who Tried To Kill If Madmate Has A Shield,ｼｰﾙﾄﾞを持っているﾏｯﾄﾞﾒｲﾄをｷﾙしようとした人がわかる
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を

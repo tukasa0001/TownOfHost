@@ -214,14 +214,14 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia);
             BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
+            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
 
             // Madmate Common
-            MadmateCanFixLightsOut = CustomOption.Create(5000, Color.white, "MadmateCanFixLightsOut", false);
-            MadmateCanFixComms = CustomOption.Create(5001, Color.white, "MadmateCanFixComms", false);
-            MadmateHasImpostorVision = CustomOption.Create(5002, Color.white, "MadmateHasImpostorVision", false);
-            CanMakeMadmateCount = CustomOption.Create(5003, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
+            MadmateCanFixLightsOut = CustomOption.Create(10000, Color.white, "MadmateCanFixLightsOut", false);
+            MadmateCanFixComms = CustomOption.Create(10001, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(10002, Color.white, "MadmateHasImpostorVision", false);
             // Madmate
-            SetupRoleOptions(10000, CustomRoles.Madmate);
+            SetupRoleOptions(10100, CustomRoles.Madmate);
             MadmateCanUseVents = CustomOption.Create(10110, Color.white, "MadmateCanUseVents", true, CustomRoleSpawnChances[CustomRoles.Madmate]);
             MadmateTasksCount = CustomOption.Create(10111, Color.white, "MadmateTasksCount", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.Madmate]);
             MadmateCanKnowImpostorAfterFinishingTasks = CustomOption.Create(10112, Color.white, "MadmateCanKnowImpostorAfterFinishingTasks", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
