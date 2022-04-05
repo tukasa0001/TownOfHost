@@ -160,12 +160,12 @@ namespace TownOfHost
                     return true;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Impostor:
+                case RoleType.Impostor:
                     return true;
-                case IntroTypes.Madmate:
+                case RoleType.Madmate:
                     return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
@@ -341,10 +341,10 @@ namespace TownOfHost
                     break;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Madmate:
+                case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
