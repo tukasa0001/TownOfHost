@@ -84,9 +84,17 @@ namespace TownOfHost
                     main.CursedPlayers[wr.PlayerId] = (null);
                     main.isCurseAndKill[wr.PlayerId] = false;
                 }
+                if (wr.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
+                {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
+                    writer.Write(exiled.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    wr.ExiledSchrodingerCatTeamChange();
+                }
                 if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
             }
             main.BountyMeetingCheck = true;
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
         }

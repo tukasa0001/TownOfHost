@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Linq;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -152,16 +153,20 @@ namespace TownOfHost
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
                     return Options.SheriffCanKillArsonist.GetBool();
+                case CustomRoles.Egoist:
+                    return Options.SheriffCanKillEgoist.GetBool();
+                case CustomRoles.EgoSchrodingerCat:
+                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Impostor:
+                case RoleType.Impostor:
                     return true;
-                case IntroTypes.Madmate:
+                case RoleType.Madmate:
                     return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
@@ -254,6 +259,11 @@ namespace TownOfHost
                 case CustomRoles.Impostor:
                 case CustomRoles.Witch:
                     goto DefaultKillcooldown;
+                case CustomRoles.EvilWatcher:
+                case CustomRoles.NiceWatcher:
+                    if (opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
+                    break;
                 case CustomRoles.Sheriff:
                     opt.KillCooldown = Options.SheriffKillCooldown.GetFloat();
                     opt.ImpostorLightMod = opt.CrewLightMod;
@@ -284,6 +294,43 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.SpeedBooster:
+                    if (!player.Data.IsDead)
+                    {
+                        if (player.getPlayerTaskState().isTaskFinished)
+                        {
+                            if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                            {
+                                var rand = new System.Random();
+                                List<PlayerControl> targetplayers = new List<PlayerControl>();
+                                //切断者と死亡者を除外
+                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                                {
+                                    if (!p.Data.Disconnected && !p.Data.IsDead && !main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                                }
+                                //ターゲットが0ならアップ先をプレイヤーをnullに
+                                if (targetplayers.Count >= 1)
+                                {
+                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                                    //Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
+                                    main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                                }
+                                else
+                                {
+                                    main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.CrewLightMod = opt.ImpostorLightMod;
+                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (switchSystem != null && switchSystem.IsActive)
+                    {
+                        opt.CrewLightMod *= 5;
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -295,10 +342,21 @@ namespace TownOfHost
                     break;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Madmate:
+                case RoleType.Impostor:
+                    if (player.isLastImpostor())
+                    {
+                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
+                        {
+                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
+                        }
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                    break;
+                case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
@@ -309,6 +367,10 @@ namespace TownOfHost
                         }
                     }
                     break;
+            }
+            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+            {
+                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -362,7 +424,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return Utils.getRoleName(player.getCustomRole());
+            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -496,6 +558,31 @@ namespace TownOfHost
             writer.Write(main.SheriffShotLimit[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static bool CanUseKillButton(this PlayerControl pc)
+        {
+            bool canUse =
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff() ||
+                pc.isArsonist();
+
+            if (pc.isMafia())
+            {
+                if (main.AliveImpostorCount > 1) canUse = false;
+            }
+            return canUse;
+        }
+        public static bool isLastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            if (pc.getCustomRole().isImpostor() &&
+                !pc.Data.IsDead &&
+                Options.EnableLastImpostor.GetBool() &&
+                !pc.isVampire() &&
+                !pc.isBountyHunter() &&
+                !pc.isSerialKiller() &&
+                main.AliveImpostorCount == 1)
+                return true;
+            return false;
+        }
         public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
@@ -504,12 +591,29 @@ namespace TownOfHost
             main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
+        public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
+        {
+            var rand = new System.Random();
+            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new System.Collections.Generic.List<CustomRoles>();
+            RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
+            RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
+                {
+                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+                }
+            var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
+            player.RpcSetCustomRole(SchrodingerTeam);
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
         public static bool isGurdianAngel(this PlayerControl target) { return target.getCustomRole() == CustomRoles.GuardianAngel; }
         public static bool isImpostor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Impostor; }
         public static bool isShapeshifter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Shapeshifter; }
+        public static bool isWatcher(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Watcher; }
+        public static bool isEvilWatcher(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EvilWatcher; }
+        public static bool isNiceWatcher(this PlayerControl target) { return target.getCustomRole() == CustomRoles.NiceWatcher; }
         public static bool isJester(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Jester; }
         public static bool isMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Madmate; }
         public static bool isSKMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SKMadmate; }
@@ -530,8 +634,11 @@ namespace TownOfHost
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
+        public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
+        public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
+        public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
     }
 }

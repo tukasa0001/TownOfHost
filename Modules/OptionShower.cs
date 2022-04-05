@@ -26,6 +26,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 //役職一覧
+                text += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{getString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode == CustomGameMode.Standard || kvp.Value.GameMode == CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                         text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{Utils.getRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
@@ -34,6 +35,14 @@ namespace TownOfHost
             }
             //有効な役職と詳細設定一覧
             pages.Add("");
+            if (Options.CurrentGameMode == CustomGameMode.Standard)
+            {
+                if (Options.EnableLastImpostor.GetBool())
+                {
+                    text += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{getString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    text += $"\t{getString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
+                }
+            }
             foreach (var kvp in Options.CustomRoleSpawnChances)
             {
                 if (!kvp.Key.isEnable()) continue;

@@ -93,6 +93,12 @@ namespace TownOfHost
                 case CustomRoles.MadSnitch:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{Utils.getRoleName(CustomRoles.MadSnitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchInfo")}</color>\r\n";
                     break;
+                case CustomRoles.EvilWatcher:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{Utils.getRoleName(CustomRoles.EvilWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.NiceWatcher:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.NiceWatcher)}>{Utils.getRoleName(CustomRoles.NiceWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
+                    break;
                 case CustomRoles.Jester:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{Utils.getRoleName(CustomRoles.Jester)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{getString("JesterInfo")}</color>\r\n";
                     TaskTextPrefix += FakeTasksText;
@@ -104,7 +110,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{Utils.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{getString("TerroristInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
-                    if (!CustomRoles.Mafia.CanUseKillButton())
+                    if (!PlayerControl.LocalPlayer.CanUseKillButton())
                     {
                         TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{Utils.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{getString("BeforeMafiaInfo")}</color>\r\n";
                         __instance.KillButton.SetDisabled();
@@ -161,6 +167,9 @@ namespace TownOfHost
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
                     break;
+                case CustomRoles.SpeedBooster:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
+                    break;
                 case CustomRoles.SchrodingerCat:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
                     break;
@@ -169,6 +178,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.MSchrodingerCat:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MSchrodingerCat)}>{Utils.getRoleName(CustomRoles.MSchrodingerCat)}\r\n{getString("MSchrodingerCatInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.EgoSchrodingerCat)}>{Utils.getRoleName(CustomRoles.EgoSchrodingerCat)}\r\n{getString("EgoSchrodingerCatInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.Egoist:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{Utils.getRoleName(CustomRoles.Egoist)}\r\n{getString("EgoistInfo")}</color>\r\n";
                     break;
             }
 
