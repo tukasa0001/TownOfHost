@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.StartGame))]
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
