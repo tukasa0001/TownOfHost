@@ -78,6 +78,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;

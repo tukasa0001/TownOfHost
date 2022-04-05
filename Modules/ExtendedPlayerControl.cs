@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Linq;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -344,6 +345,17 @@ namespace TownOfHost
             RoleType roleType = role.getRoleType();
             switch (roleType)
             {
+                case RoleType.Impostor:
+                    if (player.isLastImpostor())
+                    {
+                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
+                        {
+                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
+                        }
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                    break;
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
@@ -412,7 +424,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return Utils.getRoleName(player.getCustomRole());
+            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -539,6 +551,31 @@ namespace TownOfHost
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static bool CanUseKillButton(this PlayerControl pc)
+        {
+            bool canUse =
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff() ||
+                pc.isArsonist();
+
+            if (pc.isMafia())
+            {
+                if (main.AliveImpostorCount > 1) canUse = false;
+            }
+            return canUse;
+        }
+        public static bool isLastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            if (pc.getCustomRole().isImpostor() &&
+                !pc.Data.IsDead &&
+                Options.EnableLastImpostor.GetBool() &&
+                !pc.isVampire() &&
+                !pc.isBountyHunter() &&
+                !pc.isSerialKiller() &&
+                main.AliveImpostorCount == 1)
+                return true;
+            return false;
+        }
         public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
@@ -554,10 +591,10 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-            if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
-            {
-                RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-            }
+                if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
+                {
+                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+                }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
