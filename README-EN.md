@@ -50,9 +50,10 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
-| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
+| [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
+| [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -185,6 +186,18 @@ Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
 They are unable to enter vent.<br>
 
+### Watcher
+
+Team : Impostors or Crewmates<br>
+Decision : Impostor or Crewmates<br>
+
+The Watcher is a player capable of seeing everyone's votes during meetings.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| EvilWatcherChance |
 ### Bait
 
 Team : Crewmates<br>
@@ -198,6 +211,19 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+
+### SpeedBooster
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Completing the task will make a random surviving player speed up.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Speed at speed up |
 
 ### Mayor
 
@@ -251,6 +277,7 @@ They do not have tasks.<br>
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill [Egoist](###Egoist) |
 | Sheriff Can Kill Crewmates As It |
 | Sheriff Shot Limit |
 
@@ -328,6 +355,35 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 | Settings Name |
 |----------|
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
+
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
+
+## Attribute
+
+### LastImpostor
+
+This is the attribute given to the last in-poster.<br>
+Not given to BountyHunter, SerialKiller, or Vampire.<br>
+
+| Settings Name |
+|----------|
+| LastImpostor KillCooldown |
 
 ## Mode
 
@@ -441,7 +497,7 @@ If the client language is English, this setting is meaningless unless the host h
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
