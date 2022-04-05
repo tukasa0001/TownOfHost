@@ -139,6 +139,8 @@ namespace TownOfHost
                     if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
+                    if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
+                    if (cRole == CustomRoles.Egoist) hasTasks = false;
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
                     //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
@@ -425,7 +427,8 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
-                    || (seer.getCustomRole().isImpostor() && ShowSnitchWarning) //seerがインポスターで、タスクが終わりそうなSnitchがいる
+                    || seer.getCustomRole().isImpostor() //seerがインポスター
+                    || seer.isEgoSchrodingerCat() //seerがエゴイストのシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
                 )
@@ -464,6 +467,10 @@ namespace TownOfHost
                         {
                             TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
                         }
+                        else if (seer.getCustomRole().isImpostor() && target.isEgoist())
+                            TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
+                        else if (seer.isEgoSchrodingerCat() && target.isEgoist())
+                            TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
                         else
                         {
                             //NameColorManager準拠の処理
