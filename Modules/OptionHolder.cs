@@ -65,6 +65,7 @@ namespace TownOfHost
         public static CustomOption MadSnitchTasks;
         public static CustomOption CanMakeMadmateCount;
 
+        public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
@@ -79,12 +80,16 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillJester;
         public static CustomOption SheriffCanKillTerrorist;
         public static CustomOption SheriffCanKillOpportunist;
+        public static CustomOption SheriffCanKillEgoist;
+        public static CustomOption SheriffCanKillEgoShrodingerCat;
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
+        public static CustomOption SpeedBoosterUpSpeed;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
         public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
+        public static CustomOption SchrodingerCatExiledTeamChanges;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -148,6 +153,15 @@ namespace TownOfHost
         public static int SnitchExposeTaskLeft = 1;
 
 
+        public static bool IsEvilWatcher = false;
+        public static void SetWatcherTeam(float EvilWatcherRate)
+        {
+            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
+            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
+                IsEvilWatcher = true;
+            else
+                IsEvilWatcher = false;
+        }
         private static bool IsLoaded = false;
 
         static Options()
@@ -226,6 +240,9 @@ namespace TownOfHost
             MadmateCanFixLightsOut = CustomOption.Create(11000, Color.white, "MadmateCanFixLightsOut", false, null, true);
             MadmateCanFixComms = CustomOption.Create(11001, Color.white, "MadmateCanFixComms", false);
             MadmateHasImpostorVision = CustomOption.Create(11002, Color.white, "MadmateHasImpostorVision", false);
+            // Both
+            SetupRoleOptions(30000, CustomRoles.Watcher);
+            EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
@@ -245,9 +262,13 @@ namespace TownOfHost
             SheriffCanKillJester = CustomOption.Create(20412, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillEgoist = CustomOption.Create(20418, Color.white, "SheriffCanKillEgoist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillEgoShrodingerCat = CustomOption.Create(20419, Color.white, "SheriffCanKillEgoShrodingerCat", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
+            SetupRoleOptions(20600, CustomRoles.SpeedBooster);
+            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f,0.25f,3f,0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             // Other
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
@@ -259,6 +280,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
+            SetupRoleOptions(50600, CustomRoles.Egoist);
+
             EnableLastImpostor = CustomOption.Create(80000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)

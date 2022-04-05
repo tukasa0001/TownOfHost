@@ -12,6 +12,7 @@ namespace TownOfHost
         JesterExiled,
         TerroristWin,
         ArsonistWin,
+        SchrodingerCatExiled,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -66,6 +67,7 @@ namespace TownOfHost
                     bool StartReactorDisabled = reader.ReadBoolean();
                     bool ResetBreakerDisabled = reader.ReadBoolean();
                     int VampireKillDelay = reader.ReadInt32();
+                    int EvilWatcherChance = reader.ReadInt32();
                     int SabotageMasterSkillLimit = reader.ReadInt32();
                     bool SabotageMasterFixesDoors = reader.ReadBoolean();
                     bool SabotageMasterFixesReactors = reader.ReadBoolean();
@@ -78,6 +80,8 @@ namespace TownOfHost
                     bool SheriffCanKillTerrorist = reader.ReadBoolean();
                     bool SheriffCanKillOpportunist = reader.ReadBoolean();
                     bool SheriffCanKillMadmate = reader.ReadBoolean();
+                    bool SheriffCanKillCrewmatesAsIt = reader.ReadBoolean();
+                    int SheriffShotLimit = reader.ReadInt32();
                     bool SyncButtonMode = reader.ReadBoolean();
                     int SyncedButtonCount = reader.ReadInt32();
                     int whenSkipVote = reader.ReadInt32();
@@ -110,6 +114,7 @@ namespace TownOfHost
                     int DefaultShapeshiftCooldown = reader.ReadInt32();
                     int ShapeMasterShapeshiftDuration = reader.ReadInt32();
                     bool CanBeforeSchrodingerCatWinTheCrewmate = reader.ReadBoolean();
+                    bool SchrodingerCatExiledTeamChanges = reader.ReadBoolean();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     bool EnableLastImpostor = reader.ReadBoolean();
                     int LastImpostorKillCooldown = reader.ReadInt32();
@@ -136,6 +141,8 @@ namespace TownOfHost
                         SheriffCanKillTerrorist,
                         SheriffCanKillOpportunist,
                         SheriffCanKillMadmate,
+                        SheriffCanKillCrewmatesAsIt,
+                        SheriffShotLimit,
                         SerialKillerCooldown,
                         SerialKillerLimit,
                         BountyTargetChangeTime,
@@ -146,6 +153,7 @@ namespace TownOfHost
                         ShapeMasterShapeshiftDuration,
                         EnableLastImpostor,
                         LastImpostorKillCooldown,
+                        EvilWatcherChance,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -170,6 +178,7 @@ namespace TownOfHost
                         MadSnitchTasks,
                         MayorAdditionalVote,
                         CanBeforeSchrodingerCatWinTheCrewmate,
+                        SchrodingerCatExiledTeamChanges,
                         AutoDisplayLastResult
                     );
                     break;
@@ -184,6 +193,9 @@ namespace TownOfHost
                 case (byte)CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
                     RPC.ArsonistWin(wonArsonist);
+                    break;
+                case (byte)CustomRPC.SchrodingerCatExiled:
+                    byte exiledSchrodingerCat = reader.ReadByte();
                     break;
                 case (byte)CustomRPC.EndGame:
                     RPC.EndGame();
@@ -257,6 +269,9 @@ namespace TownOfHost
                 bool SheriffCanKillTerrorist,
                 bool SheriffCanKillOpportunist,
                 bool SheriffCanKillMadmate,
+                bool SheriffCanKillCrewmatesAsIt,
+                int SheriffShotLimit,
+                int EvilWatcherChance,
                 int SerialKillerCooldown,
                 int SerialKillerLimit,
                 int BountyTargetChangeTime,
@@ -291,6 +306,7 @@ namespace TownOfHost
                 int MadSnitchTasks,
                 int MayorAdditionalVote,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
+                bool SchrodingerCatExiledTeamChanges,
                 bool AutoDisplayLastResult
             )
         {
@@ -327,6 +343,10 @@ namespace TownOfHost
             Options.SheriffCanKillTerrorist.UpdateSelection(SheriffCanKillTerrorist);
             Options.SheriffCanKillOpportunist.UpdateSelection(SheriffCanKillOpportunist);
             Options.SheriffCanKillMadmate.UpdateSelection(SheriffCanKillMadmate);
+            Options.SheriffCanKillCrewmatesAsIt.UpdateSelection(SheriffCanKillCrewmatesAsIt);
+            Options.SheriffShotLimit.UpdateSelection(SheriffShotLimit);
+
+            Options.EvilWatcherChance.UpdateSelection(EvilWatcherChance);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
             Options.SerialKillerLimit.UpdateSelection(SerialKillerLimit);
@@ -369,6 +389,7 @@ namespace TownOfHost
             Options.MayorAdditionalVote.UpdateSelection(MayorAdditionalVote);
 
             Options.CanBeforeSchrodingerCatWinTheCrewmate.UpdateSelection(CanBeforeSchrodingerCatWinTheCrewmate);
+            Options.SchrodingerCatExiledTeamChanges.UpdateSelection(SchrodingerCatExiledTeamChanges);
 
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
         }
@@ -404,6 +425,8 @@ namespace TownOfHost
             writer.Write(Options.SheriffCanKillTerrorist.GetBool());
             writer.Write(Options.SheriffCanKillOpportunist.GetBool());
             writer.Write(Options.SheriffCanKillMadmate.GetBool());
+            writer.Write(Options.SheriffCanKillCrewmatesAsIt.GetBool());
+            writer.Write(Options.SheriffShotLimit.GetSelection());
             writer.Write(Options.SyncButtonMode.GetBool());
             writer.Write(Options.SyncedButtonCount.GetSelection());
             writer.Write((int)Options.WhenSkipVote.GetSelection());
@@ -427,6 +450,7 @@ namespace TownOfHost
             writer.Write(Options.MadGuardianCanSeeWhoTriedToKill.GetBool());
             writer.Write(Options.MadSnitchTasks.GetSelection());
             writer.Write(Options.MayorAdditionalVote.GetSelection());
+            writer.Write(Options.EvilWatcherChance.GetSelection());
             writer.Write(Options.SerialKillerCooldown.GetSelection());
             writer.Write(Options.SerialKillerLimit.GetSelection());
             writer.Write(Options.BountyTargetChangeTime.GetSelection());
@@ -438,6 +462,7 @@ namespace TownOfHost
             writer.Write(Options.LastImpostorKillCooldown.GetSelection());
             writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
+            writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
