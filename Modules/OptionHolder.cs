@@ -56,16 +56,15 @@ namespace TownOfHost
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
-        public static CustomOption MadmateCanUseVents;
         public static CustomOption MadmateCanFixLightsOut;
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
+        public static CustomOption CanMakeMadmateCount;
+        public static CustomOption MadmateCanUseVents;
         public static CustomOption MadmateTasksCount;
         public static CustomOption MadmateCanKnowImpostorAfterFinishingTasks;
         public static CustomOption MadmateHasAShieldAfterFinishingTasks;
         public static CustomOption MadmateCanSeeWhoTriedToKillIfMadmateHasAShield;
-        public static CustomOption CanMakeMadmateCount;
-
         public static CustomOption MayorAdditionalVote;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
@@ -216,17 +215,18 @@ namespace TownOfHost
             BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
 
-            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
+            // Madmate Common
+            MadmateCanFixLightsOut = CustomOption.Create(5000, Color.white, "MadmateCanFixLightsOut", false);
+            MadmateCanFixComms = CustomOption.Create(5001, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(5002, Color.white, "MadmateHasImpostorVision", false);
+            CanMakeMadmateCount = CustomOption.Create(5003, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             MadmateCanUseVents = CustomOption.Create(10110, Color.white, "MadmateCanUseVents", true, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanFixLightsOut = CustomOption.Create(10111, Color.white, "MadmateCanFixLightsOut", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanFixComms = CustomOption.Create(10112, Color.white, "MadmateCanFixComms", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateHasImpostorVision = CustomOption.Create(10113, Color.white, "MadmateHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateTasksCount = CustomOption.Create(10114, Color.white, "MadmateTasksCount", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanKnowImpostorAfterFinishingTasks = CustomOption.Create(10115, Color.white, "MadmateCanKnowImpostorAfterFinishingTasks", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateHasAShieldAfterFinishingTasks = CustomOption.Create(10116, Color.white, "MadmateHasAShieldAfterFinishingTasks", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
-            MadmateCanSeeWhoTriedToKillIfMadmateHasAShield = CustomOption.Create(10117, Color.white, "MadmateCanSeeWhoTriedToKillIfMadmateHasAShield", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateTasksCount = CustomOption.Create(10111, Color.white, "MadmateTasksCount", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateCanKnowImpostorAfterFinishingTasks = CustomOption.Create(10112, Color.white, "MadmateCanKnowImpostorAfterFinishingTasks", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateHasAShieldAfterFinishingTasks = CustomOption.Create(10113, Color.white, "MadmateHasAShieldAfterFinishingTasks", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateCanSeeWhoTriedToKillIfMadmateHasAShield = CustomOption.Create(10114, Color.white, "MadmateCanSeeWhoTriedToKillIfMadmateHasAShield", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);

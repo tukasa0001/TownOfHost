@@ -53,13 +53,16 @@ namespace TownOfHost
                     __instance.TeamTitle.color = Utils.getRoleColor(role);
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
                     break;
-            }
-            switch (role)
-            {
-                case CustomRoles.Madmate:
+                case IntroTypes.Madmate:
+                    __instance.TeamTitle.text = getString("Madmate");
+                    __instance.TeamTitle.color = Utils.getRoleColor(CustomRoles.Madmate);
+                    __instance.ImpostorText.text = getString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
+            }
+            switch (role)
+            {
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;

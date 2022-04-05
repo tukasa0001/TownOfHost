@@ -44,22 +44,22 @@ namespace TownOfHost
                     if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
                     text += $"\t{c.GetName()}: {c.GetString()}\n";
                 }
-                if (kvp.Key.isMadmate()) //マッドメイトの時に追加する詳細設定
-                {
-                    text += $"\t{Options.MadmateCanUseVents.GetName()}: {Options.MadmateCanUseVents.GetString()}\n";
-                    text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
-                    text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
-                    text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
-                    text += $"\t{Options.MadmateTasksCount.GetName()}: {Options.MadmateTasksCount.GetString()}\n";
-                    text += $"\t{Options.MadmateCanKnowImpostorAfterFinishingTasks.GetName()}: {Options.MadmateCanKnowImpostorAfterFinishingTasks.GetString()}\n";
-                    text += $"\t{Options.MadmateHasAShieldAfterFinishingTasks.GetName()}: {Options.MadmateHasAShieldAfterFinishingTasks.GetString()}\n";
-                    text += $"\t{Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetName()}: {Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetString()}\n";
-                }
+                text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
+                text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
+                text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
                 if (kvp.Key == CustomRoles.Shapeshifter || kvp.Key == CustomRoles.ShapeMaster || kvp.Key == CustomRoles.Mafia || kvp.Key == CustomRoles.BountyHunter || kvp.Key == CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
                     text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                 }
                 text += "\n";
+                if (kvp.Key.isMadmate()) //マッドメイトの時に追加する詳細設定
+                {
+                    text += $"\t{Options.MadmateCanUseVents.GetName()}: {Options.MadmateCanUseVents.GetString()}\n";
+                    text += $"\t{Options.MadmateTasksCount.GetName()}: {Options.MadmateTasksCount.GetString()}\n";
+                    text += $"\t{Options.MadmateCanKnowImpostorAfterFinishingTasks.GetName()}: {Options.MadmateCanKnowImpostorAfterFinishingTasks.GetString()}\n";
+                    text += $"\t{Options.MadmateHasAShieldAfterFinishingTasks.GetName()}: {Options.MadmateHasAShieldAfterFinishingTasks.GetString()}\n";
+                    text += $"\t{Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetName()}: {Options.MadmateCanSeeWhoTriedToKillIfMadmateHasAShield.GetString()}\n";
+                }
             }
             //Onの時に子要素まで表示するメソッド
             Action<CustomOption> listUp = (o) =>

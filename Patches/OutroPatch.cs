@@ -39,7 +39,7 @@ namespace TownOfHost
                 {
                     CustomRoles role = p.getCustomRole();
                     IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Impostor || role == CustomRoles.Madmate;
+                    bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
                     if (canWin) winner.Add(p);
                 }
             }

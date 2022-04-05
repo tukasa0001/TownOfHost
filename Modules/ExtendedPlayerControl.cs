@@ -152,8 +152,6 @@ namespace TownOfHost
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
                     return Options.SheriffCanKillArsonist.GetBool();
-                case CustomRoles.Madmate:
-                    return Options.SheriffCanKillMadmate.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -162,6 +160,8 @@ namespace TownOfHost
             switch (introType)
             {
                 case IntroTypes.Impostor:
+                    return true;
+                case IntroTypes.Madmate:
                     return true;
             }
             return false;
@@ -201,15 +201,6 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
                     if (Options.MadmateCanUseVents.GetBool())
                     {
                         opt.RoleOptions.EngineerCooldown = 0;
@@ -310,6 +301,20 @@ namespace TownOfHost
             }
             CustomRoles role = player.getCustomRole();
             IntroTypes introType = role.getIntroType();
+            switch (introType)
+            {
+                case IntroTypes.Madmate:
+                    if (Options.MadmateHasImpostorVision.GetBool())
+                    {
+                        opt.CrewLightMod = opt.ImpostorLightMod;
+                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                        if (switchSystem != null && switchSystem.IsActive)
+                        {
+                            opt.CrewLightMod *= 5;
+                        }
+                    }
+                    break;
+            }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
