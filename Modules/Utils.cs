@@ -201,6 +201,12 @@ namespace TownOfHost
                     if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());
                 }
                 SendMessage(text);
+                text = getString("Attributes") + ":";
+                if (Options.EnableLastImpostor.GetBool())
+                {
+                    text += String.Format("\n{0}:{1}", getString("LastImpostor"), Options.EnableLastImpostor.GetString());
+                }
+                SendMessage(text);
                 text = getString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
@@ -212,6 +218,7 @@ namespace TownOfHost
                         text += $"\n{getString(c.Name)}:{c.GetString()}";
                     }
                 }
+                if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
                 if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), Options.WhenSkipVote.GetString());
                 if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.WhenNonVote.GetString());
