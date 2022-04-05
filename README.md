@@ -51,7 +51,7 @@
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) | [Arsonist/アーソニスト](###Arsonist/アーソニスト) |
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) | [Egoist/エゴイスト](###Egoist/エゴイスト) |
 | [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
-| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) |  |  |
+| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター) |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
@@ -284,6 +284,19 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 スニッチはタスクを完了させると人外の名前が赤色に変化します。<br>
 しかし、スニッチのタスクが少なくなると人外に通知されます。
+
+### SpeedBooster/スピードブースター
+
+陣営 ：クルーメイト<br>
+判定 ：クルーメイト<br>
+
+タスクを完了させると、生存しているランダムなプレイヤーの速度を上げさせます。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| スピードアップ時の速さ |
 
 ### Jester/ジェスター
 

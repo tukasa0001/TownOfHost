@@ -167,6 +167,9 @@ namespace TownOfHost
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
                     }
                     break;
+                case CustomRoles.SpeedBooster:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
+                    break;
                 case CustomRoles.SchrodingerCat:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
                     break;
