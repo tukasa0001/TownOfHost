@@ -98,7 +98,7 @@ namespace TownOfHost
             {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},
             {CustomRoles.Vampire, RoleTypes.Impostor},
             {CustomRoles.ShapeMaster, RoleTypes.Shapeshifter},
-            {CustomRoles.Madmate, RoleTypes.Engineer},
+            {CustomRoles.Madmate, Options.MadmateCanUseVents.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
         };
         public static bool Prefix(TaskAddButton __instance)

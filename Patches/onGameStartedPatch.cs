@@ -82,18 +82,12 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                int AdditionalEngineerNum = CustomRoles.Terrorist.getCount();//テロリスト分を追加
                 if (Options.MadmateCanUseVents.GetBool())
                 {
-                    AddTaskButtonPatch.RolePairs[CustomRoles.Madmate] = RoleTypes.Engineer;
-                    int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
-                    roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
+                    AdditionalEngineerNum += CustomRoles.Madmate.getCount();//マッドメイト分を追加
                 }
-                else
-                {
-                    AddTaskButtonPatch.RolePairs[CustomRoles.Madmate] = RoleTypes.Crewmate;
-                    int AdditionalEngineerNum = CustomRoles.Terrorist.getCount();// - EngineerNum;
-                    roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
-                }
+                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();//- ShapeshifterNum;
@@ -276,14 +270,7 @@ namespace TownOfHost
                 }
 
                 AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
-                if (Options.MadmateCanUseVents.GetBool())
-                {
-                    AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
-                }
-                else
-                {
-                    AssignCustomRolesFromList(CustomRoles.Madmate, Crewmates);
-                }
+                AssignCustomRolesFromList(CustomRoles.Madmate, Options.MadmateCanUseVents.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
@@ -351,13 +338,10 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                EngineerNum -= CustomRoles.Terrorist.getCount();
                 if (Options.MadmateCanUseVents.GetBool())
                 {
-                    EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
-                }
-                else
-                {
-                    EngineerNum -= CustomRoles.Terrorist.getCount();
+                    EngineerNum -= CustomRoles.Madmate.getCount();
                 }
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
