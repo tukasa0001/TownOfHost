@@ -52,7 +52,8 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
+| [Evil Watcher](###Watcher) |  |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -185,6 +186,18 @@ Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
 They are unable to enter vent.<br>
 
+### Watcher
+
+Team : Impostors or Crewmates<br>
+Decision : Impostor or Crewmates<br>
+
+The Watcher is a player capable of seeing everyone's votes during meetings.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| EvilWatcherChance |
 ### Bait
 
 Team : Crewmates<br>
@@ -459,7 +472,7 @@ If the client language is English, this setting is meaningless unless the host h
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
