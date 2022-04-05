@@ -21,7 +21,8 @@ namespace TownOfHost
                 role == CustomRoles.Madmate ||
                 role == CustomRoles.SKMadmate ||
                 role == CustomRoles.MadGuardian ||
-                role == CustomRoles.MadSnitch;
+                role == CustomRoles.MadSnitch ||
+                role == CustomRoles.MSchrodingerCat;
         }
         public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
         public static bool isNeutral(this CustomRoles role)
@@ -29,7 +30,11 @@ namespace TownOfHost
             return
                 role == CustomRoles.Jester ||
                 role == CustomRoles.Opportunist ||
+                role == CustomRoles.SchrodingerCat ||
                 role == CustomRoles.Terrorist ||
+                role == CustomRoles.Arsonist ||
+                role == CustomRoles.Egoist ||
+                role == CustomRoles.EgoSchrodingerCat ||
                 role == CustomRoles.Troll ||
                 role == CustomRoles.Fox;
         }
@@ -47,7 +52,8 @@ namespace TownOfHost
         {
             bool canUse =
                 role.isImpostor() ||
-                role == CustomRoles.Sheriff;
+                role == CustomRoles.Sheriff ||
+                role == CustomRoles.Arsonist;
 
             if (role == CustomRoles.Mafia)
             {

@@ -18,6 +18,10 @@ namespace TownOfHost
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
+            main.isDoused = new Dictionary<(byte, byte), bool>();
+            main.DousedPlayerCount = new Dictionary<byte, int>();
+            main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            main.ArsonistKillCooldownCheck = true;
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -39,6 +43,8 @@ namespace TownOfHost
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
+
+            main.SheriffShotLimit = new Dictionary<byte, float>();
 
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -81,6 +87,8 @@ namespace TownOfHost
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();//- ShapeshifterNum;
+                if (main.RealOptionsData.NumImpostors > 1)
+                    AdditionalShapeshifterNum += CustomRoles.Egoist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
@@ -116,6 +124,34 @@ namespace TownOfHost
                             sheriff.RpcSetRole(RoleTypes.Crewmate);
                         }
                         sheriff.Data.IsDead = true;
+                    }
+                }
+                if (CustomRoles.Arsonist.isEnable())
+                {
+                    for (var i = 0; i < CustomRoles.Arsonist.getCount(); i++)
+                    {
+                        if (AllPlayers.Count <= 0) break;
+                        var arsonist = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                        AllPlayers.Remove(arsonist);
+                        main.AllPlayerCustomRoles[arsonist.PlayerId] = CustomRoles.Arsonist;
+                        //ここからDesyncが始まる
+                        if (arsonist.PlayerId != 0)
+                        {
+                            //ただしホスト、お前はDesyncするな。
+                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == arsonist) continue;
+                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                            }
+                        }
+                        else
+                        {
+                            //ホストは代わりに普通のクルーにする
+                            arsonist.RpcSetRole(RoleTypes.Crewmate);
+                        }
+                        arsonist.Data.IsDead = true;
                     }
                 }
             }
@@ -250,6 +286,9 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignLoversRolesFromList();
+                AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
+                if (main.RealOptionsData.NumImpostors > 1)
+                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
 
                 //RPCによる同期
                 foreach (var pair in main.AllPlayerCustomRoles)
@@ -271,6 +310,11 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    if (pc.isSheriff())
+                    {
+                        main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                    }
                     if (pc.isBountyHunter())
                     {
                         pc.ResetBountyTarget();
@@ -284,6 +328,14 @@ namespace TownOfHost
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
+                    if (pc.isArsonist())
+                    {
+                        main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
+                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        {
+                            main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                        }
+                    }
                 }
 
                 //役職の人数を戻す
@@ -294,6 +346,8 @@ namespace TownOfHost
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount();
+                if (main.RealOptionsData.NumImpostors > 1)
+                    ShapeshifterNum -= CustomRoles.Egoist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
                 //サーバーの役職判定をだます

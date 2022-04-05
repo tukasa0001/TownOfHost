@@ -49,6 +49,7 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> BlockKilling;
+        public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -75,9 +76,13 @@ namespace TownOfHost
         public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
+        public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
+        public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
+        public static bool ArsonistKillCooldownCheck;
         public static bool isShipStart;
         public static bool BountyMeetingCheck;
         public static bool isBountyKillSuccess;
@@ -85,6 +90,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
@@ -125,6 +131,9 @@ namespace TownOfHost
             BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
+            isDoused = new Dictionary<(byte, byte), bool>();
+            DousedPlayerCount = new Dictionary<byte, int>();
+            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -140,6 +149,8 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
+
+            main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
@@ -156,6 +167,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
@@ -170,6 +182,11 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.SchrodingerCat, "#696969"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"},
+                {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"},
@@ -195,8 +212,8 @@ namespace TownOfHost
             Harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Awake))]
-        class TranslationControllerAwakePatch
+        [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
+        class TranslationControllerInitializePatch
         {
             public static void Postfix(TranslationController __instance)
             {
@@ -233,6 +250,12 @@ namespace TownOfHost
         Warlock,
         SerialKiller,
         Lighter,
+        Arsonist,
+        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+        Egoist,
         Fox,
         Troll,
         // Sub-roll after 500
@@ -249,12 +272,15 @@ namespace TownOfHost
         Jester,
         Terrorist,
         Lovers,
+        Arsonist,
+        Egoist,
         Troll
     }
     public enum AdditionalWinners
     {
         None = 0,
         Opportunist,
+        SchrodingerCat,
         Fox
     }
     /*public enum CustomRoles : byte

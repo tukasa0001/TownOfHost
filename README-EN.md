@@ -50,8 +50,8 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Lovers](###Lovers) |
-| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
-| [Witch](###Witch) | [Lighter](###Lighter)|  |
+| [Warlock](###Warlock) | [Snitch](###Snitch) | [Arsonist](###Arsonist) |
+| [Witch](###Witch) | [Lighter](###Lighter)| [Egoist](###Egoist) |
 | [Mafia](###Mafia) |  |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
@@ -246,9 +246,14 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Can Kill [Arsonist](###Arsonist) |
+| Sheriff Can Kill [Madmate](###Madmate) |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill [Egoist](###Egoist) |
+| Sheriff Can Kill Crewmates As It |
+| Sheriff Shot Limit |
 
 ### Snitch
 
@@ -307,6 +312,62 @@ Example of overlapping job titles: <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
 ・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
 
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates, they will win.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Dousing time |
+| Cooldown  |
+
+### SchrodingerCat
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : None<br>
+
+By default, it has no victory condition, and only when the condition is met does it have a victory condition.<br>
+
+1.If you are killed by an Imposter, you prevent a kill and become an Imposter.<br>
+2.If you are killed by a sheriff, you prevent a kill and become a crewmate.<br>
+3.If you are killed by a neutral, you prevent the kill and become a neutral.<br>
+4.If you are expelled, your position does not change and you die with the same victory conditions as before.<br>
+5.If you are killed by a warlock's ability, the victory condition remains the same and you die.<br>
+6.If a player is killed by suicide kills (except vampire kills), the victory condition remains the same and the player dies.<br>
+
+Also common to all Schrodinger's cats, there are no tasks.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| SchrodingerCat Before The Change CanWin As A Crewmate Team |
+
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
 ## Mode
 
 ### DisableTasks
@@ -420,6 +481,7 @@ If the client language is English, this setting is meaningless unless the host h
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

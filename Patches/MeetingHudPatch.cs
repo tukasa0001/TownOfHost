@@ -117,7 +117,7 @@ namespace TownOfHost
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if ((pc.isSheriff() || pc.isArsonist()) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -233,6 +233,20 @@ namespace TownOfHost
                 {
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+                if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがEgoSchrodingerCat
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
