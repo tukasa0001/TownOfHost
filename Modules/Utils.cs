@@ -52,6 +52,11 @@ namespace TownOfHost
             Color TextColor = Color.red;
 
             var cRole = player.getCustomRole();
+            /*if (player.isLastImpostor())
+            {
+                RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
+            }
+            else*/
             RoleText = getRoleName(cRole);
 
             return (RoleText, getRoleColor(cRole));
@@ -189,6 +194,7 @@ namespace TownOfHost
                     if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
                     if (role.isEnable()) SendMessage(getRoleName(role) + getString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
+                if (Options.EnableLastImpostor.GetBool()) { SendMessage(getString("LastImpostor") + getString("LastImpostorInfo")); }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(getString("NoGameEndInfo")); }
         }
@@ -211,6 +217,12 @@ namespace TownOfHost
                     if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());
                 }
                 SendMessage(text);
+                text = getString("Attributes") + ":";
+                if (Options.EnableLastImpostor.GetBool())
+                {
+                    text += String.Format("\n{0}:{1}", getString("LastImpostor"), Options.EnableLastImpostor.GetString());
+                }
+                SendMessage(text);
                 text = getString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
@@ -222,6 +234,7 @@ namespace TownOfHost
                         text += $"\n{getString(c.Name)}:{c.GetString()}";
                     }
                 }
+                if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
                 if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), Options.WhenSkipVote.GetString());
                 if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.WhenNonVote.GetString());
@@ -264,6 +277,7 @@ namespace TownOfHost
                 + "\n/now - 現在有効な設定を表示"
                 + "\n/h now - 現在有効な設定の説明を表示"
                 + "\n/h roles <役職名> - 役職の説明を表示"
+                + "\n/h attributes <属性名> - 属性の説明を表示"
                 + "\n/h modes <モード名> - モードの説明を表示"
                 + "\n/dump - デスクトップにログを出力"
                 );
@@ -538,6 +552,17 @@ namespace TownOfHost
             var tmp = ChangeTo * 10;
             tmp += input;
             ChangeTo = Math.Clamp(tmp, 0, max);
+        }
+        public static void CountAliveImpostors()
+        {
+            int AliveImpostorCount = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                CustomRoles pc_role = pc.getCustomRole();
+                if (pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
+            }
+            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人");
+            main.AliveImpostorCount = AliveImpostorCount;
         }
     }
 }

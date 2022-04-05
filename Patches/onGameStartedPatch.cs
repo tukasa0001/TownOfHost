@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.StartGame))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
@@ -37,6 +37,7 @@ namespace TownOfHost
             main.BountyTimerCheck = false;
             main.BountyMeetingCheck = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
+            main.SpeedBoostTarget = new Dictionary<byte, byte>();
 
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
@@ -74,6 +75,10 @@ namespace TownOfHost
         public static void Prefix(RoleManager __instance)
         {
             if (!AmongUsClient.Instance.AmHost) return;
+
+            //ウォッチャーの陣営抽選
+            Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
+
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
@@ -286,11 +291,21 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignLoversRolesFromList();
+                AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
+                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
+                else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
 
                 //RPCによる同期
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.isWatcher() && Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
+                    if (pc.isWatcher() && !Options.IsEvilWatcher)
+                        main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
+                }
                 foreach (var pair in main.AllPlayerCustomRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
@@ -360,6 +375,7 @@ namespace TownOfHost
                         }
                 }, 3f, "SetImpostorForServer");
             }
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 

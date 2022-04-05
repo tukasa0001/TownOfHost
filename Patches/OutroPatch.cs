@@ -24,8 +24,8 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Crewmate;
+                    RoleType roleType = role.getRoleType();
+                    bool canWin = roleType == RoleType.Crewmate;
                     if (canWin) winner.Add(p);
                 }
             }
@@ -36,8 +36,8 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
+                    RoleType roleType = role.getRoleType();
+                    bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
                     if (canWin) winner.Add(p);
                     if (CustomRoles.Egoist.isEnable() && (p.isEgoist() && !p.Data.IsDead))
                         if (main.currentWinner == CustomWinner.Impostor)

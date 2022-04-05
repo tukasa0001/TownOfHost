@@ -52,7 +52,8 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Lovers](###Lovers) |
 | [Warlock](###Warlock) | [Snitch](###Snitch) | [Arsonist](###Arsonist) |
 | [Witch](###Witch) | [Lighter](###Lighter)| [Egoist](###Egoist) |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
+| [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -185,6 +186,18 @@ Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
 They are unable to enter vent.<br>
 
+### Watcher
+
+Team : Impostors or Crewmates<br>
+Decision : Impostor or Crewmates<br>
+
+The Watcher is a player capable of seeing everyone's votes during meetings.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| EvilWatcherChance |
 ### Bait
 
 Team : Crewmates<br>
@@ -198,6 +211,19 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+
+### SpeedBooster
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Completing the task will make a random surviving player speed up.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Speed at speed up |
 
 ### Mayor
 
@@ -368,6 +394,18 @@ The conditions for defeat are as follows.<br>
 1.Egoist dies.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
+
+## Attribute
+
+### LastImpostor
+
+This is the attribute given to the last in-poster.<br>
+Not given to BountyHunter, SerialKiller, or Vampire.<br>
+
+| Settings Name |
+|----------|
+| LastImpostor KillCooldown |
+
 ## Mode
 
 ### DisableTasks
@@ -480,7 +518,7 @@ If the client language is English, this setting is meaningless unless the host h
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>

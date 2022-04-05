@@ -53,7 +53,7 @@ namespace TownOfHost
 
                     Color IconColor = Color.white;
                     var roleColor = Utils.getRoleColor(cRole);
-                    var IntroType = cRole.getIntroType();
+                    var RoleType = cRole.getRoleType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;
@@ -100,6 +100,7 @@ namespace TownOfHost
             {CustomRoles.ShapeMaster, RoleTypes.Shapeshifter},
             {CustomRoles.Madmate, RoleTypes.Engineer},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
+            {CustomRoles.EvilWatcher, RoleTypes.Impostor},
         };
         public static bool Prefix(TaskAddButton __instance)
         {

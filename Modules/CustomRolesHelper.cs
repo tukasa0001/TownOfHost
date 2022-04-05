@@ -67,19 +67,19 @@ namespace TownOfHost
             }
             return canUse;
         }
-        public static IntroTypes getIntroType(this CustomRoles role)
+        public static RoleType getRoleType(this CustomRoles role)
         {
-            IntroTypes type = IntroTypes.Crewmate;
-            if (role.isImpostor()) type = IntroTypes.Impostor;
-            if (role.isNeutral()) type = IntroTypes.Neutral;
-            if (role.isMadmate()) type = IntroTypes.Madmate;
+            RoleType type = RoleType.Crewmate;
+            if (role.isImpostor()) type = RoleType.Impostor;
+            if (role.isNeutral()) type = RoleType.Neutral;
+            if (role.isMadmate()) type = RoleType.Madmate;
             return type;
         }
         public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
         public static int getCount(this CustomRoles role) => Options.getRoleCount(role);
         public static bool isEnable(this CustomRoles role) => Options.getRoleCount(role) > 0;
     }
-    public enum IntroTypes
+    public enum RoleType
     {
         Crewmate,
         Impostor,
