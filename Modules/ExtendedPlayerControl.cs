@@ -202,11 +202,9 @@ namespace TownOfHost
             {
                 case CustomRoles.Madmate:
                     if (Options.MadmateCanUseVents.GetBool())
-                    {
-                        opt.RoleOptions.EngineerCooldown = 0;
-                        opt.RoleOptions.EngineerInVentMaxTime = 0;
-                    }
-                    break;
+                        goto InfinityVent;
+                    else
+                        break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
