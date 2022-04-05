@@ -147,8 +147,8 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                                arsonist.RpcSetRoleDesync(RoleTypes.Engineer, pc);
+                                pc.RpcSetRoleDesync(RoleTypes.Engineer, arsonist);
                             }
                         }
                         else
