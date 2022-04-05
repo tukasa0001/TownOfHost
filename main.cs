@@ -77,6 +77,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+        public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
@@ -183,6 +184,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.SpeedBooster, "#00ffff"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
@@ -254,6 +256,7 @@ namespace TownOfHost
         SerialKiller,
         Lighter,
         Arsonist,
+        SpeedBooster,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
