@@ -345,7 +345,7 @@ namespace TownOfHost
             RoleType roleType = role.getRoleType();
             switch (roleType)
             {
-                case RoleTypes.Impostor:
+                case RoleType.Impostor:
                     if (player.isLastImpostor())
                     {
                         if (Options.LastImpostorKillCooldown.GetFloat() > 0)
@@ -575,6 +575,7 @@ namespace TownOfHost
                 main.AliveImpostorCount == 1)
                 return true;
             return false;
+        }
         public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
@@ -590,10 +591,10 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-            if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
-            {
-                RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-            }
+                if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
+                {
+                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+                }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
