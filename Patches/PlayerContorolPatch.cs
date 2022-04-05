@@ -577,11 +577,10 @@ namespace TownOfHost
                 { //__instanceが自分自身
                     RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
                 }
-                //タスクを終わらせたMadSnitchがインポスターを確認できる
+                //タスクを終わらせたMadmateがインポスターを確認できる
                 else if (PlayerControl.LocalPlayer.isMadmate() && //LocalPlayerがMadSnitch
                     __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished && //LocalPlayerのタスクが終わっている
-                    Options.MadmateHasTasks.GetBool() &&
                     Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool())
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示

@@ -50,7 +50,6 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
-                    text += $"\t{Options.MadmateHasTasks.GetName()}: {Options.MadmateHasTasks.GetString()}\n";
                     text += $"\t{Options.MadmateTasksCount.GetName()}: {Options.MadmateTasksCount.GetString()}\n";
                     text += $"\t{Options.MadmateCanKnowImpostorAfterFinishingTasks.GetName()}: {Options.MadmateCanKnowImpostorAfterFinishingTasks.GetString()}\n";
                     text += $"\t{Options.MadmateHasAShieldAfterFinishingTasks.GetName()}: {Options.MadmateHasAShieldAfterFinishingTasks.GetString()}\n";

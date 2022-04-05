@@ -100,7 +100,6 @@ namespace TownOfHost
                     bool MadmateCanFixLightsOut = reader.ReadBoolean();
                     bool MadmateCanFixComms = reader.ReadBoolean();
                     bool MadmateHasImpostorVision = reader.ReadBoolean();
-                    bool MadmateHasTasks = reader.ReadBoolean();
                     int MadmateTasksCount = reader.ReadInt32();
                     bool MadmateCanKnowImpostorAfterFinishingTasks = reader.ReadBoolean();
                     bool MadmateHasAShieldAfterFinishingTasks = reader.ReadBoolean();
@@ -170,7 +169,6 @@ namespace TownOfHost
                         MadmateCanFixLightsOut,
                         MadmateCanFixComms,
                         MadmateHasImpostorVision,
-                        MadmateHasTasks,
                         MadmateTasksCount,
                         MadmateCanKnowImpostorAfterFinishingTasks,
                         MadmateHasAShieldAfterFinishingTasks,
@@ -295,7 +293,6 @@ namespace TownOfHost
                 bool MadmateCanFixLightsOut,
                 bool MadmateCanFixComms,
                 bool MadmateHasImpostorVision,
-                bool MadmateHasTasks,
                 int MadmateTasksCount,
                 bool MadmateCanKnowImpostorAfterFinishingTasks,
                 bool MadmateHasAShieldAfterFinishingTasks,
@@ -375,7 +372,6 @@ namespace TownOfHost
             Options.MadmateCanFixLightsOut.UpdateSelection(MadmateCanFixLightsOut);
             Options.MadmateCanFixComms.UpdateSelection(MadmateCanFixComms);
             Options.MadmateHasImpostorVision.UpdateSelection(MadmateHasImpostorVision);
-            Options.MadmateHasTasks.UpdateSelection(MadmateHasTasks);
             Options.MadmateTasksCount.UpdateSelection(MadmateTasksCount);
             Options.MadmateCanKnowImpostorAfterFinishingTasks.UpdateSelection(MadmateCanKnowImpostorAfterFinishingTasks);
             Options.MadmateHasAShieldAfterFinishingTasks.UpdateSelection(MadmateHasAShieldAfterFinishingTasks);
@@ -442,7 +438,6 @@ namespace TownOfHost
             writer.Write(Options.MadmateCanFixLightsOut.GetBool());
             writer.Write(Options.MadmateCanFixComms.GetBool());
             writer.Write(Options.MadmateHasImpostorVision.GetBool());
-            writer.Write(Options.MadmateHasTasks.GetBool());
             writer.Write(Options.MadmateTasksCount.GetSelection());
             writer.Write(Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool());
             writer.Write(Options.MadmateHasAShieldAfterFinishingTasks.GetBool());

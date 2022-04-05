@@ -102,7 +102,6 @@ MadmateCanUseVents,Madmate Can Use Vents,マッドメイトがベントを使用
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直すことができる
 MadmateHasImpostorVision,Madmate Vision Is As Long As Impostor One,マッドメイトの視野がインポスターと同じ
-MadmateHasTasks,Madmate Has Tasks,マッドメイトのタスク
 MadmateTasksCount,Madmate Tasks Count,マッドメイトのタスクの数
 MadmateCanKnowImpostorAfterFinishingTasks,Madmate Can Know Impostor After Finishing Tasks,マッドメイトがタスクを完了するとインポスターがわかる
 MadmateHasAShieldAfterFinishingTasks,Madmate Has A Shield After Finishing Tasks,マッドメイトがタスクを完了するとシールドを得る

@@ -128,11 +128,10 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.Madmate && ForRecompute)
                     {
-                        if (!Options.MadmateHasTasks.GetBool()) hasTasks = false;
+                        if (!(Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool() || Options.MadmateHasAShieldAfterFinishingTasks.GetBool())) hasTasks = false;
                     }
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
-                    if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
@@ -419,14 +418,11 @@ namespace TownOfHost
                 }
                 if (seer.isMadmate())
                 {
-                    if (Options.MadmateHasTasks.GetBool())
+                    if (Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool())
                     {
-                        if (Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool())
-                        {
-                            var TaskState = seer.getPlayerTaskState();
-                            if (TaskState.isTaskFinished)
-                                SeerKnowsImpostors = true;
-                        }
+                        var TaskState = seer.getPlayerTaskState();
+                        if (TaskState.isTaskFinished)
+                            SeerKnowsImpostors = true;
                     }
                 }
 

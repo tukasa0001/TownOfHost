@@ -341,7 +341,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                    if (Options.MadmateHasTasks.GetBool())
+                    if (Options.MadmateCanKnowImpostorAfterFinishingTasks.GetBool() || Options.MadmateHasAShieldAfterFinishingTasks.GetBool())
                     {
                         adjustedTasksCount = Options.MadmateTasksCount.GetSelection();
                     }
