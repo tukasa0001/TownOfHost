@@ -286,16 +286,11 @@ namespace TownOfHost
                 case CustomRoles.Arsonist:
                     __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
                     if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
-                    {
-                        __instance.ImpostorVentButton.Show();
-                        __instance.ImpostorVentButton.gameObject.SetActive(true);
-                    }
+                        __instance.ImpostorVentButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     else
-                    {
-                        __instance.ImpostorVentButton.Hide();
-                        __instance.ImpostorVentButton.gameObject.SetActive(false);
-                    }
+                        __instance.ImpostorVentButton.ToggleVisible(false);
                     break;
             }
         }
