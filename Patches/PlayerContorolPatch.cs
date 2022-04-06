@@ -685,6 +685,7 @@ namespace TownOfHost
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (!__instance.myPlayer.Data.IsDead)
+                            {
                                 if (pc != __instance.myPlayer)
                                 {
                                     //生存者は焼殺
@@ -694,6 +695,7 @@ namespace TownOfHost
                                 }
                                 else
                                     RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                            }
                         }
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
                         writer.Write(__instance.myPlayer.PlayerId);
