@@ -188,13 +188,13 @@ namespace TownOfHost
     {
         public static void Postfix(Rewired.Player player)
         {
-            if (player.GetButtonDown(8) &&
+            if (player.GetButtonDown(8) && // 8:キルボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             ((PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist()) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
-            if (player.GetButtonDown(50) &&
+            if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
             (PlayerControl.LocalPlayer.isArsonist() && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel))
             {
