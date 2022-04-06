@@ -426,7 +426,7 @@ namespace TownOfHost
                 main.LoversPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.info("役職設定:" + player.name + " = " + loversRole.ToString());
+                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
             }
         }
     }
