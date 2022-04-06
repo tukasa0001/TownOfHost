@@ -79,6 +79,8 @@ namespace TownOfHost
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
         public static bool AirshipMeetingCheck;
+        public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
@@ -167,6 +169,9 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.Watcher, "#800080"},
+                {CustomRoles.EvilWatcher, "#ff0000"},
+                {CustomRoles.NiceWatcher, "#800080"},
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
@@ -182,9 +187,12 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
+                {CustomRoles.SpeedBooster, "#00ffff"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
+                {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
@@ -227,6 +235,9 @@ namespace TownOfHost
         Impostor,
         Shapeshifter,
         GuardianAngel,
+        Watcher,
+        NiceWatcher,
+        EvilWatcher,
         Jester,
         Madmate,
         SKMadmate,
@@ -248,9 +259,12 @@ namespace TownOfHost
         SerialKiller,
         Lighter,
         Arsonist,
+        SpeedBooster,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+        Egoist,
         Fox,
         Troll,
         // Sub-roll after 500
@@ -266,6 +280,7 @@ namespace TownOfHost
         Jester,
         Terrorist,
         Arsonist,
+        Egoist,
         Troll
     }
     public enum AdditionalWinners

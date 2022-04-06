@@ -96,6 +96,22 @@ namespace TownOfHost
                                 getRolesInfo(args[2]);
                                 break;
 
+                            case "att":
+                            case "attributes":
+                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)"); break; }
+                                switch (args[2])
+                                {
+                                    case "lastimpostor":
+                                    case "limp":
+                                        Utils.SendMessage(getString("LastImpostor") + getString("LastImpostorInfo"));
+                                        break;
+
+                                    default:
+                                        Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)");
+                                        break;
+                                }
+                                break;
+
                             case "m":
                             case "modes":
                                 if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)"); break; }
@@ -158,6 +174,11 @@ namespace TownOfHost
         {
             switch (role)
             {
+                case "watcher":
+                case "wat":
+                    Utils.SendMessage(getString("WatcherInfoLong"));
+                    break;
+
                 case "jester":
                 case "je":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Jester) + getString("JesterInfoLong"));
@@ -263,6 +284,11 @@ namespace TownOfHost
                     Utils.SendMessage(getString("LighterInfoLong"));
                     break;
 
+                case "SpeedBooster":
+                case "sb":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
+                    break;
+
                 case "schrodingercat":
                 case "sc":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SchrodingerCat) + getString("SchrodingerCatInfoLong"));
@@ -279,7 +305,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), fox(fo), troll(tr)");
                     break;
             }
 

@@ -103,6 +103,7 @@ namespace TownOfHost
             }
             main.ArsonistKillCooldownCheck = true;
             main.BountyMeetingCheck = true;
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
         }
