@@ -511,7 +511,7 @@ namespace TownOfHost
                 }
                 if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
                 {
-                    if (!(main.DousedPlayerCount[__instance.PlayerId] == 0))
+                    if (main.DousedPlayerCount[__instance.PlayerId] != 0)
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
