@@ -49,8 +49,9 @@
 | [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター) | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト) |
 | [Vampire/ヴァンパイア](###Vampire/ヴァンパイア) | [Sheriff/シェリフ](###Sheriff/シェリフ) | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
 | [Warlock/ウォーロック](###Warlock/ウォーロック) | [Snitch/スニッチ](###Snitch/スニッチ) | [Arsonist/アーソニスト](###Arsonist/アーソニスト) |
-| [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) |  |
-| [Mafia/マフィア](###Mafia/マフィア) |  |  |
+| [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) | [Egoist/エゴイスト](###Egoist/エゴイスト) |
+| [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
+| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター) |  |
 | [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
@@ -194,6 +195,18 @@
 | [マッドメイト](###Madmate/マッドメイト)(マッドスニッチ)が停電を直すことができる |
 | マッドスニッチのタスク数 |
 
+### Watcher/ウォッチャー
+
+陣営 : インポスターorクルーメイト<br>
+判定 : インポスターorクルーメイト<br>
+
+ウォッチャーは会議中に全員の投票先を見ることができます。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| イビルウォッチャーになる確率(%) |
 ### Bait/ベイト
 
 陣営 : クルーメイト<br>
@@ -260,6 +273,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 | シェリフが[ジェスター](###Jester/ジェスター)をキルできる |
 | シェリフが[テロリスト](###Terrorist/テロリスト)をキルできる |
 | シェリフが[オポチュニスト](###Opportunist/オポチュニスト)をキルできる |
+| シェリフが[エゴイスト](###Egoist/エゴイスト)をキルできる |
 | シェリフがクルーをそのままキルできる |
 | シェリフのキル可能回数 |
 
@@ -270,6 +284,19 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 
 スニッチはタスクを完了させると人外の名前が赤色に変化します。<br>
 しかし、スニッチのタスクが少なくなると人外に通知されます。
+
+### SpeedBooster/スピードブースター
+
+陣営 ：クルーメイト<br>
+判定 ：クルーメイト<br>
+
+タスクを完了させると、生存しているランダムなプレイヤーの速度を上げさせます。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| スピードアップ時の速さ |
 
 ### Jester/ジェスター
 
@@ -336,6 +363,35 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 | 設定名 |
 |----------|
 | 役職変化前であれば、クルー陣営と勝利できる |
+
+### Egoist/エゴイスト
+
+陣営 : 第三<br>
+判定 : シェイプシフター<br>
+勝利条件 : インポスター全滅後、インポスターの勝利条件を達成する<br>
+
+インポスターはエゴイストを認識しています。<br>
+エゴイストもインポスターを認識しています。<br>
+インポスターとエゴイストは切りあうことができません。<br>
+他のインポスターが全滅すると勝利します。<br>
+エゴイストが勝利するとインポスターは敗北となります。<br>
+
+敗北条件は以下の通りです。<br>
+
+1.エゴイストが死亡する<br>
+2.味方が残っている状態でインポスター勝利をする<br>
+3.他の第三陣営が勝利する<br>
+
+## 属性
+
+### LastImpostor/ラストインポスター
+
+最後のインポスターに付与される属性です。<br>
+ヴァンパイア、バウンティハンター、シリアルキラーには付与されません。<br>
+
+| 設定名 |
+|----------|
+| ラストインポスターのキルクール |
 
 ## モード
 
@@ -449,7 +505,7 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 ## 参考など
 
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職とModの作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](###Opportunist/オポチュニスト)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>

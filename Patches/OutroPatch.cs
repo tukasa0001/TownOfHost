@@ -24,23 +24,24 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Crewmate;
+                    RoleType roleType = role.getRoleType();
+                    bool canWin = roleType == RoleType.Crewmate;
                     if (canWin) winner.Add(p);
                 }
             }
             if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default)
-                {
                     main.currentWinner = CustomWinner.Impostor;
-                }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     CustomRoles role = p.getCustomRole();
-                    IntroTypes introType = role.getIntroType();
-                    bool canWin = introType == IntroTypes.Impostor || introType == IntroTypes.Madmate;
+                    RoleType roleType = role.getRoleType();
+                    bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
                     if (canWin) winner.Add(p);
+                    if (CustomRoles.Egoist.isEnable() && (p.isEgoist() && !p.Data.IsDead))
+                        if (main.currentWinner == CustomWinner.Impostor)
+                            main.currentWinner = CustomWinner.Egoist;
                 }
             }
 
@@ -100,6 +101,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.currentWinner == CustomWinner.Egoist && CustomRoles.Egoist.isEnable())
+            { //Egoist横取り勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if ((p.isEgoist() && !p.Data.IsDead) || p.isEgoSchrodingerCat())
+                    {
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner.Add(p);
+                    }
+                }
+            }
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -112,15 +126,15 @@ namespace TownOfHost
             }
             //SchrodingerCat
             if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
-                    winner.Add(pc);
-                    main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                    if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(pc.Data));
+                        winner.Add(pc);
+                        main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
+                    }
                 }
-            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
@@ -207,6 +221,11 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Arsonist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Arsonist);
+                    break;
+                case CustomWinner.Egoist:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Egoist);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Egoist)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Egoist);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
