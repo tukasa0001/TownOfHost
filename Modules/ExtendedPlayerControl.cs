@@ -220,7 +220,7 @@ namespace TownOfHost
                         if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                         opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
-                    if (main.AirshipMeetingCheck)
+                    else
                     {
                         opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat() - 10f;
                         opt.KillCooldown = (Options.BHDefaultKillCooldown.GetFloat() - 10f) * 2;
@@ -232,7 +232,7 @@ namespace TownOfHost
                         opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                         opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     }
-                    if (main.AirshipMeetingCheck)
+                    else
                     {
                         opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat() - 10f;
                         opt.KillCooldown = (Options.SerialKillerCooldown.GetFloat() - 10f) * 2;
@@ -265,7 +265,7 @@ namespace TownOfHost
                             }
                         }
                     }
-                    if (main.AirshipMeetingCheck)
+                    else
                     {
                         opt.KillCooldown = (Options.BHDefaultKillCooldown.GetFloat() - 10f) * 2;
                         opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 10f;

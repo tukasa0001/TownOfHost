@@ -423,7 +423,7 @@ namespace TownOfHost
                 if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
-                    {//時間が来たとき
+                    {//自滅時間が来たとき
                         if (!__instance.Data.IsDead)
                         {
                             PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅

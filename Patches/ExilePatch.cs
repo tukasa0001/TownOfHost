@@ -68,27 +68,27 @@ namespace TownOfHost
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             if (PlayerControl.GameOptions.MapId != 4)
             {
-                foreach (var wr in PlayerControl.AllPlayerControls)
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (wr.isSerialKiller())
+                    if (pc.isSerialKiller())
                     {
-                        wr.RpcGuardAndKill(wr);
-                        main.SerialKillerTimer.Add(wr.PlayerId, 0f);
+                        pc.RpcGuardAndKill(pc);
+                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                     }
-                    if (wr.isBountyHunter())
+                    if (pc.isBountyHunter())
                     {
-                        wr.RpcGuardAndKill(wr);
-                        main.BountyTimer.Add(wr.PlayerId, 0f);
+                        pc.RpcGuardAndKill(pc);
+                        main.BountyTimer.Add(pc.PlayerId, 0f);
                     }
-                    if (wr.isWarlock())
+                    if (pc.isWarlock())
                     {
-                        wr.RpcGuardAndKill(wr);
-                        main.CursedPlayers[wr.PlayerId] = (null);
-                        main.isCurseAndKill[wr.PlayerId] = false;
+                        pc.RpcGuardAndKill(pc);
+                        main.CursedPlayers[pc.PlayerId] = (null);
+                        main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
             }
-            if (PlayerControl.GameOptions.MapId == 4)
+            if (PlayerControl.GameOptions.MapId == 4)//Airship用
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
