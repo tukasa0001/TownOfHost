@@ -680,7 +680,6 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 if (main.DousedPlayerCount.ContainsKey(__instance.myPlayer.PlayerId) && AmongUsClient.Instance.IsGameStarted)
-                {
                     if (main.DousedPlayerCount[__instance.myPlayer.PlayerId] == 0)
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
@@ -703,7 +702,6 @@ namespace TownOfHost
                         main.DousedPlayerCount[__instance.myPlayer.PlayerId] = 1;
                         return true;
                     }
-                }
                 if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate() || __instance.myPlayer.isArsonist())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
