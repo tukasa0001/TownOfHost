@@ -685,7 +685,7 @@ namespace TownOfHost
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if (!(__instance.myPlayer.Data.IsDead && __instance.myPlayer))
+                            if (!(__instance.myPlayer.Data.IsDead && (pc == __instance.myPlayer)))
                             {
                                 //生存者は焼殺
                                 pc.RpcMurderPlayer(pc);
