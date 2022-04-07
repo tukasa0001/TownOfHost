@@ -511,7 +511,9 @@ namespace TownOfHost
                 }
                 if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] != 0)
+                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
+                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !__instance.Data.IsDead);
+                    else
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
