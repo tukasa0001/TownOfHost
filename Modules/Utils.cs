@@ -162,7 +162,7 @@ namespace TownOfHost
         }
         public static void ShowActiveRoles()
         {
-            SendMessage(getString("CurrentActiveSettingHelps") + ":");
+            SendMessage(getString("CurrentActiveSettingsHelp") + ":");
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 SendMessage(getString("HideAndSeekInfo"));
