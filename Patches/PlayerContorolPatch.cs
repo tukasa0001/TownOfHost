@@ -30,16 +30,21 @@ namespace TownOfHost
             //BountyHunter
             if (__instance.isBountyHunter()) //キルが発生する前にここの処理をしないとバグる
             {
-                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
                 if (target == __instance.getBountyTarget())
                 {//ターゲットをキルした場合
-                    main.isBountyKillSuccess = true;//キルクール減少処理に変換
+                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
+                    Logger.info($"{__instance.getRealName()}:ターゲットをキル");
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                     main.isTargetKilled.Remove(__instance.PlayerId);
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
+                else
+                {
+                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
+                    Logger.info($"{__instance.getRealName()}:ターゲット以外をキル");
+                    Utils.CustomSyncAllSettings();//キルクール処理を同期
+                }
             }
-            if (__instance.isVampire() && CustomRoles.BountyHunter.isEnable()) main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
@@ -262,7 +267,7 @@ namespace TownOfHost
             }
             if (__instance.isArsonist())
             {
-                main.ArsonistKillCooldownCheck = true;
+                main.AllPlayerKillCooldown[__instance.PlayerId] = 10f;
                 Utils.CustomSyncAllSettings();
                 __instance.RpcGuardAndKill(target);
                 if (!main.isDoused[(__instance.PlayerId, target.PlayerId)]) main.ArsonistTimer.Add(__instance.PlayerId, (target, 0f));
@@ -443,47 +448,34 @@ namespace TownOfHost
                 {
                     if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat())//時間経過でターゲットをリセットする処理
                     {
-                        main.BountyMeetingCheck = false;
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
-                        main.BountyTimerCheck = true;//キルクールを０にする処理に行かせるための処理
+                        main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
+                        Logger.info("ターゲットリセット");
+                        Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
                         __instance.RpcGuardAndKill(__instance);//守護天使バグ対策で上の処理のターゲットをキル対象に変更
                         main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
-                        main.BountyTimerCheck = true;
                         main.isTargetKilled.Remove(__instance.PlayerId);
                         main.isTargetKilled.Add(__instance.PlayerId, false);
-                    }
-                    if (main.BountyTimer[__instance.PlayerId] <= 1 && main.BountyTimerCheck)
-                    {//キルクールを変化させないようにする処理
-                        main.BountyTimerCheck = false;
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
                     }
-                    if (main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck)
-                    {//選びなおしてから１秒後の処理
-                        main.BountyTimerCheck = true;//キルクール変化させないようにする処理をオフ
-                        main.isBountyKillSuccess = false;//キルクールをターゲット以外をキルした時の場合に変更
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクール変更処理と同期
-                    }
-                    else//時間を計る処理
-                    {
-                        main.BountyTimer[__instance.PlayerId] =
-                        (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                    }
+                    if (main.BountyTimer[__instance.PlayerId] > 0)
+                        main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))
                 {
                     var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;
                     if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())
                     {
-                        __instance.RpcGuardAndKill(artarget);
-                        main.ArsonistKillCooldownCheck = false;
+                        main.AllPlayerKillCooldown[__instance.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
                         Utils.CustomSyncAllSettings();
+                        __instance.RpcGuardAndKill(artarget);
                         main.ArsonistTimer.Remove(__instance.PlayerId);
                         main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
                         main.DousedPlayerCount[__instance.PlayerId]--;
@@ -531,6 +523,12 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (main.RefixCooldownDelay <= 0)
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.isVampire() || pc.isWarlock())
+                            main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                    }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
                 if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);

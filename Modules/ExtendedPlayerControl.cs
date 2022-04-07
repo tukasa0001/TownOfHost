@@ -213,52 +213,21 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
-                    goto DefaultKillcooldown;
-                case CustomRoles.Vampire:
-                    if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.Warlock:
                     if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
                     if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
-                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
-                    opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
-                    if (main.BountyMeetingCheck)
-                    {//会議後のキルクール
-                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
-                    }
-                    else
-                    {
-                        if (!main.isBountyKillSuccess)
-                        {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat();
-                            Logger.info("ターゲット以外をキル");
-                        }
-                        if (!main.BountyTimerCheck)
-                        {//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
-                            opt.KillCooldown = 10;
-                            Logger.info("ターゲットリセット");
-                        }
-                        if (main.isBountyKillSuccess)
-                        {//ターゲットをキルした時の処理
-                            opt.KillCooldown = Options.BountySuccessKillCooldown.GetFloat() * 2;
-                            Logger.info("ターゲットをキル");
-                        }
-                    }
                     break;
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:
                     opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
-                    goto DefaultKillcooldown;
-                case CustomRoles.Impostor:
-                case CustomRoles.Witch:
-                    goto DefaultKillcooldown;
+                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     if (opt.AnonymousVotes)
@@ -280,8 +249,6 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
-                    if (!main.ArsonistKillCooldownCheck) opt.KillCooldown = Options.ArsonistCooldown.GetFloat() * 2;
-                    if (main.ArsonistKillCooldownCheck) opt.KillCooldown = 10f;
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
@@ -337,9 +304,6 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                DefaultKillcooldown:
-                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    break;
             }
             CustomRoles role = player.getCustomRole();
             RoleType roleType = role.getRoleType();
@@ -367,6 +331,19 @@ namespace TownOfHost
                         }
                     }
                     break;
+            }
+            if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
+            {
+                foreach (var kc in main.AllPlayerKillCooldown)
+                {
+                    if (kc.Key == player.PlayerId)
+                    {
+                        if (kc.Value > 0)
+                            opt.KillCooldown = kc.Value;
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                }
             }
             if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
             {
