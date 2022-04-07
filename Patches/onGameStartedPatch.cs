@@ -154,7 +154,7 @@ namespace TownOfHost
                         else
                         {
                             //ホストは代わりにエンジニアにする
-                            arsonist.RpcSetRole(RoleTypes.Engineer);
+                            arsonist.RpcSetRole(RoleTypes.Crewmate);
                         }
                         arsonist.Data.IsDead = true;
                     }
