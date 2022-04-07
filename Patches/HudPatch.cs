@@ -163,9 +163,7 @@ namespace TownOfHost
                 case CustomRoles.Arsonist:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{Utils.getRoleName(CustomRoles.Arsonist)}\r\n{getString("ArsonistInfo")}</color>\r\n";
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                    {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    }
                     break;
                 case CustomRoles.SpeedBooster:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
@@ -288,7 +286,10 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
+                    {
+                        __instance.ImpostorVentButton.Start();
                         __instance.ImpostorVentButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    }
                     else
                         __instance.ImpostorVentButton.ToggleVisible(false);
                     break;
