@@ -296,6 +296,7 @@ namespace TownOfHost
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedVatteryCharge.GetFloat();
+                    break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
                     {
@@ -557,10 +558,10 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-            if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
-            {
-                RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-            }
+                if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
+                {
+                    RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+                }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
