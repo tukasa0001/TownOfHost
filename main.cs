@@ -64,6 +64,7 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
