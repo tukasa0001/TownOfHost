@@ -83,11 +83,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static bool ArsonistKillCooldownCheck;
         public static bool isShipStart;
-        public static bool BountyMeetingCheck;
-        public static bool isBountyKillSuccess;
-        public static bool BountyTimerCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
