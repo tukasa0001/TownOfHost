@@ -66,34 +66,39 @@ namespace TownOfHost
                 if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            foreach (var wr in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (wr.isSerialKiller())
+                if (pc.isSerialKiller())
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.SerialKillerTimer.Add(wr.PlayerId, 0f);
+                    pc.RpcGuardAndKill(pc);
+                    main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                 }
-                if (wr.isBountyHunter())
+                if (pc.isBountyHunter())
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.BountyTimer.Add(wr.PlayerId, 0f);
+                    pc.RpcGuardAndKill(pc);
+                    main.BountyTimer.Add(pc.PlayerId, 0f);
                 }
-                if (wr.isWarlock())
+                if (pc.isWarlock())
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.CursedPlayers[wr.PlayerId] = (null);
-                    main.isCurseAndKill[wr.PlayerId] = false;
+                    pc.RpcGuardAndKill(pc);
+                    main.CursedPlayers[pc.PlayerId] = (null);
+                    main.isCurseAndKill[pc.PlayerId] = false;
                 }
-                if (wr.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
+                if (pc.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    wr.ExiledSchrodingerCatTeamChange();
+                    pc.ExiledSchrodingerCatTeamChange();
                 }
-                if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
+                if (pc.isArsonist())
+                {
+                    main.AllPlayerKillCooldown[pc.PlayerId] = Options.ArsonistCooldown.GetFloat();
+                    pc.RpcGuardAndKill(pc);
+                }
+                if (pc.isVampire() || pc.isWarlock())
+                    main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
             }
-            main.BountyMeetingCheck = true;
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
