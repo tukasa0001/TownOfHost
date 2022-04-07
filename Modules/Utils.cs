@@ -416,6 +416,8 @@ namespace TownOfHost
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if (seer.isArsonist() && main.DousedPlayerCount[seer.PlayerId] == 0)
+                    SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={getRoleColorCode(CustomRoles.Impostor)}>{getString("EnterVentToWin")}</color>{SelfMark}";
                 SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用

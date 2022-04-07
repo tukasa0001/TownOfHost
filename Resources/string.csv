@@ -201,6 +201,7 @@ DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
+EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
 ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち

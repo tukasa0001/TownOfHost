@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -630,6 +631,8 @@ namespace TownOfHost
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
+                if (__instance.isArsonist() && main.DousedPlayerCount[__instance.PlayerId] == 0)
+                    __instance.nameText.text = $"{Utils.getRoleColorCode(CustomRoles.Impostor)}{getString("EnterVentToWin")}";
                 __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
             }
         }
