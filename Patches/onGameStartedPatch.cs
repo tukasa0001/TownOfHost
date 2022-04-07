@@ -14,6 +14,7 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
@@ -21,7 +22,6 @@ namespace TownOfHost
             main.isDoused = new Dictionary<(byte, byte), bool>();
             main.DousedPlayerCount = new Dictionary<byte, int>();
             main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            main.ArsonistKillCooldownCheck = true;
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
@@ -33,9 +33,6 @@ namespace TownOfHost
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
-            main.isBountyKillSuccess = false;
-            main.BountyTimerCheck = false;
-            main.BountyMeetingCheck = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
             main.SpeedBoostTarget = new Dictionary<byte, byte>();
 
@@ -324,8 +321,10 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    main.AllPlayerKillCooldown.Add(pc.PlayerId, Options.BHDefaultKillCooldown.GetFloat()); //全員分キルクールをDictionaryに追加
                     if (pc.isSheriff())
                     {
+                        main.AllPlayerKillCooldown[pc.PlayerId] = Options.SheriffKillCooldown.GetFloat();
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
@@ -344,6 +343,7 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.isArsonist())
                     {
+                        main.AllPlayerKillCooldown[pc.PlayerId] = Options.ArsonistCooldown.GetFloat();
                         main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
