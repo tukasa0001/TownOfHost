@@ -46,6 +46,9 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                if (pc.Data.IsDead && PlayerState.isDead[pc.PlayerId] != true)
+                    PlayerState.isDead[pc.PlayerId] = true;
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
