@@ -47,6 +47,8 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
+        public static CustomOption EnableLastImpostor;
+        public static CustomOption LastImpostorKillCooldown;
         public static CustomOption BountyTargetChangeTime;
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
@@ -283,6 +285,11 @@ namespace TownOfHost
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SetupRoleOptions(50600, CustomRoles.Egoist);
+
+            EnableLastImpostor = CustomOption.Create(80000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+                .SetGameMode(CustomGameMode.Standard);
             #endregion
 
             // HideAndSeek

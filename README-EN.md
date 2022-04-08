@@ -385,6 +385,18 @@ The conditions for defeat are as follows.<br>
 1.Egoist dies.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
+
+## Attribute
+
+### LastImpostor
+
+This is the attribute given to the last in-poster.<br>
+Not given to BountyHunter, SerialKiller, or Vampire.<br>
+
+| Settings Name |
+|----------|
+| LastImpostor KillCooldown |
+
 ## Mode
 
 ### DisableTasks

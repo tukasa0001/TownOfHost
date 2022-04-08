@@ -94,6 +94,7 @@ namespace TownOfHost
                 if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
             }
             main.BountyMeetingCheck = true;
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
         }

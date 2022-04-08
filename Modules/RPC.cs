@@ -116,6 +116,8 @@ namespace TownOfHost
                     bool CanBeforeSchrodingerCatWinTheCrewmate = reader.ReadBoolean();
                     bool SchrodingerCatExiledTeamChanges = reader.ReadBoolean();
                     bool AutoDisplayLastResult = reader.ReadBoolean();
+                    bool EnableLastImpostor = reader.ReadBoolean();
+                    int LastImpostorKillCooldown = reader.ReadInt32();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
                         CurrentGameMode,
@@ -150,6 +152,8 @@ namespace TownOfHost
                         DefaultShapeshiftCooldown,
                         ShapeMasterShapeshiftDuration,
                         EvilWatcherChance,
+                        EnableLastImpostor,
+                        LastImpostorKillCooldown,
                         SyncButtonMode,
                         SyncedButtonCount,
                         whenSkipVote,
@@ -276,6 +280,8 @@ namespace TownOfHost
                 int BHDefaultKillCooldown,
                 int DefaultShapeshiftCooldown,
                 int ShapeMasterShapeshiftDuration,
+                bool EnableLastImpostor,
+                int LastImpostorKillCooldown,
                 bool SyncButtonMode,
                 int SyncedButtonCount,
                 int whenSkipVote,
@@ -350,6 +356,8 @@ namespace TownOfHost
             Options.BHDefaultKillCooldown.UpdateSelection(BHDefaultKillCooldown);
             Options.ShapeMasterShapeshiftDuration.UpdateSelection(ShapeMasterShapeshiftDuration);
             Options.DefaultShapeshiftCooldown.UpdateSelection(DefaultShapeshiftCooldown);
+            Options.EnableLastImpostor.UpdateSelection(EnableLastImpostor);
+            Options.LastImpostorKillCooldown.UpdateSelection(LastImpostorKillCooldown);
 
             Options.SyncButtonMode.UpdateSelection(SyncButtonMode);
             Options.SyncedButtonCount.UpdateSelection(SyncedButtonCount);
@@ -450,6 +458,8 @@ namespace TownOfHost
             writer.Write(Options.BountyFailureKillCooldown.GetSelection());
             writer.Write(Options.BHDefaultKillCooldown.GetSelection());
             writer.Write(Options.ShapeMasterShapeshiftDuration.GetSelection());
+            writer.Write(Options.EnableLastImpostor.GetBool());
+            writer.Write(Options.LastImpostorKillCooldown.GetSelection());
             writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
             writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());

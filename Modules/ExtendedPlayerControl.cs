@@ -3,6 +3,7 @@ using Hazel;
 using System;
 using System.Linq;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -160,12 +161,12 @@ namespace TownOfHost
                     return true;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Impostor:
+                case RoleType.Impostor:
                     return true;
-                case IntroTypes.Madmate:
+                case RoleType.Madmate:
                     return Options.SheriffCanKillMadmate.GetBool();
             }
             return false;
@@ -345,10 +346,21 @@ namespace TownOfHost
                     break;
             }
             CustomRoles role = player.getCustomRole();
-            IntroTypes introType = role.getIntroType();
-            switch (introType)
+            RoleType roleType = role.getRoleType();
+            switch (roleType)
             {
-                case IntroTypes.Madmate:
+                case RoleType.Impostor:
+                    if (player.isLastImpostor())
+                    {
+                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
+                        {
+                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
+                        }
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                    break;
+                case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
@@ -416,7 +428,7 @@ namespace TownOfHost
 
         public static string getRoleName(this PlayerControl player)
         {
-            return Utils.getRoleName(player.getCustomRole());
+            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -542,6 +554,31 @@ namespace TownOfHost
             writer.Write(player.PlayerId);
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static bool CanUseKillButton(this PlayerControl pc)
+        {
+            bool canUse =
+                pc.getCustomRole().isImpostor() ||
+                pc.isSheriff() ||
+                pc.isArsonist();
+
+            if (pc.isMafia())
+            {
+                if (main.AliveImpostorCount > 1) canUse = false;
+            }
+            return canUse;
+        }
+        public static bool isLastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            if (pc.getCustomRole().isImpostor() &&
+                !pc.Data.IsDead &&
+                Options.EnableLastImpostor.GetBool() &&
+                !pc.isVampire() &&
+                !pc.isBountyHunter() &&
+                !pc.isSerialKiller() &&
+                main.AliveImpostorCount == 1)
+                return true;
+            return false;
         }
         public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {

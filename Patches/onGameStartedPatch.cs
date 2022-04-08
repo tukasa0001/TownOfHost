@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.StartGame))]
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class changeRoleSettings
     {
         public static void Postfix(AmongUsClient __instance)
@@ -380,6 +380,7 @@ namespace TownOfHost
                         }
                 }, 3f, "SetImpostorForServer");
             }
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
 
