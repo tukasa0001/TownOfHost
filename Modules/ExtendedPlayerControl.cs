@@ -575,6 +575,13 @@ namespace TownOfHost
             writer.Write(player.GetKillOrSpell());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetSheriffShotLimit(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.SheriffShotLimit[player.PlayerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
