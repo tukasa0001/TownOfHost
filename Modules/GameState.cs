@@ -30,12 +30,10 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new Dictionary<byte, bool>();
         public static Dictionary<byte, DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
         public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-
-        public static void RpcsetDeathReason(this PlayerControl player)
+        public static void RpcsetDeathReason(this byte player)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(player.GetKillOrSpell());
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, SendOption.Reliable, -1);
+            writer.Write(player);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
