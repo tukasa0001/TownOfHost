@@ -31,9 +31,9 @@ namespace TownOfHost
         {
             return getString(Enum.GetName(typeof(CustomRoles), role), lang);
         }
-        public static string getDeathReason(PlayerState.DeathReason status)
+        public static string getCondition(PlayerState.Condition status)
         {
-            return getString("DeathReason." + Enum.GetName(typeof(PlayerState.DeathReason), status));
+            return getString("Condition." + Enum.GetName(typeof(PlayerState.Condition), status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -64,16 +64,8 @@ namespace TownOfHost
 
         public static string getVitalText(byte player)
         {
-            string text = null;
-            if (PlayerState.isDead[player])
-            {
-                text = getString("DeathReason." + PlayerState.getDeathReason(player));
-            }
-            else
-            {
-                text = getString("Alive");
-            }
-            return text;
+            player.RpcsetCondition();
+            return getString("Condition." + PlayerState.getCondition(player)); ;
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
@@ -277,17 +269,17 @@ namespace TownOfHost
                 {
                     if (pc.isTerrorist())
                     {
-                        if (PlayerState.getDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        if (PlayerState.getCondition(pc.PlayerId) != PlayerState.Condition.Vote)
                         {
                             //キルされた場合は自爆扱い
-                            PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                            PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Suicide);
                         }
                     }
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.MurderPlayer(pc);
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                        PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Bombed);
                         PlayerState.isDead[pc.PlayerId] = true;
                     }
                 }
@@ -493,16 +485,16 @@ namespace TownOfHost
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
 
-                        string TargetDeathReason = "";
+                        string TargetCondition = "";
                         if (seer.isDoctor() && //seerがDoctor
                         target.Data.IsDead //変更対象が死人
                         )
                         {
-                            TargetDeathReason = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getVitalText(target.PlayerId)}</color>)";
+                            TargetCondition = $"(<color={getRoleColorCode(CustomRoles.Doctor)}>{getVitalText(target.PlayerId)}</color>)";
                         }
 
                         //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetCondition}{TargetMark}";
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer);
                         HudManagerPatch.LastSetNameDesyncCount++;

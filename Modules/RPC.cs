@@ -18,7 +18,7 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
-        SetDeathReason,
+        SetCondition,
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
@@ -222,9 +222,9 @@ namespace TownOfHost
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
                     break;
-                case (byte)CustomRPC.SetDeathReason:
-                    byte DeadPlayerId = reader.ReadByte();
-                    PlayerState.deathReasons[DeadPlayerId] = PlayerState.getDeathReason(DeadPlayerId);
+                case (byte)CustomRPC.SetCondition:
+                    byte PlayerId = reader.ReadByte();
+                    PlayerState.conditions[PlayerId] = PlayerState.getCondition(PlayerId);
                     break;
                 case (byte)CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();

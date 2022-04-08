@@ -28,7 +28,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
-                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                PlayerState.setCondition(exiled.PlayerId, PlayerState.Condition.Vote);
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -45,7 +45,7 @@ namespace TownOfHost
                 {
                     foreach (var p in main.SpelledPlayer)
                     {
-                        PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        PlayerState.setCondition(p.PlayerId, PlayerState.Condition.Spell);
                         main.IgnoreReportPlayers.Add(p.PlayerId);
                         p.RpcMurderPlayer(p);
                     }
@@ -56,7 +56,7 @@ namespace TownOfHost
             {
                 foreach (var p in main.SpelledPlayer)
                 {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                    PlayerState.setCondition(p.PlayerId, PlayerState.Condition.Spell);
                     main.IgnoreReportPlayers.Add(p.PlayerId);
                     p.RpcMurderPlayer(p);
                 }
