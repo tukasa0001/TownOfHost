@@ -37,8 +37,6 @@ namespace TownOfHost
                         switch (Options.GetWhenSkipVote())
                         {
                             case VoteMode.Suicide:
-                                foreach (var pc in PlayerControl.AllPlayerControls)
-                                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
@@ -55,8 +53,6 @@ namespace TownOfHost
                         switch (Options.GetWhenNonVote())
                         {
                             case VoteMode.Suicide:
-                                foreach (var pc in PlayerControl.AllPlayerControls)
-                                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
