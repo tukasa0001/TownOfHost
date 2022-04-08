@@ -47,6 +47,8 @@ namespace TownOfHost
 
             main.SheriffShotLimit = new Dictionary<byte, float>();
 
+            PlayerState.conditions = new Dictionary<byte, PlayerState.Condition>();
+
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
