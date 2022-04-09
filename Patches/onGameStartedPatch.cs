@@ -183,6 +183,7 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
+                    main.AllPlayerCustomSubRoles.Add(pc.PlayerId, CustomRoles.NoSubRoleAssigned);
                     if (pc.Data.Role.IsImpostor)
                     {
                         Impostors.Add(pc);
@@ -413,18 +414,19 @@ namespace TownOfHost
         }
         private static void AssignLoversRoles(int RawCount = -1)
         {
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
             var loversRole = CustomRoles.Lovers;
             var rand = new System.Random();
-            var count = Math.Clamp(RawCount, 0, PlayerControl.AllPlayerControls.Count);
-            if (RawCount == -1) count = Math.Clamp(loversRole.getCount(), 0, PlayerControl.AllPlayerControls.Count);
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.getCount(), 0, allPlayers.Count);
             if (count <= 0) return;
 
-            var players = PlayerControl.AllPlayerControls;
             for (var i = 0; i < count; i++)
             {
-                var player = players[rand.Next(0, players.Count)];
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 main.LoversPlayers.Add(player);
-                players.Remove(player);
+                allPlayers.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                 Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
             }

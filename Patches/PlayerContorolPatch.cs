@@ -632,7 +632,7 @@ namespace TownOfHost
                 }
 
                 //ハートマークを付ける(会議中ホスト視点)
-                if (__instance.getCustomSubRole() == CustomRoles.Lovers && PlayerControl.LocalPlayer.getCustomSubRole() == CustomRoles.Lovers)
+                if (__instance.isLovers() && PlayerControl.LocalPlayer.isLovers())
                 {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }

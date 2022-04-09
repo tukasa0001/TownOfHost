@@ -11,7 +11,14 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            if (((int)role) < 500)
+            {
+                main.AllPlayerCustomRoles[player.PlayerId] = role;
+            }
+            else if ((int)role > 500)   //500:NoSubRole 501~:SubRole
+            {
+                main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+            }
             if (AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);

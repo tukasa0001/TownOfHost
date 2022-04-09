@@ -464,6 +464,7 @@ namespace TownOfHost
                     || seer.isEgoSchrodingerCat() //seerがエゴイストのシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
+                    || seer.isLovers()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -484,6 +485,12 @@ namespace TownOfHost
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                         }
+                        //ハートマークを付ける(相手に)
+                        if (seer.isLovers() && target.isLovers())
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
+
                         if (seer.isArsonist() && seer.isDousedPlayer(target))
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
@@ -518,21 +525,6 @@ namespace TownOfHost
                         HudManagerPatch.LastSetNameDesyncCount++;
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
-                    }
-                    //ハートマークを付ける(相手に)
-                    if (seer.isLovers())
-                    {
-                        foreach (var target in PlayerControl.AllPlayerControls)
-                        {
-                            if (target == seer) continue;
-                            if (target.isLovers())
-                            {
-                                target.RpcSetNamePrivate(target.getRealName(isMeeting) + $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>", true, seer);
-                                HudManagerPatch.LastSetNameDesyncCount++;
-
-                                TownOfHost.Logger.info("NotifyRoles-Loop3-" + target.name + ":END", "NotifyRoles");
-                            }
-                        }
                     }
                 }
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");

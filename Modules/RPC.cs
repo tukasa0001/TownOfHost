@@ -586,7 +586,14 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            main.AllPlayerCustomRoles[targetId] = role;
+            if (((int)role) < 500)
+            {
+                main.AllPlayerCustomRoles[targetId] = role;
+            }
+            else if ((int)role > 500)   //500:NoSubRole 501~:SubRole
+            {
+                main.AllPlayerCustomSubRoles[targetId] = role;
+            }
             HudManager.Instance.SetHudActive(true);
         }
 
