@@ -2,6 +2,17 @@
 
 ![Thumbnail]
 
+---
+
+<div align = center>
+
+**⸢ [Roles] ⸥**  
+**⸢ [Settings] ⸥**
+
+</div>
+
+---
+
 このREADMEは英語版です。<br>
 ! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !
 
@@ -43,3 +54,6 @@ Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-M
 [Discord]: https://discord.gg/Et9RbMs6Y6
 
 [Thumbnail]: ../../Resources/Thumbnail.jpg
+
+[Settings]: Settings.md
+[Roles]: Roles.md
