@@ -34,6 +34,7 @@ namespace TownOfHost
 
         public enum Condition
         {
+            Alive,
             Dead,
             Exiled,
             Suicide,

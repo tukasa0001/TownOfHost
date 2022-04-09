@@ -53,6 +53,7 @@ namespace TownOfHost
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
+                PlayerState.conditions[pc.PlayerId] = PlayerState.Condition.Alive;
 
                 if (!__instance.AmHost || pc.isSheriff())
                 {
