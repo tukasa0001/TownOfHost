@@ -499,7 +499,7 @@ namespace TownOfHost
                         if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
-                            var snitchOption = seer.isSnitch() && Options.SnitchCanFind3rdKiller.GetBool();
+                            var snitchOption = seer.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                             var foundCheck = target.getCustomRole().isImpostor() || (snitchOption && target.isEgoist());
                             if(foundCheck)
                                 TargetPlayerName = $"<color={target.getRoleColorCode()}>{TargetPlayerName}</color>";

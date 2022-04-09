@@ -588,7 +588,7 @@ namespace TownOfHost
                 else if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
-                    var targetCheck = __instance.getCustomRole().isImpostor() || (Options.SnitchCanFind3rdKiller.GetBool() && __instance.isEgoist());
+                    var targetCheck = __instance.getCustomRole().isImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist());
                     if (targetCheck)//__instanceがターゲット
                     {
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //__instanceの名前を役職色で表示
@@ -642,7 +642,7 @@ namespace TownOfHost
                     {
                         var update = false;
                         var snitch_pos = __instance.transform.position;
-                        var snitchOption = __instance.isSnitch() && Options.SnitchCanFind3rdKiller.GetBool();
+                        var snitchOption = __instance.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             var foundCheck = pc.getCustomRole().isImpostor() || (snitchOption && pc.isEgoist());
