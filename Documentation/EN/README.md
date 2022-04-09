@@ -1,4 +1,4 @@
-# Town Of Host [![Badge Twitter]][Twitter]
+# Town Of Host [![Badge Twitter]][Twitter][![Badge Discord]][Discord]
 
 ![Thumbnail]
 
