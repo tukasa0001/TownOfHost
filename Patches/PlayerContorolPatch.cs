@@ -85,7 +85,7 @@ namespace TownOfHost
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetSelection() > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !__instance.isWarlock() && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -326,13 +326,13 @@ namespace TownOfHost
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.SendToFile("最大:" + Options.SyncedButtonCount + ", 現在:" + Options.UsedButtonCount, LogLevel.Message);
-                if (Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
+                if (Options.SyncedButtonCount.GetFloat() <= Options.UsedButtonCount)
                 {
                     Logger.SendToFile("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", LogLevel.Message);
                     return false;
                 }
                 else Options.UsedButtonCount++;
-                if (Options.SyncedButtonCount.GetSelection() == Options.UsedButtonCount)
+                if (Options.SyncedButtonCount.GetFloat() == Options.UsedButtonCount)
                 {
                     Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
                 }
@@ -364,7 +364,7 @@ namespace TownOfHost
             {
                 //SyncButtonMode中にホストが死んでいる場合
                 ChangeLocalNameAndRevert(
-                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。",
+                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。",
                     1000
                 );
             }
