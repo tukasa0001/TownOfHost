@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.Start))]
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
     public static class GameSettingMenuPatch
     {
         public static void Prefix(GameSettingMenu __instance)
