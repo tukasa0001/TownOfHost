@@ -84,6 +84,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillEgoShrodingerCat;
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
+        public static CustomOption SnitchCanFind3rdKiller;
         public static CustomOption SpeedBoosterUpSpeed;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
@@ -267,6 +268,7 @@ namespace TownOfHost
             SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
+            SnitchCanFind3rdKiller = CustomOption.Create(20501, Color.white, "SnitchCanFind3rdKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f,0.25f,3f,0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             // Other

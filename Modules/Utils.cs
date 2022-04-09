@@ -420,7 +420,7 @@ namespace TownOfHost
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
-                //タスクを終えたSnitchがインポスターを確認できる
+                //タスクを終えたSnitchがインポスターの方角を確認できる
                 if (seer.isSnitch() || seer.isMadSnitch())
                 {
                     var TaskState = seer.getPlayerTaskState();
@@ -428,17 +428,10 @@ namespace TownOfHost
                     {
                         SeerKnowsImpostors = true;
 
-                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        foreach (var arrow in main.snitchCursorIndex)
                         {
-                            if (!pc.getCustomRole().isImpostor()) continue;
-                            if (pc.Data.IsDead) continue;
-                            var key = (seer.PlayerId, pc.PlayerId);
-                            var succsess = main.snitchCursorIndex.TryGetValue(key, out var index);
-                            if (succsess && index < 9)
-                            {
-                                //初期値の場合は
-                                SelfSuffix += "↑↗→↘↓↙←↖・"[index];
-                            }
+                            if(arrow.Key.Item1==seer.PlayerId)
+                                SelfSuffix += arrow.Value;
                         }
                     }
                 }
@@ -453,8 +446,8 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName = SelfRoleName += SelfName;
-                SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+                SelfName = SelfRoleName += SelfName+ "\r\n ";
+                SelfRoleName += SelfName += SelfSuffix == "" ? "" :  SelfSuffix+"\r\n ";
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
@@ -503,9 +496,13 @@ namespace TownOfHost
                         string TargetPlayerName = target.getRealName(isMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
                         {
-                            TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                            //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
+                            var snitchOption = seer.isSnitch() && Options.SnitchCanFind3rdKiller.GetBool();
+                            var foundCheck = target.getCustomRole().isImpostor() || (snitchOption && target.isEgoist());
+                            if(foundCheck)
+                                TargetPlayerName = $"<color={target.getRoleColorCode()}>{TargetPlayerName}</color>";
                         }
                         else if (seer.getCustomRole().isImpostor() && target.isEgoist())
                             TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";

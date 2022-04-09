@@ -119,6 +119,7 @@ namespace TownOfHost
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     bool EnableLastImpostor = reader.ReadBoolean();
                     int LastImpostorKillCooldown = reader.ReadInt32();
+                    bool SnitchCanFind3rdKiller =reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
                         CurrentGameMode,
@@ -180,6 +181,7 @@ namespace TownOfHost
                         MayorAdditionalVote,
                         CanBeforeSchrodingerCatWinTheCrewmate,
                         SchrodingerCatExiledTeamChanges,
+                        SnitchCanFind3rdKiller,
                         AutoDisplayLastResult
                     );
                     break;
@@ -316,6 +318,7 @@ namespace TownOfHost
                 int MayorAdditionalVote,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
                 bool SchrodingerCatExiledTeamChanges,
+                bool SnitchCanFind3rdKiller,
                 bool AutoDisplayLastResult
             )
         {
@@ -355,6 +358,7 @@ namespace TownOfHost
             Options.SheriffCanKillCrewmatesAsIt.UpdateSelection(SheriffCanKillCrewmatesAsIt);
             Options.SheriffShotLimit.UpdateSelection(SheriffShotLimit);
 
+            Options.SnitchCanFind3rdKiller.UpdateSelection(SnitchCanFind3rdKiller);
             Options.EvilWatcherChance.UpdateSelection(EvilWatcherChance);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
@@ -472,6 +476,7 @@ namespace TownOfHost
             writer.Write(Options.DefaultShapeshiftCooldown.GetSelection());
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
             writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());
+            writer.Write(Options.SnitchCanFind3rdKiller.GetBool());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

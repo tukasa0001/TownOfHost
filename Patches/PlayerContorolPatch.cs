@@ -586,10 +586,13 @@ namespace TownOfHost
                 }
                 //タスクを終わらせたSnitchがインポスターを確認できる
                 else if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
-                    __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                 {
-                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                    var targetCheck = __instance.getCustomRole().isImpostor() || (Options.SnitchCanFind3rdKiller.GetBool() && __instance.isEgoist());
+                    if (targetCheck)//__instanceがターゲット
+                    {
+                        RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //__instanceの名前を役職色で表示
+                    }
                 }
                 else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                     __instance.isEgoist() //__instanceがエゴイスト
@@ -639,11 +642,13 @@ namespace TownOfHost
                     {
                         var update = false;
                         var snitch_pos = __instance.transform.position;
+                        var snitchOption = __instance.isSnitch() && Options.SnitchCanFind3rdKiller.GetBool();
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            //インポスターじゃ無ければ次
-                            if (!pc.getCustomRole().isImpostor()) continue;
-                            byte index = 9;
+                            var foundCheck = pc.getCustomRole().isImpostor() || (snitchOption && pc.isEgoist());
+                            //発見対象じゃ無ければ次
+                            if (!foundCheck) continue;
+
                             var key = (__instance.PlayerId, pc.PlayerId);
                             if (pc.Data.IsDead)
                             {
@@ -651,13 +656,15 @@ namespace TownOfHost
                                 main.snitchCursorIndex.Remove(key);
                                 continue;
                             }
+
                             if (!main.snitchCursorIndex.ContainsKey(key))
                             {
                                 //まだkey未登録なら追加
-                                main.snitchCursorIndex.Add(key, index);
+                                main.snitchCursorIndex.Add(key, "");
                             }
                             //インポスターの方角ベクトルを取る
                             var dir = pc.transform.position - snitch_pos;
+                            byte index;
                             if (dir.magnitude < 1)
                             {
                                 //近い時はドット表示
@@ -669,19 +676,21 @@ namespace TownOfHost
                                 var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
                                 index = (byte)(((int)(angle / 45)) % 8);
                             }
-                            if (main.snitchCursorIndex[key] != index)
+                            var arrow = $"<color={pc.getRoleColorCode()}>{"↑↗→↘↓↙←↖・"[index]}</color>";
+
+                            if (main.snitchCursorIndex[key] != arrow)
                             {
                                 //前回から変わってたら登録して更新フラグ
-                                main.snitchCursorIndex[key] = index;
+                                main.snitchCursorIndex[key] = arrow;
                                 update = true;
                             }
-                            if (index < 9 && __instance.AmOwner)
+                            if (__instance.AmOwner)
                             {
                                 //MODなら矢印表示
-                                Suffix += "↑↗→↘↓↙←↖・"[index];
+                                Suffix += main.snitchCursorIndex[key];
                             }
                         }
-                        if (AmongUsClient.Instance.AmHost && update)
+                        if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId!=__instance.PlayerId && update)
                         {
                             //更新があったら非Modに通知
                             Utils.NotifyRoles(__instance);
