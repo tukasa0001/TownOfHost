@@ -309,17 +309,6 @@ namespace TownOfHost
             RoleType roleType = role.getRoleType();
             switch (roleType)
             {
-                case RoleType.Impostor:
-                    if (player.isLastImpostor())
-                    {
-                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
-                        {
-                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
-                        }
-                        else
-                            opt.KillCooldown = 0.01f;
-                    }
-                    break;
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {

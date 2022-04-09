@@ -51,6 +51,11 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.isLastImpostor())
+                    main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+            }
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
