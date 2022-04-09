@@ -1,6 +1,14 @@
 # Town Of Host  [![Badge Twitter]][Twitter][![Badge Discord]][Discord]  [![Badge Japanese]][Japanese]
 
+<div align = center>
+
 ![Thumbnail]
+
+<br>
+
+*Custom roles for* ***Among Us***
+
+</div>
 
 ---
 
@@ -13,9 +21,6 @@
 
 ---
 
-## About this mod
-
-This mod is not affiliated with Among Us or Innersloth, so don't ask about this mod for Innersloth.<br>
 
 ## Features
 
