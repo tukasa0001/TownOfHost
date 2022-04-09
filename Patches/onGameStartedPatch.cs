@@ -47,13 +47,15 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
+            PlayerState.conditions = new Dictionary<byte, PlayerState.Condition>();
+
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
-                PlayerState.conditions[pc.PlayerId] = PlayerState.Condition.Alive;
+                PlayerState.conditions.Add(pc.PlayerId, PlayerState.Condition.Alive);
 
                 if (!__instance.AmHost || pc.isSheriff())
                 {
