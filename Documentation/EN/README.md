@@ -1,4 +1,4 @@
-# Town Of Host  [![Badge Twitter]][Twitter][![Badge Discord]][Discord]  [![Badge Japanese]][Japanese]
+# Town Of Host  [![Badge License]][License]  [![Badge Twitter]][Twitter][![Badge Discord]][Discord]  [![Badge Japanese]][Japanese]
 
 <div align = center>
 
@@ -40,12 +40,14 @@ Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-M
 [Badge Japanese]: https://img.shields.io/badge/日本語-E4405F?style=for-the-badge
 [Badge Twitter]: https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white
 [Badge Discord]: https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white
+[Badge License]: https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge
 
 [Twitter]: https://twitter.com/XenonBottle
 [Discord]: https://discord.gg/Et9RbMs6Y6
 
 [Thumbnail]: ../../Resources/Thumbnail.jpg
 [Japanese]: ../../README.md
+[License]: ../../LICENSE
 
 [Settings]: Settings.md
 [Roles]: Roles.md
