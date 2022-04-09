@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -88,6 +88,7 @@ namespace TownOfHost
         public static bool isBountyKillSuccess;
         public static bool BountyTimerCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
+        public static Dictionary<(byte, byte), byte> snitchCursorIndex = new();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonArsonistID;

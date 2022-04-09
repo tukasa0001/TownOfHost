@@ -350,7 +350,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false)
+        public static void NotifyRoles(bool isMeeting = false,PlayerControl SpecifysEER=null)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -379,10 +379,15 @@ namespace TownOfHost
                     }
                 }
             }
-
+            var seerList = PlayerControl.AllPlayerControls;
+            if (SpecifysEER != null)
+            {
+                seerList=new ();
+                seerList.Add(SpecifysEER);
+            }
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
-            foreach (var seer in PlayerControl.AllPlayerControls)
+            foreach (var seer in seerList)
             {
                 TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START", "NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
@@ -412,6 +417,31 @@ namespace TownOfHost
                     if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + getString("WitchModeSpell");
                 }
 
+                //他人用の変数定義
+                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+
+                //タスクを終えたSnitchがインポスターを確認できる
+                if (seer.isSnitch() || seer.isMadSnitch())
+                {
+                    var TaskState = seer.getPlayerTaskState();
+                    if (TaskState.isTaskFinished)
+                    {
+                        SeerKnowsImpostors = true;
+
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.getCustomRole().isImpostor()) continue;
+                            if (pc.Data.IsDead) continue;
+                            var key = (seer.PlayerId, pc.PlayerId);
+                            var succsess = main.snitchCursorIndex.TryGetValue(key, out var index);
+                            if (succsess && index < 9)
+                            {
+                                //初期値の場合は
+                                SelfSuffix += "↑↗→↘↓↙←↖・"[index];
+                            }
+                        }
+                    }
+                }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.getRealName(isMeeting);
@@ -429,22 +459,6 @@ namespace TownOfHost
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
                 HudManagerPatch.LastSetNameDesyncCount++;
-
-                //他人用の変数定義
-                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                //タスクを終えたSnitchがインポスターを確認できる
-                if (seer.isSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-                if (seer.isMadSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる

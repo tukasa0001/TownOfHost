@@ -40,6 +40,7 @@ namespace TownOfHost
             main.BountyMeetingCheck = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
             main.SpeedBoostTarget = new Dictionary<byte, byte>();
+            main.snitchCursorIndex = new();
 
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;

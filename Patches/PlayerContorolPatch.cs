@@ -631,13 +631,81 @@ namespace TownOfHost
                     }
                 }
 
+                //タスクが終わったスニッチはインポスターの方角がわかる
+                if (__instance.isSnitch() || __instance.isMadSnitch())
+                {
+                    var TaskState = __instance.getPlayerTaskState();
+                    if (TaskState.isTaskFinished)
+                    {
+                        var update = false;
+                        var snitch_pos = __instance.transform.position;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            //インポスターじゃ無ければ次
+                            if (!pc.getCustomRole().isImpostor()) continue;
+                            byte index = 9;
+                            var key = (__instance.PlayerId, pc.PlayerId);
+                            if (pc.Data.IsDead)
+                            {
+                                //死んでたらリストから削除
+                                main.snitchCursorIndex.Remove(key);
+                                continue;
+                            }
+                            if (!main.snitchCursorIndex.ContainsKey(key))
+                            {
+                                //まだkey未登録なら追加
+                                main.snitchCursorIndex.Add(key, index);
+                            }
+                            //インポスターの方角ベクトルを取る
+                            var dir = pc.transform.position - snitch_pos;
+                            if (dir.magnitude < 1)
+                            {
+                                //近い時はドット表示
+                                index = 8;
+                            }
+                            else
+                            {
+                                //-22.5～22.5度を0とするindexに変換
+                                var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                                index = (byte)(((int)(angle / 45)) % 8);
+                            }
+                            if (main.snitchCursorIndex[key] != index)
+                            {
+                                //前回から変わってたら登録して更新フラグ
+                                main.snitchCursorIndex[key] = index;
+                                update = true;
+                            }
+                            if (index < 9 && __instance.AmOwner)
+                            {
+                                //MODなら矢印表示
+                                Suffix += "↑↗→↘↓↙←↖・"[index];
+                            }
+                        }
+                        if (AmongUsClient.Instance.AmHost && update)
+                        {
+                            //更新があったら非Modに通知
+                            Utils.NotifyRoles(__instance);
+                        }
+                    }
+                }
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
                 }*/
 
                 //Mark・Suffixの適用
                 __instance.nameText.text = $"{RealName}{Mark}";
-                __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
+                if (Suffix != "")
+                {
+                    //名前が2行になると役職テキストを上にずらす必要がある
+                    RoleText.transform.SetLocalY(0.35f);
+                    __instance.nameText.text += "\r\n" + Suffix;
+
+                }
+                else
+                {
+                    //役職テキストの座標を初期値に戻す
+                    RoleText.transform.SetLocalY(0.175f);
+                }
             }
         }
     }
