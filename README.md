@@ -1,4 +1,4 @@
-# Town Of Host
+# Town Of Host [![Badge English]][English]
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 
 Discord Server: https://discord.gg/Et9RbMs6Y6
@@ -123,3 +123,9 @@ Jester(てるてる)とMadmateの役職：https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod
 
 作者のTwitter：https://twitter.com/XenonBottle
+
+
+<!----------------------------------------------------------------------------->
+
+[Badge English]: https://img.shields.io/badge/English-E4405F?style=for-the-badge
+[English]: Documentation/EN/README.md
