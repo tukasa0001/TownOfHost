@@ -235,7 +235,7 @@ namespace TownOfHost
                     opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
                     if (main.BountyMeetingCheck)
                     {//会議後のキルクール
                         opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
@@ -244,7 +244,7 @@ namespace TownOfHost
                     {
                         if (!main.isBountyKillSuccess)
                         {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat();
+                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat() * 2;
                             Logger.info("ターゲット以外をキル");
                         }
                         if (!main.BountyTimerCheck)

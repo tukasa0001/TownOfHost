@@ -74,7 +74,7 @@ namespace TownOfHost
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetSelection(); i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
