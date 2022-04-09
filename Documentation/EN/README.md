@@ -1,4 +1,5 @@
-# Town Of Host
+# Town Of Host [![Badge Twitter]][Twitter]
+
 ![TownOfHost-Title](https://user-images.githubusercontent.com/51523918/147845737-440bc415-0d0f-42eb-b1d4-6aab36937bd4.jpg)
 
 このREADMEは英語版です。<br>
@@ -32,4 +33,9 @@ Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRo
 Jester and Madmate：https://au.libhalt.net<br>
 Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod<br>
 
-Twitter：https://twitter.com/XenonBottle
+
+<!----------------------------------------------------------------------------->
+
+[Badge Twitter]: https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white
+
+[Twitter]: https://twitter.com/XenonBottle
