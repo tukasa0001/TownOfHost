@@ -97,7 +97,7 @@ namespace TownOfHost
                                 //残った恋人を全て殺す(2人以上可)
                                 if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
                                 {
-                                    loversPlayer.RpcMurderPlayer(partnerPlayer);
+                                    partnerPlayer.RpcMurderPlayer(partnerPlayer);
                                     PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                                     main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);
                                 }
