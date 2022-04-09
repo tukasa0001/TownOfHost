@@ -28,8 +28,8 @@ namespace TownOfHost
         public static List<byte> players = new List<byte>();
         public static Dictionary<byte, bool> isDead = new Dictionary<byte, bool>();
         public static Dictionary<byte, Condition> conditions = new Dictionary<byte, Condition>();
-        public static void setCondition(byte p, Condition reason) { conditions[p] = reason; }
-        public static Condition getCondition(byte p) { return conditions.TryGetValue(p, out var reason) ? reason : Condition.etc; }
+        public static void setCondition(byte p, Condition condition) { conditions[p] = condition; }
+        public static Condition getCondition(byte p) { return conditions.TryGetValue(p, out var condition) ? condition : Condition.etc; }
         public static bool isSuicide(byte p) { return conditions[p] == Condition.Suicide; }
 
         public enum Condition
