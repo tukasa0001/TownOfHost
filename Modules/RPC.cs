@@ -18,6 +18,7 @@ namespace TownOfHost
         SetCustomRole,
         SetBountyTarget,
         SetKillOrSpell,
+        SetSheriffShotLimit,
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
@@ -220,6 +221,14 @@ namespace TownOfHost
                     byte playerId = reader.ReadByte();
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
+                    break;
+                case (byte)CustomRPC.SetSheriffShotLimit:
+                    byte SheriffId = reader.ReadByte();
+                    float Limit = reader.ReadSingle();
+                    if (main.SheriffShotLimit.ContainsKey(SheriffId))
+                        main.SheriffShotLimit[SheriffId] = Limit;
+                    else
+                        main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
                     break;
                 case (byte)CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
