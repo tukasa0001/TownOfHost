@@ -54,6 +54,11 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.SyncCustomSettings:
+                    foreach(var co in CustomOption.Options)
+                    {
+                        co.Selection = reader.ReadInt32();
+                    }
+/*
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                     {
                         kvp.Value.Selection = reader.ReadInt32();
@@ -182,6 +187,7 @@ namespace TownOfHost
                         SchrodingerCatExiledTeamChanges,
                         AutoDisplayLastResult
                     );
+ */
                     break;
                 case (byte)CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -407,6 +413,11 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+            foreach(var co in CustomOption.Options)
+            {
+                writer.Write(co.GetSelection());
+            }
+/*
             foreach (var kvp in Options.CustomRoleSpawnChances)
             {
                 writer.Write(kvp.Value.GetSelection());
@@ -473,6 +484,7 @@ namespace TownOfHost
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
             writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
+*/
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void PlaySoundRPC(byte PlayerID, Sounds sound)
