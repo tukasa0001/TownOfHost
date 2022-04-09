@@ -25,18 +25,6 @@ This mod is not affiliated with Among Us or Innersloth, so don't ask about this 
 Only host has to install this mod to play with this mod, so other player doesn't have to install it. Probably, players on any devices can play this mod.<br>
 But custom roles in the mod replace offical mods, so custom roles that replace the same official roles cannot be used at the same time.<br>
 
-## Custom Settings Menu
-In lobby, You can press tab to open Custom Settings Menu<br>
-The operation method is as follows.<br>
-| Key | Action |
-| :---: | ---- |
-| Tab | Open/Close |
-| Up | Corsor Up |
-| Down | Cursor Down |
-| Right | Execute item |
-| Left | Go back one |
-
-
 
 ## Credits 
 
