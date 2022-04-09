@@ -34,11 +34,11 @@ namespace TownOfHost
 
         public enum Condition
         {
-            Kill,
-            Vote,
+            Dead,
+            Exiled,
             Suicide,
-            Spell,
-            Bite,
+            Spelled,
+            Bited,
             Bombed,
             Misfire,
             Disconnected,

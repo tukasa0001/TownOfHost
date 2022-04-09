@@ -18,7 +18,7 @@ namespace TownOfHost
             if (PlayerState.getCondition(target.PlayerId) == PlayerState.Condition.etc)
             {
                 //死因が設定されていない場合は死亡判定
-                PlayerState.setCondition(target.PlayerId, PlayerState.Condition.Kill);
+                PlayerState.setCondition(target.PlayerId, PlayerState.Condition.Dead);
             }
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
@@ -344,7 +344,7 @@ namespace TownOfHost
                 {
                     if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
                     {
-                        PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Bite);
+                        PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Bited);
                         pc.RpcMurderPlayer(pc);
                         RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
@@ -403,7 +403,7 @@ namespace TownOfHost
                         byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
                         if (!__instance.Data.IsDead)
                         {
-                            PlayerState.setCondition(__instance.PlayerId, PlayerState.Condition.Bite);
+                            PlayerState.setCondition(__instance.PlayerId, PlayerState.Condition.Bited);
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");

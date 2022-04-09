@@ -66,16 +66,7 @@ namespace TownOfHost
 
         public static string getVitalText(byte player)
         {
-            string text = null;
-            if (PlayerState.isDead[player])
-            {
-                text = getString("Condition." + PlayerState.getCondition(player));
-            }
-            else
-            {
-                text = getString("Alive");
-            }
-            return text;
+            return getString("Condition." + PlayerState.getCondition(player));
         }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
@@ -279,7 +270,7 @@ namespace TownOfHost
                 {
                     if (pc.isTerrorist())
                     {
-                        if (PlayerState.getCondition(pc.PlayerId) != PlayerState.Condition.Vote)
+                        if (PlayerState.getCondition(pc.PlayerId) != PlayerState.Condition.Exiled)
                         {
                             //キルされた場合は自爆扱い
                             PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Suicide);
