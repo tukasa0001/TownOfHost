@@ -14,25 +14,25 @@ namespace TownOfHost
         {
             players = new();
             isDead = new();
-            deathReasons = new();
+            conditions = new();
             isDead = new();
 
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 players.Add(p.PlayerId);
                 isDead.Add(p.PlayerId, false);
-                deathReasons.Add(p.PlayerId, DeathReason.etc);
+                conditions.Add(p.PlayerId, Condition.etc);
             }
 
         }
         public static List<byte> players = new List<byte>();
         public static Dictionary<byte, bool> isDead = new Dictionary<byte, bool>();
-        public static Dictionary<byte, DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
-        public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
-        public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
-        public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
+        public static Dictionary<byte, Condition> conditions = new Dictionary<byte, Condition>();
+        public static void setCondition(byte p, Condition reason) { conditions[p] = reason; }
+        public static Condition getCondition(byte p) { return conditions.TryGetValue(p, out var reason) ? reason : Condition.etc; }
+        public static bool isSuicide(byte p) { return conditions[p] == Condition.Suicide; }
 
-        public enum DeathReason
+        public enum Condition
         {
             Kill,
             Vote,

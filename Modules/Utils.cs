@@ -31,9 +31,9 @@ namespace TownOfHost
         {
             return getString(Enum.GetName(typeof(CustomRoles), role), lang);
         }
-        public static string getDeathReason(PlayerState.DeathReason status)
+        public static string getCondition(PlayerState.Condition status)
         {
-            return getString("DeathReason." + Enum.GetName(typeof(PlayerState.DeathReason), status));
+            return getString("Condition." + Enum.GetName(typeof(PlayerState.Condition), status));
         }
         public static Color getRoleColor(CustomRoles role)
         {
@@ -69,7 +69,7 @@ namespace TownOfHost
             string text = null;
             if (PlayerState.isDead[player])
             {
-                text = getString("DeathReason." + PlayerState.getDeathReason(player));
+                text = getString("Condition." + PlayerState.getCondition(player));
             }
             else
             {
@@ -279,17 +279,17 @@ namespace TownOfHost
                 {
                     if (pc.isTerrorist())
                     {
-                        if (PlayerState.getDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        if (PlayerState.getCondition(pc.PlayerId) != PlayerState.Condition.Vote)
                         {
                             //キルされた場合は自爆扱い
-                            PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                            PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Suicide);
                         }
                     }
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
                         pc.MurderPlayer(pc);
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                        PlayerState.setCondition(pc.PlayerId, PlayerState.Condition.Bombed);
                         PlayerState.isDead[pc.PlayerId] = true;
                     }
                 }
