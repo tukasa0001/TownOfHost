@@ -1,62 +1,101 @@
-## Roles
 
-### Jester
+# Roles
 
-Team：Solo<br>
-Replace：Scientist<br>
-Needed to win：Voted out<br>
+<br>
 
-Jesters doesn't have any tasks and they aren't fellow Crewmates and Impostor.<br>
-Jesters can win with voted out.<br>
-When a Jester voted out, Only Jester who voted out wins. Other Players will lose.<br>
-If a Jester is killed or the game ends without vote out them, they will lose.<br>
-Jesters cannot use their vital.<br>
+## Jester
 
-### Terrorist
+**Replaces:** `Scientist`<br>
+**Team:** `Solo` <br>
+**Goal:** You need to be voted out
 
-Team：Solo<br>
-Replace：Engineer<br>
-Needed to win：Finish your tasks, then die<br>
+- Your team is separate from **Crewmates** / **Imposters**.
+- When you are voted out, only you win.
+- If not voted out, you will lose.
+- You don't have any tasks.
+- You cannot use vitals.
 
-Terrorists aren't fellow Crewmates and Impostor, but they has tasks.<br>
-If they die after finish their tasks, only they wins.
-But if they die before finish their tasks, or they didn't die, they will lose.
-They can use vents.
+<br>
 
-### Sidekick
+---
 
-Team：Impostor<br>
-Replace：Shapeshifter<br>
+<br>
 
-Sidekick is an Impostor and They can use vent and sabotage.
-But they cannot kill.
-When all other Impostors are died, they become able to kill.
+## Terrorist
 
-### Vampire
+**Replaces:** `Engineer`<br>
+**Team:** `Solo` <br>
+**Goal:** You first have to finish your tasks, then die.
 
-Team：Impostor<br>
-Replace：Impostor<br>
+- Your team is separate from **Crewmates** / **Imposters**.
+- If you don't finish your tasks & die, you will lose.
+- You can use vents.
+- You have tasks.
 
-The Vampire is an Impostor who can bite other player.
-Bitten players die after 10 seconds without teleport.
-But if they bite Bait, they do a normal kills.
-If meeting is started before bitten player die, they die immediately.
+<br>
 
-### Madmate
+---
 
-Team：Impostor<br>
-Replace：Engineer<br>
+<br>
 
-Madmate doesn't have any tasks and cannot kill and sabotage, but they are fellow Impostors.
-しかし、ベントへの出入りと移動が可能です。<br>
-Madmates can vent.
-Madmate doesn't know Impostors, and Impostors also doesn't know Madmate.
+## Sidekick
 
-### Bait
+**Replaces:** `Shapeshifter`<br>
+**Team:** `Impostor`
 
-Team：Crewmate<br>
-Replace：Scientist<br>
+- You are an impostor.
+- You can use vents.
+- You can sabotage.
+- You cannot kill.
 
-Bait has tasks, and they are fellow of Crewmate.
-When bait is killed, the Impostor who killed them is forced self report.
-Bait cannot use their vital.
+*If all impostors are dead, you will be able to kill.*
+
+<br>
+
+---
+
+<br>
+
+## Vampire
+
+**Replaces:** `Impostor`<br>
+**Team:** `Impostor`
+
+- You are an impostor.
+- You can bite other players.
+- Bitten players die after `10s` without teleport.
+- Biting the **Bait** counts as a normal kill.
+- If a meeting is starts, all bitten players die instantly.
+
+<br>
+
+---
+
+<br>
+
+## Madmate
+
+**Replaces:** `Engineer`<br>
+**Team:** `Impostor`
+
+- You don't have tasks.
+- You cannot kill.
+- You cannot sabotage.
+- You can use vents.
+- You don't know who your teammates are.
+- Your teammates don't know your role.
+
+<br>
+
+---
+
+<br>
+
+## Bait
+
+**Replaces:** `Scientist`<br>
+**Team:** `Crewmate`
+
+- You have tasks.
+- You cannot use vitals.
+- When you are killed, your killer self reports.
