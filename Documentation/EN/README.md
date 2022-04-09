@@ -1,4 +1,4 @@
-# Town Of Host [![Badge Twitter]][Twitter][![Badge Discord]][Discord]
+# Town Of Host  [![Badge Twitter]][Twitter][![Badge Discord]][Discord]  [![Badge Japanese]][Japanese]
 
 ![Thumbnail]
 
@@ -12,9 +12,6 @@
 </div>
 
 ---
-
-このREADMEは英語版です。<br>
-! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !
 
 ## About this mod
 
@@ -35,6 +32,7 @@ Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-M
 
 <!----------------------------------------------------------------------------->
 
+[Badge Japanese]: https://img.shields.io/badge/日本語-E4405F?style=for-the-badge
 [Badge Twitter]: https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white
 [Badge Discord]: https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white
 
@@ -42,6 +40,7 @@ Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-M
 [Discord]: https://discord.gg/Et9RbMs6Y6
 
 [Thumbnail]: ../../Resources/Thumbnail.jpg
+[Japanese]: ../../README.md
 
 [Settings]: Settings.md
 [Roles]: Roles.md
