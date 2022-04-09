@@ -21,18 +21,30 @@
 
 ---
 
+<br>
 
 ## Features
 
-Only host has to install this mod to play with this mod, so other player doesn't have to install it. Probably, players on any devices can play this mod.<br>
-But custom roles in the mod replace offical mods, so custom roles that replace the same official roles cannot be used at the same time.<br>
+- Only the host needs to install this mod.
 
+- The mod should work on any device.
+
+<br>
+
+## Compatibility
+
+As this mod replaces official roles with custom ones, you <br>
+***shouldn't use other mods***, that replace the same roles.
+
+<br>
 
 ## Credits 
 
-Bait, Vampire, and more tips to modding：https://github.com/Eisbison/TheOtherRoles<br>
-Jester and Madmate：https://au.libhalt.net<br>
-Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-Mod<br>
+##### [- Bait & Vampire](https://github.com/Eisbison/TheOtherRoles)
+
+##### [- Jester & Madmate](https://au.libhalt.net)
+
+##### [- Terrorist](https://github.com/MengTube/Foolers-Mod)
 
 
 <!----------------------------------------------------------------------------->
