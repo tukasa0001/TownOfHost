@@ -188,16 +188,16 @@ Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
-Condition.Kill,Kill,死亡
-Condition.Vote,Exiled,追放
+Condition.Alive,Alive,生存
+Condition.Dead,Dead,死亡
+Condition.Exiled,Exiled,追放
 Condition.Suicide,Suicide,自爆
-Condition.Spell,Spelled,呪殺
-Condition.Bite,Bited,噛殺
+Condition.Spelled,Spelled,呪殺
+Condition.Bited,Bited,噛殺
 Condition.Bombed,Bombed,爆死
 Condition.Misfire,Misfire,誤爆
 Condition.Disconnected,Disconnected,回線切断
 Condition.etc,etc,その他
-Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
 ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
