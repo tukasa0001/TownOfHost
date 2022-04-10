@@ -197,7 +197,7 @@ namespace TownOfHost
         public static void Postfix(EndGameManager __instance)
         {
             //#######################################
-            //        ==勝利陣営表示テキスト==
+            //          ==勝利陣営表示==
             //#######################################
 
             GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
