@@ -350,7 +350,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false,PlayerControl SpecifysEER=null)
+        public static void NotifyRoles(bool isMeeting = false,PlayerControl SpecifySeer=null)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -380,10 +380,10 @@ namespace TownOfHost
                 }
             }
             var seerList = PlayerControl.AllPlayerControls;
-            if (SpecifysEER != null)
+            if (SpecifySeer != null)
             {
                 seerList=new ();
-                seerList.Add(SpecifysEER);
+                seerList.Add(SpecifySeer);
             }
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
