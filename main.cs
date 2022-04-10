@@ -246,9 +246,9 @@ namespace TownOfHost
         Madmate,
         MadSnitch,
         SKMadmate,
-        //両陣営
+    //両陣営
         Watcher,
-        //Crewmate(Vanilla)
+    //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,
         Scientist,
@@ -261,7 +261,7 @@ namespace TownOfHost
         Sheriff,
         Snitch,
         SpeedBooster,
-        //第三陣営
+    //第三陣営
         Arsonist,
         Egoist,
         Jester,
