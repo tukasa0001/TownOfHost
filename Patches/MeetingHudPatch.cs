@@ -74,7 +74,7 @@ namespace TownOfHost
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetSelection(); i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -233,6 +233,20 @@ namespace TownOfHost
                 {
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+                if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがEgoSchrodingerCat
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。

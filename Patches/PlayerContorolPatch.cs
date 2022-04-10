@@ -39,14 +39,15 @@ namespace TownOfHost
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                 }
             }
-            if (__instance.isVampire() && CustomRoles.BountyHunter.isEnable()) main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
             //Terrorist
             if (target.isTerrorist())
             {
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
-            PlayerState.isDead[target.PlayerId] = true;
+            Utils.CountAliveImpostors();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -155,7 +156,7 @@ namespace TownOfHost
 
             if (__instance.isMafia())
             {
-                if (!CustomRoles.Mafia.CanUseKillButton())
+                if (!__instance.CanUseKillButton())
                 {
                     Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
                     main.BlockKilling[__instance.PlayerId] = false;
@@ -193,6 +194,7 @@ namespace TownOfHost
 
                 main.SheriffShotLimit[__instance.PlayerId]--;
                 Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
+                __instance.RpcSetSheriffShotLimit();
 
                 if (!target.canBeKilledBySheriff())
                 {
@@ -254,6 +256,8 @@ namespace TownOfHost
             }
             if (__instance.isVampire() && !target.isBait() && !target.isSchrodingerCat())
             { //キルキャンセル&自爆処理
+                main.BountyMeetingCheck = false;//会議後ではないのでキルクールをデフォルトから変更
+                Utils.CustomSyncAllSettings();
                 __instance.RpcGuardAndKill(target);
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
@@ -273,11 +277,11 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (__instance.getCustomRole().isImpostor())
-                {
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                }
                 if (__instance.isSheriff())
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                if (__instance.isEgoist())
+                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
                 Utils.NotifyRoles();
                 Utils.CustomSyncAllSettings();
                 return false;
@@ -285,10 +289,18 @@ namespace TownOfHost
             //シュレディンガーの猫の役職変化処理終了
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
-
             //==キル処理==
             __instance.RpcMurderPlayer(target);
             //============
+
+            if (__instance.isBountyHunter() && target != __instance.getBountyTarget())
+            {
+                __instance.RpcGuardAndKill(target);
+                __instance.ResetBountyTarget();
+                main.BountyTimerCheck = false;
+                main.BountyTimer[__instance.PlayerId] = 0f;
+            }
+
             return false;
         }
     }
@@ -409,11 +421,11 @@ namespace TownOfHost
                 if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
-                    {
+                    {//時間が来たとき
                         if (!__instance.Data.IsDead)
                         {
-                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
-                            __instance.RpcMurderPlayer(__instance);
+                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
+                            __instance.RpcMurderPlayer(__instance);//自滅させる
                             RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
                         }
                         else
@@ -422,24 +434,24 @@ namespace TownOfHost
                     else
                     {
                         main.SerialKillerTimer[__instance.PlayerId] =
-                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                        (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                     }
                 }
-                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))
+                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
                 {
                     if (main.WarlockTimer[__instance.PlayerId] >= 1f)
                     {
                         __instance.RpcGuardAndKill(__instance);
-                        main.isCursed = false;
+                        main.isCursed = false;//変身クールを１秒に変更
                         Utils.CustomSyncAllSettings();
                         main.WarlockTimer.Remove(__instance.PlayerId);
                     }
-                    else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                 }
                 //バウハンのキルクールの変換とターゲットのリセット
                 if (main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat())//時間経過でターゲットをリセットする処理
+                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat())//時間経過でターゲットをリセットする処理
                     {
                         main.BountyMeetingCheck = false;
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
@@ -461,6 +473,7 @@ namespace TownOfHost
                         main.BountyTimerCheck = false;
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
+                        Utils.NotifyRoles();
                     }
                     if (main.BountyTimer[__instance.PlayerId] >= 1 && !main.BountyTimerCheck)
                     {//選びなおしてから１秒後の処理
@@ -474,54 +487,54 @@ namespace TownOfHost
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
-                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))
+                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
-                    var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;
-                    if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())
+                    var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
+                    if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                     {
-                        __instance.RpcGuardAndKill(artarget);
-                        main.ArsonistKillCooldownCheck = false;
-                        Utils.CustomSyncAllSettings();
-                        main.ArsonistTimer.Remove(__instance.PlayerId);
-                        main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;
-                        main.DousedPlayerCount[__instance.PlayerId]--;
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);
+                        __instance.RpcGuardAndKill(artarget);//通知とクールリセット
+                        main.ArsonistKillCooldownCheck = false;//アーソニストのクールをリセット
+                        Utils.CustomSyncAllSettings();//同期
+                        main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
+                        main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;//塗り完了
+                        main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(artarget.PlayerId);
                         writer.Write(true);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        Utils.NotifyRoles();
+                        Utils.NotifyRoles();//名前変更
                     }
                     else
                     {
                         float dis;
-                        dis = Vector2.Distance(__instance.transform.position, artarget.transform.position);
-                        if (dis <= 1.75f)
+                        dis = Vector2.Distance(__instance.transform.position, artarget.transform.position);//距離を出す
+                        if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
                         {
                             main.ArsonistTimer[__instance.PlayerId] =
                             (main.ArsonistTimer[__instance.PlayerId].Item1, main.ArsonistTimer[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                         }
-                        else
+                        else//それ以外は削除
                         {
                             main.ArsonistTimer.Remove(__instance.PlayerId);
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)
+                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
+                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)//試合終了判定
                     {
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);//試合終了
                         writer.Write(__instance.PlayerId);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
                         RPC.ArsonistWin(__instance.PlayerId);
-                        main.DousedPlayerCount[__instance.PlayerId] = 1;
+                        main.DousedPlayerCount[__instance.PlayerId] = 1;//無限ループ防止
                     }
-                    else
+                    else//それ以外
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])
+                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])//死んだら塗った判定にする
                             {
                                 main.DousedPlayerCount[__instance.PlayerId]--;
                                 main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
@@ -588,6 +601,14 @@ namespace TownOfHost
                 {
                     RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
                 }
+                else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
+                else if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがエゴイスト陣営のシュレディンガーの猫
+                    __instance.isEgoist() //__instanceがエゴイスト
+                )
+                    RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //__instanceの名前をエゴイスト色で表示
                 else if (PlayerControl.LocalPlayer != null)
                 {//NameColorManager準拠の処理
                     var ncd = NameColorManager.Instance.GetData(PlayerControl.LocalPlayer.PlayerId, __instance.PlayerId);
