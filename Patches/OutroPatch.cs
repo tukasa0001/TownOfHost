@@ -1,7 +1,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
