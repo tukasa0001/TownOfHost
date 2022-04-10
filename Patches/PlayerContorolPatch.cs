@@ -640,6 +640,7 @@ namespace TownOfHost
                     var TaskState = __instance.getPlayerTaskState();
                     if (TaskState.isTaskFinished)
                     {
+                        var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
                         var update = false;
                         var snitch_pos = __instance.transform.position;
                         var snitchOption = __instance.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
@@ -676,8 +677,11 @@ namespace TownOfHost
                                 var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
                                 index = (byte)(((int)(angle / 45)) % 8);
                             }
-                            var arrow = $"<color={pc.getRoleColorCode()}>{"↑↗→↘↓↙←↖・"[index]}</color>";
-
+                            var  arrow="↑↗→↘↓↙←↖・"[index].ToString();
+                            if (coloredArrow)
+                            {
+                                arrow = $"<color={pc.getRoleColorCode()}>{arrow}</color>";
+                            }
                             if (main.snitchCursorIndex[key] != arrow)
                             {
                                 //前回から変わってたら登録して更新フラグ

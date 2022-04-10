@@ -119,6 +119,7 @@ namespace TownOfHost
                     bool AutoDisplayLastResult = reader.ReadBoolean();
                     bool EnableLastImpostor = reader.ReadBoolean();
                     int LastImpostorKillCooldown = reader.ReadInt32();
+                    bool SnitchCanGetArrowColor = reader.ReadBoolean();
                     bool SnitchCanFindNeutralKiller = reader.ReadBoolean();
                     RPC.SyncCustomSettings(
                         Options.roleCounts,
@@ -181,6 +182,7 @@ namespace TownOfHost
                         MayorAdditionalVote,
                         CanBeforeSchrodingerCatWinTheCrewmate,
                         SchrodingerCatExiledTeamChanges,
+                        SnitchCanGetArrowColor,
                         SnitchCanFindNeutralKiller,
                         AutoDisplayLastResult
                     );
@@ -318,6 +320,7 @@ namespace TownOfHost
                 int MayorAdditionalVote,
                 bool CanBeforeSchrodingerCatWinTheCrewmate,
                 bool SchrodingerCatExiledTeamChanges,
+                bool SnitchCanGetArrowColor,
                 bool SnitchCanFindNeutralKiller,
                 bool AutoDisplayLastResult
             )
@@ -358,7 +361,6 @@ namespace TownOfHost
             Options.SheriffCanKillCrewmatesAsIt.UpdateSelection(SheriffCanKillCrewmatesAsIt);
             Options.SheriffShotLimit.UpdateSelection(SheriffShotLimit);
 
-            Options.SnitchCanFindNeutralKiller.UpdateSelection(SnitchCanFindNeutralKiller);
             Options.EvilWatcherChance.UpdateSelection(EvilWatcherChance);
 
             Options.SerialKillerCooldown.UpdateSelection(SerialKillerCooldown);
@@ -405,6 +407,8 @@ namespace TownOfHost
             Options.SchrodingerCatExiledTeamChanges.UpdateSelection(SchrodingerCatExiledTeamChanges);
 
             Options.AutoDisplayLastResult.UpdateSelection(AutoDisplayLastResult);
+            Options.SnitchCanFindNeutralKiller.UpdateSelection(SnitchCanGetArrowColor);
+            Options.SnitchCanFindNeutralKiller.UpdateSelection(SnitchCanFindNeutralKiller);
         }
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
@@ -477,6 +481,7 @@ namespace TownOfHost
             writer.Write(Options.CanBeforeSchrodingerCatWinTheCrewmate.GetSelection());
             writer.Write(Options.SchrodingerCatExiledTeamChanges.GetSelection());
             writer.Write(Options.AutoDisplayLastResult.GetBool());
+            writer.Write(Options.SnitchCanGetArrowColor.GetBool());
             writer.Write(Options.SnitchCanFindNeutralKiller.GetBool());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
