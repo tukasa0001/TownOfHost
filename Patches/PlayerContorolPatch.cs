@@ -569,7 +569,7 @@ namespace TownOfHost
                     if (!__instance.AmOwner) __instance.nameText.text = __instance.name;
                 }
                 if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                    RoleText.text += $" <color=#e6b422>({Utils.getTaskText(__instance)})</color>"; //ロールの横にタスク表示
+                    RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
 
 
                 //変数定義

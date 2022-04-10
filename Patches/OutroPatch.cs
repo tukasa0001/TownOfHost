@@ -10,6 +10,19 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //タスク情報保存
+            main.FinalTaskState = new Dictionary<byte, string>();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                main.FinalTaskState.Add(pc.PlayerId, Utils.getTaskText(pc));
+                if (main.FinalTaskState[pc.PlayerId] == "null")
+                    main.FinalTaskState[pc.PlayerId] = "";
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();
@@ -276,6 +289,7 @@ namespace TownOfHost
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{getString("Win")}</color>";
             }
 
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //#######################################
             //           ==最終結果表示==
@@ -286,19 +300,17 @@ namespace TownOfHost
             roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
             roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            var roleSummaryText = $"{getString("RoleSummaryText")}";
+            string roleSummaryText = $"{getString("RoleSummaryText")}";
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color>";
-                roleSummaryText += $" {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color>";
-                roleSummaryText += $" {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n　 {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
@@ -312,6 +324,7 @@ namespace TownOfHost
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
             roleSummaryTextMesh.text = roleSummaryText;
 
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
