@@ -430,7 +430,7 @@ namespace TownOfHost
 
                         foreach (var arrow in main.snitchCursorIndex)
                         {
-                            if(arrow.Key.Item1==seer.PlayerId)
+                            if(arrow.Key.Item1==seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                                 SelfSuffix += arrow.Value;
                         }
                     }
