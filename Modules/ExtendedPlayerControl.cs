@@ -403,7 +403,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetFloat();
+                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
                     break;
                 default:
                     break;
