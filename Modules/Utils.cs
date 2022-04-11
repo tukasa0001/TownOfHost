@@ -401,7 +401,15 @@ namespace TownOfHost
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
                 if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
-                    SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                {
+                    var arrows = "";
+                    foreach (var arrow in main.targetArrows)
+                    {
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                            arrows += arrow.Value;
+                    }
+                    SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
+                }
 
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
@@ -428,7 +436,7 @@ namespace TownOfHost
                     {
                         SeerKnowsImpostors = true;
 
-                        foreach (var arrow in main.snitchCursorIndex)
+                        foreach (var arrow in main.targetArrows)
                         {
                             if(arrow.Key.Item1==seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                                 SelfSuffix += arrow.Value;

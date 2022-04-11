@@ -621,16 +621,27 @@ namespace TownOfHost
                 }
 
                 //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                if (__instance.AmOwner && __instance.getCustomRole().isImpostor())
+                if (__instance.getCustomRole().isImpostor())
                 { //__instanceがインポスターかつ自分自身
+                    var found = false;
+                    var update = false;
+                    var arrrows = "";
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     { //全員分ループ
                         if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
                         if (pc.getPlayerTaskState().doExpose)
                         { //タスクが終わりそうなSnitchが見つかった時
-                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
-                            break; //無駄なループは行わない
+                            found = true;
+                            update = CheckArrowUpdate(__instance, pc, update,false);
+                            var key = (__instance.PlayerId, pc.PlayerId);
+                            arrrows += main.targetArrows[key];
                         }
+                    }
+                    if(found && __instance.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrrows}</color>"; //Snitch警告を表示
+                    if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
+                    {
+                        //更新があったら非Modに通知
+                        Utils.NotifyRoles(__instance);
                     }
                 }
 
@@ -642,7 +653,6 @@ namespace TownOfHost
                     {
                         var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
                         var update = false;
-                        var snitch_pos = __instance.transform.position;
                         var snitchOption = __instance.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
@@ -650,48 +660,12 @@ namespace TownOfHost
                             //発見対象じゃ無ければ次
                             if (!foundCheck) continue;
 
+                            update=CheckArrowUpdate(__instance, pc, update,coloredArrow);
                             var key = (__instance.PlayerId, pc.PlayerId);
-                            if (pc.Data.IsDead)
-                            {
-                                //死んでたらリストから削除
-                                main.snitchCursorIndex.Remove(key);
-                                continue;
-                            }
-
-                            if (!main.snitchCursorIndex.ContainsKey(key))
-                            {
-                                //まだkey未登録なら追加
-                                main.snitchCursorIndex.Add(key, "");
-                            }
-                            //インポスターの方角ベクトルを取る
-                            var dir = pc.transform.position - snitch_pos;
-                            byte index;
-                            if (dir.magnitude < 1)
-                            {
-                                //近い時はドット表示
-                                index = 8;
-                            }
-                            else
-                            {
-                                //-22.5～22.5度を0とするindexに変換
-                                var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                                index = (byte)(((int)(angle / 45)) % 8);
-                            }
-                            var  arrow="↑↗→↘↓↙←↖・"[index].ToString();
-                            if (coloredArrow)
-                            {
-                                arrow = $"<color={pc.getRoleColorCode()}>{arrow}</color>";
-                            }
-                            if (main.snitchCursorIndex[key] != arrow)
-                            {
-                                //前回から変わってたら登録して更新フラグ
-                                main.snitchCursorIndex[key] = arrow;
-                                update = true;
-                            }
                             if (__instance.AmOwner)
                             {
                                 //MODなら矢印表示
-                                Suffix += main.snitchCursorIndex[key];
+                                Suffix += main.targetArrows[key];
                             }
                         }
                         if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId!=__instance.PlayerId && update)
@@ -721,6 +695,49 @@ namespace TownOfHost
                 }
             }
         }
+        public static bool CheckArrowUpdate(PlayerControl seer,PlayerControl target,bool updateFlag,bool coloredArrow)
+        {
+            var key = (seer.PlayerId, target.PlayerId);
+            if (target.Data.IsDead)
+            {
+                //死んでたらリストから削除
+                main.targetArrows.Remove(key);
+                return updateFlag;
+            }
+            if (!main.targetArrows.TryGetValue(key, out var oldArrow))
+            {
+                oldArrow = "";
+            }
+            //インポスターの方角ベクトルを取る
+            var dir = target.transform.position - seer.transform.position;
+            byte index;
+            if (dir.magnitude < 1)
+            {
+                //近い時はドット表示
+                index = 8;
+            }
+            else
+            {
+                //-22.5～22.5度を0とするindexに変換
+                var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                index = (byte)(((int)(angle / 45)) % 8);
+            }
+            var arrow = "↑↗→↘↓↙←↖・"[index].ToString();
+            if (coloredArrow)
+            {
+                arrow = $"<color={target.getRoleColorCode()}>{arrow}</color>";
+            }
+            if (oldArrow != arrow)
+            {
+                //前回から変わってたら登録して更新フラグ
+                main.targetArrows[key] = arrow;
+                updateFlag = true;
+                Logger.info($"{seer.name}->{target.name}:{arrow}");
+            }
+            return updateFlag;
+
+        }
+
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]
     class PlayerStartPatch

@@ -88,7 +88,7 @@ namespace TownOfHost
         public static bool isBountyKillSuccess;
         public static bool BountyTimerCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
-        public static Dictionary<(byte, byte), string> snitchCursorIndex = new();
+        public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonArsonistID;
