@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -77,6 +77,8 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+        public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
@@ -227,45 +229,54 @@ namespace TownOfHost
     }
     public enum CustomRoles
     {
+    //Default
         Crewmate = 0,
-        Engineer,
-        Scientist,
+    //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
-        GuardianAngel,
-        Watcher,
-        NiceWatcher,
-        EvilWatcher,
-        Jester,
-        Madmate,
-        SKMadmate,
-        Bait,
-        Terrorist,
-        Mafia,
-        Vampire,
-        SabotageMaster,
-        MadGuardian,
-        MadSnitch,
-        Mayor,
-        Opportunist,
-        Snitch,
-        Sheriff,
+     //Impostor
         BountyHunter,
-        Witch,
-        ShapeMaster,
-        Warlock,
+        EvilWatcher, 
+        Mafia,
         SerialKiller,
+        ShapeMaster,
+        Vampire,
+        Witch,
+        Warlock,
+    //Madmate
+        MadGuardian,
+        Madmate,
+        MadSnitch,
+        SKMadmate,
+    //両陣営
+        Watcher,
+    //Crewmate(Vanilla)
+        Engineer,
+        GuardianAngel,
+        Scientist,
+     //Crewmate
+        Bait,
         Lighter,
-        Arsonist,
+        Mayor,
+        NiceWatcher,
+        SabotageMaster,
+        Sheriff,
+        Snitch,
         SpeedBooster,
+    //第三陣営
+        Arsonist,
+        Egoist,
+        Jester,
+        Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
-        Egoist,
+        Terrorist,
+    //HideAndSeak
         Fox,
         Troll,
-        // Sub-roll after 500
+     // Sub-roll after 500
         NoSubRoleAssigned = 500,
     }
     //WinData
