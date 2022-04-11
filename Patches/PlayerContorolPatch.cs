@@ -470,7 +470,7 @@ namespace TownOfHost
                         main.AirshipMeetingCheck = false;
                         Utils.CustomSyncAllSettings();
                     }
-                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() || main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
+                    if (main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
