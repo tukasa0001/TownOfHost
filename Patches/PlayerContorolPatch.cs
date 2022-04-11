@@ -137,6 +137,11 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
+            if (main.AirshipMeetingCheck)
+            {
+                main.AirshipMeetingCheck = false;
+                Utils.CustomSyncAllSettings();
+            }
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
@@ -421,7 +426,7 @@ namespace TownOfHost
                 if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
-                    {//時間が来たとき
+                    {//自滅時間が来たとき
                         if (!__instance.Data.IsDead)
                         {
                             PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
@@ -451,6 +456,11 @@ namespace TownOfHost
                 //バウハンのキルクールの変換とターゲットのリセット
                 if (main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
+                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 1f && main.AirshipMeetingCheck)
+                    {
+                        main.AirshipMeetingCheck = false;
+                        Utils.CustomSyncAllSettings();
+                    }
                     if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat())//時間経過でターゲットをリセットする処理
                     {
                         main.BountyMeetingCheck = false;
@@ -485,6 +495,36 @@ namespace TownOfHost
                     {
                         main.BountyTimer[__instance.PlayerId] =
                         (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                    }
+                }
+                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
+                    {
+                        main.AirshipMeetingCheck = true;
+                        Utils.CustomSyncAllSettings();
+                    }
+                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
+                    {
+                        if (__instance.isSerialKiller())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                            main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
+                        }
+                        if (__instance.isBountyHunter())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                            main.BountyTimer.Add(__instance.PlayerId, 10f);
+                        }
+                        if (__instance.isWarlock())
+                        {
+                            __instance.RpcGuardAndKill(__instance);
+                        }
+                        main.AirshipMeetingTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                    {
+                        main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
