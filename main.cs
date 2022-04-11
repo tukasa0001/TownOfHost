@@ -64,6 +64,7 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
@@ -84,11 +85,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static bool ArsonistKillCooldownCheck;
         public static bool isShipStart;
-        public static bool BountyMeetingCheck;
-        public static bool isBountyKillSuccess;
-        public static bool BountyTimerCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -229,32 +226,32 @@ namespace TownOfHost
     }
     public enum CustomRoles
     {
-    //Default
+        //Default
         Crewmate = 0,
-    //Impostor(Vanilla)
+        //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
-     //Impostor
+        //Impostor
         BountyHunter,
-        EvilWatcher, 
+        EvilWatcher,
         Mafia,
         SerialKiller,
         ShapeMaster,
         Vampire,
         Witch,
         Warlock,
-    //Madmate
+        //Madmate
         MadGuardian,
         Madmate,
         MadSnitch,
         SKMadmate,
-    //両陣営
+        //両陣営
         Watcher,
-    //Crewmate(Vanilla)
+        //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,
         Scientist,
-     //Crewmate
+        //Crewmate
         Bait,
         Lighter,
         Mayor,
@@ -263,7 +260,7 @@ namespace TownOfHost
         Sheriff,
         Snitch,
         SpeedBooster,
-    //第三陣営
+        //第三陣営
         Arsonist,
         Egoist,
         Jester,
@@ -273,10 +270,10 @@ namespace TownOfHost
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Terrorist,
-    //HideAndSeak
+        //HideAndSeak
         Fox,
         Troll,
-     // Sub-roll after 500
+        // Sub-roll after 500
         NoSubRoleAssigned = 500,
     }
     //WinData
