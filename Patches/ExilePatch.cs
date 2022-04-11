@@ -68,7 +68,7 @@ namespace TownOfHost
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                pc.SetDefaultKillCooldown();
+                pc.ResetKillCooldown();
                 if (PlayerControl.GameOptions.MapId != 4)
                 {
                     if (pc.isSerialKiller())

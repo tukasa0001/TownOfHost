@@ -629,7 +629,7 @@ namespace TownOfHost
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
-        public static void SetDefaultKillCooldown(this PlayerControl player)
+        public static void ResetKillCooldown(this PlayerControl player)
         {
             main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
             switch (player.getCustomRole())
