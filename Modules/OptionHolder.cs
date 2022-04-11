@@ -226,7 +226,7 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
-            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
+            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 10, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
 
             CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
