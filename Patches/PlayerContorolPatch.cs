@@ -38,12 +38,12 @@ namespace TownOfHost
                     main.isTargetKilled.Add(__instance.PlayerId, true);
                     Logger.info($"{__instance.getRealName()}:ターゲットをキル");
                 }
-            }
-            else
-            {
-                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                Logger.info($"{__instance.getRealName()}:ターゲット以外をキル");
-                Utils.CustomSyncAllSettings();//キルクール処理を同期
+                else
+                {
+                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
+                    Logger.info($"{__instance.getRealName()}:ターゲット以外をキル");
+                    Utils.CustomSyncAllSettings();//キルクール処理を同期
+                }
             }
             //Terrorist
             if (target.isTerrorist())
@@ -470,25 +470,21 @@ namespace TownOfHost
                         main.AirshipMeetingCheck = false;
                         Utils.CustomSyncAllSettings();
                     }
-                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat())//時間経過でターゲットをリセットする処理
+                    if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() || main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
-                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
                         main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
                         Logger.info($"{__instance.getRealName()}:ターゲットリセット");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
+                        Utils.NotifyRoles();
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
-                        __instance.RpcGuardAndKill(__instance);//守護天使バグ対策で上の処理のターゲットをキル対象に変更
-                        main.BountyTimer.Remove(__instance.PlayerId);//それ以外上に同じ
-                        main.BountyTimer.Add(__instance.PlayerId, 0f);
                         main.isTargetKilled.Remove(__instance.PlayerId);
                         main.isTargetKilled.Add(__instance.PlayerId, false);
-                        __instance.ResetBountyTarget();//ターゲットの選びなおし
-                        Utils.NotifyRoles();
                     }
                     if (main.BountyTimer[__instance.PlayerId] > 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);

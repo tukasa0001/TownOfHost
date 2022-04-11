@@ -38,9 +38,7 @@ namespace TownOfHost
                     RPC.JesterExiled(exiled.PlayerId);
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
                     Utils.CheckTerroristWin(exiled);
-                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)
@@ -62,9 +60,7 @@ namespace TownOfHost
                 }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
-            {
-                if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
-            }
+                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -78,7 +74,8 @@ namespace TownOfHost
                         main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                     }
                     if (pc.isBountyHunter())
-                        main.BountyTimer.Add(pc.PlayerId, 0f);
+                        pc.RpcGuardAndKill(pc);
+                    main.BountyTimer.Add(pc.PlayerId, 0f);
                     if (pc.isWarlock())
                     {
                         main.CursedPlayers[pc.PlayerId] = (null);
