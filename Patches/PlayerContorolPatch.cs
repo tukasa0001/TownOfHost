@@ -472,8 +472,7 @@ namespace TownOfHost
                     }
                     if (main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
-                        main.BountyTimer.Remove(__instance.PlayerId);//時間リセット
-                        main.BountyTimer.Add(__instance.PlayerId, 0f);
+                        main.BountyTimer[__instance.PlayerId] = 0f;
                         main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
                         Logger.info($"{__instance.getRealName()}:ターゲットリセット");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
@@ -483,10 +482,9 @@ namespace TownOfHost
                     }
                     if (main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
                     {
-                        main.isTargetKilled.Remove(__instance.PlayerId);
-                        main.isTargetKilled.Add(__instance.PlayerId, false);
+                        main.isTargetKilled[__instance.PlayerId] = false;
                     }
-                    if (main.BountyTimer[__instance.PlayerId] > 0)
+                    if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
                 if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
