@@ -73,24 +73,22 @@ namespace TownOfHost
                 {
                     if (pc.isSerialKiller())
                     {
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
                         pc.RpcGuardAndKill(pc);
                         main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                     }
                     if (pc.isBountyHunter())
-                    {
-                        pc.RpcGuardAndKill(pc);
                         main.BountyTimer.Add(pc.PlayerId, 0f);
-                    }
                     if (pc.isWarlock())
                     {
-                        pc.RpcGuardAndKill(pc);
                         main.CursedPlayers[pc.PlayerId] = (null);
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
                 if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
-                    if (pc.isSerialKiller() || pc.isBountyHunter()) main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                    if (pc.isSerialKiller() || pc.isBountyHunter())
+                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
                     if (pc.isWarlock())
                     {
                         main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
