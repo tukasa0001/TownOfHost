@@ -74,8 +74,11 @@ namespace TownOfHost
                         main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                     }
                     if (pc.isBountyHunter())
+                    {
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
                         pc.RpcGuardAndKill(pc);
-                    main.BountyTimer.Add(pc.PlayerId, 0f);
+                        main.BountyTimer.Add(pc.PlayerId, 0f);
+                    }
                     if (pc.isWarlock())
                     {
                         main.CursedPlayers[pc.PlayerId] = (null);
@@ -85,10 +88,12 @@ namespace TownOfHost
                 if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
                     if (pc.isSerialKiller() || pc.isBountyHunter())
-                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                    if (pc.isWarlock())
                     {
                         main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                    }
+                    if (pc.isWarlock())
+                    {
                         main.CursedPlayers[pc.PlayerId] = (null);
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
