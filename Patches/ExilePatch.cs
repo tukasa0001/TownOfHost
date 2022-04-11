@@ -66,9 +66,10 @@ namespace TownOfHost
                 if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             }
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            if (PlayerControl.GameOptions.MapId != 4)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                pc.SetDefaultKillCooldown();
+                if (PlayerControl.GameOptions.MapId != 4)
                 {
                     if (pc.isSerialKiller())
                     {
@@ -87,10 +88,7 @@ namespace TownOfHost
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
-            }
-            if (PlayerControl.GameOptions.MapId == 4)//Airship用
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
                     if (pc.isSerialKiller() || pc.isBountyHunter()) main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
                     if (pc.isWarlock())
@@ -101,8 +99,6 @@ namespace TownOfHost
                     }
                 }
             }
-            main.ArsonistKillCooldownCheck = true;
-            main.BountyMeetingCheck = true;
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
