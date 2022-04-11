@@ -164,6 +164,7 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            Logger.info("会議が開始","Phase");
             main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true);
             main.witchMeeting = false;
@@ -288,6 +289,14 @@ namespace TownOfHost
                     else RoleTextMeeting.enabled = false;
                 }
             }
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
+    class MeetingHudOnDestroyPatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            Logger.info("会議が終了","Phase");
         }
     }
 }
