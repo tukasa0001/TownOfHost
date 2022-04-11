@@ -226,10 +226,11 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
-            BHDefaultKillCooldown = CustomOption.Create(1013, Color.white, "BHDefaultKillCooldown", 30, 10, 999, 1, null, true);
-            DefaultShapeshiftCooldown = CustomOption.Create(1013, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
 
-            CanMakeMadmateCount = CustomOption.Create(5000, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
+            BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
+            DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
+            CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
+
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
@@ -237,9 +238,9 @@ namespace TownOfHost
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             // Madmate Common Options
-            MadmateCanFixLightsOut = CustomOption.Create(11000, Color.white, "MadmateCanFixLightsOut", false, null, true);
-            MadmateCanFixComms = CustomOption.Create(11001, Color.white, "MadmateCanFixComms", false);
-            MadmateHasImpostorVision = CustomOption.Create(11002, Color.white, "MadmateHasImpostorVision", false);
+            MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, null, true);
+            MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false);
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
@@ -276,7 +277,7 @@ namespace TownOfHost
             SetupRoleOptions(50000, CustomRoles.Jester);
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
-            CanTerroristSuicideWin = CustomOption.Create(100201, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
+            CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
