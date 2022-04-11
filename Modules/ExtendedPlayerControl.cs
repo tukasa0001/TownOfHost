@@ -629,6 +629,19 @@ namespace TownOfHost
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
+        public static void SetDefaultKillCooldown(this PlayerControl player)
+        {
+            main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.Sheriff:
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
+                    break;
+                case CustomRoles.Arsonist:
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+            }
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
