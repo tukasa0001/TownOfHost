@@ -106,6 +106,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Logger.info("タスクフェイズ開始", "Phase");
         }
     }
 }

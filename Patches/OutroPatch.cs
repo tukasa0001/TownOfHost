@@ -20,9 +20,7 @@ namespace TownOfHost
                 if (main.FinalTaskState[pc.PlayerId] == "null")
                     main.FinalTaskState[pc.PlayerId] = "";
             }
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+            Logger.info("ゲームが終了","Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();
