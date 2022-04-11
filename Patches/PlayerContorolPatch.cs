@@ -321,7 +321,7 @@ namespace TownOfHost
             if (target != null)
             {
                 Logger.info($"{__instance.name} => {target.PlayerName}");
-                if (main.IgnoreReportPlayers.Contains(target.PlayerId))
+                if (main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
                 {
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
                     return false;
