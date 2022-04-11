@@ -74,7 +74,7 @@ namespace TownOfHost
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetSelection(); i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -184,8 +184,8 @@ namespace TownOfHost
             if (Options.SyncButtonMode.GetBool())
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetSelection() - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
+                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
             if (AmongUsClient.Instance.AmHost)

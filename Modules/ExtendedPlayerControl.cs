@@ -219,37 +219,61 @@ namespace TownOfHost
                     if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.Warlock:
-                    if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
-                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
-                    break;
-                case CustomRoles.SerialKiller:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
-                    opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
-                    break;
-                case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
-                    if (main.BountyMeetingCheck)
-                    {//会議後のキルクール
+                    if (!main.AirshipMeetingCheck)
+                    {
+                        if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                        if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                         opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
                     else
                     {
-                        if (!main.isBountyKillSuccess)
-                        {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat();
-                            Logger.info("ターゲット以外をキル");
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat() - 10f;
+                        opt.KillCooldown = (Options.BHDefaultKillCooldown.GetFloat() - 10f) * 2;
+                    }
+                    break;
+                case CustomRoles.SerialKiller:
+                    if (!main.AirshipMeetingCheck)
+                    {
+                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
+                        opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
+                    }
+                    else
+                    {
+                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat() - 10f;
+                        opt.KillCooldown = (Options.SerialKillerCooldown.GetFloat() - 10f) * 2;
+                    }
+                    break;
+                case CustomRoles.BountyHunter:
+                    if (!main.AirshipMeetingCheck)
+                    {
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
+                        if (main.BountyMeetingCheck)
+                        {//会議後のキルクール
+                            opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                         }
-                        if (!main.BountyTimerCheck)
-                        {//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
-                            opt.KillCooldown = 10;
-                            Logger.info("ターゲットリセット");
+                        else
+                        {
+                            if (!main.isBountyKillSuccess)
+                            {//ターゲット以外をキルした時の処理
+                                opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat() * 2;
+                                Logger.info("ターゲット以外をキル");
+                            }
+                            if (!main.BountyTimerCheck)
+                            {//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
+                                opt.KillCooldown = 10;
+                                Logger.info("ターゲットリセット");
+                            }
+                            if (main.isBountyKillSuccess)
+                            {//ターゲットをキルした時の処理
+                                opt.KillCooldown = Options.BountySuccessKillCooldown.GetFloat() * 2;
+                                Logger.info("ターゲットをキル");
+                            }
                         }
-                        if (main.isBountyKillSuccess)
-                        {//ターゲットをキルした時の処理
-                            opt.KillCooldown = Options.BountySuccessKillCooldown.GetFloat() * 2;
-                            Logger.info("ターゲットをキル");
-                        }
+                    }
+                    else
+                    {
+                        opt.KillCooldown = (Options.BHDefaultKillCooldown.GetFloat() - 10f) * 2;
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 10f;
                     }
                     break;
                 case CustomRoles.Shapeshifter:
@@ -403,7 +427,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetSelection();
+                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
                     break;
                 default:
                     break;
