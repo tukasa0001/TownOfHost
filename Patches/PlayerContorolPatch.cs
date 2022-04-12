@@ -510,7 +510,8 @@ namespace TownOfHost
                         }
                         if (__instance.isWarlock())
                         {
-                            __instance.RpcGuardAndKill(__instance);
+                            main.CursedPlayers[__instance.PlayerId] = (null);
+                            main.isCurseAndKill[__instance.PlayerId] = false;
                         }
                         __instance.CustomSyncSettings();
                         main.AirshipMeetingTimer.Remove(__instance.PlayerId);
