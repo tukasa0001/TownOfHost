@@ -26,10 +26,14 @@ namespace TownOfHost
             main.isTargetKilled = new Dictionary<byte, bool>();
             main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             main.isCurseAndKill = new Dictionary<byte, bool>();
+            main.AirshipMeetingTimer = new Dictionary<byte, float>();
+            main.AirshipMeetingCheck = false;
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
 
             main.IgnoreReportPlayers = new List<byte>();
+
+            main.SheriffShotLimit = new Dictionary<byte, float>();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
@@ -45,14 +49,19 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
-            main.SheriffShotLimit = new Dictionary<byte, float>();
-
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
+
+                if (!__instance.AmHost || pc.isSheriff())
+                {
+                    main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                    pc.RpcSetSheriffShotLimit();
+                    Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                }
             }
             if (__instance.AmHost)
             {
@@ -67,6 +76,16 @@ namespace TownOfHost
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
+            else
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.isSheriff())
+                    {
+                        main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        pc.RpcSetSheriffShotLimit();
+                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                    }
+                }
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -327,6 +346,7 @@ namespace TownOfHost
                     if (pc.isSheriff())
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
+                        pc.RpcSetSheriffShotLimit();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
                     if (pc.isBountyHunter())
