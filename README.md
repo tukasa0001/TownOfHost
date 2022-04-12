@@ -128,4 +128,4 @@ Terrorist(Trickstar + Joker = Terrorist)：https://github.com/MengTube/Foolers-M
 <!----------------------------------------------------------------------------->
 
 [Badge English]: https://img.shields.io/badge/English-E4405F?style=for-the-badge
-[English]: Documentation/EN/README.md
+[English]: Documentation/English.md

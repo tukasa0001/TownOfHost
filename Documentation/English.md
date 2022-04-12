@@ -57,9 +57,9 @@ As this mod replaces official roles with custom ones, you <br>
 [Twitter]: https://twitter.com/XenonBottle
 [Discord]: https://discord.gg/Et9RbMs6Y6
 
-[Thumbnail]: ../../Resources/Thumbnail.jpg
-[Japanese]: ../../README.md
-[License]: ../../LICENSE
+[Thumbnail]: ../Resources/Thumbnail.jpg
+[Japanese]: ../README.md
+[License]: ../LICENSE
 
-[Settings]: Settings.md
-[Roles]: Roles.md
+[Settings]: #
+[Roles]: #
