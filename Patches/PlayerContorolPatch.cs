@@ -499,17 +499,20 @@ namespace TownOfHost
                         if (__instance.isSerialKiller())
                         {
                             __instance.RpcGuardAndKill(__instance);
+                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2;
                             main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
                         }
                         if (__instance.isBountyHunter())
                         {
                             __instance.RpcGuardAndKill(__instance);
+                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2;
                             main.BountyTimer.Add(__instance.PlayerId, 10f);
                         }
                         if (__instance.isWarlock())
                         {
                             __instance.RpcGuardAndKill(__instance);
                         }
+                        __instance.CustomSyncSettings();
                         main.AirshipMeetingTimer.Remove(__instance.PlayerId);
                     }
                     else
