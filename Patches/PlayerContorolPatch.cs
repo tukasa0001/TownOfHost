@@ -664,19 +664,17 @@ namespace TownOfHost
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
-                    foreach (var player in PlayerControl.AllPlayerControls)
+                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead) //ラバーズが死んでいたら
                     {
-                        if (player.Data.IsDead && loversPlayer.PlayerId == player.PlayerId)
+                        main.isLoversDead = true;
+                        foreach (var partnerPlayer in main.LoversPlayers)
                         {
-                            main.isLoversDead = true;
-                            foreach (var partnerPlayer in main.LoversPlayers)
+                            //残った恋人を全て殺す(2人以上可)
+                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId
+                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                             {
-                                //残った恋人を全て殺す(2人以上可)
-                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
-                                {
-                                    partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                                    PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                }
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                             }
                         }
                     }

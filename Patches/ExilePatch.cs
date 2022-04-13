@@ -95,11 +95,12 @@ namespace TownOfHost
                             foreach (var partnerPlayer in main.LoversPlayers)
                             {
                                 //残った恋人を全て殺す(2人以上可)
-                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId)
+                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId
+                                && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                                 {
                                     partnerPlayer.RpcMurderPlayer(partnerPlayer);
                                     PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);
+                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
                                 }
                             }
                         }
