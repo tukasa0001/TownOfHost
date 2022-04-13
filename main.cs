@@ -86,7 +86,7 @@ namespace TownOfHost
         public static Dictionary<CustomRoles,String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => VampireCount > 0;
+        public static bool isFixedCooldown;
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static bool forceJapanese = false;

@@ -14,12 +14,12 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
-            if (main.isFixedCooldown && main.RefixCooldownDelay >= 0)
-            {
+            if (!main.isFixedCooldown && main.RefixCooldownDelay >= 0)
                 main.RefixCooldownDelay -= Time.fixedDeltaTime;
-            } else if(!float.IsNaN(main.RefixCooldownDelay)) {
+            else if(!main.isFixedCooldown)
+            {
                 main.CustomSyncAllSettings();
-                main.RefixCooldownDelay = float.NaN;
+                main.isFixedCooldown = true;
                 Logger.info("Refix Cooldown");
             }
             if(main.IsHideAndSeek) {

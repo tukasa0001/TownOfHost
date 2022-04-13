@@ -49,9 +49,10 @@ namespace TownOfHost
                     main.CheckTerroristWin(exiled);
                 }
             }
-            if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
+            if (AmongUsClient.Instance.AmHost)
             {
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
+                main.isFixedCooldown = false;
             }
             main.CustomSyncAllSettings();
             main.NotifyRoles();
