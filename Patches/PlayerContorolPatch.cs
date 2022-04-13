@@ -660,9 +660,11 @@ namespace TownOfHost
                         RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                     }
 
-                    //インポスターがタスクが終わりそうなSnitchを確認できる
-                    if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
-                    __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
+                    //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
+                    var canFindSnitchRole = PlayerControl.LocalPlayer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                        (Options.SnitchCanFindNeutralKiller.GetBool() &&PlayerControl.LocalPlayer.isEgoist());//or エゴイスト
+
+                    if (canFindSnitchRole && __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
                     )
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
@@ -672,8 +674,9 @@ namespace TownOfHost
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
 
-                    //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                    if (__instance.getCustomRole().isImpostor())
+                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
+                    if (__instance.getCustomRole().isImpostor()
+                        ||(Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist()))
                     { //__instanceがインポスターかつ自分自身
                         var found = false;
                         var update = false;
@@ -697,7 +700,7 @@ namespace TownOfHost
                         }
                     }
 
-                    //タスクが終わったスニッチはインポスターの方角がわかる
+                    //タスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     if (__instance.isSnitch() || __instance.isMadSnitch())
                     {
                         var TaskState = __instance.getPlayerTaskState();

@@ -399,8 +399,11 @@ namespace TownOfHost
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
-                //インポスターに対するSnitch警告
-                if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
+                //インポスター/キル可能な第三陣営に対するSnitch警告
+                var canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                    (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
+
+                if (ShowSnitchWarning && canFindSnitchRole)
                 {
                     var arrows = "";
                     foreach (var arrow in main.targetArrows)
@@ -428,7 +431,7 @@ namespace TownOfHost
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
-                //タスクを終えたSnitchがインポスターの方角を確認できる
+                //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 if (seer.isSnitch() || seer.isMadSnitch())
                 {
                     var TaskState = seer.getPlayerTaskState();
@@ -482,7 +485,10 @@ namespace TownOfHost
                         //Loversのハートマークなどを入れてください。
                         string TargetMark = "";
                         //タスク完了直前のSnitchにマークを表示
-                        if (target.isSnitch() && seer.getCustomRole().isImpostor())
+                        canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                            (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
+
+                        if (target.isSnitch() && canFindSnitchRole)
                         {
                             var taskState = target.getPlayerTaskState();
                             if (taskState.doExpose)
@@ -526,8 +532,11 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer);
-                        HudManagerPatch.LastSetNameDesyncCount++;
+                        if (target.name != TargetName)
+                        {
+                            target.RpcSetNamePrivate(TargetName, true, seer);
+                            HudManagerPatch.LastSetNameDesyncCount++;
+                        }
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }
