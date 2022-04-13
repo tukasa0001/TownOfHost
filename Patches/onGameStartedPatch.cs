@@ -211,8 +211,8 @@ namespace TownOfHost
                     }
                     if (Options.IgnoreCosmetics.GetBool())
                     {
-                        pc.RpcSetHat("");
-                        pc.RpcSetSkin("");
+                        //pc.RpcSetHat("");
+                        //pc.RpcSetSkin("");
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
