@@ -498,6 +498,11 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
+                        //霊界からラバーズ視認
+                        else if (seer.Data.IsDead && !seer.isLovers() && target.isLovers())
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
 
                         if (seer.isArsonist() && seer.isDousedPlayer(target))
                         {
