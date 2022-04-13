@@ -687,6 +687,8 @@ namespace TownOfHost
                             if (pc.getPlayerTaskState().doExpose)
                             { //タスクが終わりそうなSnitchが見つかった時
                                 found = true;
+                                //矢印表示しないならこれ以上は不要
+                                if (!Options.SnitchEnableTargetArrow.GetBool()) break;
                                 update = CheckArrowUpdate(__instance, pc, update, false);
                                 var key = (__instance.PlayerId, pc.PlayerId);
                                 arrrows += main.targetArrows[key];
@@ -700,14 +702,16 @@ namespace TownOfHost
                         }
                     }
 
-                    //タスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (__instance.isSnitch() || __instance.isMadSnitch())
+                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
+                    if (Options.SnitchEnableTargetArrow.GetBool() &&
+                        (__instance.isSnitch() || __instance.isMadSnitch()))
                     {
                         var TaskState = __instance.getPlayerTaskState();
                         if (TaskState.isTaskFinished)
                         {
                             var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
                             var update = false;
+                            //マッドスニッチはインポスターしか見えない
                             var snitchOption = __instance.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
@@ -754,6 +758,8 @@ namespace TownOfHost
 
         public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
         {
+            if(!Options.SnitchEnableTargetArrow.GetBool()) return false;
+
             var key = (seer.PlayerId, target.PlayerId);
             if (target.Data.IsDead)
             {

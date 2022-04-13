@@ -485,7 +485,7 @@ namespace TownOfHost
                         //Loversのハートマークなどを入れてください。
                         string TargetMark = "";
                         //タスク完了直前のSnitchにマークを表示
-                        canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                        canFindSnitchRole = seer.getCustomRole().isImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
 
                         if (target.isSnitch() && canFindSnitchRole)
