@@ -206,6 +206,7 @@ Win,Wins,勝利
 Last,Last,ラスト
 ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
 ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
+NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
