@@ -160,7 +160,7 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
-            return $"{taskState.CompletedTasksCount}/{taskState.AllTasksCount}";
+            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
         public static void ShowActiveRoles()
         {
@@ -396,7 +396,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
                 //インポスター/キル可能な第三陣営に対するSnitch警告
@@ -480,7 +480,7 @@ namespace TownOfHost
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
+                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"{getTaskText(target)}" : "";
 
                         //Loversのハートマークなどを入れてください。
                         string TargetMark = "";

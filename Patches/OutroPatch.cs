@@ -10,6 +10,17 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //タスク情報保存
+            main.FinalTaskState = new Dictionary<byte, string>();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                main.FinalTaskState.Add(pc.PlayerId, Utils.getTaskText(pc));
+                if (main.FinalTaskState[pc.PlayerId] == "null")
+                    main.FinalTaskState[pc.PlayerId] = "";
+            }
+            Logger.info("ゲームが終了","Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();
@@ -183,7 +194,10 @@ namespace TownOfHost
     {
         public static void Postfix(EndGameManager __instance)
         {
-            // Additional code
+            //#######################################
+            //          ==勝利陣営表示==
+            //#######################################
+
             GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
             bonusText.transform.position = new Vector3(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
             bonusText.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
@@ -272,6 +286,44 @@ namespace TownOfHost
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{getString("Win")}</color>";
             }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //#######################################
+            //           ==最終結果表示==
+            //#######################################
+
+            var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
+            GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
+            roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
+            roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
+
+            string roleSummaryText = $"{getString("RoleSummaryText")}";
+            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
+            foreach (var id in main.winnerList)
+            {
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
+                cloneRoles.Remove(id);
+            }
+            foreach (var kvp in cloneRoles)
+            {
+                var id = kvp.Key;
+                roleSummaryText += $"\n　 {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
+            }
+            TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
+            roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
+            roleSummaryTextMesh.color = Color.white;
+            roleSummaryTextMesh.outlineWidth *= 1.2f;
+            roleSummaryTextMesh.fontSizeMin = 1.25f;
+            roleSummaryTextMesh.fontSizeMax = 1.25f;
+            roleSummaryTextMesh.fontSize = 1.25f;
+
+            var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
+            roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
+            roleSummaryTextMesh.text = roleSummaryText;
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             main.BountyTimer = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
