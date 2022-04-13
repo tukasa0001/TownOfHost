@@ -69,7 +69,6 @@ namespace TownOfHost
                 {
                     if (pc.isSerialKiller())
                     {
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
                         pc.RpcGuardAndKill(pc);
                         main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                     }
