@@ -647,6 +647,10 @@ namespace TownOfHost
                 {
                     Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
+                else if (__instance.Data.IsDead && !__instance.isLovers() && PlayerControl.LocalPlayer.isLovers())
+                {
+                    Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                }
 
                 /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                     Mark = isBlocked ? "(true)" : "(false)";
