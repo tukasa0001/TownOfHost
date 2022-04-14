@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -28,14 +29,35 @@ namespace TownOfHost
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     class CanUseVentPatch
     {
-        public static void Postfix([HarmonyArgument(0)] GameData.PlayerInfo pc,
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
             [HarmonyArgument(1)] ref bool canUse,
-            [HarmonyArgument(2)] ref bool couldUse)
+            [HarmonyArgument(2)] ref bool couldUse,
+            ref float __result)
         {
             if (pc.Object.isSheriff() || pc.Object.isArsonist())
                 canUse = couldUse = false;
             if (main.DousedPlayerCount[pc.PlayerId] == 0)
                 canUse = couldUse = true;
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //#######################################
+            //     ==ベントに入れるようにする処理==
+            //#######################################
+            //参考:https://github.com/Koke1024/Town-Of-Moss/blob/main/TownOfMoss/Patches/Vent.cs
+
+            float num = float.MaxValue;
+            var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
+            if (canUse)
+            {
+                Vector3 center = pc.Object.Collider.bounds.center;
+                Vector3 position = __instance.transform.position;
+                num = Vector2.Distance((Vector2)center, (Vector2)position);
+                var usableDistance = pc._object.inVent ? 0.35 : (double)__instance.UsableDistance;
+                canUse = ((canUse ? 1 : 0) & ((double)num > usableDistance ? 0 : (!PhysicsHelpers.AnythingBetween(pc.Object.Collider, (Vector2)center, (Vector2)position, Constants.ShipOnlyMask, false) ? 1 : 0))) != 0;
+            }
+            __result = num;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
 }
