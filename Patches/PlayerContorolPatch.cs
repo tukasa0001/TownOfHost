@@ -565,6 +565,8 @@ namespace TownOfHost
                                 main.DousedPlayerCount[__instance.PlayerId]--;
                                 if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
                                     main.DousedPlayerCount[__instance.PlayerId] = 0;
+                                Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
+                                __instance.RpcRemoveDousedPlayerCount();
                                 main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                             }
                         }
