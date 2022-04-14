@@ -92,6 +92,11 @@ namespace TownOfHost
             parent?.Children.Add(this);
 
             Selection = 0;
+            if (id == 0)
+            {
+                Entry = main.Instance.Config.Bind($"Current Preset", id.ToString(), DefaultSelection);
+                Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
+            }
             if (id > 0)
             {
                 Entry = main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
@@ -262,11 +267,12 @@ namespace TownOfHost
 
                 if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer)
                 {
+                    if (Entry != null) Entry.Value = Selection; 
                     if (Id == TownOfHost.Options.PresetId)
                     {
                         SwitchPreset(Selection);
                     }
-                    else if (Entry != null) Entry.Value = Selection;
+                    
 
                     ShareOptionSelections();
                 }
