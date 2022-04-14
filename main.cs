@@ -788,6 +788,9 @@ namespace TownOfHost
                 //インポスターに対するSnitch警告
                 if(ShowSnitchWarning && seer.getCustomRole().isImpostor())
                     SelfMark += $"<color={main.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                //呪われている場合
+                if(SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
+                    SelfMark += "<color=#ff0000>†</color>";
 
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
@@ -831,6 +834,11 @@ namespace TownOfHost
                     //常時
                     conditions.Add(target => true);
 
+                //呪われている人が居るなら
+                if(main.SpelledPlayer.Count > 0)
+                    //常時
+                    conditions.Add(target => true);
+
                 //seerがインポスターを知っている
                 if(SeerKnowsImpostors)
                     //targetがインポスター
@@ -865,9 +873,12 @@ namespace TownOfHost
 
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
-
+                    
                     //Loversのハートマークなどを入れてください。
                     string TargetMark = "";
+                    //呪われている人
+                    if(SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
+                            TargetMark += "<color=#ff0000>†</color>";
                     //タスク完了直前のSnitchにマークを表示
                     if(target.isSnitch() && seer.getCustomRole().isImpostor()) {
                         var taskState = target.getPlayerTaskState();
