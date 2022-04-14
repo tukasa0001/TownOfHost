@@ -104,6 +104,7 @@ namespace TownOfHost
                 {
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
+                    RPCProcedure.RpcDoSpell(target.PlayerId);
                 }
                 main.KillOrSpell[__instance.PlayerId] = !__instance.GetKillOrSpell();
                 main.NotifyRoles();
