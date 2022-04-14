@@ -563,6 +563,8 @@ namespace TownOfHost
                             if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !pc.AmOwner)//死んだら塗った判定にする
                             {
                                 main.DousedPlayerCount[__instance.PlayerId]--;
+                                if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
+                                    main.DousedPlayerCount[__instance.PlayerId] = 0;
                                 main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                             }
                         }
