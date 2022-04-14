@@ -264,6 +264,11 @@ namespace TownOfHost
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name; 
             }
+            Logger.info("------役職割り当て------");
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}");
+            }
             Logger.info("----------環境----------");
             foreach(var pc in PlayerControl.AllPlayerControls)
             {
