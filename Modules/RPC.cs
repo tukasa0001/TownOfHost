@@ -23,7 +23,8 @@ namespace TownOfHost
         RemoveDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
-        ResetNameColorData
+        ResetNameColorData,
+        DoSpell
     }
     public enum Sounds
     {
@@ -141,6 +142,9 @@ namespace TownOfHost
                     break;
                 case (byte)CustomRPC.ResetNameColorData:
                     RPC.ResetNameColorData();
+                    break;
+                case (byte)CustomRPC.DoSpell:
+                    main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
             }
         }
@@ -306,6 +310,12 @@ namespace TownOfHost
         public static void ResetNameColorData()
         {
             NameColorManager.Begin();
+        }
+        public static void RpcDoSpell(byte player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
+            writer.Write(player);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
 }

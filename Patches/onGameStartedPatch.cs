@@ -60,10 +60,9 @@ namespace TownOfHost
                     Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                 }
             }
+            main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-
-                main.VisibleTasksCount = true;
 
                 RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;

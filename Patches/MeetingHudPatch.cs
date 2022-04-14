@@ -238,6 +238,10 @@ namespace TownOfHost
                     }
                 }
 
+                //呪われている場合
+                if (main.SpelledPlayer.Find(x => x.PlayerId == pc.PlayerId) != null)
+                    pva.NameText.text += "<color=#ff0000>†</color>";
+
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     pc.isSnitch() && //変更対象がSnitch
                     pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
@@ -293,7 +297,7 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + Utils.getTaskText(pc) + ")</color>";
+                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
