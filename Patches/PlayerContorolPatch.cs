@@ -244,6 +244,7 @@ namespace TownOfHost
                 {
                     __instance.RpcGuardAndKill(target);
                     main.SpelledPlayer.Add(target);
+                    RPC.RpcDoSpell(target.PlayerId);
                 }
                 main.KillOrSpell[__instance.PlayerId] = !__instance.GetKillOrSpell();
                 Utils.NotifyRoles();
@@ -381,10 +382,6 @@ namespace TownOfHost
                     "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。",
                     1000
                 );
-            }
-            foreach (var sp in main.SpelledPlayer)
-            {
-                sp.RpcSetName("<color=#ff0000>†</color>" + sp.getRealName());
             }
 
             Utils.CustomSyncAllSettings();

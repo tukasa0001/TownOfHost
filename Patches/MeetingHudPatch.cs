@@ -238,6 +238,10 @@ namespace TownOfHost
                     }
                 }
 
+                //呪われている場合
+                if (main.SpelledPlayer.Find(x => x.PlayerId == pc.PlayerId) != null)
+                    pva.NameText.text += "<color=#ff0000>†</color>";
+
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     pc.isSnitch() && //変更対象がSnitch
                     pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう

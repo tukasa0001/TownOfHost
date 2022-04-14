@@ -423,6 +423,9 @@ namespace TownOfHost
                 //ハートマークを付ける(自分に)
                 if (seer.isLovers()) SelfMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
+                //呪われている場合
+                if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
+                    SelfMark += "<color=#ff0000>†</color>";
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -479,6 +482,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
                     || seer.isLovers()
+                    || main.SpelledPlayer.Count > 0
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -492,6 +496,9 @@ namespace TownOfHost
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
+                        //呪われている人
+                        if (main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
+                            TargetMark += "<color=#ff0000>†</color>";
                         //タスク完了直前のSnitchにマークを表示
                         if (target.isSnitch() && seer.getCustomRole().isImpostor())
                         {

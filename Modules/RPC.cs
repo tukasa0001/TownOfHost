@@ -22,7 +22,8 @@ namespace TownOfHost
         SetDousedPlayer,
         AddNameColorData,
         RemoveNameColorData,
-        ResetNameColorData
+        ResetNameColorData,
+        DoSpell
     }
     public enum Sounds
     {
@@ -60,10 +61,10 @@ namespace TownOfHost
                     int revision = reader.ReadPackedInt32();
                     int beta = reader.ReadPackedInt32();
                     string tag = reader.ReadString();
-                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major,minor,patch,revision,beta,tag);
+                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major, minor, patch, revision, beta, tag);
                     break;
                 case (byte)CustomRPC.SyncCustomSettings:
-                    foreach(var co in CustomOption.Options)
+                    foreach (var co in CustomOption.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
@@ -136,6 +137,9 @@ namespace TownOfHost
                 case (byte)CustomRPC.ResetNameColorData:
                     RPC.ResetNameColorData();
                     break;
+                case (byte)CustomRPC.DoSpell:
+                    main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
             }
         }
     }
@@ -146,7 +150,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach(var co in CustomOption.Options)
+            foreach (var co in CustomOption.Options)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetSelection());
@@ -184,7 +188,7 @@ namespace TownOfHost
             writer.WritePacked(Int32.Parse(main.BetaVersion));
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version,Int32.Parse(main.BetaVersion),$"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version, Int32.Parse(main.BetaVersion), $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void JesterExiled(byte jesterID)
         {
@@ -307,6 +311,12 @@ namespace TownOfHost
         public static void ResetNameColorData()
         {
             NameColorManager.Begin();
+        }
+        public static void RpcDoSpell(byte player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
+            writer.Write(player);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
 }
