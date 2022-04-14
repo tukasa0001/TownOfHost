@@ -50,7 +50,7 @@ namespace TownOfHost
                     RoleType roleType = role.getRoleType();
                     bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
                     if (canWin) winner.Add(p);
-                    if (CustomRoles.Egoist.isEnable() && (p.isEgoist() && !p.Data.IsDead))
+                    if (CustomRoles.Egoist.isEnable() && p.isEgoist() && !p.Data.IsDead && main.AliveImpostorCount == 0)
                         if (main.currentWinner == CustomWinner.Impostor)
                             main.currentWinner = CustomWinner.Egoist;
                 }
