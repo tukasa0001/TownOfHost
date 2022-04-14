@@ -26,7 +26,7 @@ namespace TownOfHost
                     FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
                     file.CopyTo(@filename);
                     System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
-                    Logger.info($"{filename}にログを保存しました。");
+                    Logger.info($"{filename}にログを保存しました。","dump");
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                     break;
                 default:

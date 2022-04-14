@@ -19,13 +19,13 @@ namespace TownOfHost {
             this.timer = time;
             this.name = name;
             Tasks.Add(this);
-            Logger.info("New LateTask \"" + name + "\" is created");
+            Logger.info("New LateTask \"" + name + "\" is created","LateTask");
         }
         public static void Update(float deltaTime) {
             var TasksToRemove = new List<LateTask>();
             Tasks.ForEach((task) => {
                 if(task.run(deltaTime)) {
-                    Logger.info("LateTask \"" + task.name + "\" is finished");
+                    Logger.info("LateTask \"" + task.name + "\" is finished","LateTask");
                     TasksToRemove.Add(task);
                 }
             });

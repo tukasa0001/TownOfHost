@@ -142,7 +142,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             if (target != null)
             {
-                Logger.info($"{__instance.name} => {target.PlayerName}");
+                Logger.info($"{__instance.name} => {target.PlayerName}","Report");
                 if(main.IgnoreReportPlayers.Contains(target.PlayerId))
                 {
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");

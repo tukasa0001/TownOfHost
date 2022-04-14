@@ -47,7 +47,7 @@ namespace TownOfHost {
         public static CustomRoles getCustomRole(this PlayerControl player) {
             var cRole = CustomRoles.Default;
             if(player == null) {
-                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。","getCustomRole");
                 return cRole;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -232,7 +232,7 @@ namespace TownOfHost {
                 AllTasksCount++;
                 if(task.Complete) CompletedTaskCount++;
             }
-            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount);
+            Logger.info(player.name + ": " + AllTasksCount + ", " + CompletedTaskCount,"getPlayerTaskState");
             return new TaskState(AllTasksCount, CompletedTaskCount);
         }
 
@@ -297,7 +297,7 @@ namespace TownOfHost {
                 RealName = player.name;
                 if(RealName == "Player(Clone)") return RealName;
                 main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました","getRealName");
             }
             return RealName;
         }
@@ -322,12 +322,12 @@ namespace TownOfHost {
 
             var rand = new System.Random();
             if(cTargets.Count <= 0) {
-                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません","ResetBountyTarget");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更","ResetBountyTarget");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);

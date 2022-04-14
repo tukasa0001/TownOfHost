@@ -28,7 +28,7 @@ namespace TownOfHost
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if(ps == null) continue;
-                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
+                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}","Vote");
                 var voter = main.getPlayerById(ps.TargetPlayerId);
                 if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                 if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
@@ -80,24 +80,24 @@ namespace TownOfHost
             var VotingData = __instance.CustomCalculateVotes();
             byte exileId = byte.MaxValue;
             int max = 0;
-            Logger.info("===追放者確認処理開始===");
+            Logger.info("===追放者確認処理開始===","Vote");
             foreach(var data in VotingData) {
-                Logger.info(data.Key + ": " + data.Value);
+                Logger.info(data.Key + ": " + data.Value,"Vote");
                 if(data.Value > max)
                 {
-                    Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")");
+                    Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")","Vote");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
                 } else if(data.Value == max) {
-                    Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
+                    Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")","Vote");
                     exileId = byte.MaxValue;
                     tie = true;
                 }
-                Logger.info("exileId: " + exileId + ", max: " + max);
+                Logger.info("exileId: " + exileId + ", max: " + max,"Vote");
             }
 
-            Logger.info("追放者決定: " + exileId);
+            Logger.info("追放者決定: " + exileId,"Vote");
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
             __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
