@@ -124,13 +124,6 @@ namespace TownOfHost
                     p.RpcMurderPlayer(p);
                     recall = true;
                 }
-                foreach (var p in main.CursedPlayers.Values)
-                {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                    main.IgnoreReportPlayers.Add(p.PlayerId);
-                    p.RpcMurderPlayer(p);
-                    recall = true;
-                }
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)

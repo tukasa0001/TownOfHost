@@ -38,9 +38,7 @@ namespace TownOfHost
                     RPC.JesterExiled(exiled.PlayerId);
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
                     Utils.CheckTerroristWin(exiled);
-                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)
@@ -62,13 +60,12 @@ namespace TownOfHost
                 }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
-            {
-                if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
-            }
+                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            if (PlayerControl.GameOptions.MapId != 4)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                pc.ResetKillCooldown();
+                if (PlayerControl.GameOptions.MapId != 4)
                 {
                     if (pc.isSerialKiller())
                     {
@@ -77,32 +74,30 @@ namespace TownOfHost
                     }
                     if (pc.isBountyHunter())
                     {
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
                         pc.RpcGuardAndKill(pc);
                         main.BountyTimer.Add(pc.PlayerId, 0f);
                     }
                     if (pc.isWarlock())
                     {
-                        pc.RpcGuardAndKill(pc);
                         main.CursedPlayers[pc.PlayerId] = (null);
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
-            }
-            if (PlayerControl.GameOptions.MapId == 4)//Airship用
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
-                    if (pc.isSerialKiller() || pc.isBountyHunter()) main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                    if (pc.isWarlock())
+                    if (pc.isSerialKiller() || pc.isBountyHunter())
                     {
                         main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                    }
+                    if (pc.isWarlock())
+                    {
                         main.CursedPlayers[pc.PlayerId] = (null);
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
             }
-            main.ArsonistKillCooldownCheck = true;
-            main.BountyMeetingCheck = true;
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();

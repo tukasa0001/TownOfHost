@@ -86,7 +86,7 @@ namespace TownOfHost
             {
                 nameAndValue(Options.AllowCloseDoors);
                 nameAndValue(Options.KillDelay);
-                nameAndValue(Options.IgnoreCosmetics);
+                //nameAndValue(Options.IgnoreCosmetics);
                 nameAndValue(Options.IgnoreVent);
             }
             text += "\n";
