@@ -124,6 +124,7 @@ namespace TownOfHost
                     p.RpcMurderPlayer(p);
                     recall = true;
                 }
+                main.SpelledPlayer.Clear();
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
