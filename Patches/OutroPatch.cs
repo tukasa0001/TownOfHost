@@ -15,7 +15,8 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason) && main.isLoversDead && CustomRoles.Lovers.isEnable())
+            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason)
+            && (main.isLoversDead && CustomRoles.Lovers.isEnable())) //タスク終えた時にラバーズが死んでいること
             {
                 if (main.currentWinner == CustomWinner.Default)
                 {
@@ -29,7 +30,8 @@ namespace TownOfHost
                     if (canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason) && main.isLoversDead && CustomRoles.Lovers.isEnable())
+            if (TempData.DidImpostorsWin(endGameResult.GameOverReason)
+            && (main.isLoversDead && CustomRoles.Lovers.isEnable())) //インポスター勝ちの時にラバーズが死んでいること
             {
                 if (main.currentWinner == CustomWinner.Default)
                     main.currentWinner = CustomWinner.Impostor;
@@ -88,13 +90,15 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
+            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.currentWinner != CustomWinner.Draw)
             { //Loversの単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 main.currentWinner = CustomWinner.Lovers;
                 foreach (var lp in main.LoversPlayers)
                 {
                     TempData.winners.Add(new WinningPlayerData(lp.Data));
+                    winner.Add(lp);
                 }
             }
             if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
@@ -123,6 +127,7 @@ namespace TownOfHost
                     }
                 }
             }
+            ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
