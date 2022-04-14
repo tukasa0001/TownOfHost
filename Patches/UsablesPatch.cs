@@ -48,7 +48,7 @@ namespace TownOfHost
 
             float num = float.MaxValue;
             var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-            if (canUse)
+            if (canUse && !PlayerControl.LocalPlayer.getCustomRole().isImpostor())
             {
                 Vector3 center = pc.Object.Collider.bounds.center;
                 Vector3 position = __instance.transform.position;
