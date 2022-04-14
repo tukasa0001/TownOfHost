@@ -24,7 +24,9 @@ namespace TownOfHost
                     else
                         main.FinalProgress[pc.PlayerId] = "";
                 }
+                main.DousedPlayerCount[pc.PlayerId] = 1;
             }
+
             Logger.info("ゲームが終了", "Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
