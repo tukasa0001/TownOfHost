@@ -314,6 +314,10 @@ namespace TownOfHost
         {
             Logger.info("会議が終了", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
+
+            //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。
+            var additional = PlayerControl.GameOptions.MapId == 4 ? 5f : 0f;
+
             if (CheckForEndVotingPatch.recall)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -324,13 +328,13 @@ namespace TownOfHost
                         {
                             pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
                         },
-                            0.2f, "Recall Meeting");
+                            0.2f + additional, "Recall Meeting");
                         new LateTask(() =>
                         {
                             MeetingHud.Instance.RpcClose();
                             CheckForEndVotingPatch.recall = false;
                         },
-                            0.5f, "Cancel Meeting");
+                            0.5f + additional, "Cancel Meeting");
                         break;
                     }
                 }
