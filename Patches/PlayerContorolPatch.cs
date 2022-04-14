@@ -557,9 +557,7 @@ namespace TownOfHost
                 }
                 if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)
-                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !__instance.Data.IsDead);
-                    else//それ以外
+                    if (main.DousedPlayerCount[__instance.PlayerId] != 0)
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
