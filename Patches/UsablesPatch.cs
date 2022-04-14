@@ -46,7 +46,7 @@ namespace TownOfHost
             //#######################################
             //参考:https://github.com/Koke1024/Town-Of-Moss/blob/main/TownOfMoss/Patches/Vent.cs
 
-            /*float num = float.MaxValue;
+            float num = float.MaxValue;
             var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
             if (canUse && !pc.Object.getCustomRole().isImpostor())
             {
@@ -57,7 +57,7 @@ namespace TownOfHost
                 var usableDistance = pc._object.inVent ? 0.35 : (double)__instance.UsableDistance;
                 canUse = ((canUse ? 1 : 0) & ((double)num > usableDistance ? 0 : (!PhysicsHelpers.AnythingBetween(pc.Object.Collider, (Vector2)center, (Vector2)position, Constants.ShipOnlyMask, false) ? 1 : 0))) != 0;
             }
-            __result = num;*/
+            __result = num;
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
