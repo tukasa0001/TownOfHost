@@ -61,10 +61,9 @@ namespace TownOfHost
                     Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                 }
             }
+            main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-
-                main.VisibleTasksCount = true;
 
                 RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
@@ -212,8 +211,8 @@ namespace TownOfHost
                     }
                     if (Options.IgnoreCosmetics.GetBool())
                     {
-                        pc.RpcSetHat("");
-                        pc.RpcSetSkin("");
+                        //pc.RpcSetHat("");
+                        //pc.RpcSetSkin("");
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する

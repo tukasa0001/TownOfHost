@@ -414,6 +414,9 @@ namespace TownOfHost
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
 
+                //呪われている場合
+                if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
+                    SelfMark += "<color=#ff0000>†</color>";
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -471,6 +474,7 @@ namespace TownOfHost
                     || seer.isEgoSchrodingerCat() //seerがエゴイストのシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
+                    || main.SpelledPlayer.Count > 0
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -484,6 +488,9 @@ namespace TownOfHost
 
                         //Loversのハートマークなどを入れてください。
                         string TargetMark = "";
+                        //呪われている人
+                        if (main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
+                            TargetMark += "<color=#ff0000>†</color>";
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.getCustomRole().isImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
