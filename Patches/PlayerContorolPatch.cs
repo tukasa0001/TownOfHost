@@ -533,6 +533,7 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;//塗り完了
                         main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
                         __instance.RpcRemoveDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
@@ -562,7 +563,7 @@ namespace TownOfHost
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])//死んだら塗った判定にする
+                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !pc.AmOwner)//死んだら塗った判定にする
                             {
                                 main.DousedPlayerCount[__instance.PlayerId]--;
                                 main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
@@ -622,9 +623,11 @@ namespace TownOfHost
                     if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //__instanceが自分自身
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                        if (__instance.isArsonist() && main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
+                            RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                    if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                         __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                         PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                     {
@@ -668,7 +671,7 @@ namespace TownOfHost
                     { //__instanceがインポスターかつ自分自身
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         { //全員分ループ
-                            if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
+                            if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない
                             if (pc.getPlayerTaskState().doExpose)
                             { //タスクが終わりそうなSnitchが見つかった時
                                 Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示

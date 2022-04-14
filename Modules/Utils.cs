@@ -60,6 +60,8 @@ namespace TownOfHost
             RoleText = getRoleName(cRole);
             if (player.isSheriff())
                 RoleText += $" ({main.SheriffShotLimit[player.PlayerId]})";
+            else if (player.isArsonist())
+                RoleText += $" ({main.DousedPlayerCount[player.PlayerId]})";
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -420,9 +422,13 @@ namespace TownOfHost
                 string SelfRoleName = "";
                 if (seer.isSheriff())
                     SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.SheriffShotLimit[seer.PlayerId]})</color>";
+                else if (seer.isArsonist())
+                    SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.DousedPlayerCount[seer.PlayerId]})</color>";
                 else
                     SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if (seer.isArsonist())
+                    SelfName = $"</size>\r\n<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
                 SelfName = SelfRoleName += SelfName;
                 SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
