@@ -34,7 +34,7 @@ namespace TownOfHost
             [HarmonyArgument(2)] ref bool couldUse,
             ref float __result)
         {
-            if (pc.Object.isSheriff() || (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] == 0))
+            if (pc.Object.isSheriff() || (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] != 0))
                 canUse = couldUse = false;
             if (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] == 0)
                 canUse = couldUse = true;

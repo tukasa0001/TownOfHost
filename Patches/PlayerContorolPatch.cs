@@ -533,6 +533,7 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;//塗り完了
                         main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        __instance.RpcRemoveDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(artarget.PlayerId);

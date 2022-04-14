@@ -20,6 +20,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        RemoveDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData
@@ -60,10 +61,10 @@ namespace TownOfHost
                     int revision = reader.ReadPackedInt32();
                     int beta = reader.ReadPackedInt32();
                     string tag = reader.ReadString();
-                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major,minor,patch,revision,beta,tag);
+                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major, minor, patch, revision, beta, tag);
                     break;
                 case (byte)CustomRPC.SyncCustomSettings:
-                    foreach(var co in CustomOption.Options)
+                    foreach (var co in CustomOption.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
@@ -122,6 +123,11 @@ namespace TownOfHost
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
+                case (byte)CustomRPC.RemoveDousedPlayerCount:
+                    ArsonistId = reader.ReadByte();
+                    int LeftDousePlayer = reader.ReadInt32();
+                    main.DousedPlayerCount[ArsonistId] = LeftDousePlayer;
+                    break;
                 case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
@@ -146,7 +152,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach(var co in CustomOption.Options)
+            foreach (var co in CustomOption.Options)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetSelection());
@@ -184,7 +190,7 @@ namespace TownOfHost
             writer.WritePacked(Int32.Parse(main.BetaVersion));
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version,Int32.Parse(main.BetaVersion),$"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version, Int32.Parse(main.BetaVersion), $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void JesterExiled(byte jesterID)
         {
