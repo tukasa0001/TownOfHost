@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -24,6 +24,7 @@ namespace TownOfHost
         public const string BetaName = "**** Beta";
         public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
+        public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;
@@ -39,6 +40,7 @@ namespace TownOfHost
         public static ConfigEntry<int> BanTimestamp { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
+        public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -48,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
+        public static Dictionary<byte, string> FinalTaskState;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -66,6 +69,7 @@ namespace TownOfHost
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
         public static bool isLoversDead = true;
+        public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
@@ -79,16 +83,14 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+        public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static bool ArsonistKillCooldownCheck;
         public static bool isShipStart;
-        public static bool BountyMeetingCheck;
-        public static bool isBountyKillSuccess;
-        public static bool BountyTimerCheck;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -230,42 +232,51 @@ namespace TownOfHost
     }
     public enum CustomRoles
     {
+        //Default
         Crewmate = 0,
-        Engineer,
-        Scientist,
+        //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
-        GuardianAngel,
-        Watcher,
-        NiceWatcher,
-        EvilWatcher,
-        Jester,
-        Madmate,
-        SKMadmate,
-        Bait,
-        Terrorist,
-        Mafia,
-        Vampire,
-        SabotageMaster,
-        MadGuardian,
-        MadSnitch,
-        Mayor,
-        Opportunist,
-        Snitch,
-        Sheriff,
+        //Impostor
         BountyHunter,
-        Witch,
-        ShapeMaster,
-        Warlock,
+        EvilWatcher,
+        Mafia,
         SerialKiller,
+        ShapeMaster,
+        Vampire,
+        Witch,
+        Warlock,
+        //Madmate
+        MadGuardian,
+        Madmate,
+        MadSnitch,
+        SKMadmate,
+        //両陣営
+        Watcher,
+        //Crewmate(Vanilla)
+        Engineer,
+        GuardianAngel,
+        Scientist,
+        //Crewmate
+        Bait,
         Lighter,
-        Arsonist,
+        Mayor,
+        NiceWatcher,
+        SabotageMaster,
+        Sheriff,
+        Snitch,
         SpeedBooster,
+        //第三陣営
+        Arsonist,
+        Egoist,
+        Jester,
+        Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
-        Egoist,
+        Terrorist,
+        //HideAndSeak
         Fox,
         Troll,
         // Sub-roll after 500

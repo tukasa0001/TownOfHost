@@ -240,3 +240,4 @@ GameMode,GameMode,ゲームモード
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
 On,On,オン
 Off,Off,オフ
+RoleSummaryText,"Players and roles at the end of the game:",ゲーム終了時の役職一覧:

@@ -176,7 +176,7 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
-            return $"{taskState.CompletedTasksCount}/{taskState.AllTasksCount}";
+            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
         public static void ShowActiveRoles()
         {
@@ -213,10 +213,10 @@ namespace TownOfHost
             }
             else
             {
-                foreach (var role in Options.CustomRoleCounts)
+                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
-                    if (role.Key == CustomRoles.Fox || role.Key == CustomRoles.Troll) continue;
-                    if (role.Key.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role.Key), role.Key.getCount());
+                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
+                    if (role.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role), role.getCount());
                 }
                 SendMessage(text);
                 text = getString("Attributes") + ":";
@@ -412,7 +412,8 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"<color=#ffff00>({getTaskText(seer)})</color>" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
+
                 //名前の後ろに付けるマーカー
                 string SelfMark = "";
                 //インポスターに対するSnitch警告
@@ -487,7 +488,7 @@ namespace TownOfHost
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({getTaskText(target)})</color>" : "";
+                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"{getTaskText(target)}" : "";
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";

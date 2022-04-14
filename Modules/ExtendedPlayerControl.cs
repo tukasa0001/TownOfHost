@@ -220,59 +220,38 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
-                    goto DefaultKillcooldown;
-                case CustomRoles.Vampire:
-                    if (main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    if (!main.BountyMeetingCheck) opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
                     break;
                 case CustomRoles.Warlock:
-                    if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
-                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
-                    break;
-                case CustomRoles.SerialKiller:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
-                    opt.KillCooldown = Options.SerialKillerCooldown.GetFloat() * 2;
-                    break;
-                case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
-                    if (main.BountyMeetingCheck)
-                    {//会議後のキルクール
-                        opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                    if (!main.AirshipMeetingCheck)
+                    {
+                        if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                        if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     }
                     else
-                    {
-                        if (!main.isBountyKillSuccess)
-                        {//ターゲット以外をキルした時の処理
-                            opt.KillCooldown = Options.BountyFailureKillCooldown.GetFloat() * 2;
-                            Logger.info("ターゲット以外をキル");
-                        }
-                        if (!main.BountyTimerCheck)
-                        {//ゼロって書いてあるけど実際はキルクールはそのまま維持されるので大丈夫
-                            opt.KillCooldown = 10;
-                            Logger.info("ターゲットリセット");
-                        }
-                        if (main.isBountyKillSuccess)
-                        {//ターゲットをキルした時の処理
-                            opt.KillCooldown = Options.BountySuccessKillCooldown.GetFloat() * 2;
-                            Logger.info("ターゲットをキル");
-                        }
-                    }
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat() - 10f;
+                    break;
+                case CustomRoles.SerialKiller:
+                    if (!main.AirshipMeetingCheck)
+                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
+                    else
+                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat() - 10f;
+                    break;
+                case CustomRoles.BountyHunter:
+                    if (!main.AirshipMeetingCheck)
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
+                    else
+                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 10f;
                     break;
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:
                     opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
-                    goto DefaultKillcooldown;
-                case CustomRoles.Impostor:
-                case CustomRoles.Witch:
-                    goto DefaultKillcooldown;
+                    break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
                     if (opt.AnonymousVotes)
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.KillCooldown = Options.SheriffKillCooldown.GetFloat();
                     opt.ImpostorLightMod = opt.CrewLightMod;
                     var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
                     if (switchSystem != null && switchSystem.IsActive)
@@ -287,8 +266,6 @@ namespace TownOfHost
                     {
                         opt.ImpostorLightMod /= 5;
                     }
-                    if (!main.ArsonistKillCooldownCheck) opt.KillCooldown = Options.ArsonistCooldown.GetFloat() * 2;
-                    if (main.ArsonistKillCooldownCheck) opt.KillCooldown = 10f;
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
@@ -344,25 +321,11 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
-                DefaultKillcooldown:
-                    opt.KillCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                    break;
             }
             CustomRoles role = player.getCustomRole();
             RoleType roleType = role.getRoleType();
             switch (roleType)
             {
-                case RoleType.Impostor:
-                    if (player.isLastImpostor())
-                    {
-                        if (Options.LastImpostorKillCooldown.GetFloat() > 0)
-                        {
-                            opt.KillCooldown = Options.LastImpostorKillCooldown.GetFloat();
-                        }
-                        else
-                            opt.KillCooldown = 0.01f;
-                    }
-                    break;
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
@@ -374,6 +337,19 @@ namespace TownOfHost
                         }
                     }
                     break;
+            }
+            if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
+            {
+                foreach (var kc in main.AllPlayerKillCooldown)
+                {
+                    if (kc.Key == player.PlayerId)
+                    {
+                        if (kc.Value > 0)
+                            opt.KillCooldown = kc.Value;
+                        else
+                            opt.KillCooldown = 0.01f;
+                    }
+                }
             }
             if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
             {
@@ -410,7 +386,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetSelection();
+                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
                     break;
                 default:
                     break;
@@ -611,6 +587,22 @@ namespace TownOfHost
                 }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
+        }
+        public static void ResetKillCooldown(this PlayerControl player)
+        {
+            main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.SerialKiller:
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
+                    break;
+                case CustomRoles.Arsonist:
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Sheriff:
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
+                    break;
+            }
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }

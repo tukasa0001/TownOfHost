@@ -38,9 +38,7 @@ namespace TownOfHost
                     RPC.JesterExiled(exiled.PlayerId);
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
                     Utils.CheckTerroristWin(exiled);
-                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)
@@ -62,63 +60,75 @@ namespace TownOfHost
                 }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
-            {
-                if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
-            }
+                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            foreach (var wr in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (wr.isSerialKiller())
+                pc.ResetKillCooldown();
+                if (PlayerControl.GameOptions.MapId != 4)
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.SerialKillerTimer.Add(wr.PlayerId, 0f);
-                }
-                if (wr.isBountyHunter())
-                {
-                    wr.RpcGuardAndKill(wr);
-                    main.BountyTimer.Add(wr.PlayerId, 0f);
-                }
-                if (wr.isWarlock())
-                {
-                    wr.RpcGuardAndKill(wr);
-                    main.CursedPlayers[wr.PlayerId] = (null);
-                    main.isCurseAndKill[wr.PlayerId] = false;
-                }
-                if (main.isLoversDead == false && CustomRoles.Lovers.isEnable())
-                {
-                    foreach (var loversPlayer in main.LoversPlayers)
+                    if (pc.isSerialKiller())
                     {
-                        if (exiled.PlayerId == loversPlayer.PlayerId)
+                        pc.RpcGuardAndKill(pc);
+                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                    }
+                    if (pc.isBountyHunter())
+                    {
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                        pc.RpcGuardAndKill(pc);
+                        main.BountyTimer.Add(pc.PlayerId, 0f);
+                    }
+                    if (pc.isWarlock())
+                    {
+                        main.CursedPlayers[pc.PlayerId] = (null);
+                        main.isCurseAndKill[pc.PlayerId] = false;
+                    }
+                }
+                if (PlayerControl.GameOptions.MapId == 4)//Airship用
+                {
+                    if (pc.isSerialKiller() || pc.isBountyHunter())
+                    {
+                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                    }
+                    if (pc.isWarlock())
+                    {
+                        main.CursedPlayers[pc.PlayerId] = (null);
+                        main.isCurseAndKill[pc.PlayerId] = false;
+                    }
+                }
+                CheckLoversDead(exiled);
+            }
+            Utils.CountAliveImpostors();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
+            Logger.info("タスクフェイズ開始", "Phase");
+        }
+
+        private static void CheckLoversDead(GameData.PlayerInfo exiled)
+        {
+            if (main.isLoversDead == false && CustomRoles.Lovers.isEnable())
+            {
+                foreach (var loversPlayer in main.LoversPlayers)
+                {
+                    if (exiled.PlayerId == loversPlayer.PlayerId)
+                    {
+                        // Loversが死んだとき
+                        main.isLoversDead = true;
+                        foreach (var partnerPlayer in main.LoversPlayers)
                         {
-                            // Loversが死んだとき
-                            main.isLoversDead = true;
-                            foreach (var partnerPlayer in main.LoversPlayers)
+                            //残った恋人を全て殺す(2人以上可)
+                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId
+                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                             {
-                                //残った恋人を全て殺す(2人以上可)
-                                if (loversPlayer.PlayerId != partnerPlayer.PlayerId
-                                && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
-                                {
-                                    partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                                    PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                                }
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
                             }
                         }
                     }
                 }
-                if (wr.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
-                {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
-                    writer.Write(exiled.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    wr.ExiledSchrodingerCatTeamChange();
-                }
-                if (wr.isArsonist()) wr.RpcGuardAndKill(wr);
             }
-            main.BountyMeetingCheck = true;
-            Utils.CountAliveImpostors();
-            Utils.CustomSyncAllSettings();
-            Utils.NotifyRoles();
         }
     }
 }
