@@ -560,12 +560,12 @@ namespace TownOfHost
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(pc.PlayerId, pc.PlayerId)] && !pc.AmOwner)//死んだら塗った判定にする
+                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !__instance.AmOwner)//死んだら塗った判定にする
                             {
-                                main.DousedPlayerCount[pc.PlayerId]--;
-                                if (main.DousedPlayerCount[pc.PlayerId] <= -1)
-                                    main.DousedPlayerCount[pc.PlayerId] = 0;
-                                main.isDoused[(pc.PlayerId, pc.PlayerId)] = true;
+                                main.DousedPlayerCount[__instance.PlayerId]--;
+                                if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
+                                    main.DousedPlayerCount[__instance.PlayerId] = 0;
+                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                             }
                         }
                     }
