@@ -271,7 +271,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.info("役職設定:" + player.name + " = " + role.ToString());
+                Logger.info("役職設定:" + player.name + " = " + role.ToString(),"AssignRoles");
             }
             return AssignedPlayers;
         }
