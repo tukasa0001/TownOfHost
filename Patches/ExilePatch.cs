@@ -111,7 +111,7 @@ namespace TownOfHost
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
-                    if (exiled.PlayerId == loversPlayer.PlayerId)
+                    if (exiled?.PlayerId == loversPlayer.PlayerId)
                     {
                         // Loversが死んだとき
                         main.isLoversDead = true;
