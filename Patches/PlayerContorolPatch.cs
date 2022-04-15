@@ -558,7 +558,7 @@ namespace TownOfHost
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !__instance.AmOwner)//死んだら塗った判定にする
+                        if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused.TryGetValue((__instance.PlayerId, pc.PlayerId), out bool isDoused) && !__instance.AmOwner)//死んだら塗った判定にする
                         {
                             main.DousedPlayerCount[__instance.PlayerId]--;
                             if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
