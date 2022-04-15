@@ -29,35 +29,44 @@ namespace TownOfHost
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     class CanUseVentPatch
     {
-        public static void Postfix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
+        public static bool Prefix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
             [HarmonyArgument(1)] ref bool canUse,
             [HarmonyArgument(2)] ref bool couldUse,
             ref float __result)
         {
-            if (pc.Object.isSheriff() || (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] != 0) || pc.Object.Data.IsDead)
-                canUse = couldUse = false;
-            if (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] == 0)
-                canUse = couldUse = true;
-
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             //#######################################
-            //     ==ベントに入れるようにする処理==
+            //     ==ベント処理==
             //#######################################
-            //参考:https://github.com/Koke1024/Town-Of-Moss/blob/main/TownOfMoss/Patches/Vent.cs
+            //参考:https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/UsablesPatch.cs
 
+            bool VentForTrigger = false;
             float num = float.MaxValue;
-            var ventilationSystem = ShipStatus.Instance.Systems[SystemTypes.Ventilation].Cast<VentilationSystem>();
-            if (canUse && !pc.Object.getCustomRole().isImpostor())
+
+            var usableDistance = __instance.UsableDistance;
+
+            if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
+            else if (pc.Object.getCustomRole().isImpostor() || pc.Role.Role == RoleTypes.Engineer) // インポスター役職とエンジニアベースの役職は常にtrue
+                return true;
+            else if (pc.Object.isSheriff() || (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] != 0))
+                return false;
+            else if (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] == 0)
+                canUse = couldUse = VentForTrigger = true;
+
+            canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
+
+            if (canUse)
             {
-                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !pc.Object.Data.IsDead);
-                Vector3 center = pc.Object.Collider.bounds.center;
+                Vector2 truePosition = pc.Object.GetTruePosition();
                 Vector3 position = __instance.transform.position;
-                num = Vector2.Distance((Vector2)center, (Vector2)position);
-                var usableDistance = pc._object.inVent ? 0.35 : (double)__instance.UsableDistance;
-                canUse = ((canUse ? 1 : 0) & ((double)num > usableDistance ? 0 : (!PhysicsHelpers.AnythingBetween(pc.Object.Collider, (Vector2)center, (Vector2)position, Constants.ShipOnlyMask, false) ? 1 : 0))) != 0;
+                num = Vector2.Distance(truePosition, position);
+                canUse &= (num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false));
             }
+            if (VentForTrigger && pc.Object.inVent)
+                return false;
             __result = num;
+            return false;
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
