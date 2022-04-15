@@ -28,6 +28,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
+                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.getCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
@@ -37,9 +38,7 @@ namespace TownOfHost
                     RPC.JesterExiled(exiled.PlayerId);
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
-                {
                     Utils.CheckTerroristWin(exiled);
-                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)
@@ -49,7 +48,7 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
-                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                PlayerState.isDead[exiled.PlayerId] = true;
             }
             if (exiled == null && main.SpelledPlayer != null)
             {
@@ -61,32 +60,48 @@ namespace TownOfHost
                 }
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
-            {
-                if (CustomRoles.BountyHunter.getCount() == 0) main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
-            }
+                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-            foreach (var wr in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (wr.isSerialKiller())
+                pc.ResetKillCooldown();
+                if (PlayerControl.GameOptions.MapId != 4)
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.SerialKillerTimer.Add(wr.PlayerId, 0f);
+                    if (pc.isSerialKiller())
+                    {
+                        pc.RpcGuardAndKill(pc);
+                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                    }
+                    if (pc.isBountyHunter())
+                    {
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                        pc.RpcGuardAndKill(pc);
+                        main.BountyTimer.Add(pc.PlayerId, 0f);
+                    }
+                    if (pc.isWarlock())
+                    {
+                        main.CursedPlayers[pc.PlayerId] = (null);
+                        main.isCurseAndKill[pc.PlayerId] = false;
+                    }
                 }
-                if (wr.isBountyHunter())
+                if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
-                    wr.RpcGuardAndKill(wr);
-                    main.BountyTimer.Add(wr.PlayerId, 0f);
-                }
-                if (wr.isWarlock())
-                {
-                    wr.RpcGuardAndKill(wr);
-                    main.CursedPlayers[wr.PlayerId] = (null);
-                    main.isCurseAndKill[wr.PlayerId] = false;
+                    if (pc.isSerialKiller() || pc.isBountyHunter())
+                    {
+                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                    }
+                    if (pc.isWarlock())
+                    {
+                        main.CursedPlayers[pc.PlayerId] = (null);
+                        main.isCurseAndKill[pc.PlayerId] = false;
+                    }
                 }
             }
-            main.BountyMeetingCheck = true;
+            Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Logger.info("タスクフェイズ開始", "Phase");
         }
     }
 }

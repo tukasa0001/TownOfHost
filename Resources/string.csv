@@ -17,15 +17,25 @@ Madmate,Madmate,マッドメイト
 MadGuardian,MadGuardian,マッドガーディアン
 MadSnitch,MadSnitch,マッドスニッチ
 SKMadmate,SideKickMadmate,サイドキックマッドメイト
+NiceWatcher,Nice Watcher,ナイスウォッチャー
+EvilWatcher,Evil Watcher,イビルウォッチャー
+Watcher,Watcher,ウォッチャー
 Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
+SchrodingerCat,SchrodingerCat,シュレディンガーの猫
+CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
+Egoist,Egoist,エゴイスト
 Bait,Bait,ベイト
 Lighter,Lighter,ライター
 Mayor,Mayor,メイヤー
 SabotageMaster,SabotageMaster,サボタージュマスター
 Sheriff,Sheriff,シェリフ
+Arsonist,Arsonist,アーソニスト
 Snitch,Snitch,スニッチ
+SpeedBooster,SpeedBooster,スピードブースター
 Fox,Fox,狐
 Troll,Troll,トロール
 TeamImpostor,Team Impostor,インポスター陣営
@@ -43,15 +53,23 @@ MadmateInfo,Help the Impostors,インポスターの援助をしよう
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
+WatcherInfo,Pay close attention to the crew's votes,みんなの投票に目を光らせよう
+ArsonistInfo,Let them burn,燃やせ
 JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
+SchrodingerCatInfo,You belong to the team that got killed,殺された陣営に所属しろ
+CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方になった
+MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
+EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
+EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 BaitInfo,Bait your enemies,敵を罠にはめよう
 LighterInfo,Let's light it all up,すべてを照らそう
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
+SpeedBoosterInfo,Let's them run.,走らせろ
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TrollInfo,Die to win,自爆しよう
 BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
@@ -66,17 +84,24 @@ MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
 MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
+WatcherInfoLong,(Impostors or Crewmates):\nYou can see where everyone is voting.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。
+ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
 TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
+EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
 LighterInfoLong,"(Crewmates):\nFinishing a task can expand one's view.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。
 MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them all together into one person or skip. (with settings),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
 SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
+SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
 FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+LastImpostorInfo,"LastImpostor:\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",ラストインポスター:\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostor,Last Impostor,ラストインポスター
 HideAndSeek,HideAndSeek,鬼ごっこ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
@@ -88,10 +113,13 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
-BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
+BountyTargetChangeTime,Bounty Target Change Time\n(Added to Bounty Failure Kill Cooldown),バウンティハンターのターゲット変更時間\n(ターゲット以外殺害時のキルクールダウンにプラス)
+EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
+LastImpostorKillCooldown,LastImpostor KillCooldown,ラストインポスターのキルクール
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
-BHDefaultKillCooldown,Bounty Default Kill Cooldown,バウンティハンターのデフォルトのキルクール
+BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
+DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
@@ -100,22 +128,31 @@ MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメ�
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
+EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
 SabotageMasterFixesCommunications,SabotageMaster Can Fixes Both Communications In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える
 SabotageMasterFixesElectrical,SabotageMaster Can Fixes Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
+SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
+SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
+SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
+SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
+SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
+CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
+SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+SpeedBoosterUpSpeed,Speed at speed up,スピードアップ時の速さ
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
 IgnoreCosmetics,Ignore Cosmetics,装飾品を禁止する
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
@@ -134,6 +171,10 @@ AddedPolus,Added Polus,Polusを追加
 AddedDleks,Added Dleks,Dleksを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
 SuffixMode,Suffix,名前の二行目
+SuffixMode.None,None,なし
+SuffixMode.Version,Version,バージョン
+SuffixMode.Streaming,Streaming,配信中
+SuffixMode.Recording,Recording,録画中
 WhenSkipVote,When Skip Vote,スキップ時
 WhenNonVote,When Non-Vote,無投票時
 WitchCurrentMode,Current Mode,現在のモード
@@ -161,6 +202,9 @@ DeathReason.Disconnected,Disconnected,回線切断
 DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win,Wins,勝利
+Last,Last,ラスト
+ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
+ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
@@ -169,4 +213,29 @@ OFF,OFF,OFF
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 Roles,Roles,役職
 Settings,Settings,設定
+Attributes,Attributes,属性
 RoleAssignment,Role Assignment,ロール割り当て
+Maximum,Maximum,最大数
+Rate0,0%,0%
+Rate10,10%,10%
+Rate20,20%,20%
+Rate30,30%,30%
+Rate40,40%,40%
+Rate50,50%,50%
+Rate60,60%,60%
+Rate70,70%,70%
+Rate80,80%,80%
+Rate90,90%,90%
+Rate100,100%,100%
+Preset,Preset,プリセット
+Preset_1,Preset 1,プリセット1
+Preset_2,Preset 2,プリセット2
+Preset_3,Preset 3,プリセット3
+Preset_4,Preset 4,プリセット4
+Preset_5,Preset 5,プリセット5
+Standard,Standard,スタンダード
+GameMode,GameMode,ゲームモード
+PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
+On,On,オン
+Off,Off,オフ
+RoleSummaryText,"Players and roles at the end of the game:",ゲーム終了時の役職一覧:

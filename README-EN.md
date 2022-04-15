@@ -19,6 +19,10 @@ However, please note that the following restrictions apply.<br>
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
+Please use Option Controler in Town Of Host to change options and change their value to 0.
+- Killcooldown (in Impostor Options)
+- ShapeshifterCooldwn (in Shapeshifter Options)
+
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
 - Display of the special role's own start screen.
@@ -45,10 +49,11 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
 | [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
 | [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) |  |
-| [Warlock](###Warlock) | [Snitch](###Snitch) |  |
+| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
+| [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
 | [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) |  |  |
+| [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
+| [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) |  |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
@@ -181,6 +186,18 @@ Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
 They are unable to enter vent.<br>
 
+### Watcher
+
+Team : Impostors or Crewmates<br>
+Decision : Impostor or Crewmates<br>
+
+The Watcher is a player capable of seeing everyone's votes during meetings.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| EvilWatcherChance |
 ### Bait
 
 Team : Crewmates<br>
@@ -194,6 +211,19 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+
+### SpeedBooster
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Completing the task will make a random surviving player speed up.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Speed at speed up |
 
 ### Mayor
 
@@ -242,9 +272,14 @@ They do not have tasks.<br>
 
 | Settings Name |
 |----------|
+| Sheriff Can Kill [Arsonist](###Arsonist) |
+| Sheriff Can Kill [Madmate](###Madmate) |
 | Sheriff Can Kill [Jester](###Jester) |
 | Sheriff Can Kill [Terrorist](###Terrorist) |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
+| Sheriff Can Kill [Egoist](###Egoist) |
+| Sheriff Can Kill Crewmates As It |
+| Sheriff Shot Limit |
 
 ### Snitch
 
@@ -281,6 +316,74 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates, they will win.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Dousing time |
+| Cooldown  |
+
+### SchrodingerCat
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : None<br>
+
+By default, it has no victory condition, and only when the condition is met does it have a victory condition.<br>
+
+1.If you are killed by an Imposter, you prevent a kill and become an Imposter.<br>
+2.If you are killed by a sheriff, you prevent a kill and become a crewmate.<br>
+3.If you are killed by a neutral, you prevent the kill and become a neutral.<br>
+4.If you are expelled, your position does not change and you die with the same victory conditions as before.<br>
+5.If you are killed by a warlock's ability, the victory condition remains the same and you die.<br>
+6.If a player is killed by suicide kills (except vampire kills), the victory condition remains the same and the player dies.<br>
+
+Also common to all Schrodinger's cats, there are no tasks.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| SchrodingerCat Before The Change CanWin As A Crewmate Team |
+
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
+
+## Attribute
+
+### LastImpostor
+
+This is the attribute given to the last in-poster.<br>
+Not given to BountyHunter, SerialKiller, or Vampire.<br>
+
+| Settings Name |
+|----------|
+| LastImpostor KillCooldown |
 
 ## Mode
 
@@ -394,7 +497,8 @@ If the client language is English, this setting is meaningless unless the host h
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist) role : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

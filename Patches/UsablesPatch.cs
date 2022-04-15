@@ -22,7 +22,7 @@ namespace TownOfHost
     {
         public static void Postfix(EmergencyMinigame __instance)
         {
-            if (Options.IsHideAndSeek) __instance.Close();
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.Close();
         }
     }
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
@@ -32,7 +32,7 @@ namespace TownOfHost
             [HarmonyArgument(1)] ref bool canUse,
             [HarmonyArgument(2)] ref bool couldUse)
         {
-            if (pc.Object.isSheriff())
+            if (pc.Object.isSheriff() || pc.Object.isArsonist())
                 canUse = couldUse = false;
         }
     }

@@ -9,6 +9,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
+        public static bool recall = false;
         public static bool Prefix(MeetingHud __instance)
         {
             try
@@ -23,6 +24,7 @@ namespace TownOfHost
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
+                recall = false;
 
                 List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
@@ -34,12 +36,13 @@ namespace TownOfHost
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                     {
-                        switch (Options.whenSkipVote)
+                        switch (Options.GetWhenSkipVote())
                         {
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -50,12 +53,13 @@ namespace TownOfHost
                     }
                     if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                     {
-                        switch (Options.whenNonVote)
+                        switch (Options.GetWhenNonVote())
                         {
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -74,7 +78,7 @@ namespace TownOfHost
                     });
                     if (isMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote; i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -113,11 +117,18 @@ namespace TownOfHost
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                foreach (var p in main.SpelledPlayer)
+                {
+                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                    main.IgnoreReportPlayers.Add(p.PlayerId);
+                    p.RpcMurderPlayer(p);
+                    recall = true;
+                }
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if ((pc.isSheriff() || pc.isArsonist()) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -151,7 +162,7 @@ namespace TownOfHost
                 {
                     int num;
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote + 1;
+                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote.GetSelection() + 1;
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
@@ -164,6 +175,7 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            Logger.info("会議が開始", "Phase");
             main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true);
             main.witchMeeting = false;
@@ -181,11 +193,11 @@ namespace TownOfHost
                 roleTextMeeting.enableWordWrapping = false;
                 roleTextMeeting.enabled = false;
             }
-            if (Options.SyncButtonMode)
+            if (Options.SyncButtonMode.GetBool())
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
+                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
             }
 
             if (AmongUsClient.Instance.AmHost)
@@ -226,6 +238,10 @@ namespace TownOfHost
                     }
                 }
 
+                //呪われている場合
+                if (main.SpelledPlayer.Find(x => x.PlayerId == pc.PlayerId) != null)
+                    pva.NameText.text += "<color=#ff0000>†</color>";
+
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     pc.isSnitch() && //変更対象がSnitch
                     pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
@@ -233,6 +249,20 @@ namespace TownOfHost
                 {
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+                if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+                if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがEgoSchrodingerCat
+                    pc.isEgoist() //変更対象がEgoist
+                )
+                {
+                    //変更対象の名前をエゴイスト色にする
+                    pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
@@ -267,11 +297,41 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += " <color=#e6b422>(" + Utils.getTaskText(pc) + ")</color>";
+                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
                     else RoleTextMeeting.enabled = false;
+                }
+            }
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
+    class MeetingHudOnDestroyPatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            Logger.info("会議が終了", "Phase");
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (CheckForEndVotingPatch.recall)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.Data.IsDead)
+                    {
+                        new LateTask(() =>
+                        {
+                            pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
+                        },
+                            0.2f, "Recall Meeting");
+                        new LateTask(() =>
+                        {
+                            MeetingHud.Instance.RpcClose();
+                            CheckForEndVotingPatch.recall = false;
+                        },
+                            0.5f, "Cancel Meeting");
+                        break;
+                    }
                 }
             }
         }
