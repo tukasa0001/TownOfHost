@@ -285,7 +285,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
-                    if (main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] != 0)
+                    if (main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out int count) && count != 0)
                         __instance.ImpostorVentButton.ToggleVisible(false);
                     break;
             }
