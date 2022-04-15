@@ -56,6 +56,11 @@ namespace TownOfHost
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
 
+            if (VentForTrigger && pc.Object.inVent)
+            {
+                canUse = couldUse = false;
+                return false;
+            }
             if (canUse)
             {
                 Vector2 truePosition = pc.Object.GetTruePosition();
@@ -63,8 +68,6 @@ namespace TownOfHost
                 num = Vector2.Distance(truePosition, position);
                 canUse &= (num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false));
             }
-            if (VentForTrigger && pc.Object.inVent)
-                return false;
             __result = num;
             return false;
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
