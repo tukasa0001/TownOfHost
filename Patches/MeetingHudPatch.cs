@@ -28,7 +28,7 @@ namespace TownOfHost
             for(var i = 0; i < __instance.playerStates.Length; i++) {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if(ps == null) continue;
-                Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}","Vote");
+                Logger.info($"{ps.TargetPlayerId}({main.getVoteName(ps.TargetPlayerId)})\t=> {ps.VotedFor}({main.getVoteName(ps.VotedFor)})","Vote");
                 var voter = main.getPlayerById(ps.TargetPlayerId);
                 if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                 if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
@@ -82,22 +82,22 @@ namespace TownOfHost
             int max = 0;
             Logger.info("===追放者確認処理開始===","Vote");
             foreach(var data in VotingData) {
-                Logger.info(data.Key + ": " + data.Value,"Vote");
+                Logger.info($"{data.Key}({main.getVoteName(data.Key)}): {main.getVoteName(data.Value)}票","Vote");
                 if(data.Value > max)
                 {
-                    Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")","Vote");
+                    Logger.info($"{data.Key}({main.getVoteName(data.Key)})が最高値を更新({data.Value})","Vote");
                     exileId = data.Key;
                     max = data.Value;
                     tie = false;
                 } else if(data.Value == max) {
-                    Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")","Vote");
+                    Logger.info($"{data.Key}({main.getVoteName(data.Key)})が{exileId}({main.getVoteName(exileId)})と同数({data.Value})","Vote");
                     exileId = byte.MaxValue;
                     tie = true;
                 }
-                Logger.info("exileId: " + exileId + ", max: " + max,"Vote");
+                Logger.info($"exileId: {exileId}, max: {max}","Vote");
             }
 
-            Logger.info("追放者決定: " + exileId,"Vote");
+            Logger.info($"追放者決定: {exileId}({main.getVoteName(exileId)}:{main.getPlayerById(exileId).getCustomRole()})","Vote");
             exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
             __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC

@@ -13,7 +13,7 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
-            Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
+            Logger.info($"発生: {__instance.name}({__instance.getCustomRole()}) => {target.name}({target.getCustomRole()})","MurderPlayer");
             if(__instance == target && __instance.getCustomRole() == CustomRoles.Sheriff)
             {
                 main.ps.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);
@@ -43,7 +43,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
-            Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            Logger.info($"発生: {__instance.name}({__instance.getCustomRole()}) => {target.name}({target.getCustomRole()})","CheckMerder");
             if(main.IsHideAndSeek && main.HideAndSeekKillDelayTimer > 0) {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;

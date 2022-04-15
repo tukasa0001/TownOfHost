@@ -285,7 +285,6 @@ namespace TownOfHost
             Logger.info("--------基本設定--------");
             Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
             Logger.info("---------その他---------");
-            Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
 
             Logger.msg("SelectRolesPatch.Postfix.End");
