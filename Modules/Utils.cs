@@ -61,7 +61,8 @@ namespace TownOfHost
             if (player.isSheriff())
                 RoleText += $" ({main.SheriffShotLimit[player.PlayerId]})";
             else if (player.isArsonist())
-                RoleText += $" ({main.DousedPlayerCount[player.PlayerId]})";
+                RoleText += main.DousedPlayerCount.TryGetValue(player.PlayerId, out var count) ? $" ({count})" : "";
+
 
             return (RoleText, getRoleColor(cRole));
         }
