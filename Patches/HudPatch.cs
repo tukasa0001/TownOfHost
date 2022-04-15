@@ -151,9 +151,6 @@ namespace TownOfHost
                 case CustomRoles.ShapeMaster:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{Utils.getRoleName(CustomRoles.ShapeMaster)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{getString("ShapeMasterInfo")}</color>\r\n";
                     break;
-                case CustomRoles.Mare:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mare)}>{Utils.getRoleName(CustomRoles.Mare)}\r\n{getString("MareInfo")}</color>\r\n";
-                    break;
                 case CustomRoles.Warlock:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{Utils.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{getString("WarlockInfo")}</color>\r\n";
                     break;
@@ -187,6 +184,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Egoist:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{Utils.getRoleName(CustomRoles.Egoist)}\r\n{getString("EgoistInfo")}</color>\r\n";
+                    break;
+                case CustomRoles.Mare:
+                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mare)}>{Utils.getRoleName(CustomRoles.Mare)}\r\n{getString("MareInfo")}</color>\r\n";
                     break;
             }
 

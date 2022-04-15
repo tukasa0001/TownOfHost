@@ -304,7 +304,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
@@ -312,6 +311,7 @@ namespace TownOfHost
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)

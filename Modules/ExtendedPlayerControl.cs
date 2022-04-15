@@ -271,14 +271,6 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.Mare:
-                    var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (ma != null && ma.IsActive)
-                    {//もし停電発生した場合
-                        opt.PlayerSpeedMod += 1;//Mareの速度を通常速度+1する
-                        opt.KillCooldown /= 2;//Mareのキルクールを÷2する
-                    }
-                    break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
                     {
@@ -314,6 +306,14 @@ namespace TownOfHost
                     if (switchSystem != null && switchSystem.IsActive)
                     {
                         opt.CrewLightMod *= 5;
+                    }
+                    break;
+                case CustomRoles.Mare:
+                    var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+                    if (ma != null && ma.IsActive)
+                    {//もし停電発生した場合
+                        opt.PlayerSpeedMod += 1;//Mareの速度を通常速度+1する
+                        opt.KillCooldown /= 2;//Mareのキルクールを÷2する
                     }
                     break;
 
@@ -631,7 +631,6 @@ namespace TownOfHost
         public static bool isBountyHunter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.BountyHunter; }
         public static bool isWitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Witch; }
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
-        public static bool isMare(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mare; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
@@ -641,5 +640,6 @@ namespace TownOfHost
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
+        public static bool isMare(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mare; }
     }
 }
