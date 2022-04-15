@@ -554,21 +554,18 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
+                if (main.DousedPlayerCount.TryGetValue(__instance.PlayerId, out int count) && count != 0 && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] != 0)
+                    foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !__instance.AmOwner)//死んだら塗った判定にする
                         {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)] && !__instance.AmOwner)//死んだら塗った判定にする
-                            {
-                                main.DousedPlayerCount[__instance.PlayerId]--;
-                                if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
-                                    main.DousedPlayerCount[__instance.PlayerId] = 0;
-                                Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
-                                __instance.RpcRemoveDousedPlayerCount();
-                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
-                            }
+                            main.DousedPlayerCount[__instance.PlayerId]--;
+                            if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
+                                main.DousedPlayerCount[__instance.PlayerId] = 0;
+                            Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
+                            __instance.RpcRemoveDousedPlayerCount();
+                            main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                         }
                     }
                 }
