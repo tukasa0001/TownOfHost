@@ -482,6 +482,15 @@ namespace TownOfHost
                 );
 
         }
+        public static string getVoteName(int num)
+        {
+            string name = "invalid";
+            if(num < 15) name = getPlayerById(num).getRealName();
+            if(num == 253) name = "Skip";
+            if(num == 254) name = "None";
+            if(num == 255) name = "Dead";
+            return name;
+        }
         public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
