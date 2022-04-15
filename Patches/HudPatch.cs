@@ -164,8 +164,7 @@ namespace TownOfHost
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{Utils.getRoleName(CustomRoles.Arsonist)}\r\n{getString("ArsonistInfo")}</color>\r\n";
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    if (main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out int count) && count == 0)
-                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !PlayerControl.LocalPlayer.Data.IsDead);
+                    PlayerControl.LocalPlayer.ImpostorVentButtonToggleVisible();
                     break;
                 case CustomRoles.SpeedBooster:
                     TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
@@ -279,16 +278,15 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    PlayerControl.LocalPlayer.ImpostorVentButtonToggleVisible();
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Arsonist:
-                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
-                    if (main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out int count) && count != 0)
-                        __instance.ImpostorVentButton.ToggleVisible(false);
                     break;
             }
         }

@@ -604,6 +604,21 @@ namespace TownOfHost
                     break;
             }
         }
+        public static void ImpostorVentButtonToggleVisible(this PlayerControl player)
+        {
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.Sheriff:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Arsonist:
+                    if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out int count) && count != 0)
+                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    else
+                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
+                    break;
+            }
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
