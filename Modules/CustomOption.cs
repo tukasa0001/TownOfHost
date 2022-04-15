@@ -95,7 +95,7 @@ namespace TownOfHost
             if (id == 0)
             {
                 Entry = main.Instance.Config.Bind($"Current Preset", id.ToString(), DefaultSelection);
-                Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
+                Preset=Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
             if (id > 0)
             {
