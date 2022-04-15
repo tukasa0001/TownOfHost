@@ -80,6 +80,22 @@ namespace TownOfHost
             }
             return text;
         }
+        public static string getRoleSummary()
+        {
+            string roleSummaryText = $"{getString("RoleSummaryText")}";
+            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
+            foreach (var id in main.winnerList)
+            {
+                roleSummaryText += $"\n★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalProgress[id]}  {Utils.getVitalText(id)}";
+                cloneRoles.Remove(id);
+            }
+            foreach (var kvp in cloneRoles)
+            {
+                var id = kvp.Key;
+                roleSummaryText += $"\n　 {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalProgress[id]}  {Utils.getVitalText(id)}";
+            }
+            return roleSummaryText;
+        }
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -239,21 +255,7 @@ namespace TownOfHost
                 SendMessage("試合中に/lastrolesを使用することはできません。");
                 return;
             }
-            var text = getString("LastResult") + ":";
-            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
-            foreach (var id in main.winnerList)
-            {
-                text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getVitalText(id)}";
-                cloneRoles.Remove(id);
-            }
-            foreach (var kvp in cloneRoles)
-            {
-                var id = kvp.Key;
-                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
-                text += $" {getVitalText(id)}";
-            }
-            SendMessage(text);
+            SendMessage(getRoleSummary());
         }
 
         public static void ShowHelp()

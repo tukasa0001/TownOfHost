@@ -304,18 +304,6 @@ namespace TownOfHost
             roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
             roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            string roleSummaryText = $"{getString("RoleSummaryText")}";
-            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
-            foreach (var id in main.winnerList)
-            {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalProgress[id]}  {Utils.getVitalText(id)}";
-                cloneRoles.Remove(id);
-            }
-            foreach (var kvp in cloneRoles)
-            {
-                var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalProgress[id]}  {Utils.getVitalText(id)}";
-            }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
             roleSummaryTextMesh.color = Color.white;
@@ -326,7 +314,10 @@ namespace TownOfHost
 
             var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
-            roleSummaryTextMesh.text = roleSummaryText;
+
+            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
+            string roleSummaryText = $"<color={CustomWinnerColor}>{Utils.getRoleSummary()}";
+            roleSummaryTextMesh.text = $"{roleSummaryText}";
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
