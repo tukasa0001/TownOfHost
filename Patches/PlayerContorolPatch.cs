@@ -621,7 +621,7 @@ namespace TownOfHost
                     if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //__instanceが自分自身
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
-                        if (__instance.isArsonist() && main.DousedPlayerCount[PlayerControl.LocalPlayer.PlayerId] == 0)
+                        if (__instance.isArsonist() && main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out var count) && count == 0)
                             RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
