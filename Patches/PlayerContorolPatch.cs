@@ -60,7 +60,7 @@ namespace TownOfHost
                 {
                     main.AllPlayerSpeed[__instance.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
                     __instance.CustomSyncSettings();
-                }, Options.BlockMoveTime.GetFloat(), "Trapper BlockMove");
+                }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {

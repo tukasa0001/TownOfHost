@@ -153,6 +153,7 @@ SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキル�
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
 SpeedBoosterUpSpeed,Speed at speed up,スピードアップ時の速さ
+TrapperBlockMoveTime,Block Move Time,移動を封じる時間
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
 IgnoreCosmetics,Ignore Cosmetics,装飾品を禁止する
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
