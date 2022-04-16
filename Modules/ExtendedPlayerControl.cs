@@ -344,6 +344,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.AllPlayerSpeed.ContainsKey(player.PlayerId))
+            {
+                foreach (var speed in main.AllPlayerSpeed)
+                {
+                    if (speed.Key == player.PlayerId)
+                    {
+                        if (speed.Value > 0)
+                            opt.PlayerSpeedMod = speed.Value;
+                        else
+                            opt.KillCooldown = 0.0001f;
+                    }
+                }
+            }
             if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
             {
                 opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
@@ -627,6 +640,7 @@ namespace TownOfHost
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
+        public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }

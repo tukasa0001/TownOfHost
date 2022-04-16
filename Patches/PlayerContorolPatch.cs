@@ -51,6 +51,17 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
+            if (target.isTrapper())
+            {
+                Logger.SendToFile(target.name + $"はTrapperだった");
+                main.AllPlayerSpeed[__instance.PlayerId] = 0.00001f;
+                __instance.CustomSyncSettings();
+                new LateTask(() =>
+                {
+                    main.AllPlayerSpeed[__instance.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    __instance.CustomSyncSettings();
+                }, 10f, "Murder To Reset Cam");
+            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
