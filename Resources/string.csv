@@ -97,7 +97,7 @@ SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interferenc
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
-TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間動けなくすることができる。(設定有)
+TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
 FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 LastImpostorInfo,"LastImpostor:\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",ラストインポスター:\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
