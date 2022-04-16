@@ -20,8 +20,6 @@ namespace TownOfHost
         }
         public static void HasVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
-            //if (player == null || !AmongUsClient.Instance.AmHost) return;
-
             if (HasImpVision)
             {
                 opt.CrewLightMod = opt.ImpostorLightMod;
