@@ -350,7 +350,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false,PlayerControl SpecifySeer=null)
+        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -382,7 +382,7 @@ namespace TownOfHost
             var seerList = PlayerControl.AllPlayerControls;
             if (SpecifySeer != null)
             {
-                seerList=new ();
+                seerList = new();
                 seerList.Add(SpecifySeer);
             }
             //seer:ここで行われた変更を見ることができるプレイヤー
@@ -406,10 +406,13 @@ namespace TownOfHost
                 if (ShowSnitchWarning && canFindSnitchRole)
                 {
                     var arrows = "";
-                    foreach (var arrow in main.targetArrows)
+                    if (!isMeeting)
                     {
-                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
-                            arrows += arrow.Value;
+                        foreach (var arrow in main.targetArrows)
+                        {
+                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                arrows += arrow.Value;
+                        }
                     }
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
@@ -435,7 +438,7 @@ namespace TownOfHost
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
-                if (seer.isSnitch() || seer.isMadSnitch())
+                if (seer.isSnitch() || seer.isMadSnitch() && !isMeeting)
                 {
                     var TaskState = seer.getPlayerTaskState();
                     if (TaskState.isTaskFinished)
@@ -444,7 +447,7 @@ namespace TownOfHost
 
                         foreach (var arrow in main.targetArrows)
                         {
-                            if(arrow.Key.Item1==seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                                 SelfSuffix += arrow.Value;
                         }
                     }
@@ -460,8 +463,8 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName = SelfRoleName += SelfName+ "\r\n ";
-                SelfRoleName += SelfName += SelfSuffix == "" ? "" :  SelfSuffix+"\r\n ";
+                SelfName = SelfRoleName += SelfName + "\r\n ";
+                SelfRoleName += SelfName += SelfSuffix == "" ? "" : SelfSuffix + "\r\n ";
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
@@ -522,7 +525,7 @@ namespace TownOfHost
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                             var foundCheck = target.getCustomRole().isImpostor() || (snitchOption && target.isEgoist());
-                            if(foundCheck)
+                            if (foundCheck)
                                 TargetPlayerName = $"<color={target.getRoleColorCode()}>{TargetPlayerName}</color>";
                         }
                         else if (seer.getCustomRole().isImpostor() && target.isEgoist())
