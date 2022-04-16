@@ -178,15 +178,8 @@ namespace TownOfHost
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
-            CustomRoles role = player.getCustomRole();
-            RoleType roleType = role.getRoleType();
-            switch (roleType)
-            {
-                case RoleType.Impostor:
-                    return true;
-                case RoleType.Madmate:
-                    return Options.SheriffCanKillMadmate.GetBool();
-            }
+            if (player.Is(RoleType.Impostor)) return true;
+            if (player.Is(RoleType.Madmate)) return Options.SheriffCanKillMadmate.GetBool();
             return false;
         }
 
@@ -460,7 +453,7 @@ namespace TownOfHost
                 // 死者/切断者/インポスターを除外
                 if (!pc.Data.IsDead &&
                     !pc.Data.Disconnected &&
-                    !pc.getCustomRole().isImpostor()
+                    !pc.Is(RoleType.Impostor)
                 )
                 {
                     cTargets.Add(pc);
@@ -510,11 +503,11 @@ namespace TownOfHost
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
-                pc.getCustomRole().isImpostor() ||
-                pc.isSheriff() ||
-                pc.isArsonist();
+                pc.Is(RoleType.Impostor) ||
+                pc.Is(CustomRoles.Sheriff) ||
+                pc.Is(CustomRoles.Arsonist);
 
-            if (pc.isMafia())
+            if (pc.Is(CustomRoles.Mafia))
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
@@ -522,12 +515,12 @@ namespace TownOfHost
         }
         public static bool isLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
-            if (pc.getCustomRole().isImpostor() &&
+            if (pc.Is(RoleType.Impostor) &&
                 !pc.Data.IsDead &&
                 Options.EnableLastImpostor.GetBool() &&
-                !pc.isVampire() &&
-                !pc.isBountyHunter() &&
-                !pc.isSerialKiller() &&
+                !pc.Is(CustomRoles.Vampire) &&
+                !pc.Is(CustomRoles.BountyHunter) &&
+                !pc.Is(CustomRoles.SerialKiller) &&
                 main.AliveImpostorCount == 1)
                 return true;
             return false;
@@ -547,10 +540,12 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-                if (CustomRoles.Egoist.isEnable() && (pc.isEgoist() && !pc.Data.IsDead))
+            {
+                if (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
                 {
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
                 }
+            }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
@@ -620,5 +615,92 @@ namespace TownOfHost
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
+        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+        public static bool Is(this PlayerControl target, RoleType roleType)
+        {
+            var role = target.getCustomRole();
+            return roleType switch
+            {
+                RoleType.Crewmate => Roles.crewmateRoles.Contains(role),
+                RoleType.Impostor => Roles.impostorRoles.Contains(role),
+                RoleType.Madmate => Roles.madmateRoles.Contains(role),
+                RoleType.Neutral => Roles.neutralRoles.Contains(role),
+                _ => false
+            };
+        }
+        public static bool IsImpostorTeam(this PlayerControl target)
+        {
+            return target.Is(RoleType.Impostor) || target.Is(RoleType.Madmate);
+        }
+        public static bool IsVanillaRole(this PlayerControl target)
+        {
+            return Roles.vanillaRoles.Contains(target.getCustomRole());
+        }
     }
+
+    class Roles
+    {
+        public static List<CustomRoles> crewmateRoles = new()
+        {
+            //Crewmate(Vanilla)
+            CustomRoles.Engineer,
+            CustomRoles.GuardianAngel,
+            CustomRoles.Scientist,
+            //Crewmate
+            CustomRoles.Bait,
+            CustomRoles.Lighter,
+            CustomRoles.Mayor,
+            CustomRoles.NiceWatcher,
+            CustomRoles.SabotageMaster,
+            CustomRoles.Sheriff,
+            CustomRoles.Snitch,
+            CustomRoles.SpeedBooster,
+        };
+        public static List<CustomRoles> impostorRoles = new()
+        {
+            //Impostor(Vanilla)
+            CustomRoles.Impostor,
+            CustomRoles.Shapeshifter,
+            //Impostor
+            CustomRoles.BountyHunter,
+            CustomRoles.Mafia,
+            CustomRoles.SerialKiller,
+            CustomRoles.ShapeMaster,
+            CustomRoles.Vampire,
+            CustomRoles.Warlock,
+            CustomRoles.Witch
+        };
+        public static List<CustomRoles> madmateRoles = new()
+        {
+            //Madmate
+            CustomRoles.MadGuardian,
+            CustomRoles.Madmate,
+            CustomRoles.MadSnitch,
+            CustomRoles.SKMadmate,
+        };
+        public static List<CustomRoles> neutralRoles = new()
+        {
+            //第三陣営
+            CustomRoles.Arsonist,
+            CustomRoles.Egoist,
+            CustomRoles.Jester,
+            CustomRoles.Opportunist,
+            CustomRoles.SchrodingerCat,//第三陣営のシュレディンガーの猫
+            CustomRoles.CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+            CustomRoles.MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
+            CustomRoles.EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+            CustomRoles.Terrorist,
+        };
+        public static List<CustomRoles> vanillaRoles = new()
+        {
+            //第三陣営
+            CustomRoles.Crewmate,
+            CustomRoles.Engineer,
+            CustomRoles.Scientist,
+            CustomRoles.GuardianAngel,
+            CustomRoles.Impostor,
+            CustomRoles.Shapeshifter
+        };
+    }
+
 }
