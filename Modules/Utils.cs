@@ -16,30 +16,22 @@ namespace TownOfHost
 
             return false;
         }
-        public static void HasVision(RoleTypes roleTypes)
+        public static void HasVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-            if (main.RealOptionsData == null)
-                main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            var opt = main.RealOptionsData.DeepCopy();
+            //if (player == null || !AmongUsClient.Instance.AmHost) return;
 
-            if (roleTypes == RoleTypes.Impostor || roleTypes == RoleTypes.Shapeshifter)
+            if (HasImpVision)
             {
                 opt.CrewLightMod = opt.ImpostorLightMod;
                 if (isActive(SystemTypes.Electrical))
                     opt.CrewLightMod *= 5;
                 return;
             }
-            else if (roleTypes == RoleTypes.Crewmate || roleTypes == RoleTypes.Engineer || roleTypes == RoleTypes.GuardianAngel || roleTypes == RoleTypes.Scientist)
+            else
             {
                 opt.ImpostorLightMod = opt.CrewLightMod;
                 if (isActive(SystemTypes.Electrical))
                     opt.ImpostorLightMod /= 5;
-                return;
-            }
-            else
-            {
-                Logger.error($"{roleTypes}は有効ではありません。");
                 return;
             }
         }
@@ -469,7 +461,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                //タスクを終えたSnitchがインポスターを確認できる
+                                                 //タスクを終えたSnitchがインポスターを確認できる
                 if (seer.isSnitch())
                 {
                     var TaskState = seer.getPlayerTaskState();

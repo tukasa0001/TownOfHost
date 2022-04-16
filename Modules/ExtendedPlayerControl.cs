@@ -245,14 +245,15 @@ namespace TownOfHost
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    Utils.HasVision(RoleTypes.Crewmate);
-                    break;
                 case CustomRoles.Arsonist:
-                    Utils.HasVision(RoleTypes.Crewmate);
+                    opt.HasVision(player, false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                        Utils.HasVision(RoleTypes.Impostor);
+                        opt.HasVision(player, true);
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.HasVision(player, true);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -283,9 +284,6 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.EgoSchrodingerCat:
-                    Utils.HasVision(RoleTypes.Impostor);
-                    break;
 
 
                 InfinityVent:
@@ -299,9 +297,7 @@ namespace TownOfHost
             {
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        Utils.HasVision(RoleTypes.Impostor);
-                    }
+                        opt.HasVision(player, true);
                     break;
             }
             if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
