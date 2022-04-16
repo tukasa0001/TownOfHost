@@ -52,7 +52,7 @@
 | [Witch/魔女](###Witch/魔女) | [Lighter/ライター](###Lighter/ライター) | [Egoist/エゴイスト](###Egoist/エゴイスト) |
 | [Mafia/マフィア](###Mafia/マフィア) | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー) |  |
 | [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー) | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター) |  |
-| [Madmate/マッドメイト](###Madmate/マッドメイト) |  |  |
+| [Madmate/マッドメイト](###Madmate/マッドメイト) | [Trapper/トラッパー](###Trapper/トラッパー) |  |
 | [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン) |  |  |
 | [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ) |  |  |
 
@@ -297,6 +297,19 @@ PolusやThe Airshipのドアを開けるとその部屋の全てのドアが開�
 | 設定名 |
 |----------|
 | スピードアップ時の速さ |
+
+### Trapper/トラッパー
+
+陣営 ：クルーメイト<br>
+判定 ：クルーメイト<br>
+
+キルされると、キルした人を数秒間移動不可にします。<br>
+
+#### 設定
+
+| 設定名 |
+|----------|
+| 移動を封じる時間 |
 
 ### Jester/ジェスター
 
