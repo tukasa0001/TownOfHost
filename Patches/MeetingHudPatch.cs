@@ -82,7 +82,7 @@ namespace TownOfHost
             int max = 0;
             Logger.info("===追放者確認処理開始===","Vote");
             foreach(var data in VotingData) {
-                Logger.info($"{data.Key}({main.getVoteName(data.Key)}): {main.getVoteName(data.Value)}票","Vote");
+                Logger.info($"{data.Key}({main.getVoteName(data.Key)}): {data.Value}票","Vote");
                 if(data.Value > max)
                 {
                     Logger.info($"{data.Key}({main.getVoteName(data.Key)})が最高値を更新({data.Value})","Vote");
