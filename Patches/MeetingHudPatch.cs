@@ -117,12 +117,15 @@ namespace TownOfHost
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
-                foreach (var p in main.SpelledPlayer)
+                if (!Utils.getPlayerById(exileId).isWitch())
                 {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                    main.IgnoreReportPlayers.Add(p.PlayerId);
-                    p.RpcMurderPlayer(p);
-                    recall = true;
+                    foreach (var p in main.SpelledPlayer)
+                    {
+                        PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        main.IgnoreReportPlayers.Add(p.PlayerId);
+                        p.RpcMurderPlayer(p);
+                        recall = true;
+                    }
                 }
                 main.SpelledPlayer.Clear();
 
