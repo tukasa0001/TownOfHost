@@ -236,7 +236,7 @@ When killed, it immobilizes the killed player for a few seconds.<br>
 
 | Settings Name |
 |----------|
-| Time to block the move |
+| Block Move Time |
 
 ### Mayor
 
