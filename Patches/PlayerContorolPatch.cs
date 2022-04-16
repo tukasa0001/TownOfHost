@@ -584,12 +584,12 @@ namespace TownOfHost
                 if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
-            if (AmongUsClient.Instance.IsGameStarted)
+            //役職テキストの表示
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            if (RoleText != null && __instance != null)
             {
-                //役職テキストの表示
-                var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
-                var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleText != null && __instance != null)
+                if (AmongUsClient.Instance.IsGameStarted)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
                     if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -659,7 +659,7 @@ namespace TownOfHost
 
                     //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
                     var canFindSnitchRole = PlayerControl.LocalPlayer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
-                        (Options.SnitchCanFindNeutralKiller.GetBool() &&PlayerControl.LocalPlayer.isEgoist());//or エゴイスト
+                        (Options.SnitchCanFindNeutralKiller.GetBool() && PlayerControl.LocalPlayer.isEgoist());//or エゴイスト
 
                     if (canFindSnitchRole && __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
                     )
@@ -673,7 +673,7 @@ namespace TownOfHost
 
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if (__instance.getCustomRole().isImpostor()
-                        ||(Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist()))
+                        || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist()))
                     { //__instanceがインポスターかつ自分自身
                         var found = false;
                         var update = false;
@@ -695,7 +695,7 @@ namespace TownOfHost
                         if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
                         {
                             //更新があったら非Modに通知
-                            Utils.NotifyRoles(__instance);
+                            Utils.NotifyRoles(SpecifySeer: __instance);
                         }
                     }
 
@@ -727,7 +727,7 @@ namespace TownOfHost
                             if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
                             {
                                 //更新があったら非Modに通知
-                                Utils.NotifyRoles(__instance);
+                                Utils.NotifyRoles(SpecifySeer: __instance);
                             }
                         }
                     }
@@ -750,12 +750,17 @@ namespace TownOfHost
                         RoleText.transform.SetLocalY(0.175f);
                     }
                 }
+                else
+                {
+                    //役職テキストの座標を初期値に戻す
+                    RoleText.transform.SetLocalY(0.175f);
+                }
             }
         }
 
         public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
         {
-            if(!Options.SnitchEnableTargetArrow.GetBool()) return false;
+            if (!Options.SnitchEnableTargetArrow.GetBool()) return false;
 
             var key = (seer.PlayerId, target.PlayerId);
             if (target.Data.IsDead)
@@ -771,7 +776,7 @@ namespace TownOfHost
             //インポスターの方角ベクトルを取る
             var dir = target.transform.position - seer.transform.position;
             byte index;
-            if (dir.magnitude < 1)
+            if (dir.magnitude < 2)
             {
                 //近い時はドット表示
                 index = 8;
