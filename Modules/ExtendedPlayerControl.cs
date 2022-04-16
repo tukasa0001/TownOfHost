@@ -245,28 +245,14 @@ namespace TownOfHost
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    if (Utils.isActive(SystemTypes.Electrical))
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
+                    Utils.HasVision(RoleTypes.Crewmate);
                     break;
                 case CustomRoles.Arsonist:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    if (Utils.isActive(SystemTypes.Electrical))
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
+                    Utils.HasVision(RoleTypes.Crewmate);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        if (Utils.isActive(SystemTypes.Electrical))
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        Utils.HasVision(RoleTypes.Impostor);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -298,11 +284,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EgoSchrodingerCat:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    if (Utils.isActive(SystemTypes.Electrical))
-                    {
-                        opt.CrewLightMod *= 5;
-                    }
+                    Utils.HasVision(RoleTypes.Impostor);
                     break;
 
 
@@ -318,11 +300,7 @@ namespace TownOfHost
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        if (Utils.isActive(SystemTypes.Electrical))
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
+                        Utils.HasVision(RoleTypes.Impostor);
                     }
                     break;
             }

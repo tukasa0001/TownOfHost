@@ -16,6 +16,33 @@ namespace TownOfHost
 
             return false;
         }
+        public static void HasVision(RoleTypes roleTypes)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (main.RealOptionsData == null)
+                main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            var opt = main.RealOptionsData.DeepCopy();
+
+            if (roleTypes == RoleTypes.Impostor || roleTypes == RoleTypes.Shapeshifter)
+            {
+                opt.CrewLightMod = opt.ImpostorLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.CrewLightMod *= 5;
+                return;
+            }
+            else if (roleTypes == RoleTypes.Crewmate || roleTypes == RoleTypes.Engineer || roleTypes == RoleTypes.GuardianAngel || roleTypes == RoleTypes.Scientist)
+            {
+                opt.ImpostorLightMod = opt.CrewLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.ImpostorLightMod /= 5;
+                return;
+            }
+            else
+            {
+                Logger.error($"{roleTypes}は有効ではありません。");
+                return;
+            }
+        }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount)
         {
