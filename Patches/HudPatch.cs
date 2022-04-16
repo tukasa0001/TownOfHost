@@ -77,113 +77,35 @@ namespace TownOfHost
                 LowerInfoText.enabled = false;
             }
 
+            if (!PlayerControl.LocalPlayer.getCustomRole().isVanilla())
+            {
+                TaskTextPrefix = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{PlayerControl.LocalPlayer.getRoleName()}\r\n";
+                if (PlayerControl.LocalPlayer.isMafia())
+                {
+                    if (!PlayerControl.LocalPlayer.CanUseKillButton())
+                        TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
+                    else
+                        TaskTextPrefix += $"{getString("AfterMafiaInfo")}";
+                }
+                else
+                    TaskTextPrefix += $"{getString(Enum.GetName(typeof(CustomRoles), PlayerControl.LocalPlayer.getCustomRole()) + "Info")}";
+                TaskTextPrefix += "</color>\r\n";
+            }
             switch (PlayerControl.LocalPlayer.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{Utils.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateInfo")}</color>\r\n";
-                    TaskTextPrefix += FakeTasksText;
-                    break;
                 case CustomRoles.SKMadmate:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SKMadmate)}>{Utils.getRoleName(CustomRoles.SKMadmate)}</color>\r\n{getString("SKMadmateInfo")}\r\n";
-                    TaskTextPrefix += FakeTasksText;
-                    break;
-                case CustomRoles.MadGuardian:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadGuardian)}>{Utils.getRoleName(CustomRoles.MadGuardian)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.MadGuardian)}>{getString("MadGuardianInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.MadSnitch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{Utils.getRoleName(CustomRoles.MadSnitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.EvilWatcher:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{Utils.getRoleName(CustomRoles.EvilWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.NiceWatcher:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.NiceWatcher)}>{Utils.getRoleName(CustomRoles.NiceWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
-                    break;
                 case CustomRoles.Jester:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{Utils.getRoleName(CustomRoles.Jester)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{getString("JesterInfo")}</color>\r\n";
                     TaskTextPrefix += FakeTasksText;
-                    break;
-                case CustomRoles.Bait:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Bait)}>{Utils.getRoleName(CustomRoles.Bait)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Bait)}>{getString("BaitInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Terrorist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{Utils.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{getString("TerroristInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
                     if (!PlayerControl.LocalPlayer.CanUseKillButton())
-                    {
-                        TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{Utils.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{getString("BeforeMafiaInfo")}</color>\r\n";
                         __instance.KillButton.SetDisabled();
-                    }
-                    else
-                    {
-                        TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{Utils.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{getString("AfterMafiaInfo")}</color>\r\n";
-                    }
-                    break;
-                case CustomRoles.Vampire:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Vampire)}>{Utils.getRoleName(CustomRoles.Vampire)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Vampire)}>{getString("VampireInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SabotageMaster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{Utils.getRoleName(CustomRoles.SabotageMaster)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Mayor:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{Utils.getRoleName(CustomRoles.Mayor)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Opportunist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{getString("OpportunistInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Snitch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{Utils.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{getString("SnitchInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Sheriff:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{Utils.getRoleName(CustomRoles.Sheriff)}\r\n{getString("SheriffInfo")}</color>\r\n";
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                    {
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    }
-                    break;
-                case CustomRoles.BountyHunter:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.BountyHunter)}>{Utils.getRoleName(CustomRoles.BountyHunter)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyHunterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Witch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Witch)}>{Utils.getRoleName(CustomRoles.Witch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Witch)}>{getString("WitchInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.ShapeMaster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{Utils.getRoleName(CustomRoles.ShapeMaster)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{getString("ShapeMasterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Warlock:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{Utils.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{getString("WarlockInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SerialKiller:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SerialKiller)}>{Utils.getRoleName(CustomRoles.SerialKiller)}\r\n{getString("SerialKillerInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Lighter:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
-                    break;
                 case CustomRoles.Arsonist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{Utils.getRoleName(CustomRoles.Arsonist)}\r\n{getString("ArsonistInfo")}</color>\r\n";
                     if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                    {
                         PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    }
-                    break;
-                case CustomRoles.SpeedBooster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.CSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.CSchrodingerCat)}>{Utils.getRoleName(CustomRoles.CSchrodingerCat)}\r\n{getString("CSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.MSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MSchrodingerCat)}>{Utils.getRoleName(CustomRoles.MSchrodingerCat)}\r\n{getString("MSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.EgoSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.EgoSchrodingerCat)}>{Utils.getRoleName(CustomRoles.EgoSchrodingerCat)}\r\n{getString("EgoSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Egoist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{Utils.getRoleName(CustomRoles.Egoist)}\r\n{getString("EgoistInfo")}</color>\r\n";
                     break;
             }
 
