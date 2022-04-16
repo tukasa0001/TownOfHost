@@ -297,6 +297,8 @@ namespace TownOfHost
                                     main.SpeedBoostTarget.Add(player.PlayerId, 255);
                                 }
                             }
+                            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+                                main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
                         }
                     }
                     break;
@@ -356,10 +358,6 @@ namespace TownOfHost
                             opt.KillCooldown = 0.0001f;
                     }
                 }
-            }
-            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-            {
-                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
