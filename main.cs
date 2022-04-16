@@ -147,6 +147,8 @@ namespace TownOfHost
 
             NameColorManager.Begin();
 
+            Translator.init();
+
             BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
