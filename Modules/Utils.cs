@@ -18,7 +18,7 @@ namespace TownOfHost
 
             return false;
         }
-        public static void HasVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
             if (HasImpVision)
             {

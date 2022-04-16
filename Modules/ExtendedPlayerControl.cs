@@ -246,14 +246,14 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    opt.HasVision(player, false);
+                    opt.SetVision(player, false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                        opt.HasVision(player, true);
+                        opt.SetVision(player, true);
                     break;
                 case CustomRoles.EgoSchrodingerCat:
-                    opt.HasVision(player, true);
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -297,7 +297,7 @@ namespace TownOfHost
             {
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.HasVision(player, true);
+                        opt.SetVision(player, true);
                     break;
             }
             if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
