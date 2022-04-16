@@ -9,7 +9,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch
     {
-        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static bool ShowDebugText = false;
         public static int LastCallNotifyRolesPerSecond = 0;
         public static int NowCallNotifyRolesCount = 0;
@@ -20,6 +19,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
+            var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
@@ -172,9 +172,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
     class ToggleHighlightPatch
     {
-        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
+            var player = PlayerControl.LocalPlayer;
             if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
                 ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(player.getCustomRole()));
@@ -184,9 +184,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
     class FindClosestTargetPatch
     {
-        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
+            var player = PlayerControl.LocalPlayer;
             if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
@@ -197,9 +197,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
-        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
+            var player = PlayerControl.LocalPlayer;
             switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
@@ -221,9 +221,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
     class ShowNormalMapPatch
     {
-        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Prefix(ref RoleTeamTypes __state)
         {
+            var player = PlayerControl.LocalPlayer;
             if (player.isSheriff() || player.isArsonist())
             {
                 __state = player.Data.Role.TeamType;
@@ -233,6 +233,7 @@ namespace TownOfHost
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
+            var player = PlayerControl.LocalPlayer;
             if (player.isSheriff() || player.isArsonist())
             {
                 player.Data.Role.TeamType = __state;
