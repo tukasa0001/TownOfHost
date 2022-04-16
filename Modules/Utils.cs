@@ -461,7 +461,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                                                 //タスクを終えたSnitchがインポスターを確認できる
+                //タスクを終えたSnitchがインポスターを確認できる
                 if (seer.isSnitch())
                 {
                     var TaskState = seer.getPlayerTaskState();
