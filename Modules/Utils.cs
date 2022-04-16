@@ -8,6 +8,14 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static bool isActive(SystemTypes type)
+        {
+            var Electrical = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
+            if (Electrical != null && Electrical.IsActive)
+                return true;
+
+            return false;
+        }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount)
         {

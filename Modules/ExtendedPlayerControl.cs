@@ -246,16 +246,14 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
+                    if (Utils.isActive(SystemTypes.Electrical))
                     {
                         opt.ImpostorLightMod /= 5;
                     }
                     break;
                 case CustomRoles.Arsonist:
                     opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystema != null && switchSystema.IsActive)
+                    if (Utils.isActive(SystemTypes.Electrical))
                     {
                         opt.ImpostorLightMod /= 5;
                     }
@@ -264,8 +262,7 @@ namespace TownOfHost
                     if (player.getPlayerTaskState().isTaskFinished)
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
-                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (li != null && li.IsActive)
+                        if (Utils.isActive(SystemTypes.Electrical))
                         {
                             opt.CrewLightMod *= 5;
                         }
@@ -302,8 +299,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.CrewLightMod = opt.ImpostorLightMod;
-                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
+                    if (Utils.isActive(SystemTypes.Electrical))
                     {
                         opt.CrewLightMod *= 5;
                     }
@@ -323,8 +319,7 @@ namespace TownOfHost
                     if (Options.MadmateHasImpostorVision.GetBool())
                     {
                         opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
+                        if (Utils.isActive(SystemTypes.Electrical))
                         {
                             opt.CrewLightMod *= 5;
                         }
