@@ -9,6 +9,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch
     {
+        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static bool ShowDebugText = false;
         public static int LastCallNotifyRolesPerSecond = 0;
         public static int NowCallNotifyRolesCount = 0;
@@ -19,7 +20,7 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
-            if (PlayerControl.LocalPlayer == null) return;
+            if (player == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
@@ -28,15 +29,15 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
                     AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
-                    PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f, 127f);
+                    player.Collider.offset = new Vector2(0f, 127f);
                 }
             }
             //壁抜け解除
-            if (PlayerControl.LocalPlayer.Collider.offset.y == 127f)
+            if (player.Collider.offset.y == 127f)
             {
                 if (!Input.GetKey(KeyCode.LeftControl) || AmongUsClient.Instance.IsGameStarted)
                 {
-                    PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f, -0.3636f);
+                    player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
             //バウンティハンターのターゲットテキスト
@@ -53,17 +54,17 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (PlayerControl.LocalPlayer.isBountyHunter())
+            if (player.isBountyHunter())
             {
                 //バウンティハンター用処理
-                var target = PlayerControl.LocalPlayer.getBountyTarget();
-                LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + PlayerControl.LocalPlayer.getBountyTarget().name;
+                var target = player.getBountyTarget();
+                LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + player.getBountyTarget().name;
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             }
-            else if (PlayerControl.LocalPlayer.isWitch())
+            else if (player.isWitch())
             {
                 //魔女用処理
-                var ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
+                var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
                 LowerInfoText.enabled = true;
             }
@@ -77,21 +78,21 @@ namespace TownOfHost
                 LowerInfoText.enabled = false;
             }
 
-            if (!PlayerControl.LocalPlayer.getCustomRole().isVanilla())
+            if (!player.getCustomRole().isVanilla())
             {
-                TaskTextPrefix = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{PlayerControl.LocalPlayer.getRoleName()}\r\n";
-                if (PlayerControl.LocalPlayer.isMafia())
+                TaskTextPrefix = $"<color={player.getRoleColorCode()}>{player.getRoleName()}\r\n";
+                if (player.isMafia())
                 {
-                    if (!PlayerControl.LocalPlayer.CanUseKillButton())
+                    if (!player.CanUseKillButton())
                         TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
                     else
                         TaskTextPrefix += $"{getString("AfterMafiaInfo")}";
                 }
                 else
-                    TaskTextPrefix += $"{getString(Enum.GetName(typeof(CustomRoles), PlayerControl.LocalPlayer.getCustomRole()) + "Info")}";
+                    TaskTextPrefix += $"{getString(Enum.GetName(typeof(CustomRoles), player.getCustomRole()) + "Info")}";
                 TaskTextPrefix += "</color>\r\n";
             }
-            switch (PlayerControl.LocalPlayer.getCustomRole())
+            switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
                 case CustomRoles.SKMadmate:
@@ -99,13 +100,13 @@ namespace TownOfHost
                     TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.Mafia:
-                    if (!PlayerControl.LocalPlayer.CanUseKillButton())
+                    if (!player.CanUseKillButton())
                         __instance.KillButton.SetDisabled();
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
                     break;
             }
 
@@ -119,9 +120,9 @@ namespace TownOfHost
             {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
-                if (PlayerControl.LocalPlayer.AmOwner)
+                if (player.AmOwner)
                 {
-                    PlayerControl.LocalPlayer.MyPhysics.inputHandler.enabled = true;
+                    player.MyPhysics.inputHandler.enabled = true;
                     ConsoleJoystick.SetMode_Task();
                 }
             }
@@ -171,20 +172,22 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
     class ToggleHighlightPatch
     {
+        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
-            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) && !PlayerControl.LocalPlayer.Data.IsDead)
+            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
-                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
+                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(player.getCustomRole()));
             }
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
     class FindClosestTargetPatch
     {
+        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
-            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) &&
+            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 protecting = true;
@@ -194,19 +197,20 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
+        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
-            switch (PlayerControl.LocalPlayer.getCustomRole())
+            switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Arsonist:
-                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
@@ -217,20 +221,21 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]
     class ShowNormalMapPatch
     {
+        private static PlayerControl player = PlayerControl.LocalPlayer;
         public static void Prefix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
+            if (player.isSheriff() || player.isArsonist())
             {
-                __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
-                PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                __state = player.Data.Role.TeamType;
+                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             }
         }
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
+            if (player.isSheriff() || player.isArsonist())
             {
-                PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
+                player.Data.Role.TeamType = __state;
             }
         }
     }
