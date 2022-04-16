@@ -482,6 +482,15 @@ namespace TownOfHost
                 );
 
         }
+        public static string getVoteName(int num)
+        {
+            string name = "invalid";
+            if(num < 15) name = getPlayerById(num).getRealName();
+            if(num == 253) name = "Skip";
+            if(num == 254) name = "None";
+            if(num == 255) name = "Dead";
+            return name;
+        }
         public static Dictionary<byte, string> RealNames;
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static string TextCursor => TextCursorVisible ? "_" : "";
@@ -757,7 +766,7 @@ namespace TownOfHost
             var callerMethod = caller.GetMethod();
             string callerMethodName = callerMethod.Name;
             string callerClassName = callerMethod.DeclaringType.FullName;
-            TownOfHost.Logger.info("NotifyRolesが" + callerClassName + "." + callerMethodName + "から呼び出されました","NotifyRoles");
+            TownOfHost.Logger.info(callerClassName + "." + callerMethodName + "から呼び出されました","NotifyRoles");
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
@@ -774,7 +783,7 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START","NotifyRoles");
+                TownOfHost.Logger.info("Loop1-" + seer.name + ":START","NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
                 if(seer.Data.Disconnected) continue;
@@ -869,7 +878,7 @@ namespace TownOfHost
                     }
                     if(doCancel) continue;
 
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START","NotifyRoles");
+                    TownOfHost.Logger.info("Loop2-" + target.name + ":START","NotifyRoles");
 
                     //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                     string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead ? $"<color=#ffff00>({main.getTaskText(target.Data.Tasks)})</color>" : "";
@@ -906,9 +915,9 @@ namespace TownOfHost
                     target.RpcSetNamePrivate(TargetName, true, seer);
                     HudManagerPatch.LastSetNameDesyncCount++;
 
-                    TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END","NotifyRoles");
+                    TownOfHost.Logger.info("Loop2-" + target.name + ":END","NotifyRoles");
                 }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END","NotifyRoles");
+                TownOfHost.Logger.info("Loop1-" + seer.name + ":END","NotifyRoles");
             }
             main.witchMeeting = false;
         }
@@ -938,6 +947,8 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
+            TownOfHost.Logger.disable("getPlayerTaskState");
+            TownOfHost.Logger.disable("SetNameRPC");
 
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
