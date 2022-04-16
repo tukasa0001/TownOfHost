@@ -85,6 +85,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
         public static CustomOption SpeedBoosterUpSpeed;
+        public static CustomOption BlockMoveTime;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
@@ -270,7 +271,8 @@ namespace TownOfHost
             SetupRoleOptions(20500, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
-            SetupRoleOptions(20700, CustomRoles.Trapper);
+            SetupRoleOptions(20800, CustomRoles.Trapper);
+            BlockMoveTime = CustomOption.Create(20810, Color.white, "BlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             // Other
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);

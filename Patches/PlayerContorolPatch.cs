@@ -60,7 +60,7 @@ namespace TownOfHost
                 {
                     main.AllPlayerSpeed[__instance.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
                     __instance.CustomSyncSettings();
-                }, 10f, "Murder To Reset Cam");
+                }, Options.BlockMoveTime.GetFloat(), "Trapper BlockMove");
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
