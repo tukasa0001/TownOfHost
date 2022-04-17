@@ -24,8 +24,13 @@ namespace TownOfHost {
         public static void Update(float deltaTime) {
             var TasksToRemove = new List<LateTask>();
             Tasks.ForEach((task) => {
-                if(task.run(deltaTime)) {
-                    Logger.info($"\"{task.name}\" is finished","LateTask");
+                try {
+                    if(task.run(deltaTime)) {
+                        Logger.info($"\"{task.name}\" is finished","LateTask");
+                        TasksToRemove.Add(task);
+                    }
+                } catch(Exception ex) {
+                    Logger.error($"{ex.GetType().ToString()}: {ex.Message}  in \"{task.name}\"", "LateTask.Error");
                     TasksToRemove.Add(task);
                 }
             });
