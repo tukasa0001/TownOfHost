@@ -89,7 +89,7 @@ namespace TownOfHost
                         TaskTextPrefix += $"{getString("AfterMafiaInfo")}";
                 }
                 else
-                    TaskTextPrefix += $"{getString(Enum.GetName(typeof(CustomRoles), player.getRoleName()) + "Info")}";
+                    TaskTextPrefix += player.getCustomRole() + "Info";
                 TaskTextPrefix += "</color>\r\n";
             }
             switch (player.getCustomRole())
