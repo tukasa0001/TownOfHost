@@ -20,7 +20,7 @@ namespace TownOfHost
                 if (main.FinalTaskState[pc.PlayerId] == "null")
                     main.FinalTaskState[pc.PlayerId] = "";
             }
-            Logger.info("ゲームが終了","Phase");
+            Logger.info("ゲームが終了", "Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();
@@ -52,7 +52,7 @@ namespace TownOfHost
                     RoleType roleType = role.getRoleType();
                     bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
                     if (canWin) winner.Add(p);
-                    if (main.currentWinner == CustomWinner.Impostor &&  p.isEgoist() && !p.Data.IsDead && main.AliveImpostorCount == 0)
+                    if (main.currentWinner == CustomWinner.Impostor && p.isEgoist() && !p.Data.IsDead && main.AliveImpostorCount == 0)
                         main.currentWinner = CustomWinner.Egoist;
                 }
             }
@@ -245,10 +245,12 @@ namespace TownOfHost
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
                 case CustomWinner.Lovers:
-                    __instance.Foreground.material.color = Utils.getRoleColor(CustomRoles.Lovers);
-                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Lovers);
+                    var loversColor = Utils.getRoleColor(CustomRoles.Lovers);
+                    __instance.Foreground.material.color = loversColor;
+                    __instance.BackgroundBar.material.color = loversColor;
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Lovers)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Lovers);
+                    textRenderer.text = $"<color={loversColor}>恋人の勝利</color>";
                     break;
                 case CustomWinner.Arsonist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
@@ -284,13 +286,6 @@ namespace TownOfHost
                 {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
-            }
-            if (main.currentWinner == CustomWinner.Lovers)
-            {
-                var loversColor = Utils.getRoleColor(CustomRoles.Lovers);
-                __instance.Foreground.material.color = loversColor;
-                __instance.BackgroundBar.material.color = loversColor;
-                textRenderer.text = $"<color={loversColor}>恋人の勝利</color>";
             }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
