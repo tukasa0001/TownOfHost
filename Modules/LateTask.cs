@@ -30,7 +30,7 @@ namespace TownOfHost {
                         TasksToRemove.Add(task);
                     }
                 } catch(Exception ex) {
-                    Logger.error("in LateTask: " + ex.Message);
+                    Logger.error($"in \"{task.name}\" LateTask: {ex.Message}", "LateTask.Error");
                     TasksToRemove.Add(task);
                 }
             });
