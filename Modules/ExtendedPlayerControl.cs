@@ -608,6 +608,18 @@ namespace TownOfHost
                     break;
             }
         }
+        public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
+        {
+            Logger.SendToFile(target.name + $"はTrapperだった");
+                main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
+                killer.CustomSyncSettings();
+                new LateTask(() =>
+                {
+                    main.AllPlayerSpeed[killer.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    killer.CustomSyncSettings();
+                    RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
+                }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
