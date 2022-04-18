@@ -783,6 +783,8 @@ namespace TownOfHost
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach(var seer in PlayerControl.AllPlayerControls) {
+                string fontSize = "1.5";
+                if(isMeeting && (seer.getClient().PlatformData.Platform.ToString() == "Playstation" || seer.getClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.info("Loop1-" + seer.name + ":START","NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
@@ -806,7 +808,7 @@ namespace TownOfHost
 
                 if(seer.isBountyHunter() && seer.getBountyTarget() != null) {
                     string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
-                    SelfSuffix = $"<size=1.5>Target:{BountyTargetName}</size>";
+                    SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
                 }
                 if(seer.isWitch()) {
                     if(seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + main.getLang(lang.WitchModeKill);
@@ -817,7 +819,7 @@ namespace TownOfHost
                 string SeerRealName = seer.getRealName(isMeeting);
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfName = $"<size=1.5><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                string SelfName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
@@ -896,7 +898,7 @@ namespace TownOfHost
                     }
 
                     //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                    string TargetRoleText = seer.Data.IsDead ? $"<size=1.5><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
+                    string TargetRoleText = seer.Data.IsDead ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
                     //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                     string TargetPlayerName = target.getRealName(isMeeting);
