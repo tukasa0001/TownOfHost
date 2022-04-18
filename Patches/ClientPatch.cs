@@ -25,4 +25,16 @@ namespace TownOfHost {
             }
         }
     }
+    [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Update))]
+    class SplashLogoAnimatorPatch
+    {
+        public static void Prefix(SplashManager __instance)
+        {
+            if (main.AmDebugger.Value)
+            {
+                __instance.sceneChanger.AllowFinishLoadingScene();
+                __instance.startedSceneLoad = true;
+            }
+        }
+    }
 }
