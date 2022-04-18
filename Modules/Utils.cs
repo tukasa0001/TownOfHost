@@ -438,7 +438,7 @@ namespace TownOfHost
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
-                if (seer.isSnitch() || seer.isMadSnitch() && !isMeeting)
+                if (seer.isSnitch() && !isMeeting)
                 {
                     var TaskState = seer.getPlayerTaskState();
                     if (TaskState.isTaskFinished)

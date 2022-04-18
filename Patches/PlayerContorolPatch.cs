@@ -700,19 +700,19 @@ namespace TownOfHost
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (Options.SnitchEnableTargetArrow.GetBool() &&
-                        (__instance.isSnitch() || __instance.isMadSnitch()))
+                    if (Options.SnitchEnableTargetArrow.GetBool() && __instance.isSnitch())
                     {
                         var TaskState = __instance.getPlayerTaskState();
                         if (TaskState.isTaskFinished)
                         {
                             var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
                             var update = false;
-                            //マッドスニッチはインポスターしか見えない
-                            var snitchOption = __instance.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
-                                var foundCheck = pc.getCustomRole().isImpostor() || (snitchOption && pc.isEgoist());
+                                var foundCheck = 
+                                    pc.getCustomRole().isImpostor() || 
+                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.isEgoist());
+
                                 //発見対象じゃ無ければ次
                                 if (!foundCheck) continue;
 
