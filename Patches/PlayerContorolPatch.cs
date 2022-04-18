@@ -167,16 +167,13 @@ namespace TownOfHost
 
             foreach (var bp in main.BitPlayers)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
-                    {
-                        pc.RpcMurderPlayer(pc);
-                        main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
-                    }
-                    else
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                var pc = main.getPlayerById(bp.Key);
+                if(pc.Data.IsDead)
+                    Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                else{
+                    pc.RpcMurderPlayer(pc);
+                    main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
+                    Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
