@@ -52,6 +52,8 @@ namespace TownOfHost
                 Logger.SendToFile(target.name + "はTerroristだった");
                 Utils.CheckTerroristWin(target.Data);
             }
+            if (target.isTrapper() && !__instance.isTrapper())
+                __instance.TrapperKilled(target);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
@@ -364,6 +366,7 @@ namespace TownOfHost
                         pc.RpcMurderPlayer(pc);
                         RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                        Utils.getPlayerById(bp.Key).TrapperKilled(pc);
                     }
                     else
                         Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
@@ -419,6 +422,7 @@ namespace TownOfHost
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                            Utils.getPlayerById(vampireID).TrapperKilled(__instance);
                         }
                         else
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
