@@ -195,7 +195,7 @@ namespace TownOfHost
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
-            //if(__instance.Data.IsDead) return true;
+            if(__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
