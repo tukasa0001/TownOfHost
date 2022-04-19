@@ -59,6 +59,7 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            PlayerState.isDead[target.PlayerId] = true;
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();

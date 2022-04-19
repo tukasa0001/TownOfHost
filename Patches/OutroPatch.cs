@@ -304,6 +304,7 @@ namespace TownOfHost
             roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
             roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
+
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
             roleSummaryTextMesh.color = Color.white;
@@ -315,7 +316,6 @@ namespace TownOfHost
             var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
 
-            Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             string roleSummaryText = $"<color={CustomWinnerColor}>{Utils.getRoleSummary()}";
             roleSummaryTextMesh.text = $"{roleSummaryText}";
 
