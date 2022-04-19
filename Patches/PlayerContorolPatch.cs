@@ -122,8 +122,6 @@ namespace TownOfHost
                     else
                     {
                         //会議開始と同時キルでガードが外れてしまっている場合
-                        //自殺させる
-                        target.RpcMurderPlayer(target);
                         //キルブロック解除
                         main.BlockKilling[__instance.PlayerId] = false;
                     }
@@ -186,9 +184,13 @@ namespace TownOfHost
                 if(pc.Data.IsDead)
                     Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
                 else{
-                    pc.RpcMurderPlayer(pc);
-                    main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                    Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                    //ガードされた(会議ボタンのほうが早かった)時は殺さない
+                    if (!pc.protectedByGuardian)
+                    {
+                        pc.RpcMurderPlayer(pc);
+                        main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
+                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                    }
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
