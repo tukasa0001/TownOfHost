@@ -10,8 +10,9 @@ namespace TownOfHost
     {
         public static bool isActive(SystemTypes type)
         {
+            if (type != SystemTypes.Sabotage) return false;
             var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
-            Logger.info($"[SwitchSystem] SystemTypes:{type}");
+            Logger.info($"SystemTypes:{type}", "SwitchSystem");
 
             if (SwitchSystem != null && SwitchSystem.IsActive)
                 return true;
