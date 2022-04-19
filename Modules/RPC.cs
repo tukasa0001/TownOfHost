@@ -20,6 +20,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SetDeathReason,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -123,6 +124,11 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    break;
+                case (byte)CustomRPC.SetDeathReason:
+                    byte DeadTargetId = reader.ReadByte();
+                    PlayerState.DeathReason reason = (PlayerState.DeathReason)reader.ReadByte();
+                    PlayerState.deathReasons[DeadTargetId] = reason;
                     break;
                 case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
@@ -296,7 +302,6 @@ namespace TownOfHost
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
         }
-
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
             NameColorManager.Instance.Add(seerId, targetId, color);

@@ -55,7 +55,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
 | [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
 | [Madmate](###Madmate) | [Trapper](###Trapper) |  |
-| [MadGuardian](###MadGuardian) |  |  |
+| [MadGuardian](###MadGuardian) | [Doctor](###Doctor) |  |
 | [MadSnitch](###MadSnitch) |  |  |
 
 ### BountyHunter
@@ -302,6 +302,18 @@ Decision : Crewmate<br>
 When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
 
+### Doctor
+
+Team : Crewmates<br>
+Decision : Scientist<br>
+
+You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+
+#### Settings
+| Settings Name |
+|----------|
+| Doctor TaskCompletedVattery Charge |
+
 ### Jester
 
 Team : Neutral<br>
@@ -512,6 +524,7 @@ If the client language is English, this setting is meaningless unless the host h
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

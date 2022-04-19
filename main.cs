@@ -191,6 +191,7 @@ namespace TownOfHost
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
@@ -268,6 +269,7 @@ namespace TownOfHost
         Snitch,
         SpeedBooster,
         Trapper,
+        Doctor,
         //第三陣営
         Arsonist,
         Egoist,
