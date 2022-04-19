@@ -10,103 +10,109 @@ namespace TownOfHost
     class CheckForEndVotingPatch {
         public static bool Prefix(MeetingHud __instance) {
             try {
-            
-            
-            if(!AmongUsClient.Instance.AmHost) return true;
-            foreach(var ps in __instance.playerStates) {
-                if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
-                    return false;
-            }
-            
-
-            
-            MeetingHud.VoterState[] states;
-            GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
-            bool tie = false;
-
-            List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
-            for(var i = 0; i < __instance.playerStates.Length; i++) {
-                PlayerVoteArea ps = __instance.playerStates[i];
-                if(ps == null) continue;
-                Logger.info($"{ps.TargetPlayerId}({main.getVoteName(ps.TargetPlayerId)})\t=> {ps.VotedFor}({main.getVoteName(ps.VotedFor)})","Vote");
-                var voter = main.getPlayerById(ps.TargetPlayerId);
-                if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
-                {
-                    switch (main.whenSkipVote)
-                    {
-                        case VoteMode.Suicide:
-                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
-                            voter.RpcMurderPlayer(voter);
-                            main.IgnoreReportPlayers.Add(voter.PlayerId);
-                            break;
-                        case VoteMode.SelfVote:
-                            ps.VotedFor = ps.TargetPlayerId;
-                            break;
-                        default:
-                            break;
-                    }
+                if(!AmongUsClient.Instance.AmHost) return true;
+                foreach(var ps in __instance.playerStates) {
+                    if(!(ps.AmDead || ps.DidVote))//死んでいないプレイヤーが投票していない
+                        return false;
                 }
-                if(ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
-                {
-                    switch (main.whenNonVote)
+            
+                MeetingHud.VoterState[] states;
+                GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
+                bool tie = false;
+
+                List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
+                for(var i = 0; i < __instance.playerStates.Length; i++) {
+                    PlayerVoteArea ps = __instance.playerStates[i];
+                    if(ps == null) continue;
+                    Logger.info($"{ps.TargetPlayerId}({main.getVoteName(ps.TargetPlayerId)})\t=> {ps.VotedFor}({main.getVoteName(ps.VotedFor)})","Vote");
+                    var voter = main.getPlayerById(ps.TargetPlayerId);
+                    if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
+                    if(ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                     {
-                        case VoteMode.Suicide:
-                            main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
-                            voter.RpcMurderPlayer(voter);
-                            main.IgnoreReportPlayers.Add(voter.PlayerId);
-                            break;
-                        case VoteMode.SelfVote:
-                            ps.VotedFor = ps.TargetPlayerId;
-                            break;
-                        default:
-                            break;
+                        switch (main.whenSkipVote)
+                        {
+                            case VoteMode.Suicide:
+                                main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
+                                voter.RpcMurderPlayer(voter);
+                                main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                break;
+                            case VoteMode.SelfVote:
+                                ps.VotedFor = ps.TargetPlayerId;
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
-                statesList.Add(new MeetingHud.VoterState() {
-                    VoterId = ps.TargetPlayerId,
-                    VotedForId = ps.VotedFor
-                });
-                if(isMayor(ps.TargetPlayerId))//Mayorの投票数
-                for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
+                    if(ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
+                    {
+                        switch (main.whenNonVote)
+                        {
+                            case VoteMode.Suicide:
+                                main.ps.setDeathReason(ps.TargetPlayerId,PlayerState.DeathReason.Suicide);
+                                voter.RpcMurderPlayer(voter);
+                                main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                break;
+                            case VoteMode.SelfVote:
+                                ps.VotedFor = ps.TargetPlayerId;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     statesList.Add(new MeetingHud.VoterState() {
                         VoterId = ps.TargetPlayerId,
                         VotedForId = ps.VotedFor
                     });
+                    if(isMayor(ps.TargetPlayerId))//Mayorの投票数
+                    for(var i2 = 0; i2 < main.MayorAdditionalVote; i2++) {
+                        statesList.Add(new MeetingHud.VoterState() {
+                            VoterId = ps.TargetPlayerId,
+                            VotedForId = ps.VotedFor
+                        });
+                    }
                 }
-            }
-            states = statesList.ToArray();
+                states = statesList.ToArray();
 
-            var VotingData = __instance.CustomCalculateVotes();
-            byte exileId = byte.MaxValue;
-            int max = 0;
-            Logger.info("===追放者確認処理開始===","Vote");
-            foreach(var data in VotingData) {
-                Logger.info($"{data.Key}({main.getVoteName(data.Key)}): {data.Value}票","Vote");
-                if(data.Value > max)
+                var VotingData = __instance.CustomCalculateVotes();
+                byte exileId = byte.MaxValue;
+                int max = 0;
+                Logger.info("===追放者確認処理開始===","Vote");
+                foreach(var data in VotingData) {
+                    Logger.info($"{data.Key}({main.getVoteName(data.Key)}): {main.getVoteName(data.Value)}票","Vote");
+                    if(data.Value > max)
+                    {
+                        Logger.info($"{data.Key}({main.getVoteName(data.Key)})が最高値を更新({data.Value})","Vote");
+                        exileId = data.Key;
+                        max = data.Value;
+                        tie = false;
+                    } else if(data.Value == max) {
+                        Logger.info($"{data.Key}({main.getVoteName(data.Key)})が{exileId}({main.getVoteName(exileId)})と同数({data.Value})","Vote");
+                        exileId = byte.MaxValue;
+                        tie = true;
+                    }
+                    Logger.info($"exileId: {exileId}, max: {max}","Vote");
+                }
+
+                Logger.info($"追放者決定: {exileId}({main.getVoteName(exileId)}:{main.getPlayerById(exileId).getCustomRole()})","Vote");
+                exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+
+                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                if (!main.getPlayerById(exileId).isWitch())
                 {
-                    Logger.info($"{data.Key}({main.getVoteName(data.Key)})が最高値を更新({data.Value})","Vote");
-                    exileId = data.Key;
-                    max = data.Value;
-                    tie = false;
-                } else if(data.Value == max) {
-                    Logger.info($"{data.Key}({main.getVoteName(data.Key)})が{exileId}({main.getVoteName(exileId)})と同数({data.Value})","Vote");
-                    exileId = byte.MaxValue;
-                    tie = true;
+                    foreach (var p in main.SpelledPlayer)
+                    {
+                        main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        main.IgnoreReportPlayers.Add(p.PlayerId);
+                        p.RpcMurderPlayer(p);
+                    }
                 }
-                Logger.info($"exileId: {exileId}, max: {max}","Vote");
-            }
+                main.SpelledPlayer.Clear();
+                //霊界用暗転バグ対処
+                foreach (var pc in PlayerControl.AllPlayerControls) { 
+                    if(pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                }
 
-            Logger.info($"追放者決定: {exileId}({main.getVoteName(exileId)}:{main.getPlayerById(exileId).getCustomRole()})","Vote");
-            exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
-
-            __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
-
-            //霊界用暗転バグ対処
-            foreach(var pc in PlayerControl.AllPlayerControls)
-                if(pc.isSheriff() && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-            
-            return false;
+                return false;
 
 
             }
