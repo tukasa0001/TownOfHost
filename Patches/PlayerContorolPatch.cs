@@ -112,7 +112,22 @@ namespace TownOfHost
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
-                __instance.RpcGuardAndKill(target);
+                __instance.RpcProtectPlayer(target, 0);
+                new LateTask(() => {
+                    if (target.protectedByGuardian)
+                    {
+                        //通常はこちら
+                        __instance.RpcMurderPlayer(target);
+                    }
+                    else
+                    {
+                        //会議開始と同時キルでガードが外れてしまっている場合
+                        //自殺させる
+                        target.RpcMurderPlayer(target);
+                        //キルブロック解除
+                        main.BlockKilling[__instance.PlayerId] = false;
+                    }
+                }, 0.2f, "Vampire Bite");
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
@@ -178,7 +193,7 @@ namespace TownOfHost
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
-            if(__instance.Data.IsDead) return true;
+            //if(__instance.Data.IsDead) return true;
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
