@@ -164,13 +164,13 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                arsonist.RpcSetRoleDesync(RoleTypes.Engineer, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Engineer, arsonist);
+                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
                             }
                         }
                         else
                         {
-                            //ホストは代わりにエンジニアにする
+                            //ホストは代わりに普通のクルーにする
                             arsonist.RpcSetRole(RoleTypes.Crewmate);
                         }
                         arsonist.Data.IsDead = true;
