@@ -41,7 +41,7 @@ namespace TownOfHost
                 }
                 catch (Exception ex)
                 {
-                    Logger.error($"{ex.GetType().ToString()}: {ex.Message}  in \"{task.name}\"", "LateTask.Error");
+                    Logger.error($"{ex.GetType().ToString()}: {ex.Message}  in \"{task.name}\"\n{ex.StackTrace}", "LateTask.Error");
                     TasksToRemove.Add(task);
                 }
             });
