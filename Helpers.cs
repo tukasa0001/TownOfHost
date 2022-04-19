@@ -50,23 +50,20 @@ namespace TownOfHost {
     public class PlayerVersion
     {
         public readonly Version version;
-        public readonly int beta_ver;
         public readonly string tag;
-        public PlayerVersion(int major, int minor, int patch, int revision, int beta, string tag_str)
+        public PlayerVersion(int major, int minor, int patch, int revision, string tag_str)
         {
             version = new Version(major,minor,patch == -1?0:patch,revision == -1?0:revision);
-            beta_ver = beta;
             tag = tag_str;
         }
-        public PlayerVersion(Version ver, int beta, string tag_str)
+        public PlayerVersion(Version ver, string tag_str)
         {
             version = new Version(ver.Major,ver.Minor,ver.Build == -1?0:ver.Build,ver.Revision == -1?0:ver.Revision);
-            beta_ver = beta;
             tag = tag_str;
         }
         public bool isEqual(PlayerVersion pv)
         {
-            return (pv.version == version && pv.beta_ver == beta_ver && pv.tag == tag);
+            return (pv.version == version &&  pv.tag == tag);
         }
     }
 }

@@ -18,10 +18,6 @@ namespace TownOfHost
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.4.0";
-        public const VersionTypes PluginVersionType = VersionTypes.Released;
-        public const string BetaVersion = "0";
-        public const string BetaName = "";
-        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -743,7 +739,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + modColor + ">TOH v" + PluginVersion + VersionSuffix + "</color>";
+                        name += "\r\n<color=" + modColor + ">TOH v" + PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += "\r\n配信中";
@@ -1560,11 +1556,6 @@ namespace TownOfHost
         TOH,
         Streaming,
         Recording
-    }
-    public enum VersionTypes
-    {
-        Released = 0,
-        Beta = 1
     }
 
     public enum VoteMode

@@ -236,7 +236,6 @@ namespace TownOfHost
                 }
 
                 if(__instance.AmOwner) main.ApplySuffix();
-                if(main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             //役職テキストの表示
