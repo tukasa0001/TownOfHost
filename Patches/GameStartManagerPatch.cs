@@ -25,12 +25,6 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                // Make Public Button
-                if(main.PluginVersionType == VersionTypes.Beta) {
-                    __instance.MakePublicButton.color = Palette.DisabledClear;
-                    __instance.privatePublicText.color = Palette.DisabledClear;
-                }
-
                 if (AmongUsClient.Instance.AmHost && main.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
                 {
                     new LateTask(() =>
