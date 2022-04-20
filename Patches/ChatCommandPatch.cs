@@ -284,7 +284,7 @@ namespace TownOfHost
                     Utils.SendMessage(getString("LighterInfoLong"));
                     break;
 
-                case "loves":
+                case "lovers":
                 case "lo":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Lovers) + getString("LoversInfoLong"));
                     break;
