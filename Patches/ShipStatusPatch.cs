@@ -24,7 +24,7 @@ namespace TownOfHost
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -215,7 +215,7 @@ namespace TownOfHost
                 {
                     return;
                 }
-                
+
                 if (0 <= amount && amount <= 4)
                 {
                     __instance.ActualSwitches = 0;
@@ -231,26 +231,27 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.info("ShipStatus.Start");
-            Logger.info("ゲームが開始","Phase");
-            
+            Logger.info("ゲームが開始", "Phase");
+
             Logger.info("--------名前表示--------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
+                pc.nameText.text = pc.name;
             }
             Logger.info("----------環境----------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
+                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                 {
                     text += $":Mod({pv.version}:";
-                    text += pv.beta_ver == -1? ":" : pv.beta_ver+":";
+                    text += pv.beta_ver == -1 ? ":" : pv.beta_ver + ":";
                     text += $"{pv.tag})";
-                }else text += ":Vanilla";
+                }
+                else text += ":Vanilla";
                 Logger.info(text);
             }
             Logger.info("---------その他---------");
