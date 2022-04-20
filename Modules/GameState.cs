@@ -28,7 +28,11 @@ namespace TownOfHost
         public static List<byte> players = new List<byte>();
         public static Dictionary<byte, bool> isDead = new Dictionary<byte, bool>();
         public static Dictionary<byte, DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
-        public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
+        public static void setDeathReason(byte p, DeathReason reason)
+        {
+            deathReasons[p] = reason;
+            isDead[p] = true;
+        }
         public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
 

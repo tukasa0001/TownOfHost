@@ -48,7 +48,6 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
-                PlayerState.isDead[exiled.PlayerId] = true;
             }
             if (exiled == null && main.SpelledPlayer != null)
             {
