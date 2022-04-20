@@ -23,7 +23,7 @@ namespace TownOfHost
                 List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
                 for(var i = 0; i < __instance.playerStates.Length; i++) {
                     PlayerVoteArea ps = __instance.playerStates[i];
-                    if(ps == null) continue;
+                    if (ps == null || ps.AmDead ) continue;
                     Logger.info($"{ps.TargetPlayerId}({main.getVoteName(ps.TargetPlayerId)})\t=> {ps.VotedFor}({main.getVoteName(ps.VotedFor)})","Vote");
                     var voter = main.getPlayerById(ps.TargetPlayerId);
                     if(voter == null || voter.Data == null || voter.Data.Disconnected) continue;
