@@ -211,7 +211,7 @@ HideAndSeekRoles,HideAndSeek Roles,鬼ごっこの役職
 DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
-DeathReason.Spell,Spelled,
+DeathReason.Spell,Spelled,呪殺
 DeathReason.LoversSuicide,恋人心中
 DeathReason.Bite,Bited,噛殺
 DeathReason.Bombed,Bombed,爆死
