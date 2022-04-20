@@ -1,4 +1,6 @@
 id,0,11
+
+#役職
 Crewmate,Crewmate,クルーメイト
 Engineer,Engineer,エンジニア
 Scientist,Scientist,科学者
@@ -36,9 +38,13 @@ Sheriff,Sheriff,シェリフ
 Arsonist,Arsonist,アーソニスト
 Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
+Trapper,Trapper,トラッパー
 Fox,Fox,狐
 Troll,Troll,トロール
 TeamImpostor,Team Impostor,インポスター陣営
+LastImpostor,Last Impostor,ラストインポスター
+
+#役職説明ショート
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
@@ -70,8 +76,11 @@ SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
 SpeedBoosterInfo,Let's them run.,走らせろ
+TrapperInfo,Trap your enemies,敵を罠にはめよう
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
 TrollInfo,Die to win,自爆しよう
+
+#役職説明ロング
 BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
@@ -98,18 +107,52 @@ SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can 
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 LoversInfoLong,"(Neutrals),\nRandomly to 2 from all players,Third camp that is cast in duplicate with other positions.\nWin if the match ends with both lovers alive.\nWhen one of your lovers dies, the other dies too.\nDefeated when the crewmate's task is completed.",(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
+TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
 FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
-LastImpostor,Last Impostor,ラストインポスター
+
+#モードオプション
 HideAndSeek,HideAndSeek,鬼ごっこ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
 RandomMapsMode,RandomMapsMode,ランダムマップモード
+SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回)
+AddedTheSkeld,Added TheSkeld,TheSkeldを追加
+AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
+AddedPolus,Added Polus,Polusを追加
+AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+DisableTasks,Disable Tasks,タスクを無効化する
+DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
+DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
+DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスクを無効化する
+DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスクを無効化する
+DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスクを無効化する
+DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスクを無効化する
+SuffixMode,Suffix,名前の二行目
+SuffixMode.None,None,なし
+SuffixMode.Version,Version,バージョン
+SuffixMode.Streaming,Streaming,配信中
+SuffixMode.Recording,Recording,録画中
+RoleOptions,Role Options,役職設定
+ModeOptions,Mode Options,モード設定
+ForceJapanese,Force Japanese,日本語に強制
+AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示
+VoteMode,VoteMode,投票モード
+WhenSkipVote,When Skip Vote,スキップ時
+WhenNonVote,When Non-Vote,無投票時
+Default,Default,デフォルト
+Suicide,Suicide,切腹
+SelfVote,SelfVote,自投票
+Skip,Skip,スキップ
+
+#モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
+
+#詳細設定
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
@@ -147,50 +190,24 @@ SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
-HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
-AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
+ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
+ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
+CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
+
+#鬼ごっこ設定
+HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
+AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SpeedBoosterUpSpeed,Speed at speed up,スピードアップ時の速さ
+TrapperBlockMoveTime,Block Move Time,移動を封じる時間
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
-IgnoreCosmetics,Ignore Cosmetics,装飾品を禁止する
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
 HideAndSeekRoles,HideAndSeek Roles,鬼ごっこの役職
-SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回)
-DisableTasks,Disable Tasks,タスクを無効化する
-DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
-DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
-DisableUnlockSafeTask,Disable UnlockSafe Tasks,金庫タスクを無効化する
-DisableUploadDataTask,Disable UploadData Tasks,ダウンロードタスクを無効化する
-DisableStartReactorTask,Disable StartReactor Tasks,原子炉起動タスクを無効化する
-DisableResetBreakerTask,Disable ResetBreaker Tasks,ブレーカーリセットタスクを無効化する
-AddedTheSkeld,Added TheSkeld,TheSkeldを追加
-AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
-AddedPolus,Added Polus,Polusを追加
-AddedDleks,Added Dleks,Dleksを追加
-AddedTheAirShip,Added TheAirShip,TheAirShipを追加
-SuffixMode,Suffix,名前の二行目
-SuffixMode.None,None,なし
-SuffixMode.Version,Version,バージョン
-SuffixMode.Streaming,Streaming,配信中
-SuffixMode.Recording,Recording,録画中
-WhenSkipVote,When Skip Vote,スキップ時
-WhenNonVote,When Non-Vote,無投票時
-WitchCurrentMode,Current Mode,現在のモード
-WitchModeKill,Kill,キル
-WitchModeSpell,Spell,スペル
-BountyCurrentTarget,Current Target,現在のターゲット
-RoleOptions,Role Options,役職設定
-ModeOptions,Mode Options,モード設定
-ForceJapanese,Force Japanese,日本語に強制
-AutoDisplayLastResult,Auto Display Last Result,自動的に試合結果を表示
-LastResult,Last Result,試合結果
-VoteMode,VoteMode,投票モード
-Default,Default,デフォルト
-Suicide,Suicide,切腹
-SelfVote,SelfVote,自投票
-Skip,Skip,スキップ
+
+#死因
 DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
@@ -204,19 +221,22 @@ DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
-ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
-ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
-NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
-CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
+
+#その他
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
-ON,ON,ON
-OFF,OFF,OFF
+On,ON,オン
+Off,OFF,オフ
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
+WitchCurrentMode,Current Mode,現在のモード
+WitchModeKill,Kill,キル
+WitchModeSpell,Spell,スペル
+BountyCurrentTarget,Current Target,現在のターゲット
 Roles,Roles,役職
 Settings,Settings,設定
 Attributes,Attributes,属性
 RoleAssignment,Role Assignment,ロール割り当て
+LastResult,Last Result,試合結果
 Maximum,Maximum,最大数
 Rate0,0%,0%
 Rate10,10%,10%
@@ -238,6 +258,4 @@ Preset_5,Preset 5,プリセット5
 Standard,Standard,スタンダード
 GameMode,GameMode,ゲームモード
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
-On,On,オン
-Off,Off,オフ
 RoleSummaryText,"Players and roles at the end of the game:",ゲーム終了時の役職一覧:

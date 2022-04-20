@@ -70,6 +70,7 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
+        public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
@@ -149,6 +150,8 @@ namespace TownOfHost
 
             NameColorManager.Begin();
 
+            Translator.init();
+
             BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
@@ -190,6 +193,7 @@ namespace TownOfHost
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
@@ -266,6 +270,7 @@ namespace TownOfHost
         Sheriff,
         Snitch,
         SpeedBooster,
+        Trapper,
         //第三陣営
         Arsonist,
         Egoist,

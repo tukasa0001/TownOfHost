@@ -304,6 +304,8 @@ namespace TownOfHost
                                     main.SpeedBoostTarget.Add(player.PlayerId, 255);
                                 }
                             }
+                            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+                                main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
                         }
                     }
                     break;
@@ -351,9 +353,18 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+            if (main.AllPlayerSpeed.ContainsKey(player.PlayerId))
             {
-                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
+                foreach (var speed in main.AllPlayerSpeed)
+                {
+                    if (speed.Key == player.PlayerId)
+                    {
+                        if (speed.Value > 0)
+                            opt.PlayerSpeedMod = speed.Value;
+                        else
+                            opt.PlayerSpeedMod = 0.0001f;
+                    }
+                }
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -606,6 +617,18 @@ namespace TownOfHost
             if (player.isLastImpostor())
                 main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
         }
+        public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
+        {
+            Logger.SendToFile(target.name + $"はTrapperだった");
+            main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
+            killer.CustomSyncSettings();
+            new LateTask(() =>
+            {
+                main.AllPlayerSpeed[killer.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                killer.CustomSyncSettings();
+                RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
+            }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
@@ -637,6 +660,7 @@ namespace TownOfHost
         public static bool isLovers(this PlayerControl target) { return target.getCustomSubRole() == CustomRoles.Lovers; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
+        public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }

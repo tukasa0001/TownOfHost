@@ -54,7 +54,7 @@ Pressing the Tab key in the standby lobby will change the room setting screen to
 | [Witch](###Witch) | [Lighter](###Lighter)| [Egoist](###Egoist) |
 | [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
 | [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
-| [Madmate](###Madmate) |  |  |
+| [Madmate](###Madmate) | [Trapper](###Trapper) |  |
 | [MadGuardian](###MadGuardian) |  |  |
 | [MadSnitch](###MadSnitch) |  |  |
 
@@ -224,6 +224,19 @@ Completing the task will make a random surviving player speed up.<br>
 | Settings Name |
 |----------|
 | Speed at speed up |
+
+### Trapper
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+When killed, it immobilizes the killed player for a few seconds.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Block Move Time |
 
 ### Mayor
 

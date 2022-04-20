@@ -15,6 +15,7 @@ namespace TownOfHost
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
             main.AllPlayerKillCooldown = new Dictionary<byte, float>();
+            main.AllPlayerSpeed = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
             main.SerialKillerTimer = new Dictionary<byte, float>();
             main.WarlockTimer = new Dictionary<byte, float>();
@@ -49,6 +50,7 @@ namespace TownOfHost
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
@@ -308,6 +310,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
                 if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);

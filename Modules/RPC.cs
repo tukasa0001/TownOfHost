@@ -28,7 +28,8 @@ namespace TownOfHost
     }
     public enum Sounds
     {
-        KillSound
+        KillSound,
+        TaskComplete
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch
@@ -290,6 +291,9 @@ namespace TownOfHost
                 {
                     case Sounds.KillSound:
                         SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                        break;
+                    case Sounds.TaskComplete:
+                        SoundManager.Instance.PlaySound(DestroyableSingleton<HudManager>.Instance.TaskCompleteSound, false, 0.8f);
                         break;
                 }
             }
