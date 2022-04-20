@@ -247,7 +247,6 @@ namespace TownOfHost
                     break;
                 case CustomWinner.Lovers:
                     var loversColor = Utils.getRoleColor(CustomRoles.Lovers);
-                    __instance.Foreground.material.color = loversColor;
                     __instance.BackgroundBar.material.color = loversColor;
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Lovers)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Lovers);
