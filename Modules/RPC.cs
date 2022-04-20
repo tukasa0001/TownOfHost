@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -179,8 +180,9 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
-        public static void RpcVersionCheck()
+        public static async void RpcVersionCheck()
         {
+            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
             writer.WritePacked(main.version.Major);
             writer.WritePacked(main.version.Minor);
