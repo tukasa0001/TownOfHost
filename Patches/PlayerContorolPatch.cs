@@ -797,7 +797,7 @@ namespace TownOfHost
                 //前回から変わってたら登録して更新フラグ
                 main.targetArrows[key] = arrow;
                 updateFlag = true;
-                Logger.info($"{seer.name}->{target.name}:{arrow}");
+                //Logger.info($"{seer.name}->{target.name}:{arrow}");
             }
             return updateFlag;
         }
