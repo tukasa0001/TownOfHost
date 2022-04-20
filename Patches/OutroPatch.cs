@@ -322,7 +322,6 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
                 roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
