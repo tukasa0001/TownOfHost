@@ -29,7 +29,6 @@ namespace TownOfHost
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
                     Options.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
-                    Logger.SendToFile("HaSKillDelayTimer: " + Options.HideAndSeekKillDelayTimer);
                 }
                 else if (!float.IsNaN(Options.HideAndSeekKillDelayTimer))
                 {
