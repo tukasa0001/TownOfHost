@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-      <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-      <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-      <Description>Town Of Host</Description>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+    <Description>Town Of Host</Description>
     <Authors>tukasa0001(EmptyBottle), integral0131</Authors>
     <langVersion>preview</langVersion>
   </PropertyGroup>
