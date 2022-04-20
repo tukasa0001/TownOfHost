@@ -112,7 +112,20 @@ namespace TownOfHost
             }
             if (__instance.isVampire() && !target.isBait())
             { //キルキャンセル&自爆処理
-                __instance.RpcGuardAndKill(target);
+                __instance.RpcProtectPlayer(target, 0);
+                new LateTask(() => {
+                    if (target.protectedByGuardian)
+                    {
+                        //通常はこちら
+                        __instance.RpcMurderPlayer(target);
+                    }
+                    else
+                    {
+                        //会議開始と同時キルでガードが外れてしまっている場合
+                        //キルブロック解除
+                        main.BlockKilling[__instance.PlayerId] = false;
+                    }
+                }, 0.2f, "Vampire Bite");
                 main.BitPlayers.Add(target.PlayerId, (__instance.PlayerId, 0f));
                 return false;
             }
@@ -171,9 +184,13 @@ namespace TownOfHost
                 if(pc.Data.IsDead)
                     Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
                 else{
-                    pc.RpcMurderPlayer(pc);
-                    main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                    Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                    //ガードされた(会議ボタンのほうが早かった)時は殺さない
+                    if (!pc.protectedByGuardian)
+                    {
+                        pc.RpcMurderPlayer(pc);
+                        main.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
+                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                    }
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
