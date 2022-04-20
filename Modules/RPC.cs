@@ -23,7 +23,8 @@ namespace TownOfHost
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
-        DoSpell
+        DoSpell,
+        SetLoversPlayers,
     }
     public enum Sounds
     {
@@ -139,6 +140,12 @@ namespace TownOfHost
                     break;
                 case (byte)CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
+                case (byte)CustomRPC.SetLoversPlayers:
+                    main.LoversPlayers.Clear();
+                    int count = reader.ReadInt32();
+                    for (int i = 0; i < count; i++)
+                        main.LoversPlayers.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
             }
         }
@@ -316,6 +323,17 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
             writer.Write(player);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SyncLoversPlaysrs()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
+            writer.Write(main.LoversPlayers.Count);
+            foreach (var lp in main.LoversPlayers)
+            {
+                writer.Write(lp.PlayerId);
+            }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
