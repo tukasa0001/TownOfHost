@@ -8,7 +8,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hazel;
 using System.Linq;
+using System.Reflection;
 
+[assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
