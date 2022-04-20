@@ -52,7 +52,6 @@ namespace TownOfHost
                     int minor = reader.ReadPackedInt32();
                     int patch = reader.ReadPackedInt32();
                     int revision = reader.ReadPackedInt32();
-                    _ = reader.ReadPackedInt32();
                     string tag = reader.ReadString();
                     main.playerVersion[__instance.PlayerId] = new PlayerVersion(major,minor,patch,revision,tag);
                     break;
