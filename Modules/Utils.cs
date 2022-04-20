@@ -269,7 +269,7 @@ namespace TownOfHost
             SendMessage(text);
         }
 
-        private static string GetShowLastSubRolesText(byte id)
+        public static string GetShowLastSubRolesText(byte id)
         {
             return main.AllPlayerCustomSubRoles[id] == CustomRoles.NoSubRoleAssigned ? "" : " + " + getRoleName(main.AllPlayerCustomSubRoles[id]);
         }

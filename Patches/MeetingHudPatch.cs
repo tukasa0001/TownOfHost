@@ -253,7 +253,10 @@ namespace TownOfHost
                 if (PlayerControl.LocalPlayer.isLovers() && pc.isLovers())
                 {
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
-                    pc.nameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                }
+                else if (PlayerControl.LocalPlayer.Data.IsDead && pc.isLovers())
+                {
+                    pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     pc.isEgoist() //変更対象がEgoist
