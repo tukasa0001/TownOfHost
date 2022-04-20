@@ -26,8 +26,7 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason)
-            && (main.isLoversDead && CustomRoles.Lovers.isEnable())) //タスク終えた時にラバーズが死んでいること
+            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default)
                 {
@@ -41,8 +40,7 @@ namespace TownOfHost
                     if (canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason)
-            && (main.isLoversDead && CustomRoles.Lovers.isEnable())) //インポスター勝ちの時にラバーズが死んでいること
+            if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default)
                     main.currentWinner = CustomWinner.Impostor;
@@ -100,7 +98,10 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.currentWinner != CustomWinner.Draw)
+            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
+            && main.currentWinner != CustomWinner.Draw //廃村じゃない
+            && (main.currentWinner == CustomWinner.Crewmate || main.currentWinner == CustomWinner.Impostor) //クルー or インポ勝利
+            && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))   //タスク勝ちじゃなければ
             { //Loversの単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 winner = new();
