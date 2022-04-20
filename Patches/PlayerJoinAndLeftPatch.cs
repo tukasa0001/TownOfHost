@@ -12,7 +12,7 @@ namespace TownOfHost
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            new LateTask(() => RPC.RpcVersionCheck(), 0.5f, "RpcVersionCheck");
+            RPC.RpcVersionCheck();
 
             NameColorManager.Begin();
             Options.Load();

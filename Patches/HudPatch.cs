@@ -19,7 +19,8 @@ namespace TownOfHost
         public static TMPro.TextMeshPro LowerInfoText;
         public static void Postfix(HudManager __instance)
         {
-            if (PlayerControl.LocalPlayer == null) return;
+            var player = PlayerControl.LocalPlayer;
+            if (player == null) return;
             var TaskTextPrefix = "";
             var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             //壁抜け
@@ -28,17 +29,19 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
                     AmongUsClient.Instance.GameMode == GameModes.FreePlay)
                 {
-                    PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f, 127f);
+                    player.Collider.offset = new Vector2(0f, 127f);
                 }
             }
             //壁抜け解除
-            if (PlayerControl.LocalPlayer.Collider.offset.y == 127f)
+            if (player.Collider.offset.y == 127f)
             {
                 if (!Input.GetKey(KeyCode.LeftControl) || AmongUsClient.Instance.IsGameStarted)
                 {
-                    PlayerControl.LocalPlayer.Collider.offset = new Vector2(0f, -0.3636f);
+                    player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
+            //ゲーム中でなければ以下は実行されない
+            if (!AmongUsClient.Instance.IsGameStarted) return;
             //バウンティハンターのターゲットテキスト
             if (LowerInfoText == null)
             {
@@ -53,17 +56,17 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (PlayerControl.LocalPlayer.isBountyHunter())
+            if (player.isBountyHunter())
             {
                 //バウンティハンター用処理
-                var target = PlayerControl.LocalPlayer.getBountyTarget();
-                LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + PlayerControl.LocalPlayer.getBountyTarget().name;
+                var target = player.getBountyTarget();
+                LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + player.getBountyTarget().name;
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             }
-            else if (PlayerControl.LocalPlayer.isWitch())
+            else if (player.isWitch())
             {
                 //魔女用処理
-                var ModeLang = PlayerControl.LocalPlayer.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
+                var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
                 LowerInfoText.enabled = true;
             }
@@ -77,113 +80,35 @@ namespace TownOfHost
                 LowerInfoText.enabled = false;
             }
 
-            switch (PlayerControl.LocalPlayer.getCustomRole())
+            if (!player.getCustomRole().isVanilla())
+            {
+                TaskTextPrefix = $"<color={player.getRoleColorCode()}>{player.getRoleName()}\r\n";
+                if (player.isMafia())
+                {
+                    if (!player.CanUseKillButton())
+                        TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
+                    else
+                        TaskTextPrefix += $"{getString("AfterMafiaInfo")}";
+                }
+                else
+                    TaskTextPrefix += $"{getString(player.getCustomRole() + "Info")}";
+                TaskTextPrefix += "</color>\r\n";
+            }
+            switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{Utils.getRoleName(CustomRoles.Madmate)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Madmate)}>{getString("MadmateInfo")}</color>\r\n";
-                    TaskTextPrefix += FakeTasksText;
-                    break;
                 case CustomRoles.SKMadmate:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SKMadmate)}>{Utils.getRoleName(CustomRoles.SKMadmate)}</color>\r\n{getString("SKMadmateInfo")}\r\n";
-                    TaskTextPrefix += FakeTasksText;
-                    break;
-                case CustomRoles.MadGuardian:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadGuardian)}>{Utils.getRoleName(CustomRoles.MadGuardian)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.MadGuardian)}>{getString("MadGuardianInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.MadSnitch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{Utils.getRoleName(CustomRoles.MadSnitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.MadSnitch)}>{getString("MadSnitchInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.EvilWatcher:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{Utils.getRoleName(CustomRoles.EvilWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.NiceWatcher:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.NiceWatcher)}>{Utils.getRoleName(CustomRoles.NiceWatcher)}\r\n{getString("WatcherInfo")}</color>\r\n";
-                    break;
                 case CustomRoles.Jester:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{Utils.getRoleName(CustomRoles.Jester)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Jester)}>{getString("JesterInfo")}</color>\r\n";
                     TaskTextPrefix += FakeTasksText;
-                    break;
-                case CustomRoles.Bait:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Bait)}>{Utils.getRoleName(CustomRoles.Bait)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Bait)}>{getString("BaitInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Terrorist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{Utils.getRoleName(CustomRoles.Terrorist)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Terrorist)}>{getString("TerroristInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Mafia:
-                    if (!PlayerControl.LocalPlayer.CanUseKillButton())
-                    {
-                        TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{Utils.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{getString("BeforeMafiaInfo")}</color>\r\n";
+                    if (!player.CanUseKillButton())
                         __instance.KillButton.SetDisabled();
-                    }
-                    else
-                    {
-                        TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{Utils.getRoleName(CustomRoles.Mafia)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mafia)}>{getString("AfterMafiaInfo")}</color>\r\n";
-                    }
-                    break;
-                case CustomRoles.Vampire:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Vampire)}>{Utils.getRoleName(CustomRoles.Vampire)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Vampire)}>{getString("VampireInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SabotageMaster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{Utils.getRoleName(CustomRoles.SabotageMaster)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.SabotageMaster)}>{getString("SabotageMasterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Mayor:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{Utils.getRoleName(CustomRoles.Mayor)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Mayor)}>{getString("MayorInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Opportunist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{getString("OpportunistInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Snitch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{Utils.getRoleName(CustomRoles.Snitch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>{getString("SnitchInfo")}</color>\r\n";
                     break;
                 case CustomRoles.Sheriff:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Sheriff)}>{Utils.getRoleName(CustomRoles.Sheriff)}\r\n{getString("SheriffInfo")}</color>\r\n";
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                    {
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    }
-                    break;
-                case CustomRoles.BountyHunter:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.BountyHunter)}>{Utils.getRoleName(CustomRoles.BountyHunter)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.BountyHunter)}>{getString("BountyHunterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Witch:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Witch)}>{Utils.getRoleName(CustomRoles.Witch)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Witch)}>{getString("WitchInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.ShapeMaster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{Utils.getRoleName(CustomRoles.ShapeMaster)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.ShapeMaster)}>{getString("ShapeMasterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Warlock:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{Utils.getRoleName(CustomRoles.Warlock)}</color>\r\n<color={Utils.getRoleColorCode(CustomRoles.Warlock)}>{getString("WarlockInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SerialKiller:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SerialKiller)}>{Utils.getRoleName(CustomRoles.SerialKiller)}\r\n{getString("SerialKillerInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Lighter:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Lighter)}>{Utils.getRoleName(CustomRoles.Lighter)}\r\n{getString("LighterInfo")}</color>\r\n";
-                    break;
                 case CustomRoles.Arsonist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{Utils.getRoleName(CustomRoles.Arsonist)}\r\n{getString("ArsonistInfo")}</color>\r\n";
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                    {
-                        PlayerControl.LocalPlayer.Data.Role.CanUseKillButton = true;
-                    }
-                    break;
-                case CustomRoles.SpeedBooster:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SpeedBooster)}>{Utils.getRoleName(CustomRoles.SpeedBooster)}\r\n{getString("SpeedBoosterInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.SchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}\r\n{getString("SchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.CSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.CSchrodingerCat)}>{Utils.getRoleName(CustomRoles.CSchrodingerCat)}\r\n{getString("CSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.MSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.MSchrodingerCat)}>{Utils.getRoleName(CustomRoles.MSchrodingerCat)}\r\n{getString("MSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.EgoSchrodingerCat:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.EgoSchrodingerCat)}>{Utils.getRoleName(CustomRoles.EgoSchrodingerCat)}\r\n{getString("EgoSchrodingerCatInfo")}</color>\r\n";
-                    break;
-                case CustomRoles.Egoist:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{Utils.getRoleName(CustomRoles.Egoist)}\r\n{getString("EgoistInfo")}</color>\r\n";
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
                     break;
             }
 
@@ -197,9 +122,9 @@ namespace TownOfHost
             {
                 Action<MapBehaviour> tmpAction = (MapBehaviour m) => { m.ShowSabotageMap(); };
                 __instance.ShowMap(tmpAction);
-                if (PlayerControl.LocalPlayer.AmOwner)
+                if (player.AmOwner)
                 {
-                    PlayerControl.LocalPlayer.MyPhysics.inputHandler.enabled = true;
+                    player.MyPhysics.inputHandler.enabled = true;
                     ConsoleJoystick.SetMode_Task();
                 }
             }
@@ -251,9 +176,10 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
-            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) && !PlayerControl.LocalPlayer.Data.IsDead)
+            var player = PlayerControl.LocalPlayer;
+            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
-                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(PlayerControl.LocalPlayer.getCustomRole()));
+                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(player.getCustomRole()));
             }
         }
     }
@@ -262,7 +188,8 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
-            if ((PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Sheriff || PlayerControl.LocalPlayer.getCustomRole() == CustomRoles.Arsonist) &&
+            var player = PlayerControl.LocalPlayer;
+            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 protecting = true;
@@ -274,17 +201,18 @@ namespace TownOfHost
     {
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
-            switch (PlayerControl.LocalPlayer.getCustomRole())
+            var player = PlayerControl.LocalPlayer;
+            switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
-                    if (PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Arsonist:
-                    __instance.KillButton.ToggleVisible(isActive && !PlayerControl.LocalPlayer.Data.IsDead);
+                    __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
@@ -297,18 +225,20 @@ namespace TownOfHost
     {
         public static void Prefix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
+            var player = PlayerControl.LocalPlayer;
+            if (player.isSheriff() || player.isArsonist())
             {
-                __state = PlayerControl.LocalPlayer.Data.Role.TeamType;
-                PlayerControl.LocalPlayer.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                __state = player.Data.Role.TeamType;
+                player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             }
         }
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
-            if (PlayerControl.LocalPlayer.isSheriff() || PlayerControl.LocalPlayer.isArsonist())
+            var player = PlayerControl.LocalPlayer;
+            if (player.isSheriff() || player.isArsonist())
             {
-                PlayerControl.LocalPlayer.Data.Role.TeamType = __state;
+                player.Data.Role.TeamType = __state;
             }
         }
     }

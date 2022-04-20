@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -27,7 +28,8 @@ namespace TownOfHost
     }
     public enum Sounds
     {
-        KillSound
+        KillSound,
+        TaskComplete
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch
@@ -178,8 +180,9 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             player.Exiled();
         }
-        public static void RpcVersionCheck()
+        public static async void RpcVersionCheck()
         {
+            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
             writer.WritePacked(main.version.Major);
             writer.WritePacked(main.version.Minor);
@@ -283,6 +286,9 @@ namespace TownOfHost
                 {
                     case Sounds.KillSound:
                         SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                        break;
+                    case Sounds.TaskComplete:
+                        SoundManager.Instance.PlaySound(DestroyableSingleton<HudManager>.Instance.TaskCompleteSound, false, 0.8f);
                         break;
                 }
             }
