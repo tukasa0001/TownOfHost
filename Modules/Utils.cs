@@ -162,6 +162,12 @@ namespace TownOfHost
             if (!taskState.hasTasks) return "null";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
+        public static string getTaskText(byte  playerId)
+        {
+            var taskState = PlayerState.taskState[playerId];
+            if (!taskState.hasTasks) return "";
+            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+        }
         public static void ShowActiveRoles()
         {
             SendMessage(getString("CurrentActiveSettingsHelp") + ":");
