@@ -41,6 +41,7 @@ namespace TownOfHost
             Bite,
             Bombed,
             Misfire,
+            Torched,
             Disconnected,
             etc = -1
         }
