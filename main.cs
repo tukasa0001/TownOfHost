@@ -484,7 +484,10 @@ namespace TownOfHost
         public static string getVoteName(int num)
         {
             string name = "invalid";
-            if(num < 15) name = getPlayerById(num).getRealName();
+            var player =  getPlayerById(num);
+            if (player == null)
+                return name;
+            if(num < 15) name = player.getRealName();
             if(num == 253) name = "Skip";
             if(num == 254) name = "None";
             if(num == 255) name = "Dead";

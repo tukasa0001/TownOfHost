@@ -24,8 +24,8 @@ namespace TownOfHost {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason) {
-            Logger.info($"RealNames[{data.Character.PlayerId}]を削除","Session");
-            main.RealNames.Remove(data.Character.PlayerId);
+            //Logger.info($"RealNames[{data.Character.PlayerId}]を削除","Session");
+            //main.RealNames.Remove(data.Character.PlayerId);
             Logger.info("切断理由:" + reason.ToString(),"Session");
         }
     }
