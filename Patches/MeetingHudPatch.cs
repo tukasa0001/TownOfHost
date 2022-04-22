@@ -101,6 +101,8 @@ namespace TownOfHost
                 {
                     foreach (var p in main.SpelledPlayer)
                     {
+                        //すでに死んでるか、回線切断者はスキップ
+                        if (p.Data.IsDead || p.Data.Disconnected) continue;
                         main.ps.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         main.IgnoreReportPlayers.Add(p.PlayerId);
                         p.RpcMurderPlayer(p);
