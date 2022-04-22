@@ -20,12 +20,12 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
             {
                 Logger.info("CountDownTimer set to 0");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.C) && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
             {
                 Logger.info("Reset CountDownTimer");
                 GameStartManager.Instance.ResetStartState();
@@ -83,11 +83,11 @@ namespace TownOfHost
             {
                 MeetingHud.Instance.RpcClose();
             }
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.V) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
             {
                 if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
                 {
-                    MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
+                    MeetingHud.Instance?.RpcClearVote(AmongUsClient.Instance.ClientId);
                 }
             }
             if (Input.GetKeyDown(KeyCode.O))
