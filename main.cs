@@ -100,6 +100,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
+        public static bool introDestroyed = false;
 
         public static main Instance;
 

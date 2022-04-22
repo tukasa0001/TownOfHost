@@ -162,4 +162,12 @@ namespace TownOfHost
             BeginCrewmatePatch.Postfix(__instance, ref yourTeam);
         }
     }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
+    class IntroCutsceneDestoryPatch
+    {
+        public static void Postfix(IntroCutscene __instance)
+        {
+            main.introDestroyed = true;
+        }
+    }
 }
