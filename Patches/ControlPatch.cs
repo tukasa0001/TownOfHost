@@ -83,11 +83,11 @@ namespace TownOfHost
             {
                 MeetingHud.Instance.RpcClose();
             }
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.V) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
             {
                 if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
                 {
-                    MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
+                    MeetingHud.Instance?.RpcClearVote(AmongUsClient.Instance.ClientId);
                 }
             }
             if (Input.GetKeyDown(KeyCode.O))
