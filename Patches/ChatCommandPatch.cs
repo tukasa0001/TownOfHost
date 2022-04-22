@@ -21,8 +21,8 @@ namespace TownOfHost
             {
                 case "/dump":
                     canceled = true;
-                    string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
-                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
+                    string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
+                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
                     FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
                     file.CopyTo(@filename);
                     System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
