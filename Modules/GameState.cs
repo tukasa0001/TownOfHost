@@ -67,4 +67,13 @@ namespace TownOfHost
             this.hasTasks = false;
         }
     }
+    public static class GameStates
+    {
+        public static bool isLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
+        public static bool isInGame => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started;
+        public static bool isEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;
+        public static bool isNotJoined => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.NotJoined;
+        public static bool isMeeting => MeetingHud.Instance;
+        public static bool isCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
+    }
 }
