@@ -523,7 +523,7 @@ namespace TownOfHost
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
-                LoversSuicide();
+                LoversSuicide(null);
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
@@ -706,10 +706,10 @@ namespace TownOfHost
                 }
             }
         }
-
-        public static void LoversSuicide()
+        //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
+        public static void LoversSuicide(GameData.PlayerInfo exiled)
         {
-            if (main.isLoversDead == false)
+            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
@@ -724,6 +724,8 @@ namespace TownOfHost
                             {
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                                 PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                                if (exiled != null)
+                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
                             }
                         }
                     }

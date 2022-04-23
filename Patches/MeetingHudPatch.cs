@@ -125,6 +125,13 @@ namespace TownOfHost
                     recall = true;
                 }
 
+
+                if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
+                {
+                    FixedUpdatePatch.LoversSuicide(exiledPlayer);
+                    recall = true;
+                }
+
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {

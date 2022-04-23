@@ -97,38 +97,12 @@ namespace TownOfHost
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
-                CheckLoversDead(exiled);
+                FixedUpdatePatch.LoversSuicide(exiled);
             }
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
             Logger.info("タスクフェイズ開始", "Phase");
-        }
-
-        private static void CheckLoversDead(GameData.PlayerInfo exiled)
-        {
-            if (main.isLoversDead == false && CustomRoles.Lovers.isEnable())
-            {
-                foreach (var loversPlayer in main.LoversPlayers)
-                {
-                    if (exiled?.PlayerId == loversPlayer.PlayerId)
-                    {
-                        // Loversが死んだとき
-                        main.isLoversDead = true;
-                        foreach (var partnerPlayer in main.LoversPlayers)
-                        {
-                            //残った恋人を全て殺す(2人以上可)
-                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId
-                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
-                            {
-                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
-                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
