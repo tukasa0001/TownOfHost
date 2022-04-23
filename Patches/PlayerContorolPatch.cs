@@ -194,6 +194,14 @@ namespace TownOfHost
                 main.SerialKillerTimer.Add(__instance.PlayerId, 0f);
                 return false;
             }
+            if (__instance.isPuppeteer())
+            {
+                main.PuppeteerList[target.PlayerId] = __instance.PlayerId;
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings(); //負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
+                __instance.RpcGuardAndKill();
+                return false;
+            }
             if (__instance.isSheriff())
             {
                 if (__instance.Data.IsDead)
@@ -575,6 +583,32 @@ namespace TownOfHost
                                 main.DousedPlayerCount[__instance.PlayerId]--;
                                 main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                             }
+                        }
+                    }
+                }
+                if (main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                {
+                    Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
+                    Dictionary<byte, float> targetdistance = new Dictionary<byte, float>();
+                    float dis;
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (!target.Data.IsDead && !target.getCustomRole().isImpostor() && target != __instance)
+                        {
+                            dis = Vector2.Distance(__instancepos, target.transform.position);
+                            targetdistance.Add(target.PlayerId, dis);
+                        }
+                    }
+                    if (targetdistance.Count() != 0)
+                    {
+                        var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                        PlayerControl targetp = Utils.getPlayerById(min.Key);
+                        if (min.Value <= 1.75f)
+                        {
+                            __instance.RpcMurderPlayer(targetp);
+                            Utils.CustomSyncAllSettings();
+                            Utils.NotifyRoles();
+                            main.PuppeteerList.Remove(__instance.PlayerId);
                         }
                     }
                 }
