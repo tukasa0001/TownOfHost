@@ -6,7 +6,7 @@ using InnerNet;
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
-    class DebugManager
+    class ControllerManagerUpdatePatch
     {
         static System.Random random = new System.Random();
         static PlayerControl bot;
