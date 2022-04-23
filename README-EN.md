@@ -144,6 +144,14 @@ Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
 
+### Puppeteer
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
+It is not possible to perform normal kills.<br>
 ### Madmate
 
 Team : Impostors<br>

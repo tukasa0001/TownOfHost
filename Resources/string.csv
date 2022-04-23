@@ -124,6 +124,7 @@ VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches. If the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target. It is not possible to perform a normal kill.",キルした対象に、対象が次に近づいたクルーをキルさせる事ができる。対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。普通のキルを行うことはできない。
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
