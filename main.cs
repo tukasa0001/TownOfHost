@@ -485,9 +485,7 @@ namespace TownOfHost
         {
             string name = "invalid";
             var player =  getPlayerById(num);
-            if (player == null)
-                return name;
-            if(num < 15) name = player.getRealName();
+            if(num < 15 && player != null) name = player.getRealName();
             if(num == 253) name = "Skip";
             if(num == 254) name = "None";
             if(num == 255) name = "Dead";
