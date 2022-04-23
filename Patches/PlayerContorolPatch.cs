@@ -199,7 +199,7 @@ namespace TownOfHost
                 main.PuppeteerList[target.PlayerId] = __instance.PlayerId;
                 main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
                 __instance.CustomSyncSettings(); //負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
-                __instance.RpcGuardAndKill();
+                __instance.RpcGuardAndKill(target);
                 return false;
             }
             if (__instance.isSheriff())
@@ -605,6 +605,7 @@ namespace TownOfHost
                         PlayerControl targetp = Utils.getPlayerById(min.Key);
                         if (min.Value <= 1.75f)
                         {
+                            RPC.PlaySoundRPC(main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
                             __instance.RpcMurderPlayer(targetp);
                             Utils.CustomSyncAllSettings();
                             Utils.NotifyRoles();
