@@ -119,7 +119,6 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("TaskCounts");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;

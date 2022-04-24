@@ -777,6 +777,7 @@ namespace TownOfHost
         {
             Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(__instance);
+            Utils.NotifyRoles();
         }
     }
 }
