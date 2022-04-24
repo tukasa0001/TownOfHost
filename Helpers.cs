@@ -74,14 +74,9 @@ namespace TownOfHost
     {
         public readonly Version version;
         public readonly string tag;
-        public PlayerVersion(int major, int minor, int patch, int revision, string tag_str)
+        public PlayerVersion(string ver, string tag_str)
         {
-            version = new Version(major, minor, patch == -1 ? 0 : patch, revision == -1 ? 0 : revision);
-            tag = tag_str;
-        }
-        public PlayerVersion(Version ver, string tag_str)
-        {
-            version = new Version(ver.Major, ver.Minor, ver.Build == -1 ? 0 : ver.Build, ver.Revision == -1 ? 0 : ver.Revision);
+            version = Version.Parse(ver);
             tag = tag_str;
         }
         public bool isEqual(PlayerVersion pv)
