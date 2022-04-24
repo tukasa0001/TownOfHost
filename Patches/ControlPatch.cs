@@ -14,18 +14,18 @@ namespace TownOfHost
         {
 
             //##ホスト専用コマンド##
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost &&  AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPCProcedure.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager.InstanceExists && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
             {
                 Logger.info("CountDownTimer set to 0");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C) && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
+            if (Input.GetKeyDown(KeyCode.C) && GameStartManager.InstanceExists && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
             {
                 Logger.info("Reset CountDownTimer");
                 GameStartManager.Instance.ResetStartState();
