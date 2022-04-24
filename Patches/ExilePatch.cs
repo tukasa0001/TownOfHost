@@ -97,7 +97,6 @@ namespace TownOfHost
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                 }
-                FixedUpdatePatch.LoversSuicide(exiled);
             }
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();

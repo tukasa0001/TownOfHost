@@ -707,25 +707,29 @@ namespace TownOfHost
             }
         }
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-        public static void LoversSuicide(GameData.PlayerInfo exiled)
+        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo)
         {
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
-                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead) //ラバーズが死んでいたら
+                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead || exiledLoversPlayerInfo != null) //ラバーズが死んでいたら or ラバーズが投票先になったら
                     {
                         main.isLoversDead = true;
                         foreach (var partnerPlayer in main.LoversPlayers)
                         {
                             //残った恋人を全て殺す(2人以上可)
                             if (loversPlayer.PlayerId != partnerPlayer.PlayerId
+                            && exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId
                             && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                             {
-                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
                                 PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                if (exiled != null)
+                                if (exiledLoversPlayerInfo != null)
+                                {
                                     main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
+                                    CheckForEndVotingPatch.recall = true;
+                                }
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
                             }
                         }
                     }
