@@ -142,7 +142,7 @@ namespace TownOfHost
                     return false;
                 }
             }
-            return false;
+            return true;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]

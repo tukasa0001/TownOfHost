@@ -59,12 +59,9 @@ namespace TownOfHost
                 case (byte)CustomRPC.VersionCheck:
                     try
                     {
-                        int major = reader.ReadPackedInt32();
-                        int minor = reader.ReadPackedInt32();
-                        int patch = reader.ReadPackedInt32();
-                        int revision = reader.ReadPackedInt32();
+                        string version = reader.ReadString();
                         string tag = reader.ReadString();
-                        main.playerVersion[__instance.PlayerId] = new PlayerVersion(major, minor, patch, revision, tag);
+                        main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
                     }
                     catch
                     {
@@ -190,13 +187,10 @@ namespace TownOfHost
         {
             while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
-            writer.WritePacked(main.version.Major);
-            writer.WritePacked(main.version.Minor);
-            writer.WritePacked(main.version.Build);
-            writer.WritePacked(main.version.Revision);
+            writer.Write(main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void JesterExiled(byte jesterID)
         {
