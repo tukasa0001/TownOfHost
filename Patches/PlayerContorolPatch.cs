@@ -327,7 +327,7 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) return false;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
             main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
