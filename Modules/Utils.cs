@@ -108,6 +108,7 @@ namespace TownOfHost
             }
             return (text, color);
         }
+
         public static bool hasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             //Tasksがnullの場合があるのでその場合タスク無しとする
@@ -148,6 +149,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
+                    //コメント
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
                     //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
@@ -158,12 +160,8 @@ namespace TownOfHost
                 {
                     if (cSubRole == CustomRoles.Lovers)
                     {
-                        //クルーメイト以外のタスク保持役職のタスク処理は何もしない(メイン役職でtask付与しているので)
-                        if (cRole == CustomRoles.Terrorist || cRole == CustomRoles.MadSnitch || cRole == CustomRoles.MadGuardian)
-                        {
-                            //Nothing
-                        }
-                        else
+                        //ラバーズがクルー陣営の場合タスクを付与しない
+                        if (cRole.getRoleType() == RoleType.Crewmate)
                         {
                             hasTasks = false;
                         }
