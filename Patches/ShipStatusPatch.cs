@@ -247,7 +247,6 @@ namespace TownOfHost
                 if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                 {
                     text += $":Mod({pv.version}:";
-                    text += pv.beta_ver == -1 ? ":" : pv.beta_ver + ":";
                     text += $"{pv.tag})";
                 }
                 else text += ":Vanilla";
