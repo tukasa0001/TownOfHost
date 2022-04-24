@@ -610,8 +610,8 @@ namespace TownOfHost
                             RPC.PlaySoundRPC(main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
                             __instance.RpcMurderPlayer(targetp);
                             Utils.CustomSyncAllSettings();
-                            Utils.NotifyRoles();
                             main.PuppeteerList.Remove(__instance.PlayerId);
+                            Utils.NotifyRoles();
                         }
                     }
                 }
@@ -707,10 +707,16 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
-                    if (PlayerControl.LocalPlayer.isPuppeteer() &&
-                        main.PuppeteerList.ContainsKey(__instance.PlayerId) &&
-                        main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId))
-                        Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>☠</color>";
+                    if (PlayerControl.LocalPlayer.isPuppeteer())
+                    {
+                        if (main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId))
+                        {
+                            if (main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                                Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                        }
+                        else if (!__instance.isSnitch())
+                            Mark = "";
+                    }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
                     if (__instance.AmOwner && __instance.getCustomRole().isImpostor())
