@@ -38,11 +38,9 @@ namespace TownOfHost
         {
             taskState[player.PlayerId].Init(player);
         }
-        public static TaskState UpdateTask(PlayerControl player)
+        public static void UpdateTask(PlayerControl player)
         {
-            var task = taskState[player.PlayerId];
-            task.Update(player);
-            return task;
+            taskState[player.PlayerId].Update(player);
         }
         public enum DeathReason
         {
@@ -98,20 +96,18 @@ namespace TownOfHost
         public void Update(PlayerControl player)
         {
             Logger.info($"{player.name}: UpdateTask", "TaskCounts");
-            if (player == null || player.Data == null || player.Data.Tasks == null) return;
-            if (!Utils.hasTasks(player.Data, false)) return;
+            if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if(AllTasksCount==-1)Init(player);
             //クリアしてたらカウントしない
             if (CompletedTasksCount >= AllTasksCount) return;
 
-            foreach (var task in player.Data.Tasks)
-            {
-                if (task.Complete) CompletedTasksCount++;
-            }
+            CompletedTasksCount++;
+
             //調整後のタスク量までしか表示しない
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
             Logger.info($"{player.name}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+
         }
     }
 }

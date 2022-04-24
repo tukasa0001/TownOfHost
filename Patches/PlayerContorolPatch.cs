@@ -770,5 +770,14 @@ namespace TownOfHost
             main.RealNames[__instance.PlayerId] = name;
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
+    class PlayerControlCompleteTaskPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
+            PlayerState.UpdateTask(__instance);
+        }
+    }
 }
 

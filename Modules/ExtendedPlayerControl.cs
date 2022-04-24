@@ -373,10 +373,9 @@ namespace TownOfHost
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-
         public static TaskState getPlayerTaskState(this PlayerControl player)
         {
-            return PlayerState.UpdateTask(player);
+            return PlayerState.taskState[player.PlayerId];
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt)
