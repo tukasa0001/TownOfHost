@@ -257,9 +257,13 @@ namespace TownOfHost
             Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
 
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            if (AmongUsClient.Instance.AmClient)
             {
-                PlayerState.InitTask(pc);
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    PlayerState.InitTask(pc);
+                }
             }
         }
     }
@@ -270,6 +274,7 @@ namespace TownOfHost
         {
             Logger.info("ShipStatus.Begin");
 
+            //ホストの役職初期設定はここで行うべき？
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 PlayerState.InitTask(pc);
