@@ -133,6 +133,9 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        // 通常モードで鬼ごっこ
+        public static CustomOption StandardHAS;
+
         // その他
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
@@ -347,6 +350,10 @@ namespace TownOfHost
             WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // 通常モードで鬼ごっこ用
+            StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
