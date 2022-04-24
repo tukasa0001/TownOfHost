@@ -458,6 +458,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
                     || main.SpelledPlayer.Count > 0
+                    || seer.isPuppeteer()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -485,6 +486,10 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
+                        if (seer.isPuppeteer() &&
+                            main.PuppeteerList.ContainsKey(target.PlayerId) &&
+                            main.PuppeteerList.ContainsValue(seer.PlayerId))
+                            TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>☠</color>";
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";

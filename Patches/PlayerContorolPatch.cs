@@ -603,7 +603,9 @@ namespace TownOfHost
                     {
                         var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                         PlayerControl targetp = Utils.getPlayerById(min.Key);
-                        if (min.Value <= 1.75f)
+                        if (targetp.Data.IsDead)
+                            main.PuppeteerList.Remove(__instance.PlayerId);
+                        if (min.Value <= 1.75f && !targetp.Data.IsDead)
                         {
                             RPC.PlaySoundRPC(main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
                             __instance.RpcMurderPlayer(targetp);
@@ -705,6 +707,10 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
+                    if (PlayerControl.LocalPlayer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsKey(__instance.PlayerId) &&
+                        main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId))
+                        Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>☠</color>";
 
                     //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
                     if (__instance.AmOwner && __instance.getCustomRole().isImpostor())
