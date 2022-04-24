@@ -334,7 +334,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + main.VersionSuffix + "</color>";
+                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += "\r\n配信中";

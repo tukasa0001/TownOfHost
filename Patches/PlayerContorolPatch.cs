@@ -586,7 +586,6 @@ namespace TownOfHost
                     }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
-                if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             if (AmongUsClient.Instance.IsGameStarted)
