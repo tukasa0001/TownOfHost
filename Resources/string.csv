@@ -147,6 +147,7 @@ Skip,Skip,スキップ
 HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
 
 #詳細設定
@@ -217,6 +218,11 @@ DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
+
+## リアクターの時間制御
+SabotageTimeControl,Replacement Sabotage TimeLimit,サボタージュの時間制御
+PolusReactorTimeLimit,Polus Reactor TimeLimit,ポーラスのリアクター制限時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクター制限時間
 
 #その他
 commandError,Error:%1$,エラー:%1$
