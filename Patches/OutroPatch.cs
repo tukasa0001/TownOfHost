@@ -245,10 +245,9 @@ namespace TownOfHost
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
                     break;
                 case CustomWinner.Lovers:
-                    var loversColor = Utils.getRoleColor(CustomRoles.Lovers);
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Lovers);
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Lovers)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Lovers);
-                    textRenderer.text = $"<color={loversColor}>恋人の勝利</color>";
                     break;
                 case CustomWinner.Arsonist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
