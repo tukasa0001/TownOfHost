@@ -26,7 +26,8 @@ namespace TownOfHost
             main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || TempData.DidHumansWin(endGameResult.GameOverReason))
+            if (endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByVote)
+            || TempData.DidHumansWin(endGameResult.GameOverReason))
             {
                 if (main.currentWinner == CustomWinner.Default)
                 {
@@ -34,6 +35,7 @@ namespace TownOfHost
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
+                    if (p.getCustomSubRole() == CustomRoles.Lovers) continue;
                     CustomRoles role = p.getCustomRole();
                     RoleType roleType = role.getRoleType();
                     bool canWin = roleType == RoleType.Crewmate;
@@ -46,6 +48,7 @@ namespace TownOfHost
                     main.currentWinner = CustomWinner.Impostor;
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
+                    if (p.getCustomSubRole() == CustomRoles.Lovers) continue;
                     CustomRoles role = p.getCustomRole();
                     RoleType roleType = role.getRoleType();
                     bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
