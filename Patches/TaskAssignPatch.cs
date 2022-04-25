@@ -1,29 +1,109 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using Hazel;
-using System;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
+using System.Linq;
 
-namespace TownOfHost {
+namespace TownOfHost
+{
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.AddTasksFromList))]
-    class AddTasksFromListPatch {
-        public static void Prefix(ShipStatus __instance, 
-        [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks) {
-            List<int> disabledTaskIndex = new List<int>();
-            for(var i = 0; i < unusedTasks.Count; i++) {
+    class AddTasksFromListPatch
+    {
+        public static void Prefix(ShipStatus __instance,
+        [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
+        {
+            List<NormalPlayerTask> disabledTasks = new List<NormalPlayerTask>();
+            for (var i = 0; i < unusedTasks.Count; i++)
+            {
                 var task = unusedTasks[i];
-                if(task.TaskType == TaskTypes.SubmitScan && main.DisableSwipeCard) disabledTaskIndex.Add(i);//スキャンタスク
-                if(task.TaskType == TaskTypes.SwipeCard && main.DisableSubmitScan) disabledTaskIndex.Add(i);//カードタスク
-                if(task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTaskIndex.Add(i);//金庫タスク
+                if (task.TaskType == TaskTypes.SwipeCard && main.DisableSwipeCard) disabledTasks.Add(task);//カードタスク
+                if (task.TaskType == TaskTypes.SubmitScan && main.DisableSubmitScan) disabledTasks.Add(task);//スキャンタスク
+                if (task.TaskType == TaskTypes.UnlockSafe && main.DisableUnlockSafe) disabledTasks.Add(task);//金庫タスク
+                if (task.TaskType == TaskTypes.UploadData && main.DisableUploadData) disabledTasks.Add(task);//アップロードタスク
+                if (task.TaskType == TaskTypes.StartReactor && main.DisableStartReactor) disabledTasks.Add(task);//リアクターの3x3タスク
             }
-            foreach(var i in disabledTaskIndex) {
-                unusedTasks.RemoveAt(i);
+            foreach (var task in disabledTasks)
+            {
+                Logger.msg("削除: " + task.TaskType.ToString(),"DisableTasks");
+                unusedTasks.Remove(task);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
+    class RpcSetTasksPatch {
+        public static void Prefix(GameData __instance,
+        [HarmonyArgument(0)] byte playerId,
+        [HarmonyArgument(1)] ref UnhollowerBaseLib.Il2CppStructArray<byte> taskTypeIds) {
+            //null対策
+            if(main.RealOptionsData == null) {
+                Logger.warn("警告:RealOptionsDataがnullです。(RppcSetTasksPatch.Prefix)");
+                return;
+            }
+
+            CustomRoles? RoleNullable = main.getPlayerById(playerId)?.getCustomRole();
+            CustomRoles role = CustomRoles.Default;
+            if(RoleNullable == null) return;
+            else role = RoleNullable.Value;
+            
+            bool doOverride = false;
+
+            bool hasCommonTasks = true;
+            int NumLongTasks = main.RealOptionsData.NumLongTasks;
+            int NumShortTasks = main.RealOptionsData.NumShortTasks;
+            
+            main.MadGuardianTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            main.TerroristTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+            main.SnitchTasksData.CheckAndSet(role, ref doOverride, ref hasCommonTasks, ref NumLongTasks, ref NumShortTasks);
+
+            if(!doOverride) return;
+            Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
+            foreach(var num in taskTypeIds)
+                TasksList.Add(num);
+            
+            //参考:ShipStatus.Begin
+            if(hasCommonTasks) TasksList.RemoveRange(main.RealOptionsData.NumCommonTasks, TasksList.Count - main.RealOptionsData.NumCommonTasks);
+            else TasksList.Clear();
+
+            Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new Il2CppSystem.Collections.Generic.HashSet<TaskTypes>();
+            int start2 = 0;
+            int start3 = 0;
+
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            foreach(var task in ShipStatus.Instance.LongTasks)
+                LongTasks.Add(task);
+            Shuffle<NormalPlayerTask>(LongTasks);
+
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            foreach(var task in ShipStatus.Instance.NormalTasks)
+                ShortTasks.Add(task);
+            Shuffle<NormalPlayerTask>(ShortTasks);
+
+            ShipStatus.Instance.AddTasksFromList(
+                ref start2,
+                NumLongTasks,
+                TasksList,
+                usedTaskTypes,
+                LongTasks
+            );
+            ShipStatus.Instance.AddTasksFromList(
+                ref start3,
+                NumShortTasks,
+                TasksList,
+                usedTaskTypes,
+                ShortTasks
+            );
+
+            taskTypeIds = new UnhollowerBaseLib.Il2CppStructArray<byte>(TasksList.Count);
+            for(int i = 0; i < TasksList.Count; i++) {
+                taskTypeIds[i] = TasksList[i];
+            }
+
+        }
+        public static void Shuffle<T>(Il2CppSystem.Collections.Generic.List<T> list) {
+            for(int i = 0; i < list.Count - 1; i++) {
+                T obj = list[i];
+                int rand = UnityEngine.Random.Range(i, list.Count);
+                list[i] = list[rand];
+                list[rand] = obj;
             }
         }
     }
