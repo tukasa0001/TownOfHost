@@ -682,7 +682,7 @@ namespace TownOfHost
                     { //__instanceがインポスターかつ自分自身
                         var found = false;
                         var update = false;
-                        var arrrows = "";
+                        var arrows = "";
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         { //全員分ループ
                             if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
@@ -693,10 +693,10 @@ namespace TownOfHost
                                 if (!Options.SnitchEnableTargetArrow.GetBool()) break;
                                 update = CheckArrowUpdate(__instance, pc, update, false);
                                 var key = (__instance.PlayerId, pc.PlayerId);
-                                arrrows += main.targetArrows[key];
+                                arrows += main.targetArrows[key];
                             }
                         }
-                        if (found && __instance.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrrows}</color>"; //Snitch警告を表示
+                        if (found && __instance.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>"; //Snitch警告を表示
                         if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
                         {
                             //更新があったら非Modに通知
