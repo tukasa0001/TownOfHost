@@ -15,7 +15,7 @@ namespace TownOfHost
             {
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
-            else if ((int)role > 500)   //500:NoSubRole 501~:SubRole
+            else if ((int)role >= 500)   //500:NoSubRole 501~:SubRole
             {
                 main.AllPlayerCustomSubRoles[player.PlayerId] = role;
             }
