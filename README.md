@@ -1,11 +1,30 @@
 # Town Of Host
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
+<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
+
 ## このModについて
 このModは非公式のものであり、このModの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
 このModの問題などに関して公式に問い合わせないでください。<br>
 
 [![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
+
+## リリース
+| Among Usバージョン| Modバージョン | リンク |
+|----------|-------------|-----------------|
+| 2022.3.29s| v1.4.0| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)
+| 2022.2.23s| v1.4b#5| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip)
+| 2021.12.15s| v1.4b#4| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip)
+| 2021.12.15s| v1.4b#3| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip)
+| 2021.12.15s| v1.4b#2| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip)
+| 2021.12.15s| v1.4b#1| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip)
+| 2021.12.15s| v1.3.4| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)
+| 2021.12.15s| v1.3.3| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)
+| 2021.12.15s| v1.3.2| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)
+| 2021.12.15s| v1.3.1| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)
+| 2021.12.15s| v1.3| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)
+| 2021.12.14s| v1.2| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)
+| 2021.11.9.5s| v1.0| [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)
 
 ## 特徴
 このModはホストのクライアントに導入するだけで動作し、他のクライアントのModの導入/未導入及び端末の種類に関係なく動作します。<br>
