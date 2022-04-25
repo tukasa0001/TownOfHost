@@ -523,7 +523,7 @@ namespace TownOfHost
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
-                LoversSuicide(null);
+                LoversSuicide();
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
@@ -707,7 +707,7 @@ namespace TownOfHost
             }
         }
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo)
+        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo = null)
         {
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
@@ -719,8 +719,8 @@ namespace TownOfHost
                         foreach (var partnerPlayer in main.LoversPlayers)
                         {
                             //残った恋人を全て殺す(2人以上可)
-                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId
-                            && exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId
+                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId //恋人Aと恋人Bが違う人
+                            && (exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
                             && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                             {
                                 PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
