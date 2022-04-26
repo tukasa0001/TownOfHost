@@ -7,7 +7,7 @@
 このModは非公式のものであり、このModの開発に関してAmong Usの開発元である"Innersloth"は一切関与していません。<br>
 このModの問題などに関して公式に問い合わせないでください。<br>
 
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
 
 ## リリース
 | Among Usバージョン| Modバージョン | リンク |

@@ -10,7 +10,7 @@
 This mod is unofficial, and Innersloth, the developer of Among Us, has no involvement in the development of this mod.<br>
 Please do not contact the official team regarding any issues with this mod.<br>
 
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
 
 ## Releases
 | Among Us - Version| Mod Version | Link |
