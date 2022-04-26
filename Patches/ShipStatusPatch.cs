@@ -231,6 +231,15 @@ namespace TownOfHost
         {
             Logger.info("ShipStatus.Start");
             Logger.info("ゲームが開始", "Phase");
+
+            if (AmongUsClient.Instance.AmClient)
+            {
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    PlayerState.InitTask(pc);
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
