@@ -102,8 +102,8 @@ namespace TownOfHost
                 }
             }
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
-            && (main.currentWinner == CustomWinner.Crewmate || main.currentWinner == CustomWinner.Impostor) //クルー or インポ勝利
-            && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))   //タスク勝ちじゃなければ
+            && main.currentWinner == CustomWinner.Impostor
+            && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 winner = new();
