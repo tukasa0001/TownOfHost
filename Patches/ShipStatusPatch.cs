@@ -43,7 +43,7 @@ namespace TownOfHost
                 bool DoNotifyRoles = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.isBountyHunter()) continue; //BountHutner以外おことわり
+                    if (!pc.isBountyHunter()) continue; //BountyHunter以外おことわり
                     var target = pc.getBountyTarget();
                     //BountyHunterのターゲット更新
                     if (target.Data.IsDead || target.Data.Disconnected)
