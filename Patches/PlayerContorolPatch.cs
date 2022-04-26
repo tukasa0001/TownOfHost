@@ -142,7 +142,7 @@ namespace TownOfHost
                     return false;
                 }
             }
-            return false;
+            return true;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
@@ -587,7 +587,6 @@ namespace TownOfHost
                     }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
-                if (main.PluginVersionType == VersionTypes.Beta && AmongUsClient.Instance.IsGamePublic) AmongUsClient.Instance.ChangeGamePublic(false);
             }
 
             if (AmongUsClient.Instance.IsGameStarted)
@@ -809,6 +808,16 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
         {
             main.RealNames[__instance.PlayerId] = name;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
+    class PlayerControlCompleteTaskPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
+            PlayerState.UpdateTask(__instance);
+            Utils.NotifyRoles();
         }
     }
 }

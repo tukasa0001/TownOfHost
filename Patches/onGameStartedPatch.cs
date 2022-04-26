@@ -47,6 +47,8 @@ namespace TownOfHost
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
 
+            main.introDestroyed = false;
+
             NameColorManager.Instance.RpcReset();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
