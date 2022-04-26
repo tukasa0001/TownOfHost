@@ -255,6 +255,15 @@ namespace TownOfHost
             Logger.info("---------その他---------");
             Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
+
+            if (AmongUsClient.Instance.AmClient)
+            {
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    PlayerState.InitTask(pc);
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -263,6 +272,13 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.info("ShipStatus.Begin");
+
+            //ホストの役職初期設定はここで行うべき？
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                PlayerState.InitTask(pc);
+            }
+
             Utils.NotifyRoles();
         }
     }
