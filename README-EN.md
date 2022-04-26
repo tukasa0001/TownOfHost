@@ -398,6 +398,15 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 |----------|
 | LastImpostor KillCooldown |
 
+## SabotageTimeControl
+
+The time limit for some sabotage can be changed.
+
+| Settings Name |
+|----------|
+| Polus Reactor TimeLimit |
+| Airship Reactor TimeLimit |
+
 ## Mode
 
 ### DisableTasks
