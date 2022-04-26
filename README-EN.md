@@ -55,19 +55,6 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Custom Settings Menu
-
-Pressing the Tab key in the standby lobby will change the room setting screen to a setting screen dedicated to Town Of Host.<br>
-
-|  Key   | Action                          |
-| :----: | ------------------------------- |
-|  Tab   | Open/Close Custom Settings Menu |
-|   Up   | Corsor Up                       |
-|  Down  | Cursor Down                     |
-| Right  | Execute Item                    |
-|  Left  | Go Back One                     |
-| Number | Enter A Value                   |
-
 ## Roles
 
 | Impostors                       | Crewmates                             | Neutral                       |
