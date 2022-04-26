@@ -270,6 +270,7 @@ namespace TownOfHost
         }
         public static void EndGame()
         {
+            if (ShipStatus.Instance == null) return;
             main.currentWinner = CustomWinner.Draw;
             if (AmongUsClient.Instance.AmHost)
             {
