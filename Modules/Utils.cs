@@ -369,22 +369,6 @@ namespace TownOfHost
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
-            //Snitch警告表示のON/OFF
-            bool ShowSnitchWarning = false;
-            if (CustomRoles.Snitch.isEnable())
-            {
-                foreach (var snitch in PlayerControl.AllPlayerControls)
-                {
-                    if (snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected)
-                    {
-                        var taskState = snitch.getPlayerTaskState();
-                        if (taskState.doExpose)
-                        {
-                            ShowSnitchWarning = true;
-                        }
-                    }
-                }
-            }
             var seerList = PlayerControl.AllPlayerControls;
             if (SpecifySeer != null)
             {
@@ -411,7 +395,7 @@ namespace TownOfHost
                 var canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
                     (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
 
-                if (ShowSnitchWarning && canFindSnitchRole)
+                if (canFindSnitchRole)
                 {
                     var arrows = "";
                     if (!isMeeting)
@@ -419,7 +403,12 @@ namespace TownOfHost
                         foreach (var arrow in main.targetArrows)
                         {
                             if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
-                                arrows += arrow.Value;
+                            {
+                                //自分用の矢印で対象が死んでない時タスクをチェック
+                                var snitchTask = PlayerState.taskState[arrow.Key.Item2];
+                                if (snitchTask.doExpose)
+                                    arrows += arrow.Value;
+                            }
                         }
                     }
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
@@ -446,19 +435,29 @@ namespace TownOfHost
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
-                if (seer.isSnitch() && !isMeeting)
+                if (seer.isSnitch())
                 {
                     var TaskState = seer.getPlayerTaskState();
                     if (TaskState.isTaskFinished)
                     {
                         SeerKnowsImpostors = true;
-
-                        foreach (var arrow in main.targetArrows)
+                        //ミーティング以外では矢印表示
+                        if (!isMeeting)
                         {
-                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
-                                SelfSuffix += arrow.Value;
+                            foreach (var arrow in main.targetArrows)
+                            {
+                                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                    SelfSuffix += arrow.Value;
+                            }
                         }
                     }
+                }
+
+                if (seer.isMadSnitch())
+                {
+                    var TaskState = seer.getPlayerTaskState();
+                    if (TaskState.isTaskFinished)
+                        SeerKnowsImpostors = true;
                 }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -509,6 +508,7 @@ namespace TownOfHost
                         if (target.isSnitch() && canFindSnitchRole)
                         {
                             var taskState = target.getPlayerTaskState();
+                            Logger.info($"");
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                         }
