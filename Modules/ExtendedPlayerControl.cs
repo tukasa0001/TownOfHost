@@ -373,34 +373,9 @@ namespace TownOfHost
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-
         public static TaskState getPlayerTaskState(this PlayerControl player)
         {
-            if (player == null || player.Data == null || player.Data.Tasks == null) return new TaskState();
-            if (!Utils.hasTasks(player.Data, false)) return new TaskState();
-            int AllTasksCount = 0;
-            int CompletedTaskCount = 0;
-            foreach (var task in player.Data.Tasks)
-            {
-                AllTasksCount++;
-                if (task.Complete) CompletedTaskCount++;
-            }
-            //役職ごとにタスク量の調整を行う
-            var adjustedTasksCount = AllTasksCount;
-            switch (player.getCustomRole())
-            {
-                case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
-                    break;
-                default:
-                    break;
-            }
-            //タスク数が通常タスクより多い場合は再設定が必要
-            AllTasksCount = Math.Min(adjustedTasksCount, AllTasksCount);
-            //調整後のタスク量までしか表示しない
-            CompletedTaskCount = Math.Min(AllTasksCount, CompletedTaskCount);
-            Logger.info($"{player.name}: {CompletedTaskCount}/{AllTasksCount}", "TaskCounts");
-            return new TaskState(AllTasksCount, CompletedTaskCount);
+            return PlayerState.taskState[player.PlayerId];
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt)

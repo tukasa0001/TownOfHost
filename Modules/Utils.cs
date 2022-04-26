@@ -162,6 +162,12 @@ namespace TownOfHost
             if (!taskState.hasTasks) return "null";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
+        public static string getTaskText(byte  playerId)
+        {
+            var taskState = PlayerState.taskState[playerId];
+            if (!taskState.hasTasks) return "";
+            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+        }
         public static void ShowActiveRoles()
         {
             SendMessage(getString("CurrentActiveSettingsHelp") + ":");
@@ -334,7 +340,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + main.VersionSuffix + "</color>";
+                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += "\r\n配信中";

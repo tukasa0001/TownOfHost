@@ -57,13 +57,16 @@ namespace TownOfHost
             switch (packetID)
             {
                 case (byte)CustomRPC.VersionCheck:
-                    int major = reader.ReadPackedInt32();
-                    int minor = reader.ReadPackedInt32();
-                    int patch = reader.ReadPackedInt32();
-                    int revision = reader.ReadPackedInt32();
-                    int beta = reader.ReadPackedInt32();
-                    string tag = reader.ReadString();
-                    main.playerVersion[__instance.PlayerId] = new PlayerVersion(major, minor, patch, revision, beta, tag);
+                    try
+                    {
+                        string version = reader.ReadString();
+                        string tag = reader.ReadString();
+                        main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                    }
+                    catch
+                    {
+                        Logger.info($"{__instance.getRealName()}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                    }
                     break;
                 case (byte)CustomRPC.SyncCustomSettings:
                     foreach (var co in CustomOption.Options)
@@ -184,14 +187,10 @@ namespace TownOfHost
         {
             while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
-            writer.WritePacked(main.version.Major);
-            writer.WritePacked(main.version.Minor);
-            writer.WritePacked(main.version.Build);
-            writer.WritePacked(main.version.Revision);
-            writer.WritePacked(Int32.Parse(main.BetaVersion));
+            writer.Write(main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.version, Int32.Parse(main.BetaVersion), $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void JesterExiled(byte jesterID)
         {
