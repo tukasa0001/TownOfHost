@@ -120,7 +120,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-    class UnrestrictNumImpostorsPatch
+    class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
         {
