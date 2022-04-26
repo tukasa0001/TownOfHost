@@ -329,14 +329,12 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (CheckForEndVotingPatch.recall)
             {
-                Logger.SendInGame("yurino:recall in");
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (!pc.Data.IsDead)
                     {
                         new LateTask(() =>
                         {
-                            Logger.SendInGame("yurino:ReportDeadBody");
                             pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
                         },
                             0.2f, "Recall Meeting");
