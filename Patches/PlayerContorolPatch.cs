@@ -603,7 +603,7 @@ namespace TownOfHost
                     {
                         var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                         PlayerControl targetp = Utils.getPlayerById(min.Key);
-                        if (targetp.Data.IsDead)
+                        if (__instance.Data.IsDead)
                             main.PuppeteerList.Remove(__instance.PlayerId);
                         if (min.Value <= 1.75f && !targetp.Data.IsDead)
                         {
