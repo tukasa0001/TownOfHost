@@ -717,9 +717,9 @@ namespace TownOfHost
                         main.isLoversDead = true;
                         foreach (var partnerPlayer in main.LoversPlayers)
                         {
+                            if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
                             //残った恋人を全て殺す(2人以上可)
-                            if (loversPlayer.PlayerId != partnerPlayer.PlayerId //恋人Aと恋人Bが違う人
-                            && (exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
+                            if ((exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
                             && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
                             {
                                 PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
