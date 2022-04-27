@@ -531,7 +531,7 @@ You can also change the text color as you like by rewriting`Hide Game Code Color
 ## JapaneseRoleName
 
 By activating, the job title can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless the host has`ForceJapanese`enabled.
+If the client language is English, this setting is meaningless unless `ForceJapanese` is enabled.
 
 ## Credits
 
