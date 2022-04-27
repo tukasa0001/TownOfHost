@@ -162,7 +162,7 @@ namespace TownOfHost
             if (!taskState.hasTasks) return "null";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
-        public static string getTaskText(byte  playerId)
+        public static string getTaskText(byte playerId)
         {
             var taskState = PlayerState.taskState[playerId];
             if (!taskState.hasTasks) return "";
@@ -391,6 +391,7 @@ namespace TownOfHost
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
+
                 //インポスター/キル可能な第三陣営に対するSnitch警告
                 var canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
                     (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
@@ -404,10 +405,8 @@ namespace TownOfHost
                         {
                             if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                             {
-                                //自分用の矢印で対象が死んでない時タスクをチェック
-                                var snitchTask = PlayerState.taskState[arrow.Key.Item2];
-                                if (snitchTask.doExpose)
-                                    arrows += arrow.Value;
+                                //自分用の矢印で対象が死んでない時
+                                arrows += arrow.Value;
                             }
                         }
                     }
@@ -446,6 +445,7 @@ namespace TownOfHost
                         {
                             foreach (var arrow in main.targetArrows)
                             {
+                                //自分用の矢印で対象が死んでない時
                                 if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                                     SelfSuffix += arrow.Value;
                             }
@@ -508,7 +508,6 @@ namespace TownOfHost
                         if (target.isSnitch() && canFindSnitchRole)
                         {
                             var taskState = target.getPlayerTaskState();
-                            Logger.info($"");
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                         }
