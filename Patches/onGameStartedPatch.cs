@@ -14,6 +14,7 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.AllPlayerNames = new();
             main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerKillCooldown = new Dictionary<byte, float>();
@@ -58,6 +59,7 @@ namespace TownOfHost
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
+                main.AllPlayerNames[pc.PlayerId] = pc.name;
             }
             main.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -194,11 +196,12 @@ namespace TownOfHost
                         Crewmates.Add(pc);
                         pc.RpcSetColor(1);
                     }
-                    if (Options.IgnoreCosmetics.GetBool())
-                    {
-                        //pc.RpcSetHat("");
-                        //pc.RpcSetSkin("");
-                    }
+
+//                    if (Options.IgnoreCosmetics.GetBool())
+//                    {
+//                        pc.RpcSetHat("");
+//                        pc.RpcSetSkin("");
+//                    }
                 }
                 //FoxCountとTrollCountを適切に修正する
                 int FixedFoxCount = Math.Clamp(CustomRoles.Fox.getCount(), 0, Crewmates.Count);
@@ -226,7 +229,17 @@ namespace TownOfHost
                 }
                 //通常クルー・インポスター用RPC
                 foreach (var pc in Crewmates) pc.RpcSetCustomRole(CustomRoles.Crewmate);
-                foreach (var pc in Impostors) pc.RpcSetCustomRole(CustomRoles.Crewmate);
+                foreach (var pc in Impostors)
+                {
+                    if (pc.Data.Role.Role == RoleTypes.Impostor)
+                    {
+                        pc.RpcSetCustomRole(CustomRoles.Impostor);
+                    }
+                    else
+                    {
+                        pc.RpcSetCustomRole(CustomRoles.Shapeshifter);
+                    }
+                }
             }
             else
             {
@@ -311,14 +324,7 @@ namespace TownOfHost
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
-
-                //名前の記録
-                main.AllPlayerNames = new();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key, main.RealNames[pair.Key]);
-                }
-
+ 
                 HudManager.Instance.SetHudActive(true);
                 main.KillOrSpell = new Dictionary<byte, bool>();
                 //BountyHunterのターゲットを初期化
