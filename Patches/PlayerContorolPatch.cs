@@ -535,6 +535,8 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                         main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
+                        __instance.RpcRemoveDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(ar_target.PlayerId);
@@ -567,6 +569,7 @@ namespace TownOfHost
                             if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
                                 main.DousedPlayerCount[__instance.PlayerId] = 0;
                             Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
+                            __instance.RpcRemoveDousedPlayerCount();
                             main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                         }
                     }
