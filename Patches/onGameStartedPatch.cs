@@ -14,6 +14,8 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             main.AllPlayerSpeed = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -80,8 +82,6 @@ namespace TownOfHost
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
-            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
