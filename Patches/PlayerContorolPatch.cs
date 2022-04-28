@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -556,25 +557,17 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
+                if (main.DousedPlayerCount.TryGetValue(__instance.PlayerId, out int count) && count != 0 && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)//試合終了判定
+                    foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);//試合終了
-                        writer.Write(__instance.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        RPC.ArsonistWin(__instance.PlayerId);
-                        main.DousedPlayerCount[__instance.PlayerId] = 1;//無限ループ防止
-                    }
-                    else//それ以外
-                    {
-                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused.TryGetValue((__instance.PlayerId, pc.PlayerId), out bool isDoused) && !__instance.AmOwner)//死んだら塗った判定にする
                         {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])//死んだら塗った判定にする
-                            {
-                                main.DousedPlayerCount[__instance.PlayerId]--;
-                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
-                            }
+                            main.DousedPlayerCount[__instance.PlayerId]--;
+                            if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
+                                main.DousedPlayerCount[__instance.PlayerId] = 0;
+                            Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
+                            main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
                         }
                     }
                 }
@@ -629,9 +622,11 @@ namespace TownOfHost
                     if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //__instanceが自分自身
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                        if (__instance.isArsonist() && main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out var count) && count == 0)
+                            RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
+                    if (PlayerControl.LocalPlayer.isMadSnitch() && //LocalPlayerがMadSnitch
                         __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                         PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                     {
@@ -675,7 +670,7 @@ namespace TownOfHost
                     { //__instanceがインポスターかつ自分自身
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         { //全員分ループ
-                            if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
+                            if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない
                             if (pc.getPlayerTaskState().doExpose)
                             { //タスクが終わりそうなSnitchが見つかった時
                                 Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
@@ -742,6 +737,30 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
+                if (main.DousedPlayerCount.ContainsKey(__instance.myPlayer.PlayerId) && AmongUsClient.Instance.IsGameStarted)
+                    if (main.DousedPlayerCount[__instance.myPlayer.PlayerId] == 0)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!__instance.myPlayer.Data.IsDead)
+                            {
+                                if (pc != __instance.myPlayer)
+                                {
+                                    //生存者は焼殺
+                                    pc.RpcMurderPlayer(pc);
+                                    PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
+                                    PlayerState.isDead[pc.PlayerId] = true;
+                                }
+                                else
+                                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                            }
+                        }
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(__instance.myPlayer.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                        return true;
+                    }
                 if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate() || __instance.myPlayer.isArsonist())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);

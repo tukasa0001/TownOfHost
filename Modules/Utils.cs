@@ -162,7 +162,7 @@ namespace TownOfHost
             if (!taskState.hasTasks) return "null";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
-        public static string getTaskText(byte  playerId)
+        public static string getTaskText(byte playerId)
         {
             var taskState = PlayerState.taskState[playerId];
             if (!taskState.hasTasks) return "";
@@ -433,6 +433,8 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if (seer.isArsonist() && main.DousedPlayerCount[seer.PlayerId] == 0)
+                    SelfName = $"</size>\r\n<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
                 SelfName = SelfRoleName += SelfName;
                 SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 

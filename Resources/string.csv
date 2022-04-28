@@ -219,6 +219,7 @@ Win,Wins,勝利
 Last,Last,ラスト
 
 #その他
+EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
