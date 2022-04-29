@@ -58,7 +58,7 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
-            PlayerState.isDead[target.PlayerId] = true;
+            PlayerState.setDead(target.PlayerId, true);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -777,6 +777,14 @@ namespace TownOfHost
             Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(__instance);
             Utils.NotifyRoles();
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetRole))]
+    class SetRolePatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] RoleType role)
+        {
+            Logger.info($"PlayerControl.SetRole Postfix");
         }
     }
 }

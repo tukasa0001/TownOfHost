@@ -31,7 +31,22 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new Dictionary<byte, bool>();
         public static Dictionary<byte, DeathReason> deathReasons = new Dictionary<byte, DeathReason>();
         public static Dictionary<byte, TaskState> taskState = new();
-        public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
+        public static void setDead(byte p,bool dead)
+        {
+            isDead[p] = dead;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                RPC.SendDeathReason(p, deathReasons[p], dead);
+            }
+        }
+        public static void setDeathReason(byte p, DeathReason reason)
+        {
+            deathReasons[p] = reason;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                RPC.SendDeathReason(p, reason, false);
+            }
+        }
         public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
         public static void InitTask(PlayerControl player)
