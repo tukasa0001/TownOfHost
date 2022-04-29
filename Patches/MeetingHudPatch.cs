@@ -227,7 +227,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                if ((PlayerControl.LocalPlayer.isSnitch() || PlayerControl.LocalPlayer.isMadSnitch()) && //LocalPlayerがSnitch/MadSnitch
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
