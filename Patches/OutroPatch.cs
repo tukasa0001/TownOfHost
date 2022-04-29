@@ -149,6 +149,7 @@ namespace TownOfHost
                     if (role == CustomRoles.Troll && pc.Data.IsDead)
                     {
                         main.currentWinner = CustomWinner.Troll;
+                        main.additionalwinners = new();
                         winner = new();
                         winner.Add(pc);
                         break;
