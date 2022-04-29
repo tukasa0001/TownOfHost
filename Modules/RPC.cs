@@ -37,10 +37,10 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
-            byte packetID = callId;
-            switch (packetID)
+            var rpcType = (RpcCalls)callId;
+            switch (rpcType)
             {
-                case 6: //SetNameRPC
+                case RpcCalls.SetName: //SetNameRPC
                     string name = reader.ReadString();
                     bool DontShowOnModdedClient = reader.ReadBoolean();
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
@@ -54,10 +54,10 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
-            byte packetID = callId;
-            switch (packetID)
+            var rpcType = (CustomRPC)callId;
+            switch (rpcType)
             {
-                case (byte)CustomRPC.VersionCheck:
+                case CustomRPC.VersionCheck:
                     try
                     {
                         string version = reader.ReadString();
@@ -69,56 +69,56 @@ namespace TownOfHost
                         Logger.info($"{__instance.getRealName()}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
                     }
                     break;
-                case (byte)CustomRPC.SyncCustomSettings:
+                case CustomRPC.SyncCustomSettings:
                     foreach (var co in CustomOption.Options)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
                     }
                     break;
-                case (byte)CustomRPC.SetDeathReason:
+                case CustomRPC.SetDeathReason:
                     RPC.GetDeathReason(reader);
                     break;
-                case (byte)CustomRPC.JesterExiled:
+                case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
                     RPC.JesterExiled(exiledJester);
                     break;
-                case (byte)CustomRPC.TerroristWin:
+                case CustomRPC.TerroristWin:
                     byte wonTerrorist = reader.ReadByte();
                     RPC.TerroristWin(wonTerrorist);
                     break;
-                case (byte)CustomRPC.ArsonistWin:
+                case CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
                     RPC.ArsonistWin(wonArsonist);
                     break;
-                case (byte)CustomRPC.SchrodingerCatExiled:
+                case CustomRPC.SchrodingerCatExiled:
                     byte exiledSchrodingerCat = reader.ReadByte();
                     break;
-                case (byte)CustomRPC.EndGame:
+                case CustomRPC.EndGame:
                     RPC.EndGame();
                     break;
-                case (byte)CustomRPC.PlaySound:
+                case CustomRPC.PlaySound:
                     byte playerID = reader.ReadByte();
                     Sounds sound = (Sounds)reader.ReadByte();
                     RPC.PlaySound(playerID, sound);
                     break;
-                case (byte)CustomRPC.SetCustomRole:
+                case CustomRPC.SetCustomRole:
                     byte CustomRoleTargetId = reader.ReadByte();
-                    CustomRoles role = (CustomRoles)reader.ReadByte();
+                    CustomRoles role = (CustomRoles)reader.ReadPackedInt32();
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
-                case (byte)CustomRPC.SetBountyTarget:
+                case CustomRPC.SetBountyTarget:
                     byte HunterId = reader.ReadByte();
                     byte TargetId = reader.ReadByte();
                     var target = Utils.getPlayerById(TargetId);
                     if (target != null) main.BountyTargets[HunterId] = target;
                     break;
-                case (byte)CustomRPC.SetKillOrSpell:
+                case CustomRPC.SetKillOrSpell:
                     byte playerId = reader.ReadByte();
                     bool KoS = reader.ReadBoolean();
                     main.KillOrSpell[playerId] = KoS;
                     break;
-                case (byte)CustomRPC.SetSheriffShotLimit:
+                case CustomRPC.SetSheriffShotLimit:
                     byte SheriffId = reader.ReadByte();
                     float Limit = reader.ReadSingle();
                     if (main.SheriffShotLimit.ContainsKey(SheriffId))
@@ -126,27 +126,27 @@ namespace TownOfHost
                     else
                         main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
                     break;
-                case (byte)CustomRPC.SetDousedPlayer:
+                case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
-                case (byte)CustomRPC.AddNameColorData:
+                case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
                     string color = reader.ReadString();
                     RPC.AddNameColorData(addSeerId, addTargetId, color);
                     break;
-                case (byte)CustomRPC.RemoveNameColorData:
+                case CustomRPC.RemoveNameColorData:
                     byte removeSeerId = reader.ReadByte();
                     byte removeTargetId = reader.ReadByte();
                     RPC.RemoveNameColorData(removeSeerId, removeTargetId);
                     break;
-                case (byte)CustomRPC.ResetNameColorData:
+                case CustomRPC.ResetNameColorData:
                     RPC.ResetNameColorData();
                     break;
-                case (byte)CustomRPC.DoSpell:
+                case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
             }
@@ -196,7 +196,7 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
-        public static void SendDeathReason(byte playerId,PlayerState.DeathReason deathReason,bool isDead)
+        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason, bool isDead)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
@@ -206,10 +206,10 @@ namespace TownOfHost
         }
         public static void GetDeathReason(MessageReader reader)
         {
-            var playerId=reader.ReadByte();
-            var deathReason=reader.ReadInt32();
-            var isDead=reader.ReadBoolean();
-            PlayerState.deathReasons[playerId]=(PlayerState.DeathReason)deathReason;
+            var playerId = reader.ReadByte();
+            var deathReason = reader.ReadInt32();
+            var isDead = reader.ReadBoolean();
+            PlayerState.deathReasons[playerId] = (PlayerState.DeathReason)deathReason;
             if (isDead)
             {
                 PlayerState.isDead[playerId] = true;
