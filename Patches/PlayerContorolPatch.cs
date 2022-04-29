@@ -676,7 +676,7 @@ namespace TownOfHost
                     }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
-                    if (__instance.getCustomRole().isImpostor()
+                    if (!GameStates.isMeeting && __instance.getCustomRole().isImpostor()
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist()))
                     { //__instanceがインポスターかつ自分自身
                         var found = false;
@@ -704,7 +704,7 @@ namespace TownOfHost
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (Options.SnitchEnableTargetArrow.GetBool() && __instance.isSnitch())
+                    if (!GameStates.isMeeting && Options.SnitchEnableTargetArrow.GetBool() && __instance.isSnitch())
                     {
                         var TaskState = __instance.getPlayerTaskState();
                         if (TaskState.isTaskFinished)
