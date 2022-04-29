@@ -302,17 +302,16 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            if (((int)role) < 500)
+            if (role < CustomRoles.NoSubRoleAssigned)
             {
                 main.AllPlayerCustomRoles[targetId] = role;
             }
-            else if ((int)role >= 500)   //500:NoSubRole 501~:SubRole
+            else if ((role >= CustomRoles.NoSubRoleAssigned))   //500:NoSubRole 501~:SubRole
             {
                 main.AllPlayerCustomSubRoles[targetId] = role;
             }
             HudManager.Instance.SetHudActive(true);
         }
-
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
             NameColorManager.Instance.Add(seerId, targetId, color);

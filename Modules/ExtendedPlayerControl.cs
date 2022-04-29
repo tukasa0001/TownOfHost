@@ -11,11 +11,11 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            if (((int)role) < 500)
+            if (role < CustomRoles.NoSubRoleAssigned)
             {
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
-            else if ((int)role >= 500)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
                 main.AllPlayerCustomSubRoles[player.PlayerId] = role;
             }
