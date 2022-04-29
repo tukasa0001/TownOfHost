@@ -247,22 +247,7 @@ namespace TownOfHost
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
                 }
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-            {
-                foreach (var p in PlayerControl.AllPlayerControls)
-                {
-                    if (p.Data.IsDead)
-                    {
-                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                        if (hasRole && role == CustomRoles.Troll)
-                        {
-                            __instance.BackgroundBar.material.color = Color.green;
-                            CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
-                            CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
-                        }
-                    }
-                }
-            }
+
             if (main.currentWinner != CustomWinner.Draw)
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{getString("Win")}</color>";
