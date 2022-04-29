@@ -25,6 +25,9 @@ namespace TownOfHost
                     __instance.RoleBlurbText.text = getString("WatcherInfo");
                 else
                     __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
+
+                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+
             }, 0.01f, "Override Role Text");
 
         }
