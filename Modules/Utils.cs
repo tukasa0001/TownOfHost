@@ -369,6 +369,24 @@ namespace TownOfHost
             HudManagerPatch.NowCallNotifyRolesCount++;
             HudManagerPatch.LastSetNameDesyncCount = 0;
 
+            //Snitch警告表示のON/OFF
+            bool ShowSnitchWarning = false;
+            if (CustomRoles.Snitch.isEnable())
+            {
+                foreach (var snitch in PlayerControl.AllPlayerControls)
+                {
+                    if (snitch.isSnitch() && !snitch.Data.IsDead && !snitch.Data.Disconnected)
+                    {
+                        var taskState = snitch.getPlayerTaskState();
+                        if (taskState.doExpose)
+                        {
+                            ShowSnitchWarning = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             var seerList = PlayerControl.AllPlayerControls;
             if (SpecifySeer != null)
             {
@@ -396,18 +414,15 @@ namespace TownOfHost
                 var canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
                     (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
 
-                if (canFindSnitchRole)
+                if (canFindSnitchRole && ShowSnitchWarning && !isMeeting)
                 {
                     var arrows = "";
-                    if (!isMeeting)
+                    foreach (var arrow in main.targetArrows)
                     {
-                        foreach (var arrow in main.targetArrows)
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
                         {
-                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
-                            {
-                                //自分用の矢印で対象が死んでない時
-                                arrows += arrow.Value;
-                            }
+                            //自分用の矢印で対象が死んでない時
+                            arrows += arrow.Value;
                         }
                     }
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
@@ -470,8 +485,9 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName = SelfRoleName += SelfName + "\r\n ";
-                SelfRoleName += SelfName += SelfSuffix == "" ? "" : SelfSuffix + "\r\n ";
+                SelfName = SelfRoleName + SelfName;
+                SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
+                if (!isMeeting) SelfName += "\r\n";
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true);
