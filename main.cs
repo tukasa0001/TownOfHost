@@ -83,6 +83,7 @@ namespace TownOfHost
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static Dictionary<byte, byte> ObstacleTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;

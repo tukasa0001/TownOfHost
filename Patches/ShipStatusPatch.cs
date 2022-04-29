@@ -170,8 +170,35 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void Postfix(ShipStatus __instance)
+        public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player)
         {
+            if (CustomRoles.Obstacle.isEnable() && systemType == SystemTypes.Sabotage)
+            {
+                if (!main.ObstacleTarget.ContainsKey(player.PlayerId))
+                {
+                    var rand = new System.Random();
+                    List<PlayerControl> targetplayers = new List<PlayerControl>();
+                    //切断者と死亡者を除外
+                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                    {
+                        if (!p.Data.Disconnected && !p.Data.IsDead && !main.ObstacleTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                    }
+                    //ターゲットが0ならアップ先をプレイヤーをnullに
+                    if (targetplayers.Count >= 1)
+                    {
+                        PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                        Logger.SendInGame("ジャマーのターゲット:" + target.nameText.text);
+                        main.ObstacleTarget.Add(player.PlayerId, target.PlayerId);
+                    }
+                    else
+                    {
+                        main.ObstacleTarget.Add(player.PlayerId, 255);
+                    }
+                }
+                if (main.ObstacleTarget.ContainsValue(player.PlayerId))
+                    main.AllPlayerSpeed[player.PlayerId] = 1;// Options.SpeedBoosterUpSpeed.GetFloat();
+            }
+            Logger.SendInGame("サボタージュ" + player.PlayerId);
             Utils.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
