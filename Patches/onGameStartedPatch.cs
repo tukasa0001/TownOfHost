@@ -289,6 +289,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Obstacle, Impostors);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);

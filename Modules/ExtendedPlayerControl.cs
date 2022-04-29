@@ -624,6 +624,7 @@ namespace TownOfHost
         public static bool isWitch(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Witch; }
         public static bool isShapeMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.ShapeMaster; }
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
+        public static bool isObstacle(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Obstacle; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }

@@ -12,6 +12,7 @@ namespace TownOfHost
                 role == CustomRoles.Witch ||
                 role == CustomRoles.ShapeMaster ||
                 role == CustomRoles.Warlock ||
+                role == CustomRoles.Obstacle ||
                 role == CustomRoles.SerialKiller ||
                 role == CustomRoles.EvilWatcher ||
                 role == CustomRoles.Mafia;

@@ -95,6 +95,7 @@ namespace TownOfHost
             {CustomRoles.BountyHunter, RoleTypes.Shapeshifter},
             {CustomRoles.Witch, RoleTypes.Impostor},
             {CustomRoles.Warlock, RoleTypes.Shapeshifter},
+            {CustomRoles.Obstacle, RoleTypes.Impostor},
             {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},
             {CustomRoles.Vampire, RoleTypes.Impostor},
             {CustomRoles.ShapeMaster, RoleTypes.Shapeshifter},

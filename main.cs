@@ -186,6 +186,7 @@ namespace TownOfHost
                 {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
+                {CustomRoles.Obstacle, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
@@ -245,6 +246,7 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Obstacle,
         //Madmate
         MadGuardian,
         Madmate,
