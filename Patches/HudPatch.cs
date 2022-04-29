@@ -273,6 +273,16 @@ namespace TownOfHost
             Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
             Logger.info("---------その他---------");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
+
+            if (!AmongUsClient.Instance.AmHost)
+            {
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    PlayerState.InitTask(pc);
+                }
+                Utils.CountAliveImpostors();
+            }
         }
     }
     class RepairSender
