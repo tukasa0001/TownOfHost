@@ -217,6 +217,11 @@ namespace TownOfHost
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Egoist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Egoist);
                     break;
+                case CustomWinner.Troll:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Troll);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
+                    break;
                 //引き分け処理
                 case CustomWinner.Draw:
                     __instance.BackgroundBar.material.color = Color.gray;
