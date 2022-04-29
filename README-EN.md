@@ -358,9 +358,9 @@ If the lover dies in the vote, the other will also die and become an unreportabl
 
 Example of overlapping job titles: <br>
 ・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
-・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the in-poster. <br>
-・ Snitch lover: No task, in-poster remains unknown. <br>
-・ Sheriff Lover: You can kill in-posters as usual. Whether or not you can kill depends on the position of the duplicate source. (In-poster lover can be killed. Crewmate lover cannot be killed) <br>
+・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
+・ Snitch lover: No task, Impostor remains unknown. <br>
+・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
 ・ Opportunist lover: Win if you survive. <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
 ・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
@@ -426,7 +426,7 @@ The conditions for defeat are as follows.<br>
 
 ### LastImpostor
 
-This is the attribute given to the last in-poster.<br>
+This is the attribute given to the last Impostor.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
