@@ -348,7 +348,7 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 Team : Neutral<br>
 Decision : -<br>
-Victory Conditions : Living and ending the match. (other than task completion)<br>
+Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
 Two of all players will be cast. (Duplicate to other positions) <br>
 If a position with a crew camp task becomes a lover, the task will disappear. <br>
