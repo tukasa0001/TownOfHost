@@ -51,7 +51,7 @@ namespace TownOfHost
                 return false;
             else if (pc.Object.isArsonist() && main.DousedPlayerCount[pc.Object.PlayerId] == 0)
                 canUse = couldUse = VentForTrigger = true;
-            else if (pc.Role.IsImpostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
+            else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
