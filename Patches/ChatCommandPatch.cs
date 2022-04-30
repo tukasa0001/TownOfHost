@@ -368,15 +368,12 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             switch (chatText)
             {
-                case "/version":
-                    Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
-                    break;
                 default:
                     break;
             }
+            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }
