@@ -187,9 +187,14 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
-            string Completed = "";
+            var Comms = false;
             foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-                Completed = task.TaskType == TaskTypes.FixComms ? "?" : $"{taskState.CompletedTasksCount}";
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    Comms = true;
+                    break;
+                }
+            string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
             return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
         }
         public static string getTaskText(byte playerId)
