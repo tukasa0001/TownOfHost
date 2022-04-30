@@ -57,7 +57,7 @@ namespace TownOfHost
             {
                 foreach (var seer in PlayerControl.AllPlayerControls)
                 {
-                    var pair=(target.PlayerId, seer.PlayerId);
+                    var pair = (target.PlayerId, seer.PlayerId);
                     main.LastNotifyNames[pair] = target.name;
                 }
             }
