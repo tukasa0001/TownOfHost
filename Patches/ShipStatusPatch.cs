@@ -173,6 +173,7 @@ namespace TownOfHost
         public static void Postfix(ShipStatus __instance)
         {
             Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
