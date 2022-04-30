@@ -87,7 +87,14 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
+###　Mare
 
+Team : Impostor<br>
+Decision : Impostor<br>
+
+You can kill in the dark.<br>
+And if you succeed in killing, the kill cool will be halved.<br>
+And the movement speed will also increase.<br>
 ### SerialKiller
 
 Team : Impostor<br>
