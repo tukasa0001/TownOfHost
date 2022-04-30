@@ -66,8 +66,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
 | [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [スピードブースター](###SpeedBooster) |                               |
-| [Madmate](###Madmate)           | [Trapper](###Trapper)                 |                               |
+| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
+| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
+| [Madmate](###Madmate)           |                                       |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
