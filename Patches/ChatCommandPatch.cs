@@ -30,6 +30,16 @@ namespace TownOfHost
                     Logger.info($"{filename}にログを保存しました。", "dump");
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                     break;
+                case "/v":
+                case "/version":
+                    canceled = true;
+                    string version_text = "";
+                    foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
+                    {
+                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).getRealName()}:{kvp.Value.version}({kvp.Value.tag})\n";
+                    }
+                    if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
+                    break;
                 default:
                     main.isChatCommand = false;
                     break;
