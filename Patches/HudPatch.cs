@@ -243,10 +243,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.CoShowIntro))]
-    class CoShowIntroPatch {
-        public static void Prefix(HudManager __instance) {
-            Logger.info("--------名前表示--------");
-            foreach(var pc
+    class CoShowIntroPatch
     {
         public static void Prefix(HudManager __instance)
         {
@@ -272,10 +269,11 @@ namespace TownOfHost
                     text += $":Mod({pv.version}:";
                     text += $"{pv.tag})";
                 }
-                r.info("--------基本設定--------");
-            Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
-            Logger.info("---------その他---------");
-            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
+                Logger.info("--------基本設定--------");
+                Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
+                Logger.info("---------その他---------");
+                Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
+            }
         }
     }
     class RepairSender
