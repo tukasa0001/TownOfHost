@@ -269,11 +269,13 @@ namespace TownOfHost
                     text += $":Mod({pv.version}:";
                     text += $"{pv.tag})";
                 }
-                Logger.info("--------基本設定--------");
-                Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
-                Logger.info("---------その他---------");
-                Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
+                else text += ":Vanilla";
+                Logger.info(text);
             }
+            Logger.info("--------基本設定--------");
+            Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
+            Logger.info("---------その他---------");
+            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
         }
     }
     class RepairSender
