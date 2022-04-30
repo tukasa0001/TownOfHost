@@ -43,7 +43,7 @@ namespace TownOfHost
                 bool DoNotifyRoles = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.isBountyHunter()) continue; //BountHutner以外おことわり
+                    if (!pc.isBountyHunter()) continue; //BountyHunter以外おことわり
                     var target = pc.getBountyTarget();
                     //BountyHunterのターゲット更新
                     if (target.Data.IsDead || target.Data.Disconnected)
@@ -232,29 +232,14 @@ namespace TownOfHost
             Logger.info("ShipStatus.Start");
             Logger.info("ゲームが開始", "Phase");
 
-            Logger.info("--------名前表示--------");
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            if (AmongUsClient.Instance.AmClient)
             {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
-                main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name;
-            }
-            Logger.info("----------環境----------");
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
-                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    text += $":Mod({pv.version}:";
-                    text += $"{pv.tag})";
+                    PlayerState.InitTask(pc);
                 }
-                else text += ":Vanilla";
-                Logger.info(text);
             }
-            Logger.info("---------その他---------");
-            Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
-            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -263,6 +248,13 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.info("ShipStatus.Begin");
+
+            //ホストの役職初期設定はここで行うべき？
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                PlayerState.InitTask(pc);
+            }
+
             Utils.NotifyRoles();
         }
     }

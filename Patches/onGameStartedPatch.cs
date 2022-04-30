@@ -14,6 +14,8 @@ namespace TownOfHost
 
             main.currentWinner = CustomWinner.Default;
             main.CustomWinTrigger = false;
+            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             main.AllPlayerKillCooldown = new Dictionary<byte, float>();
             main.AllPlayerSpeed = new Dictionary<byte, float>();
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -57,18 +59,10 @@ namespace TownOfHost
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
-
-                if (!__instance.AmHost || pc.isSheriff())
-                {
-                    main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
-                    pc.RpcSetSheriffShotLimit();
-                    Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
-                }
             }
             main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
-
                 RPC.SyncCustomSettingsRPC();
                 main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -77,16 +71,6 @@ namespace TownOfHost
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
             }
-            else
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.isSheriff())
-                    {
-                        main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
-                        pc.RpcSetSheriffShotLimit();
-                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
-                    }
-                }
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -99,8 +83,6 @@ namespace TownOfHost
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
-            main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
