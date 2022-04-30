@@ -546,9 +546,10 @@ namespace TownOfHost
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
                         foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                        { //LocalPlayerがValueじゃなければ実行しない。__instanceがKeyじゃなければ実行しない。
-                            if (ExecutionerTarget.Value != seer.PlayerId || ExecutionerTarget.Key != target.PlayerId) continue;
-                            if (seer.isExecutioner())
+                        {
+                            if (ExecutionerTarget.Key == seer.PlayerId || //seerがKey
+                            ExecutionerTarget.Value == target.PlayerId || //targetがValue
+                            seer.isExecutioner()) //seerがエクスキューショナー
                                 TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                         }
 

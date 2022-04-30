@@ -355,16 +355,6 @@ namespace TownOfHost
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
                     }
-                    if (pc.isExecutioner())
-                    {
-                        List<PlayerControl> targetList = new List<PlayerControl>();
-                        rand = new System.Random();
-                        foreach (var target in PlayerControl.AllPlayerControls)
-                            if (pc != target)
-                                targetList.Add(target);
-                        var Target = targetList[rand.Next(targetList.Count)];
-                        main.ExecutionerTarget[Target.PlayerId] = pc.PlayerId;
-                    }
                 }
 
                 //役職の人数を戻す

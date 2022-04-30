@@ -41,11 +41,11 @@ namespace TownOfHost
                 {
                     foreach (var kvp in main.ExecutionerTarget)
                     {
-                        if (kvp.Key != exiled.PlayerId || !Utils.getPlayerById(kvp.Value).isExecutioner()) continue;
+                        if (!Utils.getPlayerById(kvp.Key).isExecutioner() || kvp.Value != exiled.PlayerId) continue;
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
-                        writer.Write(kvp.Value);
+                        writer.Write(kvp.Key);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        //RPC.ExecutionerWin(kvp.Value);
+                        //RPC.ExecutionerWin(kvp.Key);
                     }
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
