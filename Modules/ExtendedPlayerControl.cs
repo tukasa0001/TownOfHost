@@ -90,14 +90,32 @@ namespace TownOfHost
             if (cRoleFound) return cRole;
             else return CustomRoles.NoSubRoleAssigned;
         }
+        public static void RpcSetNameEx(this PlayerControl player, string name)
+        {
+            foreach (var seer in PlayerControl.AllPlayerControls)
+            {
+                main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            }
+            HudManagerPatch.LastSetNameDesyncCount++;
 
-        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null)
+            player.RpcSetName(name);
+        }
+
+        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null, bool force = false)
         {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
             if (player == null || name == null || !AmongUsClient.Instance.AmHost) return;
             if (seer == null) seer = player;
-            //Logger.info($"{player.name}:{name} => {seer.name}");
+            if (!force && main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
+            {
+                //Logger.info($"Cancel:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+                return;
+            }
+            main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            HudManagerPatch.LastSetNameDesyncCount++;
+            Logger.info($"Set:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
