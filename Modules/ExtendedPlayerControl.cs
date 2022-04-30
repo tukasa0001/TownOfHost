@@ -23,7 +23,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -33,7 +33,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -252,31 +252,15 @@ namespace TownOfHost
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
-                    break;
                 case CustomRoles.Arsonist:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystema != null && switchSystema.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
+                    opt.SetVision(player, false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (li != null && li.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -309,14 +293,6 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.CrewLightMod *= 5;
-                    }
-                    break;
 
 
                 InfinityVent:
@@ -330,14 +306,7 @@ namespace TownOfHost
             {
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
                     break;
             }
             if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
