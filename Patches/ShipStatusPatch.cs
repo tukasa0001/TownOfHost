@@ -173,7 +173,7 @@ namespace TownOfHost
         public static void Postfix(ShipStatus __instance)
         {
             Utils.CustomSyncAllSettings();
-            Utils.NotifyRoles();
+            new LateTask(() => Utils.NotifyRoles(), 0.1f, "RepairSystem NotifyRoles");
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
