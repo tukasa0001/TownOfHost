@@ -9,7 +9,10 @@ using UnityEngine;
 using Hazel;
 using System.Linq;
 using static TownOfHost.Translator;
+using System.Reflection;
 
+[assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
@@ -18,11 +21,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.5.0";
-        public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "1";
-        public const string BetaName = "**** Beta";
-        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
+        public const string PluginVersion = "2.0.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -50,7 +49,6 @@ namespace TownOfHost
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<byte, string> FinalTaskState;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -68,6 +66,7 @@ namespace TownOfHost
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
+        public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
         public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
@@ -96,6 +95,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
+        public static bool introDestroyed = false;
 
         public static main Instance;
 
@@ -115,7 +115,7 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("TaskCounts");
+            TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
@@ -146,6 +146,8 @@ namespace TownOfHost
             BanTimestamp = Config.Bind("Other", "lastTime", 0);
 
             NameColorManager.Begin();
+
+            Translator.init();
 
             BlockKilling = new Dictionary<byte, bool>();
 
@@ -189,6 +191,7 @@ namespace TownOfHost
                 {CustomRoles.Mare, "#ff0000"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"},
@@ -265,6 +268,7 @@ namespace TownOfHost
         Sheriff,
         Snitch,
         SpeedBooster,
+        Trapper,
         //第三陣営
         Arsonist,
         Egoist,

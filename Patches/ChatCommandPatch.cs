@@ -16,10 +16,27 @@ namespace TownOfHost
             string[] args = text.Split(' ');
             var canceled = false;
             var cancelVal = "";
+            main.isChatCommand = true;
+            Logger.info(text, "SendChat");
+            switch (args[0])
+            {
+                case "/dump":
+                    canceled = true;
+                    string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
+                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
+                    FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+                    file.CopyTo(@filename);
+                    System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+                    Logger.info($"{filename}にログを保存しました。", "dump");
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                    break;
+                default:
+                    main.isChatCommand = false;
+                    break;
+            }
             if (AmongUsClient.Instance.AmHost)
             {
                 main.isChatCommand = true;
-                Logger.info(text, "SendChat");
                 switch (args[0])
                 {
                     case "/win":
@@ -67,17 +84,6 @@ namespace TownOfHost
                                 break;
                         }
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
-                        break;
-
-                    case "/dump":
-                        canceled = true;
-                        string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
-                        string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
-                        FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-                        file.CopyTo(@filename);
-                        System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
-                        Logger.info($"{filename}にログを保存しました。");
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                         break;
 
                     case "/h":
@@ -289,6 +295,11 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
                     break;
 
+                case "trapper":
+                case "tra":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Trapper) + getString("TrapperInfoLong"));
+                    break;
+
                 case "schrodingercat":
                 case "sc":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SchrodingerCat) + getString("SchrodingerCatInfoLong"));
@@ -310,7 +321,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), mare(ma), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), mare(ma), trapper(tra), fox(fo), troll(tr)");
                     break;
             }
 
@@ -355,14 +366,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             switch (chatText)
             {
-                case "/banhost":
-                    if (main.PluginVersionType == VersionTypes.Beta && !(main.BanTimestamp.Value == -1 && main.AmDebugger.Value))
-                    {
-                        Logger.info("プレイヤーからBANされました");
-                        main.BanTimestamp.Value = (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks) / 10000000);
-                        AmongUsClient.Instance.KickPlayer(AmongUsClient.Instance.ClientId, true);
-                    }
-                    break;
                 case "/version":
                     Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
                     break;

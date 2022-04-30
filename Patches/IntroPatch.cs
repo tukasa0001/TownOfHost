@@ -120,14 +120,14 @@ namespace TownOfHost
         private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
         {
             await Task.Delay(1000);
-            int miliseconds = 0;
+            int milliseconds = 0;
             while (true)
             {
                 await Task.Delay(20);
-                miliseconds += 20;
-                float time = (float)miliseconds / (float)500;
+                milliseconds += 20;
+                float time = (float)milliseconds / (float)500;
                 Color LerpingColor = Color.Lerp(start, end, time);
-                if (__instance == null || miliseconds > 500)
+                if (__instance == null || milliseconds > 500)
                 {
                     Logger.info("ループを終了します");
                     break;
@@ -160,6 +160,14 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
             BeginCrewmatePatch.Postfix(__instance, ref yourTeam);
+        }
+    }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
+    class IntroCutsceneDestoryPatch
+    {
+        public static void Postfix(IntroCutscene __instance)
+        {
+            main.introDestroyed = true;
         }
     }
 }

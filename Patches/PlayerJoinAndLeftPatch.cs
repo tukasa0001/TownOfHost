@@ -12,7 +12,7 @@ namespace TownOfHost
             Logger.info("RealNamesをリセット");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
-            new LateTask(() => RPC.RpcVersionCheck(), 0.5f, "RpcVersionCheck");
+            RPC.RpcVersionCheck();
 
             NameColorManager.Begin();
             Options.Load();
@@ -32,8 +32,8 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
-            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
-            main.RealNames.Remove(data.Character.PlayerId);
+//            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
+//            main.RealNames.Remove(data.Character.PlayerId);
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             PlayerState.isDead[data.Character.PlayerId] = true;
             Logger.info("切断理由:" + reason.ToString());

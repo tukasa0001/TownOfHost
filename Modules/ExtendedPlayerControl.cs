@@ -16,7 +16,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -26,7 +26,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -245,31 +245,15 @@ namespace TownOfHost
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
-                    break;
                 case CustomRoles.Arsonist:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystema != null && switchSystema.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
+                    opt.SetVision(player, false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (li != null && li.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -297,20 +281,13 @@ namespace TownOfHost
                                     main.SpeedBoostTarget.Add(player.PlayerId, 255);
                                 }
                             }
+                            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+                                main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
                         }
                     }
                     break;
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.CrewLightMod *= 5;
-                    }
-                    break;
                 case CustomRoles.Mare:
-                    var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (ma != null && ma.IsActive)
+                    if (Utils.isActive(SystemTypes.Electrical))
                     {//もし停電発生した場合
                         opt.PlayerSpeedMod += 1;//Mareの速度を通常速度+1する
                         opt.KillCooldown /= 2;//Mareのキルクールを÷2する
@@ -329,14 +306,7 @@ namespace TownOfHost
             {
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
                     break;
             }
             if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
@@ -352,9 +322,18 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+            if (main.AllPlayerSpeed.ContainsKey(player.PlayerId))
             {
-                opt.PlayerSpeedMod = Options.SpeedBoosterUpSpeed.GetFloat();
+                foreach (var speed in main.AllPlayerSpeed)
+                {
+                    if (speed.Key == player.PlayerId)
+                    {
+                        if (speed.Value > 0)
+                            opt.PlayerSpeedMod = speed.Value;
+                        else
+                            opt.PlayerSpeedMod = 0.0001f;
+                    }
+                }
             }
             if (player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -370,34 +349,9 @@ namespace TownOfHost
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-
         public static TaskState getPlayerTaskState(this PlayerControl player)
         {
-            if (player == null || player.Data == null || player.Data.Tasks == null) return new TaskState();
-            if (!Utils.hasTasks(player.Data, false)) return new TaskState();
-            int AllTasksCount = 0;
-            int CompletedTaskCount = 0;
-            foreach (var task in player.Data.Tasks)
-            {
-                AllTasksCount++;
-                if (task.Complete) CompletedTaskCount++;
-            }
-            //役職ごとにタスク量の調整を行う
-            var adjustedTasksCount = AllTasksCount;
-            switch (player.getCustomRole())
-            {
-                case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
-                    break;
-                default:
-                    break;
-            }
-            //タスク数が通常タスクより多い場合は再設定が必要
-            AllTasksCount = Math.Min(adjustedTasksCount, AllTasksCount);
-            //調整後のタスク量までしか表示しない
-            CompletedTaskCount = Math.Min(AllTasksCount, CompletedTaskCount);
-            Logger.info($"{player.name}: {CompletedTaskCount}/{AllTasksCount}", "TaskCounts");
-            return new TaskState(AllTasksCount, CompletedTaskCount);
+            return PlayerState.taskState[player.PlayerId];
         }
 
         public static GameOptionsData DeepCopy(this GameOptionsData opt)
@@ -604,6 +558,20 @@ namespace TownOfHost
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
                     break;
             }
+            if (player.isLastImpostor())
+                main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+        }
+        public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
+        {
+            Logger.SendToFile(target.name + $"はTrapperだった");
+            main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
+            killer.CustomSyncSettings();
+            new LateTask(() =>
+            {
+                main.AllPlayerSpeed[killer.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                killer.CustomSyncSettings();
+                RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
+            }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
@@ -635,6 +603,7 @@ namespace TownOfHost
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
+        public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; }
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }

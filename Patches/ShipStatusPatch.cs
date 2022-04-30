@@ -24,12 +24,11 @@ namespace TownOfHost
                 main.RefixCooldownDelay = float.NaN;
                 Logger.info("Refix Cooldown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
                     Options.HideAndSeekKillDelayTimer -= Time.fixedDeltaTime;
-                    Logger.SendToFile("HaSKillDelayTimer: " + Options.HideAndSeekKillDelayTimer);
                 }
                 else if (!float.IsNaN(Options.HideAndSeekKillDelayTimer))
                 {
@@ -44,7 +43,7 @@ namespace TownOfHost
                 bool DoNotifyRoles = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.isBountyHunter()) continue; //BountHutner以外おことわり
+                    if (!pc.isBountyHunter()) continue; //BountyHunter以外おことわり
                     var target = pc.getBountyTarget();
                     //BountyHunterのターゲット更新
                     if (target.Data.IsDead || target.Data.Disconnected)
@@ -215,7 +214,7 @@ namespace TownOfHost
                 {
                     return;
                 }
-                
+
                 if (0 <= amount && amount <= 4)
                 {
                     __instance.ActualSwitches = 0;
@@ -231,31 +230,16 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.info("ShipStatus.Start");
-            Logger.info("ゲームが開始","Phase");
-            
-            Logger.info("--------名前表示--------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            Logger.info("ゲームが開始", "Phase");
+
+            if (AmongUsClient.Instance.AmClient)
             {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
-                main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
-            }
-            Logger.info("----------環境----------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
-            {
-                var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                //クライアントの役職初期設定はここで行う
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    text += $":Mod({pv.version}:";
-                    text += pv.beta_ver == -1? ":" : pv.beta_ver+":";
-                    text += $"{pv.tag})";
-                }else text += ":Vanilla";
-                Logger.info(text);
+                    PlayerState.InitTask(pc);
+                }
             }
-            Logger.info("---------その他---------");
-            Logger.info($"マップ: {PlayerControl.GameOptions.MapId}");
-            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -264,6 +248,13 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.info("ShipStatus.Begin");
+
+            //ホストの役職初期設定はここで行うべき？
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                PlayerState.InitTask(pc);
+            }
+
             Utils.NotifyRoles();
         }
     }

@@ -1,16 +1,40 @@
 # Town Of Host
+
 [![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
 
-このREADMEは英語版です。<br>
+<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
+
+この README は英語版です。<br>
 ! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !<br>
 
 ## Regarding this mod
+
 This mod is unofficial, and Innersloth, the developer of Among Us, has no involvement in the development of this mod.<br>
 Please do not contact the official team regarding any issues with this mod.<br>
 
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/v8SFfdebpz)
+[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
+
+## Releases
+
+| Among Us - Version | Mod Version | Link                                                                                                    |
+| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
+| 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
+| 2022.2.23s         | v1.4b#5     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
+| 2021.12.15s        | v1.4b#4     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
+| 2021.12.15s        | v1.4b#3     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
+| 2021.12.15s        | v1.4b#2     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
+| 2021.12.15s        | v1.4b#1     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
+| 2021.12.15s        | v1.3.4      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
+| 2021.12.15s        | v1.3.3      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
+| 2021.12.15s        | v1.3.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
+| 2021.12.15s        | v1.3.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
+| 2021.12.15s        | v1.3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
+| 2021.12.14s        | v1.2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
+| 2021.11.9.5s       | v1.0        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
 
 ## Features
+
 This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
 Unlike mods that use custom servers, there is no need to add servers by editing URLs or files.<br>
 
@@ -20,6 +44,7 @@ However, please note that the following restrictions apply.<br>
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
 Please use Option Controler in Town Of Host to change options and change their value to 0.
+
 - Killcooldown (in Impostor Options)
 - ShapeshifterCooldwn (in Shapeshifter Options)
 
@@ -30,33 +55,21 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Custom Settings Menu
-Pressing the Tab key in the standby lobby will change the room setting screen to a setting screen dedicated to Town Of Host.<br>
-
-| Key | Action |
-| :---: | ---- |
-| Tab | Open/Close Custom Settings Menu |
-| Up | Corsor Up |
-| Down | Cursor Down |
-| Right | Execute Item |
-| Left | Go Back One |
-| Number | Enter A Value |
-
 ## Roles
 
-| Impostors | Crewmates | Neutral |
-|----------|-------------|-----------------|
-| [BountyHunter](###BountyHunter) | [Bait](###Bait) | [Jester](###Jester) |
-| [SerialKiller](###SerialKiller) | [Mayor](###Mayor) | [Opportunist](###Opportunist) |
-| [ShapeMaster](###ShapeMaster) | [SabotageMaster](###SabotageMaster) | [Terrorist](###Terrorist) |
-| [Vampire](###Vampire) | [Sheriff](###Sheriff) | [Arsonist](###Arsonist) |
-| [Warlock](###Warlock) | [Snitch](###Snitch) | [Egoist](###Egoist) |
-| [Witch](###Witch) | [Lighter](###Lighter)|  |
-| [Mafia](###Mafia) | [Nice Watcher](###Watcher) |  |
-| [Evil Watcher](###Watcher) | [スピードブースター](###SpeedBooster) |  |
-| [Madmate](###Madmate) |  |  |
-| [MadGuardian](###MadGuardian) |  |  |
-| [MadSnitch](###MadSnitch) |  |  |
+| Impostors                       | Crewmates                             | Neutral                       |
+| ------------------------------- | ------------------------------------- | ----------------------------- |
+| [BountyHunter](###BountyHunter) | [Bait](###Bait)                       | [Jester](###Jester)           |
+| [SerialKiller](###SerialKiller) | [Mayor](###Mayor)                     | [Opportunist](###Opportunist) |
+| [ShapeMaster](###ShapeMaster)   | [SabotageMaster](###SabotageMaster)   | [Terrorist](###Terrorist)     |
+| [Vampire](###Vampire)           | [Sheriff](###Sheriff)                 | [Arsonist](###Arsonist)       |
+| [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
+| [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
+| [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
+| [Evil Watcher](###Watcher)      | [スピードブースター](###SpeedBooster) |                               |
+| [Madmate](###Madmate)           | [Trapper](###Trapper)                 |                               |
+| [MadGuardian](###MadGuardian)   |                                       |                               |
+| [MadSnitch](###MadSnitch)       |                                       |                               |
 
 ### BountyHunter
 
@@ -68,12 +81,12 @@ If they kill the player who is not their target, they will keep their next kill 
 
 #### Settings
 
-| Settings Name |
-|----------|
-| Time to change target(s) |
-| Cooldown time after killing the target(s) |
+| Settings Name                                                 |
+| ------------------------------------------------------------- |
+| Time to change target(s)                                      |
+| Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
-| Kill cooldown time other than BountyHunter(s) |
+| Kill cooldown time other than BountyHunter(s)                 |
 
 ### SerialKiller
 
@@ -83,9 +96,9 @@ Decision : Shapeshifter<br>
 SerialKiller's killcooldown is shorter than defalt Impostor.<br>
 If he can not kill on deadline, he will kill him.<br>
 
-| Settings Name |
-|----------|
-| Kill cool down time(s) |
+| Settings Name            |
+| ------------------------ |
+| Kill cool down time(s)   |
 | Time to self-destruct(s) |
 
 ### ShapeMaster
@@ -98,8 +111,8 @@ Normally, the transformation lasts only 10 seconds, but the duration of the tran
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name         |
+| --------------------- |
 | Transformable time(s) |
 
 ### Vampire
@@ -114,8 +127,8 @@ However, only if they kill the [Baits](###Bait) will it be a normal kill and the
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name         |
+| --------------------- |
 | Vampire Kill Delay(s) |
 
 ### Warlock
@@ -155,8 +168,8 @@ They can not kill or sabotage, but they can use vents.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name                                             |
+| --------------------------------------------------------- |
 | Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
 
 ### MadGuardian
@@ -171,10 +184,10 @@ They can not kill, sabotage, and using vents.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name                                         |
+| ----------------------------------------------------- |
 | [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
-| MadGuardian Can See Own Cracked Barrier |
+| MadGuardian Can See Own Cracked Barrier               |
 
 ### MadSnitch
 
@@ -195,9 +208,10 @@ The Watcher is a player capable of seeing everyone's votes during meetings.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name     |
+| ----------------- |
 | EvilWatcherChance |
+
 ### Bait
 
 Team : Crewmates<br>
@@ -221,9 +235,22 @@ Completing the task will make a random surviving player speed up.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name     |
+| ----------------- |
 | Speed at speed up |
+
+### Trapper
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+When killed, it immobilizes the killed player for a few seconds.<br>
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
 
 ### Mayor
 
@@ -234,8 +261,8 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name                |
+| ---------------------------- |
 | Mayor Additional Votes Count |
 
 ### SabotageMaster
@@ -250,14 +277,14 @@ Opening a door in Polus or The Airship will open all the doors in that room.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name                                             |
+| --------------------------------------------------------- |
 | SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors) |
-| SabotageMaster Can Fixes Multiple Doors |
-| SabotageMaster Can Fixes Both Reactors |
-| SabotageMaster Can Fixes Both O2 |
-| SabotageMaster Can Fixes Both Communications In MIRA HQ |
-| SabotageMaster Can Fixes Lights Out All At Once |
+| SabotageMaster Can Fixes Multiple Doors                   |
+| SabotageMaster Can Fixes Both Reactors                    |
+| SabotageMaster Can Fixes Both O2                          |
+| SabotageMaster Can Fixes Both Communications In MIRA HQ   |
+| SabotageMaster Can Fixes Lights Out All At Once           |
 
 ### Sheriff
 
@@ -270,16 +297,16 @@ They do not have tasks.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
-| Sheriff Can Kill [Arsonist](###Arsonist) |
-| Sheriff Can Kill [Madmate](###Madmate) |
-| Sheriff Can Kill [Jester](###Jester) |
-| Sheriff Can Kill [Terrorist](###Terrorist) |
+| Settings Name                                  |
+| ---------------------------------------------- |
+| Sheriff Can Kill [Arsonist](###Arsonist)       |
+| Sheriff Can Kill [Madmate](###Madmate)         |
+| Sheriff Can Kill [Jester](###Jester)           |
+| Sheriff Can Kill [Terrorist](###Terrorist)     |
 | Sheriff Can Kill [Opportunist](###Opportunist) |
-| Sheriff Can Kill [Egoist](###Egoist) |
-| Sheriff Can Kill Crewmates As It |
-| Sheriff Shot Limit |
+| Sheriff Can Kill [Egoist](###Egoist)           |
+| Sheriff Can Kill Crewmates As It               |
+| Sheriff Shot Limit                             |
 
 ### Snitch
 
@@ -295,7 +322,7 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : Get Voted Out<br>
 
-The Jesters are  the neutral role which can win by getting voted out.<br>
+The Jesters are the neutral role which can win by getting voted out.<br>
 If the game ends without getting voted out., or if they are killed, they lose.<br>
 
 ### Opportunist
@@ -329,9 +356,9 @@ If they finish dousing to all alive crewmates, they will win.<br>
 #### Settings
 
 | Settings Name |
-|----------|
-| Dousing time |
-| Cooldown  |
+| ------------- |
+| Dousing time  |
+| Cooldown      |
 
 ### SchrodingerCat
 
@@ -352,8 +379,8 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name                                              |
+| ---------------------------------------------------------- |
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
 
 ### Egoist
@@ -381,8 +408,8 @@ The conditions for defeat are as follows.<br>
 This is the attribute given to the last in-poster.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
-| Settings Name |
-|----------|
+| Settings Name             |
+| ------------------------- |
 | LastImpostor KillCooldown |
 
 ## Mode
@@ -391,31 +418,36 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
 It is possible to disable certain tasks.<br>
 
-| Settings Name |
-|----------|
+| Settings Name              |
+| -------------------------- |
 | Disable StartReactor Tasks |
-| Disable SubmitScan Tasks |
-| Disable SwipeCard Tasks |
-| Disable UnlockSafe Tasks |
-| Disable UploadData Tasks |
+| Disable SubmitScan Tasks   |
+| Disable SwipeCard Tasks    |
+| Disable UnlockSafe Tasks   |
+| Disable UploadData Tasks   |
 
 ### HideAndSeek
 
 #### Crewmates Team (Blue) Victory Conditions
+
 Completing all tasks.<br>
 ※Ghosts's tasks are not counted.<br>
 
 #### Impostor Team (Red) Victory Conditions
+
 Killing all Crewmates.<br>
 ※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates have been wiped out.<br>
 
 #### Fox (Purple) Victory Conditions
+
 Aliving when one of the teams (Except Troll) wins.<br>
 
 #### Troll (Green) Victory Conditions
+
 Being killed by Impostors.<br>
 
 #### Prohibited items
+
 ・Sabotage<br>
 ・Admin<br>
 ・Camera<br>
@@ -423,31 +455,36 @@ Being killed by Impostors.<br>
 ・Ambush (This may make it impossible for the Crewmates to win with the tasks.)<br>
 
 #### What you can't do
+
 ・Reporting a dead bodies<br>
 ・Emergency conference button<br>
 ・Sabotage<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
-| Allow Closing Doors |
+| Settings Name             |
+| ------------------------- |
+| Allow Closing Doors       |
 | Impostors Waiting Time(s) |
-| Ignore Cosmetics |
-| Ignore Using Vents |
+| Ignore Cosmetics          |
+| Ignore Using Vents        |
 
 ### NoGameEnd
 
 #### Crewmates Team Victory Conditions
+
 None<br>
 
 #### Impostor Team Victory Conditions
+
 None<br>
 
 #### Prohibited items
+
 None<br>
 
 #### What you can't do
+
 Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
 This is a debug mode where there is no win decision.<br>
@@ -458,11 +495,11 @@ The RandomMapsMode changes the maps at random.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
-| Added The Skeld |
-| Added MIRA HQ |
-| Added Polus |
+| Settings Name     |
+| ----------------- |
+| Added The Skeld   |
+| Added MIRA HQ     |
+| Added Polus       |
 | Added The Airship |
 
 ### SyncButtonMode
@@ -471,29 +508,31 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 #### Settings
 
-| Settings Name |
-|----------|
+| Settings Name    |
+| ---------------- |
 | Max Button Count |
 
 ## OtherSettings
 
-| Settings Name |
-|----------|
+| Settings Name  |
+| -------------- |
 | When Skip Vote |
-| When Non-Vote |
+| When Non-Vote  |
 
 #### Client Settings
+
 ## HideCodes
 
 By activating, you can hide the lobby code.
 
-You can rewrite the``Hide Game Code Name``in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
-You can also change the text color as you like by rewriting``Hide Game Code Color``.
+You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
+You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
 ## JapaneseRoleName
 
 By activating, the job title can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless the host has``ForceJapanese``enabled.
+If the client language is English, this setting is meaningless unless `ForceJapanese` is enabled.
+
 ## Credits
 
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
