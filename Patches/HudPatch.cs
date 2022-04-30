@@ -114,9 +114,6 @@ namespace TownOfHost
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
-                case CustomRoles.Mare:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.Mare)}>{Utils.getRoleName(CustomRoles.Mare)}\r\n{getString("MareInfo")}</color>\r\n";
-                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
@@ -249,30 +246,33 @@ namespace TownOfHost
     class CoShowIntroPatch {
         public static void Prefix(HudManager __instance) {
             Logger.info("--------名前表示--------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach(var pc
+    {
+        public static void Prefix(HudManager __instance)
+        {
+            Logger.info("--------名前表示--------");
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
+                pc.nameText.text = pc.name;
             }
             Logger.info("------役職割り当て------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}");
             }
             Logger.info("----------環境----------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
+                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                 {
                     text += $":Mod({pv.version}:";
                     text += $"{pv.tag})";
-                }else text += ":Vanilla";
-                Logger.info(text);
-            }
-            Logger.info("--------基本設定--------");
+                }
+                r.info("--------基本設定--------");
             Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
             Logger.info("---------その他---------");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
