@@ -289,8 +289,8 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     if (Utils.isActive(SystemTypes.Electrical))
                     {//もし停電発生した場合
-                        opt.PlayerSpeedMod += 1;//Mareの速度を通常速度+1する
-                        opt.KillCooldown /= 2;//Mareのキルクールを÷2する
+                        main.AllPlayerSpeed[player.PlayerId] += 1;//Mareの速度を通常速度+1する
+                        main.AllPlayerKillCooldown[player.PlayerId] /= 2;//Mareのキルクールを÷2する
                     }
                     break;
 
