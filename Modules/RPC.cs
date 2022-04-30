@@ -41,7 +41,11 @@ namespace TownOfHost
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = reader.ReadString();
-                    bool DontShowOnModdedClient = reader.ReadBoolean();
+                    bool DontShowOnModdedClient = false;
+                    if (reader.BytesRemaining > 0)
+                    {
+                        DontShowOnModdedClient = reader.ReadBoolean();
+                    }
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
                     if (!DontShowOnModdedClient)
                     {
