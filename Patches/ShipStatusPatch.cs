@@ -172,6 +172,8 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance)
         {
+            if (Utils.isActive(SystemTypes.Reactor)) Logger.SendInGame("リアクター有効");
+            //if (Utils.isActive(SystemTypes.Electrical)) Logger.SendInGame("停電有効");
             Utils.CustomSyncAllSettings();
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
