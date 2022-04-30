@@ -117,6 +117,7 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
+            TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
