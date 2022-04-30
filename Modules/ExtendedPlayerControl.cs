@@ -149,6 +149,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillJester.GetBool();
                 case CustomRoles.Terrorist:
                     return Options.SheriffCanKillTerrorist.GetBool();
+                case CustomRoles.Executioner:
+                    return Options.SheriffCanKillExecutioner.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
@@ -611,6 +613,7 @@ namespace TownOfHost
         public static bool isSKMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SKMadmate; }
         public static bool isBait(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Bait; }
         public static bool isTerrorist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Terrorist; }
+        public static bool isExecutioner(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Executioner; }
         public static bool isMafia(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mafia; }
         public static bool isVampire(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Vampire; }
         public static bool isSabotageMaster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SabotageMaster; }

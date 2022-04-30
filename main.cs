@@ -81,6 +81,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : target, Value : Executioner
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
@@ -91,6 +92,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonExecutionerID;
         public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
@@ -135,6 +137,7 @@ namespace TownOfHost
             isDoused = new Dictionary<(byte, byte), bool>();
             DousedPlayerCount = new Dictionary<byte, int>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            ExecutionerTarget = new Dictionary<byte, byte>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -176,6 +179,7 @@ namespace TownOfHost
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Executioner, "#611c3a"},
                 {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.Bait, "#00f7ff"},
                 {CustomRoles.SabotageMaster, "#0000ff"},
@@ -276,6 +280,7 @@ namespace TownOfHost
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Terrorist,
+        Executioner,
         //HideAndSeak
         Fox,
         Troll,
@@ -291,6 +296,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Executioner,
         Arsonist,
         Egoist,
         Troll

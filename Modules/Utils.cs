@@ -140,6 +140,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Executioner) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
@@ -162,7 +163,7 @@ namespace TownOfHost
             if (!taskState.hasTasks) return "null";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
-        public static string getTaskText(byte  playerId)
+        public static string getTaskText(byte playerId)
         {
             var taskState = PlayerState.taskState[playerId];
             if (!taskState.hasTasks) return "";
@@ -516,6 +517,12 @@ namespace TownOfHost
                             //NameColorManager準拠の処理
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
+                        }
+                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                        { //LocalPlayerがValueじゃなければ実行しない。__instanceがKeyじゃなければ実行しない。
+                            if (ExecutionerTarget.Value != seer.PlayerId || ExecutionerTarget.Key != target.PlayerId) continue;
+                            if (seer.isExecutioner())
+                                TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                         }
 
                         //全てのテキストを合成します。

@@ -37,6 +37,17 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.JesterExiled(exiled.PlayerId);
                 }
+                if (main.ExecutionerTarget.ContainsKey(exiled.PlayerId) && AmongUsClient.Instance.AmHost)
+                {
+                    foreach (var kvp in main.ExecutionerTarget)
+                    {
+                        if (kvp.Key != exiled.PlayerId || !Utils.getPlayerById(kvp.Value).isExecutioner()) continue;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(kvp.Value);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        //RPC.ExecutionerWin(kvp.Value);
+                    }
+                }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                     Utils.CheckTerroristWin(exiled);
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)

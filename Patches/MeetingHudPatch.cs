@@ -272,6 +272,12 @@ namespace TownOfHost
                 {
                     pva.NameText.text = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
                 }
+                foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                { //LocalPlayerがValueじゃなければ実行しない。pcがKeyじゃなければ実行しない。
+                    if (ExecutionerTarget.Value != PlayerControl.LocalPlayer.PlayerId || ExecutionerTarget.Key != pc.PlayerId) continue;
+                    if (PlayerControl.LocalPlayer.isExecutioner())
+                        pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                }
             }
         }
     }

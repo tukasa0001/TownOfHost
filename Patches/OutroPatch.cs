@@ -90,6 +90,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.isEnable())
+            { //Executioner単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == main.WonExecutionerID)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
+                }
+            }
             if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
             { //Arsonist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -221,6 +234,11 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Color.green;
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
+                    break;
+                case CustomWinner.Executioner:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Executioner);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Executioner)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Executioner);
                     break;
                 case CustomWinner.Arsonist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
