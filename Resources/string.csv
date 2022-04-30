@@ -164,6 +164,7 @@ BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンタ
 BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
+BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイトが停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイトが通信障害を直すことができる
