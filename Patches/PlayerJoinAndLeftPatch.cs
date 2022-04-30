@@ -34,7 +34,7 @@ namespace TownOfHost
         {
 //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
 //            main.RealNames.Remove(data.Character.PlayerId);
-            RPC.SendDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected, true);
+            RPC.SendDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             Logger.info("切断理由:" + reason.ToString());
         }
     }

@@ -196,24 +196,19 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
-        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason, bool isDead)
+        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
             writer.Write((int)deathReason);
-            writer.Write(isDead);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void GetDeathReason(MessageReader reader)
         {
             var playerId = reader.ReadByte();
-            var deathReason = reader.ReadInt32();
-            var isDead = reader.ReadBoolean();
-            PlayerState.deathReasons[playerId] = (PlayerState.DeathReason)deathReason;
-            if (isDead)
-            {
-                PlayerState.isDead[playerId] = true;
-            }
+            var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
+            PlayerState.deathReasons[playerId] = deathReason;
+            PlayerState.isDead[playerId] = true;
         }
 
         public static void JesterExiled(byte jesterID)
