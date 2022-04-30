@@ -69,8 +69,7 @@ namespace TownOfHost
             }
             if (role == CustomRoles.Mare)
             {
-                var ma = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                if (ma != null && !ma.IsActive)
+                if (Utils.isActive(SystemTypes.Electrical))
                     canUse = false;
             }
             return canUse;
