@@ -61,15 +61,6 @@ namespace TownOfHost
                 }
                 PlayerState.isDead[exiled.PlayerId] = true;
             }
-            if (exiled == null && main.SpelledPlayer != null)
-            {
-                foreach (var p in main.SpelledPlayer)
-                {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                    main.IgnoreReportPlayers.Add(p.PlayerId);
-                    p.RpcMurderPlayer(p);
-                }
-            }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
