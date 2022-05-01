@@ -322,6 +322,7 @@ namespace TownOfHost
             main.AllPlayerCustomRoles[targetId] = role;
             HudManager.Instance.SetHudActive(true);
         }
+
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
             NameColorManager.Instance.Add(seerId, targetId, color);
