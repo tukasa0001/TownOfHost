@@ -8,6 +8,33 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static bool isActive(SystemTypes type)
+        {
+            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+            Logger.info($"SystemTypes:{type}", "SwitchSystem");
+
+            if (SwitchSystem != null && SwitchSystem.IsActive)
+                return true;
+
+            return false;
+        }
+        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        {
+            if (HasImpVision)
+            {
+                opt.CrewLightMod = opt.ImpostorLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.CrewLightMod *= 5;
+                return;
+            }
+            else
+            {
+                opt.ImpostorLightMod = opt.CrewLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.ImpostorLightMod /= 5;
+                return;
+            }
+        }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -490,8 +517,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true);
-                HudManagerPatch.LastSetNameDesyncCount++;
+                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -565,11 +591,7 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                         //適用
-                        if (target.name != TargetName)
-                        {
-                            target.RpcSetNamePrivate(TargetName, true, seer);
-                            HudManagerPatch.LastSetNameDesyncCount++;
-                        }
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }
