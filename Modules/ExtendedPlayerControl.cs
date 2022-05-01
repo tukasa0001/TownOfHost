@@ -604,19 +604,19 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
-        public static void ImpostorVentButtonToggleVisible(this PlayerControl player)
+        public static void CanUseImpostorVent(this PlayerControl player)
         {
             switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    break;
+                    player.Data.Role.CanVent = false;
+                    return;
                 case CustomRoles.Arsonist:
-                    if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out int count) && count != 0)
-                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
-                    else
-                        DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
-                    break;
+                    bool CanUse = (main.DousedPlayerCount.TryGetValue(player.PlayerId, out int count) && count == 0);
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = CanUse;
+                    return;
             }
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }

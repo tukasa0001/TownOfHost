@@ -111,7 +111,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
-                    player.ImpostorVentButtonToggleVisible();
+                    player.CanUseImpostorVent();
                     goto DesyncImpostor;
 
                 DesyncImpostor:
