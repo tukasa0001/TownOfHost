@@ -1,7 +1,8 @@
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using Hazel;
 
 namespace TownOfHost
@@ -41,7 +42,11 @@ namespace TownOfHost
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = reader.ReadString();
-                    bool DontShowOnModdedClient = reader.ReadBoolean();
+                    bool DontShowOnModdedClient = false;
+                    if (reader.BytesRemaining > 0)
+                    {
+                        DontShowOnModdedClient = reader.ReadBoolean();
+                    }
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
                     if (!DontShowOnModdedClient)
                     {
@@ -316,6 +321,39 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
             writer.Write(player);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void sendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
+        {
+            if (!main.AmDebugger.Value) return;
+            string rpcName;
+            string from = targetNetId.ToString();
+            string target = targetClientId.ToString();
+            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
+            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
+            else rpcName = callId.ToString();
+            try
+            {
+                target = targetClientId < 0 ? "All" : AmongUsClient.Instance.GetClient(targetClientId).PlayerName;
+                from = PlayerControl.AllPlayerControls.ToArray().Where(c => c.NetId == targetNetId).FirstOrDefault().Data.PlayerName;
+            }
+            catch { }
+            Logger.info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+        }
+    }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
+    class StartRpcPatch
+    {
+        public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId)
+        {
+            RPC.sendRpcLogger(targetNetId, callId);
+        }
+    }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpcImmediately))]
+    class StartRpcImmediatelyPatch
+    {
+        public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId, [HarmonyArgument(3)] int targetClientId = -1)
+        {
+            RPC.sendRpcLogger(targetNetId, callId, targetClientId);
         }
     }
 }
