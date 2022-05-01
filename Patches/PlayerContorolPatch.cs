@@ -408,30 +408,33 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
              //Vampireの処理
-                if (GameStates.isInTask && main.BitPlayers.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
-                    //__instance:キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
+                    if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                     {
-                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        if (!__instance.Data.IsDead)
+                        //__instance:キルされる予定のプレイヤー
+                        //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                        //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
+                        if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                         {
-                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
-                            __instance.RpcMurderPlayer(__instance);
-                            RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                            Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                            byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
+                            if (!__instance.Data.IsDead)
+                            {
+                                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
+                                __instance.RpcMurderPlayer(__instance);
+                                RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                                Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                            }
+                            else
+                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
+                            main.BitPlayers.Remove(__instance.PlayerId);
                         }
                         else
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                        main.BitPlayers.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.BitPlayers[__instance.PlayerId] =
-                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        {
+                            main.BitPlayers[__instance.PlayerId] =
+                            (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        }
                     }
                 }
                 if (GameStates.isInTask && main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
