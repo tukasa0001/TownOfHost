@@ -90,6 +90,16 @@ namespace TownOfHost
             if (cRoleFound) return cRole;
             else return CustomRoles.NoSubRoleAssigned;
         }
+        public static RoleType getCustomRoleType(this PlayerControl player)
+        {
+            var role = player.getCustomRole();
+            if (Roles.crewmateRoles.Contains(role)) return RoleType.Crewmate;
+            if (Roles.impostorRoles.Contains(role)) return RoleType.Impostor;
+            if (Roles.madmateRoles.Contains(role)) return RoleType.Madmate;
+            if (Roles.neutralRoles.Contains(role)) return RoleType.Neutral;
+            //判定は出来てるはず。念のため
+            return RoleType.Crewmate;
+        }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
             foreach (var seer in PlayerControl.AllPlayerControls)
@@ -615,18 +625,13 @@ namespace TownOfHost
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; }
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; }
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
-        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+        public static bool Is(this PlayerControl target, CustomRoles role)
+        {
+            return target.getCustomRole() == role;
+        }
         public static bool Is(this PlayerControl target, RoleType roleType)
         {
-            var role = target.getCustomRole();
-            return roleType switch
-            {
-                RoleType.Crewmate => Roles.crewmateRoles.Contains(role),
-                RoleType.Impostor => Roles.impostorRoles.Contains(role),
-                RoleType.Madmate => Roles.madmateRoles.Contains(role),
-                RoleType.Neutral => Roles.neutralRoles.Contains(role),
-                _ => false
-            };
+            return target.getCustomRoleType() == roleType;
         }
         public static bool IsImpostorTeam(this PlayerControl target)
         {
