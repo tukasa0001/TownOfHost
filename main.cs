@@ -9,7 +9,10 @@ using UnityEngine;
 using Hazel;
 using System.Linq;
 using static TownOfHost.Translator;
+using System.Reflection;
 
+[assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
@@ -18,11 +21,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.5.0";
-        public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "1";
-        public const string BetaName = "**** Beta";
-        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
+        public const string PluginVersion = "2.0.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -48,9 +47,9 @@ namespace TownOfHost
         public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
+        public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<byte, string> FinalTaskState;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -97,6 +96,7 @@ namespace TownOfHost
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";
+        public static bool introDestroyed = false;
 
         public static main Instance;
 
@@ -116,7 +116,7 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("TaskCounts");
+            TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;

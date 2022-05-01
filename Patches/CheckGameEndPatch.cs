@@ -182,7 +182,7 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.getCustomRole() == CustomRoles.Sheriff || pc.getCustomRole() == CustomRoles.Arsonist)
+                if (pc.isSheriff() || main.currentWinner != CustomWinner.Arsonist && pc.isArsonist())
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }

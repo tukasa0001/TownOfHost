@@ -25,13 +25,6 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                // Make Public Button
-                if (main.PluginVersionType == VersionTypes.Beta)
-                {
-                    __instance.MakePublicButton.color = Palette.DisabledClear;
-                    __instance.privatePublicText.color = Palette.DisabledClear;
-                }
-
                 if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && main.AllPlayerCustomRoles.Count != 0)
                 {
                     new LateTask(() =>
@@ -127,7 +120,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-    class UnrestrictNumImpostorsPatch
+    class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
         {

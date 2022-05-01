@@ -215,6 +215,7 @@ DeathReason.Spell,Spelled,呪殺
 DeathReason.Bite,Bited,噛殺
 DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
+DeathReason.Torched,Torched,焼殺
 DeathReason.Disconnected,Disconnected,回線切断
 DeathReason.etc,etc,その他
 Alive,Alive,生存

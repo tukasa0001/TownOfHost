@@ -8,6 +8,33 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static bool isActive(SystemTypes type)
+        {
+            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+            Logger.info($"SystemTypes:{type}", "SwitchSystem");
+
+            if (SwitchSystem != null && SwitchSystem.IsActive)
+                return true;
+
+            return false;
+        }
+        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        {
+            if (HasImpVision)
+            {
+                opt.CrewLightMod = opt.ImpostorLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.CrewLightMod *= 5;
+                return;
+            }
+            else
+            {
+                opt.ImpostorLightMod = opt.CrewLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.ImpostorLightMod /= 5;
+                return;
+            }
+        }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -160,6 +187,20 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
+            var Comms = false;
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    Comms = true;
+                    break;
+                }
+            string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
+            return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+        }
+        public static string getTaskText(byte playerId)
+        {
+            var taskState = PlayerState.taskState[playerId];
+            if (!taskState.hasTasks) return "";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
         public static void ShowActiveRoles()
@@ -290,7 +331,7 @@ namespace TownOfHost
                         //生存者は爆死
                         pc.MurderPlayer(pc);
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                        PlayerState.isDead[pc.PlayerId] = true;
+                        PlayerState.setDead(pc.PlayerId);
                     }
                 }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
@@ -334,7 +375,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + main.VersionSuffix + "</color>";
+                        name += "\r\n<color=" + main.modColor + ">TOH v" + main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += "\r\n配信中";
@@ -431,8 +472,7 @@ namespace TownOfHost
                 SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true);
-                HudManagerPatch.LastSetNameDesyncCount++;
+                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
@@ -522,8 +562,7 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer);
-                        HudManagerPatch.LastSetNameDesyncCount++;
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }
