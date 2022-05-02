@@ -373,7 +373,8 @@ namespace TownOfHost
                                 targetList.Add(target);
                         var Target = targetList[rand.Next(targetList.Count)];
                         main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
-                    Logger.info($"{pc.name}:{Target.name}","エクスキューショナー");
+                        RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
+                        Logger.info($"{pc.name}:{Target.name}", "エクスキューショナー");
                     }
                 }
 
