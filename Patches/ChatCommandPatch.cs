@@ -182,7 +182,7 @@ namespace TownOfHost
             {
                 case "watcher":
                 case "wat":
-                    Utils.SendMessage(getString("WatcherInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Watcher) + getString("WatcherInfoLong"));
                     break;
 
                 case "jester":
@@ -287,7 +287,7 @@ namespace TownOfHost
 
                 case "Lighter":
                 case "li":
-                    Utils.SendMessage(getString("LighterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Lighter) + getString("LighterInfoLong"));
                     break;
 
                 case "SpeedBooster":
