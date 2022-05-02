@@ -274,7 +274,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage("試合中に/lastrolesを使用することはできません。");
+                SendMessage(getString("CantUse/lastroles"));
                 return;
             }
             var text = getString("LastResult") + ":";
@@ -297,16 +297,16 @@ namespace TownOfHost
         public static void ShowHelp()
         {
             SendMessage(
-                getString("CommandList")
-                + $"\n/winner - {getString("Command.winner")}"
-                + $"\n/lastroles - {getString("Command.lastroles")}"
-                + $"\n/rename - {getString("Command.rename")}"
-                + $"\n/now - {getString("Command.now")}"
-                + $"\n/h now - {getString("Command.h_now")}"
-                + $"\n/h roles {getString("Command.h_roles")}"
-                + $"\n/h attributes {getString("Command.h_attributes")}"
-                + $"\n/h modes {getString("Command.h_modes")}"
-                + $"\n/dump - {getString("Command.dump")}"
+                "コマンド一覧:"
+                + "\n/winner - 勝者を表示"
+                + "\n/lastroles - 最後の役職割り当てを表示"
+                + "\n/rename - ホストの名前を変更"
+                + "\n/now - 現在有効な設定を表示"
+                + "\n/h now - 現在有効な設定の説明を表示"
+                + "\n/h roles <役職名> - 役職の説明を表示"
+                + "\n/h attributes <属性名> - 属性の説明を表示"
+                + "\n/h modes <モード名> - モードの説明を表示"
+                + "\n/dump - デスクトップにログを出力"
                 );
 
         }
