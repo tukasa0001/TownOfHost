@@ -277,21 +277,6 @@ namespace TownOfHost
             Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10));
             Logger.info("---------その他---------");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人");
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.isExecutioner())
-                {
-                    List<PlayerControl> targetList = new List<PlayerControl>();
-                    var rand = new System.Random();
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                        if (pc != target)
-                            targetList.Add(target);
-                    var Target = targetList[rand.Next(targetList.Count)];
-                    main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
-                }
-                Logger.info($"{main.ExecutionerTarget.Keys.ToString()}:{main.ExecutionerTarget.Values.ToString()}");
-            }
         }
     }
     class RepairSender
