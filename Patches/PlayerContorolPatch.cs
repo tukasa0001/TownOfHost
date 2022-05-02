@@ -672,13 +672,13 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
-                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                    {
-                        if (ExecutionerTarget.Key == seer.PlayerId || //seerがKey
-                        ExecutionerTarget.Value == target.PlayerId || //targetがValue
-                        seer.isExecutioner()) //seerがエクスキューショナー
-                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                    }
+                    if (seer.isExecutioner()) //seerがエクスキューショナー
+                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                        {
+                            if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
+                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                                Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
                     if (target.AmOwner && target.getCustomRole().isImpostor())
