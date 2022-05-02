@@ -501,13 +501,13 @@ namespace TownOfHost
                         if (__instance.isSerialKiller())
                         {
                             __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
+                            main.AllPlayerKillCooldown[__instance.PlayerId] = (Options.SerialKillerCooldown.GetFloat() * 2) - 20f;
                             main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
                         }
                         if (__instance.isBountyHunter())
                         {
                             __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
+                            main.AllPlayerKillCooldown[__instance.PlayerId] = (main.RealOptionsData.KillCooldown * 2) - 20f;
                             main.BountyTimer.Add(__instance.PlayerId, 10f);
                         }
                         if (__instance.isWarlock())
