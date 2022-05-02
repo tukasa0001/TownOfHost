@@ -302,7 +302,7 @@ namespace TownOfHost
 
                 case "doctor":
                 case "doc":
-                    Utils.SendMessage(getString("DoctorInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Doctor) + getString("DoctorInfoLong"));
                     break;
 
                 case "schrodingercat":
