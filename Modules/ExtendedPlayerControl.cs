@@ -584,6 +584,39 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
+        public static void AfterMeetingTasks(this PlayerControl player, bool isAirship)
+        {
+            player.ResetKillCooldown();
+            if (player.isWarlock())
+            {
+                main.CursedPlayers[player.PlayerId] = (null);
+                main.isCurseAndKill[player.PlayerId] = false;
+            }
+            var AfterMeetingTasks = new LateTask(() =>
+                {
+                    if (player.isSerialKiller())
+                    {
+                        player.RpcGuardAndKill(player);
+                        main.SerialKillerTimer.Add(player.PlayerId, 0f);
+                    }
+                    if (player.isBountyHunter())
+                    {
+                        main.AllPlayerKillCooldown[player.PlayerId] *= 2;
+                        player.RpcGuardAndKill(player);
+                        main.BountyTimer.Add(player.PlayerId, 0f);
+                    }
+                    if (isAirship)
+                        main.AirshipMeetingCheck = true;
+                }, 10f, "After Meeting Refix KillCooldown");
+
+            if (isAirship)//Airship用
+            {
+                if (player.isSerialKiller() || player.isBountyHunter())
+                    main.AllPlayerKillCooldown[player.PlayerId] *= 2; //キルクールが明けないように
+            }
+            else
+                AfterMeetingTasks.timer = 0f;
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
