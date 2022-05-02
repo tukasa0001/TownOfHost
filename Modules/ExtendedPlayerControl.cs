@@ -275,7 +275,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
-                    opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedVatteryCharge.GetFloat();
+                    opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)

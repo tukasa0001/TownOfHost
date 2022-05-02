@@ -74,7 +74,7 @@ namespace TownOfHost
         public static CustomOption SabotageMasterFixesComms;
         public static CustomOption SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
-        public static CustomOption DoctorTaskCompletedVatteryCharge;
+        public static CustomOption DoctorTaskCompletedBatteryCharge;
         public static CustomOption SheriffKillCooldown;
         public static CustomOption SheriffCanKillArsonist;
         public static CustomOption SheriffCanKillMadmate;
@@ -273,7 +273,7 @@ namespace TownOfHost
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
-            DoctorTaskCompletedVatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedVatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
+            DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             // Other
