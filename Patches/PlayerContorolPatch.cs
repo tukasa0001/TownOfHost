@@ -358,19 +358,17 @@ namespace TownOfHost
 
             foreach (var bp in main.BitPlayers)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                var vampire = bp.Value.Item1;
+                var bitten = Utils.getPlayerById(bp.Key);
+                if (!bitten.Data.IsDead)
                 {
-                    if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
-                    {
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bite);
-                        pc.RpcMurderPlayer(pc);
-                        RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
-                        Utils.getPlayerById(bp.Key).TrapperKilled(pc);
-                    }
-                    else
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                    PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    bitten.RpcMurderPlayer(bitten);
+                    RPC.PlaySoundRPC(vampire, Sounds.KillSound);
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
                 }
+                else
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
@@ -422,7 +420,8 @@ namespace TownOfHost
                             __instance.RpcMurderPlayer(__instance);
                             RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                            Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                            if (__instance.isTrapper())
+                                Utils.getPlayerById(vampireID).TrapperKilled(__instance);
                         }
                         else
                             Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
