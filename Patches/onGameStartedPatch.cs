@@ -53,6 +53,15 @@ namespace TownOfHost
             main.introDestroyed = false;
 
             NameColorManager.Instance.RpcReset();
+            main.LastNotifyNames = new();
+            foreach (var target in PlayerControl.AllPlayerControls)
+            {
+                foreach (var seer in PlayerControl.AllPlayerControls)
+                {
+                    var pair = (target.PlayerId, seer.PlayerId);
+                    main.LastNotifyNames[pair] = target.name;
+                }
+            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更

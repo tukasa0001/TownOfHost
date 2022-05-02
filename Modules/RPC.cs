@@ -1,7 +1,8 @@
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using Hazel;
 
 namespace TownOfHost
@@ -10,6 +11,7 @@ namespace TownOfHost
     {
         VersionCheck = 60,
         SyncCustomSettings = 80,
+        SetDeathReason,
         JesterExiled,
         TerroristWin,
         ExecutionerWin,
@@ -42,7 +44,11 @@ namespace TownOfHost
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = reader.ReadString();
-                    bool DontShowOnModdedClient = reader.ReadBoolean();
+                    bool DontShowOnModdedClient = false;
+                    if (reader.BytesRemaining > 0)
+                    {
+                        DontShowOnModdedClient = reader.ReadBoolean();
+                    }
                     Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
                     if (!DontShowOnModdedClient)
                     {
@@ -75,6 +81,9 @@ namespace TownOfHost
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
                     }
+                    break;
+                case CustomRPC.SetDeathReason:
+                    RPC.GetDeathReason(reader);
                     break;
                 case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -197,6 +206,21 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
+        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write((int)deathReason);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void GetDeathReason(MessageReader reader)
+        {
+            var playerId = reader.ReadByte();
+            var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
+            PlayerState.deathReasons[playerId] = deathReason;
+            PlayerState.isDead[playerId] = true;
+        }
+
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;
@@ -291,6 +315,39 @@ namespace TownOfHost
                 new LateTask(() => main.CustomWinTrigger = true,
                 0.2f, "Custom Win Trigger Task");
             }
+        }
+        public static void sendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
+        {
+            if (!main.AmDebugger.Value) return;
+            string rpcName;
+            string from = targetNetId.ToString();
+            string target = targetClientId.ToString();
+            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
+            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
+            else rpcName = callId.ToString();
+            try
+            {
+                target = targetClientId < 0 ? "All" : AmongUsClient.Instance.GetClient(targetClientId).PlayerName;
+                from = PlayerControl.AllPlayerControls.ToArray().Where(c => c.NetId == targetNetId).FirstOrDefault().Data.PlayerName;
+            }
+            catch { }
+            Logger.info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+        }
+    }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
+    class StartRpcPatch
+    {
+        public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId)
+        {
+            RPC.sendRpcLogger(targetNetId, callId);
+        }
+    }
+    [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpcImmediately))]
+    class StartRpcImmediatelyPatch
+    {
+        public static void Prefix(InnerNet.InnerNetClient __instance, [HarmonyArgument(0)] uint targetNetId, [HarmonyArgument(1)] byte callId, [HarmonyArgument(3)] int targetClientId = -1)
+        {
+            RPC.sendRpcLogger(targetNetId, callId, targetClientId);
         }
     }
 }

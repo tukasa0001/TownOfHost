@@ -188,7 +188,15 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
-            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+            var Comms = false;
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    Comms = true;
+                    break;
+                }
+            string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
+            return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
         }
         public static string getTaskText(byte playerId)
         {
@@ -324,7 +332,7 @@ namespace TownOfHost
                         //生存者は爆死
                         pc.MurderPlayer(pc);
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                        PlayerState.isDead[pc.PlayerId] = true;
+                        PlayerState.setDead(pc.PlayerId);
                     }
                 }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
@@ -465,8 +473,7 @@ namespace TownOfHost
                 SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true);
-                HudManagerPatch.LastSetNameDesyncCount++;
+                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
@@ -556,8 +563,7 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer);
-                        HudManagerPatch.LastSetNameDesyncCount++;
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }

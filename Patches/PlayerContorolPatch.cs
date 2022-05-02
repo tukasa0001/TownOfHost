@@ -58,7 +58,7 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
-            PlayerState.isDead[target.PlayerId] = true;
+            PlayerState.setDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -395,9 +395,9 @@ namespace TownOfHost
         {
             //async Taskじゃ警告出るから仕方ないよね。
             var revertName = PlayerControl.LocalPlayer.name;
-            PlayerControl.LocalPlayer.RpcSetName(name);
+            PlayerControl.LocalPlayer.RpcSetNameEx(name);
             await Task.Delay(time);
-            PlayerControl.LocalPlayer.RpcSetName(revertName);
+            PlayerControl.LocalPlayer.RpcSetNameEx(revertName);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]

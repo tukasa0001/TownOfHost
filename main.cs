@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -47,6 +47,7 @@ namespace TownOfHost
         public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
+        public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> BlockKilling;
@@ -117,6 +118,7 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
+            TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
