@@ -53,6 +53,15 @@ namespace TownOfHost
             }
             if (target.isTrapper() && !__instance.isTrapper())
                 __instance.TrapperKilled(target);
+            if (main.ExecutionerTarget.ContainsValue(target.PlayerId))
+            {
+                foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                {
+                    var executioner = Utils.getPlayerById(ExecutionerTarget.Key);
+                    if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
+                        executioner.RpcSetCustomRole(CustomRoles.Jester); //対象がキルされたらジェスターになる(仮:最終的にオプションで設定した役職にする)
+                }
+            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
