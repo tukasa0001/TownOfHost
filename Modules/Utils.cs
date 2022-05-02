@@ -499,6 +499,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.isArsonist()
                     || main.SpelledPlayer.Count > 0
+                    || seer.isExecutioner()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -552,13 +553,13 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                        {
-                            if (ExecutionerTarget.Key == seer.PlayerId || //seerがKey
-                            ExecutionerTarget.Value == target.PlayerId || //targetがValue
-                            seer.isExecutioner()) //seerがエクスキューショナー
-                                TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                        }
+                        if (seer.isExecutioner()) //seerがエクスキューショナー
+                            foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                            {
+                                if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
+                                target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                                    TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            }
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
