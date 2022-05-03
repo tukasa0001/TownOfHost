@@ -284,7 +284,6 @@ namespace TownOfHost
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
-                pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
             }
         }
     }
