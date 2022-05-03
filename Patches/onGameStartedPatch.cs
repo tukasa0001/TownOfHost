@@ -369,8 +369,12 @@ namespace TownOfHost
                         List<PlayerControl> targetList = new List<PlayerControl>();
                         rand = new System.Random();
                         foreach (var target in PlayerControl.AllPlayerControls)
-                            if (pc != target)
-                                targetList.Add(target);
+                        {
+                            if (pc == target) continue;
+                            else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.getCustomRole().isImpostor()) continue;
+
+                            targetList.Add(target);
+                        }
                         var Target = targetList[rand.Next(targetList.Count)];
                         main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
