@@ -25,13 +25,7 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                // Make Public Button
-                if(main.PluginVersionType == VersionTypes.Beta) {
-                    __instance.MakePublicButton.color = Palette.DisabledClear;
-                    __instance.privatePublicText.color = Palette.DisabledClear;
-                }
-
-                if (AmongUsClient.Instance.AmHost && Options.autoDisplayLastRoles && main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && main.AllPlayerCustomRoles.Count != 0)
                 {
                     new LateTask(() =>
                     {
@@ -64,9 +58,15 @@ namespace TownOfHost
                     {
                         lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
                     }
-                    else lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    else
+                    {
+                        lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                    }
                 }
-                else lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                else
+                {
+                    lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
+                }
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
@@ -77,7 +77,7 @@ namespace TownOfHost
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
-                if(timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
+                if (timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -88,7 +88,7 @@ namespace TownOfHost
         {
             private static void Postfix(TextBoxTMP __instance)
             {
-                if(__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
+                if (__instance.name == "GameIdText") __instance.outputText.text = new string('*', __instance.text.Length);
             }
         }
     }
@@ -98,7 +98,7 @@ namespace TownOfHost
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
-            if (Options.RandomMapsMode == true)
+            if (Options.RandomMapsMode.GetBool())
             {
                 var rand = new System.Random();
                 System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
@@ -107,20 +107,20 @@ namespace TownOfHost
                 Polus      = 2
                 Dleks      = 3
                 TheAirShip = 4*/
-                if (Options.AddedTheSkeld == true) RandomMaps.Add(0);
-                if (Options.AddedMIRAHQ == true) RandomMaps.Add(1);
-                if (Options.AddedPolus == true) RandomMaps.Add(2);
-                if (Options.AddedDleks == true) RandomMaps.Add(3);
-                if (Options.AddedTheAirShip == true) RandomMaps.Add(4);
+                if (Options.AddedTheSkeld.GetBool()) RandomMaps.Add(0);
+                if (Options.AddedMiraHQ.GetBool()) RandomMaps.Add(1);
+                if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
+                // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
+                if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
-            
+
             }
             return continueStart;
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-    class UnrestrictNumImpostorsPatch
+    class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
         {

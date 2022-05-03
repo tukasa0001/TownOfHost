@@ -32,10 +32,14 @@ namespace TownOfHost
                 if (PlayerControl.LocalPlayer.Data.IsDead)
                 {
                     __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
-                } else {
+                }
+                else
+                {
                     __instance.transform.localPosition = new Vector3(4.2f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
                 }
-            } else {
+            }
+            else
+            {
                 __instance.transform.localPosition = new Vector3(3.5f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
             }
         }
@@ -46,14 +50,14 @@ namespace TownOfHost
         private static TMPro.TextMeshPro ErrorText;
         static void Postfix(VersionShower __instance)
         {
-            main.credentialsText = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion + main.VersionSuffix;
-            if(main.PluginVersionType == VersionTypes.Beta) main.credentialsText += $"\r\n{main.BetaName}\r\n{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
+            main.credentialsText = "\r\n<color=" + main.modColor + ">Town Of Host</color> v" + main.PluginVersion;
             var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
             credentials.text = main.credentialsText;
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-            credentials.transform.position = new Vector3(4.3f,__instance.transform.localPosition.y+0.3f,0);
+            credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
 
-            if(main.hasArgumentException && !main.ExceptionMessageIsShown) {
+            if (main.hasArgumentException && !main.ExceptionMessageIsShown)
+            {
                 main.ExceptionMessageIsShown = true;
                 ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
                 ErrorText.transform.position = new Vector3(0, 0.20f, 0);
@@ -72,7 +76,7 @@ namespace TownOfHost
             LateTask.Update(Time.deltaTime);
         }
     }
-    
+
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     class LogoPatch
     {

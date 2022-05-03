@@ -16,16 +16,33 @@ namespace TownOfHost
             string[] args = text.Split(' ');
             var canceled = false;
             var cancelVal = "";
+            main.isChatCommand = true;
+            Logger.info(text, "SendChat");
+            switch (args[0])
+            {
+                case "/dump":
+                    canceled = true;
+                    string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
+                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
+                    FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+                    file.CopyTo(@filename);
+                    System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+                    Logger.info($"{filename}にログを保存しました。", "dump");
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                    break;
+                default:
+                    main.isChatCommand = false;
+                    break;
+            }
             if (AmongUsClient.Instance.AmHost)
             {
                 main.isChatCommand = true;
-                Logger.info(text,"SendChat");
                 switch (args[0])
                 {
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: "+string.Join(",",main.winnerList.Select(b=> main.AllPlayerNames[b])));
+                        Utils.SendMessage("Winner: " + string.Join(",", main.winnerList.Select(b => main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -37,7 +54,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if(args.Length > 1){main.nickName = args[1];}
+                        if (args.Length > 1) { main.nickName = args[1]; }
                         break;
 
                     case "/n":
@@ -48,8 +65,9 @@ namespace TownOfHost
 
                     case "/dis":
                         canceled = true;
-                        if(args.Length < 2){__instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");cancelVal = "/dis";}
-                        switch(args[1]){
+                        if (args.Length < 2) { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
+                        switch (args[1])
+                        {
                             case "crewmate":
                                 ShipStatus.Instance.enabled = false;
                                 ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
@@ -68,21 +86,10 @@ namespace TownOfHost
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Admin, 0);
                         break;
 
-                    case "/dump":
-                        canceled = true;
-                        string t = DateTime.Now.ToString("yy-dd-yy_HH.mm.ss");
-                        string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/{t}.log";
-                        FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-                        file.CopyTo(@filename);
-                        System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
-                        Logger.info($"{filename}にログを保存しました。");
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer,"デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
-                        break;
-
                     case "/h":
                     case "/help":
                         canceled = true;
-                        if(args.Length < 2)
+                        if (args.Length < 2)
                         {
                             Utils.ShowHelp();
                             break;
@@ -91,13 +98,29 @@ namespace TownOfHost
                         {
                             case "r":
                             case "roles":
-                                if(args.Length < 3){getRolesInfo("");break;}
+                                if (args.Length < 3) { getRolesInfo(""); break; }
                                 getRolesInfo(args[2]);
+                                break;
+
+                            case "att":
+                            case "attributes":
+                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)"); break; }
+                                switch (args[2])
+                                {
+                                    case "lastimpostor":
+                                    case "limp":
+                                        Utils.SendMessage(getString("LastImpostor") + getString("LastImpostorInfo"));
+                                        break;
+
+                                    default:
+                                        Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)");
+                                        break;
+                                }
                                 break;
 
                             case "m":
                             case "modes":
-                                if(args.Length < 3){Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");break;}
+                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)"); break; }
                                 switch (args[2])
                                 {
                                     case "hideandseek":
@@ -125,18 +148,18 @@ namespace TownOfHost
                                         break;
                                 }
                                 break;
-                                
 
-                                case "n":
-                                case "now":
-                                    Utils.ShowActiveRoles();
-                                    break;
+
+                            case "n":
+                            case "now":
+                                Utils.ShowActiveRoles();
+                                break;
 
                             default:
                                 Utils.ShowHelp();
                                 break;
-                            }
-                            break;
+                        }
+                        break;
 
                     default:
                         main.isChatCommand = false;
@@ -157,99 +180,109 @@ namespace TownOfHost
         {
             switch (role)
             {
+                case "watcher":
+                case "wat":
+                    Utils.SendMessage(getString("WatcherInfoLong"));
+                    break;
+
                 case "jester":
                 case "je":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Jester)+getString("JesterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Jester) + getString("JesterInfoLong"));
                     break;
 
                 case "madmate":
                 case "mm":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Madmate)+getString("MadmateInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Madmate) + getString("MadmateInfoLong"));
                     break;
 
                 case "sidekickmadmate":
                 case "sm":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SKMadmate)+getString("SKMadmateInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SKMadmate) + getString("SKMadmateInfoLong"));
                     break;
 
                 case "bait":
                 case "ba":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Bait)+getString("BaitInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Bait) + getString("BaitInfoLong"));
                     break;
 
                 case "terrorist":
                 case "te":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Terrorist)+getString("TerroristInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Terrorist) + getString("TerroristInfoLong"));
                     break;
 
                 case "mafia":
                 case "mf":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia)+getString("MafiaInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia) + getString("MafiaInfoLong"));
                     break;
 
                 case "vampire":
                 case "va":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Vampire)+getString("VampireInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Vampire) + getString("VampireInfoLong"));
                     break;
 
                 case "sabotagemaster":
                 case "sa":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SabotageMaster)+getString("SabotageMasterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SabotageMaster) + getString("SabotageMasterInfoLong"));
                     break;
 
                 case "mayor":
                 case "my":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mayor)+getString("MayorInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mayor) + getString("MayorInfoLong"));
                     break;
 
                 case "madguardian":
                 case "mg":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian)+getString("MadGuardianInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian) + getString("MadGuardianInfoLong"));
                     break;
 
                 case "madsnitch":
                 case "msn":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch)+getString("MadSnitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch) + getString("MadSnitchInfoLong"));
                     break;
 
                 case "opportunist":
                 case "op":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Opportunist)+getString("OpportunistInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Opportunist) + getString("OpportunistInfoLong"));
                     break;
 
                 case "snitch":
                 case "sn":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Snitch)+getString("SnitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Snitch) + getString("SnitchInfoLong"));
                     break;
 
                 case "sheriff":
                 case "sh":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Sheriff)+getString("SheriffInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Sheriff) + getString("SheriffInfoLong"));
                     break;
 
                 case "bountyhunter":
                 case "bo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.BountyHunter)+getString("BountyHunterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.BountyHunter) + getString("BountyHunterInfoLong"));
                     break;
-                
+
                 case "witch":
                 case "wi":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Witch)+getString("WitchInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Witch) + getString("WitchInfoLong"));
                     break;
 
                 case "shapemaster":
                 case "sha":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.ShapeMaster)+getString("ShapeMasterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.ShapeMaster) + getString("ShapeMasterInfoLong"));
                     break;
-                
+
                 case "warlock":
                 case "wa":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Warlock)+getString("WarlockInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Warlock) + getString("WarlockInfoLong"));
                     break;
 
                 case "serialkiller":
                 case "sk":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller)+getString("SerialKillerInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller) + getString("SerialKillerInfoLong"));
+                    break;
+
+                case "arsonist":
+                case "ar":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Arsonist) + getString("ArsonistInfoLong"));
                     break;
 
                 case "Lighter":
@@ -257,18 +290,33 @@ namespace TownOfHost
                     Utils.SendMessage(getString("LighterInfoLong"));
                     break;
 
+                case "SpeedBooster":
+                case "sb":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
+                    break;
+
+                case "trapper":
+                case "tra":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Trapper) + getString("TrapperInfoLong"));
+                    break;
+
+                case "schrodingercat":
+                case "sc":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SchrodingerCat) + getString("SchrodingerCatInfoLong"));
+                    break;
+
                 case "fox":
                 case "fo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox)+getString("FoxInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox) + getString("FoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll)+getString("TrollInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll) + getString("TrollInfoLong"));
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), trapper(tra), fox(fo), troll(tr)");
                     break;
             }
 
@@ -288,11 +336,14 @@ namespace TownOfHost
                 byte sendTo = msgData.Item2;
                 main.MessagesToSend.RemoveAt(0);
                 __instance.TimeSinceLastMessage = 0.0f;
-                if(sendTo == byte.MaxValue) {
+                if (sendTo == byte.MaxValue)
+                {
                     PlayerControl.LocalPlayer.RpcSendChat(msg);
-                } else {
+                }
+                else
+                {
                     PlayerControl target = Utils.getPlayerById(sendTo);
-                    if(target == null) return;
+                    if (target == null) return;
                     int clientId = target.getClientId();
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);
                     writer.Write(msg);
@@ -307,17 +358,9 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            if(!AmongUsClient.Instance.AmHost) return;
-            switch(chatText)
+            if (!AmongUsClient.Instance.AmHost) return;
+            switch (chatText)
             {
-                case "/banhost":
-                    if(main.PluginVersionType == VersionTypes.Beta && !(main.BanTimestamp.Value == -1 && main.AmDebugger.Value))
-                    {
-                        Logger.info("プレイヤーからBANされました");
-                        main.BanTimestamp.Value = (int)((DateTime.UtcNow.Ticks - DateTime.Parse("1970-01-01 00:00:00").Ticks)/10000000);
-                        AmongUsClient.Instance.KickPlayer(AmongUsClient.Instance.ClientId, true);
-                    }
-                    break;
                 case "/version":
                     Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
                     break;

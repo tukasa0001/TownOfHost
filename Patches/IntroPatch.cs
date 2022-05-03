@@ -7,54 +7,66 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.SetUpRoleText))]
-    class SetUpRoleTextPatch {
-        public static void Postfix(IntroCutscene __instance) {
-            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            if(role.isVanilla()) return;
-            __instance.RoleText.text = Utils.getRoleName(role);
-            __instance.RoleBlurbText.text = getString(role.ToString()+"Info");
-            __instance.RoleText.color = Utils.getRoleColor(role);
-            __instance.RoleBlurbText.color = Utils.getRoleColor(role);
-            __instance.YouAreText.color = Utils.getRoleColor(role);
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
+    class SetUpRoleTextPatch
+    {
+        public static void Postfix(IntroCutscene __instance)
+        {
+            new LateTask(() =>
+            {
+                CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
+                if (role.isVanilla()) return;
+                __instance.RoleText.text = Utils.getRoleName(role);
+                __instance.RoleText.color = Utils.getRoleColor(role);
+                __instance.RoleBlurbText.color = Utils.getRoleColor(role);
+                __instance.YouAreText.color = Utils.getRoleColor(role);
+
+                if (PlayerControl.LocalPlayer.isEvilWatcher() || PlayerControl.LocalPlayer.isNiceWatcher())
+                    __instance.RoleBlurbText.text = getString("WatcherInfo");
+                else
+                    __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
+            }, 0.01f, "Override Role Text");
 
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
     class BeginCrewmatePatch
     {
-        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.getIntroType() == IntroTypes.Neutral) {
+            if (role.getRoleType() == RoleType.Neutral)
+            {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
-                yourTeam = soloTeam;
+                teamToDisplay = soloTeam;
             }
         }
-        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
+        public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
             //チーム表示変更
             var rand = new System.Random();
             CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            IntroTypes introType = role.getIntroType();
+            RoleType roleType = role.getRoleType();
 
-            switch(introType) {
-                case IntroTypes.Neutral:
+            switch (roleType)
+            {
+                case RoleType.Neutral:
                     __instance.TeamTitle.text = Utils.getRoleName(role);
                     __instance.TeamTitle.color = Utils.getRoleColor(role);
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
                     break;
-                case IntroTypes.Madmate:
+                case RoleType.Madmate:
                     __instance.TeamTitle.text = getString("Madmate");
                     __instance.TeamTitle.color = Utils.getRoleColor(CustomRoles.Madmate);
                     __instance.ImpostorText.text = getString("TeamImpostor");
-                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Madmate);
+                    StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
             }
-            switch(role) {
+            switch (role)
+            {
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
@@ -73,6 +85,13 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
+                case CustomRoles.Arsonist:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
+                    break;
+
+                case CustomRoles.SchrodingerCat:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+                    break;
 
             }
 
@@ -81,7 +100,7 @@ namespace TownOfHost
                 __instance.TeamTitle.text = "Town Of Host";
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
-                "\r\nOut Now on Github";
+                    "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
             }
@@ -94,18 +113,22 @@ namespace TownOfHost
                 StartFadeIntro(__instance, Color.magenta, Color.magenta);
             }
         }
-        private static AudioClip GetIntroSound(RoleTypes roleType) {
+        private static AudioClip GetIntroSound(RoleTypes roleType)
+        {
             return RoleManager.Instance.AllRoles.Where((role) => role.Role == roleType).FirstOrDefault().IntroSound;
         }
-        private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end) {
+        private static async void StartFadeIntro(IntroCutscene __instance, Color start, Color end)
+        {
             await Task.Delay(1000);
-            int miliseconds = 0;
-            while(true) {
+            int milliseconds = 0;
+            while (true)
+            {
                 await Task.Delay(20);
-                miliseconds += 20;
-                float time = (float)miliseconds / (float)500;
+                milliseconds += 20;
+                float time = (float)milliseconds / (float)500;
                 Color LerpingColor = Color.Lerp(start, end, time);
-                if(__instance == null || miliseconds > 500) {
+                if (__instance == null || milliseconds > 500)
+                {
                     Logger.info("ループを終了します");
                     break;
                 }
@@ -118,11 +141,15 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if(PlayerControl.LocalPlayer.isSheriff()) {
+            if (PlayerControl.LocalPlayer.isSheriff())
+            {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 yourTeam.Add(PlayerControl.LocalPlayer);
-                foreach(var pc in PlayerControl.AllPlayerControls) if(!pc.AmOwner)yourTeam.Add(pc);
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.AmOwner) yourTeam.Add(pc);
+                }
                 __instance.BeginCrewmate(yourTeam);
                 __instance.overlayHandle.color = Palette.CrewmateBlue;
                 return false;
@@ -133,6 +160,14 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
             BeginCrewmatePatch.Postfix(__instance, ref yourTeam);
+        }
+    }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
+    class IntroCutsceneDestoryPatch
+    {
+        public static void Postfix(IntroCutscene __instance)
+        {
+            main.introDestroyed = true;
         }
     }
 }
