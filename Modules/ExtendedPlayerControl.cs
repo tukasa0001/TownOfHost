@@ -163,18 +163,6 @@ namespace TownOfHost
             var cRole = player.getCustomRole();
             switch (cRole)
             {
-                case CustomRoles.Jester:
-                    return Options.SheriffCanKillJester.GetBool();
-                case CustomRoles.Terrorist:
-                    return Options.SheriffCanKillTerrorist.GetBool();
-                case CustomRoles.Opportunist:
-                    return Options.SheriffCanKillOpportunist.GetBool();
-                case CustomRoles.Arsonist:
-                    return Options.SheriffCanKillArsonist.GetBool();
-                case CustomRoles.Egoist:
-                    return Options.SheriffCanKillEgoist.GetBool();
-                case CustomRoles.EgoSchrodingerCat:
-                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
@@ -186,6 +174,8 @@ namespace TownOfHost
                     return true;
                 case RoleType.Madmate:
                     return Options.SheriffCanKillMadmate.GetBool();
+                case RoleType.Neutral:
+                    return Options.SheriffCanKillNeutrals.GetBool();
             }
             return false;
         }

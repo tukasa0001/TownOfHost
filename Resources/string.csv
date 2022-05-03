@@ -175,13 +175,8 @@ SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼ�
 SabotageMasterFixesCommunications,SabotageMaster Can Fixes Both Communications In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える
 SabotageMasterFixesElectrical,SabotageMaster Can Fixes Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
-SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる
-SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
-SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
-SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
-SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
-SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
+SheriffCanKillNeutrals,Sheriff Can Kill Neutrals,シェリフが第三陣営をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
