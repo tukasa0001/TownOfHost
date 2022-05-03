@@ -308,6 +308,7 @@ namespace TownOfHost
         None = 0,
         Opportunist,
         SchrodingerCat,
+        Executioner,
         Fox
     }
     /*public enum CustomRoles : byte
