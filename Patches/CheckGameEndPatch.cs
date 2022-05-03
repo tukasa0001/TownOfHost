@@ -80,7 +80,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive)
+            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive || main.RealOptionsData.VotingTime <= 0)
             {
                 __instance.enabled = false;
                 GameOverReason endReason;

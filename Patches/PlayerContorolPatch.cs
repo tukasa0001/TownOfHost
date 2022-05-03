@@ -313,10 +313,6 @@ namespace TownOfHost
                 __instance.RpcMurderPlayer(target);
                 main.RealOptionsData.DiscussionTime -= 30;
                 main.RealOptionsData.VotingTime -= 30;
-                if (main.RealOptionsData.VotingTime == 0)
-                    if (main.RealOptionsData.DiscussionTime == 0)
-                        main.RealOptionsData.DiscussionTime += 1;
-                MeetingHud.Instance.RpcClose();
             }
 
             //==キル処理==
