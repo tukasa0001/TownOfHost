@@ -299,12 +299,8 @@ They do not have tasks.<br>
 
 | Settings Name                                  |
 | ---------------------------------------------- |
-| Sheriff Can Kill [Arsonist](###Arsonist)       |
 | Sheriff Can Kill [Madmate](###Madmate)         |
-| Sheriff Can Kill [Jester](###Jester)           |
-| Sheriff Can Kill [Terrorist](###Terrorist)     |
-| Sheriff Can Kill [Opportunist](###Opportunist) |
-| Sheriff Can Kill [Egoist](###Egoist)           |
+| Sheriff Can Kill Neutrals                      |
 | Sheriff Can Kill Crewmates As It               |
 | Sheriff Shot Limit                             |
 
