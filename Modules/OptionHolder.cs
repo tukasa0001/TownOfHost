@@ -319,9 +319,9 @@ namespace TownOfHost
             // リアクターの時間制御
             SabotageTimeControl = CustomOption.Create(100800, Color.white, "SabotageTimeControl", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            PolusReactorTimeLimit = CustomOption.Create(100801, Color.white, "PolusReactorTimeLimit", 30, 0, 60, 1, SabotageTimeControl)
+            PolusReactorTimeLimit = CustomOption.Create(100801, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
-            AirshipReactorTimeLimit = CustomOption.Create(100802, Color.white, "AirshipReactorTimeLimit", 60, 0, 90, 1, SabotageTimeControl)
+            AirshipReactorTimeLimit = CustomOption.Create(100802, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
