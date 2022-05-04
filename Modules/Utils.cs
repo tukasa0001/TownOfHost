@@ -274,7 +274,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage("試合中に/lastrolesを使用することはできません。");
+                SendMessage(getString("CantUse/lastroles"));
                 return;
             }
             var text = getString("LastResult") + ":";
