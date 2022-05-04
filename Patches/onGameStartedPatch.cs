@@ -48,6 +48,7 @@ namespace TownOfHost
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
+            main.LastKiller = new();
 
             main.introDestroyed = false;
 
