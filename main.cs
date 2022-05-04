@@ -37,6 +37,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<int> BanTimestamp { get; private set; }
+        public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
@@ -145,6 +146,7 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             BanTimestamp = Config.Bind("Other", "lastTime", 0);
+            ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
 
             NameColorManager.Begin();
 
