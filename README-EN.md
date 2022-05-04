@@ -410,6 +410,7 @@ Victory Conditions : Target Voted Out<br>
 The target is marked with a diamond that is visible only from here.<br>
 If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
 If the target is killed, the position changes.<br>
+If the target is a jester, it wins an additional victory.<br>
 
 #### Settings
 
