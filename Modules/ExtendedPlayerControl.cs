@@ -560,7 +560,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
@@ -593,7 +593,6 @@ namespace TownOfHost
             }
             if (player.isBountyHunter())
             {
-                main.AllPlayerKillCooldown[player.PlayerId] *= 2;
                 player.RpcGuardAndKill(player);
                 main.BountyTimer.Add(player.PlayerId, 0f);
             }

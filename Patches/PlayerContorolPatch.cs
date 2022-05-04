@@ -45,6 +45,11 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
+            if (__instance.isSerialKiller())
+            {
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings();
+            }
             //Terrorist
             if (target.isTerrorist())
             {
@@ -489,7 +494,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                /*if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -503,7 +508,7 @@ namespace TownOfHost
                     }
                     else
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                }
+                }*/
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
