@@ -127,7 +127,8 @@ namespace TownOfHost
         public static bool isOnlineGame => AmongUsClient.Instance.GameMode == GameModes.OnlineGame;
         public static bool isLocalGame => AmongUsClient.Instance.GameMode == GameModes.LocalGame;
         public static bool isFreePlay => AmongUsClient.Instance.GameMode == GameModes.FreePlay;
-        public static bool isMeeting => MeetingHud.Instance;
+        public static bool isInTask => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && !MeetingHud.Instance;
+        public static bool isMeeting => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && MeetingHud.Instance;
         public static bool isCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
     }
 }
