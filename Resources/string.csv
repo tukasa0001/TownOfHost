@@ -219,16 +219,8 @@ Win,Wins,勝利
 Last,Last,ラスト
 
 ## ヘルプテキスト
-CommandList,Command List:,コマンド一覧:
-Command.winner,Display Winners,勝者を表示
-Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
-Command.rename,Change Host Name,ホストの名前を変更
-Command.now,Display ActiveSettings,現在有効な設定を表示
-Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
-Command.h_roles,<RoleName> - Display About Role,<役職名> - 役職の説明を表示
-Command.h_attributes,<AttributeName> - Display About Attribute,<属性名> - 属性の説明を表示
-Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説明を表示
-Command.dump,Output Log to Desktop,デスクトップにログを出力
+
+CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
 
 #その他
 commandError,Error:%1$,エラー:%1$
