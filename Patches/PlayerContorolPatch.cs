@@ -410,37 +410,40 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-             //Vampireの処理
-                if (main.BitPlayers.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
-                    //__instance:キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
+                    //Vampireの処理
+                    if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                     {
-                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        var bitten = __instance;
-                        //vampireのキルブロック解除
-                        main.BlockKilling[vampireID] = false;
-                        if (!bitten.Data.IsDead)
+                        //__instance:キルされる予定のプレイヤー
+                        //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                        //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
+                        if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                         {
-                            PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
-                            __instance.RpcMurderPlayer(bitten);
-                            RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                            Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
-                            if (bitten.isTrapper())
-                                Utils.getPlayerById(vampireID).TrapperKilled(bitten);
+                            byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
+                            var bitten = __instance;
+                            //vampireのキルブロック解除
+                            main.BlockKilling[vampireID] = false;
+                            if (!bitten.Data.IsDead)
+                            {
+                                PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                                __instance.RpcMurderPlayer(bitten);
+                                RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
+                                if (bitten.isTrapper())
+                                    Utils.getPlayerById(vampireID).TrapperKilled(bitten);
+                            }
+                            else
+                            {
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
+                            }
+                            main.BitPlayers.Remove(bitten.PlayerId);
                         }
                         else
                         {
-                            Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
+                            main.BitPlayers[__instance.PlayerId] =
+                            (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                         }
-                        main.BitPlayers.Remove(bitten.PlayerId);
-                    }
-                    else
-                    {
-                        main.BitPlayers[__instance.PlayerId] =
-                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
                     }
                 }
                 if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
@@ -462,7 +465,7 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                     }
                 }
-                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
+                if (GameStates.isInTask && main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
                 {
                     if (main.WarlockTimer[__instance.PlayerId] >= 1f)
                     {
@@ -474,7 +477,7 @@ namespace TownOfHost
                     else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                 }
                 //バウハンのキルクールの変換とターゲットのリセット
-                if (main.BountyTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 1f && main.AirshipMeetingCheck)
                     {
@@ -498,7 +501,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -532,7 +535,7 @@ namespace TownOfHost
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
-                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
+                if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
                     if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
@@ -565,7 +568,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
+                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))//試合終了判定など
                 {
                     if (main.DousedPlayerCount[__instance.PlayerId] == 0)//試合終了判定
                     {
@@ -587,7 +590,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.RefixCooldownDelay <= 0)
+                if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.isVampire() || pc.isWarlock())
@@ -597,7 +600,7 @@ namespace TownOfHost
                 if (__instance.AmOwner) Utils.ApplySuffix();
             }
 
-            if (AmongUsClient.Instance.IsGameStarted)
+            if (GameStates.isInGame)
             {
                 //役職テキストの表示
                 var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
