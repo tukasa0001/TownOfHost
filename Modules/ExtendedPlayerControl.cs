@@ -16,7 +16,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(player.PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -26,7 +26,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
                 writer.Write(PlayerId);
-                writer.Write((byte)role);
+                writer.WritePacked((int)role);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
@@ -90,14 +90,32 @@ namespace TownOfHost
             if (cRoleFound) return cRole;
             else return CustomRoles.NoSubRoleAssigned;
         }
+        public static void RpcSetNameEx(this PlayerControl player, string name)
+        {
+            foreach (var seer in PlayerControl.AllPlayerControls)
+            {
+                main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            }
+            HudManagerPatch.LastSetNameDesyncCount++;
 
-        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null)
+            player.RpcSetName(name);
+        }
+
+        public static void RpcSetNamePrivate(this PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null, bool force = false)
         {
             //player: 名前の変更対象
             //seer: 上の変更を確認することができるプレイヤー
             if (player == null || name == null || !AmongUsClient.Instance.AmHost) return;
             if (seer == null) seer = player;
-            //Logger.info($"{player.name}:{name} => {seer.name}");
+            if (!force && main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
+            {
+                //Logger.info($"Cancel:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+                return;
+            }
+            main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            HudManagerPatch.LastSetNameDesyncCount++;
+            Logger.info($"Set:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
@@ -245,31 +263,15 @@ namespace TownOfHost
                         opt.AnonymousVotes = false;
                     break;
                 case CustomRoles.Sheriff:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
-                    break;
                 case CustomRoles.Arsonist:
-                    opt.ImpostorLightMod = opt.CrewLightMod;
-                    var switchSystema = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystema != null && switchSystema.IsActive)
-                    {
-                        opt.ImpostorLightMod /= 5;
-                    }
+                    opt.SetVision(player, false);
                     break;
                 case CustomRoles.Lighter:
                     if (player.getPlayerTaskState().isTaskFinished)
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var li = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (li != null && li.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
+                    break;
+                case CustomRoles.EgoSchrodingerCat:
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
@@ -302,14 +304,6 @@ namespace TownOfHost
                         }
                     }
                     break;
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.CrewLightMod = opt.ImpostorLightMod;
-                    switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                    if (switchSystem != null && switchSystem.IsActive)
-                    {
-                        opt.CrewLightMod *= 5;
-                    }
-                    break;
 
 
                 InfinityVent:
@@ -323,14 +317,7 @@ namespace TownOfHost
             {
                 case RoleType.Madmate:
                     if (Options.MadmateHasImpostorVision.GetBool())
-                    {
-                        opt.CrewLightMod = opt.ImpostorLightMod;
-                        var switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
-                        if (switchSystem != null && switchSystem.IsActive)
-                        {
-                            opt.CrewLightMod *= 5;
-                        }
-                    }
+                        opt.SetVision(player, true);
                     break;
             }
             if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
