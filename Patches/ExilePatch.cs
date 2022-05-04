@@ -60,12 +60,15 @@ namespace TownOfHost
                 pc.AfterMeetingTasks();
                 if (PlayerControl.GameOptions.MapId == 4)//Airship用
                     if (pc.isSerialKiller() || pc.isBountyHunter())
+                    {
+                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
                         main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //キルクールが明けないように
+                    }
                 if (pc.isWarlock())
-            {
-                main.CursedPlayers[pc.PlayerId] = (null);
-                main.isCurseAndKill[pc.PlayerId] = false;
-            }
+                {
+                    main.CursedPlayers[pc.PlayerId] = (null);
+                    main.isCurseAndKill[pc.PlayerId] = false;
+                }
             }
 
             Utils.CountAliveImpostors();

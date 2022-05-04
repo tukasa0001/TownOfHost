@@ -489,6 +489,21 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
+                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                {
+                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
+                    {
+                        main.AirshipMeetingCheck = true;
+                        Utils.CustomSyncAllSettings();
+                    }
+                    if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
+                    {
+                        __instance.AfterMeetingTasks();
+                        main.AirshipMeetingTimer.Remove(__instance.PlayerId);
+                    }
+                    else
+                        main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                }
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
