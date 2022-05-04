@@ -1,14 +1,20 @@
 using HarmonyLib;
-using UnityEngine;
 using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.ChangeGamePublic))]
-    class ChangeGamePublicPatch
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
+    class MakePublicPatch
     {
-        public static void Prefix(InnerNetClient __instance, [HarmonyArgument(0)] ref bool isPublic)
+        public static bool Prefix(GameStartManager __instance)
         {
+            if (ModUpdater.hasUpdate)
+            {
+                Logger.SendInGame(getString("onSetPublicNoLatest"));
+                return false;
+            }
+            return true;
         }
     }
     [HarmonyPatch(typeof(SplashManager), nameof(SplashManager.Update))]
