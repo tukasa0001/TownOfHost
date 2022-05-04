@@ -246,7 +246,7 @@ Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
 
-### Dictator/ディクテーター
+### Dictator
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
