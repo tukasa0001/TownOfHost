@@ -54,9 +54,19 @@ namespace TownOfHost
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
 
-            bool isAirship = PlayerControl.GameOptions.MapId == 4 ? true : false;
             foreach (var pc in PlayerControl.AllPlayerControls)
-                pc.AfterMeetingTasks(isAirship: isAirship);
+            {
+                pc.ResetKillCooldown();
+                pc.AfterMeetingTasks();
+                if (PlayerControl.GameOptions.MapId == 4)//Airship用
+                    if (pc.isSerialKiller() || pc.isBountyHunter())
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //キルクールが明けないように
+                if (pc.isWarlock())
+            {
+                main.CursedPlayers[pc.PlayerId] = (null);
+                main.isCurseAndKill[pc.PlayerId] = false;
+            }
+            }
 
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();

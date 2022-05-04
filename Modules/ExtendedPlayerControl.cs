@@ -584,38 +584,19 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
-        public static void AfterMeetingTasks(this PlayerControl player, bool isAirship)
+        public static void AfterMeetingTasks(this PlayerControl player)
         {
-            player.ResetKillCooldown();
-            if (player.isWarlock())
+            if (player.isSerialKiller())
             {
-                main.CursedPlayers[player.PlayerId] = (null);
-                main.isCurseAndKill[player.PlayerId] = false;
+                player.RpcGuardAndKill(player);
+                main.SerialKillerTimer.Add(player.PlayerId, 0f);
             }
-            var AfterMeetingTasks = new LateTask(() =>
-                {
-                    if (player.isSerialKiller())
-                    {
-                        player.RpcGuardAndKill(player);
-                        main.SerialKillerTimer.Add(player.PlayerId, 0f);
-                    }
-                    if (player.isBountyHunter())
-                    {
-                        main.AllPlayerKillCooldown[player.PlayerId] *= 2;
-                        player.RpcGuardAndKill(player);
-                        main.BountyTimer.Add(player.PlayerId, 0f);
-                    }
-                    if (isAirship)
-                        main.AirshipMeetingCheck = true;
-                }, 10f, "After Meeting Refix KillCooldown");
-
-            if (isAirship)//Airship用
+            if (player.isBountyHunter())
             {
-                if (player.isSerialKiller() || player.isBountyHunter())
-                    main.AllPlayerKillCooldown[player.PlayerId] *= 2; //キルクールが明けないように
+                main.AllPlayerKillCooldown[player.PlayerId] *= 2;
+                player.RpcGuardAndKill(player);
+                main.BountyTimer.Add(player.PlayerId, 0f);
             }
-            else
-                AfterMeetingTasks.timer = 0f;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
