@@ -53,7 +53,6 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
             main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
@@ -62,7 +61,7 @@ namespace TownOfHost
                     if (pc.isSerialKiller() || pc.isBountyHunter())
                     {
                         //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //キルクールが明けないように
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
                     }
                 if (pc.isWarlock())
                 {
@@ -70,7 +69,6 @@ namespace TownOfHost
                     main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
-
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
