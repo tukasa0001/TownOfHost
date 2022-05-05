@@ -584,19 +584,6 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
-        public static void AfterMeetingTasks(this PlayerControl player)
-        {
-            if (player.isSerialKiller())
-            {
-                player.RpcGuardAndKill(player);
-                main.SerialKillerTimer.Add(player.PlayerId, 0f);
-            }
-            if (player.isBountyHunter())
-            {
-                player.RpcGuardAndKill(player);
-                main.BountyTimer.Add(player.PlayerId, 0f);
-            }
-        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }

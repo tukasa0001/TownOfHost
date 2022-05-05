@@ -56,14 +56,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                Utils.CustomSyncAllSettings();
-                pc.AfterMeetingTasks();
-                if (PlayerControl.GameOptions.MapId != 4)//Airship以外
-                    if (pc.isSerialKiller() || pc.isBountyHunter())
-                    {
-                        //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
-                    }
                 if (pc.isWarlock())
                 {
                     main.CursedPlayers[pc.PlayerId] = (null);
@@ -71,6 +63,7 @@ namespace TownOfHost
                 }
             }
             Utils.CountAliveImpostors();
+            Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
             Logger.info("タスクフェイズ開始", "Phase");
