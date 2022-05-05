@@ -313,7 +313,7 @@ namespace TownOfHost
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
                     else RoleTextMeeting.enabled = false;
                 }
-                //死んでいないメイヤーが投票済み
+                //死んでいないディクテーターが投票済み
                 if (pc.isDictator() && pva.DidVote && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.getPlayerById(pva.VotedFor);
