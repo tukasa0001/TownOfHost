@@ -48,6 +48,8 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
+                if (CustomRoles.Arsonist.isEnable())
+                    exiled.Object.isNotDousePlayer();
                 PlayerState.setDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)

@@ -615,6 +615,17 @@ namespace TownOfHost
 
             return false;
         }
+        public static void isNotDousePlayer(this PlayerControl target)
+        {
+            if (!(target.Data.IsDead && target.Data.Disconnected)) return;
+            foreach (var Arsonist in PlayerControl.AllPlayerControls)
+            {
+                var ArsonistDic = main.DousedPlayerCount[Arsonist.PlayerId];
+                if (Arsonist.isArsonist())
+                    main.DousedPlayerCount[Arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                Logger.info($"{Arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+            }
+        }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
         public static bool isScientist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Scientist; }
