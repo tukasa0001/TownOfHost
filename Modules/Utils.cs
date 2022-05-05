@@ -215,6 +215,7 @@ namespace TownOfHost
             else
             {
                 if (Options.SyncButtonMode.GetBool()) { SendMessage(getString("SyncButtonModeInfo")); }
+                if (Options.SabotageTimeControl.GetBool()) { SendMessage(getString("SabotageTimeControlInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(getString("RandomMapsModeInfo")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -263,6 +264,11 @@ namespace TownOfHost
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", getString("SyncedButtonCount"), Options.SyncedButtonCount);
+                if (Options.SabotageTimeControl.GetBool())
+                {
+                    if (PlayerControl.GameOptions.MapId == 2) text += String.Format("\n{0}:{1}", getString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
+                    if (PlayerControl.GameOptions.MapId == 4) text += String.Format("\n{0}:{1}", getString("AirshipReactorTimeLimit"), Options.AirshipReactorTimeLimit.GetString());
+                }
                 if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenSkipVote"), Options.WhenSkipVote.GetString());
                 if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.WhenNonVote.GetString());
                 if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());

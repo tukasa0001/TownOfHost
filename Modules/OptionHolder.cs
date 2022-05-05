@@ -136,6 +136,11 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        // リアクターの時間制御
+        public static CustomOption SabotageTimeControl;
+        public static CustomOption PolusReactorTimeLimit;
+        public static CustomOption AirshipReactorTimeLimit;
+
         // その他
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
@@ -316,6 +321,14 @@ namespace TownOfHost
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             SyncedButtonCount = CustomOption.Create(100201, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // リアクターの時間制御
+            SabotageTimeControl = CustomOption.Create(100800, Color.white, "SabotageTimeControl", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            PolusReactorTimeLimit = CustomOption.Create(100801, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+            AirshipReactorTimeLimit = CustomOption.Create(100802, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
