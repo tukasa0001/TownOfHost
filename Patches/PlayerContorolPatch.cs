@@ -714,52 +714,52 @@ namespace TownOfHost
                                 found = true;
                                 //矢印表示しないならこれ以上は不要
                                 if (!Options.SnitchEnableTargetArrow.GetBool()) break;
-                                update = CheckArrowUpdate(__instance, pc, update, false);
-                                var key = (__instance.PlayerId, pc.PlayerId);
+                                update = CheckArrowUpdate(target, pc, update, false);
+                                var key = (target.PlayerId, pc.PlayerId);
                                 arrows += main.targetArrows[key];
                             }
                         }
-                        if (found && __instance.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>"; //Snitch警告を表示
-                        if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
+                        if (found && target.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>"; //Snitch警告を表示
+                        if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
                         {
                             //更新があったら非Modに通知
-                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            Utils.NotifyRoles(SpecifySeer: target);
                         }
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (!GameStates.isMeeting && Options.SnitchEnableTargetArrow.GetBool() && __instance.isSnitch())
+                    if (!GameStates.isMeeting && Options.SnitchEnableTargetArrow.GetBool() && target.isSnitch())
                     {
-                        var TaskState = __instance.getPlayerTaskState();
+                        var TaskState = target.getPlayerTaskState();
                         if (TaskState.isTaskFinished)
                         {
                             var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
                             var update = false;
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
-                                var foundCheck = 
-                                    pc.getCustomRole().isImpostor() || 
+                                var foundCheck =
+                                    pc.getCustomRole().isImpostor() ||
                                     (Options.SnitchCanFindNeutralKiller.GetBool() && pc.isEgoist());
 
                                 //発見対象じゃ無ければ次
                                 if (!foundCheck) continue;
 
-                                update = CheckArrowUpdate(__instance, pc, update, coloredArrow);
-                                var key = (__instance.PlayerId, pc.PlayerId);
-                                if (__instance.AmOwner)
+                                update = CheckArrowUpdate(target, pc, update, coloredArrow);
+                                var key = (target.PlayerId, pc.PlayerId);
+                                if (target.AmOwner)
                                 {
                                     //MODなら矢印表示
                                     Suffix += main.targetArrows[key];
                                 }
                             }
-                            if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
+                            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
                             {
                                 //更新があったら非Modに通知
-                                Utils.NotifyRoles(SpecifySeer: __instance);
+                                Utils.NotifyRoles(SpecifySeer: target);
                             }
                         }
                     }
-                    /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
+                    /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/
 
