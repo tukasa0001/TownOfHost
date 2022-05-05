@@ -194,6 +194,14 @@ namespace TownOfHost
                 main.SerialKillerTimer.Add(__instance.PlayerId, 0f);
                 return false;
             }
+            if (__instance.isPuppeteer())
+            {
+                main.PuppeteerList[target.PlayerId] = __instance.PlayerId;
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings(); //負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
+                __instance.RpcGuardAndKill(target);
+                return false;
+            }
             if (__instance.isSheriff())
             {
                 if (__instance.Data.IsDead)
@@ -583,6 +591,36 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                {
+                    Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
+                    Dictionary<byte, float> targetdistance = new Dictionary<byte, float>();
+                    float dis;
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (!target.Data.IsDead && !target.getCustomRole().isImpostor() && target != __instance)
+                        {
+                            dis = Vector2.Distance(__instancepos, target.transform.position);
+                            targetdistance.Add(target.PlayerId, dis);
+                        }
+                    }
+                    if (targetdistance.Count() != 0)
+                    {
+                        var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                        PlayerControl targetp = Utils.getPlayerById(min.Key);
+                        if (__instance.Data.IsDead)
+                            main.PuppeteerList.Remove(__instance.PlayerId);
+                        if (min.Value <= 1.75f && !targetp.Data.IsDead)
+                        {
+                            RPC.PlaySoundRPC(main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
+                            __instance.RpcMurderPlayer(targetp);
+                            Utils.CustomSyncAllSettings();
+                            main.PuppeteerList.Remove(__instance.PlayerId);
+                            Utils.NotifyRoles();
+                        }
+                    }
+                }
+
                 if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
@@ -678,6 +716,13 @@ namespace TownOfHost
                     if (PlayerControl.LocalPlayer.isArsonist() && PlayerControl.LocalPlayer.isDousedPlayer(__instance))
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                    }
+                    if (PlayerControl.LocalPlayer.isPuppeteer())
+                    {
+                        if (PlayerControl.LocalPlayer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId) &&
+                        main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
