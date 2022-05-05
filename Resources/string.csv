@@ -235,6 +235,9 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
+SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢印が見える
+SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
@@ -284,6 +287,16 @@ Command.dump,Output Log to Desktop,デスクトップにログを出力
 CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
 
 ## その他
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
+updatePleaseWait,Please Wait...,しばらくお待ちください...
+updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。
+updateInProgress,Updating...,アップデート中...
+announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1}
+announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1}
+updateRestart,Update Finished!\nPlease restart the game.,アップデートが完了しました。\nゲームを再起動してください。
+updateFailed,Update failed.,アップデートに失敗しました。
+onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
+CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン

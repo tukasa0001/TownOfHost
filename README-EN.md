@@ -322,8 +322,15 @@ They do not have tasks.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
+When the Snitches complete their tasks, the name of the Impostors will change to red,can see the direction with the arrow.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Snitch Can Get Arrow Color |
+| Snitch Can Find Neutral Killer |
 
 ### Jester
 
