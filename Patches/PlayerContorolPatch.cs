@@ -593,12 +593,12 @@ namespace TownOfHost
                 if (__instance.AmOwner) Utils.ApplySuffix();
             }
 
-            if (GameStates.isInGame)
+            //役職テキストの表示
+            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
+            if (RoleText != null && __instance != null)
             {
-                //役職テキストの表示
-                var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
-                var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleText != null && __instance != null)
+                if (GameStates.isInGame)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
                     if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -644,10 +644,13 @@ namespace TownOfHost
                     }
                     //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
-                        __instance.getCustomRole().isImpostor() && //__instanceがインポスター
                         PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerのタスクが終わっている
                     {
-                        RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //__instanceの名前を赤色で表示
+                        var targetCheck = __instance.getCustomRole().isImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist());
+                        if (targetCheck)//__instanceがターゲット
+                        {
+                            RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //__instanceの名前を役職色で表示
+                        }
                     }
                     else if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
                         __instance.isEgoist() //__instanceがエゴイスト
@@ -663,9 +666,11 @@ namespace TownOfHost
                         RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                     }
 
-                    //インポスターがタスクが終わりそうなSnitchを確認できる
-                    if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがインポスター
-                    __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
+                    //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
+                    var canFindSnitchRole = PlayerControl.LocalPlayer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                        (Options.SnitchCanFindNeutralKiller.GetBool() && PlayerControl.LocalPlayer.isEgoist());//or エゴイスト
+
+                    if (canFindSnitchRole && __instance.isSnitch() && __instance.getPlayerTaskState().doExpose //__instanceがタスクが終わりそうなSnitch
                     )
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
@@ -675,29 +680,135 @@ namespace TownOfHost
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
 
-                    //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
-                    if (__instance.AmOwner && __instance.getCustomRole().isImpostor())
+                    //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
+                    if (!GameStates.isMeeting && __instance.getCustomRole().isImpostor()
+                        || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.isEgoist()))
                     { //__instanceがインポスターかつ自分自身
+                        var found = false;
+                        var update = false;
+                        var arrows = "";
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         { //全員分ループ
                             if (!pc.isSnitch() || pc.Data.IsDead || pc.Data.Disconnected) continue; //(スニッチ以外 || 死者 || 切断者)に用はない 
                             if (pc.getPlayerTaskState().doExpose)
                             { //タスクが終わりそうなSnitchが見つかった時
-                                Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告を表示
-                                break; //無駄なループは行わない
+                                found = true;
+                                //矢印表示しないならこれ以上は不要
+                                if (!Options.SnitchEnableTargetArrow.GetBool()) break;
+                                update = CheckArrowUpdate(__instance, pc, update, false);
+                                var key = (__instance.PlayerId, pc.PlayerId);
+                                arrows += main.targetArrows[key];
                             }
+                        }
+                        if (found && __instance.AmOwner) Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>"; //Snitch警告を表示
+                        if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
+                        {
+                            //更新があったら非Modに通知
+                            Utils.NotifyRoles(SpecifySeer: __instance);
                         }
                     }
 
+                    //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
+                    if (!GameStates.isMeeting && Options.SnitchEnableTargetArrow.GetBool() && __instance.isSnitch())
+                    {
+                        var TaskState = __instance.getPlayerTaskState();
+                        if (TaskState.isTaskFinished)
+                        {
+                            var coloredArrow = Options.SnitchCanGetArrowColor.GetBool();
+                            var update = false;
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                var foundCheck = 
+                                    pc.getCustomRole().isImpostor() || 
+                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.isEgoist());
+
+                                //発見対象じゃ無ければ次
+                                if (!foundCheck) continue;
+
+                                update = CheckArrowUpdate(__instance, pc, update, coloredArrow);
+                                var key = (__instance.PlayerId, pc.PlayerId);
+                                if (__instance.AmOwner)
+                                {
+                                    //MODなら矢印表示
+                                    Suffix += main.targetArrows[key];
+                                }
+                            }
+                            if (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.PlayerId != __instance.PlayerId && update)
+                            {
+                                //更新があったら非Modに通知
+                                Utils.NotifyRoles(SpecifySeer: __instance);
+                            }
+                        }
+                    }
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(__instance.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/
 
                     //Mark・Suffixの適用
                     __instance.nameText.text = $"{RealName}{Mark}";
-                    __instance.nameText.text += Suffix == "" ? "" : "\r\n" + Suffix;
+                    if (Suffix != "")
+                    {
+                        //名前が2行になると役職テキストを上にずらす必要がある
+                        RoleText.transform.SetLocalY(0.35f);
+                        __instance.nameText.text += "\r\n" + Suffix;
+
+                    }
+                    else
+                    {
+                        //役職テキストの座標を初期値に戻す
+                        RoleText.transform.SetLocalY(0.175f);
+                    }
+                }
+                else
+                {
+                    //役職テキストの座標を初期値に戻す
+                    RoleText.transform.SetLocalY(0.175f);
                 }
             }
+        }
+
+        public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
+        {
+            if (!Options.SnitchEnableTargetArrow.GetBool()) return false;
+
+            var key = (seer.PlayerId, target.PlayerId);
+            if (target.Data.IsDead)
+            {
+                //死んでたらリストから削除
+                main.targetArrows.Remove(key);
+                return updateFlag;
+            }
+            if (!main.targetArrows.TryGetValue(key, out var oldArrow))
+            {
+                oldArrow = "";
+            }
+            //インポスターの方角ベクトルを取る
+            var dir = target.transform.position - seer.transform.position;
+            byte index;
+            if (dir.magnitude < 2)
+            {
+                //近い時はドット表示
+                index = 8;
+            }
+            else
+            {
+                //-22.5～22.5度を0とするindexに変換
+                var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                index = (byte)(((int)(angle / 45)) % 8);
+            }
+            var arrow = "↑↗→↘↓↙←↖・"[index].ToString();
+            if (coloredArrow)
+            {
+                arrow = $"<color={target.getRoleColorCode()}>{arrow}</color>";
+            }
+            if (oldArrow != arrow)
+            {
+                //前回から変わってたら登録して更新フラグ
+                main.targetArrows[key] = arrow;
+                updateFlag = true;
+                //Logger.info($"{seer.name}->{target.name}:{arrow}");
+            }
+            return updateFlag;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]

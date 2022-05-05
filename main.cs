@@ -90,6 +90,7 @@ namespace TownOfHost
         public static bool isCursed;
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
+        public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonArsonistID;
