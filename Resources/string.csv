@@ -108,12 +108,12 @@ SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can 
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
-FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
-TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
 
 #モードオプション
-HideAndSeek,HideAndSeek,鬼ごっこ
+HideAndSeek,HideAndSeek,かくれんぼ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
 RandomMapsMode,RandomMapsMode,ランダムマップモード
@@ -147,7 +147,7 @@ SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
 
 #モード説明
-HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
@@ -188,6 +188,9 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
+SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢印が見える
+SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
@@ -200,14 +203,14 @@ ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
 
-#鬼ごっこ設定
-HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
+#かくれんぼ設定
+HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SpeedBoosterUpSpeed,Speed at speed up,スピードアップ時の速さ
 TrapperBlockMoveTime,Block Move Time,移動を封じる時間
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
-HideAndSeekRoles,HideAndSeek Roles,鬼ごっこの役職
+HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職
 
 #死因
 DeathReason.Kill,Kill,死亡
@@ -224,7 +227,31 @@ Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
 
+## ヘルプテキスト
+CommandList,Command List:,コマンド一覧:
+Command.winner,Display Winners,勝者を表示
+Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.rename,Change Host Name,ホストの名前を変更
+Command.now,Display ActiveSettings,現在有効な設定を表示
+Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
+Command.h_roles,<RoleName> - Display About Role,<役職名> - 役職の説明を表示
+Command.h_attributes,<AttributeName> - Display About Attribute,<属性名> - 属性の説明を表示
+Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説明を表示
+Command.dump,Output Log to Desktop,デスクトップにログを出力
+
+CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
+
 #その他
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
+updatePleaseWait,Please Wait...,しばらくお待ちください...
+updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。
+updateInProgress,Updating...,アップデート中...
+announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1}
+announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1}
+updateRestart,Update Finished!\nPlease restart the game.,アップデートが完了しました。\nゲームを再起動してください。
+updateFailed,Update failed.,アップデートに失敗しました。
+onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
+CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン

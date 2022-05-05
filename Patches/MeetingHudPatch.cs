@@ -228,8 +228,8 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if (seer.isSnitch() && //LocalPlayerがSnitch
-                    seer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
+                if ((seer.isSnitch() || seer.isMadSnitch()) && //seerがSnitch/MadSnitch
+                    seer.getPlayerTaskState().isTaskFinished) //seerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
                 }
