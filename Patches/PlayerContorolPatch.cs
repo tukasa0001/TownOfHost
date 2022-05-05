@@ -457,21 +457,6 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                     }
                 }
-                if (GameStates.isInTask && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
-                {
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                    {
-                        if (__instance == target) continue;
-                        if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
-                        {
-                            main.isDeadDoused[target.PlayerId] = true;
-                            var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
-                            Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
-                            main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                            __instance.RpcSendDousedPlayerCount();
-                        }
-                    }
-                }
                 if (GameStates.isInTask && main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
                 {
                     if (main.WarlockTimer[__instance.PlayerId] >= 1f)
@@ -575,6 +560,21 @@ namespace TownOfHost
                         else//それ以外は削除
                         {
                             main.ArsonistTimer.Remove(__instance.PlayerId);
+                        }
+                    }
+                }
+                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
+                {
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (__instance == target) continue;
+                        if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
+                        {
+                            main.isDeadDoused[target.PlayerId] = true;
+                            var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
+                            Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
+                            main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                            __instance.RpcSendDousedPlayerCount();
                         }
                     }
                 }
