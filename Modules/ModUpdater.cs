@@ -186,7 +186,7 @@ namespace TownOfHost
             try
             {
                 HttpClient http = new HttpClient();
-                http.DefaultRequestHeaders.Add("User-Agent", "TheOtherRoles Updater");
+                http.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
                 var response = await http.GetAsync(new System.Uri(updateURI), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
                 {
