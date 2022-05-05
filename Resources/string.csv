@@ -195,6 +195,8 @@ ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
 ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
+TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
 
 #鬼ごっこ設定
 HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
