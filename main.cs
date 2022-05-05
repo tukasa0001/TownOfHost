@@ -179,6 +179,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
+                {CustomRoles.FireWorks, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -253,6 +254,7 @@ namespace TownOfHost
         //Impostor
         BountyHunter,
         EvilWatcher,
+        FireWorks,
         Mafia,
         SerialKiller,
         ShapeMaster,

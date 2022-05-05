@@ -122,6 +122,8 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
+
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
             main.CheckShapeshift.Add(__instance.PlayerId, !check);

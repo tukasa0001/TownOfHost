@@ -239,6 +239,7 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     PlayerState.InitTask(pc);
+                    if (pc.Is(CustomRoles.FireWorks)) FireWorks.Add(pc.PlayerId);
                 }
                 Utils.CountAliveImpostors();
                 Utils.NotifyRoles();

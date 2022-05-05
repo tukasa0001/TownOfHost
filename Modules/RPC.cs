@@ -26,7 +26,8 @@ namespace TownOfHost
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
-        DoSpell
+        DoSpell,
+        SendFireWorksState,
     }
     public enum Sounds
     {
@@ -153,6 +154,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SendFireWorksState:
+                    FireWorks.RecieveState(reader);
                     break;
             }
         }

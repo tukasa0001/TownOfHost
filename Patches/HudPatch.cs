@@ -74,6 +74,12 @@ namespace TownOfHost
                 LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.FireWorks))
+            {
+                var stateText = FireWorks.GetStateText(player);
+                LowerInfoText.text = stateText;
+                LowerInfoText.enabled = true;
+            }
             else
             {
                 //バウンティハンターじゃない

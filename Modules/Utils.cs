@@ -480,6 +480,11 @@ namespace TownOfHost
                     string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
                     SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
                 }
+                if (seer.Is(CustomRoles.FireWorks))
+                {
+                    string stateText = FireWorks.GetStateText(seer);
+                    SelfSuffix = $"{stateText}";
+                }
                 if (seer.isWitch())
                 {
                     if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + getString("WitchModeKill");
