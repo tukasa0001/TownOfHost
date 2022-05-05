@@ -56,6 +56,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
+                Utils.CustomSyncAllSettings();
                 pc.AfterMeetingTasks();
                 if (PlayerControl.GameOptions.MapId != 4)//Airship以外
                     if (pc.isSerialKiller() || pc.isBountyHunter())
