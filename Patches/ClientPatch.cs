@@ -1,39 +1,37 @@
 using HarmonyLib;
 using UnityEngine;
-using InnerNet;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(InnerNetClient), nameof(InnerNetClient.ChangeGamePublic))]
-    class ChangeGamePublicPatch
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
+    class MakePublicPatch
     {
-        static int blockCount = 0;
-        public static void Prefix(InnerNetClient __instance, [HarmonyArgument(0)] ref bool isPublic)
+        public static bool Prefix(GameStartManager __instance)
         {
-            if (main.PluginVersionType == VersionTypes.Beta)
+            if (ModUpdater.hasUpdate)
             {
-                if (isPublic)
-                {
-                    blockCount++;
-                    if (blockCount >= 100 && blockCount % 100 == 0 || Input.GetKey(KeyCode.B))
-                    {
-                        //100回ごとに特殊処理
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "ベータ版では公開ルームにできません。\n連打しても無駄です。");
-                        DestroyableSingleton<HudManager>.Instance.KillOverlay.ShowKillAnimation(PlayerControl.LocalPlayer.Data, PlayerControl.LocalPlayer.Data);
-                    }
-                    else
-                    {
-                        //通常処理
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "ベータ版では公開ルームにできません。");
-                    }
-
-                    if (blockCount >= 10 && blockCount % 10 == 0 && blockCount % 100 != 0 && !HudManager.Instance.Chat.IsOpen)
-                    {
-                        //10回ごとに強制チャット表示
-                        HudManager.Instance.Chat.Toggle();
-                    }
-                }
-                isPublic = false;
+                Logger.SendInGame(getString("onSetPublicNoLatest"));
+                return false;
+            }
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(MMOnlineManager), nameof(MMOnlineManager.Start))]
+    class MMOnlineManagerStartPatch
+    {
+        public static void Postfix(MMOnlineManager __instance)
+        {
+            if (!ModUpdater.hasUpdate) return;
+            var obj = GameObject.Find("FindGameButton");
+            if (obj)
+            {
+                obj?.SetActive(false);
+                var parentObj = obj.transform.parent.gameObject;
+                var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
+                textObj.transform.position = new Vector3(1f, -0.3f, 0);
+                textObj.name = "CanNotJoinPublic";
+                new LateTask(() => { textObj.text = $"<size=2><color=#ff0000>{getString("CanNotJoinPublicRoomNoLatest")}</color></size>"; }, 0.01f, "CanNotJoinPublic");
             }
         }
     }

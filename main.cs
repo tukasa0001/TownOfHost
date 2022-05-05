@@ -21,11 +21,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.5.0";
-        public const VersionTypes PluginVersionType = VersionTypes.Beta;
-        public const string BetaVersion = "1";
-        public const string BetaName = "**** Beta";
-        public static string VersionSuffix => PluginVersionType == VersionTypes.Beta ? "b #" + BetaVersion : "";
+        public const string PluginVersion = "2.0.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -40,7 +36,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
-        public static ConfigEntry<int> BanTimestamp { get; private set; }
+        public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
@@ -51,9 +47,9 @@ namespace TownOfHost
         public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
+        public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<byte, string> FinalTaskState;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -86,6 +82,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
@@ -94,6 +91,7 @@ namespace TownOfHost
         public static bool isCursed;
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
+        public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonArsonistID;
@@ -120,7 +118,7 @@ namespace TownOfHost
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("TaskCounts");
+            TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
@@ -148,7 +146,7 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
-            BanTimestamp = Config.Bind("Other", "lastTime", 0);
+            ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
 
             NameColorManager.Begin();
 
@@ -164,45 +162,54 @@ namespace TownOfHost
             {
 
                 roleColors = new Dictionary<CustomRoles, string>(){
+                //バニラ役職
                 {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},
+                //特殊インポスター役職
                 {CustomRoles.Vampire, "#ff0000"},
                 {CustomRoles.Mafia, "#ff0000"},
-                {CustomRoles.Madmate, "#ff0000"},
-                {CustomRoles.SKMadmate, "#ff0000"},
-                {CustomRoles.MadGuardian, "#ff0000"},
-                {CustomRoles.MadSnitch, "#ff0000"},
-                {CustomRoles.Watcher, "#800080"},
-                {CustomRoles.EvilWatcher, "#ff0000"},
-                {CustomRoles.NiceWatcher, "#800080"},
-                {CustomRoles.Arsonist, "#ff6633"},
-                {CustomRoles.Jester, "#ec62a5"},
-                {CustomRoles.Terrorist, "#00ff00"},
-                {CustomRoles.Opportunist, "#00ff00"},
-                {CustomRoles.Bait, "#00f7ff"},
-                {CustomRoles.SabotageMaster, "#0000ff"},
-                {CustomRoles.Snitch, "#b8fb4f"},
-                {CustomRoles.Mayor, "#204d42"},
-                {CustomRoles.Sheriff, "#f8cd46"},
+                {CustomRoles.EvilWatcher, "#ff0000"}, //ウォッチャーの派生
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Puppeteer, "#ff0000"},
+                //マッドメイト系役職
+                {CustomRoles.Madmate, "#ff0000"},
+                {CustomRoles.SKMadmate, "#ff0000"},
+                {CustomRoles.MadGuardian, "#ff0000"},
+                {CustomRoles.MadSnitch, "#ff0000"},
+                //両陣営可能役職
+                {CustomRoles.Watcher, "#800080"},
+                //特殊クルー役職
+                {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
+                {CustomRoles.Bait, "#00f7ff"},
+                {CustomRoles.SabotageMaster, "#0000ff"},
+                {CustomRoles.Snitch, "#b8fb4f"},
+                {CustomRoles.Mayor, "#204d42"},
+                {CustomRoles.Sheriff, "#f8cd46"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
                 {CustomRoles.Trapper, "#5a8fd0"},
+                //第三陣営役職
+                {CustomRoles.Arsonist, "#ff6633"},
+                {CustomRoles.Jester, "#ec62a5"},
+                {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.SchrodingerCat, "#696969"},
-                {CustomRoles.CSchrodingerCat, "#ffffff"},
-                {CustomRoles.MSchrodingerCat, "#ff0000"},
-                {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
+                {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
+                //HideAndSeek
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
+                //サブ役職
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
             };
             }
@@ -251,6 +258,7 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Puppeteer,
         //Madmate
         MadGuardian,
         Madmate,

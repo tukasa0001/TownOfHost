@@ -12,14 +12,6 @@ namespace TownOfHost
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            //タスク情報保存
-            main.FinalTaskState = new Dictionary<byte, string>();
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                main.FinalTaskState.Add(pc.PlayerId, Utils.getTaskText(pc));
-                if (main.FinalTaskState[pc.PlayerId] == "null")
-                    main.FinalTaskState[pc.PlayerId] = "";
-            }
             Logger.info("ゲームが終了", "Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -186,6 +178,18 @@ namespace TownOfHost
             {
                 main.winnerList.Add(pc.PlayerId);
             }
+
+            main.BountyTimer = new Dictionary<byte, float>();
+            main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.SerialKillerTimer = new Dictionary<byte, float>();
+            main.isDoused = new Dictionary<(byte, byte), bool>();
+
+            NameColorManager.Instance.RpcReset();
+            main.VisibleTasksCount = false;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
+            }
         }
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
@@ -301,13 +305,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {Utils.getTaskText(id)}  {Utils.getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {main.FinalTaskState[id]}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}</color> {Utils.getTaskText(id)}  {Utils.getVitalText(id)}";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
@@ -323,17 +327,6 @@ namespace TownOfHost
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            main.BountyTimer = new Dictionary<byte, float>();
-            main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            main.SerialKillerTimer = new Dictionary<byte, float>();
-            main.isDoused = new Dictionary<(byte, byte), bool>();
-
-            NameColorManager.Instance.RpcReset();
-            main.VisibleTasksCount = false;
-            if (AmongUsClient.Instance.AmHost)
-            {
-                PlayerControl.LocalPlayer.RpcSyncSettings(main.RealOptionsData);
-            }
             //Utils.ApplySuffix();
         }
     }

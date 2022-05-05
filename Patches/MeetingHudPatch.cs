@@ -117,13 +117,17 @@ namespace TownOfHost
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
-                foreach (var p in main.SpelledPlayer)
+                if (!Utils.getPlayerById(exileId).isWitch())
                 {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                    main.IgnoreReportPlayers.Add(p.PlayerId);
-                    p.RpcMurderPlayer(p);
-                    recall = true;
+                    foreach (var p in main.SpelledPlayer)
+                    {
+                        PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        main.IgnoreReportPlayers.Add(p.PlayerId);
+                        p.RpcMurderPlayer(p);
+                        recall = true;
+                    }
                 }
+                main.SpelledPlayer.Clear();
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -206,7 +210,7 @@ namespace TownOfHost
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        pc.RpcSetName(pc.getRealName(isMeeting: true));
+                        pc.RpcSetNameEx(pc.getRealName(isMeeting: true));
                     }
                 }, 3f, "SetName To Chat");
             }
@@ -223,7 +227,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                if ((PlayerControl.LocalPlayer.isSnitch() || PlayerControl.LocalPlayer.isMadSnitch()) && //LocalPlayerがSnitch/MadSnitch
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
@@ -313,6 +317,10 @@ namespace TownOfHost
         {
             Logger.info("会議が終了", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
+
+            //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。
+            var additional = PlayerControl.GameOptions.MapId == 4 ? 5f : 0f;
+
             if (CheckForEndVotingPatch.recall)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -323,13 +331,13 @@ namespace TownOfHost
                         {
                             pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
                         },
-                            0.2f, "Recall Meeting");
+                            0.2f + additional, "Recall Meeting");
                         new LateTask(() =>
                         {
                             MeetingHud.Instance.RpcClose();
                             CheckForEndVotingPatch.recall = false;
                         },
-                            0.5f, "Cancel Meeting");
+                            0.5f + additional, "Cancel Meeting");
                         break;
                     }
                 }

@@ -6,50 +6,55 @@ using InnerNet;
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
-    class DebugManager
+    class ControllerManagerUpdatePatch
     {
         static System.Random random = new System.Random();
         static PlayerControl bot;
         public static void Postfix(ControllerManager __instance)
         {
+            //カスタム設定切り替え
+            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.isLobby)
+            {
+                OptionShower.next();
+            }
 
-            //##ホスト専用コマンド##
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            //--以下ホスト専用コマンド--//
+            if (!AmongUsClient.Instance.AmHost) return;
+            //廃村
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.isInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
+            //ミーティングを強制終了
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.isMeeting)
+            {
+                MeetingHud.Instance.RpcClose();
+            }
+            //即スタート
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.isCountDown)
             {
                 Logger.info("CountDownTimer set to 0");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C) && GameStartManager._instance && AmongUsClient.Instance.AmHost)
+            //カウントダウンキャンセル
+            if (Input.GetKeyDown(KeyCode.C) && GameStates.isCountDown)
             {
                 Logger.info("Reset CountDownTimer");
                 GameStartManager.Instance.ResetStartState();
             }
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
+            //現在の有効な設定を表示
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 Utils.ShowActiveRoles();
             }
-            //====================
-            //##テスト用キーコマンド##
-            // | キー | 条件 | 動作 |
-            // | ---- | ---- | ---- |
-            // | X | フリープレイ中 | キルクール0 |
-            // | Y | ホスト | カスタム設定同期 |
-            // | O | フリープレイ中 | 全タスク完了 |
-            // | G | フリープレイ中 | 開始画面表示 |
-            // | = | フリープレイ中 | VisibleTaskCountを切り替え |
-            // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | U | オンライン以外 | 自分の投票をClearする |
-            // | N | ホストデバッガー | プレイヤーを生成 |
-            //====================
 
+            //--以下デバッグモード用コマンド--//
+            if (!main.AmDebugger.Value) return;
 
-            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value)
+            //BOTの作成
+            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N))
             {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
                 if (bot == null)
@@ -73,57 +78,54 @@ namespace TownOfHost
                 new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
                 new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
-            if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-            {
-                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
-            }
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
+            //設定の同期
+            if (Input.GetKeyDown(KeyCode.Y))
             {
                 RPC.SyncCustomSettingsRPC();
             }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            //投票をクリア
+            if (Input.GetKeyDown(KeyCode.V) && GameStates.isMeeting && !GameStates.isOnlineGame)
             {
-                MeetingHud.Instance.RpcClose();
+                MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
             }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && AmongUsClient.Instance.AmHost)
+            //自分自身の死体をレポート
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.isInGame)
             {
                 PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
             }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
+            //自分自身を追放
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.isInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
             }
-            if (Input.GetKeyDown(KeyCode.V))
+
+            //--以下フリープレイ用コマンド--//
+            if (!GameStates.isFreePlay) return;
+            //キルクールを0秒に設定
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
-                {
-                    MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
-                }
+                PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
             }
+            //自身のタスクをすべて完了
             if (Input.GetKeyDown(KeyCode.O))
             {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-                {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        foreach (var task in pc.myTasks)
-                        {
-                            pc.RpcCompleteTask(task.Id);
-                        }
-                    }
-                }
+                foreach (var task in PlayerControl.LocalPlayer.myTasks)
+                    PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
             }
-            if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //イントロテスト
+            if (Input.GetKeyDown(KeyCode.G))
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
                 HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro());
             }
-            if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //タスクカウントの表示切替
+            if (Input.GetKeyDown(KeyCode.Equals))
             {
                 main.VisibleTasksCount = !main.VisibleTasksCount;
                 DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-            if (Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //エアシップのトイレのドアを全て開ける
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
@@ -158,13 +160,6 @@ namespace TownOfHost
                 VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
             }*/
             //マスゲーム用コード終わり
-
-            //##カスタム設定コマンド##
-            if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
-            {
-                //Logger.SendInGame("tabキーが押されました");
-                OptionShower.next();
-            }
         }
     }
 
