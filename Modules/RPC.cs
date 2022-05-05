@@ -132,7 +132,8 @@ namespace TownOfHost
                 case (byte)CustomRPC.RemoveDousedPlayerCount:
                     ArsonistId = reader.ReadByte();
                     int LeftDousePlayer = reader.ReadInt32();
-                    main.DousedPlayerCount[ArsonistId] = LeftDousePlayer;
+                    int AllTargets = reader.ReadInt32();
+                    main.DousedPlayerCount[ArsonistId] = (LeftDousePlayer, AllTargets);
                     break;
                 case (byte)CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();

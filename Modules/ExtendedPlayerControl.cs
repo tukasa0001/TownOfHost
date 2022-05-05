@@ -557,7 +557,8 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveDousedPlayerCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(main.DousedPlayerCount[player.PlayerId]);
+            writer.Write(main.DousedPlayerCount[player.PlayerId].Item1);
+            writer.Write(main.DousedPlayerCount[player.PlayerId].Item2);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
@@ -613,11 +614,18 @@ namespace TownOfHost
                     player.Data.Role.CanVent = false;
                     return;
                 case CustomRoles.Arsonist:
-                    bool CanUse = (main.DousedPlayerCount.TryGetValue(player.PlayerId, out int count) && count == 0);
+                    bool CanUse = player.isDouseDone();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
                     return;
             }
+        }
+        public static bool isDouseDone(this PlayerControl player)
+        {
+            if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 != 0)
+                return true;
+
+            return false;
         }
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }

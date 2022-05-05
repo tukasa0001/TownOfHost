@@ -526,6 +526,7 @@ namespace TownOfHost
                 }
                 if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
+                    var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
                     if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                     {
@@ -534,7 +535,7 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        ArsonistDic = ((ArsonistDic.Item1 - 1), ArsonistDic.Item2);//残りの塗る人数を減らす
                         Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
                         __instance.RpcRemoveDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
@@ -559,15 +560,15 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.TryGetValue(__instance.PlayerId, out int count) && count != 0 && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
+                if (__instance.isDouseDone() && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused.TryGetValue((__instance.PlayerId, pc.PlayerId), out bool isDoused) && !__instance.AmOwner)//死んだら塗った判定にする
                         {
-                            main.DousedPlayerCount[__instance.PlayerId]--;
-                            if (main.DousedPlayerCount[__instance.PlayerId] <= -1)
-                                main.DousedPlayerCount[__instance.PlayerId] = 0;
+                            main.DousedPlayerCount[__instance.PlayerId] = ((main.DousedPlayerCount[__instance.PlayerId].Item1 - 1), main.DousedPlayerCount[__instance.PlayerId].Item2);
+                            if (main.DousedPlayerCount[__instance.PlayerId].Item1 <= -1)
+                                main.DousedPlayerCount[__instance.PlayerId] = (0, main.DousedPlayerCount[__instance.PlayerId].Item2);
                             Logger.info($"{__instance.getRealName()} : 残り{main.DousedPlayerCount[__instance.PlayerId]}人");
                             __instance.RpcRemoveDousedPlayerCount();
                             main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
@@ -625,7 +626,7 @@ namespace TownOfHost
                     if (__instance.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //__instanceが自分自身
                         RealName = $"<color={__instance.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
-                        if (__instance.isArsonist() && main.DousedPlayerCount.TryGetValue(PlayerControl.LocalPlayer.PlayerId, out var count) && count == 0)
+                        if (__instance.isArsonist() && __instance.isDouseDone())
                             RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
@@ -741,7 +742,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 if (main.DousedPlayerCount.ContainsKey(__instance.myPlayer.PlayerId) && AmongUsClient.Instance.IsGameStarted)
-                    if (main.DousedPlayerCount[__instance.myPlayer.PlayerId] == 0)
+                    if (__instance.myPlayer.isDouseDone())
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
