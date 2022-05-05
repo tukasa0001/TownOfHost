@@ -407,7 +407,9 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-             //Vampireの処理
+                if (GameStates.isLobby && ModUpdater.hasUpdate && AmongUsClient.Instance.IsGamePublic)
+                    AmongUsClient.Instance.ChangeGamePublic(false);
+                //Vampireの処理
                 if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
                     if (main.BitPlayers.ContainsKey(__instance.PlayerId))
