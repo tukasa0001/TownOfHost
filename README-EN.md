@@ -342,7 +342,7 @@ You can know why players died.And you can use vitals anywhere with gadget charge
 #### Settings
 | Settings Name |
 |----------|
-| Doctor TaskCompletedVattery Charge |
+| Doctor TaskCompletedBattery Charge |
 
 ### Jester
 
