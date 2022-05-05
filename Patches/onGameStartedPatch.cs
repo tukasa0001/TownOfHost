@@ -356,9 +356,9 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.isArsonist())
                     {
-                        var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
+                        var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
                         main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
-                        pc.RpcAddDousedPlayerCount();
+                        pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);

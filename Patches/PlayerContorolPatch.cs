@@ -541,7 +541,7 @@ namespace TownOfHost
                         ArsonistDic = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
                         Logger.info($"{__instance.getRealName()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
                         main.DousedPlayerCount[__instance.PlayerId] = ArsonistDic;
-                        __instance.RpcAddDousedPlayerCount();
+                        __instance.RpcSendDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(ar_target.PlayerId);
