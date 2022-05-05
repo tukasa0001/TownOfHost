@@ -30,14 +30,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
     class OnPlayerLeftPatch
     {
-        public static void Prefix([HarmonyArgument(0)] ClientData data)
-        {
-            if (GameStates.isInGame)
-            {
-                data.Character.isNotDousePlayer();
-                //Logger.info($"{data.Character.name}塗られていないか検知", "Arsonist");
-            }
-        }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");

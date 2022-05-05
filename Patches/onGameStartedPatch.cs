@@ -24,6 +24,7 @@ namespace TownOfHost
             main.BountyTimer = new Dictionary<byte, float>();
             main.isDoused = new Dictionary<(byte, byte), bool>();
             main.DousedPlayerCount = new Dictionary<byte, (int, int)>();
+            main.isDeadDoused = new Dictionary<byte, bool>();
             main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
@@ -335,6 +336,7 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    main.isDeadDoused[pc.PlayerId] = false;
                     if (pc.isSheriff())
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
