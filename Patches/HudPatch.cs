@@ -114,9 +114,6 @@ namespace TownOfHost
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
-                case CustomRoles.TimeThief:
-                    TaskTextPrefix = $"<color={Utils.getRoleColorCode(CustomRoles.TimeThief)}>{Utils.getRoleName(CustomRoles.TimeThief)}\r\n{getString("TimeThiefInfo")}</color>/r/n";
-                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
