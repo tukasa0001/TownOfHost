@@ -357,7 +357,7 @@ namespace TownOfHost
                     if (pc.isArsonist())
                     {
                         var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
-                        main.DousedPlayerCount[pc.PlayerId] = (targetPlayerCount, targetPlayerCount);
+                        main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
                         pc.RpcAddDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
