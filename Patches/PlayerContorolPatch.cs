@@ -569,13 +569,14 @@ namespace TownOfHost
                     {
                         if (__instance == target) continue;
                         if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
-                        {
-                            main.isDeadDoused[target.PlayerId] = true;
-                            var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
-                            Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
-                            main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                            __instance.RpcSendDousedPlayerCount();
-                        }
+                            if (target.Data.IsDead || target.Data.Disconnected)
+                            {
+                                main.isDeadDoused[target.PlayerId] = true;
+                                var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
+                                Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
+                                main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                                __instance.RpcSendDousedPlayerCount();
+                            }
                     }
                 }
                 if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
