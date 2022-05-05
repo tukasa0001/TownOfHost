@@ -596,7 +596,7 @@ namespace TownOfHost
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
             {
-                if GameStates.isInGame)
+                if (GameStates.isInGame)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
                     if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
