@@ -48,16 +48,7 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
-                PlayerState.isDead[exiled.PlayerId] = true;
-            }
-            if (exiled == null && main.SpelledPlayer != null)
-            {
-                foreach (var p in main.SpelledPlayer)
-                {
-                    PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                    main.IgnoreReportPlayers.Add(p.PlayerId);
-                    p.RpcMurderPlayer(p);
-                }
+                PlayerState.setDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;

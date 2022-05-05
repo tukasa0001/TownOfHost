@@ -58,7 +58,7 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
-            PlayerState.isDead[target.PlayerId] = true;
+            PlayerState.setDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
@@ -395,9 +395,9 @@ namespace TownOfHost
         {
             //async Taskじゃ警告出るから仕方ないよね。
             var revertName = PlayerControl.LocalPlayer.name;
-            PlayerControl.LocalPlayer.RpcSetName(name);
+            PlayerControl.LocalPlayer.RpcSetNameEx(name);
             await Task.Delay(time);
-            PlayerControl.LocalPlayer.RpcSetName(revertName);
+            PlayerControl.LocalPlayer.RpcSetNameEx(revertName);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -408,33 +408,36 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
              //Vampireの処理
-                if (main.BitPlayers.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
-                    //__instance:キルされる予定のプレイヤー
-                    //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
-                    //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                    if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
+                    if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                     {
-                        byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                        if (!__instance.Data.IsDead)
+                        //__instance:キルされる予定のプレイヤー
+                        //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
+                        //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
+                        if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                         {
-                            PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
-                            __instance.RpcMurderPlayer(__instance);
-                            RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                            Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                            byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
+                            if (!__instance.Data.IsDead)
+                            {
+                                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
+                                __instance.RpcMurderPlayer(__instance);
+                                RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                                Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                            }
+                            else
+                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
+                            main.BitPlayers.Remove(__instance.PlayerId);
                         }
                         else
-                            Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                        main.BitPlayers.Remove(__instance.PlayerId);
-                    }
-                    else
-                    {
-                        main.BitPlayers[__instance.PlayerId] =
-                        (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        {
+                            main.BitPlayers[__instance.PlayerId] =
+                            (main.BitPlayers[__instance.PlayerId].Item1, main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                        }
                     }
                 }
-                if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
                     {//自滅時間が来たとき
@@ -453,7 +456,7 @@ namespace TownOfHost
                         (main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                     }
                 }
-                if (main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
+                if (GameStates.isInTask && main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
                 {
                     if (main.WarlockTimer[__instance.PlayerId] >= 1f)
                     {
@@ -465,7 +468,7 @@ namespace TownOfHost
                     else main.WarlockTimer[__instance.PlayerId] = (main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                 }
                 //バウハンのキルクールの変換とターゲットのリセット
-                if (main.BountyTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInTask && main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 1f && main.AirshipMeetingCheck)
                     {
@@ -489,7 +492,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -523,20 +526,20 @@ namespace TownOfHost
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                     }
                 }
-                if (main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
+                if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
-                    var artarget = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
+                    var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
                     if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                     {
                         main.AllPlayerKillCooldown[__instance.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
                         Utils.CustomSyncAllSettings();//同期
-                        __instance.RpcGuardAndKill(artarget);//通知とクールリセット
+                        __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
-                        main.isDoused[(__instance.PlayerId, artarget.PlayerId)] = true;//塗り完了
+                        main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                         main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
-                        writer.Write(artarget.PlayerId);
+                        writer.Write(ar_target.PlayerId);
                         writer.Write(true);
                         AmongUsClient.Instance.FinishRpcImmediately(writer);
                         Utils.NotifyRoles();//名前変更
@@ -544,7 +547,7 @@ namespace TownOfHost
                     else
                     {
                         float dis;
-                        dis = Vector2.Distance(__instance.transform.position, artarget.transform.position);//距離を出す
+                        dis = Vector2.Distance(__instance.transform.position, ar_target.transform.position);//距離を出す
                         if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
                         {
                             main.ArsonistTimer[__instance.PlayerId] =
@@ -556,7 +559,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.DousedPlayerCount.ContainsKey(__instance.PlayerId) && AmongUsClient.Instance.IsGameStarted)//試合終了判定など
+                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))//試合終了判定など
                 {
                     if (main.DousedPlayerCount[__instance.PlayerId] == 0)//試合終了判定
                     {
@@ -578,7 +581,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (main.RefixCooldownDelay <= 0)
+                if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.isVampire() || pc.isWarlock())
@@ -588,7 +591,7 @@ namespace TownOfHost
                 if (__instance.AmOwner) Utils.ApplySuffix();
             }
 
-            if (AmongUsClient.Instance.IsGameStarted)
+            if (GameStates.isInGame)
             {
                 //役職テキストの表示
                 var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
@@ -767,6 +770,16 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
         {
             main.RealNames[__instance.PlayerId] = name;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
+    class PlayerControlCompleteTaskPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
+            PlayerState.UpdateTask(__instance);
+            Utils.NotifyRoles();
         }
     }
 }

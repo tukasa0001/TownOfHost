@@ -8,6 +8,33 @@ namespace TownOfHost
 {
     public static class Utils
     {
+        public static bool isActive(SystemTypes type)
+        {
+            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+            Logger.info($"SystemTypes:{type}", "SwitchSystem");
+
+            if (SwitchSystem != null && SwitchSystem.IsActive)
+                return true;
+
+            return false;
+        }
+        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        {
+            if (HasImpVision)
+            {
+                opt.CrewLightMod = opt.ImpostorLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.CrewLightMod *= 5;
+                return;
+            }
+            else
+            {
+                opt.ImpostorLightMod = opt.CrewLightMod;
+                if (isActive(SystemTypes.Electrical))
+                    opt.ImpostorLightMod /= 5;
+                return;
+            }
+        }
         public static string getOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount)
         {
@@ -160,6 +187,20 @@ namespace TownOfHost
         {
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
+            var Comms = false;
+            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                if (task.TaskType == TaskTypes.FixComms)
+                {
+                    Comms = true;
+                    break;
+                }
+            string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
+            return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+        }
+        public static string getTaskText(byte playerId)
+        {
+            var taskState = PlayerState.taskState[playerId];
+            if (!taskState.hasTasks) return "";
             return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
         }
         public static void ShowActiveRoles()
@@ -239,7 +280,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage("試合中に/lastrolesを使用することはできません。");
+                SendMessage(getString("CantUse/lastroles"));
                 return;
             }
             var text = getString("LastResult") + ":";
@@ -262,16 +303,16 @@ namespace TownOfHost
         public static void ShowHelp()
         {
             SendMessage(
-                "コマンド一覧:"
-                + "\n/winner - 勝者を表示"
-                + "\n/lastroles - 最後の役職割り当てを表示"
-                + "\n/rename - ホストの名前を変更"
-                + "\n/now - 現在有効な設定を表示"
-                + "\n/h now - 現在有効な設定の説明を表示"
-                + "\n/h roles <役職名> - 役職の説明を表示"
-                + "\n/h attributes <属性名> - 属性の説明を表示"
-                + "\n/h modes <モード名> - モードの説明を表示"
-                + "\n/dump - デスクトップにログを出力"
+                getString("CommandList")
+                + $"\n/winner - {getString("Command.winner")}"
+                + $"\n/lastroles - {getString("Command.lastroles")}"
+                + $"\n/rename - {getString("Command.rename")}"
+                + $"\n/now - {getString("Command.now")}"
+                + $"\n/h now - {getString("Command.h_now")}"
+                + $"\n/h roles {getString("Command.h_roles")}"
+                + $"\n/h attributes {getString("Command.h_attributes")}"
+                + $"\n/h modes {getString("Command.h_modes")}"
+                + $"\n/dump - {getString("Command.dump")}"
                 );
 
         }
@@ -296,7 +337,7 @@ namespace TownOfHost
                         //生存者は爆死
                         pc.MurderPlayer(pc);
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                        PlayerState.isDead[pc.PlayerId] = true;
+                        PlayerState.setDead(pc.PlayerId);
                     }
                 }
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
@@ -437,8 +478,7 @@ namespace TownOfHost
                 SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true);
-                HudManagerPatch.LastSetNameDesyncCount++;
+                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
@@ -521,8 +561,7 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetMark}";
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer);
-                        HudManagerPatch.LastSetNameDesyncCount++;
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
                     }

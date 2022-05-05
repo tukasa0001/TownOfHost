@@ -112,6 +112,8 @@ namespace TownOfHost
                 if (Options.AddedPolus.GetBool()) RandomMaps.Add(2);
                 // if (Options.AddedDleks.GetBool()) RandomMaps.Add(3);
                 if (Options.AddedTheAirShip.GetBool()) RandomMaps.Add(4);
+
+                if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
                 PlayerControl.GameOptions.MapId = MapsId;
 
@@ -120,7 +122,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
-    class UnrestrictNumImpostorsPatch
+    class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
         {
