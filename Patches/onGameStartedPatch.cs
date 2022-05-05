@@ -34,6 +34,7 @@ namespace TownOfHost
             main.ExecutionerTarget = new Dictionary<byte, byte>();
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
+            main.PuppeteerList = new Dictionary<byte, byte>();
 
             main.IgnoreReportPlayers = new List<byte>();
 
@@ -310,6 +311,7 @@ namespace TownOfHost
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
