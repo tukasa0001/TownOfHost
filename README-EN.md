@@ -66,8 +66,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
 | [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [スピードブースター](###SpeedBooster) |                               |
-| [Madmate](###Madmate)           | [Trapper](###Trapper)                 |                               |
+| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
+| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
+| [Madmate](###Madmate)           |                                       |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -157,6 +158,14 @@ Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
 
+### Puppeteer
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
+It is not possible to perform normal kills.<br>
 ### Madmate
 
 Team : Impostors<br>
@@ -321,8 +330,15 @@ They do not have tasks.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
+When the Snitches complete their tasks, the name of the Impostors will change to red,can see the direction with the arrow.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Snitch Can Get Arrow Color |
+| Snitch Can Find Neutral Killer |
 
 ### Jester
 
