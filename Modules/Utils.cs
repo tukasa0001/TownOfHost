@@ -537,6 +537,7 @@ namespace TownOfHost
                     || seer.isArsonist()
                     || main.SpelledPlayer.Count > 0
                     || seer.isExecutioner()
+                    || seer.isPuppeteer()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -567,6 +568,10 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
+                        if (seer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsValue(seer.PlayerId) &&
+                        main.PuppeteerList.ContainsKey(target.PlayerId))
+                            TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";

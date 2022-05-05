@@ -19,33 +19,61 @@ namespace TownOfHost
         private static void Prefix(MainMenuManager __instance)
         {
             ModUpdater.LaunchUpdater();
-            if (!ModUpdater.hasUpdate) return;
             var template = GameObject.Find("ExitGameButton");
             if (template == null) return;
+            //Discordボタンを生成
+            var discordButton = UnityEngine.Object.Instantiate(template, null);
+            discordButton.transform.localPosition = new Vector3(discordButton.transform.localPosition.x, discordButton.transform.localPosition.y + 0.6f, discordButton.transform.localPosition.z);
 
-            var button = UnityEngine.Object.Instantiate(template, null);
-            button.transform.localPosition = new Vector3(button.transform.localPosition.x, button.transform.localPosition.y + 0.6f, button.transform.localPosition.z);
+            PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
+            passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
+            passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL("https://discord.gg/W5ug6hXB9V")));
 
-            PassiveButton passiveButton = button.GetComponent<PassiveButton>();
-            passiveButton.OnClick = new Button.ButtonClickedEvent();
-            passiveButton.OnClick.AddListener((UnityEngine.Events.UnityAction)onClick);
-
-            var text = button.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+            var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
             {
-                text.SetText(getString("updateButton"));
+                discordText.SetText("Discord");
             })));
+
+            SpriteRenderer buttonSpriteDiscord = discordButton.GetComponent<SpriteRenderer>();
+            Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
+            buttonSpriteDiscord.color = discordText.color = discordColor;
+            passiveDiscordButton.OnMouseOut.AddListener((System.Action)delegate
+            {
+                buttonSpriteDiscord.color = discordText.color = discordColor;
+            });
+            //以下アップデートがあれば実行
+            if (!ModUpdater.hasUpdate) return;
+            //アップデートボタンを生成
+            var updateButton = UnityEngine.Object.Instantiate(template, null);
+            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 1.2f, updateButton.transform.localPosition.z);
+
+            PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
+            passiveUpdateButton.OnClick = new Button.ButtonClickedEvent();
+            passiveUpdateButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+            {
+                ModUpdater.ExecuteUpdate();
+                updateButton.SetActive(false);
+            }));
+
+            var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+            __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
+            {
+                updateText.SetText(getString("updateButton"));
+            })));
+
+            SpriteRenderer buttonSpriteUpdate = updateButton.GetComponent<SpriteRenderer>();
+            Color updateColor = new Color32(0, 191, 255, byte.MaxValue);
+            buttonSpriteUpdate.color = updateText.color = updateColor;
+            passiveUpdateButton.OnMouseOut.AddListener((System.Action)delegate
+            {
+                buttonSpriteUpdate.color = updateText.color = updateColor;
+            });
 
             TwitchManager man = DestroyableSingleton<TwitchManager>.Instance;
             ModUpdater.InfoPopup = UnityEngine.Object.Instantiate<GenericPopup>(man.TwitchPopup);
             ModUpdater.InfoPopup.TextAreaTMP.fontSize *= 0.7f;
             ModUpdater.InfoPopup.TextAreaTMP.enableAutoSizing = false;
-
-            void onClick()
-            {
-                ModUpdater.ExecuteUpdate();
-                button.SetActive(false);
-            }
         }
     }
 
