@@ -35,7 +35,7 @@ namespace TownOfHost
             if (GameStates.isInGame)
             {
                 data.Character.isNotDousePlayer();
-                Logger.info($"{data.Character.name}塗られていないか検知", "Arsonist");
+                //Logger.info($"{data.Character.name}塗られていないか検知", "Arsonist");
             }
         }
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
