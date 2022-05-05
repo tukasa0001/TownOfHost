@@ -274,7 +274,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage("試合中に/lastrolesを使用することはできません。");
+                SendMessage(getString("CantUse/lastroles"));
                 return;
             }
             var text = getString("LastResult") + ":";
@@ -297,16 +297,16 @@ namespace TownOfHost
         public static void ShowHelp()
         {
             SendMessage(
-                "コマンド一覧:"
-                + "\n/winner - 勝者を表示"
-                + "\n/lastroles - 最後の役職割り当てを表示"
-                + "\n/rename - ホストの名前を変更"
-                + "\n/now - 現在有効な設定を表示"
-                + "\n/h now - 現在有効な設定の説明を表示"
-                + "\n/h roles <役職名> - 役職の説明を表示"
-                + "\n/h attributes <属性名> - 属性の説明を表示"
-                + "\n/h modes <モード名> - モードの説明を表示"
-                + "\n/dump - デスクトップにログを出力"
+                getString("CommandList")
+                + $"\n/winner - {getString("Command.winner")}"
+                + $"\n/lastroles - {getString("Command.lastroles")}"
+                + $"\n/rename - {getString("Command.rename")}"
+                + $"\n/now - {getString("Command.now")}"
+                + $"\n/h now - {getString("Command.h_now")}"
+                + $"\n/h roles {getString("Command.h_roles")}"
+                + $"\n/h attributes {getString("Command.h_attributes")}"
+                + $"\n/h modes {getString("Command.h_modes")}"
+                + $"\n/dump - {getString("Command.dump")}"
                 );
 
         }
@@ -391,7 +391,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false)
+        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -416,14 +416,21 @@ namespace TownOfHost
                         if (taskState.doExpose)
                         {
                             ShowSnitchWarning = true;
+                            break;
                         }
                     }
                 }
             }
 
+            var seerList = PlayerControl.AllPlayerControls;
+            if (SpecifySeer != null)
+            {
+                seerList = new();
+                seerList.Add(SpecifySeer);
+            }
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
-            foreach (var seer in PlayerControl.AllPlayerControls)
+            foreach (var seer in seerList)
             {
                 string fontSize = "1.5";
                 if (isMeeting && (seer.getClient().PlatformData.Platform.ToString() == "Playstation" || seer.getClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
@@ -437,9 +444,25 @@ namespace TownOfHost
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
-                //インポスターに対するSnitch警告
-                if (ShowSnitchWarning && seer.getCustomRole().isImpostor())
-                    SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+
+                //インポスター/キル可能な第三陣営に対するSnitch警告
+                var canFindSnitchRole = seer.getCustomRole().isImpostor() || //LocalPlayerがインポスター
+                    (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
+
+                if (canFindSnitchRole && ShowSnitchWarning && !isMeeting)
+                {
+                    var arrows = "";
+                    foreach (var arrow in main.targetArrows)
+                    {
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                        {
+                            //自分用の矢印で対象が死んでない時
+                            arrows += arrow.Value;
+                        }
+                    }
+                    SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
+                }
+
                 //呪われている場合
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
@@ -457,6 +480,35 @@ namespace TownOfHost
                     if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + getString("WitchModeSpell");
                 }
 
+                //他人用の変数定義
+                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+
+                //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
+                if (seer.isSnitch())
+                {
+                    var TaskState = seer.getPlayerTaskState();
+                    if (TaskState.isTaskFinished)
+                    {
+                        SeerKnowsImpostors = true;
+                        //ミーティング以外では矢印表示
+                        if (!isMeeting)
+                        {
+                            foreach (var arrow in main.targetArrows)
+                            {
+                                //自分用の矢印で対象が死んでない時
+                                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                    SelfSuffix += arrow.Value;
+                            }
+                        }
+                    }
+                }
+
+                if (seer.isMadSnitch())
+                {
+                    var TaskState = seer.getPlayerTaskState();
+                    if (TaskState.isTaskFinished)
+                        SeerKnowsImpostors = true;
+                }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.getRealName(isMeeting);
@@ -468,27 +520,12 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
-                SelfName = SelfRoleName += SelfName;
-                SelfRoleName += SelfName += SelfSuffix == "" ? "" : "\r\n" + SelfSuffix;
+                SelfName = SelfRoleName + SelfName;
+                SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
+                if (!isMeeting) SelfName += "\r\n";
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
-
-                //他人用の変数定義
-                bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
-                //タスクを終えたSnitchがインポスターを確認できる
-                if (seer.isSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
-                if (seer.isMadSnitch())
-                {
-                    var TaskState = seer.getPlayerTaskState();
-                    if (TaskState.isTaskFinished)
-                        SeerKnowsImpostors = true;
-                }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -499,6 +536,7 @@ namespace TownOfHost
                     || seer.isArsonist()
                     || main.SpelledPlayer.Count > 0
                     || seer.isDoctor() //seerがドクター
+                    || seer.isPuppeteer()
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -516,7 +554,10 @@ namespace TownOfHost
                         if (main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
                             TargetMark += "<color=#ff0000>†</color>";
                         //タスク完了直前のSnitchにマークを表示
-                        if (target.isSnitch() && seer.getCustomRole().isImpostor())
+                        canFindSnitchRole = seer.getCustomRole().isImpostor() || //Seerがインポスター
+                            (Options.SnitchCanFindNeutralKiller.GetBool() && seer.isEgoist());//or エゴイスト
+
+                        if (target.isSnitch() && canFindSnitchRole)
                         {
                             var taskState = target.getPlayerTaskState();
                             if (taskState.doExpose)
@@ -526,6 +567,10 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
+                        if (seer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsValue(seer.PlayerId) &&
+                        main.PuppeteerList.ContainsKey(target.PlayerId))
+                            TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";
@@ -538,9 +583,13 @@ namespace TownOfHost
                         string TargetPlayerName = target.getRealName(isMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors && target.getCustomRole().isImpostor()) //Seerがインポスターが誰かわかる状態
+                        if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
                         {
-                            TargetPlayerName = "<color=#ff0000>" + TargetPlayerName + "</color>";
+                            //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
+                            var snitchOption = seer.isSnitch() && Options.SnitchCanFindNeutralKiller.GetBool();
+                            var foundCheck = target.getCustomRole().isImpostor() || (snitchOption && target.isEgoist());
+                            if (foundCheck)
+                                TargetPlayerName = $"<color={target.getRoleColorCode()}>{TargetPlayerName}</color>";
                         }
                         else if (seer.getCustomRole().isImpostor() && target.isEgoist())
                             TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";

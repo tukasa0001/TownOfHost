@@ -85,6 +85,9 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillEgoShrodingerCat;
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
+        public static CustomOption SnitchEnableTargetArrow;
+        public static CustomOption SnitchCanGetArrowColor;
+        public static CustomOption SnitchCanFindNeutralKiller;
         public static CustomOption SpeedBoosterUpSpeed;
         public static CustomOption TrapperBlockMoveTime;
         public static CustomOption CanTerroristSuicideWin;
@@ -228,6 +231,7 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+            SetupRoleOptions(2000, CustomRoles.Puppeteer);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
@@ -270,6 +274,9 @@ namespace TownOfHost
             SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
+            SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
