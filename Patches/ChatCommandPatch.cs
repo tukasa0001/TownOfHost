@@ -30,6 +30,16 @@ namespace TownOfHost
                     Logger.info($"{filename}にログを保存しました。", "dump");
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                     break;
+                case "/v":
+                case "/version":
+                    canceled = true;
+                    string version_text = "";
+                    foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
+                    {
+                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).getRealName()}:{kvp.Value.version}({kvp.Value.tag})\n";
+                    }
+                    if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
+                    break;
                 default:
                     main.isChatCommand = false;
                     break;
@@ -182,7 +192,7 @@ namespace TownOfHost
             {
                 case "watcher":
                 case "wat":
-                    Utils.SendMessage(getString("WatcherInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Watcher) + getString("WatcherInfoLong"));
                     break;
 
                 case "jester":
@@ -287,7 +297,7 @@ namespace TownOfHost
 
                 case "Lighter":
                 case "li":
-                    Utils.SendMessage(getString("LighterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Lighter) + getString("LighterInfoLong"));
                     break;
 
                 case "SpeedBooster":
@@ -363,15 +373,12 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             switch (chatText)
             {
-                case "/version":
-                    Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
-                    break;
                 default:
                     break;
             }
+            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }
