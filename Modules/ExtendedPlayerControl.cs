@@ -540,9 +540,9 @@ namespace TownOfHost
             main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
-        public static void RpcRemoveDousedPlayerCount(this PlayerControl player)
+        public static void RpcAddDousedPlayerCount(this PlayerControl player)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveDousedPlayerCount, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AddDousedPlayerCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(main.DousedPlayerCount[player.PlayerId].Item1);
             writer.Write(main.DousedPlayerCount[player.PlayerId].Item2);
@@ -609,7 +609,7 @@ namespace TownOfHost
         }
         public static bool isDouseDone(this PlayerControl player)
         {
-            if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 != 0)
+            if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
                 return true;
 
             return false;

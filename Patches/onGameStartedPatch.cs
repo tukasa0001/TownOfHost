@@ -358,7 +358,7 @@ namespace TownOfHost
                     {
                         var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
                         main.DousedPlayerCount[pc.PlayerId] = (targetPlayerCount, targetPlayerCount);
-                        pc.RpcRemoveDousedPlayerCount();
+                        pc.RpcAddDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);

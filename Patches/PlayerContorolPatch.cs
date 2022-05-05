@@ -538,9 +538,10 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        ArsonistDic = ((ArsonistDic.Item1 - 1), ArsonistDic.Item2);//残りの塗る人数を減らす
+                        ArsonistDic = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
                         Logger.info($"{__instance.getRealName()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
-                        __instance.RpcRemoveDousedPlayerCount();
+                        main.DousedPlayerCount[__instance.PlayerId] = ArsonistDic;
+                        __instance.RpcAddDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(ar_target.PlayerId);
@@ -563,19 +564,16 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInGame && __instance.isDouseDone())//試合終了判定など
+                if (GameStates.isInGame)//試合終了判定など
                 {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
+                    bool isDoused = main.isDoused.TryGetValue((__instance.PlayerId, __instance.PlayerId), out isDoused);
+                    if (!(__instance.AmOwner && __instance.isArsonist()) && !isDoused && (__instance.Data.IsDead || __instance.Data.Disconnected))//死んだら塗った判定にする
                     {
-                        if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused.TryGetValue((__instance.PlayerId, pc.PlayerId), out bool isDoused) && !__instance.AmOwner)//死んだら塗った判定にする
-                        {
-                            main.DousedPlayerCount[__instance.PlayerId] = ((main.DousedPlayerCount[__instance.PlayerId].Item1 - 1), main.DousedPlayerCount[__instance.PlayerId].Item2);
-                            if (main.DousedPlayerCount[__instance.PlayerId].Item1 <= -1)
-                                main.DousedPlayerCount[__instance.PlayerId] = (0, main.DousedPlayerCount[__instance.PlayerId].Item2);
-                            Logger.info($"{__instance.getRealName()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
-                            __instance.RpcRemoveDousedPlayerCount();
-                            main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
-                        }
+                        ArsonistDic = (ArsonistDic.Item1, (ArsonistDic.Item2 - 1));
+                        Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
+                        main.isDoused[(__instance.PlayerId, __instance.PlayerId)] = true;
+                        main.DousedPlayerCount[__instance.PlayerId] = ArsonistDic;
                     }
                 }
                 if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
