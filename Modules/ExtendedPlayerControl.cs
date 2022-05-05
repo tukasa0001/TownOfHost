@@ -609,6 +609,7 @@ namespace TownOfHost
         }
         public static bool isDouseDone(this PlayerControl player)
         {
+            if (!main.DousedPlayerCount.ContainsKey(player.PlayerId)) return false;
             if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
                 return true;
 

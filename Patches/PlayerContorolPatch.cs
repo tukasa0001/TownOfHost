@@ -564,7 +564,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInGame)//試合終了判定など
+                if (GameStates.isInGame && !__instance.isDouseDone())//試合終了判定など
                 {
                     var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
                     bool isDoused = main.isDoused.TryGetValue((__instance.PlayerId, __instance.PlayerId), out isDoused);
