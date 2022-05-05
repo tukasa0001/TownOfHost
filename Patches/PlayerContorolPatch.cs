@@ -708,13 +708,10 @@ namespace TownOfHost
                     }
                     if (PlayerControl.LocalPlayer.isPuppeteer())
                     {
-                        if (main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId))
-                        {
-                            if (main.PuppeteerList.ContainsKey(__instance.PlayerId))
-                                Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
-                        }
-                        else if (!__instance.isSnitch())
-                            Mark = "";
+                        if (PlayerControl.LocalPlayer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId) &&
+                        main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスターに警告が表示される
