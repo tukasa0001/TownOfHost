@@ -81,6 +81,7 @@ namespace TownOfHost
             {
                 listUp(Options.SyncButtonMode);
                 listUp(Options.VoteMode);
+                listUp(Options.SabotageTimeControl);
             }
             else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {

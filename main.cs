@@ -198,6 +198,7 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#f8cd46"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
@@ -284,6 +285,7 @@ namespace TownOfHost
         Snitch,
         SpeedBooster,
         Trapper,
+        Doctor,
         //第三陣営
         Arsonist,
         Egoist,

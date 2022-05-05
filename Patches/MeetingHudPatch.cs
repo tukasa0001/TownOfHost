@@ -284,6 +284,9 @@ namespace TownOfHost
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
+                if (seer.isDoctor() && //LocalPlayerがDoctor
+                target.Data.IsDead) //変更対象が死人
+                    pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(target.PlayerId)}</color>)";
             }
         }
     }
