@@ -42,6 +42,7 @@ Sheriff,Sheriff,シェリフ
 Arsonist,Arsonist,アーソニスト
 Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
+Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
 Dictator,Dictator,ディクテーター
 
@@ -97,6 +98,7 @@ SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そ�
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
 SpeedBoosterInfo,Let's them run.,走らせろ
+DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 
 # 第三陣営役職
@@ -153,6 +155,7 @@ SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interferenc
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
+DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
 DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
 
@@ -209,6 +212,7 @@ Skip,Skip,スキップ
 HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
 
 ## 詳細設定
@@ -246,6 +250,7 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
+DoctorTaskCompletedBatteryCharge,Doctor TaskCompletedBattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数
 SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢印が見える
 SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
@@ -282,6 +287,11 @@ DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
+
+## リアクターの時間制御
+SabotageTimeControl,Replacement Sabotage TimeLimit,サボタージュの時間制御
+PolusReactorTimeLimit,Polus Reactor TimeLimit,ポーラスのリアクター制限時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクター制限時間
 
 ## ヘルプテキスト
 CommandList,Command List:,コマンド一覧:
