@@ -50,9 +50,10 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.FireWorks);
-            FireWorksMaxCount = CustomOption.Create(Id+10, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
-            FireWorksRadius = CustomOption.Create(Id+11, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            FireWorksMaxCount = CustomOption.Create(Id + 10, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            FireWorksRadius = CustomOption.Create(Id + 11, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
         }
+
         public static bool CanUseKillButton(PlayerControl pc)
         {
             Logger.info($"FireWorks CanUseKillButton");
@@ -127,7 +128,7 @@ namespace TownOfHost
                 default:
                     break;
             }
-            SendState(pc.PlayerId, (int)state[pc.PlayerId]);
+            SendRPC(pc.PlayerId);
             Utils.NotifyRoles();
         }
 
@@ -140,7 +141,7 @@ namespace TownOfHost
             {
                 Logger.info("爆破準備OK", "FireWorks");
                 state[pc.PlayerId] = FireWorksState.ReadyFire;
-                SendState(pc.PlayerId, (int)state[pc.PlayerId]);
+                SendRPC(pc.PlayerId);
                 Utils.NotifyRoles();
             }
             switch (state[pc.PlayerId])
@@ -160,18 +161,21 @@ namespace TownOfHost
             }
             return retText;
         }
-        public static void SendState(byte playerID, int newState)
+        public static void SendRPC(byte playerId)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(playerID, (byte)CustomRPC.SendFireWorksState, Hazel.SendOption.Reliable, -1);
-            writer.Write(playerID);
-            writer.Write(newState);
+            Logger.info($"Player{playerId}:SendRPC", "FireWorks");
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendFireWorksState, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write(nowFireWorksCount[playerId]);
+            writer.Write((int)state[playerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RecieveState(MessageReader msg)
+        public static void RecieveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
-            var newState = msg.ReadInt32();
-            state[playerId] = (FireWorksState)newState;
+            nowFireWorksCount[playerId] = msg.ReadInt32();
+            state[playerId] = (FireWorksState)msg.ReadInt32();
+            Logger.info($"Player{playerId}:RecieveRPC","FireWorks");
         }
     }
 }

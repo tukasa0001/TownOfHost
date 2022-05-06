@@ -156,7 +156,7 @@ namespace TownOfHost
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SendFireWorksState:
-                    FireWorks.RecieveState(reader);
+                    FireWorks.RecieveRPC(reader);
                     break;
             }
         }
@@ -324,6 +324,7 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
             main.AllPlayerCustomRoles[targetId] = role;
+            if (role ==CustomRoles.FireWorks) FireWorks.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
 
