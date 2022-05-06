@@ -184,6 +184,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 //両陣営可能役職
                 {CustomRoles.Watcher, "#800080"},
                 //特殊クルー役職
@@ -197,14 +198,13 @@ namespace TownOfHost
                 {CustomRoles.SpeedBooster, "#00ffff"},
                 {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
                 {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.SchrodingerCat, "#696969"},
-                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
                 //HideAndSeek
@@ -265,6 +265,7 @@ namespace TownOfHost
         Madmate,
         MadSnitch,
         SKMadmate,
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
         Watcher,
         //Crewmate(Vanilla)
@@ -282,15 +283,14 @@ namespace TownOfHost
         SpeedBooster,
         Trapper,
         Doctor,
-        //第三陣営
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        //Neutral
         Arsonist,
         Egoist,
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Terrorist,
         //HideAndSeak
         Fox,
