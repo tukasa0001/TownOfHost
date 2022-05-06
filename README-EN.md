@@ -166,6 +166,25 @@ Decision : Impostor<br>
 The target of the kill is made to kill the next Crewmate that the target approaches.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
+
+### FireWorks
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+The FireWorks can set off fireworks and kill a lot. <br>
+You Install up to 3 fireworks at the timing of shape-shift.  <br>
+After Install all the fireworks, you can set off all fireworks at once at the timing of the shape-shift when you becomes the last Imposter.  <br>
+You can't kill until the fireworks are Installing and Set off fireworks. <br>
+Even if you get caught up in fireworks, you win if you annihilate the enemy. <br>
+
+#### Settings
+
+| Settings Name       |
+| --------------------|
+| FireWorks Max Count |
+| FireWorks Radius    |
+
 ### Madmate
 
 Team : Impostors<br>
