@@ -175,6 +175,14 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            if (__instance.Is(CustomRoles.FireWorks))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.isMafia())
             {
                 if (!__instance.CanUseKillButton())
