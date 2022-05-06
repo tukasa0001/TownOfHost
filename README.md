@@ -56,17 +56,18 @@
 
 | インポスター陣営                                                       | クルーメイト陣営                                                                | 第三陣営                                                                      |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター)    | [Bait/ベイト](###Bait/ベイト)                                                  | [Jester/ジェスター](###Jester/ジェスター)                                      |
-| [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー)           | [Mayor/メイヤー](###Mayor/メイヤー)                                             | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト)                    |
-| [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター)          | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター)     | [Terrorist/テロリスト](###Terrorist/テロリスト)                               |
-| [Vampire/ヴァンパイア](###Vampire/ヴァンパイア)                         | [Sheriff/シェリフ](###Sheriff/シェリフ)                                         | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)   |
-| [Warlock/ウォーロック](###Warlock/ウォーロック)                         | [Snitch/スニッチ](###Snitch/スニッチ)                                           | [Arsonist/アーソニスト](###Arsonist/アーソニスト)                             |
-| [Witch/魔女](###Witch/魔女)                                            | [Lighter/ライター](###Lighter/ライター)                                         | [Egoist/エゴイスト](###Egoist/エゴイスト)                                     |
-| [Mafia/マフィア](###Mafia/マフィア)                                     | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー)                       |[Lovers/恋人](###Lovers/恋人)                                                 |
-| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー)               | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター)             |                                                                             |
-| [Madmate/マッドメイト](###Madmate/マッドメイト)                          | [Trapper/トラッパー](###Trapper/トラッパー)                                     |                                                                             |
-| [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン)       |                                                                               |                                                                             |
-| [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ)                  |                                                                               |                                                                             |
+| [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター) | [Bait/ベイト](###Bait/ベイト)                                                 | [Jester/ジェスター](###Jester/ジェスター)                                     |
+| [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー)         | [Mayor/メイヤー](###Mayor/メイヤー)                                           | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト)                   |
+| [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター)       | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト)                               |
+| [Vampire/ヴァンパイア](###Vampire/ヴァンパイア)                       | [Sheriff/シェリフ](###Sheriff/シェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
+| [Warlock/ウォーロック](###Warlock/ウォーロック)                       | [Snitch/スニッチ](###Snitch/スニッチ)                                         | [Arsonist/アーソニスト](###Arsonist/アーソニスト)                             |
+| [Witch/魔女](###Witch/魔女)                                           | [Lighter/ライター](###Lighter/ライター)                                       | [Egoist/エゴイスト](###Egoist/エゴイスト)                                     |
+| [Mafia/マフィア](###Mafia/マフィア)                                   | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー)                    |[Lovers/恋人](###Lovers/恋人)                                                 |
+| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー)            | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター)         |                                                                               |
+| [Puppeteer/パペッティア](###Puppeteer/パペッティア)                   | [Trapper/トラッパー](###Trapper/トラッパー)                                                                             |                                                                               |
+| [Madmate/マッドメイト](###Madmate/マッドメイト)                       | [Doctor/ドクター](###Doctor/ドクター)                                         |                                                                               |
+| [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン)   |                                                                               |                                                                               |
+| [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ)               |                                                                               |                                                                               |
 
 ### BountyHunter/バウンティハンター
 
@@ -158,6 +159,14 @@
 マフィアではないインポスターが全員死亡すると、マフィアもキルすることができるようになります。<br>
 キルができない状態でもキルボタンはありますが、キルをすることはできません。<br>
 キルが可能になった後でも変身は継続して行うことができます。<br>
+### Puppeteer/パペッティア
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+キルした対象に、対象が次に近づいたクルーをキルさせます。<br>
+対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映されます。<br>
+普通のキルを行うことはできません。<br>
 
 ### Madmate/マッドメイト
 
@@ -296,8 +305,15 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 陣営 : クルーメイト<br>
 判定 : クルーメイト<br>
 
-スニッチはタスクを完了させると人外の名前が赤色に変化します。<br>
+スニッチはタスクを完了させるとキル可能人外の名前の色が変化し、矢印で方角がわかります。<br>
 しかし、スニッチのタスクが少なくなると人外に通知されます。
+
+#### 設定
+
+| 設定名 |
+|----------|
+| 矢印の色で陣営がわかる |
+| 第三陣営のキル可能役職を見つけることが出来る |
 
 ### SpeedBooster/スピードブースター
 
@@ -324,6 +340,18 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 設定名           |
 | ---------------- |
 | 移動を封じる時間 |
+
+### Doctor/ドクター
+
+陣営 : クルーメイト<br>
+判定 : 科学者<br>
+
+ドクターはプレイヤーの死因を知ることができ、遠隔でバイタルをみることができます。<br>
+
+#### 設定
+| 設定名 |
+|----------|
+| ドクターがタスクを終わらせたときにセットされるバイタルの秒数 |
 
 ### Jester/ジェスター
 
@@ -356,7 +384,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 陣営 : 第三<br>
 判定 : -<br>
-勝利条件 : 恋人が2人共生きている状態で試合が終了すれば勝利。全クルーのタスク終了時は生き残っていても敗北。<br>
+勝利条件 : 恋人が2人共生き残っている状態で試合が終了すること。全クルーのタスク終了時は生き残っていても敗北。<br>
 
 全プレイヤーの中から2人配役されます。(他の役職に重複)<br>
 クルー陣営のタスクを持つ役職が恋人になった場合、タスクはなくなります。<br>
@@ -433,6 +461,14 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | ------------------------------ |
 | ラストインポスターのキルクール |
 
+## SabotageTimeControl/サボタージュの時間制御
+
+一部サボタージュの制限時間を変更することができます。
+
+| 設定名 |
+|----------|
+| ポーラスのリアクター制限時間 |
+| エアシップのリアクター制限時間 |
 ## モード
 
 ### DisableTasks/タスクを無効化する
@@ -447,7 +483,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 金庫タスクを無効化する             |
 | ダウンロードタスクを無効化する     |
 
-### HideAndSeek/鬼ごっこモード
+### HideAndSeek/かくれんぼモード
 
 #### クルーメイト陣営(青色)勝利条件
 
@@ -559,6 +595,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
 [オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[ドクター](###Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
 [ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

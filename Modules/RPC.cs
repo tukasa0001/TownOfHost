@@ -11,6 +11,7 @@ namespace TownOfHost
     {
         VersionCheck = 60,
         SyncCustomSettings = 80,
+        SetDeathReason,
         JesterExiled,
         TerroristWin,
         ArsonistWin,
@@ -80,6 +81,9 @@ namespace TownOfHost
                         //すべてのカスタムオプションについてインデックス値で受信
                         co.Selection = reader.ReadInt32();
                     }
+                    break;
+                case CustomRPC.SetDeathReason:
+                    RPC.GetDeathReason(reader);
                     break;
                 case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -204,6 +208,21 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
+        public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDeathReason, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write((int)deathReason);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void GetDeathReason(MessageReader reader)
+        {
+            var playerId = reader.ReadByte();
+            var deathReason = (PlayerState.DeathReason)reader.ReadInt32();
+            PlayerState.deathReasons[playerId] = deathReason;
+            PlayerState.isDead[playerId] = true;
+        }
+
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;

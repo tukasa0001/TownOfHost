@@ -33,6 +33,7 @@ namespace TownOfHost
             main.AirshipMeetingCheck = false;
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
+            main.PuppeteerList = new Dictionary<byte, byte>();
 
             main.IgnoreReportPlayers = new List<byte>();
 
@@ -42,6 +43,7 @@ namespace TownOfHost
             main.witchMeeting = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
             main.SpeedBoostTarget = new Dictionary<byte, byte>();
+            main.targetArrows = new();
 
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
@@ -52,6 +54,15 @@ namespace TownOfHost
             main.introDestroyed = false;
 
             NameColorManager.Instance.RpcReset();
+            main.LastNotifyNames = new();
+            foreach (var target in PlayerControl.AllPlayerControls)
+            {
+                foreach (var seer in PlayerControl.AllPlayerControls)
+                {
+                    var pair = (target.PlayerId, seer.PlayerId);
+                    main.LastNotifyNames[pair] = target.name;
+                }
+            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
@@ -87,6 +98,10 @@ namespace TownOfHost
             {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                int AdditionalScientistNum = CustomRoles.Doctor.getCount();
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
+
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
@@ -300,6 +315,8 @@ namespace TownOfHost
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
+                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -359,6 +376,10 @@ namespace TownOfHost
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                ScientistNum -= CustomRoles.Doctor.getCount();
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
+
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));

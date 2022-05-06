@@ -216,7 +216,7 @@ namespace TownOfHost
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        pc.RpcSetName(pc.getRealName(isMeeting: true));
+                        pc.RpcSetNameEx(pc.getRealName(isMeeting: true));
                     }
                 }, 3f, "SetName To Chat");
             }
@@ -233,7 +233,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if (PlayerControl.LocalPlayer.isSnitch() && //LocalPlayerがSnitch
+                if ((PlayerControl.LocalPlayer.isSnitch() || PlayerControl.LocalPlayer.isMadSnitch()) && //LocalPlayerがSnitch/MadSnitch
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
@@ -290,6 +290,9 @@ namespace TownOfHost
                 {
                     pva.NameText.text = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
                 }
+                if (PlayerControl.LocalPlayer.isDoctor() && //LocalPlayerがDoctor
+                pc.Data.IsDead) //変更対象が死人
+                    pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(pc.PlayerId)}</color>)";
             }
         }
     }

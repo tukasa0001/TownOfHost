@@ -30,6 +30,16 @@ namespace TownOfHost
                     Logger.info($"{filename}にログを保存しました。", "dump");
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
                     break;
+                case "/v":
+                case "/version":
+                    canceled = true;
+                    string version_text = "";
+                    foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
+                    {
+                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).getRealName()}:{kvp.Value.version}({kvp.Value.tag})\n";
+                    }
+                    if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
+                    break;
                 default:
                     main.isChatCommand = false;
                     break;
@@ -182,7 +192,7 @@ namespace TownOfHost
             {
                 case "watcher":
                 case "wat":
-                    Utils.SendMessage(getString("WatcherInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Watcher) + getString("WatcherInfoLong"));
                     break;
 
                 case "jester":
@@ -280,14 +290,19 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller) + getString("SerialKillerInfoLong"));
                     break;
 
+                case "puppeteer":
+                case "pup":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Puppeteer) + getString("PuppeteerInfoLong"));
+                    break;
+
                 case "arsonist":
                 case "ar":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Arsonist) + getString("ArsonistInfoLong"));
                     break;
 
-                case "Lighter":
+                case "lighter":
                 case "li":
-                    Utils.SendMessage(getString("LighterInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Lighter) + getString("LighterInfoLong"));
                     break;
 
                 case "lovers":
@@ -295,7 +310,7 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Lovers) + getString("LoversInfoLong"));
                     break;
 
-                case "SpeedBooster":
+                case "speedBooster":
                 case "sb":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
                     break;
@@ -303,6 +318,11 @@ namespace TownOfHost
                 case "trapper":
                 case "tra":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Trapper) + getString("TrapperInfoLong"));
+                    break;
+
+                case "doctor":
+                case "doc":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Doctor) + getString("DoctorInfoLong"));
                     break;
 
                 case "schrodingercat":
@@ -321,7 +341,7 @@ namespace TownOfHost
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li), lovers(lo)\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), trapper(tra), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk), puppeteer(pup),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li), lovers(lo)\narsonist(ar), schrodingercat(sc), speedBooster(sb), trapper(tra), doctor(doc), fox(fo), troll(tr)");
                     break;
             }
 
@@ -363,15 +383,12 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             switch (chatText)
             {
-                case "/version":
-                    Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
-                    break;
                 default:
                     break;
             }
+            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }
