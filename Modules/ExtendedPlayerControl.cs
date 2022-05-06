@@ -591,6 +591,7 @@ namespace TownOfHost
 
         //汎用   
         public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+        public static bool Is(this PlayerControl target, RoleType type) { return target.getCustomRole().getRoleType() == type; }
 
         //バニラ役職
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
