@@ -92,8 +92,8 @@ If they kill the player who is not their target, they will keep their next kill 
 Team : Impostor<br>
 Decision : Impostor<br>
 
-You can kill in the dark.<br>
-And if you succeed in killing, the kill cool will be halved.<br>
+No kills can be made except in the event of a power outage.<br>
+However, if the kill is successful, the KillCooldown is halved.<br>
 And the movement speed will also increase.<br>
 ### SerialKiller
 
