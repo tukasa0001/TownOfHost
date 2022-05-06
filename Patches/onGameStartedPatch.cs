@@ -319,9 +319,9 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isWatcher() && Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
                         main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
-                    if (pc.isWatcher() && !Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
                         main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in main.AllPlayerCustomRoles)
@@ -343,26 +343,26 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isSheriff())
+                    if (pc.Is(CustomRoles.Sheriff))
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
-                    if (pc.isBountyHunter())
+                    if (pc.Is(CustomRoles.BountyHunter))
                     {
                         pc.ResetBountyTarget();
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                     }
-                    if (pc.isWitch()) main.KillOrSpell.Add(pc.PlayerId, false);
-                    if (pc.isWarlock())
+                    if (pc.Is(CustomRoles.Witch)) main.KillOrSpell.Add(pc.PlayerId, false);
+                    if (pc.Is(CustomRoles.Warlock))
                     {
                         main.CursedPlayers.Add(pc.PlayerId, null);
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
-                    if (pc.isArsonist())
+                    if (pc.Is(CustomRoles.Arsonist))
                     {
                         main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
                         foreach (var ar in PlayerControl.AllPlayerControls)

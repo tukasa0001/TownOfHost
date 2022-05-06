@@ -43,7 +43,7 @@ namespace TownOfHost
                 bool DoNotifyRoles = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (!pc.isBountyHunter()) continue; //BountyHunter以外おことわり
+                    if (!pc.Is(CustomRoles.BountyHunter)) continue; //BountyHunter以外おことわり
                     var target = pc.getBountyTarget();
                     //BountyHunterのターゲット更新
                     if (target.Data.IsDead || target.Data.Disconnected)
@@ -74,7 +74,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
-            if (player.isSabotageMaster())
+            if (player.Is(CustomRoles.SabotageMaster))
             {
                 switch (systemType)
                 {
@@ -158,13 +158,13 @@ namespace TownOfHost
             if (!Options.MadmateCanFixLightsOut.GetBool() && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室
                0 <= amount && amount <= 4 && //配電盤操作のamount
-               (player.isMadmate() || player.isMadGuardian() || player.isMadSnitch() || player.isSKMadmate())) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
+               (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian) || player.Is(CustomRoles.MadSnitch) || player.Is(CustomRoles.SKMadmate))) //実行者がMadmateかMadGuardianかMadSnitchかSKMadmate)
                 return false;
             if (!Options.MadmateCanFixComms.GetBool() && //Madmateがコミュサボを直せる設定がオフ
                 systemType == SystemTypes.Comms && //システムタイプが通信室
-                (player.isMadmate() || player.isMadGuardian())) //実行者がMadmateかMadGuardian)
+                (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (player.isSheriff() || player.isArsonist())
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -207,7 +207,7 @@ namespace TownOfHost
     {
         public static void Postfix(SwitchSystem __instance, [HarmonyArgument(0)] PlayerControl player, [HarmonyArgument(1)] byte amount)
         {
-            if (player.isSabotageMaster())
+            if (player.Is(CustomRoles.SabotageMaster))
             {
                 if (!Options.SabotageMasterFixesElectrical.GetBool()) return;
                 if (Options.SabotageMasterSkillLimit.GetFloat() > 0 &&

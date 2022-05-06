@@ -117,7 +117,7 @@ namespace TownOfHost
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
-                if (!Utils.getPlayerById(exileId).isWitch())
+                if (!Utils.getPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in main.SpelledPlayer)
                     {
@@ -132,7 +132,7 @@ namespace TownOfHost
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if ((pc.isSheriff() || pc.isArsonist()) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -147,7 +147,7 @@ namespace TownOfHost
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             if (player == null) return false;
-            return player.isMayor();
+            return player.Is(CustomRoles.Mayor);
         }
     }
 
@@ -227,7 +227,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if ((PlayerControl.LocalPlayer.isSnitch() || PlayerControl.LocalPlayer.isMadSnitch()) && //LocalPlayerがSnitch/MadSnitch
+                if ((PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) || PlayerControl.LocalPlayer.Is(CustomRoles.MadSnitch)) && //LocalPlayerがSnitch/MadSnitch
                     PlayerControl.LocalPlayer.getPlayerTaskState().isTaskFinished) //LocalPlayerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
@@ -247,7 +247,7 @@ namespace TownOfHost
                     pva.NameText.text += "<color=#ff0000>†</color>";
 
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
-                    pc.isSnitch() && //変更対象がSnitch
+                    pc.Is(CustomRoles.Snitch) && //変更対象がSnitch
                     pc.getPlayerTaskState().doExpose //変更対象のタスクが終わりそう
                 )
                 {
@@ -255,14 +255,14 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
                 if (PlayerControl.LocalPlayer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
-                    pc.isEgoist() //変更対象がEgoist
+                    pc.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )
                 {
                     //変更対象の名前をエゴイスト色にする
                     pva.NameText.text = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
-                if (PlayerControl.LocalPlayer.isEgoSchrodingerCat() && //LocalPlayerがEgoSchrodingerCat
-                    pc.isEgoist() //変更対象がEgoist
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.EgoSchrodingerCat) && //LocalPlayerがEgoSchrodingerCat
+                    pc.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )
                 {
                     //変更対象の名前をエゴイスト色にする
@@ -276,7 +276,7 @@ namespace TownOfHost
                 {
                     pva.NameText.text = $"<color={PlayerControl.LocalPlayer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
                 }
-                if (PlayerControl.LocalPlayer.isDoctor() && //LocalPlayerがDoctor
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
                 pc.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(pc.PlayerId)}</color>)";
             }

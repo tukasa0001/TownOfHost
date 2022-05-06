@@ -60,14 +60,14 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (player.isBountyHunter())
+            if (player.Is(CustomRoles.BountyHunter))
             {
                 //バウンティハンター用処理
                 var target = player.getBountyTarget();
                 LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + player.getBountyTarget().name;
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             }
-            else if (player.isWitch())
+            else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
                 var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
@@ -87,7 +87,7 @@ namespace TownOfHost
             if (!player.getCustomRole().isVanilla())
             {
                 TaskTextPrefix = $"<color={player.getRoleColorCode()}>{player.getRoleName()}\r\n";
-                if (player.isMafia())
+                if (player.Is(CustomRoles.Mafia))
                 {
                     if (!player.CanUseKillButton())
                         TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
@@ -226,7 +226,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.isSheriff() || player.isArsonist())
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -236,37 +236,40 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.isSheriff() || player.isArsonist())
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 player.Data.Role.TeamType = __state;
             }
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.CoShowIntro))]
-    class CoShowIntroPatch {
-        public static void Prefix(HudManager __instance) {
+    class CoShowIntroPatch
+    {
+        public static void Prefix(HudManager __instance)
+        {
             Logger.info("--------名前表示--------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
+                pc.nameText.text = pc.name;
             }
             Logger.info("------役職割り当て------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}");
             }
             Logger.info("----------環境----------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
+                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                 {
                     text += $":Mod({pv.version}:";
                     text += $"{pv.tag})";
-                }else text += ":Vanilla";
+                }
+                else text += ":Vanilla";
                 Logger.info(text);
             }
             Logger.info("--------基本設定--------");

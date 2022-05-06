@@ -42,7 +42,7 @@ namespace TownOfHost
                     RoleType roleType = role.getRoleType();
                     bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
                     if (canWin) winner.Add(p);
-                    if (main.currentWinner == CustomWinner.Impostor && p.isEgoist() && !p.Data.IsDead && main.AliveImpostorCount == 0)
+                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && main.AliveImpostorCount == 0)
                         main.currentWinner = CustomWinner.Egoist;
                 }
             }
@@ -109,7 +109,7 @@ namespace TownOfHost
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if ((p.isEgoist() && !p.Data.IsDead) || p.isEgoSchrodingerCat())
+                    if ((p.Is(CustomRoles.Egoist) && !p.Data.IsDead) || p.Is(CustomRoles.EgoSchrodingerCat))
                     {
                         TempData.winners.Add(new WinningPlayerData(p.Data));
                         winner.Add(p);
@@ -119,7 +119,7 @@ namespace TownOfHost
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.isOpportunist() && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
+                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
                     TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
@@ -130,7 +130,7 @@ namespace TownOfHost
             if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
+                    if (pc.Is(CustomRoles.SchrodingerCat) && main.currentWinner == CustomWinner.Crewmate)
                     {
                         TempData.winners.Add(new WinningPlayerData(pc.Data));
                         winner.Add(pc);
