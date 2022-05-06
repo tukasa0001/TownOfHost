@@ -522,6 +522,10 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            if (pc.Is(CustomRoles.FireWorks))
+            {
+                return FireWorks.CanUseKillButton(pc);
+            }
             return canUse;
         }
         public static bool isLastImpostor(this PlayerControl pc)
