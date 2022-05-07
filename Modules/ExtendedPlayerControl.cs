@@ -590,6 +590,10 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
+
+        //汎用   
+        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+
         //バニラ役職
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
@@ -637,5 +641,6 @@ namespace TownOfHost
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
         //サブ役職
+
     }
 }
