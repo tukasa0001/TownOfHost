@@ -15,6 +15,7 @@ namespace TownOfHost
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
+            if (CheckAndEndGameForExecutioner(__instance)) return false;
             if (CheckAndEndGameForArsonist(__instance)) return false;
             if (main.currentWinner == CustomWinner.Default)
             {
@@ -153,6 +154,16 @@ namespace TownOfHost
         private static bool CheckAndEndGameForTerrorist(ShipStatus __instance)
         {
             if (main.currentWinner == CustomWinner.Terrorist && main.CustomWinTrigger)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForExecutioner(ShipStatus __instance)
+        {
+            if (main.currentWinner == CustomWinner.Executioner && main.CustomWinTrigger)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
