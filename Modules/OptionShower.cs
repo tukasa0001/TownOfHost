@@ -81,6 +81,7 @@ namespace TownOfHost
             {
                 listUp(Options.SyncButtonMode);
                 listUp(Options.VoteMode);
+                listUp(Options.SabotageTimeControl);
             }
             else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -93,6 +94,7 @@ namespace TownOfHost
             listUp(Options.DisableTasks);
             listUp(Options.RandomMapsMode);
             nameAndValue(Options.NoGameEnd);
+            nameAndValue(Options.GhostCanSeeOtherRoles);
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));
             for (var i = 0; i < tmp.Count; i++)
