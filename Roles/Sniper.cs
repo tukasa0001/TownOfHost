@@ -123,11 +123,11 @@ namespace TownOfHost
                     //キル出来た通知
                     pc.RpcGuardAndKill();
 
-                    //スナイプが起きたことを聞こえそうな対象に通知
+                    //スナイプが起きたことを聞こえそうな対象に通知したい
                     dot_list.Remove(snipedTarget);
                     foreach (var otherPc in dot_list.Keys)
                     {
-                        otherPc.RpcGuardAndKill();
+                        //otherPc.RpcGuardAndKill();
                     }
                 }
             }
