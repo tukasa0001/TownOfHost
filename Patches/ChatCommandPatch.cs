@@ -318,6 +318,8 @@ namespace TownOfHost
                 case "dictator":
                 case "dic":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Dictator) + getString("DictatorInfoLong"));
+                    break;
+
                 case "doctor":
                 case "doc":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Doctor) + getString("DoctorInfoLong"));
