@@ -167,6 +167,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillJester.GetBool();
                 case CustomRoles.Terrorist:
                     return Options.SheriffCanKillTerrorist.GetBool();
+                case CustomRoles.Executioner:
+                    return Options.SheriffCanKillExecutioner.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
