@@ -621,6 +621,7 @@ namespace TownOfHost
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isJester(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Jester; }
         public static bool isTerrorist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Terrorist; }
+        public static bool isExecutioner(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Executioner; }
         public static bool isOpportunist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Opportunist; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; } //シュレディンガーの猫の派生

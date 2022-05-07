@@ -31,6 +31,7 @@ namespace TownOfHost
             main.isCurseAndKill = new Dictionary<byte, bool>();
             main.AirshipMeetingTimer = new Dictionary<byte, float>();
             main.AirshipMeetingCheck = false;
+            main.ExecutionerTarget = new Dictionary<byte, byte>();
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
             main.PuppeteerList = new Dictionary<byte, byte>();
@@ -299,6 +300,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
@@ -370,6 +372,22 @@ namespace TownOfHost
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
+                    }
+                    if (pc.isExecutioner())
+                    {
+                        List<PlayerControl> targetList = new List<PlayerControl>();
+                        rand = new System.Random();
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == target) continue;
+                            else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.getCustomRole().isImpostor()) continue;
+
+                            targetList.Add(target);
+                        }
+                        var Target = targetList[rand.Next(targetList.Count)];
+                        main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
+                        RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
+                        Logger.info($"{pc.name}:{Target.name}", "Executioner");
                     }
                 }
 
