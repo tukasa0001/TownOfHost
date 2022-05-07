@@ -26,7 +26,8 @@ namespace TownOfHost
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
-        DoSpell
+        DoSpell,
+        SniperSync,
     }
     public enum Sounds
     {
@@ -153,6 +154,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SniperSync:
+                    Sniper.RecieveRPC(reader);
                     break;
             }
         }
@@ -320,6 +324,7 @@ namespace TownOfHost
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
             main.AllPlayerCustomRoles[targetId] = role;
+            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
 

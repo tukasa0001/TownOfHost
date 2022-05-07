@@ -448,6 +448,9 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
+                if (seer.Is(CustomRoles.Sniper))
+                    SelfTaskText = Sniper.GetBulletCount(seer);
+
                 //Loversのハートマークなどを入れてください。
                 string SelfMark = "";
 

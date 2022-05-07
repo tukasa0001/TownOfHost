@@ -166,6 +166,24 @@ Decision : Impostor<br>
 The target of the kill is made to kill the next Crewmate that the target approaches.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
+
+### Sniper/
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+Sniper can long-range shooting. <br>
+Kills targets that are on the extension of the shape-shifted point to the released point. <br>
+However, crew members near your line of sight may hear the sound. <br>
+You cannot normally kill until the bullet is cut off. <br>
+
+#### Settings
+
+| Settings Name             |
+| ------------------------- |
+| Sniper Bullet Count       |
+| Sniper Precision Shooting |
+
 ### Madmate
 
 Team : Impostors<br>

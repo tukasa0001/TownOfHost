@@ -122,6 +122,7 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (__instance.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(__instance, main.CheckShapeshift[__instance.PlayerId]);
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
@@ -173,6 +174,14 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            if (__instance.Is(CustomRoles.Sniper))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.isMafia())
             {
                 if (!__instance.CanUseKillButton())
@@ -657,6 +666,8 @@ namespace TownOfHost
                     if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
 
+                    if (__instance.Is(CustomRoles.Sniper))
+                        RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
 
                     //変数定義
                     string RealName;

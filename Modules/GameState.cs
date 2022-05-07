@@ -60,6 +60,7 @@ namespace TownOfHost
             Bombed,
             Misfire,
             Torched,
+            Snipered,
             Disconnected,
             etc = -1
         }
