@@ -601,7 +601,6 @@ namespace TownOfHost
         public static bool isGurdianAngel(this PlayerControl target) { return target.getCustomRole() == CustomRoles.GuardianAngel; }
         public static bool isImpostor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Impostor; }
         public static bool isShapeshifter(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Shapeshifter; }
-
         //特殊インポスター役職
         public static bool isVampire(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Vampire; }
         public static bool isMafia(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mafia; }
