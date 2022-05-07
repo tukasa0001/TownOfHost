@@ -32,6 +32,7 @@ namespace TownOfHost
             main.isCurseAndKill = new Dictionary<byte, bool>();
             main.AirshipMeetingTimer = new Dictionary<byte, float>();
             main.AirshipMeetingCheck = false;
+            main.ExecutionerTarget = new Dictionary<byte, byte>();
             main.SKMadmateNowCount = 0;
             main.isCursed = false;
             main.PuppeteerList = new Dictionary<byte, byte>();
@@ -99,6 +100,10 @@ namespace TownOfHost
             {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                int AdditionalScientistNum = CustomRoles.Doctor.getCount();
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
+
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
@@ -296,6 +301,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
@@ -305,11 +311,13 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
                 if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
 
                 //RPCによる同期
@@ -369,10 +377,30 @@ namespace TownOfHost
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
                     }
+                    if (pc.isExecutioner())
+                    {
+                        List<PlayerControl> targetList = new List<PlayerControl>();
+                        rand = new System.Random();
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == target) continue;
+                            else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.getCustomRole().isImpostor()) continue;
+
+                            targetList.Add(target);
+                        }
+                        var Target = targetList[rand.Next(targetList.Count)];
+                        main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
+                        RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
+                        Logger.info($"{pc.name}:{Target.name}", "Executioner");
+                    }
                 }
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                ScientistNum -= CustomRoles.Doctor.getCount();
+                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
+
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));

@@ -25,6 +25,7 @@ namespace TownOfHost
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
             main.witchMeeting = false;
+            bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
@@ -36,9 +37,26 @@ namespace TownOfHost
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.JesterExiled(exiled.PlayerId);
+                    DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
+                {
                     Utils.CheckTerroristWin(exiled);
+                    DecidedWinner = true;
+                }
+                foreach (var kvp in main.ExecutionerTarget)
+                {
+                    if (Utils.getPlayerById(kvp.Key).Data.IsDead) continue; //Keyが死んでいたらこのforeach内の処理を全部スキップ
+                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
+                    {
+                        //RPC送信開始
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(kvp.Key);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
+
+                        RPC.ExecutionerWin(kvp.Key);
+                    }
+                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)

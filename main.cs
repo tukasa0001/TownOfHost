@@ -83,6 +83,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDeadDoused = new Dictionary<byte, bool>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : Executioner, Value : target
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
@@ -95,6 +96,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonExecutionerID;
         public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
@@ -141,6 +143,7 @@ namespace TownOfHost
             DousedPlayerCount = new Dictionary<byte, (int, int)>();
             isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            ExecutionerTarget = new Dictionary<byte, byte>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -186,6 +189,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 //両陣営可能役職
                 {CustomRoles.Watcher, "#800080"},
                 //特殊クルー役職
@@ -197,15 +201,17 @@ namespace TownOfHost
                 {CustomRoles.Sheriff, "#f8cd46"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
+                {CustomRoles.Dictator, "#df9b00"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Executioner, "#611c3a"},
                 {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.SchrodingerCat, "#696969"},
-                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
                 //HideAndSeek
@@ -266,6 +272,7 @@ namespace TownOfHost
         Madmate,
         MadSnitch,
         SKMadmate,
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
         Watcher,
         //Crewmate(Vanilla)
@@ -282,16 +289,18 @@ namespace TownOfHost
         Snitch,
         SpeedBooster,
         Trapper,
-        //第三陣営
+        Dictator,
+        Doctor,
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        //Neutral
         Arsonist,
         Egoist,
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Terrorist,
+        Executioner,
         //HideAndSeak
         Fox,
         Troll,
@@ -307,6 +316,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Executioner,
         Arsonist,
         Egoist,
         Troll
@@ -316,6 +326,7 @@ namespace TownOfHost
         None = 0,
         Opportunist,
         SchrodingerCat,
+        Executioner,
         Fox
     }
     /*public enum CustomRoles : byte

@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 using UnhollowerBaseLib;
+using System.Collections.Generic;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
