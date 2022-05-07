@@ -566,7 +566,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
