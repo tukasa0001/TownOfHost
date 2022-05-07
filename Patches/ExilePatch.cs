@@ -42,7 +42,7 @@ namespace TownOfHost
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     Utils.CheckTerroristWin(exiled);
-                    DecidedWinner = false;
+                    DecidedWinner = true;
                 }
                 foreach (var kvp in main.ExecutionerTarget)
                 {
