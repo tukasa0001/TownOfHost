@@ -627,6 +627,7 @@ namespace TownOfHost
         public static bool isSheriff(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Sheriff; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
+        public static bool isDictator(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Dictator; }
         public static bool isDoctor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Doctor; }
         //第三陣営
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }

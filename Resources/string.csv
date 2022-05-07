@@ -44,6 +44,7 @@ Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
+Dictator,Dictator,ディクテーター
 
 # 第三陣営役職
 Jester,Jester,ジェスター
@@ -112,6 +113,15 @@ EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方に�
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
+BaitInfo,Bait your enemies,敵を罠にはめよう
+LighterInfo,Let's light it all up,すべてを照らそう
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
+SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
+SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
+SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
+SpeedBoosterInfo,Let's them run.,走らせろ
+TrapperInfo,Trap your enemies,敵を罠にはめよう
+DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # HideAndSeek
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -149,6 +159,7 @@ SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the I
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
 DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
+DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
 
 # 第三陣営役職
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
