@@ -118,13 +118,16 @@ namespace TownOfHost
                 {
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
-                    PlayerState.setDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Snipered);
+                    PlayerState.setDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
                     snipedTarget.RpcMurderPlayer(snipedTarget);
-                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                    //キル出来た通知
+                    pc.RpcGuardAndKill();
+
+                    //スナイプが起きたことを聞こえそうな対象に通知
                     dot_list.Remove(snipedTarget);
                     foreach (var otherPc in dot_list.Keys)
                     {
-                        RPC.PlaySoundRPC(otherPc.PlayerId, Sounds.KillSound);
+                        otherPc.RpcGuardAndKill();
                     }
                 }
             }
