@@ -354,7 +354,7 @@ namespace TownOfHost
             writer.Write(player);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void SyncLoversPlaysrs()
+        public static void SyncLoversPlayers()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetLoversPlayers, Hazel.SendOption.Reliable, -1);

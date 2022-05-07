@@ -454,7 +454,7 @@ namespace TownOfHost
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                 Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
             }
-            RPC.SyncLoversPlaysrs();
+            RPC.SyncLoversPlayers();
         }
     }
 }
