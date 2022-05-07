@@ -179,6 +179,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
+                {CustomRoles.TimeThief, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -207,7 +208,6 @@ namespace TownOfHost
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
-                {CustomRoles.TimeThief, "#ff0000"},
                 //HideAndSeek
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
