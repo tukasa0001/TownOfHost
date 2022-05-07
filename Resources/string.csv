@@ -196,6 +196,7 @@ SuffixMode.None,None,なし
 SuffixMode.Version,Version,バージョン
 SuffixMode.Streaming,Streaming,配信中
 SuffixMode.Recording,Recording,録画中
+GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる
 RoleOptions,Role Options,役職設定
 ModeOptions,Mode Options,モード設定
 ForceJapanese,Force Japanese,日本語に強制
