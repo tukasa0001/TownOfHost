@@ -74,6 +74,7 @@ namespace TownOfHost
         public static CustomOption SabotageMasterFixesComms;
         public static CustomOption SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
+        public static CustomOption DoctorTaskCompletedBatteryCharge;
         public static CustomOption SheriffKillCooldown;
         public static CustomOption SheriffCanKillArsonist;
         public static CustomOption SheriffCanKillMadmate;
@@ -136,10 +137,16 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        // リアクターの時間制御
+        public static CustomOption SabotageTimeControl;
+        public static CustomOption PolusReactorTimeLimit;
+        public static CustomOption AirshipReactorTimeLimit;
+
         // その他
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
+        public static CustomOption GhostCanSeeOtherRoles;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -278,6 +285,8 @@ namespace TownOfHost
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
+            SetupRoleOptions(20700, CustomRoles.Doctor);
+            DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             // Other
@@ -316,6 +325,14 @@ namespace TownOfHost
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             SyncedButtonCount = CustomOption.Create(100201, Color.white, "SyncedButtonCount", 10, 0, 100, 1, SyncButtonMode)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // リアクターの時間制御
+            SabotageTimeControl = CustomOption.Create(100800, Color.white, "SabotageTimeControl", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            PolusReactorTimeLimit = CustomOption.Create(100801, Color.white, "PolusReactorTimeLimit", 30, 1, 60, 1, SabotageTimeControl)
+                .SetGameMode(CustomGameMode.Standard);
+            AirshipReactorTimeLimit = CustomOption.Create(100802, Color.white, "AirshipReactorTimeLimit", 60, 1, 90, 1, SabotageTimeControl)
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
@@ -362,6 +379,8 @@ namespace TownOfHost
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)
                 .SetGameMode(CustomGameMode.All);
             SuffixMode = CustomOption.Create(100602, Color.white, "SuffixMode", suffixModes, suffixModes[0])
+                .SetGameMode(CustomGameMode.All);
+            GhostCanSeeOtherRoles = CustomOption.Create(100603, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;

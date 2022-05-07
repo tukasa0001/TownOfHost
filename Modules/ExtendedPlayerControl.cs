@@ -273,6 +273,10 @@ namespace TownOfHost
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
                     break;
+                case CustomRoles.Doctor:
+                    opt.RoleOptions.ScientistCooldown = 0f;
+                    opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
+                    break;
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
                     {
@@ -615,6 +619,10 @@ namespace TownOfHost
 
             return false;
         }
+
+        //汎用   
+        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+
         //バニラ役職
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
@@ -648,6 +656,7 @@ namespace TownOfHost
         public static bool isSheriff(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Sheriff; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
+        public static bool isDoctor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Doctor; }
         //第三陣営
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isJester(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Jester; }
@@ -659,5 +668,6 @@ namespace TownOfHost
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
         //サブ役職
+
     }
 }
