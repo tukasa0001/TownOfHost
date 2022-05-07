@@ -317,7 +317,7 @@ namespace TownOfHost
                     else RoleTextMeeting.enabled = false;
                 }
                 //死んでいないディクテーターが投票済み
-                if (pc.isDictator() && pva.DidVote && !pc.Data.IsDead)
+                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.getPlayerById(pva.VotedFor);
                     MeetingHud.VoterState[] states;
