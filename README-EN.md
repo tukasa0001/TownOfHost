@@ -174,7 +174,6 @@ Decision : Shapeshifter<br>
 
 Sniper can long-range shooting. <br>
 Kills targets that are on the extension of the shape-shifted point to the released point. <br>
-However, crew members near your line of sight may hear the sound. <br>
 You cannot normally kill until the bullet is cut off. <br>
 
 #### Settings
