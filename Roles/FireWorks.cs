@@ -20,7 +20,7 @@ namespace TownOfHost
         }
         static int Id = 1700;
 
-        static CustomOption FireWorksMaxCount;
+        static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;
 
         static Dictionary<byte, int> nowFireWorksCount = new();
@@ -28,30 +28,50 @@ namespace TownOfHost
         static Dictionary<byte, FireWorksState> state = new();
         static Dictionary<byte, int> fireWorksBombKill = new();
 
-        static int maxFireWorksCount = 1;
+        static int fireWorksCount = 1;
         static float fireWorksRadius = 1;
+
+        public static void SetupCustomOption()
+        {
+            Options.SetupRoleOptions(Id, CustomRoles.FireWorks);
+            FireWorksCount = CustomOption.Create(Id + 10, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            FireWorksRadius = CustomOption.Create(Id + 11, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+        }
+
         public static void Init()
         {
             nowFireWorksCount = new();
             fireWorksPosition = new();
             state = new();
             fireWorksBombKill = new();
-            maxFireWorksCount = FireWorksMaxCount.GetInt();
+            fireWorksCount = FireWorksCount.GetInt();
             fireWorksRadius = FireWorksRadius.GetFloat();
         }
 
         public static void Add(byte playerId)
         {
-            nowFireWorksCount[playerId] = maxFireWorksCount;
+            nowFireWorksCount[playerId] = fireWorksCount;
             fireWorksPosition[playerId] = new();
             state[playerId] = FireWorksState.Initial;
             fireWorksBombKill[playerId] = 0;
         }
-        public static void SetupCustomOption()
+
+        public static void SendRPC(byte playerId)
         {
-            Options.SetupRoleOptions(Id, CustomRoles.FireWorks);
-            FireWorksMaxCount = CustomOption.Create(Id + 10, Color.white, "FireWorksMaxCount", 1f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
-            FireWorksRadius = CustomOption.Create(Id + 11, Color.white, "FireWorksRadius", 1f, 0.5f, 3f, 0.5f, Options.CustomRoleSpawnChances[CustomRoles.FireWorks]);
+            Logger.info($"Player{playerId}:SendRPC", "FireWorks");
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendFireWorksState, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerId);
+            writer.Write(nowFireWorksCount[playerId]);
+            writer.Write((int)state[playerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static void RecieveRPC(MessageReader msg)
+        {
+            var playerId = msg.ReadByte();
+            nowFireWorksCount[playerId] = msg.ReadInt32();
+            state[playerId] = (FireWorksState)msg.ReadInt32();
+            Logger.info($"Player{playerId}:RecieveRPC", "FireWorks");
         }
 
         public static bool CanUseKillButton(PlayerControl pc)
@@ -160,22 +180,6 @@ namespace TownOfHost
                     break;
             }
             return retText;
-        }
-        public static void SendRPC(byte playerId)
-        {
-            Logger.info($"Player{playerId}:SendRPC", "FireWorks");
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendFireWorksState, Hazel.SendOption.Reliable, -1);
-            writer.Write(playerId);
-            writer.Write(nowFireWorksCount[playerId]);
-            writer.Write((int)state[playerId]);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void RecieveRPC(MessageReader msg)
-        {
-            var playerId = msg.ReadByte();
-            nowFireWorksCount[playerId] = msg.ReadInt32();
-            state[playerId] = (FireWorksState)msg.ReadInt32();
-            Logger.info($"Player{playerId}:RecieveRPC","FireWorks");
         }
     }
 }
