@@ -46,6 +46,7 @@ namespace TownOfHost
                 }
                 foreach (var kvp in main.ExecutionerTarget)
                 {
+                    if (Utils.getPlayerById(kvp.Key).Data.IsDead) continue;
                     if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
                         //RPC送信開始
