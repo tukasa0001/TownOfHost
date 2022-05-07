@@ -240,6 +240,8 @@ namespace TownOfHost
                 {
                     PlayerState.InitTask(pc);
                 }
+                Utils.CountAliveImpostors();
+                Utils.NotifyRoles();
             }
         }
     }

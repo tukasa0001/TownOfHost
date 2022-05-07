@@ -66,8 +66,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
 | [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [スピードブースター](###SpeedBooster) |                               |
-| [Madmate](###Madmate)           | [Trapper](###Trapper)                 |                               |
+| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
+| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
+| [Madmate](###Madmate)           | [Doctor](###Doctor)                   |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -157,6 +158,14 @@ Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
 
+### Puppeteer
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
+It is not possible to perform normal kills.<br>
 ### Madmate
 
 Team : Impostors<br>
@@ -313,8 +322,27 @@ They do not have tasks.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
+When the Snitches complete their tasks, the name of the Impostors will change to red,can see the direction with the arrow.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Snitch Can Get Arrow Color |
+| Snitch Can Find Neutral Killer |
+
+### Doctor
+
+Team : Crewmates<br>
+Decision : Scientist<br>
+
+You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+
+#### Settings
+| Settings Name |
+|----------|
+| Doctor TaskCompletedBattery Charge |
 
 ### Jester
 
@@ -411,6 +439,15 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 | Settings Name             |
 | ------------------------- |
 | LastImpostor KillCooldown |
+
+## SabotageTimeControl
+
+The time limit for some sabotage can be changed.
+
+| Settings Name |
+|----------|
+| Polus Reactor TimeLimit |
+| Airship Reactor TimeLimit |
 
 ## Mode
 
@@ -538,6 +575,7 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
