@@ -99,6 +99,8 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
+        public static int SavedDiscussionTime;
+        public static int SavedVotingTime;
 
         public static main Instance;
 

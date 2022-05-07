@@ -13,6 +13,8 @@ namespace TownOfHost
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             Logger.info("ゲームが終了", "Phase");
+            main.RealOptionsData.DiscussionTime = main.SavedDiscussionTime;
+            main.RealOptionsData.VotingTime = main.SavedVotingTime;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();

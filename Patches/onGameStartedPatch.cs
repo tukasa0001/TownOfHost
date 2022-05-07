@@ -53,6 +53,9 @@ namespace TownOfHost
 
             main.introDestroyed = false;
 
+            main.SavedDiscussionTime = main.RealOptionsData.DiscussionTime;
+            main.SavedVotingTime = main.RealOptionsData.VotingTime;
+
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();
             foreach (var target in PlayerControl.AllPlayerControls)
