@@ -82,6 +82,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
         public static int AliveImpostorCount;
@@ -161,46 +162,56 @@ namespace TownOfHost
             {
 
                 roleColors = new Dictionary<CustomRoles, string>(){
+                //バニラ役職
                 {CustomRoles.Crewmate, "#ffffff"},
                 {CustomRoles.Engineer, "#00ffff"},
                 {CustomRoles.Scientist, "#00ffff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},
+                //特殊インポスター役職
                 {CustomRoles.Vampire, "#ff0000"},
                 {CustomRoles.Mafia, "#ff0000"},
-                {CustomRoles.Madmate, "#ff0000"},
-                {CustomRoles.SKMadmate, "#ff0000"},
-                {CustomRoles.MadGuardian, "#ff0000"},
-                {CustomRoles.MadSnitch, "#ff0000"},
-                {CustomRoles.Watcher, "#800080"},
-                {CustomRoles.EvilWatcher, "#ff0000"},
-                {CustomRoles.NiceWatcher, "#800080"},
-                {CustomRoles.Arsonist, "#ff6633"},
-                {CustomRoles.Jester, "#ec62a5"},
-                {CustomRoles.Terrorist, "#00ff00"},
-                {CustomRoles.Opportunist, "#00ff00"},
-                {CustomRoles.Bait, "#00f7ff"},
-                {CustomRoles.SabotageMaster, "#0000ff"},
-                {CustomRoles.Snitch, "#b8fb4f"},
-                {CustomRoles.Mayor, "#204d42"},
-                {CustomRoles.Sheriff, "#f8cd46"},
+                {CustomRoles.EvilWatcher, "#ff0000"}, //ウォッチャーの派生
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Puppeteer, "#ff0000"},
+                //マッドメイト系役職
+                {CustomRoles.Madmate, "#ff0000"},
+                {CustomRoles.SKMadmate, "#ff0000"},
+                {CustomRoles.MadGuardian, "#ff0000"},
+                {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
+                //両陣営可能役職
+                {CustomRoles.Watcher, "#800080"},
+                //特殊クルー役職
+                {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
+                {CustomRoles.Bait, "#00f7ff"},
+                {CustomRoles.SabotageMaster, "#0000ff"},
+                {CustomRoles.Snitch, "#b8fb4f"},
+                {CustomRoles.Mayor, "#204d42"},
+                {CustomRoles.Sheriff, "#f8cd46"},
                 {CustomRoles.Lighter, "#eee5be"},
                 {CustomRoles.SpeedBooster, "#00ffff"},
+                {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
+                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                //第三陣営役職
+                {CustomRoles.Arsonist, "#ff6633"},
+                {CustomRoles.Jester, "#ec62a5"},
+                {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.SchrodingerCat, "#696969"},
-                {CustomRoles.CSchrodingerCat, "#ffffff"},
-                {CustomRoles.MSchrodingerCat, "#ff0000"},
-                {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
                 {CustomRoles.TimeThief, "#ff0000"},
+                //HideAndSeek
                 {CustomRoles.Fox, "#e478ff"},
                 {CustomRoles.Troll, "#00ff00"},
+                //サブ役職
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
             };
             }
@@ -250,11 +261,13 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Puppeteer,
         //Madmate
         MadGuardian,
         Madmate,
         MadSnitch,
         SKMadmate,
+        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
         Watcher,
         //Crewmate(Vanilla)
@@ -271,15 +284,15 @@ namespace TownOfHost
         Snitch,
         SpeedBooster,
         Trapper,
-        //第三陣営
+        Doctor,
+        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        //Neutral
         Arsonist,
         Egoist,
+        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Terrorist,
         //HideAndSeak
         Fox,

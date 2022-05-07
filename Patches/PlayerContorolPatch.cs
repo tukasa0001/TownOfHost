@@ -195,6 +195,14 @@ namespace TownOfHost
                 main.SerialKillerTimer.Add(__instance.PlayerId, 0f);
                 return false;
             }
+            if (__instance.isPuppeteer())
+            {
+                main.PuppeteerList[target.PlayerId] = __instance.PlayerId;
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings(); //負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
+                __instance.RpcGuardAndKill(target);
+                return false;
+            }
             if (__instance.isSheriff())
             {
                 if (__instance.Data.IsDead)
@@ -595,6 +603,36 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                {
+                    Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
+                    Dictionary<byte, float> targetdistance = new Dictionary<byte, float>();
+                    float dis;
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (!target.Data.IsDead && !target.getCustomRole().isImpostor() && target != __instance)
+                        {
+                            dis = Vector2.Distance(__instancepos, target.transform.position);
+                            targetdistance.Add(target.PlayerId, dis);
+                        }
+                    }
+                    if (targetdistance.Count() != 0)
+                    {
+                        var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                        PlayerControl targetp = Utils.getPlayerById(min.Key);
+                        if (__instance.Data.IsDead)
+                            main.PuppeteerList.Remove(__instance.PlayerId);
+                        if (min.Value <= 1.75f && !targetp.Data.IsDead)
+                        {
+                            RPC.PlaySoundRPC(main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
+                            __instance.RpcMurderPlayer(targetp);
+                            Utils.CustomSyncAllSettings();
+                            main.PuppeteerList.Remove(__instance.PlayerId);
+                            Utils.NotifyRoles();
+                        }
+                    }
+                }
+
                 if (GameStates.isInGame && main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
@@ -621,7 +659,7 @@ namespace TownOfHost
                     RoleText.text = RoleTextData.Item1;
                     RoleText.color = RoleTextData.Item2;
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
+                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     {
@@ -691,6 +729,13 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
+                    if (PlayerControl.LocalPlayer.isPuppeteer())
+                    {
+                        if (PlayerControl.LocalPlayer.isPuppeteer() &&
+                        main.PuppeteerList.ContainsValue(PlayerControl.LocalPlayer.PlayerId) &&
+                        main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                    }
 
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if (!GameStates.isMeeting && __instance.getCustomRole().isImpostor()
@@ -730,8 +775,8 @@ namespace TownOfHost
                             var update = false;
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
-                                var foundCheck = 
-                                    pc.getCustomRole().isImpostor() || 
+                                var foundCheck =
+                                    pc.getCustomRole().isImpostor() ||
                                     (Options.SnitchCanFindNeutralKiller.GetBool() && pc.isEgoist());
 
                                 //発見対象じゃ無ければ次
