@@ -330,6 +330,7 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン

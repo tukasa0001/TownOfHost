@@ -377,6 +377,16 @@ namespace TownOfHost
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
                     }
+                    //通常モードでかくれんぼをする人用
+                    if (Options.StandardHAS.GetBool())
+                    {
+                        foreach (var seer in PlayerControl.AllPlayerControls)
+                        {
+                            if (seer == pc) continue;
+                            if (pc.getCustomRole().isImpostor() || pc.isEgoist()) //変更対象がインポスター陣営orエゴイスト
+                                NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
+                        }
+                    }
                     if (pc.isExecutioner())
                     {
                         List<PlayerControl> targetList = new List<PlayerControl>();
