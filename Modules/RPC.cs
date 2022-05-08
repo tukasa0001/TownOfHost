@@ -14,6 +14,7 @@ namespace TownOfHost
         SetDeathReason,
         JesterExiled,
         TerroristWin,
+        ExecutionerWin,
         ArsonistWin,
         SchrodingerCatExiled,
         EndGame,
@@ -28,6 +29,7 @@ namespace TownOfHost
         ResetNameColorData,
         DoSpell,
         SetLoversPlayers,
+        SetExecutionerTarget
     }
     public enum Sounds
     {
@@ -92,6 +94,10 @@ namespace TownOfHost
                 case CustomRPC.TerroristWin:
                     byte wonTerrorist = reader.ReadByte();
                     RPC.TerroristWin(wonTerrorist);
+                    break;
+                case CustomRPC.ExecutionerWin:
+                    byte wonExecutioner = reader.ReadByte();
+                    RPC.ExecutionerWin(wonExecutioner);
                     break;
                 case CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
@@ -161,6 +167,11 @@ namespace TownOfHost
                     for (int i = 0; i < count; i++)
                         main.LoversPlayers.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
+                case CustomRPC.SetExecutionerTarget:
+                    byte executionerId = reader.ReadByte();
+                    byte targetId = reader.ReadByte();
+                    main.ExecutionerTarget[executionerId] = targetId;
+                    break;
             }
         }
     }
@@ -227,77 +238,25 @@ namespace TownOfHost
         {
             main.ExiledJesterID = jesterID;
             main.currentWinner = CustomWinner.Jester;
-            PlayerControl Jester = null;
-            PlayerControl Imp = null;
-            List<PlayerControl> Impostors = new List<PlayerControl>();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                if (p.PlayerId == jesterID) Jester = p;
-                if (p.Data.Role.IsImpostor)
-                {
-                    if (Imp == null) Imp = p;
-                    Impostors.Add(p);
-                }
-            }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
+            CustomWinTrigger(jesterID);
         }
         public static void TerroristWin(byte terroristID)
         {
             main.WonTerroristID = terroristID;
             main.currentWinner = CustomWinner.Terrorist;
-            PlayerControl Terrorist = null;
-            List<PlayerControl> Impostors = new List<PlayerControl>();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                if (p.PlayerId == terroristID) Terrorist = p;
-                if (p.Data.Role.IsImpostor)
-                {
-                    Impostors.Add(p);
-                }
-            }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
+            CustomWinTrigger(terroristID);
+        }
+        public static void ExecutionerWin(byte executionerID)
+        {
+            main.WonExecutionerID = executionerID;
+            main.currentWinner = CustomWinner.Executioner;
+            CustomWinTrigger(executionerID);
         }
         public static void ArsonistWin(byte arsonistID)
         {
             main.WonArsonistID = arsonistID;
             main.currentWinner = CustomWinner.Arsonist;
-            PlayerControl Arsonist = null;
-            PlayerControl Imp = null;
-            List<PlayerControl> Impostors = new List<PlayerControl>();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                if (p.PlayerId == arsonistID) Arsonist = p;
-                if (p.Data.Role.IsImpostor)
-                {
-                    if (Imp == null) Imp = p;
-                    Impostors.Add(p);
-                }
-            }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
+            CustomWinTrigger(arsonistID);
         }
         public static void EndGame()
         {
@@ -364,6 +323,35 @@ namespace TownOfHost
                 writer.Write(lp.PlayerId);
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SendExecutionerTarget(byte executionerId, byte targetId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(executionerId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void CustomWinTrigger(byte winnerID)
+        {
+            List<PlayerControl> Impostors = new List<PlayerControl>();
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                PlayerControl Winner = null;
+                if (p.PlayerId == winnerID) Winner = p;
+                if (p.Data.Role.IsImpostor)
+                {
+                    Impostors.Add(p);
+                }
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var imp in Impostors)
+                {
+                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                new LateTask(() => main.CustomWinTrigger = true,
+                0.2f, "Custom Win Trigger Task");
+            }
         }
         public static void sendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {

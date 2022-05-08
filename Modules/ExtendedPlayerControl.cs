@@ -174,6 +174,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillJester.GetBool();
                 case CustomRoles.Terrorist:
                     return Options.SheriffCanKillTerrorist.GetBool();
+                case CustomRoles.Executioner:
+                    return Options.SheriffCanKillExecutioner.GetBool();
                 case CustomRoles.Opportunist:
                     return Options.SheriffCanKillOpportunist.GetBool();
                 case CustomRoles.Arsonist:
@@ -595,6 +597,10 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
+
+        //汎用   
+        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+
         //バニラ役職
         public static bool isCrewmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Crewmate; }
         public static bool isEngineer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Engineer; }
@@ -628,11 +634,13 @@ namespace TownOfHost
         public static bool isSheriff(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Sheriff; }
         public static bool isSpeedBooster(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SpeedBooster; }
         public static bool isTrapper(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Trapper; }
+        public static bool isDictator(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Dictator; }
         public static bool isDoctor(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Doctor; }
         //第三陣営
         public static bool isArsonist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Arsonist; }
         public static bool isJester(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Jester; }
         public static bool isTerrorist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Terrorist; }
+        public static bool isExecutioner(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Executioner; }
         public static bool isOpportunist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Opportunist; }
         public static bool isSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SchrodingerCat; }
         public static bool isCSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.CSchrodingerCat; } //シュレディンガーの猫の派生

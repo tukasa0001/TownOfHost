@@ -168,6 +168,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Executioner) hasTasks = false;
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
@@ -567,6 +568,7 @@ namespace TownOfHost
                     || seer.isArsonist()
                     || seer.isLovers()
                     || main.SpelledPlayer.Count > 0
+                    || seer.isExecutioner()
                     || seer.isDoctor() //seerがドクター
                     || seer.isPuppeteer()
                 )
@@ -644,6 +646,13 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
+                        if (seer.isExecutioner()) //seerがエクスキューショナー
+                            foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                            {
+                                if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
+                                target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                                    TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            }
 
                         string TargetDeathReason = "";
                         if (seer.isDoctor() && //seerがDoctor

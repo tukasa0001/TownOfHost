@@ -76,6 +76,10 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
 
+                case CustomRoles.Executioner:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                    break;
+
                 case CustomRoles.Vampire:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;

@@ -105,6 +105,19 @@ namespace TownOfHost
                     winner.Add(lp);
                 }
             }
+            if (main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.isEnable())
+            { //Executioner単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == main.WonExecutionerID)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
+                }
+            }
             if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
             { //Arsonist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -141,18 +154,25 @@ namespace TownOfHost
                     winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
-            }
-            //SchrodingerCat
-            if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
+                //SchrodingerCat
+                if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
                     if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
                     {
                         TempData.winners.Add(new WinningPlayerData(pc.Data));
                         winner.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
                     }
-                }
+                if (main.currentWinner == CustomWinner.Jester)
+                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                    {
+                        if (main.ExiledJesterID == ExecutionerTarget.Value && pc.PlayerId == ExecutionerTarget.Key)
+                        {
+                            TempData.winners.Add(new WinningPlayerData(pc.Data));
+                            winner.Add(pc);
+                            main.additionalwinners.Add(AdditionalWinners.Executioner);
+                        }
+                    }
+            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
@@ -255,6 +275,11 @@ namespace TownOfHost
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Lovers)}";
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Lovers);
                     break;
+                case CustomWinner.Executioner:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Executioner);
+                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Executioner)}";
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Executioner);
+                    break;
                 case CustomWinner.Arsonist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
                     CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Arsonist)}";
@@ -278,17 +303,16 @@ namespace TownOfHost
             foreach (var additionalwinners in main.additionalwinners)
             {
                 if (main.additionalwinners.Contains(AdditionalWinners.Opportunist))
-                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
-                }
+
                 if (main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
-                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}</color>";
-                }
+
+                if (main.additionalwinners.Contains(AdditionalWinners.Executioner))
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>{Utils.getRoleName(CustomRoles.Executioner)}</color>";
+
                 if (main.additionalwinners.Contains(AdditionalWinners.Fox))
-                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
-                }
             }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
