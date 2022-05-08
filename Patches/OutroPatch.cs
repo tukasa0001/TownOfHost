@@ -176,12 +176,12 @@ namespace TownOfHost
                         if (!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                     }
-                    if (role == CustomRoles.Fox && !pc.Data.IsDead)
+                    if (role == CustomRoles.HASFox && !pc.Data.IsDead)
                     {
                         winners.Add(pc);
-                        main.additionalwinners.Add(AdditionalWinners.Fox);
+                        main.additionalwinners.Add(AdditionalWinners.HASFox);
                     }
-                    if (role == CustomRoles.Troll && pc.Data.IsDead)
+                    if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                     {
                         main.currentWinner = CustomWinner.Troll;
                         winners = new List<PlayerControl>();
@@ -292,8 +292,8 @@ namespace TownOfHost
                 if (main.additionalwinners.Contains(AdditionalWinners.Executioner))
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>{Utils.getRoleName(CustomRoles.Executioner)}</color>";
 
-                if (main.additionalwinners.Contains(AdditionalWinners.Fox))
-                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
+                if (main.additionalwinners.Contains(AdditionalWinners.HASFox))
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.HASFox)}>{Utils.getRoleName(CustomRoles.HASFox)}</color>";
             }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -302,11 +302,11 @@ namespace TownOfHost
                     if (p.Data.IsDead)
                     {
                         var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                        if (hasRole && role == CustomRoles.Troll)
+                        if (hasRole && role == CustomRoles.HASTroll)
                         {
                             __instance.BackgroundBar.material.color = Color.green;
-                            CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
-                            CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
+                            CustomWinnerText = $"{Utils.getRoleName(CustomRoles.HASTroll)}";
+                            CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.HASTroll);
                         }
                     }
                 }

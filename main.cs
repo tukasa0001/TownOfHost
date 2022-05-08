@@ -216,8 +216,8 @@ namespace TownOfHost
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
                 //HideAndSeek
-                {CustomRoles.Fox, "#e478ff"},
-                {CustomRoles.Troll, "#00ff00"},
+                {CustomRoles.HASFox, "#e478ff"},
+                {CustomRoles.HASTroll, "#00ff00"},
                 //サブ役職
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"}
             };
@@ -304,8 +304,8 @@ namespace TownOfHost
         Terrorist,
         Executioner,
         //HideAndSeak
-        Fox,
-        Troll,
+        HASFox,
+        HASTroll,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
     }
@@ -329,13 +329,13 @@ namespace TownOfHost
         Opportunist,
         SchrodingerCat,
         Executioner,
-        Fox
+        HASFox
     }
     /*public enum CustomRoles : byte
     {
         Default = 0,
         Troll = 1,
-        Fox = 2
+        HASHox = 2
     }*/
     public enum SuffixModes
     {
