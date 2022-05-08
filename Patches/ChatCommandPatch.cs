@@ -15,6 +15,7 @@ namespace TownOfHost
         {
             var text = __instance.TextArea.text;
             string[] args = text.Split(' ');
+            string subArgs = "";
             var canceled = false;
             var cancelVal = "";
             main.isChatCommand = true;
@@ -76,8 +77,8 @@ namespace TownOfHost
 
                     case "/dis":
                         canceled = true;
-                        if (args.Length < 2) { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
-                        switch (args[1])
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
                         {
                             case "crewmate":
                                 ShipStatus.Instance.enabled = false;
@@ -100,23 +101,19 @@ namespace TownOfHost
                     case "/h":
                     case "/help":
                         canceled = true;
-                        if (args.Length < 2)
-                        {
-                            Utils.ShowHelp();
-                            break;
-                        }
-                        switch (args[1])
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
                         {
                             case "r":
                             case "roles":
-                                if (args.Length < 3) { getRolesInfo(""); break; }
-                                getRolesInfo(args[2]);
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                getRolesInfo(subArgs);
                                 break;
 
                             case "att":
                             case "attributes":
-                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)"); break; }
-                                switch (args[2])
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                switch (subArgs)
                                 {
                                     case "lastimpostor":
                                     case "limp":
@@ -124,15 +121,15 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)");
+                                        Utils.SendMessage($"{ getString("Command.h_args")}:\n lastimpostor(limp)");
                                         break;
                                 }
                                 break;
 
                             case "m":
                             case "modes":
-                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)"); break; }
-                                switch (args[2])
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                switch (subArgs)
                                 {
                                     case "hideandseek":
                                     case "has":
@@ -155,7 +152,7 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage($"{getString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -191,7 +188,8 @@ namespace TownOfHost
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
-                //Impostor陣営
+                //Impostor役職
+                { (CustomRoles)(-1),"== Impostor ==" }, //区切り用
                 { CustomRoles.BountyHunter,"bo" },
                 { CustomRoles.Mafia,"mf" },
                 { CustomRoles.SerialKiller,"sk" },
@@ -200,14 +198,17 @@ namespace TownOfHost
                 { CustomRoles.Witch,"wi" },
                 { CustomRoles.Warlock,"wa" },
                 { CustomRoles.Puppeteer,"pup" },
-                //Madmate陣営
+                //Madmate役職
+                { (CustomRoles)(-2),"== Madmate ==" }, //区切り用
                 { CustomRoles.MadGuardian,"mg" },
                 { CustomRoles.Madmate,"mm" },
                 { CustomRoles.MadSnitch,"msn" },
                 { CustomRoles.SKMadmate,"sm" },
-                //両陣営
+                //両陣営役職
+                { (CustomRoles)(-3),"== Impostor or Crewmate ==" }, //区切り用
                 { CustomRoles.Watcher,"wat" },
-                //Crewmate陣営
+                //Crewmate役職
+                { (CustomRoles)(-4),"== Crewmate ==" }, //区切り用
                 { CustomRoles.Bait,"ba" },
                 { CustomRoles.Dictator,"dic" },
                 { CustomRoles.Doctor,"doc" },
@@ -218,7 +219,8 @@ namespace TownOfHost
                 { CustomRoles.Snitch,"sn" },
                 { CustomRoles.SpeedBooster,"sb" },
                 { CustomRoles.Trapper,"tra" },
-                //Neutral陣営
+                //Neutral役職
+                { (CustomRoles)(-5),"== Neutral ==" }, //区切り用
                 { CustomRoles.Arsonist,"ar" },
                 { CustomRoles.Egoist,"eg" },
                 { CustomRoles.Executioner,"exe" },
@@ -227,31 +229,34 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat,"sc" },
                 { CustomRoles.Terrorist,"te" },
                 //HAS
+                { (CustomRoles)(-6),"== Hide and Seek ==" }, //区切り用
                 { CustomRoles.Fox,"fo" },
                 { CustomRoles.Troll,"tr" },
 
             };
-            var msg = "使用可能な引数(略称): \n";
-            var rolemsg="";
+            var msg = "";
+            var rolemsg = $"{getString("Command.h_args")}";
             foreach (var r in roleList)
             {
                 var roleName = r.Key.ToString();
                 var roleShort = r.Value;
+
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
                     Utils.SendMessage(getString(roleName) + getString($"{roleName}InfoLong"));
                     return;
                 }
+
                 var roleText = $"{roleName.ToLower()}({roleShort.ToLower()}), ";
-                if (rolemsg.Length + roleText.Length > 40)
+                if ((int)r.Key < 0)
+                {
+                    msg += rolemsg + "\n" + roleShort + "\n";
+                    rolemsg = "";
+                }
+                else if ((rolemsg.Length + roleText.Length) > 40)
                 {
                     msg += rolemsg + "\n";
                     rolemsg = roleText;
-                    if (msg.Count(c=>c=='\n') == 3)
-                    {
-                        Utils.SendMessage(msg);
-                        msg = "";
-                    }
                 }
                 else
                 {
@@ -259,10 +264,7 @@ namespace TownOfHost
                 }
             }
             msg += rolemsg;
-            if (rolemsg != "")
-            {
-                Utils.SendMessage(msg);
-            }
+            Utils.SendMessage(msg);
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
