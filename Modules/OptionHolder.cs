@@ -148,7 +148,7 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
-        // 通常モードで鬼ごっこ
+        // 通常モードでかくれんぼ
         public static CustomOption StandardHAS;
 
         // リアクターの時間制御
@@ -393,7 +393,7 @@ namespace TownOfHost
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
-            // 通常モードで鬼ごっこ用
+            // 通常モードでかくれんぼ用
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
