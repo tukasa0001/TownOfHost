@@ -175,12 +175,6 @@ The Madmates belong to the Impostors team, but they do not know who the Impostor
 The Impostors do not know who the they are too.<br>
 They can not kill or sabotage, but they can use vents.<br>
 
-#### Settings
-
-| Settings Name                                             |
-| --------------------------------------------------------- |
-| Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
-
 ### MadGuardian
 
 Team : Impostors<br>
@@ -193,21 +187,35 @@ They can not kill, sabotage, and using vents.<br>
 
 #### Settings
 
-| Settings Name                                         |
-| ----------------------------------------------------- |
-| [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
-| MadGuardian Can See Own Cracked Barrier               |
+| Settings Name                           |
+| --------------------------------------- |
+| MadGuardian Can See Own Cracked Barrier |
 
 ### MadSnitch
 
 Team : Impostor<br>
-Decision : Crewmate<br>
+Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
-They are unable to enter vent.<br>
 
+#### Settings
+
+| Settings Name          |
+| ---------------------- |
+| MadSnitch Can Use Vent |
+| MadSnitch Tasks        |
+
+There is also a common setting for Madmate type Roles.
+
+| Settings Name                             |
+| ----------------------------------------- |
+| Madmate Can Fix Lights Out                |
+| Madmate Can Fix Comms                     |
+| Madmate vision is as long as Impostor one |
+| Madmate Vent Cooldown                     |
+| Madmate In Vent Max Time                  |
 ### Watcher
 
 Team : Impostors or Crewmates<br>
