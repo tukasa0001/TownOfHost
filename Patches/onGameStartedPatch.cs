@@ -330,6 +330,10 @@ namespace TownOfHost
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
+                foreach (var pair in main.AllPlayerCustomSubRoles)
+                {
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
 
                 //名前の記録
                 main.AllPlayerNames = new();
