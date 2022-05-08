@@ -35,18 +35,6 @@ namespace TownOfHost
             }
             //有効な役職と詳細設定一覧
             pages.Add("");
-            //Onの時に子要素まで表示するメソッド
-            Action<CustomOption> listUp = (o) =>
-            {
-                if (o.GetBool())
-                {
-                    text += $"{o.GetName()}: {o.GetString()}\n";
-                    foreach (var c in o.Children)
-                        text += $"\t{c.getName()}: {c.GetString()}\n";
-                    text += "\n";
-                }
-            };
-            Action<CustomOption> nameAndValue = (o) => text += $"{o.GetName()}: {o.GetString()}\n";
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 if (Options.EnableLastImpostor.GetBool())
@@ -79,6 +67,18 @@ namespace TownOfHost
                 }
                 text += "\n";
             }
+            //Onの時に子要素まで表示するメソッド
+            Action<CustomOption> listUp = (o) =>
+            {
+                if (o.GetBool())
+                {
+                    text += $"{o.GetName()}: {o.GetString()}\n";
+                    foreach (var c in o.Children)
+                        text += $"\t{c.getName()}: {c.GetString()}\n";
+                    text += "\n";
+                }
+            };
+            Action<CustomOption> nameAndValue = (o) => text += $"{o.GetName()}: {o.GetString()}\n";
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 listUp(Options.SyncButtonMode);
