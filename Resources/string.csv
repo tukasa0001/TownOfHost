@@ -126,8 +126,8 @@ TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # HideAndSeek
-FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
-TrollInfo,Die to win,自爆しよう
+HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
+HASTrollInfo,Die to win,自爆しよう
 
 
 ## 役職説明ロング
