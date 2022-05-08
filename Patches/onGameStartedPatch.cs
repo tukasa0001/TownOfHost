@@ -217,8 +217,8 @@ namespace TownOfHost
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
-                int FixedFoxCount = Math.Clamp(CustomRoles.Fox.getCount(), 0, Crewmates.Count);
-                int FixedTrollCount = Math.Clamp(CustomRoles.Troll.getCount(), 0, Crewmates.Count - FixedFoxCount);
+                int FixedFoxCount = Math.Clamp(CustomRoles.HASFox.getCount(), 0, Crewmates.Count);
+                int FixedTrollCount = Math.Clamp(CustomRoles.HASTroll.getCount(), 0, Crewmates.Count - FixedFoxCount);
                 List<PlayerControl> FoxList = new List<PlayerControl>();
                 List<PlayerControl> TrollList = new List<PlayerControl>();
                 //役職設定処理
@@ -226,18 +226,18 @@ namespace TownOfHost
                 {
                     var id = rand.Next(Crewmates.Count);
                     FoxList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Fox;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.HASFox;
                     Crewmates[id].RpcSetColor(3);
-                    Crewmates[id].RpcSetCustomRole(CustomRoles.Fox);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.HASFox);
                     Crewmates.RemoveAt(id);
                 }
                 for (var i = 0; i < FixedTrollCount; i++)
                 {
                     var id = rand.Next(Crewmates.Count);
                     TrollList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Troll;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.HASTroll;
                     Crewmates[id].RpcSetColor(2);
-                    Crewmates[id].RpcSetCustomRole(CustomRoles.Troll);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.HASTroll);
                     Crewmates.RemoveAt(id);
                 }
                 //通常クルー・インポスター用RPC
@@ -371,6 +371,16 @@ namespace TownOfHost
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                        }
+                    }
+                    //通常モードでかくれんぼをする人用
+                    if (Options.StandardHAS.GetBool())
+                    {
+                        foreach (var seer in PlayerControl.AllPlayerControls)
+                        {
+                            if (seer == pc) continue;
+                            if (pc.getCustomRole().isImpostor() || pc.Is(CustomRoles.)) //変更対象がインポスター陣営orエゴイスト
+                                NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
                         }
                     }
                     if (pc.Is(CustomRoles.Executioner))

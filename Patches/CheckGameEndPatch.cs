@@ -131,7 +131,7 @@ namespace TownOfHost
             {
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 if (!hasRole) return false;
-                if (role == CustomRoles.Troll && pc.Data.IsDead)
+                if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                 {
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
