@@ -93,12 +93,12 @@ namespace TownOfHost
                         main.isCurseAndKill[pc.PlayerId] = false;
                     }
                     if (pc.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
-                {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
-                    writer.Write(exiled.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    pc.ExiledSchrodingerCatTeamChange();
-                }
+                    {
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
+                        writer.Write(exiled.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        pc.ExiledSchrodingerCatTeamChange();
+                    }
                 }
                 if (PlayerControl.GameOptions.MapId == 4)//Airship用
                 {
