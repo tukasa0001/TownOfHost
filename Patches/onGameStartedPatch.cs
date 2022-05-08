@@ -23,7 +23,8 @@ namespace TownOfHost
             main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
             main.isDoused = new Dictionary<(byte, byte), bool>();
-            main.DousedPlayerCount = new Dictionary<byte, int>();
+            main.DousedPlayerCount = new Dictionary<byte, (int, int)>();
+            main.isDeadDoused = new Dictionary<byte, bool>();
             main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
@@ -218,8 +219,8 @@ namespace TownOfHost
                     }
                 }
                 //FoxCountとTrollCountを適切に修正する
-                int FixedFoxCount = Math.Clamp(CustomRoles.Fox.getCount(), 0, Crewmates.Count);
-                int FixedTrollCount = Math.Clamp(CustomRoles.Troll.getCount(), 0, Crewmates.Count - FixedFoxCount);
+                int FixedFoxCount = Math.Clamp(CustomRoles.HASFox.getCount(), 0, Crewmates.Count);
+                int FixedTrollCount = Math.Clamp(CustomRoles.HASTroll.getCount(), 0, Crewmates.Count - FixedFoxCount);
                 List<PlayerControl> FoxList = new List<PlayerControl>();
                 List<PlayerControl> TrollList = new List<PlayerControl>();
                 //役職設定処理
@@ -227,18 +228,18 @@ namespace TownOfHost
                 {
                     var id = rand.Next(Crewmates.Count);
                     FoxList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Fox;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.HASFox;
                     Crewmates[id].RpcSetColor(3);
-                    Crewmates[id].RpcSetCustomRole(CustomRoles.Fox);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.HASFox);
                     Crewmates.RemoveAt(id);
                 }
                 for (var i = 0; i < FixedTrollCount; i++)
                 {
                     var id = rand.Next(Crewmates.Count);
                     TrollList.Add(Crewmates[id]);
-                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.Troll;
+                    main.AllPlayerCustomRoles[Crewmates[id].PlayerId] = CustomRoles.HASTroll;
                     Crewmates[id].RpcSetColor(2);
-                    Crewmates[id].RpcSetCustomRole(CustomRoles.Troll);
+                    Crewmates[id].RpcSetCustomRole(CustomRoles.HASTroll);
                     Crewmates.RemoveAt(id);
                 }
                 //通常クルー・インポスター用RPC
@@ -352,6 +353,7 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    main.isDeadDoused[pc.PlayerId] = false;
                     if (pc.isSheriff())
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
@@ -373,10 +375,22 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.isArsonist())
                     {
-                        main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
+                        var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
+                        main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
+                        pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                        }
+                    }
+                    //通常モードでかくれんぼをする人用
+                    if (Options.StandardHAS.GetBool())
+                    {
+                        foreach (var seer in PlayerControl.AllPlayerControls)
+                        {
+                            if (seer == pc) continue;
+                            if (pc.getCustomRole().isImpostor() || pc.isEgoist()) //変更対象がインポスター陣営orエゴイスト
+                                NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
                         }
                     }
                     if (pc.isExecutioner())

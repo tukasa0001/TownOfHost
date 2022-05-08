@@ -342,12 +342,12 @@ namespace TownOfHost
 
                 case "fox":
                 case "fo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox) + getString("FoxInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.HASFox) + getString("HASFoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll) + getString("TrollInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.HASTroll) + getString("HASTrollInfoLong"));
                     break;
 
                 default:

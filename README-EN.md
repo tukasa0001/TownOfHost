@@ -408,7 +408,7 @@ Decision : Impostor<br>
 Victory Conditions : Douse all alive crewmates<br>
 
 When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates, they will win.<br>
+If they finish dousing to all alive crewmates and enter vents, they will win.<br>
 
 #### Settings
 

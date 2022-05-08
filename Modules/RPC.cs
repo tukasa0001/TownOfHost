@@ -24,6 +24,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -143,6 +144,12 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    break;
+                case CustomRPC.SendDousedPlayerCount:
+                    ArsonistId = reader.ReadByte();
+                    int DousePlayer = reader.ReadInt32();
+                    int AllTargets = reader.ReadInt32();
+                    main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
                     break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();

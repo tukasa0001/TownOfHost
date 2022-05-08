@@ -38,8 +38,8 @@ namespace TownOfHost
                 role == CustomRoles.Arsonist ||
                 role == CustomRoles.Egoist ||
                 role == CustomRoles.EgoSchrodingerCat ||
-                role == CustomRoles.Troll ||
-                role == CustomRoles.Fox;
+                role == CustomRoles.HASTroll ||
+                role == CustomRoles.HASFox;
         }
         public static bool isVanilla(this CustomRoles role)
         {
