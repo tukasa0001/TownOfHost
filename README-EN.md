@@ -66,8 +66,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
 | [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [スピードブースター](###SpeedBooster) |                               |
-| [Madmate](###Madmate)           | [Trapper](###Trapper)                 |                               |
+| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
+| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
+| [Madmate](###Madmate)           | [Doctor](###Doctor)                   |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -164,6 +165,14 @@ Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
 
+### Puppeteer
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
+It is not possible to perform normal kills.<br>
 ### Madmate
 
 Team : Impostors<br>
@@ -253,6 +262,14 @@ Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
 
+### Dictator
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
+The dictator dies at the time of the vote.<br>
+
 #### Settings
 
 | Settings Name   |
@@ -320,8 +337,27 @@ They do not have tasks.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red.<br>
+When the Snitches complete their tasks, the name of the Impostors will change to red,can see the direction with the arrow.<br>
 However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+
+#### Settings
+
+| Settings Name |
+|----------|
+| Snitch Can Get Arrow Color |
+| Snitch Can Find Neutral Killer |
+
+### Doctor
+
+Team : Crewmates<br>
+Decision : Scientist<br>
+
+You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+
+#### Settings
+| Settings Name |
+|----------|
+| Doctor TaskCompletedBattery Charge |
 
 ### Jester
 
@@ -358,7 +394,7 @@ Decision : Impostor<br>
 Victory Conditions : Douse all alive crewmates<br>
 
 When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates, they will win.<br>
+If they finish dousing to all alive crewmates and enter vents, they will win.<br>
 
 #### Settings
 
@@ -408,6 +444,24 @@ The conditions for defeat are as follows.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
 
+### Executioner
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Target Voted Out<br>
+
+The target is marked with a diamond that is visible only from here.<br>
+If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
+If the target is killed, the position changes.<br>
+If the target is a jester, it wins an additional victory.<br>
+
+#### Settings
+
+| Settings Name                                 |
+| --------------------------------------------- |
+| Executioner Can be Target Impostor            |
+| Executioner Change Role After Target Killed   |
+
 ## Attribute
 
 ### LastImpostor
@@ -418,6 +472,15 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 | Settings Name             |
 | ------------------------- |
 | LastImpostor KillCooldown |
+
+## SabotageTimeControl
+
+The time limit for some sabotage can be changed.
+
+| Settings Name |
+|----------|
+| Polus Reactor TimeLimit |
+| Airship Reactor TimeLimit |
 
 ## Mode
 
@@ -545,6 +608,7 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 [BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
 [Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

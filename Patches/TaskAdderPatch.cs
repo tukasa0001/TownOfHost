@@ -102,6 +102,7 @@ namespace TownOfHost
             {CustomRoles.Terrorist, RoleTypes.Engineer},
             {CustomRoles.EvilWatcher, RoleTypes.Impostor},
             {CustomRoles.Mare, RoleTypes.Impostor},
+            {CustomRoles.Doctor, RoleTypes.Scientist},
         };
         public static bool Prefix(TaskAddButton __instance)
         {

@@ -1,12 +1,18 @@
 id,0,11
 
-#役職
+
+## 役職
+
+# バニラ役職
+
 Crewmate,Crewmate,クルーメイト
 Engineer,Engineer,エンジニア
 Scientist,Scientist,科学者
 GuardianAngel,GuardianAngel,守護天使
 Impostor,Impostor,インポスター
 Shapeshifter,Shapeshifter,シェイプシフター
+
+# 特殊インポスター役職
 BountyHunter,BountyHunter,バウンティハンター
 Mare,Mare,メアー
 SerialKiller,SerialKiller,シリアルキラー
@@ -15,21 +21,20 @@ Vampire,Vampire,ヴァンパイア
 Warlock,Warlock,ウォーロック
 Witch,Witch,ウィッチ
 Mafia,Mafia,マフィア
+EvilWatcher,Evil Watcher,イビルウォッチャー
+Puppeteer,Puppeteer,パペッティア
+
+# マッドメイト系役職
 Madmate,Madmate,マッドメイト
 MadGuardian,MadGuardian,マッドガーディアン
 MadSnitch,MadSnitch,マッドスニッチ
 SKMadmate,SideKickMadmate,サイドキックマッドメイト
-NiceWatcher,Nice Watcher,ナイスウォッチャー
-EvilWatcher,Evil Watcher,イビルウォッチャー
+
+# 両陣営可能役職
 Watcher,Watcher,ウォッチャー
-Jester,Jester,ジェスター
-Terrorist,Terrorist,テロリスト
-SchrodingerCat,SchrodingerCat,シュレディンガーの猫
-CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
-MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
-EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
-Opportunist,Opportunist,オポチュニスト
-Egoist,Egoist,エゴイスト
+
+# 特殊クルー役職
+NiceWatcher,Nice Watcher,ナイスウォッチャー
 Bait,Bait,ベイト
 Lighter,Lighter,ライター
 Mayor,Mayor,メイヤー
@@ -38,13 +43,35 @@ Sheriff,Sheriff,シェリフ
 Arsonist,Arsonist,アーソニスト
 Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
+Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
-Fox,Fox,狐
-Troll,Troll,トロール
-TeamImpostor,Team Impostor,インポスター陣営
+Dictator,Dictator,ディクテーター
+
+# 第三陣営役職
+Jester,Jester,ジェスター
+Terrorist,Terrorist,テロリスト
+Executioner,Executioner,エクスキューショナー
+SchrodingerCat,SchrodingerCat,シュレディンガーの猫
+CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+Opportunist,Opportunist,オポチュニスト
+Egoist,Egoist,エゴイスト
+
+# HideAndSeek
+HASFox,Fox,狐
+HASTroll,Troll,トロール
+
+# 属性
 LastImpostor,Last Impostor,ラストインポスター
 
-#役職説明ショート
+# その他
+TeamImpostor,Team Impostor,インポスター陣営
+
+
+## 役職説明ショート
+
+# 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
@@ -55,11 +82,29 @@ WitchInfo,Spell your enemies,敵に魔術をかけよう
 MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう
 BeforeMafiaInfo,You can not kill now,今はキルをすることができない
 AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
+PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
+
+# マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
+
+# 両陣営可能役職
 WatcherInfo,Pay close attention to the crew's votes,みんなの投票に目を光らせよう
+
+# 特殊クルー役職
+BaitInfo,Bait your enemies,敵を罠にはめよう
+LighterInfo,Let's light it all up,すべてを照らそう
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
+SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
+SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
+SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
+SpeedBoosterInfo,Let's them run.,走らせろ
+DoctorInfo,Thus They Died,斯くして奴は死んだ
+TrapperInfo,Trap your enemies,敵を罠にはめよう
+
+# 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
 JesterInfo,Get voted out,追放されよう
 OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -68,6 +113,7 @@ CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方
 MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
 EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
+ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 BaitInfo,Bait your enemies,敵を罠にはめよう
 LighterInfo,Let's light it all up,すべてを照らそう
@@ -77,10 +123,16 @@ SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
 SpeedBoosterInfo,Let's them run.,走らせろ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
-FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
-TrollInfo,Die to win,自爆しよう
+DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
-#役職説明ロング
+# HideAndSeek
+HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
+HASTrollInfo,Die to win,自爆しよう
+
+
+## 役職説明ロング
+
+# 特殊インポスター役職
 BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
@@ -89,17 +141,18 @@ VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
+
+# マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
 MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
+
+# 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nYou can see where everyone is voting.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。
-ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
-JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
-TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
-SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
-OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
-EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
+
+# 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
 LighterInfoLong,"(Crewmates):\nFinishing a task can expand one's view.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。
 MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them all together into one person or skip. (with settings),(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有)
@@ -107,13 +160,28 @@ SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interferenc
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
+DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
-FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(鬼ごっこ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
-TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(鬼ごっこ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
+
+# 第三陣営役職
+ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
+JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
+TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+ExecutionerInfoLong,"(Neutrals):\nThe target is marked with a diamond that is visible only from here.\nIf the vote expels the person with diamonds on his/her head, he/she wins alone. If the target is killed, the position changes.\nIf the target is a jester, it wins an additional victory.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。
+SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
+OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
+EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
+
+# HideAndSeek
+HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+
+# 属性
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
 
 #モードオプション
-HideAndSeek,HideAndSeek,鬼ごっこ
+HideAndSeek,HideAndSeek,かくれんぼ
 NoGameEnd,NoGameEnd,ゲームを終了しない
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード
 RandomMapsMode,RandomMapsMode,ランダムマップモード
@@ -134,6 +202,7 @@ SuffixMode.None,None,なし
 SuffixMode.Version,Version,バージョン
 SuffixMode.Streaming,Streaming,配信中
 SuffixMode.Recording,Recording,録画中
+GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる
 RoleOptions,Role Options,役職設定
 ModeOptions,Mode Options,モード設定
 ForceJapanese,Force Japanese,日本語に強制
@@ -146,13 +215,14 @@ Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
 
-#モード説明
-HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",鬼ごっこ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+## モード説明
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
+SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
 
-#詳細設定
+## 詳細設定
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
@@ -182,15 +252,22 @@ SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
+SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
+DoctorTaskCompletedBatteryCharge,Doctor TaskCompletedBattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数
+SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢印が見える
+SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
+ExecutionerCanTargetImpostor,Executioner Can be Target Impostor,ｴｸｽｷｭｰｼｮﾅｰがインポスターもターゲットにできる
+ExecutionerChangeRolesAfterTargetKilled,Executioner Change Role After Target Killed,ｴｸｽｷｭｰｼｮﾅｰのターゲットがキルされた後に変化する役職
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
 ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
@@ -198,16 +275,16 @@ ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
 
-#鬼ごっこ設定
-HideAndSeekOptions,HideAndSeek Options,鬼ごっこの設定
+## かくれんぼ設定
+HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SpeedBoosterUpSpeed,Speed at speed up,スピードアップ時の速さ
 TrapperBlockMoveTime,Block Move Time,移動を封じる時間
 HideAndSeekWaitingTime,Impostor Waiting Time,インポスターの待機時間(秒)
 IgnoreVent,Ignore Using Vents,通気口の使用を禁止する
-HideAndSeekRoles,HideAndSeek Roles,鬼ごっこの役職
+HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職
 
-#死因
+## 死因
 DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
@@ -222,7 +299,38 @@ Alive,Alive,生存
 Win,Wins,勝利
 Last,Last,ラスト
 
-#その他
+## リアクターの時間制御
+SabotageTimeControl,Replacement Sabotage TimeLimit,サボタージュの時間制御
+PolusReactorTimeLimit,Polus Reactor TimeLimit,ポーラスのリアクター制限時間
+AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクター制限時間
+
+## ヘルプテキスト
+CommandList,Command List:,コマンド一覧:
+Command.winner,Display Winners,勝者を表示
+Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.rename,Change Host Name,ホストの名前を変更
+Command.now,Display ActiveSettings,現在有効な設定を表示
+Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
+Command.h_roles,<RoleName> - Display About Role,<役職名> - 役職の説明を表示
+Command.h_attributes,<AttributeName> - Display About Attribute,<属性名> - 属性の説明を表示
+Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説明を表示
+Command.dump,Output Log to Desktop,デスクトップにログを出力
+
+CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
+
+## その他
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
+updatePleaseWait,Please Wait...,しばらくお待ちください...
+updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。
+updateInProgress,Updating...,アップデート中...
+announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1}
+announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1}
+updateRestart,Update Finished!\nPlease restart the game.,アップデートが完了しました。\nゲームを再起動してください。
+updateFailed,Update failed.,アップデートに失敗しました。
+onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
+CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
+StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
