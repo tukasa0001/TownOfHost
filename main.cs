@@ -259,11 +259,11 @@ namespace TownOfHost
         Mafia,
         SerialKiller,
         ShapeMaster,
-        TimeThief,
         Vampire,
         Witch,
         Warlock,
         Puppeteer,
+        TimeThief,
         //Madmate
         MadGuardian,
         Madmate,

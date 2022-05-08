@@ -609,6 +609,7 @@ namespace TownOfHost
         public static bool isWarlock(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Warlock; }
         public static bool isSerialKiller(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SerialKiller; }
         public static bool isPuppeteer(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Puppeteer; }
+        public static bool isTimeThief(this PlayerControl target){return target.getCustomRole() == CustomRoles.TimeThief;}
         //マッドメイト系役職
         public static bool isMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Madmate; }
         public static bool isSKMadmate(this PlayerControl target) { return target.getCustomRole() == CustomRoles.SKMadmate; }
@@ -636,7 +637,6 @@ namespace TownOfHost
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
-        public static bool isTimeThief(this PlayerControl target){return target.getCustomRole() == CustomRoles.TimeThief;}
         //サブ役職
     }
 }
