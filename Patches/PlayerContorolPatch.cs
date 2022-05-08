@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -353,7 +354,8 @@ namespace TownOfHost
     {
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) return false;
+            if (Options.StandardHAS.GetBool() && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
             main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
@@ -554,6 +556,7 @@ namespace TownOfHost
                 }
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
+                    var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
                     if (main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                     {
@@ -562,7 +565,9 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        main.DousedPlayerCount[__instance.PlayerId]--;//残りの塗る人数を減らす
+                        main.DousedPlayerCount[__instance.PlayerId] = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
+                        Logger.info($"{__instance.getRealName()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
+                        __instance.RpcSendDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
                         writer.Write(ar_target.PlayerId);
@@ -585,26 +590,20 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))//試合終了判定など
+                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
                 {
-                    if (main.DousedPlayerCount[__instance.PlayerId] == 0)//試合終了判定
+                    foreach (var target in PlayerControl.AllPlayerControls)
                     {
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);//試合終了
-                        writer.Write(__instance.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        RPC.ArsonistWin(__instance.PlayerId);
-                        main.DousedPlayerCount[__instance.PlayerId] = 1;//無限ループ防止
-                    }
-                    else//それ以外
-                    {
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            if ((pc.Data.IsDead || pc.Data.Disconnected) && !main.isDoused[(__instance.PlayerId, pc.PlayerId)])//死んだら塗った判定にする
+                        if (__instance == target) continue;
+                        if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
+                            if (target.Data.IsDead || target.Data.Disconnected)
                             {
-                                main.DousedPlayerCount[__instance.PlayerId]--;
-                                main.isDoused[(__instance.PlayerId, pc.PlayerId)] = true;
+                                main.isDeadDoused[target.PlayerId] = true;
+                                var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
+                                Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
+                                main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                                __instance.RpcSendDousedPlayerCount();
                             }
-                        }
                     }
                 }
                 if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
@@ -655,11 +654,11 @@ namespace TownOfHost
                 if (GameStates.isInGame)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
-                    if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                    {
-                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
-                        if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
-                    }
+                    //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                    //{
+                    //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                    //    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
+                    //}
                     RoleText.text = RoleTextData.Item1;
                     RoleText.color = RoleTextData.Item2;
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
@@ -693,6 +692,8 @@ namespace TownOfHost
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         RealName = $"<color={target.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                        if (target.isArsonist() && target.isDouseDone())
+                            RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
                     else if (seer.isMadSnitch() && //seerがMadSnitch
@@ -931,6 +932,30 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost)
             {
+                if (main.DousedPlayerCount.ContainsKey(__instance.myPlayer.PlayerId) && AmongUsClient.Instance.IsGameStarted)
+                    if (__instance.myPlayer.isDouseDone())
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!__instance.myPlayer.Data.IsDead)
+                            {
+                                if (pc != __instance.myPlayer)
+                                {
+                                    //生存者は焼殺
+                                    pc.RpcMurderPlayer(pc);
+                                    PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
+                                    PlayerState.isDead[pc.PlayerId] = true;
+                                }
+                                else
+                                    RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                            }
+                        }
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(__instance.myPlayer.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                        return true;
+                    }
                 if (__instance.myPlayer.isSheriff() || __instance.myPlayer.isSKMadmate() || __instance.myPlayer.isArsonist())
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);

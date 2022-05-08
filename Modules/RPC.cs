@@ -12,6 +12,7 @@ namespace TownOfHost
         VersionCheck = 60,
         SyncCustomSettings = 80,
         SetDeathReason,
+        TrollWin,
         JesterExiled,
         TerroristWin,
         ExecutionerWin,
@@ -24,6 +25,7 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -87,6 +89,10 @@ namespace TownOfHost
                 case CustomRPC.SetDeathReason:
                     RPC.GetDeathReason(reader);
                     break;
+                case CustomRPC.TrollWin:
+                    byte wonTroll = reader.ReadByte();
+                    RPC.TrollWin(wonTroll);
+                    break;
                 case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
                     RPC.JesterExiled(exiledJester);
@@ -143,6 +149,12 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    break;
+                case CustomRPC.SendDousedPlayerCount:
+                    ArsonistId = reader.ReadByte();
+                    int DousePlayer = reader.ReadInt32();
+                    int AllTargets = reader.ReadInt32();
+                    main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
                     break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
@@ -231,6 +243,12 @@ namespace TownOfHost
             PlayerState.isDead[playerId] = true;
         }
 
+        public static void TrollWin(byte trollID)
+        {
+            main.WonTrollID = trollID;
+            main.currentWinner = CustomWinner.HASTroll;
+            CustomWinTrigger(trollID);
+        }
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;

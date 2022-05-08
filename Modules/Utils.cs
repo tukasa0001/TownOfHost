@@ -122,11 +122,11 @@ namespace TownOfHost
                             text = "Crewmate";
                             color = Color.white;
                             break;
-                        case CustomRoles.Fox:
+                        case CustomRoles.HASFox:
                             text = "Fox";
                             color = Color.magenta;
                             break;
-                        case CustomRoles.Troll:
+                        case CustomRoles.HASTroll:
                             text = "Troll";
                             color = Color.green;
                             break;
@@ -151,7 +151,7 @@ namespace TownOfHost
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) hasTasks = false;
+                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) hasTasks = false;
                 }
             }
             else
@@ -210,8 +210,8 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 SendMessage(getString("HideAndSeekInfo"));
-                if (CustomRoles.Fox.isEnable()) { SendMessage(getRoleName(CustomRoles.Fox) + getString("FoxInfoLong")); }
-                if (CustomRoles.Troll.isEnable()) { SendMessage(getRoleName(CustomRoles.Troll) + getString("TrollInfoLong")); }
+                if (CustomRoles.HASFox.isEnable()) { SendMessage(getRoleName(CustomRoles.HASFox) + getString("HASFoxInfoLong")); }
+                if (CustomRoles.HASTroll.isEnable()) { SendMessage(getRoleName(CustomRoles.HASTroll) + getString("HASTrollInfoLong")); }
             }
             else
             {
@@ -220,7 +220,7 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(getString("RandomMapsModeInfo")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
+                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) continue;
                     if (role.isEnable()) SendMessage(getRoleName(role) + getString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
                 if (Options.EnableLastImpostor.GetBool()) { SendMessage(getString("LastImpostor") + getString("LastImpostorInfo")); }
@@ -232,8 +232,8 @@ namespace TownOfHost
             var text = getString("Roles") + ":";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
-                if (CustomRoles.Fox.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.Fox), CustomRoles.Fox.getCount());
-                if (CustomRoles.Troll.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.Troll), CustomRoles.Troll.getCount());
+                if (CustomRoles.HASFox.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.HASFox), CustomRoles.HASFox.getCount());
+                if (CustomRoles.HASTroll.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.getCount());
                 SendMessage(text);
                 text = getString("Settings") + ":";
                 text += getString("HideAndSeek");
@@ -242,7 +242,7 @@ namespace TownOfHost
             {
                 foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
-                    if (role == CustomRoles.Fox || role == CustomRoles.Troll) continue;
+                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) continue;
                     if (role.isEnable()) text += String.Format("\n{0}:{1}", getRoleName(role), role.getCount());
                 }
                 SendMessage(text);
@@ -274,6 +274,7 @@ namespace TownOfHost
                 if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", getString("WhenNonVote"), Options.WhenNonVote.GetString());
                 if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.isEnable()) text += String.Format("\n{0}:{1}", getString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
             }
+            if (Options.StandardHAS.GetBool()) text += String.Format("\n{0}:{1}", getString("StandardHAS"), getOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", getString("NoGameEnd"), getOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text);
         }
@@ -530,6 +531,8 @@ namespace TownOfHost
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if (seer.isArsonist() && seer.isDouseDone())
+                    SelfName = $"</size>\r\n<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
                 SelfName = SelfRoleName + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";

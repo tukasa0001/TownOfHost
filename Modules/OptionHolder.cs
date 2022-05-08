@@ -148,6 +148,9 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        // 通常モードでかくれんぼ
+        public static CustomOption StandardHAS;
+
         // リアクターの時間制御
         public static CustomOption SabotageTimeControl;
         public static CustomOption PolusReactorTimeLimit;
@@ -328,8 +331,8 @@ namespace TownOfHost
             #endregion
 
             // HideAndSeek
-            SetupRoleOptions(100000, CustomRoles.Fox, CustomGameMode.HideAndSeek);
-            SetupRoleOptions(100100, CustomRoles.Troll, CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100000, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100100, CustomRoles.HASTroll, CustomGameMode.HideAndSeek);
             AllowCloseDoors = CustomOption.Create(101000, Color.white, "AllowCloseDoors", false, null, true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             KillDelay = CustomOption.Create(101001, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5)
@@ -389,6 +392,10 @@ namespace TownOfHost
             WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+
+            // 通常モードでかくれんぼ用
+            StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
