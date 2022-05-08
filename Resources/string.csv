@@ -239,8 +239,8 @@ MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッド�
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイト系役職が停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイト系役職が通信障害を直すことができる
 MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメイト系役職の視野がインポスターと同じ
-MadmateVentCooldown,Madmate Vent Cooldown,マッドメイトのベントクールダウン
-MadmateVentMaxTime,Madmate In Vent Max Time,マッドメイトのベント内での最大時間
+MadmateVentCooldown,Madmate Vent Cooldown,マッドメイト系役職のベントクールダウン
+MadmateVentMaxTime,Madmate In Vent Max Time,マッドメイト系役職のベント内での最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
