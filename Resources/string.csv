@@ -101,6 +101,7 @@ SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませ�
 SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
+DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -113,7 +114,6 @@ EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方に�
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
-DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # HideAndSeek
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -303,6 +303,7 @@ Command.h_roles,<RoleName> - Display About Role,<役職名> - 役職の説明を
 Command.h_attributes,<AttributeName> - Display About Attribute,<属性名> - 属性の説明を表示
 Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説明を表示
 Command.dump,Output Log to Desktop,デスクトップにログを出力
+Command.h_args,Available Args (clipped),使用可能な引数 (略称)
 
 CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
 
