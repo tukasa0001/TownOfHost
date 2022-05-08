@@ -58,8 +58,8 @@ Opportunist,Opportunist,オポチュニスト
 Egoist,Egoist,エゴイスト
 
 # HideAndSeek
-Fox,Fox,狐
-Troll,Troll,トロール
+HASFox,Fox,狐
+HASTroll,Troll,トロール
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
@@ -116,8 +116,8 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 
 # HideAndSeek
-FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
-TrollInfo,Die to win,自爆しよう
+HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
+HASTrollInfo,Die to win,自爆しよう
 
 
 ## 役職説明ロング
@@ -163,8 +163,8 @@ OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match
 EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
 
 # HideAndSeek
-FoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
-TrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
+HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
@@ -318,6 +318,8 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
+StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン

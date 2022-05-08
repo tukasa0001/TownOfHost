@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -131,8 +132,12 @@ namespace TownOfHost
             {
                 var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                 if (!hasRole) return false;
-                if (role == CustomRoles.Troll && pc.Data.IsDead)
+                if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                 {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TrollWin, Hazel.SendOption.Reliable, -1);
+                    writer.Write(pc.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPC.TrollWin(pc.PlayerId);
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -193,7 +198,7 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.isSheriff() || main.currentWinner != CustomWinner.Arsonist && pc.isArsonist())
+                if (pc.isSheriff() || (!(main.currentWinner == CustomWinner.Arsonist) && pc.isArsonist()))
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
@@ -234,7 +239,7 @@ namespace TownOfHost
                             else
                             {
                                 //HideAndSeek中
-                                if (role == CustomRoles.Crewmate) numTotalAlive++;
+                                if (role != CustomRoles.HASFox && role != CustomRoles.HASTroll) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&

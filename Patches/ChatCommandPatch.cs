@@ -230,8 +230,8 @@ namespace TownOfHost
                 { CustomRoles.Terrorist,"te" },
                 //HAS
                 { (CustomRoles)(-6),"== Hide and Seek ==" }, //区切り用
-                { CustomRoles.Fox,"fo" },
-                { CustomRoles.Troll,"tr" },
+                { CustomRoles.HASFox,"hfo" },
+                { CustomRoles.HASTroll,"htr" },
 
             };
             var msg = "";
