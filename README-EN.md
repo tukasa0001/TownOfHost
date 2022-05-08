@@ -68,7 +68,8 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
 | [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
 | [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
-| [Madmate](###Madmate)           | [Doctor](###Doctor)                   |                               |
+| [TimeThief](###TimeThief)       | [Doctor](###Doctor)                   |                               |
+| [Madmate](###Madmate)           |                                       |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -166,6 +167,22 @@ Decision : Impostor<br>
 The target of the kill is made to kill the next Crewmate that the target approaches.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
+
+### TimeThief
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+Killing a player decreases the meeting time.<br>
+Also, even if the time thief is expelled or killed, the lost meeting time will not be returned.<br>
+
+#### Settings
+
+| Settings Name                        |
+| ------------------------------------ |
+| TimeThief Decrease DiscussionTime(s) |
+| TimeThief Decrease VotingTime(s)     |
+
 ### Madmate
 
 Team : Impostors<br>
