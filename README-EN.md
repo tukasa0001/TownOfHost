@@ -274,6 +274,14 @@ Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
 
+### Dictator
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
+The dictator dies at the time of the vote.<br>
+
 #### Settings
 
 | Settings Name   |
@@ -398,7 +406,7 @@ Decision : Impostor<br>
 Victory Conditions : Douse all alive crewmates<br>
 
 When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates, they will win.<br>
+If they finish dousing to all alive crewmates and enter vents, they will win.<br>
 
 #### Settings
 
@@ -447,6 +455,24 @@ The conditions for defeat are as follows.<br>
 1.Egoist dies.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
+
+### Executioner
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Target Voted Out<br>
+
+The target is marked with a diamond that is visible only from here.<br>
+If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
+If the target is killed, the position changes.<br>
+If the target is a jester, it wins an additional victory.<br>
+
+#### Settings
+
+| Settings Name                                 |
+| --------------------------------------------- |
+| Executioner Can be Target Impostor            |
+| Executioner Change Role After Target Killed   |
 
 ## Attribute
 

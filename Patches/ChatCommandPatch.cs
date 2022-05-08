@@ -220,6 +220,11 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Terrorist) + getString("TerroristInfoLong"));
                     break;
 
+                case "executioner":
+                case "exe":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Executioner) + getString("ExecutionerInfoLong"));
+                    break;
+
                 case "mafia":
                 case "mf":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia) + getString("MafiaInfoLong"));
@@ -315,6 +320,11 @@ namespace TownOfHost
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Trapper) + getString("TrapperInfoLong"));
                     break;
 
+                case "dictator":
+                case "dic":
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Dictator) + getString("DictatorInfoLong"));
+                    break;
+
                 case "doctor":
                 case "doc":
                     Utils.SendMessage(Utils.getRoleName(CustomRoles.Doctor) + getString("DoctorInfoLong"));
@@ -332,16 +342,16 @@ namespace TownOfHost
 
                 case "fox":
                 case "fo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox) + getString("FoxInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.HASFox) + getString("HASFoxInfoLong"));
                     break;
 
                 case "troll":
                 case "tr":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll) + getString("TrollInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.HASTroll) + getString("HASTrollInfoLong"));
                     break;
 
                 default:
-                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk), puppeteer(pup),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), speedBooster(sb), trapper(tra), doctor(doc), fireworks(fw), fox(fo), troll(tr)");
+                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), executioner(exe), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk), puppeteer(pup),\nsidekickmadmate(sm), warlock(wa), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), speedBooster(sb), trapper(tra), dictator(dic), doctor(doc), fireworks(fw), fox(fo), troll(tr)");
                     break;
             }
 

@@ -90,6 +90,19 @@ namespace TownOfHost
                     }
                 }
             }
+            if (main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.isEnable())
+            { //Executioner単独勝利
+                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == main.WonExecutionerID)
+                    {
+                        TempData.winners.Add(new WinningPlayerData(p.Data));
+                        winner = new();
+                        winner.Add(p);
+                    }
+                }
+            }
             if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
             { //Arsonist単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -125,18 +138,25 @@ namespace TownOfHost
                     winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
-            }
-            //SchrodingerCat
-            if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
+                //SchrodingerCat
+                if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
                     if (pc.isSchrodingerCat() && main.currentWinner == CustomWinner.Crewmate)
                     {
                         TempData.winners.Add(new WinningPlayerData(pc.Data));
                         winner.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
                     }
-                }
+                if (main.currentWinner == CustomWinner.Jester)
+                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                    {
+                        if (main.ExiledJesterID == ExecutionerTarget.Value && pc.PlayerId == ExecutionerTarget.Key)
+                        {
+                            TempData.winners.Add(new WinningPlayerData(pc.Data));
+                            winner.Add(pc);
+                            main.additionalwinners.Add(AdditionalWinners.Executioner);
+                        }
+                    }
+            }
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
@@ -147,24 +167,26 @@ namespace TownOfHost
                 {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
                     if (!hasRole) continue;
-                    if (role == CustomRoles.Crewmate)
+                    if (role.getRoleType() == RoleType.Impostor)
                     {
-                        if (pc.Data.Role.IsImpostor && TempData.DidImpostorsWin(endGameResult.GameOverReason))
-                            winners.Add(pc);
-                        if (!pc.Data.Role.IsImpostor && TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
                             winners.Add(pc);
                     }
-                    if (role == CustomRoles.Fox && !pc.Data.IsDead)
+                    else if (role.getRoleType() == RoleType.Crewmate)
                     {
-                        winners.Add(pc);
-                        main.additionalwinners.Add(AdditionalWinners.Fox);
+                        if (TempData.DidHumansWin(endGameResult.GameOverReason))
+                            winners.Add(pc);
                     }
-                    if (role == CustomRoles.Troll && pc.Data.IsDead)
+                    if (main.currentWinner == CustomWinner.HASTroll)
                     {
-                        main.currentWinner = CustomWinner.Troll;
                         winners = new List<PlayerControl>();
                         winners.Add(pc);
                         break;
+                    }
+                    else if (role == CustomRoles.HASFox && !pc.Data.IsDead)
+                    {
+                        winners.Add(pc);
+                        main.additionalwinners.Add(AdditionalWinners.HASFox);
                     }
                 }
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
@@ -215,34 +237,44 @@ namespace TownOfHost
             {
                 //通常勝利
                 case CustomWinner.Impostor:
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Impostor)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Impostor);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Impostor);
                     break;
                 case CustomWinner.Crewmate:
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Crewmate)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Crewmate);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Crewmate);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Jester);
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Jester)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Jester);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Jester);
                     break;
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
                     __instance.BackgroundBar.material.color = Color.green;
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Terrorist)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Terrorist);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Terrorist);
+                    break;
+                case CustomWinner.Executioner:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Executioner);
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Executioner);
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Executioner);
                     break;
                 case CustomWinner.Arsonist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Arsonist);
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Arsonist)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Arsonist);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Arsonist);
                     break;
                 case CustomWinner.Egoist:
                     __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.Egoist);
-                    CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Egoist)}";
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.Egoist);
                     CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Egoist);
+                    break;
+                case CustomWinner.HASTroll:
+                    __instance.BackgroundBar.material.color = Utils.getRoleColor(CustomRoles.HASTroll);
+                    CustomWinnerText = Utils.getRoleName(CustomRoles.HASTroll);
+                    CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.HASTroll);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
@@ -257,33 +289,16 @@ namespace TownOfHost
             foreach (var additionalwinners in main.additionalwinners)
             {
                 if (main.additionalwinners.Contains(AdditionalWinners.Opportunist))
-                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Opportunist)}>{Utils.getRoleName(CustomRoles.Opportunist)}</color>";
-                }
+
                 if (main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
-                {
                     AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.getRoleName(CustomRoles.SchrodingerCat)}</color>";
-                }
-                if (main.additionalwinners.Contains(AdditionalWinners.Fox))
-                {
-                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Fox)}>{Utils.getRoleName(CustomRoles.Fox)}</color>";
-                }
-            }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-            {
-                foreach (var p in PlayerControl.AllPlayerControls)
-                {
-                    if (p.Data.IsDead)
-                    {
-                        var hasRole = main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
-                        if (hasRole && role == CustomRoles.Troll)
-                        {
-                            __instance.BackgroundBar.material.color = Color.green;
-                            CustomWinnerText = $"{Utils.getRoleName(CustomRoles.Troll)}";
-                            CustomWinnerColor = Utils.getRoleColorCode(CustomRoles.Troll);
-                        }
-                    }
-                }
+
+                if (main.additionalwinners.Contains(AdditionalWinners.Executioner))
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>{Utils.getRoleName(CustomRoles.Executioner)}</color>";
+
+                if (main.additionalwinners.Contains(AdditionalWinners.HASFox))
+                    AdditionalWinnerText += $"＆<color={Utils.getRoleColorCode(CustomRoles.HASFox)}>{Utils.getRoleName(CustomRoles.HASFox)}</color>";
             }
             if (main.currentWinner != CustomWinner.Draw)
             {
