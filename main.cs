@@ -96,6 +96,7 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static Dictionary<(byte, byte), string> targetArrows = new();
+        public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonExecutionerID;
@@ -324,7 +325,7 @@ namespace TownOfHost
         Executioner,
         Arsonist,
         Egoist,
-        Troll
+        HASTroll
     }
     public enum AdditionalWinners
     {
@@ -337,7 +338,7 @@ namespace TownOfHost
     /*public enum CustomRoles : byte
     {
         Default = 0,
-        Troll = 1,
+        HASTroll = 1,
         HASHox = 2
     }*/
     public enum SuffixModes
