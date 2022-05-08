@@ -225,8 +225,6 @@ namespace TownOfHost
 
             switch (player.getCustomRole())
             {
-                case CustomRoles.Madmate:
-                    goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
@@ -313,8 +311,8 @@ namespace TownOfHost
 
 
                 InfinityVent:
-                    opt.RoleOptions.EngineerCooldown = 0;
-                    opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     break;
             }
             CustomRoles role = player.getCustomRole();
@@ -322,6 +320,8 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
                     break;
