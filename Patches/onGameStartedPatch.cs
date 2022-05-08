@@ -307,9 +307,9 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
-                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
@@ -322,6 +322,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
