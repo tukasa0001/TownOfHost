@@ -1,4 +1,3 @@
-
 using Hazel;
 using HarmonyLib;
 using System.Collections.Generic;
