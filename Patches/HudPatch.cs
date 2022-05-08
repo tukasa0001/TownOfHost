@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 using UnhollowerBaseLib;
+using System.Collections.Generic;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -243,30 +244,33 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.CoShowIntro))]
-    class CoShowIntroPatch {
-        public static void Prefix(HudManager __instance) {
+    class CoShowIntroPatch
+    {
+        public static void Prefix(HudManager __instance)
+        {
             Logger.info("--------名前表示--------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name; 
+                pc.nameText.text = pc.name;
             }
             Logger.info("------役職割り当て------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}");
             }
             Logger.info("----------環境----------");
-            foreach(var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone","")}";
-                if(main.playerVersion.TryGetValue(pc.PlayerId,out PlayerVersion pv))
+                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
+                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                 {
                     text += $":Mod({pv.version}:";
                     text += $"{pv.tag})";
-                }else text += ":Vanilla";
+                }
+                else text += ":Vanilla";
                 Logger.info(text);
             }
             Logger.info("--------基本設定--------");
