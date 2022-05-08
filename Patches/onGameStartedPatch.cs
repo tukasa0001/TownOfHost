@@ -383,7 +383,7 @@ namespace TownOfHost
                         foreach (var seer in PlayerControl.AllPlayerControls)
                         {
                             if (seer == pc) continue;
-                            if (pc.getCustomRole().isImpostor() || pc.Is(CustomRoles.)) //変更対象がインポスター陣営orエゴイスト
+                            if (pc.getCustomRole().isImpostor() || pc.Is(CustomRoles.Egoist)) //変更対象がインポスター陣営orエゴイスト
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
                         }
                     }
