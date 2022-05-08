@@ -45,6 +45,14 @@ namespace TownOfHost
             "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
         };
+        public static readonly string[] ExecutionerChangeRoles =
+        {
+            CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
+        };
+        public static readonly CustomRoles[] CRoleExecutionerChangeRoles =
+        {
+            CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
+        };
 
         // 各役職の詳細設定
         public static CustomOption EnableLastImpostor;
@@ -83,6 +91,7 @@ namespace TownOfHost
         public static CustomOption SheriffCanKillOpportunist;
         public static CustomOption SheriffCanKillEgoist;
         public static CustomOption SheriffCanKillEgoShrodingerCat;
+        public static CustomOption SheriffCanKillExecutioner;
         public static CustomOption SheriffCanKillCrewmatesAsIt;
         public static CustomOption SheriffShotLimit;
         public static CustomOption SnitchEnableTargetArrow;
@@ -95,6 +104,8 @@ namespace TownOfHost
         public static CustomOption ArsonistCooldown;
         public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
         public static CustomOption SchrodingerCatExiledTeamChanges;
+        public static CustomOption ExecutionerCanTargetImpostor;
+        public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -278,6 +289,7 @@ namespace TownOfHost
             SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillEgoist = CustomOption.Create(20418, Color.white, "SheriffCanKillEgoist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillEgoShrodingerCat = CustomOption.Create(20419, Color.white, "SheriffCanKillEgoShrodingerCat", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillExecutioner = CustomOption.Create(20419, Color.white, "SheriffCanKillExecutioner", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SetupRoleOptions(20500, CustomRoles.Snitch);
@@ -290,7 +302,8 @@ namespace TownOfHost
             DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
-            // Other
+            SetupRoleOptions(20900, CustomRoles.Dictator);
+            // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
@@ -303,7 +316,11 @@ namespace TownOfHost
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SetupRoleOptions(50600, CustomRoles.Egoist);
+            SetupRoleOptions(50700, CustomRoles.Executioner);
+            ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
 
+            // Attribute
             EnableLastImpostor = CustomOption.Create(80000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)

@@ -45,10 +45,12 @@ Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
+Dictator,Dictator,ディクテーター
 
 # 第三陣営役職
 Jester,Jester,ジェスター
 Terrorist,Terrorist,テロリスト
+Executioner,Executioner,エクスキューショナー
 SchrodingerCat,SchrodingerCat,シュレディンガーの猫
 CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
@@ -111,7 +113,17 @@ CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方
 MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
 EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
+ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
+BaitInfo,Bait your enemies,敵を罠にはめよう
+LighterInfo,Let's light it all up,すべてを照らそう
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
+SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
+SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
+SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
+SpeedBoosterInfo,Let's them run.,走らせろ
+TrapperInfo,Trap your enemies,敵を罠にはめよう
+DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # HideAndSeek
 FoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -150,11 +162,13 @@ SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the I
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
 DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
+DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
 
 # 第三陣営役職
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。
 TerroristInfoLong,(Neutrals):\nThe player wins alone when killed or exiled with all of his tasks completed.,(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
+ExecutionerInfoLong,"(Neutrals):\nThe target is marked with a diamond that is visible only from here.\nIf the vote expels the person with diamonds on his/her head, he/she wins alone. If the target is killed, the position changes.\nIf the target is a jester, it wins an additional victory.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。
 SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
@@ -237,6 +251,7 @@ SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
+SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
@@ -250,6 +265,8 @@ SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル�
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
+ExecutionerCanTargetImpostor,Executioner Can be Target Impostor,ｴｸｽｷｭｰｼｮﾅｰがインポスターもターゲットにできる
+ExecutionerChangeRolesAfterTargetKilled,Executioner Change Role After Target Killed,ｴｸｽｷｭｰｼｮﾅｰのターゲットがキルされた後に変化する役職
 SerialKillerCooldown,SerialKiller's KillCooldown,シリアルキラーのキルクール
 SerialKillerLimit,SerialKiller's timelimit,シリアルキラーが自爆する時間
 ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
