@@ -23,7 +23,8 @@ namespace TownOfHost
             main.WarlockTimer = new Dictionary<byte, float>();
             main.BountyTimer = new Dictionary<byte, float>();
             main.isDoused = new Dictionary<(byte, byte), bool>();
-            main.DousedPlayerCount = new Dictionary<byte, int>();
+            main.DousedPlayerCount = new Dictionary<byte, (int, int)>();
+            main.isDeadDoused = new Dictionary<byte, bool>();
             main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             main.BountyTargets = new Dictionary<byte, PlayerControl>();
             main.isTargetKilled = new Dictionary<byte, bool>();
@@ -346,6 +347,7 @@ namespace TownOfHost
                 main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    main.isDeadDoused[pc.PlayerId] = false;
                     if (pc.Is(CustomRoles.Sheriff))
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
@@ -367,7 +369,9 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
-                        main.DousedPlayerCount.Add(pc.PlayerId, PlayerControl.AllPlayerControls.Count - 1);
+                        var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
+                        main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
+                        pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);

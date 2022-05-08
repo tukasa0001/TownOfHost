@@ -112,6 +112,10 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
+
+                DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
@@ -206,14 +210,9 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
+                case CustomRoles.Arsonist:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
-                    __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Arsonist:
-                    __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);

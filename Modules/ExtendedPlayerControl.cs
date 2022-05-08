@@ -546,6 +546,14 @@ namespace TownOfHost
             main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
+        public static void RpcSendDousedPlayerCount(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendDousedPlayerCount, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.DousedPlayerCount[player.PlayerId].Item1);
+            writer.Write(main.DousedPlayerCount[player.PlayerId].Item2);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
         {
             var rand = new System.Random();
@@ -589,6 +597,29 @@ namespace TownOfHost
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
+        }
+        public static void CanUseImpostorVent(this PlayerControl player)
+        {
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.Sheriff:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
+                    player.Data.Role.CanVent = false;
+                    return;
+                case CustomRoles.Arsonist:
+                    bool CanUse = player.isDouseDone();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = CanUse;
+                    return;
+            }
+        }
+        public static bool isDouseDone(this PlayerControl player)
+        {
+            if (!main.DousedPlayerCount.ContainsKey(player.PlayerId)) return false;
+            if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
+                return true;
+
+            return false;
         }
 
         //汎用
