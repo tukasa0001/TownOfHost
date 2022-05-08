@@ -330,8 +330,8 @@ namespace TownOfHost
             #endregion
 
             // HideAndSeek
-            SetupRoleOptions(100000, CustomRoles.Fox, CustomGameMode.HideAndSeek);
-            SetupRoleOptions(100100, CustomRoles.Troll, CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100000, CustomRoles.HASFox, CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100100, CustomRoles.HASTroll, CustomGameMode.HideAndSeek);
             AllowCloseDoors = CustomOption.Create(101000, Color.white, "AllowCloseDoors", false, null, true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             KillDelay = CustomOption.Create(101001, Color.white, "HideAndSeekWaitingTime", 10, 0, 180, 5)
