@@ -537,7 +537,7 @@ namespace TownOfHost
                     }
                 }
 
-                LoversSuicide();
+                if (GameStates.isInGame) LoversSuicide();
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var ar_target = main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
