@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -133,6 +134,10 @@ namespace TownOfHost
                 if (!hasRole) return false;
                 if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                 {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TrollWin, Hazel.SendOption.Reliable, -1);
+                    writer.Write(pc.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPC.TrollWin(pc.PlayerId);
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -234,7 +239,7 @@ namespace TownOfHost
                             else
                             {
                                 //HideAndSeek中
-                                if (role == CustomRoles.Crewmate) numTotalAlive++;
+                                if (role != CustomRoles.HASFox && role != CustomRoles.HASTroll) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&

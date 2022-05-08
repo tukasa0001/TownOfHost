@@ -12,6 +12,7 @@ namespace TownOfHost
         VersionCheck = 60,
         SyncCustomSettings = 80,
         SetDeathReason,
+        TrollWin,
         JesterExiled,
         TerroristWin,
         ExecutionerWin,
@@ -85,6 +86,10 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SetDeathReason:
                     RPC.GetDeathReason(reader);
+                    break;
+                case CustomRPC.TrollWin:
+                    byte wonTroll = reader.ReadByte();
+                    RPC.TrollWin(wonTroll);
                     break;
                 case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
@@ -227,6 +232,12 @@ namespace TownOfHost
             PlayerState.isDead[playerId] = true;
         }
 
+        public static void TrollWin(byte trollID)
+        {
+            main.WonTrollID = trollID;
+            main.currentWinner = CustomWinner.HASTroll;
+            CustomWinTrigger(trollID);
+        }
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;
