@@ -14,6 +14,7 @@ namespace TownOfHost
                 role == CustomRoles.Warlock ||
                 role == CustomRoles.Obstacle ||
                 role == CustomRoles.SerialKiller ||
+                role == CustomRoles.Puppeteer ||
                 role == CustomRoles.EvilWatcher ||
                 role == CustomRoles.Mafia;
         }
@@ -34,11 +35,12 @@ namespace TownOfHost
                 role == CustomRoles.Opportunist ||
                 role == CustomRoles.SchrodingerCat ||
                 role == CustomRoles.Terrorist ||
+                role == CustomRoles.Executioner ||
                 role == CustomRoles.Arsonist ||
                 role == CustomRoles.Egoist ||
                 role == CustomRoles.EgoSchrodingerCat ||
-                role == CustomRoles.Troll ||
-                role == CustomRoles.Fox;
+                role == CustomRoles.HASTroll ||
+                role == CustomRoles.HASFox;
         }
         public static bool isVanilla(this CustomRoles role)
         {

@@ -200,6 +200,7 @@ namespace TownOfHost
             }
             Logger.SendInGame("サボタージュ" + player.PlayerId);
             Utils.CustomSyncAllSettings();
+            new LateTask(() => Utils.NotifyRoles(), 0.1f, "RepairSystem NotifyRoles");
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
@@ -266,6 +267,8 @@ namespace TownOfHost
                 {
                     PlayerState.InitTask(pc);
                 }
+                Utils.CountAliveImpostors();
+                Utils.NotifyRoles();
             }
         }
     }

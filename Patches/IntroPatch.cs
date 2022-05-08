@@ -34,8 +34,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.getRoleType() == RoleType.Neutral)
+            if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -71,6 +70,10 @@ namespace TownOfHost
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
+                    break;
+
+                case CustomRoles.Executioner:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
 
                 case CustomRoles.Vampire:
