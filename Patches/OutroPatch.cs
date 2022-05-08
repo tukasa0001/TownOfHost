@@ -26,9 +26,7 @@ namespace TownOfHost
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    CustomRoles role = p.getCustomRole();
-                    RoleType roleType = role.getRoleType();
-                    bool canWin = roleType == RoleType.Crewmate;
+                    bool canWin = p.Is(RoleType.Crewmate);
                     if (canWin) winner.Add(p);
                 }
             }
@@ -38,9 +36,7 @@ namespace TownOfHost
                     main.currentWinner = CustomWinner.Impostor;
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    CustomRoles role = p.getCustomRole();
-                    RoleType roleType = role.getRoleType();
-                    bool canWin = roleType == RoleType.Impostor || roleType == RoleType.Madmate;
+                    bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
                     if (main.currentWinner == CustomWinner.Impostor && p.isEgoist() && !p.Data.IsDead && main.AliveImpostorCount == 0)
                         main.currentWinner = CustomWinner.Egoist;

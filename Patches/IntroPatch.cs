@@ -34,8 +34,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.getRoleType() == RoleType.Neutral)
+            if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
