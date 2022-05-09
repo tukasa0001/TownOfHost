@@ -266,11 +266,11 @@ namespace TownOfHost
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                 }
-                if (PlayerControl.LocalPlayer.isLovers() && target.isLovers())
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
                 {
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
-                else if (PlayerControl.LocalPlayer.Data.IsDead && target.isLovers())
+                else if (PlayerControl.LocalPlayer.Data.IsDead && target.Is(CustomRoles.Lovers))
                 {
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }

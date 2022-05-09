@@ -774,11 +774,11 @@ namespace TownOfHost
                     }
 
                     //ハートマークを付ける(会議中MOD視点)
-                    if (__instance.isLovers() && PlayerControl.LocalPlayer.isLovers())
+                    if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                     }
-                    else if (__instance.isLovers() && PlayerControl.LocalPlayer.Data.IsDead)
+                    else if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Data.IsDead)
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                     }
