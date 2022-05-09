@@ -310,6 +310,10 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.Mayor:
+                    opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
 
 
                 InfinityVent:

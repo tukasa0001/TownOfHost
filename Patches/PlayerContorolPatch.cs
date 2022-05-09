@@ -912,6 +912,15 @@ namespace TownOfHost
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+            if (pc.isMayor())
+            {
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                if (main.MayorUsedButtonCount[pc.PlayerId] <= Options.MayorNumOfUseButton.GetFloat())
+                {
+                    main.MayorUsedButtonCount[pc.PlayerId] += 1;
+                    pc.CmdReportDeadBody(null);
+                }
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]

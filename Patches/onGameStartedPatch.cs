@@ -45,6 +45,7 @@ namespace TownOfHost
             main.witchMeeting = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
             main.SpeedBoostTarget = new Dictionary<byte, byte>();
+            main.MayorUsedButtonCount = new Dictionary<byte, int>();
             main.targetArrows = new();
 
             Options.UsedButtonCount = 0;
@@ -106,6 +107,8 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
+                if (Options.MayorHasPortableButton.GetBool())
+                    AdditionalEngineerNum += CustomRoles.Mayor.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -269,7 +272,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
@@ -377,6 +380,8 @@ namespace TownOfHost
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
                         Logger.info($"{pc.name}:{Target.name}", "Executioner");
                     }
+                    if (pc.Is(CustomRoles.Mayor))
+                        main.MayorUsedButtonCount[pc.PlayerId] = 0;
                 }
 
                 //役職の人数を戻す
@@ -387,6 +392,8 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
+                if (Options.MayorHasPortableButton.GetBool())
+                    EngineerNum -= CustomRoles.Mayor.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);

@@ -75,6 +75,8 @@ namespace TownOfHost
 
         public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
+        public static CustomOption MayorHasPortableButton;
+        public static CustomOption MayorNumOfUseButton;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
         public static CustomOption SabotageMasterFixesReactors;
@@ -275,6 +277,8 @@ namespace TownOfHost
             SetupRoleOptions(20100, CustomRoles.Lighter);
             SetupRoleOptions(20200, CustomRoles.Mayor);
             MayorAdditionalVote = CustomOption.Create(20210, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
+            MayorHasPortableButton = CustomOption.Create(20211, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
+            MayorNumOfUseButton = CustomOption.Create(20212, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SetupRoleOptions(20300, CustomRoles.SabotageMaster);
             SabotageMasterSkillLimit = CustomOption.Create(20310, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesDoors = CustomOption.Create(20311, Color.white, "SabotageMasterFixesDoors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);

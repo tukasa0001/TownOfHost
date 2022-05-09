@@ -74,6 +74,8 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
+                if (pc.Is(CustomRoles.Mayor))
+                    pc.RpcGuardAndKill();
                 if (PlayerControl.GameOptions.MapId != 4)
                 {
                     if (pc.isSerialKiller())
