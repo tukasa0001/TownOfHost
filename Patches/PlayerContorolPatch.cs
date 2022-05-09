@@ -753,7 +753,12 @@ namespace TownOfHost
                         main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
+                    if (Sniper.isEnable() && target.AmOwner)
+                    {
+                        //銃声が聞こえるかチェック
+                        Mark += Sniper.GetShotNotify(target.PlayerId);
 
+                    }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if (!GameStates.isMeeting && target.getCustomRole().isImpostor()
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.isEgoist()))

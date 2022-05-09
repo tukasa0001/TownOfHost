@@ -10,12 +10,14 @@ namespace TownOfHost
     public static class Sniper
     {
         static int Id = 1800;
+        static List<byte> playeridList = new();
 
         static CustomOption SniperBulletCount;
         static CustomOption SniperPrecisionShooting;
 
         static Dictionary<byte, Vector3> snipeBasePosition = new();
         static Dictionary<byte, int> bulletCount = new();
+        static Dictionary<byte, List<byte>> shotNortify = new();
         static int maxBulletCount;
         static bool precisionshooting;
         public static void SetupCustomOption()
@@ -26,29 +28,63 @@ namespace TownOfHost
         }
         public static void Init()
         {
+            playeridList = new();
             snipeBasePosition = new();
             bulletCount = new();
+            shotNortify = new();
             maxBulletCount = SniperBulletCount.GetInt();
             precisionshooting = SniperPrecisionShooting.GetBool();
         }
         public static void Add(byte playerId)
         {
+            playeridList.Add(playerId);
             snipeBasePosition[playerId] = new();
             bulletCount[playerId] = maxBulletCount;
+            shotNortify[playerId] = new();
         }
-        public static void SendRPC(byte playerId)
+        public static bool isEnable()
+        {
+            return playeridList.Count > 0;
+        }
+        public static void SendRPC(byte playerId, bool notify = false)
         {
             Logger.info($"Player{playerId}:SendRPC", "Sniper");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SniperSync, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
-            writer.Write(bulletCount[playerId]);
+            writer.Write(notify);
+            if (notify)
+            {
+                var snList = shotNortify[playerId];
+                writer.Write(snList.Count());
+                foreach (var sn in snList)
+                {
+                    writer.Write(sn);
+                }
+            }
+            else
+            {
+                writer.Write(bulletCount[playerId]);
+            }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
         public static void RecieveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
-            bulletCount[playerId] = msg.ReadInt32();
+            var notify = msg.ReadBoolean();
+            if (notify)
+            {
+                shotNortify[playerId].Clear();
+                var count = msg.ReadInt32();
+                while (count > 0)
+                {
+                    shotNortify[playerId].Add(msg.ReadByte());
+                }
+            }
+            else
+            {
+                bulletCount[playerId] = msg.ReadInt32();
+            }
             Logger.info($"Player{playerId}:RecieveRPC", "Sniper");
         }
         public static bool CanUseKillButton(PlayerControl pc)
@@ -125,10 +161,23 @@ namespace TownOfHost
 
                     //スナイプが起きたことを聞こえそうな対象に通知したい
                     dot_list.Remove(snipedTarget);
+                    var snList = shotNortify[pc.PlayerId];
+                    snList.Clear();
                     foreach (var otherPc in dot_list.Keys)
                     {
+                        snList.Add(otherPc.PlayerId);
                         //otherPc.RpcGuardAndKill();
                     }
+                    SendRPC(pc.PlayerId, true);
+                    new LateTask(
+                        () =>
+                        {
+                            snList.Clear();
+                            SendRPC(pc.PlayerId, true);
+                            Utils.NotifyRoles();
+                        },
+                        0.5f, "Sniper shot Notify"
+                        );
                 }
             }
             SendRPC(pc.PlayerId);
@@ -137,6 +186,18 @@ namespace TownOfHost
         public static string GetBulletCount(PlayerControl pc)
         {
             return $"<color=#ffff00>({bulletCount[pc.PlayerId]})</color>";
+        }
+        public static string GetShotNotify(byte seer)
+        {
+            foreach (var sniper in playeridList)
+            {
+                var snList = shotNortify[sniper];
+                if (snList.Count() > 0 && snList.Contains(seer))
+                {
+                    return $"<color=#ff0000><size=200%>!</size></color>";
+                }
+            }
+            return "";
         }
     }
 }

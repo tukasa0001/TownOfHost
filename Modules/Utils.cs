@@ -477,6 +477,12 @@ namespace TownOfHost
                 //呪われている場合
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
+
+                if (Sniper.isEnable())
+                {
+                    //銃声が聞こえるかチェック
+                    SelfMark += Sniper.GetShotNotify(seer.PlayerId);
+                }
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
