@@ -48,11 +48,15 @@ namespace TownOfHost
 
             CustomRoles role = RoleNullable.Value;
 
-            bool doOverride = false;
+            bool doOverride = false; // タスク数を上書きするかどうか
+                                     // falseの時、タスクの内容が変更される前にReturnされる。
 
-            bool hasCommonTasks = true;
-            int NumLongTasks = main.RealOptionsData.NumLongTasks;
-            int NumShortTasks = main.RealOptionsData.NumShortTasks;
+            bool hasCommonTasks = true; // コモンタスク(通常タスク)を割り当てるかどうか
+                                        // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+
+            int NumLongTasks = main.RealOptionsData.NumLongTasks; // 割り当てるロングタスクの数
+            int NumShortTasks = main.RealOptionsData.NumShortTasks; // 割り当てるショートタスクの数
+                                                                    // ロングとショートは常時再割り当てが行われる。
 
             /* タスク数の上書き用のデータを変更する処理 */
 
