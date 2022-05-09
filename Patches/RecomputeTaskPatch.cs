@@ -41,7 +41,7 @@ namespace TownOfHost
 
             Utils.NotifyRoles();
             foreach (var p in __instance.AllPlayers)
-                if (p.Object.getCustomRole() == CustomRoles.Lighter || p.Object.isSpeedBooster() || p.Object.isDoctor())
+                if (p.Object.getCustomRole() == CustomRoles.Lighter || p.Object.Is(CustomRoles.SpeedBooster) || p.Object.Is(CustomRoles.Doctor))
                     Utils.CustomSyncAllSettings();//ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
         }
     }
