@@ -52,29 +52,7 @@ namespace TownOfHost
                 role == CustomRoles.Impostor ||
                 role == CustomRoles.Shapeshifter;
         }
-        public static bool CanUseKillButton(this CustomRoles role)
-        {
-            bool canUse =
-                role.isImpostor() ||
-                role == CustomRoles.Sheriff ||
-                role == CustomRoles.Arsonist;
 
-            if (role == CustomRoles.Mafia)
-            {
-                int AliveImpostorCount = 0;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    CustomRoles pc_role = pc.getCustomRole();
-                    if (pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
-                }
-                if (AliveImpostorCount > 0) canUse = false;
-            }
-            if (role == CustomRoles.Mare)
-            {
-                if (!Utils.isActive(SystemTypes.Electrical)) canUse = false;
-            }
-            return canUse;
-        }
         public static RoleType getRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
