@@ -278,9 +278,11 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name                |
-| ---------------------------- |
-| Mayor Additional Votes Count |
+| Settings Name                       |
+| ----------------------------------- |
+| Mayor Additional Votes Count        |
+| Mayor Has PortableButton            |
+| Mayor Number Of Use Portable Button |
 
 ### SabotageMaster
 
