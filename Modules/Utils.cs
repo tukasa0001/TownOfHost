@@ -612,7 +612,6 @@ namespace TownOfHost
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-
                         if (seer.Is(CustomRoles.Arsonist) && seer.isDousedPlayer(target))
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
