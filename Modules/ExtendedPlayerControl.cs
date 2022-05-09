@@ -678,7 +678,6 @@ namespace TownOfHost
         public static bool isMSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.MSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoSchrodingerCat(this PlayerControl target) { return target.getCustomRole() == CustomRoles.EgoSchrodingerCat; } //シュレディンガーの猫の派生
         public static bool isEgoist(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Egoist; }
-        public static bool isMare(this PlayerControl target) { return target.getCustomRole() == CustomRoles.Mare; }
 
         //サブ役職
     }
