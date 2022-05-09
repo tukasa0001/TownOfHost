@@ -167,14 +167,20 @@ The target of the kill is made to kill the next Crewmate that the target approac
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
 
-### Sniper/
+### Sniper
 
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
 Sniper can long-range shooting. <br>
 Kills targets that are on the extension of the shape-shifted point to the released point. <br>
+The crew on the line of sight will be notified of the shooting sound. <br>
 You cannot normally kill until the bullet is cut off. <br>
+
+Precision Shooting:OFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+Precision Shooting:ON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
 
 #### Settings
 
