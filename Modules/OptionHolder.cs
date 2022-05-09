@@ -161,6 +161,7 @@ namespace TownOfHost
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static CustomOption GhostCanSeeOtherRoles;
+        public static CustomOption GhostCanSeeOtherVotes;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -405,6 +406,8 @@ namespace TownOfHost
             SuffixMode = CustomOption.Create(100602, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(100603, Color.white, "GhostCanSeeOtherRoles", true)
+                .SetGameMode(CustomGameMode.All);
+            GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;

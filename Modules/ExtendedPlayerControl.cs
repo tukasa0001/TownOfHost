@@ -352,7 +352,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (player.Data.IsDead && opt.AnonymousVotes)
+            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
