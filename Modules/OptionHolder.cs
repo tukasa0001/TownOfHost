@@ -156,6 +156,28 @@ namespace TownOfHost
         public static CustomOption PolusReactorTimeLimit;
         public static CustomOption AirshipReactorTimeLimit;
 
+        // タスク上書き
+        // MadGuardian
+        public static CustomOption MadGuardian_doOverride;
+        public static CustomOption MadGuardian_assignCommonTasks;
+        public static CustomOption MadGuardian_numLongTasks;
+        public static CustomOption MadGuardian_numShortTasks;
+        // Terrorist
+        public static CustomOption Terrorist_doOverride;
+        public static CustomOption Terrorist_assignCommonTasks;
+        public static CustomOption Terrorist_numLongTasks;
+        public static CustomOption Terrorist_numShortTasks;
+        // Snitch
+        public static CustomOption Snitch_doOverride;
+        public static CustomOption Snitch_assignCommonTasks;
+        public static CustomOption Snitch_numLongTasks;
+        public static CustomOption Snitch_numShortTasks;
+        // MadSnitch
+        public static CustomOption MadSnitch_doOverride;
+        public static CustomOption MadSnitch_assignCommonTasks;
+        public static CustomOption MadSnitch_numLongTasks;
+        public static CustomOption MadSnitch_numShortTasks;
+
         // その他
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
@@ -421,6 +443,20 @@ namespace TownOfHost
 
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
+        }
+        private static void SetupTaskOverrideOptions(
+            int idStart,
+            CustomRoles role,
+            ref CustomOption doOverride,
+            ref CustomOption assignCommonTasks,
+            ref CustomOption numLongTasks,
+            ref CustomOption numShortTasks
+        )
+        {
+            doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role]);
+            assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride);
+            numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
+            numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
         }
 
     }
