@@ -436,7 +436,9 @@ namespace TownOfHost
         }
         public class OverrideTasksData
         {
-            public CustomRoles role { get; private set; }
+            public static Dictionary<CustomRoles, OverrideTasksData> AllData;
+            public CustomRoles role
+            { get; private set; }
             public int idStart { get; private set; }
             public CustomOption doOverride;
             public CustomOption assignCommonTasks;
@@ -451,6 +453,15 @@ namespace TownOfHost
                 assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride);
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
                 numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
+
+                if (!AllData.ContainsKey(role))
+                {
+                    AllData.Add(role, this);
+                }
+                else
+                {
+                    Logger.warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました");
+                }
             }
             public static OverrideTasksData Create(int idStart, CustomRoles role)
             {
