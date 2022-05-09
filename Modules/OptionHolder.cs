@@ -70,7 +70,6 @@ namespace TownOfHost
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
-        public static CustomOption MadSnitchTasks;
         public static CustomOption CanMakeMadmateCount;
 
         public static CustomOption EvilWatcherChance;
@@ -157,23 +156,10 @@ namespace TownOfHost
         public static CustomOption AirshipReactorTimeLimit;
 
         // タスク上書き
-        // MadGuardian
         public static OverrideTasksData MadGuardianTasks;
-        // Terrorist
-        public static CustomOption Terrorist_doOverride;
-        public static CustomOption Terrorist_assignCommonTasks;
-        public static CustomOption Terrorist_numLongTasks;
-        public static CustomOption Terrorist_numShortTasks;
-        // Snitch
-        public static CustomOption Snitch_doOverride;
-        public static CustomOption Snitch_assignCommonTasks;
-        public static CustomOption Snitch_numLongTasks;
-        public static CustomOption Snitch_numShortTasks;
-        // MadSnitch
-        public static CustomOption MadSnitch_doOverride;
-        public static CustomOption MadSnitch_assignCommonTasks;
-        public static CustomOption MadSnitch_numLongTasks;
-        public static CustomOption MadSnitch_numShortTasks;
+        public static OverrideTasksData TerroristTasks;
+        public static OverrideTasksData SnitchTasks;
+        public static OverrideTasksData MadSnitchTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -283,7 +269,8 @@ namespace TownOfHost
             MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             //ID10120~10123を使用
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
-            MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
+            //ID10220~10223を使用
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, null, true);
             MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false);
@@ -319,6 +306,8 @@ namespace TownOfHost
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
+            //20520~20523を使用
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
@@ -335,6 +324,8 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
+            SnitchTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
+            //50220~50223を使用
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
