@@ -548,6 +548,7 @@ namespace TownOfHost
                     || seer.isExecutioner()
                     || seer.isDoctor() //seerがドクター
                     || seer.isPuppeteer()
+                    || isActive(SystemTypes.Electrical)
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -606,6 +607,8 @@ namespace TownOfHost
                             TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
                         else if (seer.isEgoSchrodingerCat() && target.isEgoist())
                             TargetPlayerName = $"<color={getRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
+                        else if (Utils.isActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
+                            TargetPlayerName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{TargetPlayerName}</color>"; //targetの赤色で表示
                         else
                         {
                             //NameColorManager準拠の処理

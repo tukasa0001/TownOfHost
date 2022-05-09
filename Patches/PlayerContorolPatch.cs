@@ -722,6 +722,8 @@ namespace TownOfHost
                         target.isEgoist() //targetがエゴイスト
                     )
                         RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
+                    else if (Utils.isActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare))
+                        RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの赤色で表示
                     else if (seer != null)
                     {//NameColorManager準拠の処理
                         var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
