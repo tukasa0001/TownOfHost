@@ -105,12 +105,16 @@ namespace TownOfHost
             {
                 //変身のタイミングでスナイプ地点の登録
                 snipeBasePosition[pc.PlayerId] = pc.transform.position;
+                SendRPC(pc.PlayerId);
             }
             else
             {
                 Dictionary<PlayerControl, float> dot_list = new();
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
+                SendRPC(pc.PlayerId);
+                Utils.NotifyRoles();
+
                 //変身開始地点→解除地点のベクトル
                 var snipeBasePos = snipeBasePosition[pc.PlayerId];
                 var snipePos = pc.transform.position;
@@ -138,14 +142,13 @@ namespace TownOfHost
                         {
                             //ある程度正確なら登録
                             dot_list.Add(target, err);
-
                         }
                     }
                     else
                     {
                         if (target_dot < 0.98) continue;
                         //ある程度正確なら登録
-                        var err = 1 - target_dot;
+                        var err = target_pos.magnitude;
                         Logger.info($"  err={err}", "Sniper");
                         dot_list.Add(target, err);
                     }
@@ -158,30 +161,39 @@ namespace TownOfHost
                     snipedTarget.RpcMurderPlayer(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
-
-                    //スナイプが起きたことを聞こえそうな対象に通知したい
-                    dot_list.Remove(snipedTarget);
-                    var snList = shotNortify[pc.PlayerId];
-                    snList.Clear();
-                    foreach (var otherPc in dot_list.Keys)
+                    if (snipedTarget.Is(CustomRoles.Trapper))
                     {
-                        snList.Add(otherPc.PlayerId);
-                        //otherPc.RpcGuardAndKill();
+                        pc.TrapperKilled(snipedTarget);
                     }
-                    SendRPC(pc.PlayerId, true);
-                    new LateTask(
-                        () =>
+                    if (snipedTarget.Is(CustomRoles.Bait))
+                    {
+                        Logger.SendToFile(snipedTarget.name + "はBaitだった");
+                        new LateTask(() => pc.CmdReportDeadBody(snipedTarget.Data), 0.15f, "Bait Self Report");
+                    }
+                    else
+                    {
+                        //スナイプが起きたことを聞こえそうな対象に通知したい
+                        dot_list.Remove(snipedTarget);
+                        var snList = shotNortify[pc.PlayerId];
+                        snList.Clear();
+                        foreach (var otherPc in dot_list.Keys)
                         {
-                            snList.Clear();
-                            SendRPC(pc.PlayerId, true);
-                            Utils.NotifyRoles();
-                        },
-                        0.5f, "Sniper shot Notify"
-                        );
+                            snList.Add(otherPc.PlayerId);
+                            //otherPc.RpcGuardAndKill();
+                        }
+                        SendRPC(pc.PlayerId, true);
+                        new LateTask(
+                            () =>
+                            {
+                                snList.Clear();
+                                SendRPC(pc.PlayerId, true);
+                                Utils.NotifyRoles();
+                            },
+                            0.5f, "Sniper shot Notify"
+                            );
+                    }
                 }
             }
-            SendRPC(pc.PlayerId);
-            Utils.NotifyRoles();
         }
         public static string GetBulletCount(PlayerControl pc)
         {
