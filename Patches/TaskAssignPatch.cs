@@ -41,7 +41,7 @@ namespace TownOfHost
             //null対策
             if (main.RealOptionsData == null)
             {
-                Logger.warn("警告:RealOptionsDataがnullです。(RppcSetTasksPatch.Prefix)");
+                Logger.warn("警告:RealOptionsDataがnullです。(RpcSetTasksPatch.Prefix)");
                 return;
             }
 
