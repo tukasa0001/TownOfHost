@@ -311,8 +311,8 @@ namespace TownOfHost
 
 
                 InfinityVent:
-                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    opt.RoleOptions.EngineerCooldown = 0;
+                    opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
             CustomRoles role = player.getCustomRole();
