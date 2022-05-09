@@ -21,7 +21,7 @@ namespace TownOfHost
                 __instance.RoleBlurbText.color = Utils.getRoleColor(role);
                 __instance.YouAreText.color = Utils.getRoleColor(role);
 
-                if (PlayerControl.LocalPlayer.isEvilWatcher() || PlayerControl.LocalPlayer.isNiceWatcher())
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher))
                     __instance.RoleBlurbText.text = getString("WatcherInfo");
                 else
                     __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
@@ -34,8 +34,7 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
-            var role = PlayerControl.LocalPlayer.getCustomRole();
-            if (role.getRoleType() == RoleType.Neutral)
+            if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
             {
                 //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -145,7 +144,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.isSheriff())
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
