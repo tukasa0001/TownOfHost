@@ -61,14 +61,14 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (player.isBountyHunter())
+            if (player.Is(CustomRoles.BountyHunter))
             {
                 //バウンティハンター用処理
                 var target = player.getBountyTarget();
                 LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + player.getBountyTarget().name;
                 LowerInfoText.enabled = target != null || main.AmDebugger.Value;
             }
-            else if (player.isWitch())
+            else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
                 var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
@@ -88,7 +88,7 @@ namespace TownOfHost
             if (!player.getCustomRole().isVanilla())
             {
                 TaskTextPrefix = $"<color={player.getRoleColorCode()}>{player.getRoleName()}\r\n";
-                if (player.isMafia())
+                if (player.Is(CustomRoles.Mafia))
                 {
                     if (!player.CanUseKillButton())
                         TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
@@ -112,6 +112,10 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
+
+                DesyncImpostor:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
@@ -206,14 +210,9 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Sheriff:
+                case CustomRoles.Arsonist:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
-                    __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(false);
-                    __instance.AbilityButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Arsonist:
-                    __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
@@ -227,7 +226,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.isSheriff() || player.isArsonist())
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -237,7 +236,7 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.isSheriff() || player.isArsonist())
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 player.Data.Role.TeamType = __state;
             }
