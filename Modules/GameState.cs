@@ -86,19 +86,6 @@ namespace TownOfHost
             if (!Utils.hasTasks(player.Data, false)) return;
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
-
-            //役職ごとにタスク量の調整を行う
-            var adjustedTasksCount = AllTasksCount;
-            switch (player.getCustomRole())
-            {
-                case CustomRoles.MadSnitch:
-                    adjustedTasksCount = Options.MadSnitchTasks.GetInt();
-                    break;
-                default:
-                    break;
-            }
-            //タスク数が通常タスクより多い場合は再設定が必要
-            AllTasksCount = Math.Min(adjustedTasksCount, AllTasksCount);
             Logger.info($"{player.name}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
         }
         public void Update(PlayerControl player)
