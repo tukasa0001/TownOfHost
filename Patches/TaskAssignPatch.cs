@@ -47,20 +47,20 @@ namespace TownOfHost
 
             CustomRoles? RoleNullable = Utils.getPlayerById(playerId)?.getCustomRole();
             if (RoleNullable == null) return;
-
             CustomRoles role = RoleNullable.Value;
 
-            bool doOverride = false; // タスク数を上書きするかどうか
-                                     // falseの時、タスクの内容が変更される前にReturnされる。
+            if (!Options.OverrideTasksData.AllData.ContainsKey(role)) return;
+            var data = Options.OverrideTasksData.AllData[role];
 
-            bool hasCommonTasks = true; // コモンタスク(通常タスク)を割り当てるかどうか
-                                        // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+            bool doOverride = data.doOverride.GetBool(); // タスク数を上書きするかどうか
+                                                         // falseの時、タスクの内容が変更される前にReturnされる。
 
-            int NumLongTasks = main.RealOptionsData.NumLongTasks; // 割り当てるロングタスクの数
-            int NumShortTasks = main.RealOptionsData.NumShortTasks; // 割り当てるショートタスクの数
+            bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
+                                                                    // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
+
+            int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
+            int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
                                                                     // ロングとショートは常時再割り当てが行われる。
-
-            /* タスク数の上書き用のデータを変更する処理 */
 
             if (!doOverride) return;
             //割り当て可能なタスクのIDが入ったリスト
