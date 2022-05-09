@@ -175,7 +175,13 @@
 
 遠距離射撃が可能な役職です。<br>
 シェイプシフトした地点から解除した地点への延長線上にいる対象をキルします。<br>
+射線上のクルーには射撃音が聞こえます。<br>
 弾丸を打ち切るまで通常キルは出来ません。<br>
+  
+精密射撃モードOFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+精密射撃モードON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
 
 #### 設定
 
