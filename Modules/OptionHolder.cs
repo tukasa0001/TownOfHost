@@ -158,10 +158,7 @@ namespace TownOfHost
 
         // タスク上書き
         // MadGuardian
-        public static CustomOption MadGuardian_doOverride;
-        public static CustomOption MadGuardian_assignCommonTasks;
-        public static CustomOption MadGuardian_numLongTasks;
-        public static CustomOption MadGuardian_numShortTasks;
+        public static OverrideTasksData MadGuardianTasks;
         // Terrorist
         public static CustomOption Terrorist_doOverride;
         public static CustomOption Terrorist_assignCommonTasks;
@@ -283,7 +280,6 @@ namespace TownOfHost
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            SetupTaskOverrideOptions(10120, CustomRoles.MadGuardian, ref MadGuardian_doOverride, ref MadGuardian_assignCommonTasks, ref MadGuardian_numLongTasks, ref MadGuardian_numShortTasks);
             //ID10120~10123を使用
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
@@ -460,6 +456,28 @@ namespace TownOfHost
             numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
             numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
         }
+        public class OverrideTasksData
+        {
+            public CustomRoles role { get; private set; }
+            public int idStart { get; private set; }
+            public CustomOption doOverride;
+            public CustomOption assignCommonTasks;
+            public CustomOption numLongTasks;
+            public CustomOption numShortTasks;
 
+            public OverrideTasksData(int idStart, CustomRoles role)
+            {
+                this.idStart = idStart;
+                this.role = role;
+                doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role]);
+                assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride);
+                numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
+                numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
+            }
+            public OverrideTasksData Create(int idStart, CustomRoles role)
+            {
+                return new OverrideTasksData(idStart, role);
+            }
+        }
     }
 }
