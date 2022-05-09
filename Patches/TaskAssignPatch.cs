@@ -76,19 +76,19 @@ namespace TownOfHost
             if (hasCommonTasks) TasksList.RemoveRange(main.RealOptionsData.NumCommonTasks, TasksList.Count - main.RealOptionsData.NumCommonTasks);
             else TasksList.Clear();
 
-            //割り当て済みのタスクが入ったリスト
+            //割り当て済みのタスクが入れられるHashSet
             //同じタスクが複数割り当てられるのを防ぐ
             Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new Il2CppSystem.Collections.Generic.HashSet<TaskTypes>();
             int start2 = 0;
             int start3 = 0;
 
-            //新たに割り当てられるロングタスクのリスト
+            //割り当て可能なロングタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
             foreach (var task in ShipStatus.Instance.LongTasks)
                 LongTasks.Add(task);
             Shuffle<NormalPlayerTask>(LongTasks);
 
-            //新たに割り当てられるショートタスクのリスト
+            //割り当て可能なショートタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
             foreach (var task in ShipStatus.Instance.NormalTasks)
                 ShortTasks.Add(task);
