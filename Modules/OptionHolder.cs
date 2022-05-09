@@ -434,20 +434,6 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
-        private static void SetupTaskOverrideOptions(
-            int idStart,
-            CustomRoles role,
-            ref CustomOption doOverride,
-            ref CustomOption assignCommonTasks,
-            ref CustomOption numLongTasks,
-            ref CustomOption numShortTasks
-        )
-        {
-            doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role]);
-            assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride);
-            numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
-            numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
-        }
         public class OverrideTasksData
         {
             public CustomRoles role { get; private set; }
