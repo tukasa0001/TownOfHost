@@ -71,8 +71,7 @@ namespace TownOfHost
             }
             if (role == CustomRoles.Mare)
             {
-                if (Utils.isActive(SystemTypes.Electrical))
-                    canUse = false;
+                if (!Utils.isActive(SystemTypes.Electrical)) canUse = false;
             }
             return canUse;
         }
