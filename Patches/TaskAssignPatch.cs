@@ -32,6 +32,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameData), nameof(GameData.RpcSetTasks))]
     class RpcSetTasksPatch
     {
+        //タスクを割り当ててRPCを送る処理が行われる直前にタスクを上書きするPatch
+        //バニラのタスク割り当て処理自体には干渉しない
         public static void Prefix(GameData __instance,
         [HarmonyArgument(0)] byte playerId,
         [HarmonyArgument(1)] ref UnhollowerBaseLib.Il2CppStructArray<byte> taskTypeIds)
@@ -61,28 +63,38 @@ namespace TownOfHost
             /* タスク数の上書き用のデータを変更する処理 */
 
             if (!doOverride) return;
+            //割り当て可能なタスクのIDが入ったリスト
+            //本来のRpcSetTasksの第二引数のクローン
             Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
             foreach (var num in taskTypeIds)
                 TasksList.Add(num);
 
             //参考:ShipStatus.Begin
+            //不要な割り当て済みのタスクを削除する処理
+            //コモンタスクを割り当てる設定ならコモンタスク以外を削除
+            //コモンタスクを割り当てない設定ならリストを空にする
             if (hasCommonTasks) TasksList.RemoveRange(main.RealOptionsData.NumCommonTasks, TasksList.Count - main.RealOptionsData.NumCommonTasks);
             else TasksList.Clear();
 
+            //割り当て済みのタスクが入ったリスト
+            //同じタスクが複数割り当てられるのを防ぐ
             Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new Il2CppSystem.Collections.Generic.HashSet<TaskTypes>();
             int start2 = 0;
             int start3 = 0;
 
+            //新たに割り当てられるロングタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
             foreach (var task in ShipStatus.Instance.LongTasks)
                 LongTasks.Add(task);
             Shuffle<NormalPlayerTask>(LongTasks);
 
+            //新たに割り当てられるショートタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
             foreach (var task in ShipStatus.Instance.NormalTasks)
                 ShortTasks.Add(task);
             Shuffle<NormalPlayerTask>(ShortTasks);
 
+            //実際にAmong Us側で使われているタスクを割り当てる関数を使う。
             ShipStatus.Instance.AddTasksFromList(
                 ref start2,
                 NumLongTasks,
@@ -98,6 +110,7 @@ namespace TownOfHost
                 ShortTasks
             );
 
+            //タスクのリストを配列(Il2CppStructArray)に変換する
             taskTypeIds = new UnhollowerBaseLib.Il2CppStructArray<byte>(TasksList.Count);
             for (int i = 0; i < TasksList.Count; i++)
             {
