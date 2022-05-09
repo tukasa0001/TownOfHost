@@ -474,7 +474,7 @@ namespace TownOfHost
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride);
                 numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride);
             }
-            public OverrideTasksData Create(int idStart, CustomRoles role)
+            public static OverrideTasksData Create(int idStart, CustomRoles role)
             {
                 return new OverrideTasksData(idStart, role);
             }
