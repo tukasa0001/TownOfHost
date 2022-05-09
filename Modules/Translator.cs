@@ -67,7 +67,7 @@ namespace TownOfHost
             if (replacementDic != null)
                 foreach (var rd in replacementDic)
                 {
-                    str.Replace(rd.Key, rd.Value);
+                    str = str.Replace(rd.Key, rd.Value);
                 }
             return str;
         }
