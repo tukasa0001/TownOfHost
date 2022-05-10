@@ -134,6 +134,12 @@ namespace TownOfHost
                 }
                 main.SpelledPlayer.Clear();
 
+
+                if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
+                {
+                    FixedUpdatePatch.LoversSuicide(exiledPlayer);
+                }
+
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
@@ -259,6 +265,14 @@ namespace TownOfHost
                 {
                     //変更対象にSnitchマークをつける
                     pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Snitch)}>★</color>";
+                }
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                {
+                    pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                }
+                else if (PlayerControl.LocalPlayer.Data.IsDead && target.Is(CustomRoles.Lovers))
+                {
+                    pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 if (seer.getCustomRole().isImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist
