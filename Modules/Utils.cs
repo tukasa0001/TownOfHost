@@ -135,6 +135,7 @@ namespace TownOfHost
             }
             return (text, color);
         }
+
         public static bool hasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             //Tasksがnullの場合があるのでその場合タスク無しとする
@@ -176,10 +177,23 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
+
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
                     //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
                     //}
+                }
+                var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
+                if (cSubRoleFound)
+                {
+                    if (cSubRole == CustomRoles.Lovers)
+                    {
+                        //ラバーズがクルー陣営の場合タスクを付与しない
+                        if (cRole.getRoleType() == RoleType.Crewmate)
+                        {
+                            hasTasks = false;
+                        }
+                    }
                 }
             }
             return hasTasks;
@@ -289,17 +303,24 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $"\n★ {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}";
+                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {getVitalText(id)}";
             }
             SendMessage(text);
+        }
+
+        public static string GetShowLastSubRolesText(byte id)
+        {
+            var cSubRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
+            if (!cSubRoleFound) return "";
+            return cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + getRoleName(cSubRole);
         }
 
         public static void ShowHelp()
@@ -450,7 +471,8 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
-                //Loversのハートマークなどを入れてください。
+
+                //名前の後ろに付けるマーカー
                 string SelfMark = "";
 
                 //インポスター/キル可能な第三陣営に対するSnitch警告
@@ -470,6 +492,9 @@ namespace TownOfHost
                     }
                     SelfMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
+
+                //ハートマークを付ける(自分に)
+                if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
 
                 //呪われている場合
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
@@ -544,6 +569,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
+                    || seer.Is(CustomRoles.Lovers)
                     || main.SpelledPlayer.Count > 0
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
@@ -559,7 +585,7 @@ namespace TownOfHost
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{getTaskText(target)}" : "";
 
-                        //Loversのハートマークなどを入れてください。
+                        //名前の後ろに付けるマーカー
                         string TargetMark = "";
                         //呪われている人
                         if (main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
@@ -574,6 +600,18 @@ namespace TownOfHost
                             if (taskState.doExpose)
                                 TargetMark += $"<color={getRoleColorCode(CustomRoles.Snitch)}>★</color>";
                         }
+
+                        //ハートマークを付ける(相手に)
+                        if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
+                        //霊界からラバーズ視認
+                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        {
+                            TargetMark += $"<color={getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
+
                         if (seer.Is(CustomRoles.Arsonist) && seer.isDousedPlayer(target))
                         {
                             TargetMark += $"<color={getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
