@@ -11,7 +11,14 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            if (role < CustomRoles.NoSubRoleAssigned)
+            {
+                main.AllPlayerCustomRoles[player.PlayerId] = role;
+            }
+            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            {
+                main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+            }
             if (AmongUsClient.Instance.AmHost)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
@@ -352,7 +359,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (player.Data.IsDead && opt.AnonymousVotes)
+            if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
@@ -624,7 +631,15 @@ namespace TownOfHost
         }
 
         //汎用
-        public static bool Is(this PlayerControl target, CustomRoles role) { return target.getCustomRole() == role; }
+        public static bool Is(this PlayerControl target, CustomRoles role)
+        {
+            if (role > CustomRoles.NoSubRoleAssigned)
+            {
+                return target.getCustomSubRole() == role;
+            }
+            return target.getCustomRole() == role;
+        }
         public static bool Is(this PlayerControl target, RoleType type) { return target.getCustomRole().getRoleType() == type; }
+
     }
 }

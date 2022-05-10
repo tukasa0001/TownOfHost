@@ -554,6 +554,8 @@ namespace TownOfHost
                     else
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
+
+                if (GameStates.isInGame) LoversSuicide();
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
                 {
                     var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
@@ -787,6 +789,16 @@ namespace TownOfHost
                         }
                     }
 
+                    //ハートマークを付ける(会議中MOD視点)
+                    if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
+                    {
+                        Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                    }
+                    else if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Data.IsDead)
+                    {
+                        Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                    }
+
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     if (!GameStates.isMeeting && Options.SnitchEnableTargetArrow.GetBool() && target.Is(CustomRoles.Snitch))
                     {
@@ -842,6 +854,37 @@ namespace TownOfHost
                 {
                     //役職テキストの座標を初期値に戻す
                     RoleText.transform.SetLocalY(0.175f);
+                }
+            }
+        }
+        //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
+        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo = null)
+        {
+            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
+            {
+                foreach (var loversPlayer in main.LoversPlayers)
+                {
+                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead || exiledLoversPlayerInfo != null) //ラバーズが死んでいたら or ラバーズが投票先になったら
+                    {
+                        main.isLoversDead = true;
+                        foreach (var partnerPlayer in main.LoversPlayers)
+                        {
+                            if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
+                            //残った恋人を全て殺す(2人以上可)
+                            if ((exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
+                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
+                            {
+                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                                if (exiledLoversPlayerInfo != null)
+                                {
+                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
+                                    if (PlayerControl.GameOptions.MapId != 4) //Airship用
+                                        CheckForEndVotingPatch.recall = true;
+                                }
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                            }
+                        }
+                    }
                 }
             }
         }
