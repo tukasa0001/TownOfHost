@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using HarmonyLib;
 using UnityEngine;
@@ -250,14 +251,16 @@ namespace TownOfHost
             Logger.info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
+                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}", "Info");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
             Logger.info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}", "Info");
+                var text = $"{pc.name}({pc.PlayerId}):{pc.getRoleName()}";
+                text += pc.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? " + " + pc.getSubRoleName() : "";
+                Logger.info(text, "Info");
             }
             Logger.info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -273,7 +276,8 @@ namespace TownOfHost
                 Logger.info(text, "Info");
             }
             Logger.info("------------基本設定------------", "Info");
-            Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10), "Info");
+            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            foreach (var t in tmp) Logger.info(t, "Info");
             Logger.info("-------------その他-------------", "Info");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
