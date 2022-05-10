@@ -194,10 +194,10 @@ namespace TownOfHost
                 { CustomRoles.Mafia,"mf" },
                 { CustomRoles.SerialKiller,"sk" },
                 { CustomRoles.ShapeMaster,"sha" },
-                { CustomRoles.Vampire,"va" },
-                { CustomRoles.Witch,"wi" },
-                { CustomRoles.Warlock,"wa" },
                 { CustomRoles.Puppeteer,"pup" },
+                { CustomRoles.Vampire,"va" },
+                { CustomRoles.Warlock,"wa" },
+                { CustomRoles.Witch,"wi" },
                 //Madmate役職
                 { (CustomRoles)(-2),"== Madmate ==" }, //区切り用
                 { CustomRoles.MadGuardian,"mg" },
@@ -228,8 +228,11 @@ namespace TownOfHost
                 { CustomRoles.Opportunist,"op" },
                 { CustomRoles.SchrodingerCat,"sc" },
                 { CustomRoles.Terrorist,"te" },
+                //Sub役職
+                { (CustomRoles)(-6),"== Sub Role ==" }, //区切り用
+                {CustomRoles.Lovers,"lo" },
                 //HAS
-                { (CustomRoles)(-6),"== Hide and Seek ==" }, //区切り用
+                { (CustomRoles)(-7),"== Hide and Seek ==" }, //区切り用
                 { CustomRoles.HASFox,"hfo" },
                 { CustomRoles.HASTroll,"htr" },
 
