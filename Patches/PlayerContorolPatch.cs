@@ -451,7 +451,7 @@ namespace TownOfHost
                                 __instance.RpcMurderPlayer(bitten);
                                 RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                                 Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
-                                if (bitten.isTrapper())
+                                if (bitten.Is(CustomRoles.Trapper))
                                     Utils.getPlayerById(vampireID).TrapperKilled(bitten);
                             }
                             else
