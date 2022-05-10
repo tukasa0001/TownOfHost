@@ -455,7 +455,7 @@ namespace TownOfHost
         }
         public class OverrideTasksData
         {
-            public static Dictionary<CustomRoles, OverrideTasksData> AllData;
+            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new Dictionary<CustomRoles, OverrideTasksData>();
             public CustomRoles role
             { get; private set; }
             public int idStart { get; private set; }
