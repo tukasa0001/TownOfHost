@@ -87,6 +87,8 @@ namespace TownOfHost
             RoleText = getRoleName(cRole);
             if (player.Is(CustomRoles.Sheriff))
                 RoleText += $" ({main.SheriffShotLimit[player.PlayerId]})";
+            if (player.Is(CustomRoles.Arsonist))
+                RoleText += $" ({main.DousedPlayerCount[player.PlayerId].Item1}/{main.DousedPlayerCount[player.PlayerId].Item2})";
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -200,6 +202,10 @@ namespace TownOfHost
         }
         public static string getTaskText(PlayerControl pc)
         {
+            //塗りテキスト
+            //if (pc.Is(CustomRoles.Arsonist))
+            //return $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[pc.PlayerId].Item1}/{main.DousedPlayerCount[pc.PlayerId].Item2})</color>";
+            //タスクテキスト
             var taskState = pc.getPlayerTaskState();
             if (!taskState.hasTasks) return "null";
             var Comms = false;
@@ -212,11 +218,21 @@ namespace TownOfHost
             string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
             return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
         }
-        public static string getTaskText(byte playerId)
+        public static string getProgressText(byte playerId)
         {
+            string ProgressText = "";
+            //タスクテキスト
             var taskState = PlayerState.taskState[playerId];
-            if (!taskState.hasTasks) return "";
-            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+            if (taskState.hasTasks)
+                ProgressText = $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+            //塗りテキスト
+            foreach (var RoleInfo in main.AllPlayerCustomRoles)
+            {
+                if (RoleInfo.Key == playerId && RoleInfo.Value == CustomRoles.Arsonist)
+                    ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+            }
+
+            return ProgressText;
         }
         public static void ShowActiveRoles()
         {
@@ -550,6 +566,8 @@ namespace TownOfHost
                 string SelfRoleName = "";
                 if (seer.Is(CustomRoles.Sheriff))
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.SheriffShotLimit[seer.PlayerId]})</color>";
+                else if (seer.Is(CustomRoles.Arsonist))
+                    SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.DousedPlayerCount[seer.PlayerId].Item1}/{main.DousedPlayerCount[seer.PlayerId].Item2})</color>";
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
@@ -625,6 +643,8 @@ namespace TownOfHost
                         string TargetRoleText = "";
                         if (target.Is(CustomRoles.Sheriff))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
+                        else if (seer.Is(CustomRoles.Arsonist))
+                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.DousedPlayerCount[target.PlayerId].Item1}/{main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
