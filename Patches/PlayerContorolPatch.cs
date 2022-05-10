@@ -46,7 +46,7 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
-            if (__instance.isSerialKiller())
+            if (__instance.Is(CustomRoles.SerialKiller))
             {
                 main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
                 __instance.CustomSyncSettings();
