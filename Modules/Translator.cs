@@ -59,11 +59,17 @@ namespace TownOfHost
             }
         }
 
-        public static string getString(string s)
+        public static string getString(string s, Dictionary<string, string> replacementDic = null)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
             if (main.ForceJapanese.Value) langId = SupportedLangs.Japanese;
-            return getString(s, langId);
+            string str = getString(s, langId);
+            if (replacementDic != null)
+                foreach (var rd in replacementDic)
+                {
+                    str = str.Replace(rd.Key, rd.Value);
+                }
+            return str;
         }
 
         public static string getString(string s, SupportedLangs langId)

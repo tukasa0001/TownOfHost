@@ -52,6 +52,7 @@ namespace TownOfHost
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
+            main.LastKiller = new();
 
             main.introDestroyed = false;
 
@@ -285,6 +286,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
+                AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
@@ -305,6 +307,10 @@ namespace TownOfHost
                         main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in main.AllPlayerCustomRoles)
+                {
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
+                foreach (var pair in main.AllPlayerCustomSubRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
@@ -441,6 +447,38 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
+        }
+
+        private static void AssignLoversRolesFromList()
+        {
+            if (CustomRoles.Lovers.isEnable())
+            {
+                //Loversを初期化
+                main.LoversPlayers.Clear();
+                main.isLoversDead = false;
+                //ランダムに2人選出
+                AssignLoversRoles(2);
+            }
+        }
+        private static void AssignLoversRoles(int RawCount = -1)
+        {
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
+            var loversRole = CustomRoles.Lovers;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.getCount(), 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                main.LoversPlayers.Add(player);
+                allPlayers.Remove(player);
+                main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
+            }
+            RPC.SyncLoversPlayers();
         }
     }
 }
