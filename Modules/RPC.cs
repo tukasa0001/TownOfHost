@@ -12,6 +12,7 @@ namespace TownOfHost
         VersionCheck = 60,
         SyncCustomSettings = 80,
         SetDeathReason,
+        TrollWin,
         JesterExiled,
         TerroristWin,
         ExecutionerWin,
@@ -24,10 +25,12 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
         DoSpell,
+        SetLoversPlayers,
         SetExecutionerTarget
     }
     public enum Sounds
@@ -86,6 +89,10 @@ namespace TownOfHost
                 case CustomRPC.SetDeathReason:
                     RPC.GetDeathReason(reader);
                     break;
+                case CustomRPC.TrollWin:
+                    byte wonTroll = reader.ReadByte();
+                    RPC.TrollWin(wonTroll);
+                    break;
                 case CustomRPC.JesterExiled:
                     byte exiledJester = reader.ReadByte();
                     RPC.JesterExiled(exiledJester);
@@ -143,6 +150,12 @@ namespace TownOfHost
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
+                case CustomRPC.SendDousedPlayerCount:
+                    ArsonistId = reader.ReadByte();
+                    int DousePlayer = reader.ReadInt32();
+                    int AllTargets = reader.ReadInt32();
+                    main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
+                    break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
@@ -159,6 +172,12 @@ namespace TownOfHost
                     break;
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SetLoversPlayers:
+                    main.LoversPlayers.Clear();
+                    int count = reader.ReadInt32();
+                    for (int i = 0; i < count; i++)
+                        main.LoversPlayers.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SetExecutionerTarget:
                     byte executionerId = reader.ReadByte();
@@ -227,6 +246,12 @@ namespace TownOfHost
             PlayerState.isDead[playerId] = true;
         }
 
+        public static void TrollWin(byte trollID)
+        {
+            main.WonTrollID = trollID;
+            main.currentWinner = CustomWinner.HASTroll;
+            CustomWinTrigger(trollID);
+        }
         public static void JesterExiled(byte jesterID)
         {
             main.ExiledJesterID = jesterID;
@@ -278,10 +303,16 @@ namespace TownOfHost
         }
         public static void SetCustomRole(byte targetId, CustomRoles role)
         {
-            main.AllPlayerCustomRoles[targetId] = role;
+            if (role < CustomRoles.NoSubRoleAssigned)
+            {
+                main.AllPlayerCustomRoles[targetId] = role;
+            }
+            else if ((role >= CustomRoles.NoSubRoleAssigned))   //500:NoSubRole 501~:SubRole
+            {
+                main.AllPlayerCustomSubRoles[targetId] = role;
+            }
             HudManager.Instance.SetHudActive(true);
         }
-
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {
             NameColorManager.Instance.Add(seerId, targetId, color);
@@ -298,6 +329,17 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
             writer.Write(player);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SyncLoversPlayers()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetLoversPlayers, Hazel.SendOption.Reliable, -1);
+            writer.Write(main.LoversPlayers.Count);
+            foreach (var lp in main.LoversPlayers)
+            {
+                writer.Write(lp.PlayerId);
+            }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void SendExecutionerTarget(byte executionerId, byte targetId)

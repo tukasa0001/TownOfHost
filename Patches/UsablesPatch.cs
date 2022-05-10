@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -28,12 +29,48 @@ namespace TownOfHost
     [HarmonyPatch(typeof(Vent), nameof(Vent.CanUse))]
     class CanUseVentPatch
     {
-        public static void Postfix([HarmonyArgument(0)] GameData.PlayerInfo pc,
+        public static bool Prefix(Vent __instance, [HarmonyArgument(0)] GameData.PlayerInfo pc,
             [HarmonyArgument(1)] ref bool canUse,
-            [HarmonyArgument(2)] ref bool couldUse)
+            [HarmonyArgument(2)] ref bool couldUse,
+            ref float __result)
         {
-            if (pc.Object.isSheriff() || pc.Object.isArsonist())
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //#######################################
+            //     ==ベント処理==
+            //#######################################
+            //参考:https://github.com/Eisbison/TheOtherRoles/blob/main/TheOtherRoles/Patches/UsablesPatch.cs
+
+            bool VentForTrigger = false;
+            float num = float.MaxValue;
+
+            var usableDistance = __instance.UsableDistance;
+
+            if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
+            else if (pc.Object.Is(CustomRoles.Sheriff) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.isDouseDone()))
+                return false;
+            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.isDouseDone())
+                canUse = couldUse = VentForTrigger = true;
+            else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
+                canUse = couldUse = true;
+
+            canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
+
+            if (VentForTrigger && pc.Object.inVent)
+            {
                 canUse = couldUse = false;
+                return false;
+            }
+            if (canUse)
+            {
+                Vector2 truePosition = pc.Object.GetTruePosition();
+                Vector3 position = __instance.transform.position;
+                num = Vector2.Distance(truePosition, position);
+                canUse &= (num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false));
+            }
+            __result = num;
+            return false;
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
 }

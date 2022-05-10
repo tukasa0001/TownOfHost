@@ -66,6 +66,8 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -79,7 +81,8 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
         public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
-        public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, (int, int)> DousedPlayerCount = new Dictionary<byte, (int, int)>();
+        public static Dictionary<byte, bool> isDeadDoused = new Dictionary<byte, bool>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
         public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : Executioner, Value : target
@@ -93,6 +96,7 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static Dictionary<(byte, byte), string> targetArrows = new();
+        public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonExecutionerID;
@@ -141,7 +145,8 @@ namespace TownOfHost
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
-            DousedPlayerCount = new Dictionary<byte, int>();
+            DousedPlayerCount = new Dictionary<byte, (int, int)>();
+            isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
             winnerList = new();
@@ -219,7 +224,8 @@ namespace TownOfHost
                 {CustomRoles.HASFox, "#e478ff"},
                 {CustomRoles.HASTroll, "#00ff00"},
                 //サブ役職
-                {CustomRoles.NoSubRoleAssigned, "#ffffff"}
+                {CustomRoles.NoSubRoleAssigned, "#ffffff"},
+                {CustomRoles.Lovers, "#ffaaaa"},
             };
             }
             catch (ArgumentException ex)
@@ -308,6 +314,7 @@ namespace TownOfHost
         HASTroll,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
+        Lovers,
     }
     //WinData
     public enum CustomWinner
@@ -318,10 +325,11 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Lovers,
         Executioner,
         Arsonist,
         Egoist,
-        Troll
+        HASTroll
     }
     public enum AdditionalWinners
     {
@@ -334,7 +342,7 @@ namespace TownOfHost
     /*public enum CustomRoles : byte
     {
         Default = 0,
-        Troll = 1,
+        HASTroll = 1,
         HASHox = 2
     }*/
     public enum SuffixModes

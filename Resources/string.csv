@@ -57,10 +57,11 @@ MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
 Egoist,Egoist,エゴイスト
+Lovers,Lovers,恋人
 
 # HideAndSeek
-Fox,Fox,狐
-Troll,Troll,トロール
+HASFox,Fox,狐
+HASTroll,Troll,トロール
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
@@ -103,6 +104,7 @@ SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませ�
 SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
+DictatorInfo,Let's have a dictatorship,独裁政治をしよう
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -115,15 +117,7 @@ EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方に�
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
-BaitInfo,Bait your enemies,敵を罠にはめよう
-LighterInfo,Let's light it all up,すべてを照らそう
-MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
-SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
-SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
-SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
-SpeedBoosterInfo,Let's them run.,走らせろ
-TrapperInfo,Trap your enemies,敵を罠にはめよう
-DictatorInfo,Let's have a dictatorship,独裁政治をしよう
+LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
 
 # HideAndSeek
 HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -159,6 +153,7 @@ MayorInfoLong,(Crewmates):\nCan have multiple votes for a meeting and put them a
 SabotageMasterInfoLong,"(Crewmates):\nReactor, O2, and communication interference can be repaired by one person.\nPower outages can all be fixed by touching a single lever.\nOpening a door opens all doors in that room.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。
 SheriffInfoLong,(Crewmates):\nThe Impostor camp can be killed.\n*Third camp can be set to be killable.\nKilling Crewmates is suicide. There is no task.,(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。
 SnitchInfoLong,"(Crewmates):\nAs soon as a task is completed, the color of the Impostor's name is displayed in red,\nand conversely, when the number of his own tasks decreases,\na star is displayed next to his name and the Impostor is exposed.",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。
+LoversInfoLong,"(Neutrals),\nRandomly to 2 from all players,Third camp that is cast in duplicate with other positions.\nWin if the match ends with both lovers alive.\nWhen one of your lovers dies, the other dies too.\nDefeated when the crewmate's task is completed.",(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。
 SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive player.",(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。
 DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
@@ -203,6 +198,7 @@ SuffixMode.Version,Version,バージョン
 SuffixMode.Streaming,Streaming,配信中
 SuffixMode.Recording,Recording,録画中
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる
+GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる
 RoleOptions,Role Options,役職設定
 ModeOptions,Mode Options,モード設定
 ForceJapanese,Force Japanese,日本語に強制
@@ -273,6 +269,7 @@ ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
 ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
 
@@ -290,6 +287,7 @@ DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
+DeathReason.LoversSuicide,LoversSuicide,恋人心中
 DeathReason.Bite,Bited,噛殺
 DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
@@ -330,6 +328,7 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
