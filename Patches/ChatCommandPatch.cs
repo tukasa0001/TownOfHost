@@ -176,7 +176,7 @@ namespace TownOfHost
             }
             if (canceled)
             {
-                Logger.info("Command Canceled");
+                Logger.info("Command Canceled", "ChatCommand");
                 __instance.TextArea.Clear();
                 __instance.TextArea.SetText(cancelVal);
                 __instance.quickChatMenu.ResetGlyphs();

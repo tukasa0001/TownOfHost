@@ -733,7 +733,7 @@ namespace TownOfHost
                 CustomRoles pc_role = pc.getCustomRole();
                 if (pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
             }
-            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人");
+            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             main.AliveImpostorCount = AliveImpostorCount;
         }
     }

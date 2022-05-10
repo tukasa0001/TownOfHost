@@ -22,7 +22,7 @@ namespace TownOfHost
             {
                 Utils.CustomSyncAllSettings();
                 main.RefixCooldownDelay = float.NaN;
-                Logger.info("Refix Cooldown");
+                Logger.info("Refix Cooldown", "CoolDown");
             }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && main.introDestroyed)
             {
@@ -34,7 +34,7 @@ namespace TownOfHost
                 {
                     Utils.CustomSyncAllSettings();
                     Options.HideAndSeekKillDelayTimer = float.NaN;
-                    Logger.info("キル能力解禁");
+                    Logger.info("キル能力解禁", "HideAndSeek");
                 }
             }
             //BountyHunterのターゲットが無効な場合にリセット
@@ -49,7 +49,7 @@ namespace TownOfHost
                     if (target.Data.IsDead || target.Data.Disconnected)
                     {
                         pc.ResetBountyTarget();
-                        Logger.info($"{pc.name}のターゲットが無効だったため、ターゲットを更新しました");
+                        Logger.info($"{pc.name}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
                         DoNotifyRoles = true;
                     }
                 }
@@ -65,7 +65,7 @@ namespace TownOfHost
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
         {
-            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount, "RepairSystem");
             if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
@@ -230,8 +230,8 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            Logger.info("ShipStatus.Start");
-            Logger.info("ゲームが開始", "Phase");
+            Logger.currentMethod();
+            Logger.info("-----------ゲーム開始-----------", "Phase");
 
             if (AmongUsClient.Instance.AmClient)
             {
@@ -250,7 +250,7 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            Logger.info("ShipStatus.Begin");
+            Logger.currentMethod();
 
             //ホストの役職初期設定はここで行うべき？
             foreach (var pc in PlayerControl.AllPlayerControls)

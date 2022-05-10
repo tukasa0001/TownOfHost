@@ -12,7 +12,7 @@ namespace TownOfHost
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            Logger.info("ゲームが終了", "Phase");
+            Logger.info("-----------ゲーム終了-----------", "Phase");
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             main.additionalwinners = new HashSet<AdditionalWinners>();

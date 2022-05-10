@@ -9,7 +9,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            Logger.info("RealNamesをリセット");
+            Logger.info("RealNamesをリセット", "OnGameJoined");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
@@ -36,7 +36,7 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             PlayerState.setDead(data.Character.PlayerId);
-            Logger.info("切断理由:" + reason.ToString());
+            Logger.info("切断理由:" + reason.ToString(), "Session");
         }
     }
 }
