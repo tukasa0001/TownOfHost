@@ -152,6 +152,12 @@ namespace TownOfHost
                 {
                     killer.RpcMurderPlayer(target);
                 }
+                else
+                {
+                    //ガードはがされていたら剥がした人のキルにする
+                    var lastKiller = main.LastKiller[target];
+                    lastKiller.RpcMurderPlayer(target);
+                }
             }, 0.5f, "GuardAndKill");
         }
 

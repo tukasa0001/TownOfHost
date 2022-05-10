@@ -68,6 +68,8 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            main.LastKiller.Remove(target);
+
             PlayerState.setDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
@@ -166,6 +168,7 @@ namespace TownOfHost
                 main.AirshipMeetingCheck = false;
                 Utils.CustomSyncAllSettings();
             }
+            main.LastKiller[target] = __instance;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
@@ -377,19 +380,19 @@ namespace TownOfHost
 
             foreach (var bp in main.BitPlayers)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                var vampireID = bp.Value.Item1;
+                var bitten = Utils.getPlayerById(bp.Key);
+                //vampireのキルブロック解除
+                main.BlockKilling[vampireID] = false;
+                if (!bitten.Data.IsDead)
                 {
-                    if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
-                    {
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bite);
-                        pc.RpcMurderPlayer(pc);
-                        RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
-                        Utils.getPlayerById(bp.Key).TrapperKilled(pc);
-                    }
-                    else
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                    PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    bitten.RpcMurderPlayer(bitten);
+                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
                 }
+                else
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
@@ -428,9 +431,9 @@ namespace TownOfHost
             {//実行クライアントがホストの場合のみ実行
                 if (GameStates.isLobby && ModUpdater.hasUpdate && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
-                //Vampireの処理
                 if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
+                    //Vampireの処理
                     if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                     {
                         //__instance:キルされる予定のプレイヤー
@@ -439,17 +442,23 @@ namespace TownOfHost
                         if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                         {
                             byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                            if (!__instance.Data.IsDead)
+                            var bitten = __instance;
+                            //vampireのキルブロック解除
+                            main.BlockKilling[vampireID] = false;
+                            if (!bitten.Data.IsDead)
                             {
-                                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
-                                __instance.RpcMurderPlayer(__instance);
+                                PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                                __instance.RpcMurderPlayer(bitten);
                                 RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                                Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
+                                if (bitten.isTrapper())
+                                    Utils.getPlayerById(vampireID).TrapperKilled(bitten);
                             }
                             else
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                            main.BitPlayers.Remove(__instance.PlayerId);
+                            {
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
+                            }
+                            main.BitPlayers.Remove(bitten.PlayerId);
                         }
                         else
                         {
@@ -458,7 +467,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInTask && main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
                     {//自滅時間が来たとき
