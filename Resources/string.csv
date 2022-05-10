@@ -287,8 +287,8 @@ DeathReason.Kill,Kill,死亡
 DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
+DeathReason.Bite,Bitten,噛殺
 DeathReason.LoversSuicide,LoversSuicide,恋人心中
-DeathReason.Bite,Bited,噛殺
 DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
 DeathReason.Torched,Torched,焼殺
