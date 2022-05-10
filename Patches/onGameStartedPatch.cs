@@ -68,7 +68,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
@@ -431,7 +430,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.info("役職設定:" + player.name + " = " + role.ToString());
+                Logger.info("役職設定:" + player.name + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -472,7 +471,7 @@ namespace TownOfHost
                 main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
+                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
         }

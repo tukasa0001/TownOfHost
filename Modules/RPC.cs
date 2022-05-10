@@ -53,7 +53,7 @@ namespace TownOfHost
                     {
                         DontShowOnModdedClient = reader.ReadBoolean();
                     }
-                    Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
+                    Logger.info("名前変更:" + __instance.name + " => " + name, "SetName"); //ログ
                     if (!DontShowOnModdedClient)
                     {
                         __instance.SetName(name);

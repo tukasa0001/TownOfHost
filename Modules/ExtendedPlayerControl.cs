@@ -68,7 +68,7 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
                 return cRole;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -90,7 +90,7 @@ namespace TownOfHost
         {
             if (player == null)
             {
-                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
                 return CustomRoles.NoSubRoleAssigned;
             }
             var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
@@ -448,7 +448,7 @@ namespace TownOfHost
                 RealName = player.name;
                 if (RealName == "Player(Clone)") return RealName;
                 main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました", "getRealName");
             }
             return RealName;
         }
@@ -483,12 +483,12 @@ namespace TownOfHost
             var rand = new System.Random();
             if (cTargets.Count <= 0)
             {
-                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                Logger.error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更", "BountyHunter");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
@@ -595,7 +595,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.SendToFile(target.name + $"はTrapperだった");
+            Logger.info(target.name + $"はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>

@@ -15,7 +15,7 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
-            Logger.SendToFile("MurderPlayer発生: " + __instance.name + "=>" + target.name);
+            Logger.info(__instance.name + " => " + target.name, "MurderPlayer");
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
@@ -24,7 +24,7 @@ namespace TownOfHost
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
-                Logger.SendToFile(target.name + "はBaitだった");
+                Logger.info(target.name + "はBaitだった", "MurderPlayer");
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
@@ -37,19 +37,19 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                     main.isTargetKilled.Remove(__instance.PlayerId);
                     main.isTargetKilled.Add(__instance.PlayerId, true);
-                    Logger.info($"{__instance.getRealName()}:ターゲットをキル");
+                    Logger.info($"{__instance.getRealName()}:ターゲットをキル", "BountyHunter");
                 }
                 else
                 {
                     main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                    Logger.info($"{__instance.getRealName()}:ターゲット以外をキル");
+                    Logger.info($"{__instance.getRealName()}:ターゲット以外をキル", "BountyHunter");
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
             {
-                Logger.SendToFile(target.name + "はTerroristだった");
+                Logger.info(target.name + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
             if (target.Is(CustomRoles.Trapper) && !__instance.Is(CustomRoles.Trapper))
@@ -96,12 +96,12 @@ namespace TownOfHost
                             {
                                 dis = Vector2.Distance(cppos, p.transform.position);
                                 cpdistance.Add(p, dis);
-                                Logger.info($"{p.name}の位置{dis}");
+                                Logger.info($"{p.name}の位置{dis}", "Warlock");
                             }
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
-                        Logger.info($"{targetw.name}was killed");
+                        Logger.info($"{targetw.name}was killed", "Warlock");
                         cp.RpcMurderPlayer(targetw);//殺す
                         __instance.RpcGuardAndKill(__instance);
                         main.isCurseAndKill[__instance.PlayerId] = false;
@@ -143,12 +143,12 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
-            Logger.SendToFile("CheckProtect発生: " + __instance.name + "=>" + target.name);
+            Logger.info("CheckProtect発生: " + __instance.name + "=>" + target.name, "CheckProtect");
             if (__instance.Is(CustomRoles.Sheriff))
             {
                 if (__instance.Data.IsDead)
                 {
-                    Logger.info("守護をブロックしました。");
+                    Logger.info("守護をブロックしました。", "CheckProtect");
                     return false;
                 }
             }
@@ -166,10 +166,10 @@ namespace TownOfHost
                 main.AirshipMeetingCheck = false;
                 Utils.CustomSyncAllSettings();
             }
-            Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            Logger.info(__instance.name + " => " + target.name, "CheckMurder");
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
-                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
+                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
 
@@ -177,7 +177,7 @@ namespace TownOfHost
 
             if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
             {
-                Logger.info("キルをブロックしました。");
+                Logger.info("キルをブロックしました。", "CheckMurder");
                 return false;
             }
 
@@ -187,13 +187,13 @@ namespace TownOfHost
             {
                 if (!__instance.CanUseKillButton())
                 {
-                    Logger.SendToFile(__instance.name + "はMafiaだったので、キルはキャンセルされました。");
+                    Logger.info(__instance.name + "はMafiaだったので、キルはキャンセルされました。", "CheckMurder");
                     main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 }
                 else
                 {
-                    Logger.SendToFile(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。");
+                    Logger.info(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
                 }
             }
             if (__instance.Is(CustomRoles.SerialKiller) && !target.Is(CustomRoles.SchrodingerCat))
@@ -230,7 +230,7 @@ namespace TownOfHost
                 }
 
                 main.SheriffShotLimit[__instance.PlayerId]--;
-                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発");
+                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発", "Sheriff");
                 __instance.RpcSetSheriffShotLimit();
 
                 if (!target.canBeKilledBySheriff())
@@ -352,26 +352,26 @@ namespace TownOfHost
             main.SerialKillerTimer.Clear();
             if (target != null)
             {
-                Logger.info($"{__instance.name} => {target.PlayerName}");
+                Logger.info($"{__instance.name} => {target.PlayerName}", "ReportDeadBody");
                 if (main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
                 {
-                    Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました");
+                    Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました", "ReportDeadBody");
                     return false;
                 }
             }
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
-                Logger.SendToFile("最大:" + Options.SyncedButtonCount + ", 現在:" + Options.UsedButtonCount, LogLevel.Message);
+                Logger.info("最大:" + Options.SyncedButtonCount + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");
                 if (Options.SyncedButtonCount.GetFloat() <= Options.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", LogLevel.Message);
+                    Logger.info("使用可能ボタン回数が最大数を超えているため、ボタンはキャンセルされました。", "ReportDeadBody");
                     return false;
                 }
                 else Options.UsedButtonCount++;
                 if (Options.SyncedButtonCount.GetFloat() == Options.UsedButtonCount)
                 {
-                    Logger.SendToFile("使用可能ボタン回数が最大数に達しました。");
+                    Logger.info("使用可能ボタン回数が最大数に達しました。", "ReportDeadBody");
                 }
             }
 
@@ -384,11 +384,11 @@ namespace TownOfHost
                         PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bite);
                         pc.RpcMurderPlayer(pc);
                         RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
+                        Logger.info("Vampireに噛まれている" + pc.name + "を自爆させました。", "ReportDeadBody");
                         Utils.getPlayerById(bp.Key).TrapperKilled(pc);
                     }
                     else
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                        Logger.info("Vampireに噛まれている" + pc.name + "はすでに死んでいました。", "ReportDeadBody");
                 }
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -444,11 +444,11 @@ namespace TownOfHost
                                 PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
                                 __instance.RpcMurderPlayer(__instance);
                                 RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
+                                Logger.info("Vampireに噛まれている" + __instance.name + "を自爆させました。", "Vampire");
                                 Utils.getPlayerById(vampireID).TrapperKilled(__instance);
                             }
                             else
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
+                                Logger.info("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。", "Vampire");
                             main.BitPlayers.Remove(__instance.PlayerId);
                         }
                         else
@@ -500,7 +500,7 @@ namespace TownOfHost
                     {
                         main.BountyTimer[__instance.PlayerId] = 0f;
                         main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
-                        Logger.info($"{__instance.getRealName()}:ターゲットリセット");
+                        Logger.info($"{__instance.getRealName()}:ターゲットリセット", "BountyHunter");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         __instance.ResetBountyTarget();//ターゲットの選びなおし

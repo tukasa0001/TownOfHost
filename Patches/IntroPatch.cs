@@ -135,7 +135,7 @@ namespace TownOfHost
                 Color LerpingColor = Color.Lerp(start, end, time);
                 if (__instance == null || milliseconds > 500)
                 {
-                    Logger.info("ループを終了します");
+                    Logger.info("ループを終了します", "StartFadeIntro");
                     break;
                 }
                 __instance.BackgroundBar.material.color = LerpingColor;
