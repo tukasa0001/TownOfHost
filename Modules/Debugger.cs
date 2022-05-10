@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
+using LogLevel = BepInEx.Logging.LogLevel;
 
 namespace TownOfHost
 {
@@ -59,7 +60,7 @@ namespace TownOfHost
             if (DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);
             //SendToFile("<InGame>" + text);
         }
-        public static void SendToFile(string text, LogLevel level = LogLevel.Normal, string tag = "")
+        public static void SendToFile(string text, LogLevel level = LogLevel.Info, string tag = "")
         {
             if (!isEnable || disableList.Contains(tag)) return;
             string t = DateTime.Now.ToString("HH:mm:ss");
@@ -76,7 +77,7 @@ namespace TownOfHost
             var logger = main.Logger;
             switch (level)
             {
-                case LogLevel.Normal:
+                case LogLevel.Info:
                     logger.LogInfo(log_text);
                     break;
                 case LogLevel.Warning:
@@ -97,18 +98,15 @@ namespace TownOfHost
                     break;
             }
         }
-        public static void info(string text, string tag = "") => SendToFile(text, LogLevel.Normal, tag);
+        public static void info(string text, string tag = "") => SendToFile(text, LogLevel.Info, tag);
         public static void warn(string text, string tag = "") => SendToFile(text, LogLevel.Warning, tag);
         public static void error(string text, string tag = "") => SendToFile(text, LogLevel.Error, tag);
         public static void fatal(string text, string tag = "") => SendToFile(text, LogLevel.Fatal, tag);
         public static void msg(string text, string tag = "") => SendToFile(text, LogLevel.Message, tag);
-    }
-    public enum LogLevel
-    {
-        Normal = 0,
-        Warning,
-        Error,
-        Fatal,
-        Message
+        public static void currentMethod()
+        {
+            StackFrame stack = new StackFrame(1);
+            Logger.msg($"Called in \"{stack.GetMethod().ReflectedType.Name}.{stack.GetMethod().Name}\"", "Method");
+        }
     }
 }
