@@ -66,6 +66,8 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -219,7 +221,8 @@ namespace TownOfHost
                 {CustomRoles.HASFox, "#e478ff"},
                 {CustomRoles.HASTroll, "#00ff00"},
                 //サブ役職
-                {CustomRoles.NoSubRoleAssigned, "#ffffff"}
+                {CustomRoles.NoSubRoleAssigned, "#ffffff"},
+                {CustomRoles.Lovers, "#ffaaaa"},
             };
             }
             catch (ArgumentException ex)
@@ -307,6 +310,7 @@ namespace TownOfHost
         HASTroll,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
+        Lovers,
     }
     //WinData
     public enum CustomWinner
@@ -317,6 +321,7 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Lovers,
         Executioner,
         Arsonist,
         Egoist,
