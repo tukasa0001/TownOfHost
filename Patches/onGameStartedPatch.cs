@@ -52,6 +52,7 @@ namespace TownOfHost
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
+            main.LastKiller = new();
 
             main.introDestroyed = false;
 
@@ -283,6 +284,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
+                AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
@@ -297,12 +299,16 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (pc.isWatcher() && Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
                         main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
-                    if (pc.isWatcher() && !Options.IsEvilWatcher)
+                    if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
                         main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                 }
                 foreach (var pair in main.AllPlayerCustomRoles)
+                {
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
+                foreach (var pair in main.AllPlayerCustomSubRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
@@ -322,26 +328,26 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     main.isDeadDoused[pc.PlayerId] = false;
-                    if (pc.isSheriff())
+                    if (pc.Is(CustomRoles.Sheriff))
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
                         Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
-                    if (pc.isBountyHunter())
+                    if (pc.Is(CustomRoles.BountyHunter))
                     {
                         pc.ResetBountyTarget();
                         main.isTargetKilled.Add(pc.PlayerId, false);
                         main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                     }
-                    if (pc.isWitch()) main.KillOrSpell.Add(pc.PlayerId, false);
-                    if (pc.isWarlock())
+                    if (pc.Is(CustomRoles.Witch)) main.KillOrSpell.Add(pc.PlayerId, false);
+                    if (pc.Is(CustomRoles.Warlock))
                     {
                         main.CursedPlayers.Add(pc.PlayerId, null);
                         main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) main.CheckShapeshift.Add(pc.PlayerId, false);
-                    if (pc.isArsonist())
+                    if (pc.Is(CustomRoles.Arsonist))
                     {
                         var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
                         main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
@@ -357,11 +363,11 @@ namespace TownOfHost
                         foreach (var seer in PlayerControl.AllPlayerControls)
                         {
                             if (seer == pc) continue;
-                            if (pc.getCustomRole().isImpostor() || pc.isEgoist()) //変更対象がインポスター陣営orエゴイスト
+                            if (pc.getCustomRole().isImpostor() || pc.Is(CustomRoles.Egoist)) //変更対象がインポスター陣営orエゴイスト
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
                         }
                     }
-                    if (pc.isExecutioner())
+                    if (pc.Is(CustomRoles.Executioner))
                     {
                         List<PlayerControl> targetList = new List<PlayerControl>();
                         rand = new System.Random();
@@ -438,6 +444,38 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
+        }
+
+        private static void AssignLoversRolesFromList()
+        {
+            if (CustomRoles.Lovers.isEnable())
+            {
+                //Loversを初期化
+                main.LoversPlayers.Clear();
+                main.isLoversDead = false;
+                //ランダムに2人選出
+                AssignLoversRoles(2);
+            }
+        }
+        private static void AssignLoversRoles(int RawCount = -1)
+        {
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
+            var loversRole = CustomRoles.Lovers;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.getCount(), 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                main.LoversPlayers.Add(player);
+                allPlayers.Remove(player);
+                main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
+            }
+            RPC.SyncLoversPlayers();
         }
     }
 }
