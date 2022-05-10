@@ -545,9 +545,9 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || main.SpelledPlayer.Count > 0
-                    || seer.isExecutioner()
-                    || seer.isDoctor() //seerがドクター
-                    || seer.isPuppeteer()
+                    || seer.Is(CustomRoles.Executioner)
+                    || seer.Is(CustomRoles.Doctor) //seerがドクター
+                    || seer.Is(CustomRoles.Puppeteer)
                     || isActive(SystemTypes.Electrical)
                 )
                 {
