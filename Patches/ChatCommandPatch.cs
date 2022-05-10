@@ -342,7 +342,7 @@ namespace TownOfHost
 
                 case "mare":
                 case "ma":
-                    Utils.SendMessage(getString("MareInfoLong"));
+                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mare) + getString("MareInfoLong"));
                     break;
 
                 case "fox":
