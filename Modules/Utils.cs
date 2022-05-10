@@ -226,11 +226,8 @@ namespace TownOfHost
             if (taskState.hasTasks)
                 ProgressText = $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
             //塗りテキスト
-            foreach (var RoleInfo in main.AllPlayerCustomRoles)
-            {
-                if (RoleInfo.Key == playerId && RoleInfo.Value == CustomRoles.Arsonist)
-                    ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
-            }
+            if (main.AllPlayerCustomRoles[playerId] == CustomRoles.Arsonist)
+                ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
 
             return ProgressText;
         }
