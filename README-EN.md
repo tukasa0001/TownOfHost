@@ -64,7 +64,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [ShapeMaster](###ShapeMaster)   | [SabotageMaster](###SabotageMaster)   | [Terrorist](###Terrorist)     |
 | [Vampire](###Vampire)           | [Sheriff](###Sheriff)                 | [Arsonist](###Arsonist)       |
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
-| [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
+| [Witch](###Witch)               | [Lighter](###Lighter)                 | [Lovers](###Lovers)           |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
 | [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
 | [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
@@ -255,6 +255,14 @@ Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
 
+### Dictator
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
+The dictator dies at the time of the vote.<br>
+
 #### Settings
 
 | Settings Name   |
@@ -372,6 +380,27 @@ They are the Neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
+### Lovers
+
+Team : Neutral<br>
+Decision : -<br>
+Victory Conditions : Alive at the end of the game. (other than task completion)<br>
+
+Two of all players will be cast. (Duplicate to other positions) <br>
+If a position with a crew camp task becomes a lover, the task will disappear. <br>
+There is a heart symbol after each other's name. <br>
+If one dies, the other will die afterwards. <br>
+If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
+
+Example of overlapping job titles: <br>
+・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
+・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
+・ Snitch lover: No task, Impostor remains unknown. <br>
+・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
+・ Opportunist lover: Win if you survive. <br>
+・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+
 ### Arsonist
 
 Team : Neutral<br>
@@ -379,7 +408,7 @@ Decision : Impostor<br>
 Victory Conditions : Douse all alive crewmates<br>
 
 When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates, they will win.<br>
+If they finish dousing to all alive crewmates and enter vents, they will win.<br>
 
 #### Settings
 
@@ -429,11 +458,29 @@ The conditions for defeat are as follows.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
 
+### Executioner
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Target Voted Out<br>
+
+The target is marked with a diamond that is visible only from here.<br>
+If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
+If the target is killed, the position changes.<br>
+If the target is a jester, it wins an additional victory.<br>
+
+#### Settings
+
+| Settings Name                                 |
+| --------------------------------------------- |
+| Executioner Can be Target Impostor            |
+| Executioner Change Role After Target Killed   |
+
 ## Attribute
 
 ### LastImpostor
 
-This is the attribute given to the last in-poster.<br>
+This is the attribute given to the last Impostor.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |

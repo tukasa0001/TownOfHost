@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -67,6 +67,8 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
+        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
         public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
         public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
@@ -80,9 +82,11 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
         public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
         public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
-        public static Dictionary<byte, int> DousedPlayerCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, (int, int)> DousedPlayerCount = new Dictionary<byte, (int, int)>();
+        public static Dictionary<byte, bool> isDeadDoused = new Dictionary<byte, bool>();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
         public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : Executioner, Value : target
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
@@ -93,8 +97,10 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
         public static Dictionary<(byte, byte), string> targetArrows = new();
+        public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonExecutionerID;
         public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
@@ -138,8 +144,10 @@ namespace TownOfHost
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
-            DousedPlayerCount = new Dictionary<byte, int>();
+            DousedPlayerCount = new Dictionary<byte, (int, int)>();
+            isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            ExecutionerTarget = new Dictionary<byte, byte>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -199,20 +207,23 @@ namespace TownOfHost
                 {CustomRoles.SpeedBooster, "#00ffff"},
                 {CustomRoles.Doctor, "#80ffdd"},
                 {CustomRoles.Trapper, "#5a8fd0"},
+                {CustomRoles.Dictator, "#df9b00"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
                 {CustomRoles.Terrorist, "#00ff00"},
+                {CustomRoles.Executioner, "#611c3a"},
                 {CustomRoles.Opportunist, "#00ff00"},
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
                 //HideAndSeek
-                {CustomRoles.Fox, "#e478ff"},
-                {CustomRoles.Troll, "#00ff00"},
+                {CustomRoles.HASFox, "#e478ff"},
+                {CustomRoles.HASTroll, "#00ff00"},
                 //サブ役職
-                {CustomRoles.NoSubRoleAssigned, "#ffffff"}
+                {CustomRoles.NoSubRoleAssigned, "#ffffff"},
+                {CustomRoles.Lovers, "#ffaaaa"},
             };
             }
             catch (ArgumentException ex)
@@ -283,6 +294,7 @@ namespace TownOfHost
         Snitch,
         SpeedBooster,
         Trapper,
+        Dictator,
         Doctor,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
@@ -293,11 +305,13 @@ namespace TownOfHost
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
+        Executioner,
         //HideAndSeak
-        Fox,
-        Troll,
+        HASFox,
+        HASTroll,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
+        Lovers,
     }
     //WinData
     public enum CustomWinner
@@ -308,22 +322,25 @@ namespace TownOfHost
         Crewmate,
         Jester,
         Terrorist,
+        Lovers,
+        Executioner,
         Arsonist,
         Egoist,
-        Troll
+        HASTroll
     }
     public enum AdditionalWinners
     {
         None = 0,
         Opportunist,
         SchrodingerCat,
-        Fox
+        Executioner,
+        HASFox
     }
     /*public enum CustomRoles : byte
     {
         Default = 0,
-        Troll = 1,
-        Fox = 2
+        HASTroll = 1,
+        HASHox = 2
     }*/
     public enum SuffixModes
     {
