@@ -55,7 +55,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Roles
+## Roles //FIXME:リリース前に追記
 
 | Impostors                       | Crewmates                             | Neutral                       |
 | ------------------------------- | ------------------------------------- | ----------------------------- |
