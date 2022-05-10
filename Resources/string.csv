@@ -260,8 +260,8 @@ SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢
 SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
-MayorHasPortableButton,Mayor Has PortableButton,メイヤーがポータブルボタンを持っている
-MayorNumOfUseButton,Mayor Number Of Use Portable Button,メイヤー使えるポータブルボタンの回数
+MayorHasPortableButton,Mayor Has Portable Button,メイヤーがポータブルボタンを持っている
+MayorNumOfUseButton,Mayor Number Of Use Portable Button,メイヤーが使えるポータブルボタンの回数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
 ExecutionerCanTargetImpostor,Executioner Can be Target Impostor,ｴｸｽｷｭｰｼｮﾅｰがインポスターもターゲットにできる
