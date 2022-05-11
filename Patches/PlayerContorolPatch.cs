@@ -142,6 +142,7 @@ namespace TownOfHost
                 }
             }
             if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
+            if (__instance.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(__instance, main.CheckShapeshift[__instance.PlayerId]);
 
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
@@ -201,6 +202,14 @@ namespace TownOfHost
             main.BlockKilling[__instance.PlayerId] = true;
 
             if (__instance.Is(CustomRoles.FireWorks))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
+            if (__instance.Is(CustomRoles.Sniper))
             {
                 if (!__instance.CanUseKillButton())
                 {
@@ -680,6 +689,8 @@ namespace TownOfHost
                     if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
 
+                    if (__instance.Is(CustomRoles.Sniper))
+                        RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
@@ -759,7 +770,12 @@ namespace TownOfHost
                         main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
+                    if (Sniper.isEnable() && target.AmOwner)
+                    {
+                        //銃声が聞こえるかチェック
+                        Mark += Sniper.GetShotNotify(target.PlayerId);
 
+                    }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if (!GameStates.isMeeting && target.getCustomRole().isImpostor()
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)))

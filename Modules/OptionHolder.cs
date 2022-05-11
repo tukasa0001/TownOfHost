@@ -253,6 +253,7 @@ namespace TownOfHost
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
+            Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);

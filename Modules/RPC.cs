@@ -30,6 +30,7 @@ namespace TownOfHost
         RemoveNameColorData,
         ResetNameColorData,
         DoSpell,
+        SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
         SendFireWorksState,
@@ -173,6 +174,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SniperSync:
+                    Sniper.RecieveRPC(reader);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     main.LoversPlayers.Clear();
