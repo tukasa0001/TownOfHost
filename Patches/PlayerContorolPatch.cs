@@ -988,7 +988,7 @@ namespace TownOfHost
         {
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
-            if (pc.isMayor())
+            if (pc.Is(CustomRoles.Mayor))
             {
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (main.MayorUsedButtonCount[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
