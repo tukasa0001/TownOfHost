@@ -688,6 +688,28 @@ namespace TownOfHost
                 pc.CustomSyncSettings();
             }
         }
+        public static void AfterMeetingTasks()
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(CustomRoles.SerialKiller))
+                {
+                    pc.RpcGuardAndKill(pc);
+                    main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                }
+                if (pc.Is(CustomRoles.BountyHunter))
+                {
+                    pc.RpcGuardAndKill(pc);
+                    main.BountyTimer.Add(pc.PlayerId, 0f);
+                }
+                if (PlayerControl.GameOptions.MapId != 4)//Airship以外
+                    if (pc.Is(CustomRoles.SerialKiller) || pc.Is(CustomRoles.BountyHunter))
+                    {
+                        //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
+                    }
+            }
+        }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {

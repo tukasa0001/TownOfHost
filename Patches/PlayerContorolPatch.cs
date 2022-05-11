@@ -46,6 +46,11 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
+            if (__instance.Is(CustomRoles.SerialKiller))
+            {
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings();
+            }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
             {
@@ -532,7 +537,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -541,29 +546,13 @@ namespace TownOfHost
                     }
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
                     {
-                        if (__instance.Is(CustomRoles.SerialKiller))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.BountyHunter))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.BountyTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.Warlock))
-                        {
-                            main.CursedPlayers[__instance.PlayerId] = (null);
-                            main.isCurseAndKill[__instance.PlayerId] = false;
-                        }
-                        __instance.CustomSyncSettings();
+                        Utils.AfterMeetingTasks();
                         main.AirshipMeetingTimer.Remove(__instance.PlayerId);
                     }
                     else
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                }
+                    }
+                }*/
 
                 if (GameStates.isInGame) LoversSuicide();
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
