@@ -149,6 +149,7 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    main.isDeadDoused[DousedId] = true;
                     break;
                 case CustomRPC.SendDousedPlayerCount:
                     ArsonistId = reader.ReadByte();

@@ -63,6 +63,8 @@ namespace TownOfHost
                         executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
                 }
             }
+            if (!main.isDeadDoused[target.PlayerId])
+                target.RemoveDousePlayer();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
@@ -583,22 +585,6 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
-                {
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                    {
-                        if (__instance == target) continue;
-                        if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
-                            if (target.Data.IsDead || target.Data.Disconnected)
-                            {
-                                main.isDeadDoused[target.PlayerId] = true;
-                                var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
-                                Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
-                                main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                                __instance.RpcSendDousedPlayerCount();
-                            }
-                    }
-                }
                 if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
                 {
                     Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
@@ -969,7 +955,7 @@ namespace TownOfHost
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if (!__instance.myPlayer.Data.IsDead)
+                            if (!pc.Data.IsDead)
                             {
                                 if (pc != __instance.myPlayer)
                                 {
