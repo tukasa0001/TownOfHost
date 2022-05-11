@@ -61,6 +61,7 @@ namespace TownOfHost
                     var executioner = Utils.getPlayerById(ExecutionerTarget.Key);
                     if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
                         executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                    main.ExecutionerTarget.Remove(ExecutionerTarget.Key);
                 }
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
