@@ -64,7 +64,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [ShapeMaster](###ShapeMaster)   | [SabotageMaster](###SabotageMaster)   | [Terrorist](###Terrorist)     |
 | [Vampire](###Vampire)           | [Sheriff](###Sheriff)                 | [Arsonist](###Arsonist)       |
 | [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
-| [Witch](###Witch)               | [Lighter](###Lighter)                 |                               |
+| [Witch](###Witch)               | [Lighter](###Lighter)                 | [Lovers](###Lovers)           |
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
 | [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
 | [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
@@ -166,6 +166,47 @@ Decision : Impostor<br>
 The target of the kill is made to kill the next Crewmate that the target approaches.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
+
+### FireWorks
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+The FireWorks can set off fireworks and kill a lot. <br>
+You Install up to 3 fireworks at the timing of shape-shift.  <br>
+After Install all the fireworks, you can set off all fireworks at once at the timing of the shape-shift when you becomes the last Imposter.  <br>
+You can't kill until the fireworks are Installing and Set off fireworks. <br>
+Even if you get caught up in fireworks, you win if you annihilate the enemy. <br>
+
+#### Settings
+
+| Settings Name       |
+| --------------------|
+| FireWorks Max Count |
+| FireWorks Radius    |
+
+### Sniper
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+Sniper can long-range shooting. <br>
+Kills targets that are on the extension of the shape-shifted point to the released point. <br>
+The crew on the line of sight will be notified of the shooting sound. <br>
+You cannot normally kill until the bullet is cut off. <br>
+
+Precision Shooting:OFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+Precision Shooting:ON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+
+#### Settings
+
+| Settings Name             |
+| ------------------------- |
+| Sniper Bullet Count       |
+| Sniper Precision Shooting |
+
 ### Madmate
 
 Team : Impostors<br>
@@ -174,12 +215,6 @@ Decision : Engineer<br>
 The Madmates belong to the Impostors team, but they do not know who the Impostors are.<br>
 The Impostors do not know who the they are too.<br>
 They can not kill or sabotage, but they can use vents.<br>
-
-#### Settings
-
-| Settings Name                                             |
-| --------------------------------------------------------- |
-| Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
 
 ### MadGuardian
 
@@ -193,21 +228,35 @@ They can not kill, sabotage, and using vents.<br>
 
 #### Settings
 
-| Settings Name                                         |
-| ----------------------------------------------------- |
-| [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
-| MadGuardian Can See Own Cracked Barrier               |
+| Settings Name                           |
+| --------------------------------------- |
+| MadGuardian Can See Own Cracked Barrier |
 
 ### MadSnitch
 
 Team : Impostor<br>
-Decision : Crewmate<br>
+Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
-They are unable to enter vent.<br>
 
+#### Settings
+
+| Settings Name          |
+| ---------------------- |
+| MadSnitch Can Use Vent |
+| MadSnitch Tasks        |
+
+There is also a common setting for Madmate type Roles.
+
+| Settings Name                             |
+| ----------------------------------------- |
+| Madmate Can Fix Lights Out                |
+| Madmate Can Fix Comms                     |
+| Madmate vision is as long as Impostor one |
+| Madmate Vent Cooldown                     |
+| Madmate In Vent Max Time                  |
 ### Watcher
 
 Team : Impostors or Crewmates<br>
@@ -380,6 +429,27 @@ They are the Neutral role where they win the game alone if they die with all the
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
+### Lovers
+
+Team : Neutral<br>
+Decision : -<br>
+Victory Conditions : Alive at the end of the game. (other than task completion)<br>
+
+Two of all players will be cast. (Duplicate to other positions) <br>
+If a position with a crew camp task becomes a lover, the task will disappear. <br>
+There is a heart symbol after each other's name. <br>
+If one dies, the other will die afterwards. <br>
+If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
+
+Example of overlapping job titles: <br>
+・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
+・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
+・ Snitch lover: No task, Impostor remains unknown. <br>
+・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
+・ Opportunist lover: Win if you survive. <br>
+・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+
 ### Arsonist
 
 Team : Neutral<br>
@@ -459,7 +529,7 @@ If the target is a jester, it wins an additional victory.<br>
 
 ### LastImpostor
 
-This is the attribute given to the last in-poster.<br>
+This is the attribute given to the last Impostor.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
