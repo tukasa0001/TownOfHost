@@ -46,6 +46,11 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
+            if (__instance.Is(CustomRoles.SerialKiller))
+            {
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings();
+            }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
             {
@@ -68,6 +73,8 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            main.LastKiller.Remove(target);
+
             PlayerState.setDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
@@ -109,7 +116,7 @@ namespace TownOfHost
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !__instance.Is(CustomRoles.Warlock) && !main.CheckShapeshift[__instance.PlayerId])
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !!__instance.Is(CustomRoles.Warlock) && !__instance.Is(CustomRoles.FireWorks) && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -132,6 +139,8 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
+
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
@@ -166,6 +175,7 @@ namespace TownOfHost
                 main.AirshipMeetingCheck = false;
                 Utils.CustomSyncAllSettings();
             }
+            main.LastKiller[target] = __instance;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
@@ -183,6 +193,14 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            if (__instance.Is(CustomRoles.FireWorks))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.Is(CustomRoles.Mafia))
             {
                 if (!__instance.CanUseKillButton())
@@ -386,19 +404,19 @@ namespace TownOfHost
 
             foreach (var bp in main.BitPlayers)
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                var vampireID = bp.Value.Item1;
+                var bitten = Utils.getPlayerById(bp.Key);
+                //vampireのキルブロック解除
+                main.BlockKilling[vampireID] = false;
+                if (!bitten.Data.IsDead)
                 {
-                    if (bp.Key == pc.PlayerId && !pc.Data.IsDead)
-                    {
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Bite);
-                        pc.RpcMurderPlayer(pc);
-                        RPC.PlaySoundRPC(bp.Value.Item1, Sounds.KillSound);
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "を自爆させました。");
-                        Utils.getPlayerById(bp.Key).TrapperKilled(pc);
-                    }
-                    else
-                        Logger.SendToFile("Vampireに噛まれている" + pc.name + "はすでに死んでいました。");
+                    PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    bitten.RpcMurderPlayer(bitten);
+                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
                 }
+                else
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
@@ -437,9 +455,9 @@ namespace TownOfHost
             {//実行クライアントがホストの場合のみ実行
                 if (GameStates.isLobby && ModUpdater.hasUpdate && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
-                //Vampireの処理
                 if (GameStates.isInTask && CustomRoles.Vampire.isEnable())
                 {
+                    //Vampireの処理
                     if (main.BitPlayers.ContainsKey(__instance.PlayerId))
                     {
                         //__instance:キルされる予定のプレイヤー
@@ -448,17 +466,23 @@ namespace TownOfHost
                         if (main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
                         {
                             byte vampireID = main.BitPlayers[__instance.PlayerId].Item1;
-                            if (!__instance.Data.IsDead)
+                            var bitten = __instance;
+                            //vampireのキルブロック解除
+                            main.BlockKilling[vampireID] = false;
+                            if (!bitten.Data.IsDead)
                             {
-                                PlayerState.setDeathReason(__instance.PlayerId, PlayerState.DeathReason.Bite);
-                                __instance.RpcMurderPlayer(__instance);
+                                PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                                __instance.RpcMurderPlayer(bitten);
                                 RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "を自爆させました。");
-                                Utils.getPlayerById(vampireID).TrapperKilled(__instance);
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "を自爆させました。");
+                                if (bitten.Is(CustomRoles.Trapper))
+                                    Utils.getPlayerById(vampireID).TrapperKilled(bitten);
                             }
                             else
-                                Logger.SendToFile("Vampireに噛まれている" + __instance.name + "はすでに死んでいました。");
-                            main.BitPlayers.Remove(__instance.PlayerId);
+                            {
+                                Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
+                            }
+                            main.BitPlayers.Remove(bitten.PlayerId);
                         }
                         else
                         {
@@ -467,7 +491,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInTask && main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
                     {//自滅時間が来たとき
@@ -522,7 +546,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -531,29 +555,13 @@ namespace TownOfHost
                     }
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
                     {
-                        if (__instance.Is(CustomRoles.SerialKiller))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.BountyHunter))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.BountyTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.Warlock))
-                        {
-                            main.CursedPlayers[__instance.PlayerId] = (null);
-                            main.isCurseAndKill[__instance.PlayerId] = false;
-                        }
-                        __instance.CustomSyncSettings();
+                        Utils.AfterMeetingTasks();
                         main.AirshipMeetingTimer.Remove(__instance.PlayerId);
                     }
                     else
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                }
+                    }
+                }*/
 
                 if (GameStates.isInGame) LoversSuicide();
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき

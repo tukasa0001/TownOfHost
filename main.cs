@@ -50,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
+        public static Dictionary<PlayerControl, PlayerControl> LastKiller;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -191,6 +192,7 @@ namespace TownOfHost
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
+                {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
@@ -269,6 +271,7 @@ namespace TownOfHost
         //Impostor
         BountyHunter,
         EvilWatcher,
+        FireWorks,
         Mafia,
         SerialKiller,
         ShapeMaster,
