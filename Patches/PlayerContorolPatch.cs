@@ -739,13 +739,12 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                     }
-                    if (seer.Is(CustomRoles.Puppeteer)) //seerがエクスキューショナー
-                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                        {
-                            if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
-                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                        }
+                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                    {
+                        if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                        target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                            Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                    }
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
                         if (seer.Is(CustomRoles.Puppeteer) &&

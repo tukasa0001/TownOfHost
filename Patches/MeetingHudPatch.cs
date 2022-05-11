@@ -296,13 +296,12 @@ namespace TownOfHost
                 {
                     pva.NameText.text = $"<color={seer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
                 }
-                if (seer.Is(CustomRoles.Executioner)) //seerがエクスキューショナー
-                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                    {
-                        if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
-                        target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                            pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                    }
+                foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                {
+                    if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                    target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                        pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                }
                 if (seer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(target.PlayerId)}</color>)";
