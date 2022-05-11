@@ -324,6 +324,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Mare:
+                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
                     if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
                     {
                         main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
