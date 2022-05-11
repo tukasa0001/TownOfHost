@@ -16,7 +16,8 @@ namespace TownOfHost
                 role == CustomRoles.Mare ||
                 role == CustomRoles.Puppeteer ||
                 role == CustomRoles.EvilWatcher ||
-                role == CustomRoles.Mafia;
+                role == CustomRoles.Mafia ||
+                role == CustomRoles.FireWorks;
         }
         public static bool isMadmate(this CustomRoles role)
         {
