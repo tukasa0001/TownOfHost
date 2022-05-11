@@ -250,6 +250,7 @@ namespace TownOfHost
                     Utils.SendMessage(getString(roleName) + getString($"{roleName}InfoLong"));
                     return;
                 }
+
                 var roleText = $"{roleName.ToLower()}({roleShort.ToLower()}), ";
                 if ((int)r.Key < 0)
                 {
