@@ -73,6 +73,8 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            FixedUpdatePatch.LoversSuicide(target.PlayerId);
+
             main.LastKiller.Remove(target);
 
             PlayerState.setDead(target.PlayerId);
@@ -177,12 +179,17 @@ namespace TownOfHost
             }
             main.LastKiller[target] = __instance;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            if (__instance.PlayerId == target.PlayerId)
+            {
+                //自殺ならノーチェック
+                __instance.RpcMurderPlayer(target);
+                return false;
+            }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-
             if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
 
             if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
@@ -850,31 +857,33 @@ namespace TownOfHost
             }
         }
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo = null)
+        public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
         {
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
-                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead || exiledLoversPlayerInfo != null) //ラバーズが死んでいたら or ラバーズが投票先になったら
+                    //生きていて死ぬ予定でなければスキップ
+                    if (!loversPlayer.Data.IsDead && loversPlayer.PlayerId != deathId) continue;
+
+                    main.isLoversDead = true;
+                    foreach (var partnerPlayer in main.LoversPlayers)
                     {
-                        main.isLoversDead = true;
-                        foreach (var partnerPlayer in main.LoversPlayers)
+                        //本人ならスキップ
+                        if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
+
+                        //残った恋人を全て殺す(2人以上可)
+                        //生きていて死ぬ予定もない場合は心中
+                        if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
-                            //残った恋人を全て殺す(2人以上可)
-                            if ((exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
-                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
+                            PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                            if (isExiled)
                             {
-                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                if (exiledLoversPlayerInfo != null)
-                                {
-                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                                    if (PlayerControl.GameOptions.MapId != 4) //Airship用
-                                        CheckForEndVotingPatch.recall = true;
-                                }
-                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
+                                if (PlayerControl.GameOptions.MapId != 4) //Airship用
+                                    CheckForEndVotingPatch.recall = true;
                             }
+                            partnerPlayer.CheckMurder(partnerPlayer);
                         }
                     }
                 }
