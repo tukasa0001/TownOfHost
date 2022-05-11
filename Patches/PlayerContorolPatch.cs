@@ -858,7 +858,7 @@ namespace TownOfHost
             }
         }
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-        public static void LoversSuicide(byte deathId = 0x7f, bool isExilrd = false)
+        public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
         {
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
@@ -878,7 +878,7 @@ namespace TownOfHost
                         if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
                             PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                            if (isExilrd)
+                            if (isExiled)
                             {
                                 main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
                                 if (PlayerControl.GameOptions.MapId != 4) //Airship用
