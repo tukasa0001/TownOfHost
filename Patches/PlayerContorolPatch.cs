@@ -962,7 +962,7 @@ namespace TownOfHost
                                     //生存者は焼殺
                                     pc.RpcMurderPlayer(pc);
                                     PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
-                                    PlayerState.isDead[pc.PlayerId] = true;
+                                    PlayerState.setDead(pc.PlayerId);
                                 }
                                 else
                                     RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
