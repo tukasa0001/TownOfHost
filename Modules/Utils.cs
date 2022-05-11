@@ -471,6 +471,8 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
+                if (seer.Is(CustomRoles.Sniper))
+                    SelfTaskText = Sniper.GetBulletCount(seer);
 
                 //名前の後ろに付けるマーカー
                 string SelfMark = "";
@@ -499,6 +501,12 @@ namespace TownOfHost
                 //呪われている場合
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
+
+                if (Sniper.isEnable())
+                {
+                    //銃声が聞こえるかチェック
+                    SelfMark += Sniper.GetShotNotify(seer.PlayerId);
+                }
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 

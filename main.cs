@@ -194,6 +194,7 @@ namespace TownOfHost
                 {CustomRoles.Puppeteer, "#ff0000"},
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
+                {CustomRoles.Sniper, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -275,6 +276,7 @@ namespace TownOfHost
         Mafia,
         SerialKiller,
         ShapeMaster,
+        Sniper,
         Vampire,
         Witch,
         Warlock,

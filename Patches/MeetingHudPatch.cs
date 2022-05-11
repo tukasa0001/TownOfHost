@@ -137,7 +137,7 @@ namespace TownOfHost
 
                 if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer);
+                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
 
                 //霊界用暗転バグ対処
@@ -351,7 +351,7 @@ namespace TownOfHost
                     if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
+                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
                     else RoleTextMeeting.enabled = false;
                 }
                 //死んでいないディクテーターが投票済み
