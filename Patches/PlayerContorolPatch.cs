@@ -46,6 +46,11 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
+            if (__instance.Is(CustomRoles.SerialKiller))
+            {
+                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                __instance.CustomSyncSettings();
+            }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
             {
@@ -68,6 +73,8 @@ namespace TownOfHost
                 if (pc.isLastImpostor())
                     main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
+            FixedUpdatePatch.LoversSuicide(target.PlayerId);
+
             main.LastKiller.Remove(target);
 
             PlayerState.setDead(target.PlayerId);
@@ -111,7 +118,7 @@ namespace TownOfHost
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !__instance.Is(CustomRoles.Warlock) && !main.CheckShapeshift[__instance.PlayerId])
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !!__instance.Is(CustomRoles.Warlock) && !__instance.Is(CustomRoles.FireWorks) && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -134,7 +141,9 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
             if (__instance.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(__instance, main.CheckShapeshift[__instance.PlayerId]);
+
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
@@ -171,12 +180,17 @@ namespace TownOfHost
             }
             main.LastKiller[target] = __instance;
             Logger.SendToFile("CheckMurder発生: " + __instance.name + "=>" + target.name);
+            if (__instance.PlayerId == target.PlayerId)
+            {
+                //自殺ならノーチェック
+                __instance.RpcMurderPlayer(target);
+                return false;
+            }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。");
                 return false;
             }
-
             if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
 
             if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
@@ -187,6 +201,14 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            if (__instance.Is(CustomRoles.FireWorks))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.Is(CustomRoles.Sniper))
             {
                 if (!__instance.CanUseKillButton())
@@ -531,7 +553,7 @@ namespace TownOfHost
                     if (main.BountyTimer[__instance.PlayerId] >= 0)
                         main.BountyTimer[__instance.PlayerId] = (main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
                 }
-                if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId))
+                /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
                     {
@@ -540,29 +562,13 @@ namespace TownOfHost
                     }
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 10f)
                     {
-                        if (__instance.Is(CustomRoles.SerialKiller))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.SerialKillerTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.BountyHunter))
-                        {
-                            __instance.RpcGuardAndKill(__instance);
-                            main.AllPlayerKillCooldown[__instance.PlayerId] *= 2 - 10f;
-                            main.BountyTimer.Add(__instance.PlayerId, 10f);
-                        }
-                        if (__instance.Is(CustomRoles.Warlock))
-                        {
-                            main.CursedPlayers[__instance.PlayerId] = (null);
-                            main.isCurseAndKill[__instance.PlayerId] = false;
-                        }
-                        __instance.CustomSyncSettings();
+                        Utils.AfterMeetingTasks();
                         main.AirshipMeetingTimer.Remove(__instance.PlayerId);
                     }
                     else
                         main.AirshipMeetingTimer[__instance.PlayerId] = (main.AirshipMeetingTimer[__instance.PlayerId] + Time.fixedDeltaTime);
-                }
+                    }
+                }*/
 
                 if (GameStates.isInGame) LoversSuicide();
                 if (GameStates.isInTask && main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
@@ -867,31 +873,33 @@ namespace TownOfHost
             }
         }
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
-        public static void LoversSuicide(GameData.PlayerInfo exiledLoversPlayerInfo = null)
+        public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
         {
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false)
             {
                 foreach (var loversPlayer in main.LoversPlayers)
                 {
-                    if (PlayerControl.AllPlayerControls[loversPlayer.PlayerId].Data.IsDead || exiledLoversPlayerInfo != null) //ラバーズが死んでいたら or ラバーズが投票先になったら
+                    //生きていて死ぬ予定でなければスキップ
+                    if (!loversPlayer.Data.IsDead && loversPlayer.PlayerId != deathId) continue;
+
+                    main.isLoversDead = true;
+                    foreach (var partnerPlayer in main.LoversPlayers)
                     {
-                        main.isLoversDead = true;
-                        foreach (var partnerPlayer in main.LoversPlayers)
+                        //本人ならスキップ
+                        if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
+
+                        //残った恋人を全て殺す(2人以上可)
+                        //生きていて死ぬ予定もない場合は心中
+                        if (partnerPlayer.PlayerId != deathId && !partnerPlayer.Data.IsDead)
                         {
-                            if (loversPlayer.PlayerId == partnerPlayer.PlayerId) continue;
-                            //残った恋人を全て殺す(2人以上可)
-                            if ((exiledLoversPlayerInfo == null || exiledLoversPlayerInfo.PlayerId != partnerPlayer.PlayerId)  //投票ではない または 投票先と恋人Bが違う人
-                            && !PlayerControl.AllPlayerControls[partnerPlayer.PlayerId].Data.IsDead) //パートナーが死んでなければ自殺してもらう
+                            PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                            if (isExiled)
                             {
-                                PlayerState.setDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
-                                if (exiledLoversPlayerInfo != null)
-                                {
-                                    main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                                    if (PlayerControl.GameOptions.MapId != 4) //Airship用
-                                        CheckForEndVotingPatch.recall = true;
-                                }
-                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
+                                if (PlayerControl.GameOptions.MapId != 4) //Airship用
+                                    CheckForEndVotingPatch.recall = true;
                             }
+                            partnerPlayer.CheckMurder(partnerPlayer);
                         }
                     }
                 }

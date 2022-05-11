@@ -537,6 +537,7 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
         }
@@ -588,7 +589,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
