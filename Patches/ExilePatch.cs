@@ -74,47 +74,14 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (pc.Is(CustomRoles.Warlock))
                 {
-                    if (pc.isSerialKiller())
-                    {
-                        pc.RpcGuardAndKill(pc);
-                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.isBountyHunter())
-                    {
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                        pc.RpcGuardAndKill(pc);
-                        main.BountyTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.isWarlock())
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
-                    if (pc.isSchrodingerCat() && Options.SchrodingerCatExiledTeamChanges.GetBool())
-                    {
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SchrodingerCatExiled, Hazel.SendOption.Reliable, -1);
-                        writer.Write(exiled.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        pc.ExiledSchrodingerCatTeamChange();
-                    }
-                }
-                if (PlayerControl.GameOptions.MapId == 4)//Airship用
-                {
-                    if (pc.isSerialKiller() || pc.isBountyHunter())
-                    {
-                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                    }
-                    if (pc.isWarlock())
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
+                    main.CursedPlayers[pc.PlayerId] = (null);
+                    main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
             Utils.CountAliveImpostors();
+            Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
             Logger.info("タスクフェイズ開始", "Phase");
