@@ -66,11 +66,14 @@ namespace TownOfHost
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
+        public static CustomOption CanMakeMadmateCount;
+        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
+        public static CustomOption MadSnitchCanVent;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
-        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
-        public static CustomOption CanMakeMadmateCount;
+        public static CustomOption MadmateVentCooldown;
+        public static CustomOption MadmateVentMaxTime;
 
         public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
@@ -257,6 +260,8 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+            FireWorks.SetupCustomOption();
+            Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
@@ -270,12 +275,15 @@ namespace TownOfHost
             MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             //ID10120~10123を使用
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
+            MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             //ID10220~10223を使用
             // Madmate Common Options
-            MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, null, true);
-            MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false);
-            MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false);
+            MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
+            MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(15012, Color.white, "MadmateHasImpostorVision", false);
+            MadmateVentCooldown = CustomOption.Create(15213, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
+            MadmateVentMaxTime = CustomOption.Create(15214, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
@@ -427,7 +435,7 @@ namespace TownOfHost
             IsLoaded = true;
         }
 
-        private static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
+        public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)

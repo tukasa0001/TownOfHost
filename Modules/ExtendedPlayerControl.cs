@@ -152,6 +152,12 @@ namespace TownOfHost
                 {
                     killer.RpcMurderPlayer(target);
                 }
+                else
+                {
+                    //ガードはがされていたら剥がした人のキルにする
+                    var lastKiller = main.LastKiller[target];
+                    lastKiller.RpcMurderPlayer(target);
+                }
             }, 0.5f, "GuardAndKill");
         }
 
@@ -232,8 +238,6 @@ namespace TownOfHost
 
             switch (player.getCustomRole())
             {
-                case CustomRoles.Madmate:
-                    goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
@@ -329,6 +333,8 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
                     break;
@@ -531,6 +537,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
+            if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
         }
         public static bool isLastImpostor(this PlayerControl pc)
@@ -581,7 +589,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
