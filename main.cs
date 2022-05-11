@@ -107,6 +107,8 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int SavedDiscussionTime;
         public static int SavedVotingTime;
+        public static int DiscussionTime;
+        public static int VotingTime;
 
         public static main Instance;
 

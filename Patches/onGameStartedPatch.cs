@@ -57,6 +57,8 @@ namespace TownOfHost
 
             main.SavedDiscussionTime = main.RealOptionsData.DiscussionTime;
             main.SavedVotingTime = main.RealOptionsData.VotingTime;
+            main.DiscussionTime = main.RealOptionsData.DiscussionTime;
+            main.VotingTime = main.RealOptionsData.VotingTime;
 
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();

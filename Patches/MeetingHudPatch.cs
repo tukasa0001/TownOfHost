@@ -194,7 +194,9 @@ namespace TownOfHost
             main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true);
             main.witchMeeting = false;
-            if (CustomRoles.TimeThief.isEnable() && main.RealOptionsData.VotingTime <= 0)
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (CustomRoles.TimeThief.isEnable() && pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && main.VotingTime <= 0)
                 {
                     new LateTask(() =>
                         {
@@ -202,6 +204,12 @@ namespace TownOfHost
                         },
                         5f);
                 }
+                if (CustomRoles.TimeThief.isEnable() && pc.Is(CustomRoles.TimeThief) && pc.Data.IsDead)
+                {
+                    main.DiscussionTime = main.SavedDiscussionTime;
+                    main.VotingTime = main.SavedVotingTime;
+                }
+            }
         }
         public static void Postfix(MeetingHud __instance)
         {
