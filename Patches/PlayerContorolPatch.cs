@@ -111,7 +111,7 @@ namespace TownOfHost
                     main.CursedPlayers[__instance.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !__instance.Is(CustomRoles.Warlock) && !main.CheckShapeshift[__instance.PlayerId])
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !!__instance.Is(CustomRoles.Warlock) && !__instance.Is(CustomRoles.FireWorks) && !main.CheckShapeshift[__instance.PlayerId])
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 __instancepos = __instance.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -134,6 +134,8 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
+
             bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
             main.CheckShapeshift.Remove(__instance.PlayerId);
             main.CheckShapeshift.Add(__instance.PlayerId, !check);
@@ -186,6 +188,14 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            if (__instance.Is(CustomRoles.FireWorks))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.Is(CustomRoles.Mafia))
             {
                 if (!__instance.CanUseKillButton())

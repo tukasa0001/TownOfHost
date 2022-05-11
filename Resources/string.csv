@@ -14,6 +14,7 @@ Shapeshifter,Shapeshifter,シェイプシフター
 
 # 特殊インポスター役職
 BountyHunter,BountyHunter,バウンティハンター
+FireWorks,FireWorks,花火職人
 SerialKiller,SerialKiller,シリアルキラー
 ShapeMaster,ShapeMaster,シェイプマスター
 Vampire,Vampire,ヴァンパイア
@@ -73,6 +74,7 @@ TeamImpostor,Team Impostor,インポスター陣営
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
+FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
@@ -126,6 +128,7 @@ HASTrollInfo,Die to win,自爆しよう
 
 # 特殊インポスター役職
 BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
@@ -266,6 +269,8 @@ ArsonistDouseTime,Arsonist Douse Time,アーソニストの塗り時間
 ArsonistCooldown,Arsonist Cooldown,アーソニストのクールダウン
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち
 ShapeMasterShapeshiftDuration,ShapeMaster Shapeshift Duration,シェイプマスターの変身持続時間
+FireWorksMaxCount,FireWorks Max Count,花火の所持数
+FireWorksRadius,FireWorks Radius,花火の爆発半径
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 
 ## かくれんぼ設定
