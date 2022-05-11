@@ -31,7 +31,8 @@ namespace TownOfHost
         ResetNameColorData,
         DoSpell,
         SetLoversPlayers,
-        SetExecutionerTarget
+        SetExecutionerTarget,
+        RemoveExecutionerTarget
     }
     public enum Sounds
     {
@@ -183,6 +184,10 @@ namespace TownOfHost
                     byte executionerId = reader.ReadByte();
                     byte targetId = reader.ReadByte();
                     main.ExecutionerTarget[executionerId] = targetId;
+                    break;
+                case CustomRPC.RemoveExecutionerTarget:
+                    byte Key = reader.ReadByte();
+                    main.ExecutionerTarget.Remove(Key);
                     break;
             }
         }
@@ -387,6 +392,12 @@ namespace TownOfHost
             }
             catch { }
             Logger.info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+        }
+        public static void removeExecutionerKey(byte Key)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
