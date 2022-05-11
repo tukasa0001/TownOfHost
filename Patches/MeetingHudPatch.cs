@@ -137,7 +137,7 @@ namespace TownOfHost
 
                 if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer);
+                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId,true);
                 }
 
                 //霊界用暗転バグ対処
