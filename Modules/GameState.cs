@@ -56,10 +56,12 @@ namespace TownOfHost
             Vote,
             Suicide,
             Spell,
+            LoversSuicide,
             Bite,
             Bombed,
             Misfire,
             Torched,
+            Sniped,
             Disconnected,
             etc = -1
         }

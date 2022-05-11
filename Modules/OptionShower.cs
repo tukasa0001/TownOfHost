@@ -58,6 +58,8 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
+                    text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
+                    text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                 }
                 if (kvp.Key == CustomRoles.Shapeshifter || kvp.Key == CustomRoles.ShapeMaster || kvp.Key == CustomRoles.Mafia || kvp.Key == CustomRoles.BountyHunter || kvp.Key == CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
