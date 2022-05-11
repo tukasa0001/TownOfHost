@@ -30,9 +30,11 @@ namespace TownOfHost
         RemoveNameColorData,
         ResetNameColorData,
         DoSpell,
+        SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget
+        SendFireWorksState,
     }
     public enum Sounds
     {
@@ -174,6 +176,9 @@ namespace TownOfHost
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
+                case CustomRPC.SniperSync:
+                    Sniper.RecieveRPC(reader);
+                    break;
                 case CustomRPC.SetLoversPlayers:
                     main.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
@@ -188,6 +193,8 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     byte Key = reader.ReadByte();
                     main.ExecutionerTarget.Remove(Key);
+                case CustomRPC.SendFireWorksState:
+                    FireWorks.RecieveRPC(reader);
                     break;
             }
         }
@@ -316,6 +323,7 @@ namespace TownOfHost
             {
                 main.AllPlayerCustomSubRoles[targetId] = role;
             }
+            if (role ==CustomRoles.FireWorks) FireWorks.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)

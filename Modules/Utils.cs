@@ -471,6 +471,8 @@ namespace TownOfHost
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
                 string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
+                if (seer.Is(CustomRoles.Sniper))
+                    SelfTaskText = Sniper.GetBulletCount(seer);
 
                 //名前の後ろに付けるマーカー
                 string SelfMark = "";
@@ -499,6 +501,12 @@ namespace TownOfHost
                 //呪われている場合
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
+
+                if (Sniper.isEnable())
+                {
+                    //銃声が聞こえるかチェック
+                    SelfMark += Sniper.GetShotNotify(seer.PlayerId);
+                }
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -506,6 +514,11 @@ namespace TownOfHost
                 {
                     string BountyTargetName = seer.getBountyTarget().getRealName(isMeeting);
                     SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
+                }
+                if (seer.Is(CustomRoles.FireWorks))
+                {
+                    string stateText = FireWorks.GetStateText(seer);
+                    SelfSuffix = $"{stateText}";
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
@@ -680,6 +693,28 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.CustomSyncSettings();
+            }
+        }
+        public static void AfterMeetingTasks()
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(CustomRoles.SerialKiller))
+                {
+                    pc.RpcGuardAndKill(pc);
+                    main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                }
+                if (pc.Is(CustomRoles.BountyHunter))
+                {
+                    pc.RpcGuardAndKill(pc);
+                    main.BountyTimer.Add(pc.PlayerId, 0f);
+                }
+                if (PlayerControl.GameOptions.MapId != 4)//Airship以外
+                    if (pc.Is(CustomRoles.SerialKiller) || pc.Is(CustomRoles.BountyHunter))
+                    {
+                        //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
+                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
+                    }
             }
         }
 
