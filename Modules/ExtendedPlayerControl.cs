@@ -68,7 +68,7 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
                 return cRole;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -90,7 +90,7 @@ namespace TownOfHost
         {
             if (player == null)
             {
-                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
                 return CustomRoles.NoSubRoleAssigned;
             }
             var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
@@ -121,7 +121,7 @@ namespace TownOfHost
             }
             main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+            Logger.info($"Set:{player.Data.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -151,6 +151,12 @@ namespace TownOfHost
                 if (target.protectedByGuardian)
                 {
                     killer.RpcMurderPlayer(target);
+                }
+                else
+                {
+                    //ガードはがされていたら剥がした人のキルにする
+                    var lastKiller = main.LastKiller[target];
+                    lastKiller.RpcMurderPlayer(target);
                 }
             }, 0.5f, "GuardAndKill");
         }
@@ -232,8 +238,6 @@ namespace TownOfHost
 
             switch (player.getCustomRole())
             {
-                case CustomRoles.Madmate:
-                    goto InfinityVent;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
@@ -329,6 +333,8 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
                     if (Options.MadmateHasImpostorVision.GetBool())
                         opt.SetVision(player, true);
                     break;
@@ -387,6 +393,20 @@ namespace TownOfHost
         public static string getRoleName(this PlayerControl player)
         {
             return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
+        }
+        public static string getSubRoleName(this PlayerControl player)
+        {
+            return $"{Utils.getRoleName(player.getCustomSubRole())}";
+        }
+        public static string getAllRoleName(this PlayerControl player)
+        {
+            var text = player.getRoleName();
+            text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
+            return text;
+        }
+        public static string getNameWithRole(this PlayerControl player)
+        {
+            return $"{player.Data.PlayerName}({player.getAllRoleName()})";
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -448,7 +468,7 @@ namespace TownOfHost
                 RealName = player.name;
                 if (RealName == "Player(Clone)") return RealName;
                 main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました", "getRealName");
             }
             return RealName;
         }
@@ -483,12 +503,12 @@ namespace TownOfHost
             var rand = new System.Random();
             if (cTargets.Count <= 0)
             {
-                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                Logger.error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+            Logger.info($"プレイヤー{player.getNameWithRole()}のターゲットを{target.getNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
@@ -531,6 +551,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
+            if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
         }
         public static bool isLastImpostor(this PlayerControl pc)
@@ -581,7 +603,7 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2; //シリアルキラーはシリアルキラーのキルクールに。
+                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
@@ -595,7 +617,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.SendToFile(target.name + $"はTrapperだった");
+            Logger.info($"{target.Data.PlayerName}はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>

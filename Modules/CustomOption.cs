@@ -15,6 +15,7 @@ namespace TownOfHost
         public int Id;
         public Color Color;
         public string Name;
+        public Dictionary<string, string> ReplacementDictionary;
         public string Format;
         public System.Object[] Selections;
 
@@ -73,7 +74,8 @@ namespace TownOfHost
             CustomOption parent,
             bool isHeader,
             bool isHidden,
-            string format)
+            string format,
+            Dictionary<string, string> replacementDic)
         {
             Id = id;
             Color = color;
@@ -85,6 +87,7 @@ namespace TownOfHost
             this.isHeader = isHeader;
             this.isHidden = isHidden;
             Format = format;
+            ReplacementDictionary = replacementDic;
 
             isHiddenOnDisplay = false;
 
@@ -114,9 +117,10 @@ namespace TownOfHost
             CustomOption parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "")
+            string format = "",
+            Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format);
+            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
@@ -129,7 +133,8 @@ namespace TownOfHost
             CustomOption parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "")
+            string format = "",
+            Dictionary<string, string> replacementDic = null)
         {
             var selections = new List<float>();
             for (var s = min; s <= max; s += step)
@@ -137,7 +142,7 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format);
+            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
@@ -147,9 +152,10 @@ namespace TownOfHost
             CustomOption parent = null,
             bool isHeader = false,
             bool isHidden = false,
-            string format = "")
+            string format = "",
+            Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, new string[] { "Off", "On" }, defaultValue ? "On" : "Off", parent, isHeader, isHidden, format);
+            return new CustomOption(id, color, name, new string[] { "Off", "On" }, defaultValue ? "On" : "Off", parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
@@ -235,12 +241,12 @@ namespace TownOfHost
 
         public string GetName()
         {
-            return Helpers.ColorString(Color, Translator.getString(Name));
+            return Helpers.ColorString(Color, Translator.getString(Name, ReplacementDictionary));
         }
 
         public virtual string getName(bool display = false)
         {
-            return Helpers.ColorString(Color, Translator.getString(Name));
+            return Helpers.ColorString(Color, Translator.getString(Name, ReplacementDictionary));
         }
 
         public void UpdateSelection(bool enable)

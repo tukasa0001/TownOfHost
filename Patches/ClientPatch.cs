@@ -11,7 +11,7 @@ namespace TownOfHost
         {
             if (ModUpdater.hasUpdate)
             {
-                Logger.SendInGame(getString("onSetPublicNoLatest"));
+                Logger.info(getString("onSetPublicNoLatest"), "MakePublicPatch");
                 return false;
             }
             return true;

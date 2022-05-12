@@ -66,12 +66,14 @@ namespace TownOfHost
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
+        public static CustomOption CanMakeMadmateCount;
+        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
+        public static CustomOption MadSnitchCanVent;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
-        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
-        public static CustomOption MadSnitchTasks;
-        public static CustomOption CanMakeMadmateCount;
+        public static CustomOption MadmateVentCooldown;
+        public static CustomOption MadmateVentMaxTime;
 
         public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
@@ -155,6 +157,12 @@ namespace TownOfHost
         public static CustomOption SabotageTimeControl;
         public static CustomOption PolusReactorTimeLimit;
         public static CustomOption AirshipReactorTimeLimit;
+
+        // タスク上書き
+        public static OverrideTasksData MadGuardianTasks;
+        public static OverrideTasksData TerroristTasks;
+        public static OverrideTasksData SnitchTasks;
+        public static OverrideTasksData MadSnitchTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -252,6 +260,8 @@ namespace TownOfHost
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
+            FireWorks.SetupCustomOption();
+            Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
@@ -262,12 +272,18 @@ namespace TownOfHost
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
+            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
+            //ID10120~10123を使用
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
-            MadSnitchTasks = CustomOption.Create(10210, Color.white, "MadSnitchTasks", 4, 1, 20, 1, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
+            //ID10220~10223を使用
             // Madmate Common Options
-            MadmateCanFixLightsOut = CustomOption.Create(10010, Color.white, "MadmateCanFixLightsOut", false, null, true);
-            MadmateCanFixComms = CustomOption.Create(10011, Color.white, "MadmateCanFixComms", false);
-            MadmateHasImpostorVision = CustomOption.Create(10012, Color.white, "MadmateHasImpostorVision", false);
+            MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
+            MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
+            MadmateHasImpostorVision = CustomOption.Create(15012, Color.white, "MadmateHasImpostorVision", false);
+            MadmateVentCooldown = CustomOption.Create(15213, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
+            MadmateVentMaxTime = CustomOption.Create(15214, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
@@ -299,6 +315,8 @@ namespace TownOfHost
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
+            //20520~20523を使用
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
@@ -315,6 +333,8 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
+            SnitchTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
+            //50220~50223を使用
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
@@ -415,7 +435,7 @@ namespace TownOfHost
             IsLoaded = true;
         }
 
-        private static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
+        public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
@@ -441,6 +461,39 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
+        public class OverrideTasksData
+        {
+            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new Dictionary<CustomRoles, OverrideTasksData>();
+            public CustomRoles role { get; private set; }
+            public int idStart { get; private set; }
+            public CustomOption doOverride;
+            public CustomOption assignCommonTasks;
+            public CustomOption numLongTasks;
+            public CustomOption numShortTasks;
 
+            public OverrideTasksData(int idStart, CustomRoles role)
+            {
+                this.idStart = idStart;
+                this.role = role;
+                Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.getRoleColor(role), Utils.getRoleName(role)) } };
+                doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
+                assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
+                numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
+                numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
+
+                if (!AllData.ContainsKey(role))
+                {
+                    AllData.Add(role, this);
+                }
+                else
+                {
+                    Logger.warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました");
+                }
+            }
+            public static OverrideTasksData Create(int idStart, CustomRoles role)
+            {
+                return new OverrideTasksData(idStart, role);
+            }
+        }
     }
 }

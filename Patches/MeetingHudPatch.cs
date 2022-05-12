@@ -36,7 +36,7 @@ namespace TownOfHost
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
                     if (ps == null) continue;
-                    Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}");
+                    Logger.info(String.Format("{0,-2}{1,-32}:{2,-2}{3}", ps.TargetPlayerId, $"({Utils.getVoteName(ps.TargetPlayerId)})", ps.VotedFor, $"({Utils.getVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.getPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
@@ -46,11 +46,13 @@ namespace TownOfHost
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
+                                Logger.info($"スキップしたため{voter.getNameWithRole()}を自殺させました", "Vote");
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
                                 recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
+                                Logger.info($"スキップしたため{voter.getNameWithRole()}に自投票させました", "Vote");
                                 break;
                             default:
                                 break;
@@ -63,14 +65,17 @@ namespace TownOfHost
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
+                                Logger.info($"無投票のため{voter.getNameWithRole()}を自殺させました", "Vote");
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
                                 recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
+                                Logger.info($"無投票のため{voter.getNameWithRole()}に自投票させました", "Vote");
                                 break;
                             case VoteMode.Skip:
                                 ps.VotedFor = 253;
+                                Logger.info($"無投票のため{voter.getNameWithRole()}にスキップさせました", "Vote");
                                 break;
                             default:
                                 break;
@@ -98,27 +103,27 @@ namespace TownOfHost
                 var VotingData = __instance.CustomCalculateVotes();
                 byte exileId = byte.MaxValue;
                 int max = 0;
-                Logger.info("===追放者確認処理開始===");
+                Logger.info("===追放者確認処理開始===", "Vote");
                 foreach (var data in VotingData)
                 {
-                    Logger.info(data.Key + ": " + data.Value);
+                    Logger.info($"{data.Key}({Utils.getVoteName(data.Key)}):{data.Value}票", "Vote");
                     if (data.Value > max)
                     {
-                        Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")");
+                        Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")", "Vote");
                         exileId = data.Key;
                         max = data.Value;
                         tie = false;
                     }
                     else if (data.Value == max)
                     {
-                        Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")");
+                        Logger.info(data.Key + "番が" + exileId + "番と同数(" + data.Value + ")", "Vote");
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    Logger.info("exileId: " + exileId + ", max: " + max);
+                    Logger.info($"exileId: {exileId}, max: {max}票", "Vote");
                 }
 
-                Logger.info("追放者決定: " + exileId);
+                Logger.info($"追放者決定: {exileId}({Utils.getVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
@@ -137,7 +142,7 @@ namespace TownOfHost
 
                 if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false && main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer);
+                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
 
                 //霊界用暗転バグ対処
@@ -166,7 +171,7 @@ namespace TownOfHost
     {
         public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
         {
-            Logger.info("CustomCalculateVotes開始");
+            Logger.info("CustomCalculateVotes開始", "Vote");
             Dictionary<byte, int> dic = new Dictionary<byte, int>();
             //| 投票された人 | 投票された回数 |
             for (int i = 0; i < __instance.playerStates.Length; i++)
@@ -190,7 +195,7 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
-            Logger.info("会議が開始", "Phase");
+            Logger.info("------------会議開始------------", "Phase");
             main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true);
             main.witchMeeting = false;
@@ -212,7 +217,7 @@ namespace TownOfHost
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
                 Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
-                Logger.SendToFile("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", LogLevel.Message);
+                Logger.info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
 
             if (AmongUsClient.Instance.AmHost)
@@ -335,7 +340,7 @@ namespace TownOfHost
                     if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead) RoleTextMeeting.enabled = true;
+                    else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
                     else RoleTextMeeting.enabled = false;
                 }
                 //死んでいないディクテーターが投票済み
@@ -365,7 +370,7 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
-            Logger.info("会議が終了", "Phase");
+            Logger.info("------------会議終了------------", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
 
             //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。

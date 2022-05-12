@@ -74,40 +74,16 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (pc.Is(CustomRoles.Warlock))
                 {
-                    if (pc.Is(CustomRoles.SerialKiller))
-                    {
-                        pc.RpcGuardAndKill(pc);
-                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.Is(CustomRoles.BountyHunter))
-                    {
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                        pc.RpcGuardAndKill(pc);
-                        main.BountyTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.Is(CustomRoles.Warlock))
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
+                    main.CursedPlayers[pc.PlayerId] = (null);
+                    main.isCurseAndKill[pc.PlayerId] = false;
                 }
-                if (PlayerControl.GameOptions.MapId == 4)//Airship用
-                {
-                    if (pc.Is(CustomRoles.SerialKiller) || pc.Is(CustomRoles.BountyHunter))
-                    {
-                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                    }
-                    if (pc.Is(CustomRoles.Warlock))
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
-                }
+                if (pc.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
+                    pc.ExiledSchrodingerCatTeamChange();
             }
             Utils.CountAliveImpostors();
+            Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
             Logger.info("タスクフェイズ開始", "Phase");

@@ -143,7 +143,7 @@ namespace TownOfHost
             }
             catch (System.Exception e)
             {
-                Logger.error("Exception occurred when clearing old versions:\n" + e);
+                Logger.error("Exception occurred when clearing old versions:\n" + e, "ModUpdater");
             }
         }
 
@@ -157,7 +157,7 @@ namespace TownOfHost
                 var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
                 {
-                    Logger.error("Server returned no data: " + response.StatusCode.ToString());
+                    Logger.error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
                     return false;
                 }
                 string json = await response.Content.ReadAsStringAsync();
@@ -204,7 +204,7 @@ namespace TownOfHost
             }
             catch (System.Exception ex)
             {
-                Logger.error(ex.ToString());
+                Logger.error(ex.ToString(), "ModUpdater");
             }
             return false;
         }
@@ -218,7 +218,7 @@ namespace TownOfHost
                 var response = await http.GetAsync(new System.Uri(updateURI), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
                 {
-                    Logger.error("Server returned no data: " + response.StatusCode.ToString());
+                    Logger.error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
                     return false;
                 }
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -241,7 +241,7 @@ namespace TownOfHost
             }
             catch (System.Exception ex)
             {
-                Logger.error(ex.ToString());
+                Logger.error(ex.ToString(), "ModUpdater");
             }
             showPopup(getString("updateFailed"));
             return false;

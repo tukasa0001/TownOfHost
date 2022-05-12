@@ -8,9 +8,9 @@ namespace TownOfHost
         public static Dictionary<string, Dictionary<int, string>> tr;
         public static void init()
         {
-            Logger.info("Language Dictionary Initialize...");
+            Logger.info("Language Dictionary Initialize...", "Translator");
             loadLangs();
-            Logger.info("Language Dictionary Initialize Finished");
+            Logger.info("Language Dictionary Initialize Finished", "Translator");
         }
         public static void loadLangs()
         {
@@ -46,7 +46,7 @@ namespace TownOfHost
                 {
                     var err = $"翻訳用CSVファイルに誤りがあります。\n{currentLine}行目:";
                     foreach (var c in fields) err += $" [{c}]";
-                    Logger.warn(err);
+                    Logger.warn(err, "Translator");
                     continue;
                 }
                 for (var i = 1; i < fields.Count; i++)
@@ -54,16 +54,22 @@ namespace TownOfHost
                     var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
                     tmp.Add(Int32.Parse(header[i]), tmp_str);
                 }
-                if (tr.ContainsKey(fields[0])) { Logger.warn($"翻訳用CSVに重複があります。\n{currentLine}行目: \"{fields[0]}\""); continue; }
+                if (tr.ContainsKey(fields[0])) { Logger.warn($"翻訳用CSVに重複があります。\n{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
                 tr.Add(fields[0], tmp);
             }
         }
 
-        public static string getString(string s)
+        public static string getString(string s, Dictionary<string, string> replacementDic = null)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
             if (main.ForceJapanese.Value) langId = SupportedLangs.Japanese;
-            return getString(s, langId);
+            string str = getString(s, langId);
+            if (replacementDic != null)
+                foreach (var rd in replacementDic)
+                {
+                    str = str.Replace(rd.Key, rd.Value);
+                }
+            return str;
         }
 
         public static string getString(string s, SupportedLangs langId)
@@ -79,7 +85,7 @@ namespace TownOfHost
                 {
                     if (dic.TryGetValue(0, out res))
                     {
-                        Logger.info($"Redirect to English: {res}");
+                        Logger.info($"Redirect to English: {res}", "Translator");
                         return res;
                     }
                     else

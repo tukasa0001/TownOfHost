@@ -17,7 +17,6 @@ namespace TownOfHost
         TerroristWin,
         ExecutionerWin,
         ArsonistWin,
-        SchrodingerCatExiled,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -30,8 +29,10 @@ namespace TownOfHost
         RemoveNameColorData,
         ResetNameColorData,
         DoSpell,
+        SniperSync,
         SetLoversPlayers,
-        SetExecutionerTarget
+        SetExecutionerTarget,
+        SendFireWorksState,
     }
     public enum Sounds
     {
@@ -44,21 +45,18 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
+            MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
                 case RpcCalls.SetName: //SetNameRPC
-                    string name = reader.ReadString();
-                    bool DontShowOnModdedClient = false;
-                    if (reader.BytesRemaining > 0)
-                    {
-                        DontShowOnModdedClient = reader.ReadBoolean();
-                    }
-                    Logger.info("名前変更:" + __instance.name + " => " + name); //ログ
-                    if (!DontShowOnModdedClient)
-                    {
-                        __instance.SetName(name);
-                    }
-                    return false;
+                    string name = subReader.ReadString();
+                    Logger.info("名前変更:" + __instance.getNameWithRole() + " => " + name, "SetName");
+                    if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
+                    break;
+                case RpcCalls.StartMeeting:
+                    var p = Utils.getPlayerById(subReader.ReadByte());
+                    Logger.info($"{__instance.getNameWithRole()} => {p?.getNameWithRole() ?? "null"}", "StartMeeting");
+                    break;
             }
             return true;
         }
@@ -76,7 +74,7 @@ namespace TownOfHost
                     }
                     catch
                     {
-                        Logger.info($"{__instance.getRealName()}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        Logger.info($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:
@@ -108,9 +106,6 @@ namespace TownOfHost
                 case CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
                     RPC.ArsonistWin(wonArsonist);
-                    break;
-                case CustomRPC.SchrodingerCatExiled:
-                    byte exiledSchrodingerCat = reader.ReadByte();
                     break;
                 case CustomRPC.EndGame:
                     RPC.EndGame();
@@ -174,6 +169,9 @@ namespace TownOfHost
                 case CustomRPC.DoSpell:
                     main.SpelledPlayer.Add(Utils.getPlayerById(reader.ReadByte()));
                     break;
+                case CustomRPC.SniperSync:
+                    Sniper.RecieveRPC(reader);
+                    break;
                 case CustomRPC.SetLoversPlayers:
                     main.LoversPlayers.Clear();
                     int count = reader.ReadInt32();
@@ -184,6 +182,9 @@ namespace TownOfHost
                     byte executionerId = reader.ReadByte();
                     byte targetId = reader.ReadByte();
                     main.ExecutionerTarget[executionerId] = targetId;
+                    break;
+                case CustomRPC.SendFireWorksState:
+                    FireWorks.RecieveRPC(reader);
                     break;
             }
         }
@@ -312,6 +313,7 @@ namespace TownOfHost
             {
                 main.AllPlayerCustomSubRoles[targetId] = role;
             }
+            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
