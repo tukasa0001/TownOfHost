@@ -659,6 +659,12 @@ namespace TownOfHost
 
             return false;
         }
+        public static void ReturnVotingTime(this PlayerControl thief)
+        {
+            for (var i = 0; i < main.TimeThiefKillCount[thief.PlayerId]; i++)
+                main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+            main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role)

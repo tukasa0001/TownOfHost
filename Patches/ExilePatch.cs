@@ -66,6 +66,10 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
+                if (exiled.Object.Is(CustomRoles.TimeThief))
+                    exiled.Object.ReturnVotingTime();
+
+
                 PlayerState.setDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)

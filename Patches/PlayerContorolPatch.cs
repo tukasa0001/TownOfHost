@@ -68,6 +68,10 @@ namespace TownOfHost
                         executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
                 }
             }
+            if (target.Is(CustomRoles.TimeThief))
+                target.ReturnVotingTime();
+
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
@@ -363,8 +367,10 @@ namespace TownOfHost
             {
                 main.TimeThiefKillCount[__instance.PlayerId]++;
                 __instance.RpcSetTimeThiefKillCount();
-                main.DiscussionTime -= Options.TimeThiefDecreaseDiscussionTime.GetInt();
-                main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
+                if (main.DiscussionTime > 0)
+                    main.DiscussionTime -= Options.TimeThiefDecreaseDiscussionTime.GetInt();
+                else
+                    main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
             }
 
