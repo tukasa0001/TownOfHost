@@ -748,5 +748,15 @@ namespace TownOfHost
         {
             return getPlayerById(player.PlayerId)?.getNameWithRole() ?? "";
         }
+        public static string getVoteName(byte num)
+        {
+            string name = "invalid";
+            var player = getPlayerById(num);
+            if (num < 15 && player != null) name = player?.getNameWithRole();
+            if (num == 253) name = "Skip";
+            if (num == 254) name = "None";
+            if (num == 255) name = "Dead";
+            return name;
+        }
     }
 }
