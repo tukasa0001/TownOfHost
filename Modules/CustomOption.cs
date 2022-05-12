@@ -239,8 +239,9 @@ namespace TownOfHost
             return Translator.getString(sel);
         }
 
-        public string GetName()
+        public string GetName(bool disableColor = false)
         {
+            if (disableColor) return Translator.getString(Name, ReplacementDictionary);
             return Helpers.ColorString(Color, Translator.getString(Name, ReplacementDictionary));
         }
 
