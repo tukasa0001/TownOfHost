@@ -36,7 +36,7 @@ namespace TownOfHost
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
                     if (ps == null) continue;
-                    Logger.info($"{ps.TargetPlayerId}:{ps.VotedFor}", "Vote");
+                    Logger.info(String.Format("{0,-2}{1,-32}:{2,-2}{3}", ps.TargetPlayerId, $"({Utils.getVoteName(ps.TargetPlayerId)})", ps.VotedFor, $"({Utils.getVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.getPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
@@ -106,7 +106,7 @@ namespace TownOfHost
                 Logger.info("===追放者確認処理開始===", "Vote");
                 foreach (var data in VotingData)
                 {
-                    Logger.info(data.Key + ": " + data.Value, "Vote");
+                    Logger.info($"{data.Key}({Utils.getVoteName(data.Key)}):{data.Value}票", "Vote");
                     if (data.Value > max)
                     {
                         Logger.info(data.Key + "番が最高値を更新(" + data.Value + ")", "Vote");
@@ -120,10 +120,10 @@ namespace TownOfHost
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    Logger.info("exileId: " + exileId + ", max: " + max, "Vote");
+                    Logger.info($"exileId: {exileId}, max: {max}票", "Vote");
                 }
 
-                Logger.info("追放者決定: " + exileId, "Vote");
+                Logger.info($"追放者決定: {exileId}({Utils.getVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
