@@ -121,7 +121,7 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage($"{ getString("Command.h_args")}:\n lastimpostor(limp)");
+                                        Utils.SendMessage($"{getString("Command.h_args")}:\n lastimpostor(limp)");
                                         break;
                                 }
                                 break;

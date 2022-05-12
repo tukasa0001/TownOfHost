@@ -321,6 +321,13 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.Mare:
+                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
+                    {
+                        main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
+                        main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                    }
 
 
                 InfinityVent:
@@ -551,6 +558,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            else if (pc.Is(CustomRoles.Mare))
+                return Utils.isActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
