@@ -46,11 +46,13 @@ namespace TownOfHost
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
+                                Logger.info($"スキップしたため{voter.getNameWithRole()}を自殺させました", "Vote");
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
                                 recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
+                                Logger.info($"スキップしたため{voter.getNameWithRole()}に自投票させました", "Vote");
                                 break;
                             default:
                                 break;
@@ -63,14 +65,17 @@ namespace TownOfHost
                             case VoteMode.Suicide:
                                 PlayerState.setDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcMurderPlayer(voter);
+                                Logger.info($"無投票のため{voter.getNameWithRole()}を自殺させました", "Vote");
                                 main.IgnoreReportPlayers.Add(voter.PlayerId);
                                 recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
+                                Logger.info($"無投票のため{voter.getNameWithRole()}に自投票させました", "Vote");
                                 break;
                             case VoteMode.Skip:
                                 ps.VotedFor = 253;
+                                Logger.info($"無投票のため{voter.getNameWithRole()}にスキップさせました", "Vote");
                                 break;
                             default:
                                 break;
