@@ -46,21 +46,14 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
+            MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
                 case RpcCalls.SetName: //SetNameRPC
-                    string name = reader.ReadString();
-                    bool DontShowOnModdedClient = false;
-                    if (reader.BytesRemaining > 0)
-                    {
-                        DontShowOnModdedClient = reader.ReadBoolean();
-                    }
-                    Logger.info("名前変更:" + __instance.name + " => " + name, "SetName"); //ログ
-                    if (!DontShowOnModdedClient)
-                    {
-                        __instance.SetName(name);
-                    }
-                    return false;
+                    string name = subReader.ReadString();
+                    Logger.info("名前変更:" + __instance.getNameWithRole() + " => " + name, "SetName");
+                    if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
+                    break;
             }
             return true;
         }
