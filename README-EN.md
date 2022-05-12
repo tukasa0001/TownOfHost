@@ -88,14 +88,14 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
-###　Mare
+### Mare
 
 Team : Impostor<br>
 Decision : Impostor<br>
 
 No kills can be made except in the event of a power outage.<br>
 However, if the kill is successful, the KillCooldown is halved.<br>
-And the movement speed will also increase.<br>
+And the movement speed will also increase. And name is displayed in red<br>
 ### SerialKiller
 
 Team : Impostor<br>
