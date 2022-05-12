@@ -200,6 +200,7 @@ Also, when a TimeThief is expelled or killed, the lost meeting time is returned.
 | ------------------------------------ |
 | TimeThief Decrease DiscussionTime(s) |
 | TimeThief Decrease VotingTime(s)     |
+
 ### Sniper
 
 Team : Impostors<br>
