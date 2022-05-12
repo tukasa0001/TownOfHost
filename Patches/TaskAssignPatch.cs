@@ -23,7 +23,7 @@ namespace TownOfHost
             }
             foreach (var task in disabledTasks)
             {
-                Logger.msg("削除: " + task.TaskType.ToString());
+                Logger.msg("削除: " + task.TaskType.ToString(), "AddTask");
                 unusedTasks.Remove(task);
             }
         }

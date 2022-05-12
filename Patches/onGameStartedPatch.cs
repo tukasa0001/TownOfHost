@@ -69,7 +69,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
@@ -232,7 +231,7 @@ namespace TownOfHost
                         main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                         break;
                     default:
-                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
+                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.Data.PlayerName + ")");
                         break;
                 }
             }
@@ -338,7 +337,7 @@ namespace TownOfHost
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
-                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                        Logger.info($"{pc.getNameWithRole()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
@@ -389,7 +388,7 @@ namespace TownOfHost
                         var Target = targetList[rand.Next(targetList.Count)];
                         main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                        Logger.info($"{pc.name}:{Target.name}", "Executioner");
+                        Logger.info($"{pc.getNameWithRole()}:{Target.getNameWithRole()}", "Executioner");
                     }
                 }
 
@@ -442,7 +441,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.info("役職設定:" + player.name + " = " + role.ToString());
+                Logger.info("役職設定:" + player.Data.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -483,7 +482,7 @@ namespace TownOfHost
                 main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
+                Logger.info("役職設定:" + player.Data.PlayerName + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
         }
