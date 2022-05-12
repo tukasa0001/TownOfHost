@@ -24,7 +24,7 @@ namespace TownOfHost
             this.timer = time;
             this.name = name;
             Tasks.Add(this);
-            Logger.info("New LateTask \"" + name + "\" is created");
+            Logger.info("\"" + name + "\" is created", "LateTask");
         }
         public static void Update(float deltaTime)
         {

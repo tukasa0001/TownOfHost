@@ -69,7 +69,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
@@ -85,6 +84,7 @@ namespace TownOfHost
                 }
             }
             FireWorks.Init();
+            Sniper.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -108,10 +108,12 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
+                if (Options.MadSnitchCanVent.GetBool())
+                    AdditionalEngineerNum += CustomRoles.MadSnitch.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount() + CustomRoles.FireWorks.getCount();//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount() + CustomRoles.FireWorks.getCount() + CustomRoles.Sniper.getCount();//- ShapeshifterNum;
                 if (main.RealOptionsData.NumImpostors > 1)
                     AdditionalShapeshifterNum += CustomRoles.Egoist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
@@ -229,7 +231,7 @@ namespace TownOfHost
                         main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                         break;
                     default:
-                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.name + ")");
+                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.Data.PlayerName + ")");
                         break;
                 }
             }
@@ -267,11 +269,12 @@ namespace TownOfHost
             {
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Jester, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.MadSnitch, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
@@ -335,7 +338,7 @@ namespace TownOfHost
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
-                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                        Logger.info($"{pc.getNameWithRole()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
@@ -371,6 +374,7 @@ namespace TownOfHost
                                 NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.getRoleColorCode()}");
                         }
                     }
+                    if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
                         List<PlayerControl> targetList = new List<PlayerControl>();
@@ -385,7 +389,7 @@ namespace TownOfHost
                         var Target = targetList[rand.Next(targetList.Count)];
                         main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                        Logger.info($"{pc.name}:{Target.name}", "Executioner");
+                        Logger.info($"{pc.getNameWithRole()}:{Target.getNameWithRole()}", "Executioner");
                     }
                 }
 
@@ -397,10 +401,12 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
                 EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
+                if (Options.MadSnitchCanVent.GetBool())
+                    EngineerNum -= CustomRoles.MadSnitch.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount() + CustomRoles.FireWorks.getCount();
+                ShapeshifterNum -= CustomRoles.Mafia.getCount() + CustomRoles.SerialKiller.getCount() + CustomRoles.BountyHunter.getCount() + CustomRoles.Warlock.getCount() + CustomRoles.ShapeMaster.getCount() + CustomRoles.FireWorks.getCount() + CustomRoles.Sniper.getCount();
                 if (main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.getCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
@@ -436,7 +442,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.info("役職設定:" + player.name + " = " + role.ToString());
+                Logger.info("役職設定:" + player.Data.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -477,7 +483,7 @@ namespace TownOfHost
                 main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.info("役職設定:" + player.name + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString());
+                Logger.info("役職設定:" + player.Data.PlayerName + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
         }

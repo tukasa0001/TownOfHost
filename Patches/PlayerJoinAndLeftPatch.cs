@@ -9,7 +9,8 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            Logger.info("RealNamesをリセット");
+            Logger.info("RealNamesをリセット", "OnGameJoined");
+            Logger.info($"{__instance.GameId}に参加", "OnGameJoined");
             main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
@@ -21,8 +22,10 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
     class OnPlayerJoinedPatch
     {
-        public static void Postfix(AmongUsClient __instance)
+        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
+
+            Logger.info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
         }
@@ -34,9 +37,11 @@ namespace TownOfHost
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
+            if (!main.isDeadDoused[data.Character.PlayerId])
+                data.Character.RemoveDousePlayer();
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             PlayerState.setDead(data.Character.PlayerId);
-            Logger.info("切断理由:" + reason.ToString());
+            Logger.info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }
     }
 }

@@ -79,6 +79,8 @@ namespace TownOfHost
                     main.CursedPlayers[pc.PlayerId] = (null);
                     main.isCurseAndKill[pc.PlayerId] = false;
                 }
+                if (pc.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
+                    pc.ExiledSchrodingerCatTeamChange();
             }
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();

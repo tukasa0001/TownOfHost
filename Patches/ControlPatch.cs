@@ -35,13 +35,13 @@ namespace TownOfHost
             //即スタート
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.isCountDown)
             {
-                Logger.info("CountDownTimer set to 0");
+                Logger.info("CountDownTimer set to 0", "KeyCommand");
                 GameStartManager.Instance.countDownTimer = 0;
             }
             //カウントダウンキャンセル
             if (Input.GetKeyDown(KeyCode.C) && GameStates.isCountDown)
             {
-                Logger.info("Reset CountDownTimer");
+                Logger.info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示

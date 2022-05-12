@@ -192,6 +192,28 @@ Even if you get caught up in fireworks, you win if you annihilate the enemy. <br
 | FireWorks Max Count |
 | FireWorks Radius    |
 
+### Sniper
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+Sniper can long-range shooting. <br>
+Kills targets that are on the extension of the shape-shifted point to the released point. <br>
+The crew on the line of sight will be notified of the shooting sound. <br>
+You cannot normally kill until the bullet is cut off. <br>
+
+Precision Shooting:OFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+Precision Shooting:ON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+
+#### Settings
+
+| Settings Name             |
+| ------------------------- |
+| Sniper Bullet Count       |
+| Sniper Precision Shooting |
+
 ### Madmate
 
 Team : Impostors<br>
@@ -200,12 +222,6 @@ Decision : Engineer<br>
 The Madmates belong to the Impostors team, but they do not know who the Impostors are.<br>
 The Impostors do not know who the they are too.<br>
 They can not kill or sabotage, but they can use vents.<br>
-
-#### Settings
-
-| Settings Name                                             |
-| --------------------------------------------------------- |
-| Madmate([MadGuardian](###MadGuardian)) Can Fix Lights Out |
 
 ### MadGuardian
 
@@ -219,21 +235,35 @@ They can not kill, sabotage, and using vents.<br>
 
 #### Settings
 
-| Settings Name                                         |
-| ----------------------------------------------------- |
-| [Madmate](###Madmate)(MadGuardian) Can Fix Lights Out |
-| MadGuardian Can See Own Cracked Barrier               |
+| Settings Name                           |
+| --------------------------------------- |
+| MadGuardian Can See Own Cracked Barrier |
 
 ### MadSnitch
 
 Team : Impostor<br>
-Decision : Crewmate<br>
+Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
 However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
-They are unable to enter vent.<br>
 
+#### Settings
+
+| Settings Name          |
+| ---------------------- |
+| MadSnitch Can Use Vent |
+| MadSnitch Tasks        |
+
+There is also a common setting for Madmate type Roles.
+
+| Settings Name                             |
+| ----------------------------------------- |
+| Madmate Can Fix Lights Out                |
+| Madmate Can Fix Comms                     |
+| Madmate vision is as long as Impostor one |
+| Madmate Vent Cooldown                     |
+| Madmate In Vent Max Time                  |
 ### Watcher
 
 Team : Impostors or Crewmates<br>
@@ -465,6 +495,7 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 | Settings Name                                              |
 | ---------------------------------------------------------- |
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
+| SchrodingerCat Exiled Team Changes |
 
 ### Egoist
 
