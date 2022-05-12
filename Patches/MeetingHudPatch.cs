@@ -196,18 +196,13 @@ namespace TownOfHost
             main.witchMeeting = false;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (CustomRoles.TimeThief.isEnable() && pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && main.VotingTime <= 0)
+                if (pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && main.VotingTime <= 0)
                 {
                     new LateTask(() =>
                         {
                             MeetingHud.Instance.RpcClose();
                         },
                         5f);
-                }
-                if (CustomRoles.TimeThief.isEnable() && pc.Is(CustomRoles.TimeThief) && pc.Data.IsDead)
-                {
-                    main.DiscussionTime = main.RealOptionsData.DiscussionTime;
-                    main.VotingTime = main.RealOptionsData.VotingTime;
                 }
             }
         }
