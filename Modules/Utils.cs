@@ -275,6 +275,15 @@ namespace TownOfHost
                     {
                         if (isFirst) { isFirst = false; continue; }
                         text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
+
+                        //タスク上書き設定用の処理
+                        if (c.Name == "doOverride" && c.GetBool() == true)
+                        {
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                            }
+                        }
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
