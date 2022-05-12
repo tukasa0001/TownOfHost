@@ -121,7 +121,7 @@ namespace TownOfHost
             }
             main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+            Logger.info($"Set:{player.Data.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -508,7 +508,7 @@ namespace TownOfHost
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更", "BountyHunter");
+            Logger.info($"プレイヤー{player.getNameWithRole()}のターゲットを{target.getNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
@@ -617,7 +617,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.info(target.name + $"はTrapperだった", "Trapper");
+            Logger.info($"{target.Data.PlayerName}はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>

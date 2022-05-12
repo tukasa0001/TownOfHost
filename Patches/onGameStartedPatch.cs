@@ -337,7 +337,7 @@ namespace TownOfHost
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
-                        Logger.info($"{pc.getRealName()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                        Logger.info($"{pc.getNameWithRole()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
                     }
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
@@ -388,7 +388,7 @@ namespace TownOfHost
                         var Target = targetList[rand.Next(targetList.Count)];
                         main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                        Logger.info($"{pc.name}:{Target.name}", "Executioner");
+                        Logger.info($"{pc.getNameWithRole()}:{Target.getNameWithRole()}", "Executioner");
                     }
                 }
 

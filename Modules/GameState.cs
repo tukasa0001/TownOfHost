@@ -83,16 +83,16 @@ namespace TownOfHost
 
         public void Init(PlayerControl player)
         {
-            Logger.info($"{player.name}: InitTask", "TaskCounts");
+            Logger.info($"{player.getNameWithRole()}: InitTask", "TaskCounts");
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
             if (!Utils.hasTasks(player.Data, false)) return;
             hasTasks = true;
             AllTasksCount = player.Data.Tasks.Count;
-            Logger.info($"{player.name}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.info($"{player.getNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
         }
         public void Update(PlayerControl player)
         {
-            Logger.info($"{player.name}: UpdateTask", "TaskCounts");
+            Logger.info($"{player.getNameWithRole()}: UpdateTask", "TaskCounts");
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
             if (AllTasksCount == -1) Init(player);
@@ -103,7 +103,7 @@ namespace TownOfHost
 
             //調整後のタスク量までしか表示しない
             CompletedTasksCount = Math.Min(AllTasksCount, CompletedTasksCount);
-            Logger.info($"{player.name}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
+            Logger.info($"{player.getNameWithRole()}: {CompletedTasksCount}/{AllTasksCount}", "TaskCounts");
 
         }
     }

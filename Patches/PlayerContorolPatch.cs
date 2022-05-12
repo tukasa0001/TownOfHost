@@ -111,7 +111,7 @@ namespace TownOfHost
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
-                        Logger.info($"{targetw.name}was killed", "Warlock");
+                        Logger.info($"{targetw.getNameWithRole()}was killed", "Warlock");
                         cp.RpcMurderPlayer(targetw);//殺す
                         __instance.RpcGuardAndKill(__instance);
                         main.isCurseAndKill[__instance.PlayerId] = false;
@@ -156,7 +156,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
-            Logger.info("CheckProtect発生: " + __instance.name + "=>" + target.name, "CheckProtect");
+            Logger.info("CheckProtect発生: " + __instance.getNameWithRole() + "=>" + target.getNameWithRole(), "CheckProtect");
             if (__instance.Is(CustomRoles.Sheriff))
             {
                 if (__instance.Data.IsDead)
@@ -180,7 +180,7 @@ namespace TownOfHost
                 Utils.CustomSyncAllSettings();
             }
             main.LastKiller[target] = __instance;
-            Logger.info($"{__instance.name} => {target.name}", "CheckMurder");
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "CheckMurder");
             if (__instance.PlayerId == target.PlayerId)
             {
                 //自殺ならノーチェック
@@ -257,7 +257,7 @@ namespace TownOfHost
 
                 if (main.SheriffShotLimit[__instance.PlayerId] == 0)
                 {
-                    //Logger.info($"シェリフ:{__instance.getRealName()}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
+                    //Logger.info($"シェリフ:{__instance.name}はキル可能回数に達したため、RoleTypeを守護天使に変更しました。");
                     //__instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
                     //Utils.hasTasks(__instance.Data, false);
                     //Utils.NotifyRoles();
@@ -265,7 +265,7 @@ namespace TownOfHost
                 }
 
                 main.SheriffShotLimit[__instance.PlayerId]--;
-                Logger.info($"{__instance.getRealName()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発", "Sheriff");
+                Logger.info($"{__instance.getNameWithRole()} : 残り{main.SheriffShotLimit[__instance.PlayerId]}発", "Sheriff");
                 __instance.RpcSetSheriffShotLimit();
 
                 if (!target.canBeKilledBySheriff())
@@ -387,7 +387,7 @@ namespace TownOfHost
             main.SerialKillerTimer.Clear();
             if (target != null)
             {
-                Logger.info($"{__instance.name} => {target.PlayerName}", "ReportDeadBody");
+                Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "ReportDeadBody");
                 if (main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
                 {
                     Logger.info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました", "ReportDeadBody");
@@ -541,7 +541,7 @@ namespace TownOfHost
                     {
                         main.BountyTimer[__instance.PlayerId] = 0f;
                         main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
-                        Logger.info($"{__instance.getRealName()}:ターゲットリセット", "BountyHunter");
+                        Logger.info($"{__instance.getNameWithRole()}:ターゲットリセット", "BountyHunter");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
@@ -584,7 +584,7 @@ namespace TownOfHost
                         main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                         main.DousedPlayerCount[__instance.PlayerId] = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
-                        Logger.info($"{__instance.getRealName()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
+                        Logger.info($"{__instance.getNameWithRole()} : {main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
                         __instance.RpcSendDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
                         writer.Write(__instance.PlayerId);
@@ -618,7 +618,7 @@ namespace TownOfHost
                             {
                                 main.isDeadDoused[target.PlayerId] = true;
                                 var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
-                                Logger.info($"{__instance.getRealName()} : {ArsonistDic}", "Arsonist");
+                                Logger.info($"{__instance.getNameWithRole()} : {ArsonistDic}", "Arsonist");
                                 main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
                                 __instance.RpcSendDousedPlayerCount();
                             }

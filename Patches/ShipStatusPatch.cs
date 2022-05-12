@@ -49,7 +49,7 @@ namespace TownOfHost
                     if (target.Data.IsDead || target.Data.Disconnected)
                     {
                         pc.ResetBountyTarget();
-                        Logger.info($"{pc.name}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
+                        Logger.info($"{pc.getNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
                         DoNotifyRoles = true;
                     }
                 }
@@ -65,10 +65,10 @@ namespace TownOfHost
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
         {
-            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount, "RepairSystem");
+            Logger.msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.getNameWithRole() + ", amount: " + amount, "RepairSystem");
             if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
             {
-                Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.name + ", amount: " + amount);
+                Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.getNameWithRole() + ", amount: " + amount);
             }
             if (!AmongUsClient.Instance.AmHost) return true;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && systemType == SystemTypes.Sabotage) return false;

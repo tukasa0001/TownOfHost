@@ -75,7 +75,7 @@ namespace TownOfHost
                     }
                     catch
                     {
-                        Logger.info($"{__instance.getRealName()}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        Logger.info($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:
