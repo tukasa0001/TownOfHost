@@ -475,7 +475,7 @@ namespace TownOfHost
             {
                 this.idStart = idStart;
                 this.role = role;
-                Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.getRoleColor(role), Utils.getRoleName(role)) } };
+                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.getRoleName(role) } };
                 doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
                 assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
