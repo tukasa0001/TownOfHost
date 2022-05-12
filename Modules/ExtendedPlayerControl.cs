@@ -404,6 +404,10 @@ namespace TownOfHost
             text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
             return text;
         }
+        public static string getNameWithRole(this PlayerControl player)
+        {
+            return $"{player.Data.PlayerName}({player.getAllRoleName()})";
+        }
         public static string getRoleColorCode(this PlayerControl player)
         {
             return Utils.getRoleColorCode(player.getCustomRole());

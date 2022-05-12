@@ -740,5 +740,13 @@ namespace TownOfHost
         {
             return getPlayerById(playerId)?.getAllRoleName() ?? "";
         }
+        public static string getNameWithRole(byte playerId)
+        {
+            return getPlayerById(playerId)?.getNameWithRole() ?? "";
+        }
+        public static string getNameWithRole(this GameData.PlayerInfo player)
+        {
+            return getPlayerById(player.PlayerId)?.getNameWithRole() ?? "";
+        }
     }
 }
