@@ -54,6 +54,10 @@ namespace TownOfHost
                     Logger.info("名前変更:" + __instance.getNameWithRole() + " => " + name, "SetName");
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
                     break;
+                case RpcCalls.StartMeeting:
+                    var p = Utils.getPlayerById(subReader.ReadByte());
+                    Logger.info($"{__instance.getNameWithRole()} => {p?.getNameWithRole() ?? "null"}", "StartMeeting");
+                    break;
             }
             return true;
         }
