@@ -14,7 +14,7 @@ namespace TownOfHost
             if (__instance.GameIdText == null) return;
             if (Regex.IsMatch(GUIUtility.systemCopyBuffer, @"[A-Z]{6}"))
             {
-                Logger.info($"{GUIUtility.systemCopyBuffer}");
+                Logger.info($"{GUIUtility.systemCopyBuffer}", "ClipBoard");
                 __instance.GameIdText.SetText(GUIUtility.systemCopyBuffer);
             }
         }

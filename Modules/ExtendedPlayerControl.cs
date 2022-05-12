@@ -68,7 +68,7 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
                 return cRole;
             }
             var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -90,7 +90,7 @@ namespace TownOfHost
         {
             if (player == null)
             {
-                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。");
+                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
                 return CustomRoles.NoSubRoleAssigned;
             }
             var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
@@ -121,7 +121,7 @@ namespace TownOfHost
             }
             main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+            Logger.info($"Set:{player.Data.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -325,6 +325,14 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Mare:
+                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
+                    {
+                        main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
+                        main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -398,6 +406,20 @@ namespace TownOfHost
         {
             return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
+        public static string getSubRoleName(this PlayerControl player)
+        {
+            return $"{Utils.getRoleName(player.getCustomSubRole())}";
+        }
+        public static string getAllRoleName(this PlayerControl player)
+        {
+            var text = player.getRoleName();
+            text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
+            return text;
+        }
+        public static string getNameWithRole(this PlayerControl player)
+        {
+            return $"{player.Data.PlayerName}({player.getAllRoleName()})";
+        }
         public static string getRoleColorCode(this PlayerControl player)
         {
             return Utils.getRoleColorCode(player.getCustomRole());
@@ -458,7 +480,7 @@ namespace TownOfHost
                 RealName = player.name;
                 if (RealName == "Player(Clone)") return RealName;
                 main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました");
+                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました", "getRealName");
             }
             return RealName;
         }
@@ -493,12 +515,12 @@ namespace TownOfHost
             var rand = new System.Random();
             if (cTargets.Count <= 0)
             {
-                Logger.error("バウンティ―ハンターのターゲットの指定に失敗しました:ターゲット候補が存在しません");
+                Logger.error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
             main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.name}のターゲットを{target.name}に変更");
+            Logger.info($"プレイヤー{player.getNameWithRole()}のターゲットを{target.getNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
@@ -541,6 +563,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            else if (pc.Is(CustomRoles.Mare))
+                return Utils.isActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
@@ -607,7 +631,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.SendToFile(target.name + $"はTrapperだった");
+            Logger.info($"{target.Data.PlayerName}はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>
@@ -639,6 +663,24 @@ namespace TownOfHost
                 return true;
 
             return false;
+        }
+        public static void RemoveDousePlayer(this PlayerControl target)
+        {
+            foreach (var arsonist in PlayerControl.AllPlayerControls)
+            {
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (arsonist.Is(CustomRoles.Arsonist))
+                {
+                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    {
+                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                        arsonist.RpcSendDousedPlayerCount();
+                    }
+                }
+            }
         }
 
         //汎用

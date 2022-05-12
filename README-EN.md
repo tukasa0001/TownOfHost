@@ -88,7 +88,14 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
+### Mare
 
+Team : Impostor<br>
+Decision : Impostor<br>
+
+No kills can be made except in the event of a power outage.<br>
+However, if the kill is successful, the KillCooldown is halved.<br>
+And the movement speed will also increase. And name is displayed in red<br>
 ### SerialKiller
 
 Team : Impostor<br>
@@ -490,6 +497,7 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 | Settings Name                                              |
 | ---------------------------------------------------------- |
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
+| SchrodingerCat Exiled Team Changes |
 
 ### Egoist
 

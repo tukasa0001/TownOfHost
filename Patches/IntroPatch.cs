@@ -1,9 +1,9 @@
 using HarmonyLib;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
 using static TownOfHost.Translator;
+using System;
 
 namespace TownOfHost
 {
@@ -30,6 +30,44 @@ namespace TownOfHost
 
             }, 0.01f, "Override Role Text");
 
+        }
+    }
+    [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
+    class CoBeginPatch
+    {
+        public static void Prefix(IntroCutscene __instance)
+        {
+            Logger.info("------------名前表示------------", "Info");
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                Logger.info(String.Format("{0,-2}:{1,-16}:{2}", pc.PlayerId, pc.name, pc.nameText.text), "Info");
+                main.RealNames[pc.PlayerId] = pc.name;
+                pc.nameText.text = pc.name;
+            }
+            Logger.info("----------役職割り当て----------", "Info");
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                Logger.info(String.Format("{0,-2}:{1,-16}:{2}", pc.PlayerId, pc.Data.PlayerName, pc.getAllRoleName()), "Info");
+            }
+            Logger.info("--------------環境--------------", "Info");
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                var text = pc.AmOwner ? "[*]" : "   ";
+                text += String.Format("{0,-2}:{1,-16}:{2,-11}", pc.PlayerId, pc.Data.PlayerName, pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
+                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                    text += $":Mod({pv.version}:{pv.tag})";
+                else text += ":Vanilla";
+                Logger.info(text, "Info");
+            }
+            Logger.info("------------基本設定------------", "Info");
+            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            foreach (var t in tmp) Logger.info(t, "Info");
+            Logger.info("------------詳細設定------------", "Info");
+            foreach (var o in CustomOption.Options)
+                if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
+                    Logger.info(String.Format("{0}{1,-36}:{2}", o.Parent == null ? "" : "┗ ", o.Name, o.GetString()), "Info");
+            Logger.info("-------------その他-------------", "Info");
+            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]
@@ -139,7 +177,7 @@ namespace TownOfHost
                 Color LerpingColor = Color.Lerp(start, end, time);
                 if (__instance == null || milliseconds > 500)
                 {
-                    Logger.info("ループを終了します");
+                    Logger.info("ループを終了します", "StartFadeIntro");
                     break;
                 }
                 __instance.BackgroundBar.material.color = LerpingColor;

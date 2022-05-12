@@ -26,7 +26,7 @@ namespace TownOfHost
         }
         public static void Postfix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
         {
-            Logger.info("Opened " + taskFolder.FolderName);
+            Logger.info("Opened " + taskFolder.FolderName, "TaskFolder");
             float xCursor = 0f;
             float yCursor = 0f;
             float maxHeight = 0f;
@@ -101,6 +101,7 @@ namespace TownOfHost
             {CustomRoles.Madmate, RoleTypes.Engineer},
             {CustomRoles.Terrorist, RoleTypes.Engineer},
             {CustomRoles.EvilWatcher, RoleTypes.Impostor},
+            {CustomRoles.Mare, RoleTypes.Impostor},
             {CustomRoles.Doctor, RoleTypes.Scientist},
         };
         public static bool Prefix(TaskAddButton __instance)

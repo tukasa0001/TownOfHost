@@ -22,7 +22,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error($"Error loading sprite from path: {path}");
+                Logger.error($"Error loading sprite from path: {path}", "LoadSprite");
             }
             return null;
         }
@@ -42,7 +42,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error($"Error loading texture from resources: {path}");
+                Logger.error($"Error loading texture from resources: {path}", "LoadTexture");
             }
             return null;
         }

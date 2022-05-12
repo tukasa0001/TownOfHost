@@ -91,7 +91,7 @@ namespace TownOfHost
         {
             if (pc.Data.IsDead) return false;
             var canUse = false;
-            if (bulletCount[pc.PlayerId] == 0)
+            if (bulletCount[pc.PlayerId] <= 0)
             {
                 canUse = true;
             }
@@ -100,6 +100,7 @@ namespace TownOfHost
         }
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeShifted)
         {
+            if(bulletCount[pc.PlayerId] <= 0) return;
             //スナイパーで弾が残ってたら
             if (!shapeShifted)
             {
@@ -129,7 +130,7 @@ namespace TownOfHost
                     var target_dir = target_pos.normalized;
                     //内積を取る
                     var target_dot = Vector3.Dot(dir, target_dir);
-                    Logger.info($"{target.name}:pos={target_pos} dir={target_dir}", "Sniper");
+                    Logger.info($"{target.Data.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
                     Logger.info($"  Dot={target_dot}", "Sniper");
                     if (precisionshooting)
                     {
@@ -167,7 +168,7 @@ namespace TownOfHost
                     }
                     if (snipedTarget.Is(CustomRoles.Bait))
                     {
-                        Logger.SendToFile(snipedTarget.name + "はBaitだった");
+                        Logger.info(snipedTarget.Data.PlayerName + "はBaitだった", "Sniper");
                         new LateTask(() => pc.CmdReportDeadBody(snipedTarget.Data), 0.15f, "Bait Self Report");
                     }
                     else
