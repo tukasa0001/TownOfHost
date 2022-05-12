@@ -206,8 +206,8 @@ namespace TownOfHost
                 }
                 if (CustomRoles.TimeThief.isEnable() && pc.Is(CustomRoles.TimeThief) && pc.Data.IsDead)
                 {
-                    main.DiscussionTime = main.SavedDiscussionTime;
-                    main.VotingTime = main.SavedVotingTime;
+                    main.DiscussionTime = main.RealOptionsData.DiscussionTime;
+                    main.VotingTime = main.RealOptionsData.VotingTime;
                 }
             }
         }
