@@ -1,8 +1,8 @@
+using System.Linq;
 using System;
 using HarmonyLib;
 using UnityEngine;
 using UnhollowerBaseLib;
-using System.Collections.Generic;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -256,30 +256,28 @@ namespace TownOfHost
             Logger.info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info($"{pc.PlayerId}:{pc.name}:{pc.nameText.text}");
+                Logger.info($"{pc.PlayerId}:{pc.name}\t:{pc.nameText.text}", "Info");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
             Logger.info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info($"{pc.name}({pc.PlayerId}):{pc.getRoleName()}", "Info");
+                Logger.info($"{pc.PlayerId}:{pc.Data.PlayerName}\t:{pc.getAllRoleName()}", "Info");
             }
             Logger.info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                var text = pc.PlayerId == PlayerControl.LocalPlayer.PlayerId ? "[*]" : "";
-                text += $"{pc.PlayerId}:{pc.name}:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
+                var text = pc.AmOwner ? "[*]" : "   ";
+                text += $"{pc.PlayerId}:{pc.Data.PlayerName}\t:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
                 if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                {
-                    text += $":Mod({pv.version}:";
-                    text += $"{pv.tag})";
-                }
-                else text += ":Vanilla";
+                    text += $"\t:Mod({pv.version}:{pv.tag})";
+                else text += "\t:Vanilla";
                 Logger.info(text, "Info");
             }
             Logger.info("------------基本設定------------", "Info");
-            Logger.info(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10), "Info");
+            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            foreach (var t in tmp) Logger.info(t, "Info");
             Logger.info("-------------その他-------------", "Info");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
