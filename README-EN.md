@@ -505,6 +505,7 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 | Settings Name                                              |
 | ---------------------------------------------------------- |
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
+| SchrodingerCat Exiled Team Changes |
 
 ### Egoist
 

@@ -38,7 +38,7 @@ namespace TownOfHost
                     string version_text = "";
                     foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
                     {
-                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).getRealName()}:{kvp.Value.version}({kvp.Value.tag})\n";
+                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).Data.PlayerName}:{kvp.Value.version}({kvp.Value.tag})\n";
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
@@ -176,7 +176,7 @@ namespace TownOfHost
             }
             if (canceled)
             {
-                Logger.info("Command Canceled");
+                Logger.info("Command Canceled", "ChatCommand");
                 __instance.TextArea.Clear();
                 __instance.TextArea.SetText(cancelVal);
                 __instance.quickChatMenu.ResetGlyphs();

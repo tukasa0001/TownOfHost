@@ -463,7 +463,7 @@ namespace TownOfHost
             {
                 string fontSize = "1.5";
                 if (isMeeting && (seer.getClient().PlatformData.Platform.ToString() == "Playstation" || seer.getClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":START", "NotifyRoles");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.getNameWithRole() + ":START", "NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
                 if (seer.Data.Disconnected) continue;
@@ -593,7 +593,7 @@ namespace TownOfHost
                     {
                         //targetがseer自身の場合は何もしない
                         if (target == seer) continue;
-                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":START", "NotifyRoles");
+                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{getTaskText(target)}" : "";
@@ -682,10 +682,10 @@ namespace TownOfHost
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
-                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.name + ":END", "NotifyRoles");
+                        TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":END", "NotifyRoles");
                     }
                 }
-                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.name + ":END", "NotifyRoles");
+                TownOfHost.Logger.info("NotifyRoles-Loop1-" + seer.getNameWithRole() + ":END", "NotifyRoles");
             }
             main.witchMeeting = false;
         }
@@ -733,8 +733,20 @@ namespace TownOfHost
                 CustomRoles pc_role = pc.getCustomRole();
                 if (pc_role.isImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
             }
-            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人");
+            TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             main.AliveImpostorCount = AliveImpostorCount;
+        }
+        public static string getAllRoleName(byte playerId)
+        {
+            return getPlayerById(playerId)?.getAllRoleName() ?? "";
+        }
+        public static string getNameWithRole(byte playerId)
+        {
+            return getPlayerById(playerId)?.getNameWithRole() ?? "";
+        }
+        public static string getNameWithRole(this GameData.PlayerInfo player)
+        {
+            return getPlayerById(player.PlayerId)?.getNameWithRole() ?? "";
         }
     }
 }

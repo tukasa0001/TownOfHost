@@ -12,7 +12,7 @@ namespace TownOfHost
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            Logger.info("ゲームが終了", "Phase");
+            Logger.info("-----------ゲーム終了-----------", "Phase");
             main.DiscussionTime = main.SavedDiscussionTime;
             main.VotingTime = main.SavedVotingTime;
             //winnerListリセット
