@@ -736,5 +736,9 @@ namespace TownOfHost
             TownOfHost.Logger.info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             main.AliveImpostorCount = AliveImpostorCount;
         }
+        public static string getAllRoleName(byte playerId)
+        {
+            return getPlayerById(playerId)?.getAllRoleName() ?? "";
+        }
     }
 }

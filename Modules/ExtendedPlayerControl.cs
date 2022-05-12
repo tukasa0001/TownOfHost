@@ -394,6 +394,16 @@ namespace TownOfHost
         {
             return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
         }
+        public static string getSubRoleName(this PlayerControl player)
+        {
+            return $"{Utils.getRoleName(player.getCustomSubRole())}";
+        }
+        public static string getAllRoleName(this PlayerControl player)
+        {
+            var text = player.getRoleName();
+            text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
+            return text;
+        }
         public static string getRoleColorCode(this PlayerControl player)
         {
             return Utils.getRoleColorCode(player.getCustomRole());
