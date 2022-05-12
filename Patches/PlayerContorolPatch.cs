@@ -68,6 +68,8 @@ namespace TownOfHost
                         executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
                 }
             }
+            if (!main.isDeadDoused[target.PlayerId])
+                target.RemoveDousePlayer();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
@@ -607,22 +609,6 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.isInGame && main.DousedPlayerCount.ContainsKey(__instance.PlayerId))
-                {
-                    foreach (var target in PlayerControl.AllPlayerControls)
-                    {
-                        if (__instance == target) continue;
-                        if (!(main.isDoused.TryGetValue((__instance.PlayerId, target.PlayerId), out bool isDoused) && main.isDeadDoused[target.PlayerId])) //塗られてなくて、死んだ後の処理もされてない
-                            if (target.Data.IsDead || target.Data.Disconnected)
-                            {
-                                main.isDeadDoused[target.PlayerId] = true;
-                                var ArsonistDic = main.DousedPlayerCount[__instance.PlayerId];
-                                Logger.info($"{__instance.getNameWithRole()} : {ArsonistDic}", "Arsonist");
-                                main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                                __instance.RpcSendDousedPlayerCount();
-                            }
-                    }
-                }
                 if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
                 {
                     Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
@@ -687,7 +673,7 @@ namespace TownOfHost
                         if (!__instance.AmOwner) __instance.nameText.text = __instance.Data.PlayerName;
                     }
                     if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                        RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
+                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスク表示
 
                     if (__instance.Is(CustomRoles.Sniper))
                         RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
@@ -1002,14 +988,14 @@ namespace TownOfHost
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if (!__instance.myPlayer.Data.IsDead)
+                            if (!pc.Data.IsDead)
                             {
                                 if (pc != __instance.myPlayer)
                                 {
                                     //生存者は焼殺
                                     pc.RpcMurderPlayer(pc);
                                     PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
-                                    PlayerState.isDead[pc.PlayerId] = true;
+                                    PlayerState.setDead(pc.PlayerId);
                                 }
                                 else
                                     RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);

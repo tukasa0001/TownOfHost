@@ -337,7 +337,7 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
+                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
