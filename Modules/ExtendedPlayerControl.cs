@@ -544,6 +544,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            else if (pc.Is(CustomRoles.Mare))
+                return Utils.isActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             return canUse;
         }
