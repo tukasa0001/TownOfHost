@@ -13,6 +13,7 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             Logger.info(__instance.name + " => " + target.name, "MurderPlayer");
