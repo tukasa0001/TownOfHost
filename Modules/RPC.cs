@@ -17,7 +17,6 @@ namespace TownOfHost
         TerroristWin,
         ExecutionerWin,
         ArsonistWin,
-        SchrodingerCatExiled,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -110,9 +109,6 @@ namespace TownOfHost
                 case CustomRPC.ArsonistWin:
                     byte wonArsonist = reader.ReadByte();
                     RPC.ArsonistWin(wonArsonist);
-                    break;
-                case CustomRPC.SchrodingerCatExiled:
-                    byte exiledSchrodingerCat = reader.ReadByte();
                     break;
                 case CustomRPC.EndGame:
                     RPC.EndGame();
@@ -319,7 +315,7 @@ namespace TownOfHost
             {
                 main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role ==CustomRoles.FireWorks) FireWorks.Add(targetId);
+            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
