@@ -274,7 +274,7 @@ namespace TownOfHost
                     foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
                     {
                         if (isFirst) { isFirst = false; continue; }
-                        text += $"\n{getString(c.Name)}:{c.GetString()}";
+                        text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
