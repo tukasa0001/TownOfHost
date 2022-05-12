@@ -90,6 +90,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -106,8 +107,6 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
-        public static int SavedDiscussionTime;
-        public static int SavedVotingTime;
         public static int DiscussionTime;
         public static int VotingTime;
 

@@ -23,6 +23,7 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
+        SetTimeThiefKillCount,
         SetDousedPlayer,
         SendDousedPlayerCount,
         AddNameColorData,
@@ -138,6 +139,14 @@ namespace TownOfHost
                         main.SheriffShotLimit[SheriffId] = Limit;
                     else
                         main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
+                    break;
+                case CustomRPC.SetTimeThiefKillCount:
+                    byte TimeThiefId = reader.ReadByte();
+                    int TimeThiefKillCount = reader.ReadInt32();
+                    if (main.TimeThiefKillCount.ContainsKey(TimeThiefId))
+                        main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
+                    else
+                        main.TimeThiefKillCount.Add(TimeThiefId, 0);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();

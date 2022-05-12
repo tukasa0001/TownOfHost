@@ -361,12 +361,11 @@ namespace TownOfHost
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
             if (__instance.Is(CustomRoles.TimeThief))
             {
+                main.TimeThiefKillCount[__instance.PlayerId]++;
+                __instance.RpcSetTimeThiefKillCount();
                 main.DiscussionTime -= Options.TimeThiefDecreaseDiscussionTime.GetInt();
                 main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    pc.RpcSyncSettings(main.RealOptionsData);
-                }
+                Utils.CustomSyncAllSettings();
             }
 
             //==キル処理==

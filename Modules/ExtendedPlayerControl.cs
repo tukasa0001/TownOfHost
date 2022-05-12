@@ -373,6 +373,8 @@ namespace TownOfHost
             {
                 opt.ImpostorLightMod = 0f;
             }
+            opt.DiscussionTime = main.DiscussionTime;
+            opt.VotingTime = main.VotingTime;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -538,6 +540,13 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(main.SheriffShotLimit[player.PlayerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcSetTimeThiefKillCount(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.TimeThiefKillCount[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool CanUseKillButton(this PlayerControl pc)
