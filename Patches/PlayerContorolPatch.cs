@@ -374,6 +374,19 @@ namespace TownOfHost
             }
             //シュレディンガーの猫の役職変化処理終了
             //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+            if (__instance.Is(CustomRoles.Mare))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    Logger.SendToFile(__instance.name + "のキルは停電中ではなかったので、キルはキャンセルされました。");
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+                else
+                {
+                    Logger.SendToFile(__instance.name + "はMareですが、停電中だったのでキルが許可されました。");
+                }
+            }
             if (__instance.Is(CustomRoles.TimeThief))
             {
                 main.TimeThiefKillCount[__instance.PlayerId]++;
@@ -383,7 +396,6 @@ namespace TownOfHost
                 else
                     main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
-            }
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
@@ -746,6 +758,8 @@ namespace TownOfHost
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
                     )
                         RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
+                    else if (target.Is(CustomRoles.Mare) && Utils.isActive(SystemTypes.Electrical))
+                        RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの赤色で表示
                     else if (seer != null)
                     {//NameColorManager準拠の処理
                         var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);

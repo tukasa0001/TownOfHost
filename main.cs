@@ -129,6 +129,7 @@ namespace TownOfHost
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
             TownOfHost.Logger.disable("SendRPC");
+            TownOfHost.Logger.disable("SwitchSystem");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
@@ -190,6 +191,7 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Mare, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
@@ -279,6 +281,7 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Mare,
         Puppeteer,
         TimeThief,
         //Madmate

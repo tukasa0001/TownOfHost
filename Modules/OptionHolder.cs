@@ -66,6 +66,7 @@ namespace TownOfHost
         public static CustomOption TimeThiefDecreaseDiscussionTime;
         public static CustomOption TimeThiefDecreaseVotingTime;
         public static CustomOption VampireKillDelay;
+        public static CustomOption BlackOutMareSpeed;
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
@@ -264,7 +265,9 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
-            SetupRoleOptions(2000, CustomRoles.Puppeteer);
+            SetupRoleOptions(2000, CustomRoles.Puppeteer);  
+            SetupRoleOptions(2300, CustomRoles.Mare);
+            BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
