@@ -739,7 +739,7 @@ namespace TownOfHost
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
                     )
                         RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
-                    else if (Utils.isActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare))
+                    else if (target.Is(CustomRoles.Mare) && Utils.isActive(SystemTypes.Electrical))
                         RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの赤色で表示
                     else if (seer != null)
                     {//NameColorManager準拠の処理
