@@ -33,7 +33,7 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
-        RemoveExecutionerTarget
+        RemoveExecutionerTarget,
         SendFireWorksState,
     }
     public enum Sounds
@@ -193,6 +193,7 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     byte Key = reader.ReadByte();
                     main.ExecutionerTarget.Remove(Key);
+                    break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.RecieveRPC(reader);
                     break;
@@ -323,7 +324,7 @@ namespace TownOfHost
             {
                 main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role ==CustomRoles.FireWorks) FireWorks.Add(targetId);
+            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
