@@ -683,13 +683,12 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(CustomRoles.Executioner)) //seerがエクスキューショナー
-                            foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                            {
-                                if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
-                                target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                    TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                            }
+                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                        {
+                            if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                                TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
 
                         string TargetDeathReason = "";
                         if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
