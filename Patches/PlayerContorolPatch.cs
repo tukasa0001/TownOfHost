@@ -180,18 +180,7 @@ namespace TownOfHost
             }
             main.LastKiller[target] = __instance;
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "CheckMurder");
-            if (__instance.PlayerId == target.PlayerId)
-            {
-                //自殺ならノーチェック
-                __instance.RpcMurderPlayer(target);
-                return false;
-            }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
-            {
-                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
-                return false;
-            }
-            if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
+
 
             if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
             {
@@ -200,6 +189,15 @@ namespace TownOfHost
             }
 
             main.BlockKilling[__instance.PlayerId] = true;
+
+            //キルボタンを使えない場合の判定
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            {
+                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
+
+            if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
 
             if (__instance.Is(CustomRoles.FireWorks))
             {
@@ -230,6 +228,33 @@ namespace TownOfHost
                     Logger.info(__instance.Data.PlayerName + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
                 }
             }
+
+            //シュレディンガーの猫が切られた場合の役職変化スタート
+            if (target.Is(CustomRoles.SchrodingerCat))
+            {
+                if (__instance.Is(CustomRoles.Arsonist)) return false;
+                __instance.RpcGuardAndKill(target);
+                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                if (__instance.getCustomRole().isImpostor())
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                if (__instance.Is(CustomRoles.Sheriff))
+                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                if (__instance.Is(CustomRoles.Egoist))
+                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                Utils.NotifyRoles();
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            //シュレディンガーの猫の役職変化処理終了
+            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+
+            if (__instance.PlayerId == target.PlayerId)
+            {
+                //自殺ならノーチェック
+                __instance.RpcMurderPlayer(target);
+                return false;
+            }
+
             if (__instance.Is(CustomRoles.SerialKiller) && !target.Is(CustomRoles.SchrodingerCat))
             {
                 __instance.RpcMurderPlayer(target);
@@ -341,24 +366,6 @@ namespace TownOfHost
                 if (!main.isDoused[(__instance.PlayerId, target.PlayerId)]) main.ArsonistTimer.Add(__instance.PlayerId, (target, 0f));
                 return false;
             }
-            //シュレディンガーの猫が切られた場合の役職変化スタート
-            if (target.Is(CustomRoles.SchrodingerCat))
-            {
-                if (__instance.Is(CustomRoles.Arsonist)) return false;
-                __instance.RpcGuardAndKill(target);
-                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
-                if (__instance.getCustomRole().isImpostor())
-                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                if (__instance.Is(CustomRoles.Sheriff))
-                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                if (__instance.Is(CustomRoles.Egoist))
-                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
-                Utils.NotifyRoles();
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            //シュレディンガーの猫の役職変化処理終了
-            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
