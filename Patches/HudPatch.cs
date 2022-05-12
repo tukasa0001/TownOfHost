@@ -278,6 +278,10 @@ namespace TownOfHost
             Logger.info("------------基本設定------------", "Info");
             var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.info(t, "Info");
+            Logger.info("------------詳細設定------------", "Info");
+            foreach (var o in CustomOption.Options)
+                if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
+                    Logger.info(String.Format("{0}{1,-36}:{2}", o.Parent == null ? "" : "┗ ", o.Name, o.GetString()), "Info");
             Logger.info("-------------その他-------------", "Info");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
