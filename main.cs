@@ -126,6 +126,7 @@ namespace TownOfHost
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
             TownOfHost.Logger.disable("SendRPC");
+            TownOfHost.Logger.disable("ReceiveRPC");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
