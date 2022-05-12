@@ -376,12 +376,9 @@ namespace TownOfHost
         public static void sendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!main.AmDebugger.Value) return;
-            string rpcName;
+            string rpcName = getRpcName(callId);
             string from = targetNetId.ToString();
             string target = targetClientId.ToString();
-            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
-            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
-            else rpcName = callId.ToString();
             try
             {
                 target = targetClientId < 0 ? "All" : AmongUsClient.Instance.GetClient(targetClientId).PlayerName;
@@ -389,6 +386,14 @@ namespace TownOfHost
             }
             catch { }
             Logger.info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+        }
+        public static string getRpcName(byte callId)
+        {
+            string rpcName;
+            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
+            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
+            else rpcName = callId.ToString();
+            return rpcName;
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
