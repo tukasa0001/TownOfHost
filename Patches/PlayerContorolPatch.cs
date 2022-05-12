@@ -673,7 +673,7 @@ namespace TownOfHost
                         if (!__instance.AmOwner) __instance.nameText.text = __instance.Data.PlayerName;
                     }
                     if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                        RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
+                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスク表示
 
                     if (__instance.Is(CustomRoles.Sniper))
                         RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
