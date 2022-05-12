@@ -16,7 +16,6 @@ namespace TownOfHost
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
-            Logger.info(__instance.name + " => " + target.name, "MurderPlayer");
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
@@ -25,7 +24,7 @@ namespace TownOfHost
             //When Bait is killed
             if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
             {
-                Logger.info(target.name + "はBaitだった", "MurderPlayer");
+                Logger.info(target.Data.PlayerName + "はBaitだった", "MurderPlayer");
                 new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
@@ -38,12 +37,12 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                     main.isTargetKilled.Remove(__instance.PlayerId);
                     main.isTargetKilled.Add(__instance.PlayerId, true);
-                    Logger.info($"{__instance.getRealName()}:ターゲットをキル", "BountyHunter");
+                    Logger.info($"{__instance.Data.PlayerName}:ターゲットをキル", "BountyHunter");
                 }
                 else
                 {
                     main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                    Logger.info($"{__instance.getRealName()}:ターゲット以外をキル", "BountyHunter");
+                    Logger.info($"{__instance.Data.PlayerName}:ターゲット以外をキル", "BountyHunter");
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
@@ -55,7 +54,7 @@ namespace TownOfHost
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
             {
-                Logger.info(target.name + "はTerroristだった", "MurderPlayer");
+                Logger.info(target.Data.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
             if (target.Is(CustomRoles.Trapper) && !__instance.Is(CustomRoles.Trapper))
@@ -106,7 +105,7 @@ namespace TownOfHost
                             {
                                 dis = Vector2.Distance(cppos, p.transform.position);
                                 cpdistance.Add(p, dis);
-                                Logger.info($"{p.name}の位置{dis}", "Warlock");
+                                Logger.info($"{p.Data.PlayerName}の位置{dis}", "Warlock");
                             }
                         }
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
@@ -222,13 +221,13 @@ namespace TownOfHost
             {
                 if (!__instance.CanUseKillButton())
                 {
-                    Logger.info(__instance.name + "はMafiaだったので、キルはキャンセルされました。", "CheckMurder");
+                    Logger.info(__instance.Data.PlayerName + "はMafiaだったので、キルはキャンセルされました。", "CheckMurder");
                     main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 }
                 else
                 {
-                    Logger.info(__instance.name + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
+                    Logger.info(__instance.Data.PlayerName + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
                 }
             }
             if (__instance.Is(CustomRoles.SerialKiller) && !target.Is(CustomRoles.SchrodingerCat))
@@ -421,10 +420,10 @@ namespace TownOfHost
                     PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     bitten.RpcMurderPlayer(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                    Logger.info("Vampireに噛まれている" + bitten.name + "を自爆させました。", "ReportDeadBody");
+                    Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "を自爆させました。", "ReportDeadBody");
                 }
                 else
-                    Logger.SendToFile("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。");
+                    Logger.SendToFile("Vampireに噛まれている" + bitten.Data.PlayerName + "はすでに死んでいました。");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
@@ -482,13 +481,13 @@ namespace TownOfHost
                                 PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                                 __instance.RpcMurderPlayer(bitten);
                                 RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
-                                Logger.info("Vampireに噛まれている" + bitten.name + "を自爆させました。", "Vampire");
+                                Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "を自爆させました。", "Vampire");
                                 if (bitten.Is(CustomRoles.Trapper))
                                     Utils.getPlayerById(vampireID).TrapperKilled(bitten);
                             }
                             else
                             {
-                                Logger.info("Vampireに噛まれている" + bitten.name + "はすでに死んでいました。", "Vampire");
+                                Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "はすでに死んでいました。", "Vampire");
                             }
                             main.BitPlayers.Remove(bitten.PlayerId);
                         }
@@ -685,7 +684,7 @@ namespace TownOfHost
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     {
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                        if (!__instance.AmOwner) __instance.nameText.text = __instance.name;
+                        if (!__instance.AmOwner) __instance.nameText.text = __instance.Data.PlayerName;
                     }
                     if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
                         RoleText.text += $" {Utils.getTaskText(__instance)}"; //ロールの横にタスク表示
@@ -702,7 +701,7 @@ namespace TownOfHost
                     string Suffix = "";
 
                     //名前変更
-                    RealName = target.getRealName();
+                    RealName = target.Data.PlayerName;
 
 
                     //名前色変更処理
