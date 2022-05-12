@@ -39,6 +39,8 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (data.Character.Is(CustomRoles.TimeThief))
                 data.Character.ReturnVotingTime();
+            if (!main.isDeadDoused[data.Character.PlayerId])
+                data.Character.RemoveDousePlayer();
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
             PlayerState.setDead(data.Character.PlayerId);
             Logger.info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");

@@ -1,4 +1,3 @@
-using System.Linq;
 using System;
 using HarmonyLib;
 using UnityEngine;
@@ -246,44 +245,6 @@ namespace TownOfHost
             {
                 player.Data.Role.TeamType = __state;
             }
-        }
-    }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.CoShowIntro))]
-    class CoShowIntroPatch
-    {
-        public static void Prefix(HudManager __instance)
-        {
-            Logger.info("------------名前表示------------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                Logger.info($"{pc.PlayerId}:{pc.name}\t:{pc.nameText.text}", "Info");
-                main.RealNames[pc.PlayerId] = pc.name;
-                pc.nameText.text = pc.name;
-            }
-            Logger.info("----------役職割り当て----------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                Logger.info($"{pc.PlayerId}:{pc.Data.PlayerName}\t:{pc.getAllRoleName()}", "Info");
-            }
-            Logger.info("--------------環境--------------", "Info");
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                var text = pc.AmOwner ? "[*]" : "   ";
-                text += $"{pc.PlayerId}:{pc.Data.PlayerName}\t:{(pc.getClient().PlatformData.Platform).ToString().Replace("Standalone", "")}";
-                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                    text += $"\t:Mod({pv.version}:{pv.tag})";
-                else text += "\t:Vanilla";
-                Logger.info(text, "Info");
-            }
-            Logger.info("------------基本設定------------", "Info");
-            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
-            foreach (var t in tmp) Logger.info(t, "Info");
-            Logger.info("------------詳細設定------------", "Info");
-            foreach (var o in CustomOption.Options)
-                if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
-                    Logger.info(String.Format("{0}{1,-36}:{2}", o.Parent == null ? "" : "┗ ", o.Name, o.GetString()), "Info");
-            Logger.info("-------------その他-------------", "Info");
-            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
     }
     class RepairSender

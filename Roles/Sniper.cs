@@ -91,7 +91,7 @@ namespace TownOfHost
         {
             if (pc.Data.IsDead) return false;
             var canUse = false;
-            if (bulletCount[pc.PlayerId] == 0)
+            if (bulletCount[pc.PlayerId] <= 0)
             {
                 canUse = true;
             }
@@ -100,6 +100,7 @@ namespace TownOfHost
         }
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeShifted)
         {
+            if(bulletCount[pc.PlayerId] <= 0) return;
             //スナイパーで弾が残ってたら
             if (!shapeShifted)
             {

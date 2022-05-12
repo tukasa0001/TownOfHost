@@ -198,25 +198,41 @@ namespace TownOfHost
             }
             return hasTasks;
         }
-        public static string getTaskText(PlayerControl pc)
+        public static string getProgressText(PlayerControl pc)
         {
+            string ProgressText = "null";
+            //タスクテキスト
             var taskState = pc.getPlayerTaskState();
-            if (!taskState.hasTasks) return "null";
-            var Comms = false;
-            foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
-                if (task.TaskType == TaskTypes.FixComms)
-                {
-                    Comms = true;
-                    break;
-                }
-            string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
-            return $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+            if (taskState.hasTasks)
+            {
+                var Comms = false;
+                foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
+                    if (task.TaskType == TaskTypes.FixComms)
+                    {
+                        Comms = true;
+                        break;
+                    }
+                string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
+                ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+            }
+            //塗りテキスト
+            else if (main.AllPlayerCustomRoles[pc.PlayerId] == CustomRoles.Arsonist)
+                ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[pc.PlayerId].Item1}/{main.DousedPlayerCount[pc.PlayerId].Item2})</color>";
+
+            return ProgressText;
         }
-        public static string getTaskText(byte playerId)
+        public static string getProgressText(byte playerId)
         {
+            string ProgressText = "";
+            //タスクテキスト
             var taskState = PlayerState.taskState[playerId];
-            if (!taskState.hasTasks) return "";
-            return $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+            if (taskState.hasTasks)
+                ProgressText = $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
+            //塗りテキスト
+            if (main.AllPlayerCustomRoles[playerId] == CustomRoles.Arsonist)
+                ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+
+            return ProgressText;
         }
         public static void ShowActiveRoles()
         {
@@ -470,7 +486,7 @@ namespace TownOfHost
 
                 //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
                 //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"{getTaskText(seer)}" : "";
+                string SelfTaskText = hasTasks(seer.Data, false) ? $"{getProgressText(seer)}" : "";
                 if (seer.Is(CustomRoles.Sniper))
                     SelfTaskText = Sniper.GetBulletCount(seer);
 
@@ -563,6 +579,8 @@ namespace TownOfHost
                 string SelfRoleName = "";
                 if (seer.Is(CustomRoles.Sheriff))
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.SheriffShotLimit[seer.PlayerId]})</color>";
+                else if (seer.Is(CustomRoles.Arsonist))
+                    SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.DousedPlayerCount[seer.PlayerId].Item1}/{main.DousedPlayerCount[seer.PlayerId].Item2})</color>";
                 else
                     SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
@@ -596,7 +614,7 @@ namespace TownOfHost
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{getTaskText(target)}" : "";
+                        string TargetTaskText = hasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{getProgressText(target)}" : "";
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
@@ -638,6 +656,8 @@ namespace TownOfHost
                         string TargetRoleText = "";
                         if (target.Is(CustomRoles.Sheriff))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
+                        else if (seer.Is(CustomRoles.Arsonist))
+                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.DousedPlayerCount[target.PlayerId].Item1}/{main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
@@ -663,13 +683,12 @@ namespace TownOfHost
                             var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                             TargetPlayerName = ncd.OpenTag + TargetPlayerName + ncd.CloseTag;
                         }
-                        if (seer.Is(CustomRoles.Executioner)) //seerがエクスキューショナー
-                            foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                            {
-                                if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
-                                target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                    TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                            }
+                        foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                        {
+                            if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                                TargetMark += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
 
                         string TargetDeathReason = "";
                         if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
@@ -747,6 +766,16 @@ namespace TownOfHost
         public static string getNameWithRole(this GameData.PlayerInfo player)
         {
             return getPlayerById(player.PlayerId)?.getNameWithRole() ?? "";
+        }
+        public static string getVoteName(byte num)
+        {
+            string name = "invalid";
+            var player = getPlayerById(num);
+            if (num < 15 && player != null) name = player?.getNameWithRole();
+            if (num == 253) name = "Skip";
+            if (num == 254) name = "None";
+            if (num == 255) name = "Dead";
+            return name;
         }
     }
 }

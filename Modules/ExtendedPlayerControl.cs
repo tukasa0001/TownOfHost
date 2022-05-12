@@ -665,6 +665,24 @@ namespace TownOfHost
                 main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
             main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
+        public static void RemoveDousePlayer(this PlayerControl target)
+        {
+            foreach (var arsonist in PlayerControl.AllPlayerControls)
+            {
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (arsonist.Is(CustomRoles.Arsonist))
+                {
+                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    {
+                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                        arsonist.RpcSendDousedPlayerCount();
+                    }
+                }
+            }
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role)
