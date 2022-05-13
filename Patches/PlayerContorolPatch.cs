@@ -464,6 +464,7 @@ namespace TownOfHost
                     Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            main.PuppeteerList.Clear();
 
             if (__instance.Data.IsDead) return true;
             //=============================================
