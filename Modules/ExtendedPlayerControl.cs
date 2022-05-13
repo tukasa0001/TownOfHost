@@ -145,7 +145,7 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            killer.RpcSpecificProtectPlayer(target, colorId);
+            killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target.protectedByGuardian)
@@ -160,17 +160,17 @@ namespace TownOfHost
                 }
             }, 0.5f, "GuardAndKill");
         }
-        public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
-        {
-            if (AmongUsClient.Instance.AmClient)
-            {
-                killer.ProtectPlayer(target, colorId);
-            }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.getClientId());
-            messageWriter.WriteNetObject(target);
-            messageWriter.Write(colorId);
-            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-        }
+        // public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
+        // {
+        //     if (AmongUsClient.Instance.AmClient)
+        //     {
+        //         killer.ProtectPlayer(target, colorId);
+        //     }
+        //     MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.getClientId());
+        //     messageWriter.WriteNetObject(target);
+        //     messageWriter.Write(colorId);
+        //     AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        // }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
