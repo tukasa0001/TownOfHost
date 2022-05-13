@@ -142,10 +142,10 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null)
+        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            killer.RpcProtectPlayer(target, 0);
+            killer.RpcSpecificProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target.protectedByGuardian)
