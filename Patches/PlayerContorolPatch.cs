@@ -197,8 +197,12 @@ namespace TownOfHost
                 return false;
             }
 
-            if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
-
+            if (__instance.Is(CustomRoles.SKMadmate))
+            {
+                //キル可能職がサイドキックされた場合
+                main.BlockKilling[__instance.PlayerId] = false;
+                return false;
+            }
             if (__instance.Is(CustomRoles.FireWorks))
             {
                 if (!__instance.CanUseKillButton())
@@ -235,6 +239,11 @@ namespace TownOfHost
                 if (__instance.Is(CustomRoles.Arsonist)) return false;
                 __instance.RpcGuardAndKill(target);
                 NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+                {
+                    //スナイプされた時
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                }
                 if (__instance.getCustomRole().isImpostor())
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                 if (__instance.Is(CustomRoles.Sheriff))

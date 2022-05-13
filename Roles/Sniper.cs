@@ -158,7 +158,7 @@ namespace TownOfHost
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
                     PlayerState.setDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
-                    snipedTarget.RpcMurderPlayer(snipedTarget);
+                    snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
                     if (snipedTarget.Is(CustomRoles.Trapper))
