@@ -55,7 +55,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Roles
+## Roles //FIXME:リリース前に追記
 
 | Impostors                       | Crewmates                             | Neutral                       |
 | ------------------------------- | ------------------------------------- | ----------------------------- |
@@ -351,9 +351,11 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name                |
-| ---------------------------- |
-| Mayor Additional Votes Count |
+| Settings Name                       |
+| ----------------------------------- |
+| Mayor Additional Votes Count        |
+| Mayor Has Portable Button           |
+| Mayor Number Of Use Portable Button |
 
 ### SabotageMaster
 

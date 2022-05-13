@@ -321,6 +321,10 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.Mayor:
+                    opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
                 case CustomRoles.Mare:
                     main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
                     if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
@@ -328,6 +332,7 @@ namespace TownOfHost
                         main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
                         main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
+                    break;
 
 
                 InfinityVent:
