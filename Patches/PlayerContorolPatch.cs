@@ -396,6 +396,7 @@ namespace TownOfHost
                 else
                     main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
+            }
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
