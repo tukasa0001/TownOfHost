@@ -166,7 +166,7 @@ namespace TownOfHost
             {
                 killer.ProtectPlayer(target, colorId);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, 45, SendOption.Reliable, killer.getClientId());
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.getClientId());
             messageWriter.WriteNetObject(target);
             messageWriter.Write(colorId);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
