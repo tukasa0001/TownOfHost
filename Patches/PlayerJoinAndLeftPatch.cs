@@ -38,7 +38,7 @@ namespace TownOfHost
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (data.Character.Is(CustomRoles.TimeThief))
-                data.Character.ReturnVotingTime();
+                data.Character.ResetThiefVotingTime();
             if (!main.isDeadDoused[data.Character.PlayerId])
                 data.Character.RemoveDousePlayer();
             PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);

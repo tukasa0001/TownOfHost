@@ -668,7 +668,7 @@ namespace TownOfHost
 
             return false;
         }
-        public static void ReturnVotingTime(this PlayerControl thief)
+        public static void ResetThiefVotingTime(this PlayerControl thief)
         {
             for (var i = 0; i < main.TimeThiefKillCount[thief.PlayerId]; i++)
                 main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();

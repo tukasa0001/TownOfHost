@@ -78,7 +78,7 @@ namespace TownOfHost
                 }
             }
             if (target.Is(CustomRoles.TimeThief))
-                target.ReturnVotingTime();
+                target.ResetThiefVotingTime();
             if (!main.isDeadDoused[target.PlayerId])
                 target.RemoveDousePlayer();
 

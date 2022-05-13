@@ -67,7 +67,7 @@ namespace TownOfHost
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
-                    exiled.Object.ReturnVotingTime();
+                    exiled.Object.ResetThiefVotingTime();
 
 
                 PlayerState.setDead(exiled.PlayerId);
