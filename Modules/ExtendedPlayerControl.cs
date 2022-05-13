@@ -145,7 +145,7 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            killer.RpcSpecificProtectPlayer(target, colorId);
+            killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target.protectedByGuardian)
