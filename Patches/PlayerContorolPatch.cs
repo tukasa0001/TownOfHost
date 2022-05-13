@@ -77,8 +77,12 @@ namespace TownOfHost
                     RPC.removeExecutionerKey(RemoveKey);
                 }
             }
+            if (target.Is(CustomRoles.TimeThief))
+                target.ResetThiefVotingTime();
             if (!main.isDeadDoused[target.PlayerId])
                 target.RemoveDousePlayer();
+
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.isLastImpostor())
@@ -382,6 +386,16 @@ namespace TownOfHost
                 {
                     Logger.SendToFile(__instance.name + "はMareですが、停電中だったのでキルが許可されました。");
                 }
+            }
+            if (__instance.Is(CustomRoles.TimeThief))
+            {
+                main.TimeThiefKillCount[__instance.PlayerId]++;
+                __instance.RpcSetTimeThiefKillCount();
+                if (main.DiscussionTime > 0)
+                    main.DiscussionTime -= Options.TimeThiefDecreaseDiscussionTime.GetInt();
+                else
+                    main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
+                Utils.CustomSyncAllSettings();
             }
 
             //==キル処理==
