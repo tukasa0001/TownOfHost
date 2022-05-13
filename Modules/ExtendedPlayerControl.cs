@@ -160,7 +160,17 @@ namespace TownOfHost
                 }
             }, 0.5f, "GuardAndKill");
         }
-
+        public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
+        {
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.ProtectPlayer(target, colorId);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, 45, SendOption.Reliable, killer.getClientId());
+            messageWriter.WriteNetObject(target);
+            messageWriter.Write(colorId);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
