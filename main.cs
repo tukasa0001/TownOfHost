@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -90,7 +90,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
-        public static Dictionary<byte, int> MayorUsedButtonCount = new Dictionary<byte, int
+        public static Dictionary<byte, int> MayorUsedButtonCount = new Dictionary<byte, int>();
         public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
