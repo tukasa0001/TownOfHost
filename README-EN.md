@@ -68,7 +68,8 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
 | [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
 | [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
-| [Madmate](###Madmate)           | [Doctor](###Doctor)                   |                               |
+| [TimeThief](###TimeThief)       | [Doctor](###Doctor)                   |                               |
+| [Madmate](###Madmate)           |                                       |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -192,6 +193,21 @@ Even if you get caught up in fireworks, you win if you annihilate the enemy. <br
 | FireWorks Max Count |
 | FireWorks Radius    |
 
+### TimeThief
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+Killing a player decreases the meeting time.<br>
+Also, when a TimeThief is expelled or killed, the lost meeting time is returned.<br>
+
+#### Settings
+
+| Settings Name                        |
+| ------------------------------------ |
+| TimeThief Decrease DiscussionTime(s) |
+| TimeThief Decrease VotingTime(s)     |
+
 ### Sniper
 
 Team : Impostors<br>
@@ -264,6 +280,7 @@ There is also a common setting for Madmate type Roles.
 | Madmate vision is as long as Impostor one |
 | Madmate Vent Cooldown                     |
 | Madmate In Vent Max Time                  |
+
 ### Watcher
 
 Team : Impostors or Crewmates<br>

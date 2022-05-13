@@ -40,6 +40,7 @@ namespace TownOfHost
             main.IgnoreReportPlayers = new List<byte>();
 
             main.SheriffShotLimit = new Dictionary<byte, float>();
+            main.TimeThiefKillCount = new Dictionary<byte, int>();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
@@ -55,6 +56,9 @@ namespace TownOfHost
             main.LastKiller = new();
 
             main.introDestroyed = false;
+
+            main.DiscussionTime = main.RealOptionsData.DiscussionTime;
+            main.VotingTime = main.RealOptionsData.VotingTime;
 
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();
@@ -301,6 +305,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
+                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -363,6 +368,11 @@ namespace TownOfHost
                         {
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
+                    }
+                    if (pc.Is(CustomRoles.TimeThief))
+                    {
+                        main.TimeThiefKillCount[pc.PlayerId] = 0;
+                        pc.RpcSetTimeThiefKillCount();
                     }
                     //通常モードでかくれんぼをする人用
                     if (Options.StandardHAS.GetBool())

@@ -90,6 +90,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -106,6 +107,8 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
+        public static int DiscussionTime;
+        public static int VotingTime;
 
         public static main Instance;
 
@@ -192,6 +195,7 @@ namespace TownOfHost
                 {CustomRoles.Mare, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
                 {CustomRoles.FireWorks, "#ff0000"},
+                {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
@@ -280,6 +284,7 @@ namespace TownOfHost
         Warlock,
         Mare,
         Puppeteer,
+        TimeThief,
         //Madmate
         MadGuardian,
         Madmate,

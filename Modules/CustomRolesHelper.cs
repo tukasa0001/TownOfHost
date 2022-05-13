@@ -16,6 +16,7 @@ namespace TownOfHost
                 role == CustomRoles.Mare ||
                 role == CustomRoles.Puppeteer ||
                 role == CustomRoles.EvilWatcher ||
+                role == CustomRoles.TimeThief ||
                 role == CustomRoles.Mafia ||
                 role == CustomRoles.FireWorks ||
                 role == CustomRoles.Sniper;

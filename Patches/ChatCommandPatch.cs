@@ -195,6 +195,7 @@ namespace TownOfHost
                 { CustomRoles.Mafia,"mf" },
                 { CustomRoles.SerialKiller,"sk" },
                 { CustomRoles.ShapeMaster,"sha" },
+                { CustomRoles.TimeThief,"tt"},
                 { CustomRoles.Sniper,"snp" },
                 { CustomRoles.Puppeteer,"pup" },
                 { CustomRoles.Vampire,"va" },

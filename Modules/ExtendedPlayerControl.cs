@@ -380,6 +380,8 @@ namespace TownOfHost
             {
                 opt.ImpostorLightMod = 0f;
             }
+            opt.DiscussionTime = main.DiscussionTime;
+            opt.VotingTime = main.VotingTime;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -547,6 +549,13 @@ namespace TownOfHost
             writer.Write(main.SheriffShotLimit[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetTimeThiefKillCount(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.TimeThiefKillCount[player.PlayerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
@@ -658,6 +667,12 @@ namespace TownOfHost
                 return true;
 
             return false;
+        }
+        public static void ResetThiefVotingTime(this PlayerControl thief)
+        {
+            for (var i = 0; i < main.TimeThiefKillCount[thief.PlayerId]; i++)
+                main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+            main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void RemoveDousePlayer(this PlayerControl target)
         {
