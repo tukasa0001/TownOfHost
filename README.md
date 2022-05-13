@@ -56,19 +56,19 @@
 
 | インポスター陣営                                                       | クルーメイト陣営                                                                | 第三陣営                                                                      |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](###BountyHunter/バウンティハンター) | [Bait/ベイト](###Bait/ベイト)                                                 | [Jester/ジェスター](###Jester/ジェスター)                                     |
-| [SerialKiller/シリアルキラー](###SerialKiller/シリアルキラー)         | [Mayor/メイヤー](###Mayor/メイヤー)                                           | [Opportunist/オポチュニスト](###Opportunist/オポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](###ShapeMaster/シェイプマスター)       | [SabotageMaster/サボタージュマスター](###SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](###Terrorist/テロリスト)                               |
-| [Vampire/ヴァンパイア](###Vampire/ヴァンパイア)                       | [Sheriff/シェリフ](###Sheriff/シェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫) |
-| [Warlock/ウォーロック](###Warlock/ウォーロック)                       | [Snitch/スニッチ](###Snitch/スニッチ)                                         | [Arsonist/アーソニスト](###Arsonist/アーソニスト)                             |
-| [Witch/魔女](###Witch/魔女)                                           | [Lighter/ライター](###Lighter/ライター)                                       | [Egoist/エゴイスト](###Egoist/エゴイスト)                                     |
-| [Mafia/マフィア](###Mafia/マフィア)                                   | [Nice Watcher/ナイスウォッチャー](###Watcher/ウォッチャー)                    |[Lovers/恋人](###Lovers/恋人)                                                 |
-| [Evil Watcher/イビルウォッチャー](###Watcher/ウォッチャー)            | [SpeedBooster/スピードブースター](###SpeedBooster/スピードブースター)         |                                                                               |
-| [Puppeteer/パペッティア](###Puppeteer/パペッティア)                   | [Trapper/トラッパー](###Trapper/トラッパー)                                                                             |                                                                               |
-| [TimeThief/タイムシーフ](###TimeThief/タイムシーフ)                   | [Doctor/ドクター](###Doctor/ドクター)                                                                             |                                                                               |
-| [Madmate/マッドメイト](###Madmate/マッドメイト)                       |                                                                   |                                                                               |
-| [MadGuardian/マッドガーディアン](###MadGuardian/マッドガーディアン)   |                                                                               |                                                                               |
-| [MadSnitch/マッドスニッチ](###MadSnitch/マッドスニッチ)               |                                                                               |                                                                               |
+| [BountyHunter/バウンティハンター](#BountyHunter/バウンティハンター) | [Bait/ベイト](#Bait/ベイト)                                                 | [Jester/ジェスター](#Jester/ジェスター)                                     |
+| [SerialKiller/シリアルキラー](#SerialKiller/シリアルキラー)         | [Mayor/メイヤー](#Mayor/メイヤー)                                           | [Opportunist/オポチュニスト](#Opportunist/オポチュニスト)                   |
+| [ShapeMaster/シェイプマスター](#ShapeMaster/シェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMaster/サボタージュマスター) | [Terrorist/テロリスト](#Terrorist/テロリスト)                               |
+| [Vampire/ヴァンパイア](#Vampire/ヴァンパイア)                       | [Sheriff/シェリフ](#Sheriff/シェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫) |
+| [Warlock/ウォーロック](#Warlock/ウォーロック)                       | [Snitch/スニッチ](#Snitch/スニッチ)                                         | [Arsonist/アーソニスト](#Arsonist/アーソニスト)                             |
+| [Witch/魔女](#Witch/魔女)                                           | [Lighter/ライター](#Lighter/ライター)                                       | [Egoist/エゴイスト](#Egoist/エゴイスト)                                     |
+| [Mafia/マフィア](#Mafia/マフィア)                                   | [Nice Watcher/ナイスウォッチャー](#Watcher/ウォッチャー)                    |[Lovers/恋人](#Lovers/恋人)                                                 |
+| [Evil Watcher/イビルウォッチャー](#Watcher/ウォッチャー)            | [SpeedBooster/スピードブースター](#SpeedBooster/スピードブースター)         |                                                                               |
+| [Puppeteer/パペッティア](#Puppeteer/パペッティア)                   | [Trapper/トラッパー](#Trapper/トラッパー)                                                                             |                                                                               |
+| [TimeThief/タイムシーフ](#TimeThief/タイムシーフ)                   | [Doctor/ドクター](#Doctor/ドクター)                                                                             |                                                                               |
+| [Madmate/マッドメイト](#Madmate/マッドメイト)                       |                                                                   |                                                                               |
+| [MadGuardian/マッドガーディアン](#MadGuardian/マッドガーディアン)   |                                                                               |                                                                               |
+| [MadSnitch/マッドスニッチ](#MadSnitch/マッドスニッチ)               |                                                                               |                                                                               |
 
 ### BountyHunter/バウンティハンター
 
@@ -134,7 +134,7 @@
 キルボタンを押してから一定時間経って実際にキルが発生する役職です。<br>
 キルをしたときのテレポートは発生しません。<br>
 また、キルボタンを押してから設定された時間が経つまでに会議が始まるとその瞬間にキルが発生します。<br>
-しかし、[ベイト](###Bait/ベイト)をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
+しかし、[ベイト](#Bait/ベイト)をキルした場合のみ通常のキルとなり、強制的に通報させられます。<br>
 
 #### 設定
 
@@ -360,12 +360,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 | 設定名                                                                |
 | --------------------------------------------------------------------- |
-| シェリフが[アーソニスト](###Arsonist/アーソニスト)をキルできる        |
-| シェリフが[マッドメイト](###Madmate/マッドメイト)をキルできる         |
-| シェリフが[ジェスター](###Jester/ジェスター)をキルできる              |
-| シェリフが[テロリスト](###Terrorist/テロリスト)をキルできる           |
-| シェリフが[オポチュニスト](###Opportunist/オポチュニスト)をキルできる |
-| シェリフが[エゴイスト](###Egoist/エゴイスト)をキルできる              |
+| シェリフが[アーソニスト](#Arsonist/アーソニスト)をキルできる        |
+| シェリフが[マッドメイト](#Madmate/マッドメイト)をキルできる         |
+| シェリフが[ジェスター](#Jester/ジェスター)をキルできる              |
+| シェリフが[テロリスト](#Terrorist/テロリスト)をキルできる           |
+| シェリフが[オポチュニスト](#Opportunist/オポチュニスト)をキルできる |
+| シェリフが[エゴイスト](#Egoist/エゴイスト)をキルできる              |
 | シェリフがクルーをそのままキルできる                                  |
 | シェリフのキル可能回数                                                |
 
@@ -688,11 +688,11 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](###BountyHunter/バンティーハンター)や[マフィア](###Mafia/マフィア)、[ヴァンパイア](###Vampire/ヴァンパイア)、[魔女](###Witch/魔女)、[ベイト](###Bait/ベイト)、[メイヤー](###Mayor/メイヤー)、[シェリフ](###Sheriff/シェリフ)、[スニッチ](###Snitch/スニッチ)、[ライター](###Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](###Opportunist/オポチュニスト)、[ウォッチャー](###Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[シュレディンガーの猫](###SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[ドクター](###Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
-[ジェスター](###Jester/ジェスター)(てるてる)と[マッドメイト](###Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
-[テロリスト](###Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
+[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
+[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
+[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 作者の Twitter : https://twitter.com/XenonBottle<br>

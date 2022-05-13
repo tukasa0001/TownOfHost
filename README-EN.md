@@ -59,19 +59,19 @@ Note that if a player other than the host plays with this mod installed, the fol
 
 | Impostors                       | Crewmates                             | Neutral                       |
 | ------------------------------- | ------------------------------------- | ----------------------------- |
-| [BountyHunter](###BountyHunter) | [Bait](###Bait)                       | [Jester](###Jester)           |
-| [SerialKiller](###SerialKiller) | [Mayor](###Mayor)                     | [Opportunist](###Opportunist) |
-| [ShapeMaster](###ShapeMaster)   | [SabotageMaster](###SabotageMaster)   | [Terrorist](###Terrorist)     |
-| [Vampire](###Vampire)           | [Sheriff](###Sheriff)                 | [Arsonist](###Arsonist)       |
-| [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
-| [Witch](###Witch)               | [Lighter](###Lighter)                 | [Lovers](###Lovers)           |
-| [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
-| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
-| [TimeThief](###TimeThief)       | [Doctor](###Doctor)                   |                               |
-| [Madmate](###Madmate)           |                                       |                               |
-| [MadGuardian](###MadGuardian)   |                                       |                               |
-| [MadSnitch](###MadSnitch)       |                                       |                               |
+| [BountyHunter](#BountyHunter) | [Bait](#Bait)                       | [Jester](#Jester)           |
+| [SerialKiller](#SerialKiller) | [Mayor](#Mayor)                     | [Opportunist](#Opportunist) |
+| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster)   | [Terrorist](#Terrorist)     |
+| [Vampire](#Vampire)           | [Sheriff](#Sheriff)                 | [Arsonist](#Arsonist)       |
+| [Warlock](#Warlock)           | [Snitch](#Snitch)                   | [Egoist](#Egoist)           |
+| [Witch](#Witch)               | [Lighter](#Lighter)                 | [Lovers](#Lovers)           |
+| [Mafia](#Mafia)               | [Nice Watcher](#Watcher)            |                               |
+| [Evil Watcher](#Watcher)      | [SpeedBooster](#SpeedBooster)       |                               |
+| [Puppeteer](#Puppeteer)       | [Trapper](#Trapper)                 |                               |
+| [TimeThief](#TimeThief)       | [Doctor](#Doctor)                   |                               |
+| [Madmate](#Madmate)           |                                       |                               |
+| [MadGuardian](#MadGuardian)   |                                       |                               |
+| [MadSnitch](#MadSnitch)       |                                       |                               |
 
 ### BountyHunter
 
@@ -132,7 +132,7 @@ Decision : Impostor<br>
 The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.<br>
 There is no teleportation when a kill is made.<br>
 Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.<br>
-However, only if they kill the [Baits](###Bait) will it be a normal kill and they will be forced to report it.<br>
+However, only if they kill the [Baits](#Bait) will it be a normal kill and they will be forced to report it.<br>
 
 #### Settings
 
@@ -391,12 +391,12 @@ They do not have tasks.<br>
 
 | Settings Name                                  |
 | ---------------------------------------------- |
-| Sheriff Can Kill [Arsonist](###Arsonist)       |
-| Sheriff Can Kill [Madmate](###Madmate)         |
-| Sheriff Can Kill [Jester](###Jester)           |
-| Sheriff Can Kill [Terrorist](###Terrorist)     |
-| Sheriff Can Kill [Opportunist](###Opportunist) |
-| Sheriff Can Kill [Egoist](###Egoist)           |
+| Sheriff Can Kill [Arsonist](#Arsonist)       |
+| Sheriff Can Kill [Madmate](#Madmate)         |
+| Sheriff Can Kill [Jester](#Jester)           |
+| Sheriff Can Kill [Terrorist](#Terrorist)     |
+| Sheriff Can Kill [Opportunist](#Opportunist) |
+| Sheriff Can Kill [Egoist](#Egoist)           |
 | Sheriff Can Kill Crewmates As It               |
 | Sheriff Shot Limit                             |
 
@@ -695,12 +695,12 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 
 ## Credits
 
-[BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
-[Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
-[Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+[Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>
+[Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
+[Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 
