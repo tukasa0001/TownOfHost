@@ -32,6 +32,7 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
+        RemoveExecutionerTarget,
         SendFireWorksState,
     }
     public enum Sounds
@@ -145,6 +146,7 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    main.isDeadDoused[DousedId] = true;
                     break;
                 case CustomRPC.SendDousedPlayerCount:
                     ArsonistId = reader.ReadByte();
@@ -182,6 +184,10 @@ namespace TownOfHost
                     byte executionerId = reader.ReadByte();
                     byte targetId = reader.ReadByte();
                     main.ExecutionerTarget[executionerId] = targetId;
+                    break;
+                case CustomRPC.RemoveExecutionerTarget:
+                    byte Key = reader.ReadByte();
+                    main.ExecutionerTarget.Remove(Key);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.RecieveRPC(reader);
@@ -395,6 +401,12 @@ namespace TownOfHost
             else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
             else rpcName = callId.ToString();
             return rpcName;
+        }
+        public static void removeExecutionerKey(byte Key)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]

@@ -321,6 +321,13 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.Mare:
+                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
+                    {
+                        main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
+                        main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                    }
 
 
                 InfinityVent:
@@ -551,6 +558,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            else if (pc.Is(CustomRoles.Mare))
+                return Utils.isActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
@@ -649,6 +658,24 @@ namespace TownOfHost
                 return true;
 
             return false;
+        }
+        public static void RemoveDousePlayer(this PlayerControl target)
+        {
+            foreach (var arsonist in PlayerControl.AllPlayerControls)
+            {
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (arsonist.Is(CustomRoles.Arsonist))
+                {
+                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    {
+                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                        arsonist.RpcSendDousedPlayerCount();
+                    }
+                }
+            }
         }
 
         //汎用

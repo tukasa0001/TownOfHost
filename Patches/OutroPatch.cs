@@ -89,8 +89,8 @@ namespace TownOfHost
                 }
             }
             if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
-            && main.currentWinner == CustomWinner.Impostor
-            && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))   //クルー勝利でタスク勝ちじゃなければ
+            && (main.currentWinner == CustomWinner.Impostor
+            || (main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 winner = new();
@@ -337,13 +337,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getTaskText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getTaskText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;

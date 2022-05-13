@@ -301,13 +301,12 @@ namespace TownOfHost
                 {
                     pva.NameText.text = $"<color={seer.getRoleColorCode()}>{pva.NameText.text}</color>"; //名前の色を変更
                 }
-                if (seer.Is(CustomRoles.Executioner)) //seerがエクスキューショナー
-                    foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                    {
-                        if (seer.PlayerId == ExecutionerTarget.Key && //seerがKey
-                        target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                            pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                    }
+                foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                {
+                    if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                    target.PlayerId == ExecutionerTarget.Value) //targetがValue
+                        pva.NameText.text += $"<color={Utils.getRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                }
                 if (seer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.getRoleColorCode(CustomRoles.Doctor)}>{Utils.getVitalText(target.PlayerId)}</color>)";
@@ -337,7 +336,7 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getTaskText(pc);
+                    if (main.VisibleTasksCount && Utils.hasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.getProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
                     else if (main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
