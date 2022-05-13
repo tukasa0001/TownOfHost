@@ -56,34 +56,26 @@ namespace TownOfHost
                     winner.Add(p);
                 }
             }
-            foreach (var p in winner)
-            {
-                TempData.winners.Add(new WinningPlayerData(p.Data));
-            }
 
             //単独勝利
             if (main.currentWinner == CustomWinner.Jester && CustomRoles.Jester.isEnable())
             { //Jester単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.ExiledJesterID)
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
                         winner.Add(p);
                     }
                 }
             }
             if (main.currentWinner == CustomWinner.Terrorist && CustomRoles.Terrorist.isEnable())
             { //Terrorist単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonTerroristID)
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
                         winner.Add(p);
                     }
                 }
@@ -92,50 +84,42 @@ namespace TownOfHost
             && (main.currentWinner == CustomWinner.Impostor
             || (main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 winner = new();
                 main.currentWinner = CustomWinner.Lovers;
                 foreach (var lp in main.LoversPlayers)
                 {
-                    TempData.winners.Add(new WinningPlayerData(lp.Data));
                     winner.Add(lp);
                 }
             }
             if (main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.isEnable())
             { //Executioner単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonExecutionerID)
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
                         winner.Add(p);
                     }
                 }
             }
             if (main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.isEnable())
             { //Arsonist単独勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
+                winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.PlayerId == main.WonArsonistID)
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
-                        winner = new();
                         winner.Add(p);
                     }
                 }
             }
             if (main.currentWinner == CustomWinner.Egoist && CustomRoles.Egoist.isEnable())
             { //Egoist横取り勝利
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if ((p.Is(CustomRoles.Egoist) && !p.Data.IsDead) || p.Is(CustomRoles.EgoSchrodingerCat))
                     {
-                        TempData.winners.Add(new WinningPlayerData(p.Data));
                         winner.Add(p);
                     }
                 }
@@ -146,7 +130,6 @@ namespace TownOfHost
             {
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && main.currentWinner != CustomWinner.Draw && main.currentWinner != CustomWinner.Terrorist)
                 {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
                     winner.Add(pc);
                     main.additionalwinners.Add(AdditionalWinners.Opportunist);
                 }
@@ -154,7 +137,6 @@ namespace TownOfHost
                 if (Options.CanBeforeSchrodingerCatWinTheCrewmate.GetBool())
                     if (pc.Is(CustomRoles.SchrodingerCat) && main.currentWinner == CustomWinner.Crewmate)
                     {
-                        TempData.winners.Add(new WinningPlayerData(pc.Data));
                         winner.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.SchrodingerCat);
                     }
@@ -163,7 +145,6 @@ namespace TownOfHost
                     {
                         if (main.ExiledJesterID == ExecutionerTarget.Value && pc.PlayerId == ExecutionerTarget.Key)
                         {
-                            TempData.winners.Add(new WinningPlayerData(pc.Data));
                             winner.Add(pc);
                             main.additionalwinners.Add(AdditionalWinners.Executioner);
                         }
@@ -174,7 +155,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
                 main.currentWinner != CustomWinner.Draw)
             {
-                var winners = new List<PlayerControl>();
+                winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     var hasRole = main.AllPlayerCustomRoles.TryGetValue(pc.PlayerId, out var role);
@@ -182,34 +163,31 @@ namespace TownOfHost
                     if (role.getRoleType() == RoleType.Impostor)
                     {
                         if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
-                            winners.Add(pc);
+                            winner.Add(pc);
                     }
                     else if (role.getRoleType() == RoleType.Crewmate)
                     {
                         if (TempData.DidHumansWin(endGameResult.GameOverReason))
-                            winners.Add(pc);
+                            winner.Add(pc);
                     }
-                    if (main.currentWinner == CustomWinner.HASTroll)
+                    else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                     {
-                        winners = new List<PlayerControl>();
-                        winners.Add(pc);
+                        //トロールが殺されていれば単独勝ち
+                        winner = new();
+                        winner.Add(pc);
                         break;
                     }
                     else if (role == CustomRoles.HASFox && !pc.Data.IsDead)
                     {
-                        winners.Add(pc);
+                        winner.Add(pc);
                         main.additionalwinners.Add(AdditionalWinners.HASFox);
                     }
-                }
-                TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                foreach (var pc in winners)
-                {
-                    TempData.winners.Add(new WinningPlayerData(pc.Data));
                 }
             }
             main.winnerList = new();
             foreach (var pc in winner)
             {
+                TempData.winners.Add(new WinningPlayerData(pc.Data));
                 main.winnerList.Add(pc.PlayerId);
             }
 
