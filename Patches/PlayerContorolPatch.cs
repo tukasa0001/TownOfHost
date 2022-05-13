@@ -378,13 +378,13 @@ namespace TownOfHost
             {
                 if (!__instance.CanUseKillButton())
                 {
-                    Logger.SendToFile(__instance.name + "のキルは停電中ではなかったので、キルはキャンセルされました。");
+                    Logger.info(__instance.Data.PlayerName + "のキルは停電中ではなかったので、キルはキャンセルされました。", "Mare");
                     main.BlockKilling[__instance.PlayerId] = false;
                     return false;
                 }
                 else
                 {
-                    Logger.SendToFile(__instance.name + "はMareですが、停電中だったのでキルが許可されました。");
+                    Logger.info(__instance.Data.PlayerName + "はMareですが、停電中だったのでキルが許可されました。", "Mare");
                 }
             }
             if (__instance.Is(CustomRoles.TimeThief))
@@ -461,7 +461,7 @@ namespace TownOfHost
                     Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "を自爆させました。", "ReportDeadBody");
                 }
                 else
-                    Logger.SendToFile("Vampireに噛まれている" + bitten.Data.PlayerName + "はすでに死んでいました。");
+                    Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
             }
             main.BitPlayers = new Dictionary<byte, (byte, float)>();
 
