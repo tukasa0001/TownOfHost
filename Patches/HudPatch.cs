@@ -247,6 +247,41 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    class HudManagerUpdatePatch
+    {
+        static void Postfix(HudManager instance)
+        {
+            var player = PlayerControl.LocalPlayer;
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.Sniper:
+                    instance.AbilityButton.OverrideText($"{getString("SniperSnipeButtonText")}");
+                break;
+                case CustomRoles.FireWorks:
+                    if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                        instance.AbilityButton.OverrideText($"{getString("FireWorksExplosionButtonText")}");
+                    else
+                        instance.AbilityButton.OverrideText($"{getString("FireWorksInstallAtionButtonText")}");
+                break;
+                case CustomRoles.SerialKiller:
+                    instance.AbilityButton.OverrideText($"{getString("SerialKillerSuicideButtonText")}");
+                break;
+                case CustomRoles.Warlock:
+                    if (!main.CheckShapeshift[player.PlayerId] && !main.isCurseAndKill[player.PlayerId])
+                    {
+                        instance.KillButton.OverrideText($"{getString("WarlockCurseButtonText")}");
+                    }
+                break;
+                case CustomRoles.Witch:
+                    if (player.GetKillOrSpell())
+                    {
+                        instance.KillButton.OverrideText($"{getString("WitchSpellButtonText")}");
+                    }
+                break;
+            }
+        }
+    }
     class RepairSender
     {
         public static bool enabled = false;
