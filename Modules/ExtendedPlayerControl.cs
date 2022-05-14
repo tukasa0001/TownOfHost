@@ -162,6 +162,7 @@ namespace TownOfHost
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
+            if (target == null) target = killer;
             if (AmongUsClient.Instance.AmClient)
             {
                 killer.MurderPlayer(target);
