@@ -50,8 +50,9 @@ namespace TownOfHost
             if (!isEnable || disableList.Contains(tag)) return;
             var logger = main.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
-            string log_text = $"[{t}][{tag}]{text}";
             if (sendToGameList.Contains(tag)) SendInGame($"[{tag}]{text}");
+            text = text.Replace("\r", "\\r").Replace("\n", "\\n");
+            string log_text = $"[{t}][{tag}]{text}";
             if (isDetail && main.AmDebugger.Value)
             {
                 StackFrame stack = new StackFrame(2);
