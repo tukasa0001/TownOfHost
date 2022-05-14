@@ -112,11 +112,34 @@ namespace TownOfHost
                     TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.Mafia:
-                    if (!player.CanUseKillButton())
+                case CustomRoles.Mare:
+                case CustomRoles.FireWorks:
+                case CustomRoles.Sniper:
+                    if (player.CanUseKillButton())
+                    {
                         __instance.KillButton.SetDisabled();
-                    break;
+                        __instance.KillButton.ToggleVisible(true && !player.Data.IsDead);
+                    }
+                    else
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
+                break;
                 case CustomRoles.Sheriff:
+                    if (main.SheriffShotLimit[player.PlayerId] == 0)
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Arsonist:
+                    if (player.isDouseDone())
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
 
