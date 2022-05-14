@@ -36,7 +36,7 @@ namespace TownOfHost
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
                     if (ps == null) continue;
-                    Logger.info(String.Format("{0,-2}{1,-32}:{2,-2}{3}", ps.TargetPlayerId, $"({Utils.getVoteName(ps.TargetPlayerId)})", ps.VotedFor, $"({Utils.getVoteName(ps.VotedFor)})"), "Vote");
+                    Logger.info(String.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, $"({Utils.getVoteName(ps.TargetPlayerId)})".padRight(40), ps.VotedFor, $"({Utils.getVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.getPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
                     if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ

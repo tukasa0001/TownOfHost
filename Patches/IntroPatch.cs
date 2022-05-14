@@ -40,20 +40,20 @@ namespace TownOfHost
             Logger.info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-2}:{1,-16}:{2}", pc.PlayerId, pc.name, pc.nameText.text), "Info");
+                Logger.info(String.Format("{0,-2}:{1}:{2}", pc.PlayerId, pc.name.padRight(20), pc.nameText.text), "Info");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
             Logger.info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-2}:{1,-16}:{2}", pc.PlayerId, pc.Data.PlayerName, pc.getAllRoleName()), "Info");
+                Logger.info(String.Format("{0,-2}:{1}:{2}", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getAllRoleName()), "Info");
             }
             Logger.info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.AmOwner ? "[*]" : "   ";
-                text += String.Format("{0,-2}:{1,-16}:{2,-11}", pc.PlayerId, pc.Data.PlayerName, pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
+                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
                 if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                     text += $":Mod({pv.version}:{pv.tag})";
                 else text += ":Vanilla";
@@ -65,7 +65,7 @@ namespace TownOfHost
             Logger.info("------------詳細設定------------", "Info");
             foreach (var o in CustomOption.Options)
                 if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
-                    Logger.info(String.Format("{0}{1,-36}:{2}", o.Parent == null ? "" : "┗ ", o.Name, o.GetString()), "Info");
+                    Logger.info(String.Format("{0}:{1}", (o.Parent == null ? o.Name : $"┗ {o.Name}").padRight(40), o.GetString()), "Info");
             Logger.info("-------------その他-------------", "Info");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
         }
