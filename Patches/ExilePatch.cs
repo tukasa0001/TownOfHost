@@ -66,6 +66,10 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
+                if (exiled.Object.Is(CustomRoles.TimeThief))
+                    exiled.Object.ResetThiefVotingTime();
+
+
                 PlayerState.setDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
@@ -74,6 +78,8 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
+                if (pc.Is(CustomRoles.Mayor))
+                    pc.RpcGuardAndKill();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     main.CursedPlayers[pc.PlayerId] = (null);

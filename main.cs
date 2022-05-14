@@ -1,4 +1,3 @@
-﻿using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
@@ -90,6 +89,8 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
         public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
+        public static Dictionary<byte, int> MayorUsedButtonCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -106,6 +107,8 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
+        public static int DiscussionTime;
+        public static int VotingTime;
 
         public static main Instance;
 
@@ -126,6 +129,8 @@ namespace TownOfHost
             TownOfHost.Logger.enable();
             TownOfHost.Logger.disable("NotifyRoles");
             TownOfHost.Logger.disable("SendRPC");
+            TownOfHost.Logger.disable("ReceiveRPC");
+            TownOfHost.Logger.disable("SwitchSystem");
             TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
@@ -148,6 +153,7 @@ namespace TownOfHost
             isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
+            MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -187,8 +193,10 @@ namespace TownOfHost
                 {CustomRoles.ShapeMaster, "#ff0000"},
                 {CustomRoles.Warlock, "#ff0000"},
                 {CustomRoles.SerialKiller, "#ff0000"},
+                {CustomRoles.Mare, "#ff0000"},
                 {CustomRoles.Puppeteer, "#ff0000"},
                 {CustomRoles.FireWorks, "#ff0000"},
+                {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
@@ -275,7 +283,9 @@ namespace TownOfHost
         Vampire,
         Witch,
         Warlock,
+        Mare,
         Puppeteer,
+        TimeThief,
         //Madmate
         MadGuardian,
         Madmate,

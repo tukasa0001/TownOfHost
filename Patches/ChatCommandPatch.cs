@@ -121,7 +121,7 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage($"{ getString("Command.h_args")}:\n lastimpostor(limp)");
+                                        Utils.SendMessage($"{getString("Command.h_args")}:\n lastimpostor(limp)");
                                         break;
                                 }
                                 break;
@@ -195,6 +195,7 @@ namespace TownOfHost
                 { CustomRoles.Mafia,"mf" },
                 { CustomRoles.SerialKiller,"sk" },
                 { CustomRoles.ShapeMaster,"sha" },
+                { CustomRoles.TimeThief,"tt"},
                 { CustomRoles.Sniper,"snp" },
                 { CustomRoles.Puppeteer,"pup" },
                 { CustomRoles.Vampire,"va" },

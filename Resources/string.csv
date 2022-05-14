@@ -14,6 +14,7 @@ Shapeshifter,Shapeshifter,シェイプシフター
 
 # 特殊インポスター役職
 BountyHunter,BountyHunter,バウンティハンター
+Mare,Mare,メアー
 FireWorks,FireWorks,花火職人
 SerialKiller,SerialKiller,シリアルキラー
 ShapeMaster,ShapeMaster,シェイプマスター
@@ -23,6 +24,7 @@ Witch,Witch,ウィッチ
 Mafia,Mafia,マフィア
 EvilWatcher,Evil Watcher,イビルウォッチャー
 Puppeteer,Puppeteer,パペッティア
+TimeThief,TimeThief,タイムシーフ
 Sniper,Sniper,スナイパー
 
 # マッドメイト系役職
@@ -75,6 +77,7 @@ TeamImpostor,Team Impostor,インポスター陣営
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
+MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
 FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
@@ -85,6 +88,7 @@ MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をし�
 BeforeMafiaInfo,You can not kill now,今はキルをすることができない
 AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
+TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
 
 # マッドメイト系役職
@@ -133,11 +137,13 @@ BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a ta
 FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
+MareInfoLong,"(Impostors):\nYou can't only kill during a power outage.\nBut,when killed,the next kill cool is halved.\nand,The movement speed will also be faster. And name is displayed in red",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
 PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
+TimeThiefInfoLong,"(Impostors):\nEach kill decreases the meeting time.\nIf the time thief is exiled or killed, the lost meeting time is returned.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
 
 # マッドメイト系役職
@@ -233,6 +239,7 @@ BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンタ
 BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
+BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
@@ -265,6 +272,8 @@ SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢
 SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数
+MayorHasPortableButton,Mayor Has Portable Button,メイヤーがポータブルボタンを持っている
+MayorNumOfUseButton,Mayor Number Of Use Portable Button,メイヤーが使えるポータブルボタンの回数
 CanBeforeSchrodingerCatWinTheCrewmate,Before the role change you can win with your crewmate team,役職変化前であれば、クルー陣営と勝利できる
 SchrodingerCatExiledTeamChanges,SchrodingerCat Exiled Team Changes,シュレディンガーの猫が吊られた際、陣営が変化する
 ExecutionerCanTargetImpostor,Executioner Can be Target Impostor,ｴｸｽｷｭｰｼｮﾅｰがインポスターもターゲットにできる
@@ -280,6 +289,8 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
+TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
+TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

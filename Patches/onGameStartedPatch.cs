@@ -40,11 +40,13 @@ namespace TownOfHost
             main.IgnoreReportPlayers = new List<byte>();
 
             main.SheriffShotLimit = new Dictionary<byte, float>();
+            main.TimeThiefKillCount = new Dictionary<byte, int>();
 
             main.SpelledPlayer = new List<PlayerControl>();
             main.witchMeeting = false;
             main.CheckShapeshift = new Dictionary<byte, bool>();
             main.SpeedBoostTarget = new Dictionary<byte, byte>();
+            main.MayorUsedButtonCount = new Dictionary<byte, int>();
             main.targetArrows = new();
 
             Options.UsedButtonCount = 0;
@@ -55,6 +57,9 @@ namespace TownOfHost
             main.LastKiller = new();
 
             main.introDestroyed = false;
+
+            main.DiscussionTime = main.RealOptionsData.DiscussionTime;
+            main.VotingTime = main.RealOptionsData.VotingTime;
 
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();
@@ -107,9 +112,15 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+
                 int AdditionalEngineerNum = CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();// - EngineerNum;
+
+                if (Options.MayorHasPortableButton.GetBool())
+                    AdditionalEngineerNum += CustomRoles.Mayor.getCount();
+
                 if (Options.MadSnitchCanVent.GetBool())
                     AdditionalEngineerNum += CustomRoles.MadSnitch.getCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -275,7 +286,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mayor, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
@@ -298,8 +309,10 @@ namespace TownOfHost
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (main.RealOptionsData.NumImpostors > 1)
                     AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
+                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -363,6 +376,11 @@ namespace TownOfHost
                             main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
                     }
+                    if (pc.Is(CustomRoles.TimeThief))
+                    {
+                        main.TimeThiefKillCount[pc.PlayerId] = 0;
+                        pc.RpcSetTimeThiefKillCount();
+                    }
                     //通常モードでかくれんぼをする人用
                     if (Options.StandardHAS.GetBool())
                     {
@@ -390,6 +408,8 @@ namespace TownOfHost
                         RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
                         Logger.info($"{pc.getNameWithRole()}:{Target.getNameWithRole()}", "Executioner");
                     }
+                    if (pc.Is(CustomRoles.Mayor))
+                        main.MayorUsedButtonCount[pc.PlayerId] = 0;
                 }
 
                 //役職の人数を戻す
@@ -399,9 +419,15 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+
                 EngineerNum -= CustomRoles.Madmate.getCount() + CustomRoles.Terrorist.getCount();
+
+                if (Options.MayorHasPortableButton.GetBool())
+                    EngineerNum -= CustomRoles.Mayor.getCount();
+
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.getCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);

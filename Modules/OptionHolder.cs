@@ -63,7 +63,10 @@ namespace TownOfHost
         public static CustomOption BHDefaultKillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
+        public static CustomOption TimeThiefDecreaseDiscussionTime;
+        public static CustomOption TimeThiefDecreaseVotingTime;
         public static CustomOption VampireKillDelay;
+        public static CustomOption BlackOutMareSpeed;
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
@@ -77,6 +80,8 @@ namespace TownOfHost
 
         public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
+        public static CustomOption MayorHasPortableButton;
+        public static CustomOption MayorNumOfUseButton;
         public static CustomOption SabotageMasterSkillLimit;
         public static CustomOption SabotageMasterFixesDoors;
         public static CustomOption SabotageMasterFixesReactors;
@@ -263,6 +268,11 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
+            SetupRoleOptions(2300, CustomRoles.Mare);
+            BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
+            SetupRoleOptions(2400, CustomRoles.TimeThief);
+            TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
@@ -292,6 +302,8 @@ namespace TownOfHost
             SetupRoleOptions(20100, CustomRoles.Lighter);
             SetupRoleOptions(20200, CustomRoles.Mayor);
             MayorAdditionalVote = CustomOption.Create(20210, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
+            MayorHasPortableButton = CustomOption.Create(20211, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
+            MayorNumOfUseButton = CustomOption.Create(20212, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SetupRoleOptions(20300, CustomRoles.SabotageMaster);
             SabotageMasterSkillLimit = CustomOption.Create(20310, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesDoors = CustomOption.Create(20311, Color.white, "SabotageMasterFixesDoors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
@@ -475,7 +487,7 @@ namespace TownOfHost
             {
                 this.idStart = idStart;
                 this.role = role;
-                Dictionary<string, string> replacementDic = new() { { "%role%", Helpers.ColorString(Utils.getRoleColor(role), Utils.getRoleName(role)) } };
+                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.getRoleName(role) } };
                 doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
                 assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);

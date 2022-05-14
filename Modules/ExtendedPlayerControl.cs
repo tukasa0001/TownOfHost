@@ -142,10 +142,10 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null)
+        public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            killer.RpcProtectPlayer(target, 0);
+            killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target.protectedByGuardian)
@@ -160,7 +160,17 @@ namespace TownOfHost
                 }
             }, 0.5f, "GuardAndKill");
         }
-
+        public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
+        {
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.ProtectPlayer(target, colorId);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.getClientId());
+            messageWriter.WriteNetObject(target);
+            messageWriter.Write(colorId);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
@@ -321,6 +331,18 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case CustomRoles.Mayor:
+                    opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
+                case CustomRoles.Mare:
+                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                    if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
+                    {
+                        main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
+                        main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                    }
+                    break;
 
 
                 InfinityVent:
@@ -373,6 +395,8 @@ namespace TownOfHost
             {
                 opt.ImpostorLightMod = 0f;
             }
+            opt.DiscussionTime = main.DiscussionTime;
+            opt.VotingTime = main.VotingTime;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -540,6 +564,13 @@ namespace TownOfHost
             writer.Write(main.SheriffShotLimit[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetTimeThiefKillCount(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(main.TimeThiefKillCount[player.PlayerId]);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
@@ -551,6 +582,8 @@ namespace TownOfHost
             {
                 if (main.AliveImpostorCount > 1) canUse = false;
             }
+            else if (pc.Is(CustomRoles.Mare))
+                return Utils.isActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
@@ -649,6 +682,30 @@ namespace TownOfHost
                 return true;
 
             return false;
+        }
+        public static void ResetThiefVotingTime(this PlayerControl thief)
+        {
+            for (var i = 0; i < main.TimeThiefKillCount[thief.PlayerId]; i++)
+                main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+            main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
+        }
+        public static void RemoveDousePlayer(this PlayerControl target)
+        {
+            foreach (var arsonist in PlayerControl.AllPlayerControls)
+            {
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (arsonist.Is(CustomRoles.Arsonist))
+                {
+                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    {
+                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
+                        arsonist.RpcSendDousedPlayerCount();
+                    }
+                }
+            }
         }
 
         //汎用

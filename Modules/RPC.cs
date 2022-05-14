@@ -23,6 +23,7 @@ namespace TownOfHost
         SetBountyTarget,
         SetKillOrSpell,
         SetSheriffShotLimit,
+        SetTimeThiefKillCount,
         SetDousedPlayer,
         SendDousedPlayerCount,
         AddNameColorData,
@@ -32,6 +33,7 @@ namespace TownOfHost
         SniperSync,
         SetLoversPlayers,
         SetExecutionerTarget,
+        RemoveExecutionerTarget,
         SendFireWorksState,
     }
     public enum Sounds
@@ -45,6 +47,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
+            Logger.info($"{__instance.Data.PlayerId}({__instance.Data.PlayerName}):{callId}({RPC.getRpcName(callId)})", "ReceiveRPC");
             MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
@@ -139,11 +142,20 @@ namespace TownOfHost
                     else
                         main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
                     break;
+                case CustomRPC.SetTimeThiefKillCount:
+                    byte TimeThiefId = reader.ReadByte();
+                    int TimeThiefKillCount = reader.ReadInt32();
+                    if (main.TimeThiefKillCount.ContainsKey(TimeThiefId))
+                        main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
+                    else
+                        main.TimeThiefKillCount.Add(TimeThiefId, 0);
+                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     main.isDoused[(ArsonistId, DousedId)] = doused;
+                    main.isDeadDoused[DousedId] = true;
                     break;
                 case CustomRPC.SendDousedPlayerCount:
                     ArsonistId = reader.ReadByte();
@@ -181,6 +193,10 @@ namespace TownOfHost
                     byte executionerId = reader.ReadByte();
                     byte targetId = reader.ReadByte();
                     main.ExecutionerTarget[executionerId] = targetId;
+                    break;
+                case CustomRPC.RemoveExecutionerTarget:
+                    byte Key = reader.ReadByte();
+                    main.ExecutionerTarget.Remove(Key);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.RecieveRPC(reader);
@@ -376,12 +392,9 @@ namespace TownOfHost
         public static void sendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!main.AmDebugger.Value) return;
-            string rpcName;
+            string rpcName = getRpcName(callId);
             string from = targetNetId.ToString();
             string target = targetClientId.ToString();
-            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
-            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
-            else rpcName = callId.ToString();
             try
             {
                 target = targetClientId < 0 ? "All" : AmongUsClient.Instance.GetClient(targetClientId).PlayerName;
@@ -389,6 +402,20 @@ namespace TownOfHost
             }
             catch { }
             Logger.info($"FromNetID:{targetNetId}({from}) TargetClientID:{targetClientId}({target}) CallID:{callId}({rpcName})", "SendRPC");
+        }
+        public static string getRpcName(byte callId)
+        {
+            string rpcName;
+            if ((rpcName = Enum.GetName(typeof(RpcCalls), callId)) != null) { }
+            else if ((rpcName = Enum.GetName(typeof(CustomRPC), callId)) != null) { }
+            else rpcName = callId.ToString();
+            return rpcName;
+        }
+        public static void removeExecutionerKey(byte Key)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]

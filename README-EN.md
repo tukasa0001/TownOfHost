@@ -55,7 +55,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Roles
+## Roles //FIXME:リリース前に追記
 
 | Impostors                       | Crewmates                             | Neutral                       |
 | ------------------------------- | ------------------------------------- | ----------------------------- |
@@ -68,7 +68,8 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
 | [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
 | [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
-| [Madmate](###Madmate)           | [Doctor](###Doctor)                   |                               |
+| [TimeThief](###TimeThief)       | [Doctor](###Doctor)                   |                               |
+| [Madmate](###Madmate)           |                                       |                               |
 | [MadGuardian](###MadGuardian)   |                                       |                               |
 | [MadSnitch](###MadSnitch)       |                                       |                               |
 
@@ -88,7 +89,14 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
+### Mare
 
+Team : Impostor<br>
+Decision : Impostor<br>
+
+No kills can be made except in the event of a power outage.<br>
+However, if the kill is successful, the KillCooldown is halved.<br>
+And the movement speed will also increase. And name is displayed in red<br>
 ### SerialKiller
 
 Team : Impostor<br>
@@ -185,6 +193,21 @@ Even if you get caught up in fireworks, you win if you annihilate the enemy. <br
 | FireWorks Max Count |
 | FireWorks Radius    |
 
+### TimeThief
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+Killing a player decreases the meeting time.<br>
+Also, when a TimeThief is expelled or killed, the lost meeting time is returned.<br>
+
+#### Settings
+
+| Settings Name                        |
+| ------------------------------------ |
+| TimeThief Decrease DiscussionTime(s) |
+| TimeThief Decrease VotingTime(s)     |
+
 ### Sniper
 
 Team : Impostors<br>
@@ -257,6 +280,7 @@ There is also a common setting for Madmate type Roles.
 | Madmate vision is as long as Impostor one |
 | Madmate Vent Cooldown                     |
 | Madmate In Vent Max Time                  |
+
 ### Watcher
 
 Team : Impostors or Crewmates<br>
@@ -327,9 +351,11 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name                |
-| ---------------------------- |
-| Mayor Additional Votes Count |
+| Settings Name                       |
+| ----------------------------------- |
+| Mayor Additional Votes Count        |
+| Mayor Has Portable Button           |
+| Mayor Number Of Use Portable Button |
 
 ### SabotageMaster
 
