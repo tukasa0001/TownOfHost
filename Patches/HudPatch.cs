@@ -40,6 +40,33 @@ namespace TownOfHost
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
+            switch (player.getCustomRole())
+            {
+                case CustomRoles.Sniper:
+                    __instance.AbilityButton.OverrideText($"{getString("SniperSnipeButtonText")}");
+                break;
+                case CustomRoles.FireWorks:
+                    if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                        __instance.AbilityButton.OverrideText($"{getString("FireWorksExplosionButtonText")}");
+                    else
+                        __instance.AbilityButton.OverrideText($"{getString("FireWorksInstallAtionButtonText")}");
+                break;
+                case CustomRoles.SerialKiller:
+                    __instance.AbilityButton.OverrideText($"{getString("SerialKillerSuicideButtonText")}");
+                break;
+                case CustomRoles.Warlock:
+                    if (!main.CheckShapeshift[player.PlayerId] && !main.isCurseAndKill[player.PlayerId])
+                    {
+                        __instance.KillButton.OverrideText($"{getString("WarlockCurseButtonText")}");
+                    }
+                break;
+                case CustomRoles.Witch:
+                    if (player.GetKillOrSpell())
+                    {
+                        __instance.KillButton.OverrideText($"{getString("WitchSpellButtonText")}");
+                    }
+                break;
+            }
 
             __instance.GameSettings.text = OptionShower.getText();
             __instance.GameSettings.fontSizeMin =
@@ -244,41 +271,6 @@ namespace TownOfHost
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
             {
                 player.Data.Role.TeamType = __state;
-            }
-        }
-    }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    class HudManagerUpdatePatch
-    {
-        static void Postfix(HudManager instance)
-        {
-            var player = PlayerControl.LocalPlayer;
-            switch (player.getCustomRole())
-            {
-                case CustomRoles.Sniper:
-                    instance.AbilityButton.OverrideText($"{getString("SniperSnipeButtonText")}");
-                break;
-                case CustomRoles.FireWorks:
-                    if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
-                        instance.AbilityButton.OverrideText($"{getString("FireWorksExplosionButtonText")}");
-                    else
-                        instance.AbilityButton.OverrideText($"{getString("FireWorksInstallAtionButtonText")}");
-                break;
-                case CustomRoles.SerialKiller:
-                    instance.AbilityButton.OverrideText($"{getString("SerialKillerSuicideButtonText")}");
-                break;
-                case CustomRoles.Warlock:
-                    if (!main.CheckShapeshift[player.PlayerId] && !main.isCurseAndKill[player.PlayerId])
-                    {
-                        instance.KillButton.OverrideText($"{getString("WarlockCurseButtonText")}");
-                    }
-                break;
-                case CustomRoles.Witch:
-                    if (player.GetKillOrSpell())
-                    {
-                        instance.KillButton.OverrideText($"{getString("WitchSpellButtonText")}");
-                    }
-                break;
             }
         }
     }
