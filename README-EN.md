@@ -55,23 +55,26 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Roles //FIXME:リリース前に追記
+## Roles
 
-| Impostors                       | Crewmates                             | Neutral                       |
-| ------------------------------- | ------------------------------------- | ----------------------------- |
-| [BountyHunter](#BountyHunter) | [Bait](#Bait)                       | [Jester](#Jester)           |
-| [SerialKiller](#SerialKiller) | [Mayor](#Mayor)                     | [Opportunist](#Opportunist) |
-| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster)   | [Terrorist](#Terrorist)     |
-| [Vampire](#Vampire)           | [Sheriff](#Sheriff)                 | [Arsonist](#Arsonist)       |
-| [Warlock](#Warlock)           | [Snitch](#Snitch)                   | [Egoist](#Egoist)           |
-| [Witch](#Witch)               | [Lighter](#Lighter)                 | [Lovers](#Lovers)           |
-| [Mafia](#Mafia)               | [Nice Watcher](#Watcher)            |                               |
-| [Evil Watcher](#Watcher)      | [SpeedBooster](#SpeedBooster)       |                               |
-| [Puppeteer](#Puppeteer)       | [Trapper](#Trapper)                 |                               |
-| [TimeThief](#TimeThief)       | [Doctor](#Doctor)                   |                               |
-| [Madmate](#Madmate)           |                                       |                               |
-| [MadGuardian](#MadGuardian)   |                                       |                               |
-| [MadSnitch](#MadSnitch)       |                                       |                               |
+| Impostors                     | Crewmates                         | Neutral                           |
+| ----------------------------- | --------------------------------- | --------------------------------- |
+| [BountyHunter](#BountyHunter) | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
+| [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
+| [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
+| [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
+| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
+| [Witch](#Witch)               |                                   |                                   |
+| [Mafia](#Mafia)               |                                   |                                   |
+| [Madmate](#Madmate)           |                                   |                                   |
+| [MadGuardian](#MadGuardian)   |                                   |                                   |
+| [MadSnitch](#MadSnitch)       |                                   |                                   |
 
 ### BountyHunter
 
