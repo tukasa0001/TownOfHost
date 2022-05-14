@@ -391,6 +391,7 @@ doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
 assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+KillButtonText,Kill,キル
 SniperSnipeButtonText,Snipe,狙撃
 FireWorksExplosionButtonText,Explosion,爆破
 FireWorksInstallAtionButtonText,Installation,設置

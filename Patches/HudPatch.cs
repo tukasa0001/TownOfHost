@@ -59,6 +59,10 @@ namespace TownOfHost
                     {
                         __instance.KillButton.OverrideText($"{getString("WarlockCurseButtonText")}");
                     }
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{getString("KillButtonText")}");
+                    }
                 break;
                 case CustomRoles.Witch:
                     if (player.GetKillOrSpell())
