@@ -73,6 +73,9 @@ namespace TownOfHost
                 case CustomRoles.Vampire:
                     __instance.KillButton.OverrideText($"{getString("VampireBiteButtonText")}");
                 break;
+                case CustomRoles.Arsonist:
+                    __instance.KillButton.OverrideText($"{getString("ArsonistDouseButtonText")}");
+                break;
             }
 
             __instance.GameSettings.text = OptionShower.getText();
