@@ -1018,7 +1018,7 @@ namespace TownOfHost
                 if (main.MayorUsedButtonCount[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
                 {
                     main.MayorUsedButtonCount[pc.PlayerId] += 1;
-                    pc.CmdReportDeadBody(null);
+                    pc.ReportDeadBody(null);
                 }
             }
         }
