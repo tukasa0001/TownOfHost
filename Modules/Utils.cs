@@ -615,6 +615,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || isActive(SystemTypes.Electrical)
+                    || force
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -712,7 +713,7 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: (force || isMeeting));
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":END", "NotifyRoles");
                     }

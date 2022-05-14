@@ -172,7 +172,7 @@ namespace TownOfHost
             {
                 new LateTask(() =>
                 {
-                    Utils.NotifyRoles(SpecifySeer: shapeshifter, force: true);
+                    Utils.NotifyRoles(force: true);
                 },
                 1.2f, "ShepeShiftNotify");
             }
