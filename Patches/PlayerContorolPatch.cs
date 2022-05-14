@@ -738,7 +738,7 @@ namespace TownOfHost
                     string Suffix = "";
 
                     //名前変更
-                    RealName = target.Data.PlayerName;
+                    RealName = target.getRealName();
 
 
                     //名前色変更処理
