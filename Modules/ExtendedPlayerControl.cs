@@ -160,6 +160,17 @@ namespace TownOfHost
                 }
             }, 0.5f, "GuardAndKill");
         }
+        public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+        {
+            if (target == null) target = killer;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.MurderPlayer(target);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.getClientId());
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (AmongUsClient.Instance.AmClient)
