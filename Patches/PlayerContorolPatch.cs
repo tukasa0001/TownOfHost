@@ -13,25 +13,31 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            PlayerControl killer = __instance;
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
+            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+            {
+                killer = Utils.getPlayerById(Sniper.GetSniper(target.PlayerId));
+            }
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
                 PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
             }
+
             //When Bait is killed
-            if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
+            if (target.getCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
             {
                 Logger.info(target.Data.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //BountyHunter
-            if (__instance.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
+            if (killer.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
             {
-                if (target == __instance.getBountyTarget())
+                if (target == killer.getBountyTarget())
                 {//ターゲットをキルした場合
                     main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
@@ -41,15 +47,15 @@ namespace TownOfHost
                 }
                 else
                 {
-                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                    Logger.info($"{__instance.Data.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                    main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
+                    Logger.info($"{killer.Data.PlayerName}:ターゲット以外をキル", "BountyHunter");
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
-            if (__instance.Is(CustomRoles.SerialKiller))
+            if (killer.Is(CustomRoles.SerialKiller))
             {
-                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
-                __instance.CustomSyncSettings();
+                main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                killer.CustomSyncSettings();
             }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
@@ -57,8 +63,8 @@ namespace TownOfHost
                 Logger.info(target.Data.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
-            if (target.Is(CustomRoles.Trapper) && !__instance.Is(CustomRoles.Trapper))
-                __instance.TrapperKilled(target);
+            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
+                killer.TrapperKilled(target);
             if (main.ExecutionerTarget.ContainsValue(target.PlayerId))
             {
                 List<byte> RemoveExecutionerKey = new();
@@ -265,19 +271,26 @@ namespace TownOfHost
             if (target.Is(CustomRoles.SchrodingerCat))
             {
                 if (__instance.Is(CustomRoles.Arsonist)) return false;
+
                 __instance.RpcGuardAndKill(target);
-                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
                 {
                     //スナイプされた時
                     target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                    var sniperId = Sniper.GetSniper(target.PlayerId);
+                    NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
                 }
-                if (__instance.getCustomRole().isImpostor())
-                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                if (__instance.Is(CustomRoles.Sheriff))
-                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                if (__instance.Is(CustomRoles.Egoist))
-                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                else
+                {
+                    if (__instance.getCustomRole().isImpostor())
+                        target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                    if (__instance.Is(CustomRoles.Sheriff))
+                        target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                    if (__instance.Is(CustomRoles.Egoist))
+                        target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+
+                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                }
                 Utils.NotifyRoles();
                 Utils.CustomSyncAllSettings();
                 return false;
@@ -810,7 +823,7 @@ namespace TownOfHost
                         main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
-                    if (Sniper.isEnable() && target.AmOwner)
+                    if (Sniper.IsEnable() && target.AmOwner)
                     {
                         //銃声が聞こえるかチェック
                         Mark += Sniper.GetShotNotify(target.PlayerId);

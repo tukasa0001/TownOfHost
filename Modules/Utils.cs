@@ -527,7 +527,7 @@ namespace TownOfHost
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
 
-                if (Sniper.isEnable())
+                if (Sniper.IsEnable())
                 {
                     //銃声が聞こえるかチェック
                     SelfMark += Sniper.GetShotNotify(seer.PlayerId);
