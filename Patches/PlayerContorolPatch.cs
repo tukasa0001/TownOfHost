@@ -888,9 +888,8 @@ namespace TownOfHost
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/
 
-                    //変身中以外はMark・Suffixの適用
-                    if (target.Data.Role.Role != RoleTypes.Shapeshifter || !main.CheckShapeshift[target.PlayerId])
-                        target.nameText.text = $"{RealName}{Mark}";
+                    //Mark・Suffixの適用
+                    target.nameText.text = $"{RealName}{Mark}";
 
                     if (Suffix != "")
                     {

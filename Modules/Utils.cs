@@ -599,9 +599,8 @@ namespace TownOfHost
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
-                //変身中以外は適用
-                if (seer.Data.Role.Role != RoleTypes.Shapeshifter || !main.CheckShapeshift[seer.PlayerId])
-                    seer.RpcSetNamePrivate(SelfName, true, force: (force || isMeeting));
+                //適用
+                seer.RpcSetNamePrivate(SelfName, true, force: (force || isMeeting));
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -712,9 +711,8 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
-                        //変身中以外は適用
-                        if (target.Data.Role.Role != RoleTypes.Shapeshifter || !main.CheckShapeshift[target.PlayerId])
-                            target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
+                        //適用
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":END", "NotifyRoles");
                     }
