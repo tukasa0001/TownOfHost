@@ -707,6 +707,7 @@ namespace TownOfHost
                 }
             }
         }
+        public static bool isModClient(this PlayerControl player) => main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role)
