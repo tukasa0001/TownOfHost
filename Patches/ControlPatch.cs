@@ -98,6 +98,12 @@ namespace TownOfHost
             {
                 PlayerControl.LocalPlayer.RpcExile();
             }
+            //ログをゲーム内にも出力するかトグル
+            if (Input.GetKeyDown(KeyCode.F2) && Input.GetKey(KeyCode.LeftControl))
+            {
+                Logger.isAlsoInGame = !Logger.isAlsoInGame;
+                Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
+            }
 
             //--以下フリープレイ用コマンド--//
             if (!GameStates.isFreePlay) return;
