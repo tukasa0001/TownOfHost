@@ -445,7 +445,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null)
+        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool force = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -599,8 +599,9 @@ namespace TownOfHost
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
-                //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
+                //変身中以外は適用
+                if (seer.Data.Role.Role != RoleTypes.Shapeshifter || !main.CheckShapeshift[seer.PlayerId])
+                    seer.RpcSetNamePrivate(SelfName, true, force: (force || isMeeting));
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -710,8 +711,10 @@ namespace TownOfHost
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
-                        //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
+
+                        //変身中以外は適用
+                        if (target.Data.Role.Role != RoleTypes.Shapeshifter || !main.CheckShapeshift[target.PlayerId])
+                            target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":END", "NotifyRoles");
                     }
