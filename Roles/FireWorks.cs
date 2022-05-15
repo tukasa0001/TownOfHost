@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -168,13 +169,13 @@ namespace TownOfHost
             {
                 case FireWorksState.Initial:
                 case FireWorksState.SettingFireWorks:
-                    retText = $"Put {nowFireWorksCount[pc.PlayerId]} Fireworks";
+                    retText = string.Format(getString("FireworksPutPhase"), nowFireWorksCount[pc.PlayerId]);
                     break;
                 case FireWorksState.WaitTime:
-                    retText = "Wait for that time";
+                    retText = getString("FireworksWaitPhase");
                     break;
                 case FireWorksState.ReadyFire:
-                    retText = "Ready To Fire";
+                    retText = getString("FireworksRedyFirePhase");
                     break;
                 case FireWorksState.FireEnd:
                     break;
