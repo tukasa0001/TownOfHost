@@ -752,11 +752,9 @@ namespace TownOfHost
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                         if (!__instance.AmOwner) __instance.nameText.text = __instance.Data.PlayerName;
                     }
-                    if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスク表示
+                    if (main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
+                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
 
-                    if (__instance.Is(CustomRoles.Sniper))
-                        RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
@@ -775,8 +773,6 @@ namespace TownOfHost
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         RealName = $"<color={target.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
-                        if (target.Is(CustomRoles.Arsonist) && target.isDouseDone())
-                            RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
                     else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch

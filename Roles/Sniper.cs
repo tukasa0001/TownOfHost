@@ -192,9 +192,9 @@ namespace TownOfHost
                 }
             }
         }
-        public static string GetBulletCount(PlayerControl pc)
+        public static string GetBulletCount(byte playerId)
         {
-            return $"<color=#ffff00>({bulletCount[pc.PlayerId]})</color>";
+            return $"<color=#ffff00>({bulletCount[playerId]})</color>";
         }
         public static byte GetSniper(byte target)
         {

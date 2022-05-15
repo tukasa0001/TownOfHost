@@ -80,9 +80,21 @@ namespace TownOfHost
                 LowerInfoText.text = stateText;
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.Arsonist))
+            {
+                if (player.isDouseDone())
+                {
+                    LowerInfoText.text = getString("EnterVentToWin");
+                    LowerInfoText.enabled = true;
+                }
+                else
+                {
+                    LowerInfoText.enabled = false;
+                }
+
+            }
             else
             {
-                //バウンティハンターじゃない
                 LowerInfoText.enabled = false;
             }
             if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
