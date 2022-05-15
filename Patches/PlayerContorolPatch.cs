@@ -1139,5 +1139,21 @@ namespace TownOfHost
             Utils.NotifyRoles();
         }
     }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
+    class PlayerControlProtectPlayerPatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "ProtectPlayer");
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RemoveProtection))]
+    class PlayerControlRemoveProtectionPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"{__instance.getNameWithRole()}", "RemoveProtection");
+        }
+    }
 }
 
