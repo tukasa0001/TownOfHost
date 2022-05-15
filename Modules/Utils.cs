@@ -216,7 +216,7 @@ namespace TownOfHost
                 ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
             }
             //塗りテキスト
-            else if (main.AllPlayerCustomRoles[pc.PlayerId] == CustomRoles.Arsonist)
+            else if (pc.Is(CustomRoles.Arsonist))
                 ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[pc.PlayerId].Item1}/{main.DousedPlayerCount[pc.PlayerId].Item2})</color>";
 
             return ProgressText;
