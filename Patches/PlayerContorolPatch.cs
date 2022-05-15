@@ -11,10 +11,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
     {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
+        }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             PlayerControl killer = __instance;
-            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
@@ -758,11 +761,9 @@ namespace TownOfHost
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                         if (!__instance.AmOwner) __instance.nameText.text = __instance.Data.PlayerName;
                     }
-                    if (main.VisibleTasksCount && Utils.hasTasks(__instance.Data, false)) //他プレイヤーでVisibleTasksCountは有効なおかつタスクがあるなら
-                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスク表示
+                    if (main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
+                        RoleText.text += $" {Utils.getProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
 
-                    if (__instance.Is(CustomRoles.Sniper))
-                        RoleText.text += $" {Sniper.GetBulletCount(__instance)}";
 
                     //変数定義
                     var seer = PlayerControl.LocalPlayer;
@@ -774,7 +775,6 @@ namespace TownOfHost
 
                     //名前変更
                     RealName = target.getRealName();
-
 
                     //名前色変更処理
                     //自分自身の名前の色を変更
@@ -1138,6 +1138,22 @@ namespace TownOfHost
             Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(__instance);
             Utils.NotifyRoles();
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
+    class PlayerControlProtectPlayerPatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "ProtectPlayer");
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RemoveProtection))]
+    class PlayerControlRemoveProtectionPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"{__instance.getNameWithRole()}", "RemoveProtection");
         }
     }
 }
