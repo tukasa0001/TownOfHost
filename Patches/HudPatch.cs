@@ -40,7 +40,7 @@ namespace TownOfHost
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
             }
-            //MOD入り用のボタンテキスト変更
+            //MOD入り用のボタン下テキスト変更
             switch (player.getCustomRole())
             {
                 case CustomRoles.Sniper:
