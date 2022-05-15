@@ -110,13 +110,19 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (__instance.Is(CustomRoles.Warlock))
+
+            var shapeshifter = __instance;
+            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
+
+            main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+
+            if (shapeshifter.Is(CustomRoles.Warlock))
             {
-                if (main.CursedPlayers[__instance.PlayerId] != null)//呪われた人がいるか確認
+                if (main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
                 {
-                    if (!main.CheckShapeshift[__instance.PlayerId] && !main.CursedPlayers[__instance.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                    if (!shapeshifting && !main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
                     {
-                        var cp = main.CursedPlayers[__instance.PlayerId];
+                        var cp = main.CursedPlayers[shapeshifter.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
                         Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
                         float dis;
@@ -133,22 +139,24 @@ namespace TownOfHost
                         PlayerControl targetw = min.Key;
                         Logger.info($"{targetw.getNameWithRole()}was killed", "Warlock");
                         cp.RpcMurderPlayer(targetw);//殺す
-                        __instance.RpcGuardAndKill(__instance);
-                        main.isCurseAndKill[__instance.PlayerId] = false;
+                        shapeshifter.RpcGuardAndKill(shapeshifter);
+                        main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
-                    main.CursedPlayers[__instance.PlayerId] = (null);
+                    main.CursedPlayers[shapeshifter.PlayerId] = (null);
                 }
             }
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && !!__instance.Is(CustomRoles.Warlock) && !__instance.Is(CustomRoles.FireWorks) && !main.CheckShapeshift[__instance.PlayerId])
+            var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
+
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && !shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
-                Vector2 __instancepos = __instance.transform.position;//変身者の位置
+                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
                 float dis;
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(CustomRoles.Impostor) && !p.Is(CustomRoles.BountyHunter) && !p.Is(CustomRoles.Witch) && !p.Is(CustomRoles.SKMadmate))
+                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate))
                     {
-                        dis = Vector2.Distance(__instancepos, p.transform.position);
+                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
                         mpdistance.Add(p, dis);
                     }
                 }
@@ -162,12 +170,18 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
-            if (__instance.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(__instance, main.CheckShapeshift[__instance.PlayerId]);
-            if (__instance.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(__instance, main.CheckShapeshift[__instance.PlayerId]);
+            if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
 
-            bool check = main.CheckShapeshift[__instance.PlayerId];//変身、変身解除のスイッチ
-            main.CheckShapeshift.Remove(__instance.PlayerId);
-            main.CheckShapeshift.Add(__instance.PlayerId, !check);
+            //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
+            if (!shapeshifting)
+            {
+                new LateTask(() =>
+                {
+                    Utils.NotifyRoles(force: true);
+                },
+                1.2f, "ShepeShiftNotify");
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
@@ -905,6 +919,7 @@ namespace TownOfHost
 
                     //Mark・Suffixの適用
                     target.nameText.text = $"{RealName}{Mark}";
+
                     if (Suffix != "")
                     {
                         //名前が2行になると役職テキストを上にずらす必要がある
