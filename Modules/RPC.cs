@@ -77,7 +77,13 @@ namespace TownOfHost
                     }
                     catch
                     {
-                        Logger.info($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        Logger.warn($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        if (AmongUsClient.Instance.AmHost)
+                        {
+                            AmongUsClient.Instance.KickPlayer(__instance.getClientId(), false);
+                            Logger.info($"不正なRPCを受信したため{__instance.Data.PlayerName}をキックしました。\n", "Kick");
+                            Logger.SendInGame($"不正なRPCを受信したため{__instance.Data.PlayerName}をキックしました。");
+                        }
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:
