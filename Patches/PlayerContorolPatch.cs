@@ -147,7 +147,7 @@ namespace TownOfHost
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
 
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && !shapeshifting)
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
@@ -466,7 +466,12 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
-            if (target != null)
+            if (target == null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Mayor))
+                    main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+            }
+            else //死体通報
             {
                 if (main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
                 {
@@ -1057,8 +1062,7 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (main.MayorUsedButtonCount[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
                 {
-                    main.MayorUsedButtonCount[pc.PlayerId] += 1;
-                    pc.CmdReportDeadBody(null);
+                    pc.ReportDeadBody(null);
                 }
             }
         }
