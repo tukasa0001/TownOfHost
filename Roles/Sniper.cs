@@ -19,8 +19,11 @@ namespace TownOfHost
         static Dictionary<byte, Vector3> snipeBasePosition = new();
         static Dictionary<byte, int> bulletCount = new();
         static Dictionary<byte, List<byte>> shotNortify = new();
+        static Dictionary<byte, bool> meetingReset = new();
+
         static int maxBulletCount;
         static bool precisionshooting;
+
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Sniper);
@@ -34,6 +37,8 @@ namespace TownOfHost
             snipeTarget = new();
             bulletCount = new();
             shotNortify = new();
+            meetingReset = new();
+
             maxBulletCount = SniperBulletCount.GetInt();
             precisionshooting = SniperPrecisionShooting.GetBool();
         }
@@ -44,6 +49,7 @@ namespace TownOfHost
             snipeTarget[playerId] = 0x7F;
             bulletCount[playerId] = maxBulletCount;
             shotNortify[playerId] = new();
+            meetingReset[playerId] = false;
         }
         public static bool IsEnable()
         {
@@ -109,6 +115,8 @@ namespace TownOfHost
             //スナイパーで弾が残ってたら
             if (shapeshifting)
             {
+                meetingReset[pc.PlayerId] = false;
+
                 //変身のタイミングでスナイプ地点の登録
                 snipeBasePosition[pc.PlayerId] = pc.transform.position;
                 snipeTarget[pc.PlayerId] = 0x7F;
@@ -116,6 +124,11 @@ namespace TownOfHost
             }
             else
             {
+                if (meetingReset[pc.PlayerId])
+                {
+                    meetingReset[pc.PlayerId] = false;
+                    return;
+                }
                 Dictionary<PlayerControl, float> dot_list = new();
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
@@ -191,6 +204,11 @@ namespace TownOfHost
                         );
                 }
             }
+        }
+        public static void OnStartMeeting()
+        {
+            foreach (var sniper in playeridList)
+                meetingReset[sniper] = true;
         }
         public static string GetBulletCount(PlayerControl pc)
         {
