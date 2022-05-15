@@ -11,10 +11,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
     class MurderPlayerPatch
     {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
+        }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             PlayerControl killer = __instance;
-            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
@@ -1137,6 +1140,22 @@ namespace TownOfHost
             Logger.info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(__instance);
             Utils.NotifyRoles();
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
+    class PlayerControlProtectPlayerPatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "ProtectPlayer");
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RemoveProtection))]
+    class PlayerControlRemoveProtectionPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            Logger.info($"{__instance.getNameWithRole()}", "RemoveProtection");
         }
     }
 }
