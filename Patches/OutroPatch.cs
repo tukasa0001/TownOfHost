@@ -11,6 +11,7 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            GameStates.InGame = false;
 
             Logger.info("-----------ゲーム終了-----------", "Phase");
             //winnerListリセット
