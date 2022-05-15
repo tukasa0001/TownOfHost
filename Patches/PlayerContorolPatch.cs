@@ -772,12 +772,13 @@ namespace TownOfHost
                     //名前変更
                     RealName = target.getRealName();
 
-
                     //名前色変更処理
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         RealName = $"<color={target.getRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                        if (target.Is(CustomRoles.Arsonist) && target.isDouseDone())
+                            RealName = $"<color={Utils.getRoleColorCode(CustomRoles.Arsonist)}>{getString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
                     else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch

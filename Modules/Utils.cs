@@ -584,8 +584,6 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (seer.Is(CustomRoles.Arsonist) && seer.isDouseDone())
-                    SelfSuffix = $"<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
 
                 if (seer.Is(CustomRoles.MadSnitch))
                 {
@@ -600,6 +598,8 @@ namespace TownOfHost
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
+                if (seer.Is(CustomRoles.Arsonist) && seer.isDouseDone())
+                    SelfName = $"</size>\r\n<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
                 SelfName = SelfRoleName + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
