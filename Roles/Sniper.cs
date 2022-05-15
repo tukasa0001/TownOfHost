@@ -103,11 +103,11 @@ namespace TownOfHost
             Logger.info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
-        public static void ShapeShiftCheck(PlayerControl pc, bool shapeShifted)
+        public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
             //スナイパーで弾が残ってたら
-            if (!shapeShifted)
+            if (shapeshifting)
             {
                 //変身のタイミングでスナイプ地点の登録
                 snipeBasePosition[pc.PlayerId] = pc.transform.position;

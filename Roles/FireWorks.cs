@@ -87,10 +87,10 @@ namespace TownOfHost
             return canUse;
         }
 
-        public static void ShapeShiftState(PlayerControl pc, bool shapeShifted)
+        public static void ShapeShiftState(PlayerControl pc, bool shapeshifting)
         {
             Logger.info($"FireWorks ShapeShift");
-            if (pc == null || pc.Data.IsDead || shapeShifted) return;
+            if (pc == null || pc.Data.IsDead || !shapeshifting) return;
             switch (state[pc.PlayerId])
             {
                 case FireWorksState.Initial:
