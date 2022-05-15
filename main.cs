@@ -131,7 +131,7 @@ namespace TownOfHost
             TownOfHost.Logger.disable("SendRPC");
             TownOfHost.Logger.disable("ReceiveRPC");
             TownOfHost.Logger.disable("SwitchSystem");
-            TownOfHost.Logger.isDetail = true;
+            //TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
