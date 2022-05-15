@@ -300,6 +300,14 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
+                        //メイヤーのポータブルボタン使用可能回数
+                        if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
+                        {
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                            }
+                        }
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", getString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());

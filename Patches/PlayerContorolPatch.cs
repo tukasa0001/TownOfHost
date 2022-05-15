@@ -466,7 +466,12 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             main.BountyTimer.Clear();
             main.SerialKillerTimer.Clear();
-            if (target != null)
+            if (target == null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Mayor))
+                    main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+            }
+            else //死体通報
             {
                 if (main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
                 {
@@ -1061,8 +1066,7 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (main.MayorUsedButtonCount[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
                 {
-                    main.MayorUsedButtonCount[pc.PlayerId] += 1;
-                    pc.CmdReportDeadBody(null);
+                    pc.ReportDeadBody(null);
                 }
             }
         }
