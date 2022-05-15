@@ -13,25 +13,31 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            PlayerControl killer = __instance;
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "MurderPlayer");
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
                 return;
+            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+            {
+                killer = Utils.getPlayerById(Sniper.GetSniper(target.PlayerId));
+            }
             if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
             {
                 //死因が設定されていない場合は死亡判定
                 PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
             }
+
             //When Bait is killed
-            if (target.getCustomRole() == CustomRoles.Bait && __instance.PlayerId != target.PlayerId)
+            if (target.getCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
             {
                 Logger.info(target.Data.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => __instance.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
             }
             else
             //BountyHunter
-            if (__instance.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
+            if (killer.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
             {
-                if (target == __instance.getBountyTarget())
+                if (target == killer.getBountyTarget())
                 {//ターゲットをキルした場合
                     main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
@@ -41,15 +47,15 @@ namespace TownOfHost
                 }
                 else
                 {
-                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                    Logger.info($"{__instance.Data.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                    main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
+                    Logger.info($"{killer.Data.PlayerName}:ターゲット以外をキル", "BountyHunter");
                     Utils.CustomSyncAllSettings();//キルクール処理を同期
                 }
             }
-            if (__instance.Is(CustomRoles.SerialKiller))
+            if (killer.Is(CustomRoles.SerialKiller))
             {
-                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
-                __instance.CustomSyncSettings();
+                main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                killer.CustomSyncSettings();
             }
             //Terrorist
             if (target.Is(CustomRoles.Terrorist))
@@ -57,8 +63,8 @@ namespace TownOfHost
                 Logger.info(target.Data.PlayerName + "はTerroristだった", "MurderPlayer");
                 Utils.CheckTerroristWin(target.Data);
             }
-            if (target.Is(CustomRoles.Trapper) && !__instance.Is(CustomRoles.Trapper))
-                __instance.TrapperKilled(target);
+            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
+                killer.TrapperKilled(target);
             if (main.ExecutionerTarget.ContainsValue(target.PlayerId))
             {
                 List<byte> RemoveExecutionerKey = new();
@@ -195,18 +201,7 @@ namespace TownOfHost
             }
             main.LastKiller[target] = __instance;
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "CheckMurder");
-            if (__instance.PlayerId == target.PlayerId)
-            {
-                //自殺ならノーチェック
-                __instance.RpcMurderPlayer(target);
-                return false;
-            }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
-            {
-                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
-                return false;
-            }
-            if (__instance.Is(CustomRoles.SKMadmate)) return false;//シェリフがサイドキックされた場合
+
 
             if (main.BlockKilling.TryGetValue(__instance.PlayerId, out bool isBlocked) && isBlocked)
             {
@@ -216,6 +211,19 @@ namespace TownOfHost
 
             main.BlockKilling[__instance.PlayerId] = true;
 
+            //キルボタンを使えない場合の判定
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            {
+                Logger.info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
+
+            if (__instance.Is(CustomRoles.SKMadmate))
+            {
+                //キル可能職がサイドキックされた場合
+                main.BlockKilling[__instance.PlayerId] = false;
+                return false;
+            }
             if (__instance.Is(CustomRoles.FireWorks))
             {
                 if (!__instance.CanUseKillButton())
@@ -245,7 +253,59 @@ namespace TownOfHost
                     Logger.info(__instance.Data.PlayerName + "はMafiaですが、他のインポスターがいないのでキルが許可されました。", "CheckMurder");
                 }
             }
-            if (__instance.Is(CustomRoles.SerialKiller) && !target.Is(CustomRoles.SchrodingerCat))
+            if (__instance.Is(CustomRoles.Mare))
+            {
+                if (!__instance.CanUseKillButton())
+                {
+                    Logger.info(__instance.Data.PlayerName + "のキルは停電中ではなかったので、キルはキャンセルされました。", "Mare");
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+                else
+                {
+                    Logger.info(__instance.Data.PlayerName + "はMareですが、停電中だったのでキルが許可されました。", "Mare");
+                }
+            }
+
+            //シュレディンガーの猫が切られた場合の役職変化スタート
+            if (target.Is(CustomRoles.SchrodingerCat))
+            {
+                if (__instance.Is(CustomRoles.Arsonist)) return false;
+
+                __instance.RpcGuardAndKill(target);
+                if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+                {
+                    //スナイプされた時
+                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                    var sniperId = Sniper.GetSniper(target.PlayerId);
+                    NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                }
+                else
+                {
+                    if (__instance.getCustomRole().isImpostor())
+                        target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                    if (__instance.Is(CustomRoles.Sheriff))
+                        target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                    if (__instance.Is(CustomRoles.Egoist))
+                        target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+
+                    NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
+                }
+                Utils.NotifyRoles();
+                Utils.CustomSyncAllSettings();
+                return false;
+            }
+            //シュレディンガーの猫の役職変化処理終了
+            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+
+            if (__instance.PlayerId == target.PlayerId)
+            {
+                //自殺ならノーチェック
+                __instance.RpcMurderPlayer(target);
+                return false;
+            }
+
+            if (__instance.Is(CustomRoles.SerialKiller))
             {
                 __instance.RpcMurderPlayer(target);
                 __instance.RpcGuardAndKill(target);
@@ -320,7 +380,7 @@ namespace TownOfHost
                 Utils.NotifyRoles();
                 __instance.SyncKillOrSpell();
             }
-            if (__instance.Is(CustomRoles.Warlock) && !target.Is(CustomRoles.SchrodingerCat))
+            if (__instance.Is(CustomRoles.Warlock))
             {
                 if (!main.CheckShapeshift[__instance.PlayerId] && !main.isCurseAndKill[__instance.PlayerId])
                 { //Warlockが変身時以外にキルしたら、呪われる処理
@@ -341,7 +401,7 @@ namespace TownOfHost
                 if (main.isCurseAndKill[__instance.PlayerId]) __instance.RpcGuardAndKill(target);
                 return false;
             }
-            if (__instance.Is(CustomRoles.Vampire) && !target.Is(CustomRoles.Bait) && !target.Is(CustomRoles.SchrodingerCat))
+            if (__instance.Is(CustomRoles.Vampire) && !target.Is(CustomRoles.Bait))
             { //キルキャンセル&自爆処理
                 Utils.CustomSyncAllSettings();
                 __instance.RpcGuardAndKill(target);
@@ -355,37 +415,6 @@ namespace TownOfHost
                 __instance.RpcGuardAndKill(target);
                 if (!main.isDoused[(__instance.PlayerId, target.PlayerId)]) main.ArsonistTimer.Add(__instance.PlayerId, (target, 0f));
                 return false;
-            }
-            //シュレディンガーの猫が切られた場合の役職変化スタート
-            if (target.Is(CustomRoles.SchrodingerCat))
-            {
-                if (__instance.Is(CustomRoles.Arsonist)) return false;
-                __instance.RpcGuardAndKill(target);
-                NameColorManager.Instance.RpcAdd(__instance.PlayerId, target.PlayerId, $"{Utils.getRoleColorCode(CustomRoles.SchrodingerCat)}");
-                if (__instance.getCustomRole().isImpostor())
-                    target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                if (__instance.Is(CustomRoles.Sheriff))
-                    target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                if (__instance.Is(CustomRoles.Egoist))
-                    target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
-                Utils.NotifyRoles();
-                Utils.CustomSyncAllSettings();
-                return false;
-            }
-            //シュレディンガーの猫の役職変化処理終了
-            //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
-            if (__instance.Is(CustomRoles.Mare))
-            {
-                if (!__instance.CanUseKillButton())
-                {
-                    Logger.info(__instance.Data.PlayerName + "のキルは停電中ではなかったので、キルはキャンセルされました。", "Mare");
-                    main.BlockKilling[__instance.PlayerId] = false;
-                    return false;
-                }
-                else
-                {
-                    Logger.info(__instance.Data.PlayerName + "はMareですが、停電中だったのでキルが許可されました。", "Mare");
-                }
             }
             if (__instance.Is(CustomRoles.TimeThief))
             {
@@ -794,7 +823,7 @@ namespace TownOfHost
                         main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
-                    if (Sniper.isEnable() && target.AmOwner)
+                    if (Sniper.IsEnable() && target.AmOwner)
                     {
                         //銃声が聞こえるかチェック
                         Mark += Sniper.GetShotNotify(target.PlayerId);
