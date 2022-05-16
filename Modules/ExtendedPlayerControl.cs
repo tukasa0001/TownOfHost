@@ -155,6 +155,7 @@ namespace TownOfHost
                 }
                 else
                 {
+                    /*
                     //ガードはがされていたら剥がした人のキルにする
                     if (main.LastKiller.TryGetValue(target, out var lastKiller))
                     {
@@ -165,6 +166,7 @@ namespace TownOfHost
 
                         }
                     }
+                    */
                 }
             }, 0.5f, "GuardAndKill");
         }
