@@ -145,20 +145,35 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            killer.RpcSpecificProtectPlayer(target, colorId);
+            killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
+                if (target == null) return;
                 if (target.protectedByGuardian)
                 {
-                    killer.RpcMurderPlayer(target);
+                    killer?.RpcMurderPlayer(target);
                 }
                 else
                 {
                     //ガードはがされていたら剥がした人のキルにする
-                    var lastKiller = main.LastKiller[target];
-                    lastKiller.RpcMurderPlayer(target);
+                    if(main.LastKiller.TryGetValue(target,out var lastKiller))
+                    {
+                        lastKiller?.RpcMurderPlayer(target);
+
+                    }
                 }
             }, 0.5f, "GuardAndKill");
+        }
+        public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
+        {
+            if (target == null) target = killer;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.MurderPlayer(target);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.getClientId());
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
@@ -707,6 +722,7 @@ namespace TownOfHost
                 }
             }
         }
+        public static bool isModClient(this PlayerControl player) => main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role)

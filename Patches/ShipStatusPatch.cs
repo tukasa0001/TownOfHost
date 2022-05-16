@@ -233,7 +233,7 @@ namespace TownOfHost
             Logger.currentMethod();
             Logger.info("-----------ゲーム開始-----------", "Phase");
 
-            if (AmongUsClient.Instance.AmClient)
+            if (!AmongUsClient.Instance.AmHost)
             {
                 //クライアントの役職初期設定はここで行う
                 foreach (var pc in PlayerControl.AllPlayerControls)

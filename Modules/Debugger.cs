@@ -31,6 +31,7 @@ namespace TownOfHost
         public static List<string> disableList = new List<string>();
         public static List<string> sendToGameList = new List<string>();
         public static bool isDetail = false;
+        public static bool isAlsoInGame = false;
         public static void enable() => isEnable = true;
         public static void disable() => isEnable = false;
         public static void enable(string tag, bool toGame = false)
@@ -50,8 +51,9 @@ namespace TownOfHost
             if (!isEnable || disableList.Contains(tag)) return;
             var logger = main.Logger;
             string t = DateTime.Now.ToString("HH:mm:ss");
+            if (sendToGameList.Contains(tag) || isAlsoInGame) SendInGame($"[{tag}]{text}");
+            text = text.Replace("\r", "\\r").Replace("\n", "\\n");
             string log_text = $"[{t}][{tag}]{text}";
-            if (sendToGameList.Contains(tag)) SendInGame($"[{tag}]{text}");
             if (isDetail && main.AmDebugger.Value)
             {
                 StackFrame stack = new StackFrame(2);

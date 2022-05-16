@@ -47,7 +47,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
             var rpcType = (RpcCalls)callId;
-            Logger.info($"{__instance.Data.PlayerId}({__instance.Data.PlayerName}):{callId}({RPC.getRpcName(callId)})", "ReceiveRPC");
+            Logger.info($"{__instance?.Data?.PlayerId}({__instance?.Data?.PlayerName}):{callId}({RPC.getRpcName(callId)})", "ReceiveRPC");
             MessageReader subReader = MessageReader.Get(reader);
             switch (rpcType)
             {
@@ -77,7 +77,13 @@ namespace TownOfHost
                     }
                     catch
                     {
-                        Logger.info($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        Logger.warn($"{__instance.Data.PlayerName}({__instance.PlayerId}): バージョン情報が無効です", "RpcVersionCheck");
+                        if (AmongUsClient.Instance.AmHost)
+                        {
+                            AmongUsClient.Instance.KickPlayer(__instance.getClientId(), false);
+                            Logger.info($"不正なRPCを受信したため{__instance.Data.PlayerName}をキックしました。\n", "Kick");
+                            Logger.SendInGame($"不正なRPCを受信したため{__instance.Data.PlayerName}をキックしました。");
+                        }
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:

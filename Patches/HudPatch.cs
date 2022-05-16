@@ -82,7 +82,6 @@ namespace TownOfHost
             }
             else
             {
-                //バウンティハンターじゃない
                 LowerInfoText.enabled = false;
             }
             if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)

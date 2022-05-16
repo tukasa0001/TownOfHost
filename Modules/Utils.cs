@@ -85,8 +85,6 @@ namespace TownOfHost
             }
             else*/
             RoleText = getRoleName(cRole);
-            if (player.Is(CustomRoles.Sheriff))
-                RoleText += $" ({main.SheriffShotLimit[player.PlayerId]})";
 
             return (RoleText, getRoleColor(cRole));
         }
@@ -200,37 +198,45 @@ namespace TownOfHost
         }
         public static string getProgressText(PlayerControl pc)
         {
-            string ProgressText = "null";
-            //タスクテキスト
             var taskState = pc.getPlayerTaskState();
+            var Comms = false;
             if (taskState.hasTasks)
             {
-                var Comms = false;
                 foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
                     if (task.TaskType == TaskTypes.FixComms)
                     {
                         Comms = true;
                         break;
                     }
-                string Completed = Comms ? "?" : $"{taskState.CompletedTasksCount}";
-                ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
             }
-            //塗りテキスト
-            else if (main.AllPlayerCustomRoles[pc.PlayerId] == CustomRoles.Arsonist)
-                ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[pc.PlayerId].Item1}/{main.DousedPlayerCount[pc.PlayerId].Item2})</color>";
-
-            return ProgressText;
+            return getProgressText(pc.PlayerId, Comms);
         }
-        public static string getProgressText(byte playerId)
+        public static string getProgressText(byte playerId, bool comms = false)
         {
+            var role = main.AllPlayerCustomRoles[playerId];
             string ProgressText = "";
-            //タスクテキスト
-            var taskState = PlayerState.taskState[playerId];
-            if (taskState.hasTasks)
-                ProgressText = $"<color=#ffff00>({taskState.CompletedTasksCount}/{taskState.AllTasksCount})</color>";
-            //塗りテキスト
-            if (main.AllPlayerCustomRoles[playerId] == CustomRoles.Arsonist)
-                ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+            switch (role)
+            {
+                case CustomRoles.Arsonist:
+                    ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+                    break;
+                case CustomRoles.Sheriff:
+                    ProgressText += $" <color=#ffff00>({main.SheriffShotLimit[playerId]})</color>";
+                    break;
+                case CustomRoles.Sniper:
+                    ProgressText += $" {Sniper.GetBulletCount(playerId)}";
+                    break;
+                default:
+                    //タスクテキスト
+                    var taskState = PlayerState.taskState[playerId];
+                    if (taskState.hasTasks)
+                    {
+                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+                        ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+
+                    }
+                    break;
+            }
 
             return ProgressText;
         }
@@ -294,6 +300,14 @@ namespace TownOfHost
 
                         //タスク上書き設定用の処理
                         if (c.Name == "doOverride" && c.GetBool() == true)
+                        {
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                            }
+                        }
+                        //メイヤーのポータブルボタン使用可能回数
+                        if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
                         {
                             foreach (var d in c.Children)
                             {
@@ -445,7 +459,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null)
+        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool force = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -493,11 +507,8 @@ namespace TownOfHost
                 //seerが落ちているときに何もしない
                 if (seer.Data.Disconnected) continue;
 
-                //seerがタスクを持っている：タスク残量の色コードなどを含むテキスト
-                //seerがタスクを持っていない：空
-                string SelfTaskText = hasTasks(seer.Data, false) ? $"{getProgressText(seer)}" : "";
-                if (seer.Is(CustomRoles.Sniper))
-                    SelfTaskText = Sniper.GetBulletCount(seer);
+                //タスクなど進行状況を含むテキスト
+                string SelfTaskText = getProgressText(seer);
 
                 //名前の後ろに付けるマーカー
                 string SelfMark = "";
@@ -527,7 +538,7 @@ namespace TownOfHost
                 if (main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
 
-                if (Sniper.isEnable())
+                if (Sniper.IsEnable())
                 {
                     //銃声が聞こえるかチェック
                     SelfMark += Sniper.GetShotNotify(seer.PlayerId);
@@ -585,13 +596,7 @@ namespace TownOfHost
                 string SeerRealName = seer.getRealName(isMeeting);
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = "";
-                if (seer.Is(CustomRoles.Sheriff))
-                    SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.SheriffShotLimit[seer.PlayerId]})</color>";
-                else if (seer.Is(CustomRoles.Arsonist))
-                    SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()} ({main.DousedPlayerCount[seer.PlayerId].Item1}/{main.DousedPlayerCount[seer.PlayerId].Item2})</color>";
-                else
-                    SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
+                string SelfRoleName = $"<size={fontSize}><color={seer.getRoleColorCode()}>{seer.getRoleName()}</color>";
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.getRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.isDouseDone())
                     SelfName = $"</size>\r\n<color={seer.getRoleColorCode()}>{getString("EnterVentToWin")}</color>";
@@ -600,7 +605,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: isMeeting);
+                seer.RpcSetNamePrivate(SelfName, true, force: (force || isMeeting));
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -615,6 +620,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || isActive(SystemTypes.Electrical)
+                    || force
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -666,7 +672,7 @@ namespace TownOfHost
                         string TargetRoleText = "";
                         if (target.Is(CustomRoles.Sheriff))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
-                        else if (seer.Is(CustomRoles.Arsonist))
+                        else if (target.Is(CustomRoles.Arsonist))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()} ({main.DousedPlayerCount[target.PlayerId].Item1}/{main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.getRoleColorCode()}>{target.getRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
@@ -710,8 +716,9 @@ namespace TownOfHost
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: isMeeting);
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: (force || isMeeting));
 
                         TownOfHost.Logger.info("NotifyRoles-Loop2-" + target.getNameWithRole() + ":END", "NotifyRoles");
                     }
