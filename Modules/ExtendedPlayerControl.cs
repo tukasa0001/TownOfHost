@@ -149,17 +149,21 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 if (target == null) return;
-                if (target.protectedByGuardian)
+                if (!target.Data.IsDead && target.protectedByGuardian)
                 {
                     killer?.RpcMurderPlayer(target);
                 }
                 else
                 {
                     //ガードはがされていたら剥がした人のキルにする
-                    if(main.LastKiller.TryGetValue(target,out var lastKiller))
+                    if (main.LastKiller.TryGetValue(target, out var lastKiller))
                     {
-                        lastKiller?.RpcMurderPlayer(target);
+                        Logger.info($"LastKiller:{lastKiller.name} killer:{killer.name}");
+                        if(lastKiller != killer)
+                        {
+                            lastKiller?.RpcMurderPlayer(target);
 
+                        }
                     }
                 }
             }, 0.5f, "GuardAndKill");
