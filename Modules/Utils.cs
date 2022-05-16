@@ -4,6 +4,8 @@ using UnityEngine;
 using Hazel;
 using System.Collections.Generic;
 using static TownOfHost.Translator;
+using System.IO;
+
 namespace TownOfHost
 {
     public static class Utils
@@ -795,6 +797,16 @@ namespace TownOfHost
             if (num == 254) name = "None";
             if (num == 255) name = "Dead";
             return name;
+        }
+        public static void dumpLog()
+        {
+            string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
+            string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
+            FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+            file.CopyTo(@filename);
+            System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
+            if (PlayerControl.LocalPlayer != null)
+                HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
     }
 }
