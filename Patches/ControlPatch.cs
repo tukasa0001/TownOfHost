@@ -26,6 +26,12 @@ namespace TownOfHost
                 if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
                 ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
             }
+            //ログファイルのダンプ
+            if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftControl))
+            {
+                Logger.info("Dump Logs", "KeyCommand");
+                Utils.dumpLog();
+            }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
