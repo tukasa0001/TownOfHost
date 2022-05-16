@@ -183,7 +183,7 @@ namespace TownOfHost
                 {
                     Utils.NotifyRoles(force: true);
                 },
-                1.2f, "ShepeShiftNotify");
+                1.2f, "ShapeShiftNotify");
             }
         }
     }
