@@ -507,6 +507,8 @@ namespace TownOfHost
                 if (!bitten.Data.IsDead)
                 {
                     PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                    //Protectは強制的にはがす
+                    bitten.RemoveProtection();
                     bitten.RpcMurderPlayer(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "を自爆させました。", "ReportDeadBody");
