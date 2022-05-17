@@ -443,7 +443,7 @@ namespace TownOfHost
         }
         public static string getNameWithRole(this PlayerControl player)
         {
-            return $"{player?.Data?.PlayerName}({player.getAllRoleName()})";
+            return $"{player?.Data?.PlayerName}({player?.getAllRoleName()})";
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
