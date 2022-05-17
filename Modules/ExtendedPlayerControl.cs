@@ -436,6 +436,7 @@ namespace TownOfHost
         }
         public static string getAllRoleName(this PlayerControl player)
         {
+            if (!player) return null;
             var text = player.getRoleName();
             text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
             return text;
