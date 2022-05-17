@@ -68,6 +68,8 @@ namespace TownOfHost
                     Logger.info(String.Format("{0}:{1}", (o.Parent == null ? o.Name : $"┗ {o.Name}").padRight(40), o.GetString()), "Info");
             Logger.info("-------------その他-------------", "Info");
             Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+
+            GameStates.InGame = true;
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginCrewmate))]

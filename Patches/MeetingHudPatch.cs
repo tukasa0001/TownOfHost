@@ -182,7 +182,7 @@ namespace TownOfHost
                 {
                     int num;
                     int VoteNum = 1;
-                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum = Options.MayorAdditionalVote.GetSelection() + 1;
+                    if (CheckForEndVotingPatch.isMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
                 }
@@ -354,7 +354,7 @@ namespace TownOfHost
                     else RoleTextMeeting.enabled = false;
                 }
                 //死んでいないディクテーターが投票済み
-                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && !pc.Data.IsDead)
+                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.getPlayerById(pva.VotedFor);
                     MeetingHud.VoterState[] states;

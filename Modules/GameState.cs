@@ -109,15 +109,16 @@ namespace TownOfHost
     }
     public static class GameStates
     {
+        public static bool InGame = false;
         public static bool isLobby => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Joined;
-        public static bool isInGame => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started;
+        public static bool isInGame => InGame;
         public static bool isEnded => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Ended;
         public static bool isNotJoined => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.NotJoined;
         public static bool isOnlineGame => AmongUsClient.Instance.GameMode == GameModes.OnlineGame;
         public static bool isLocalGame => AmongUsClient.Instance.GameMode == GameModes.LocalGame;
         public static bool isFreePlay => AmongUsClient.Instance.GameMode == GameModes.FreePlay;
-        public static bool isInTask => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && !MeetingHud.Instance;
-        public static bool isMeeting => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && MeetingHud.Instance;
+        public static bool isInTask => InGame && !MeetingHud.Instance;
+        public static bool isMeeting => InGame && MeetingHud.Instance;
         public static bool isCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
     }
 }
