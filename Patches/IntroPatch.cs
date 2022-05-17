@@ -40,14 +40,14 @@ namespace TownOfHost
             Logger.info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-2}:{1}:{2}", pc.PlayerId, pc.name.padRight(20), pc.nameText.text), "Info");
+                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc.name.padRight(20), pc.nameText.text), "Info");
                 main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
             Logger.info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-2}:{1}:{2}", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getAllRoleName()), "Info");
+                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getAllRoleName()), "Info");
             }
             Logger.info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
