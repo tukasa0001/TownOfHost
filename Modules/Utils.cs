@@ -215,27 +215,27 @@ namespace TownOfHost
         }
         public static string getProgressText(byte playerId, bool comms = false)
         {
-            var role = main.AllPlayerCustomRoles[playerId];
+            if (!main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return "Invalid";
             string ProgressText = "";
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+                    ProgressText = main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
+                        $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>" : "Invalid";
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += $" <color=#ffff00>({main.SheriffShotLimit[playerId]})</color>";
+                    ProgressText += main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $" <color=#ffff00>({shotLimit})</color>" : "Invalid";
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
                 default:
                     //タスクテキスト
-                    var taskState = PlayerState.taskState[playerId];
+                    var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
-
                     }
                     break;
             }

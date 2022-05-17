@@ -121,7 +121,7 @@ namespace TownOfHost
             }
             main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player.Data.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
+            Logger.info($"Set:{player?.Data?.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -436,13 +436,14 @@ namespace TownOfHost
         }
         public static string getAllRoleName(this PlayerControl player)
         {
+            if (!player) return null;
             var text = player.getRoleName();
             text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
             return text;
         }
         public static string getNameWithRole(this PlayerControl player)
         {
-            return $"{player.Data.PlayerName}({player.getAllRoleName()})";
+            return $"{player?.Data?.PlayerName}({player?.getAllRoleName()})";
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -662,7 +663,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.info($"{target.Data.PlayerName}はTrapperだった", "Trapper");
+            Logger.info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>

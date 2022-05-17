@@ -243,7 +243,7 @@ namespace TownOfHost
                         main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                         break;
                     default:
-                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc.Data.PlayerName + ")");
+                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc?.Data?.PlayerName + ")");
                         break;
                 }
             }
@@ -468,7 +468,7 @@ namespace TownOfHost
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.info("役職設定:" + player.Data.PlayerName + " = " + role.ToString(), "AssignRoles");
+                Logger.info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -509,7 +509,7 @@ namespace TownOfHost
                 main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
                 main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.info("役職設定:" + player.Data.PlayerName + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
+                Logger.info("役職設定:" + player?.Data?.PlayerName + " = " + player.getCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
         }
