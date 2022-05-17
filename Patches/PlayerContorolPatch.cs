@@ -99,8 +99,6 @@ namespace TownOfHost
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
-            main.LastKiller.Remove(target);
-
             PlayerState.setDead(target.PlayerId);
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
@@ -216,7 +214,11 @@ namespace TownOfHost
                 main.AirshipMeetingCheck = false;
                 Utils.CustomSyncAllSettings();
             }
-            main.LastKiller[target] = __instance;
+            if (main.SelfGuard[target.PlayerId])
+            {
+                main.SelfGuard[target.PlayerId] = false;
+                target.RpcMurderPlayer(target);
+            }
             Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}", "CheckMurder");
 
 
@@ -508,7 +510,8 @@ namespace TownOfHost
                 {
                     PlayerState.setDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす
-                    bitten.RemoveProtection();
+                    if(bitten.protectedByGuardian)
+                        bitten.RpcMurderPlayer(bitten);
                     bitten.RpcMurderPlayer(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.info("Vampireに噛まれている" + bitten.Data.PlayerName + "を自爆させました。", "ReportDeadBody");
@@ -974,7 +977,7 @@ namespace TownOfHost
                                 main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
                                 CheckForEndVotingPatch.recall = true;
                             }
-                            partnerPlayer.CheckMurder(partnerPlayer);
+                            partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
                     }
                 }
