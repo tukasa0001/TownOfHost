@@ -972,8 +972,7 @@ namespace TownOfHost
                             if (isExiled)
                             {
                                 main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                                if (PlayerControl.GameOptions.MapId != 4) //Airship用
-                                    CheckForEndVotingPatch.recall = true;
+                                CheckForEndVotingPatch.recall = true;
                             }
                             partnerPlayer.CheckMurder(partnerPlayer);
                         }
