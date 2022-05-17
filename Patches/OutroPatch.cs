@@ -37,12 +37,13 @@ namespace TownOfHost
             {
                 if (main.currentWinner == CustomWinner.Default)
                     main.currentWinner = CustomWinner.Impostor;
+                var noLivingImposter = !PlayerControl.AllPlayerControls.ToArray().Any(p => p.getCustomRole().isImpostor() && !p.Data.IsDead);
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.getCustomSubRole() == CustomRoles.Lovers) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
-                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && main.AliveImpostorCount == 0)
+                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && noLivingImposter)
                         main.currentWinner = CustomWinner.Egoist;
                 }
             }
