@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,7 +82,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
+            if (CustomRoles.Lovers.isEnable() && main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (main.currentWinner == CustomWinner.Impostor
             || (main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
