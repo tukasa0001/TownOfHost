@@ -145,28 +145,19 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
+            main.SelfGuard[target.PlayerId] = true;
             killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target == null) return;
+                main.SelfGuard[target.PlayerId] = false;
                 if (!target.Data.IsDead && target.protectedByGuardian)
                 {
                     killer?.RpcMurderPlayer(target);
                 }
                 else
                 {
-                    /*
-                    //ガードはがされていたら剥がした人のキルにする
-                    if (main.LastKiller.TryGetValue(target, out var lastKiller))
-                    {
-                        Logger.info($"LastKiller:{lastKiller.name} killer:{killer.name}");
-                        if(lastKiller != killer)
-                        {
-                            lastKiller?.RpcMurderPlayer(target);
-
-                        }
-                    }
-                    */
+                    main.BlockKilling[killer.PlayerId] = false;
                 }
             }, 0.5f, "GuardAndKill");
         }
