@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,12 +37,13 @@ namespace TownOfHost
             {
                 if (main.currentWinner == CustomWinner.Default)
                     main.currentWinner = CustomWinner.Impostor;
+                var noLivingImposter = !PlayerControl.AllPlayerControls.ToArray().Any(p => p.getCustomRole().isImpostor() && !p.Data.IsDead);
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.getCustomSubRole() == CustomRoles.Lovers) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
-                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && main.AliveImpostorCount == 0)
+                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && noLivingImposter)
                         main.currentWinner = CustomWinner.Egoist;
                 }
             }
@@ -81,7 +83,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
+            if (CustomRoles.Lovers.isEnable() && main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (main.currentWinner == CustomWinner.Impostor
             || (main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利

@@ -394,7 +394,8 @@ namespace TownOfHost
                     {
                         new LateTask(() =>
                         {
-                            pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
+                            if (MeetingHud.Instance != null)
+                                pc.ReportDeadBody(Utils.getPlayerById(main.IgnoreReportPlayers.Last()).Data);
                         },
                             0.2f + additional, "Recall Meeting");
                         new LateTask(() =>

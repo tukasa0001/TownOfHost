@@ -47,13 +47,13 @@ namespace TownOfHost
             Logger.info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getAllRoleName()), "Info");
+                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc?.Data?.PlayerName?.padRight(20), pc.getAllRoleName()), "Info");
             }
             Logger.info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.AmOwner ? "[*]" : "   ";
-                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data.PlayerName.padRight(20), pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
+                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data?.PlayerName?.padRight(20), pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
                 if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                     text += $":Mod({pv.version}:{pv.tag})";
                 else text += ":Vanilla";
