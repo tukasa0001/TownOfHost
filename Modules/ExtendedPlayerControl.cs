@@ -694,7 +694,7 @@ namespace TownOfHost
         {
             foreach (var arsonist in PlayerControl.AllPlayerControls)
             {
-                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
                     bool isDoused = false;
