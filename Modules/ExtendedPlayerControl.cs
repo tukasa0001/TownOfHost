@@ -709,12 +709,14 @@ namespace TownOfHost
                 if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
-                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    bool isDoused = main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused);
+                    if (main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
                     {
-                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        main.isDeadDoused[target.PlayerId] = true;
                         var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        var LeftPlayer = isDoused ? (ArsonistDic.Item1 - 1) : ArsonistDic.Item1;
+                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, ArsonistDic.Item2 - 1);
                         Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
-                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
                         arsonist.RpcSendDousedPlayerCount();
                     }
                 }
