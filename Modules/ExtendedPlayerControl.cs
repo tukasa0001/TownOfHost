@@ -697,7 +697,8 @@ namespace TownOfHost
                 if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
-                    bool isDoused = main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
+                    bool isDoused = false;
+                    main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
                     if (main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
                     {
                         main.isDeadDoused[target.PlayerId] = true;
