@@ -715,7 +715,8 @@ namespace TownOfHost
                         main.isDeadDoused[target.PlayerId] = true;
                         var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
                         var LeftPlayer = isDoused ? (ArsonistDic.Item1 - 1) : ArsonistDic.Item1;
-                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, ArsonistDic.Item2 - 1);
+                        var RequireDouse = ArsonistDic.Item2 - 1;
+                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
                         Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
                         arsonist.RpcSendDousedPlayerCount();
                     }
