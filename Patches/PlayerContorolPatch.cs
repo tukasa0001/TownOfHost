@@ -268,7 +268,7 @@ namespace TownOfHost
                     main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
             }
-            if (__instance.Is(CustomRoles.Ninja))__instance.NinjaShapeShiftingKill();
+            if (__instance.Is(CustomRoles.Ninja))Ninja.NinjaShapeShiftingKill(__instance,target);
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
@@ -450,6 +450,7 @@ namespace TownOfHost
             }
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)

@@ -355,6 +355,10 @@ namespace TownOfHost
                         main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
+                case CustomRoles.Ninja:
+                    opt.RoleOptions.ShapeshifterCooldown = 0;
+                    opt.RoleOptions.ShapeshifterDuration = 0;
+                break;
 
 
                 InfinityVent:
