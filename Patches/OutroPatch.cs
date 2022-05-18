@@ -318,13 +318,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]}<pos=25%><color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=50%>{Utils.getProgressText(id)}</pos><pos=60%>{Utils.getVitalText(id)}</pos>";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n　 {main.AllPlayerNames[id]}<pos=25%><color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=50%>{Utils.getProgressText(id)}</pos><pos=60%>{Utils.getVitalText(id)}</pos>";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;

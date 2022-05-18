@@ -52,7 +52,6 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
             main.SelfGuard = new();
 
@@ -63,6 +62,11 @@ namespace TownOfHost
 
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();
+            //名前の記録
+            main.AllPlayerNames = new();
+            foreach (var p in PlayerControl.AllPlayerControls)
+                main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
+
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 foreach (var seer in PlayerControl.AllPlayerControls)
@@ -74,7 +78,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
                 main.SelfGuard[pc.PlayerId] = false;
             }
@@ -269,13 +272,6 @@ namespace TownOfHost
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
-
-                //名前の記録
-                main.AllPlayerNames = new();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key, main.RealNames[pair.Key]);
-                }
             }
             else
             {
@@ -330,13 +326,6 @@ namespace TownOfHost
                 foreach (var pair in main.AllPlayerCustomSubRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-
-                //名前の記録
-                main.AllPlayerNames = new();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key, main.RealNames[pair.Key]);
                 }
 
                 HudManager.Instance.SetHudActive(true);
