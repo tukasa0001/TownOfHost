@@ -1134,7 +1134,6 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
         {
-            main.RealNames[__instance.PlayerId] = name;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]

@@ -52,7 +52,6 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
             main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            main.RealNames = new Dictionary<byte, string>();
             main.BlockKilling = new Dictionary<byte, bool>();
             main.SelfGuard = new();
 
@@ -79,7 +78,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 main.AllPlayerSpeed[pc.PlayerId] = main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
                 main.SelfGuard[pc.PlayerId] = false;
             }

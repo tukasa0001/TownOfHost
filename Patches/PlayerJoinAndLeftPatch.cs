@@ -9,9 +9,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            Logger.info("RealNamesをリセット", "OnGameJoined");
             Logger.info($"{__instance.GameId}に参加", "OnGameJoined");
-            main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
 

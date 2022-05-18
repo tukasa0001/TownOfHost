@@ -41,7 +41,6 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc.name.padRight(20), pc.nameText.text), "Info");
-                main.RealNames[pc.PlayerId] = pc.name;
                 pc.nameText.text = pc.name;
             }
             Logger.info("----------役職割り当て----------", "Info");
