@@ -4,6 +4,7 @@ using UnityEngine;
 using Hazel;
 using System.Collections.Generic;
 using static TownOfHost.Translator;
+using System.Text;
 using System.IO;
 
 namespace TownOfHost
@@ -797,6 +798,13 @@ namespace TownOfHost
             if (num == 254) name = "None";
             if (num == 255) name = "Dead";
             return name;
+        }
+        public static string padRight(this object text, int num)
+        {
+            int bc = 0;
+            var t = text.ToString();
+            foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
+            return t?.PadRight(num - (bc - t.Length));
         }
         public static void dumpLog()
         {
