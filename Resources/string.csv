@@ -26,6 +26,7 @@ EvilWatcher,Evil Watcher,イビルウォッチャー
 Puppeteer,Puppeteer,パペッティア
 TimeThief,TimeThief,タイムシーフ
 Sniper,Sniper,スナイパー
+Ninja,Ninja,ニンジャ
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト
@@ -90,6 +91,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
+NinjaInfo,You can't escape Ninja,ニンジャからは逃げられない
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう

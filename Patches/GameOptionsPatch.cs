@@ -18,7 +18,7 @@ namespace TownOfHost
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
-                if (CustomRoles.Mafia.isEnable() || CustomRoles.SerialKiller.isEnable() || CustomRoles.Warlock.isEnable() || CustomRoles.BountyHunter.isEnable() || CustomRoles.ShapeMaster.isEnable()) forced = true;
+                if (CustomRoles.Mafia.isEnable() || CustomRoles.SerialKiller.isEnable() || CustomRoles.Warlock.isEnable() || CustomRoles.BountyHunter.isEnable() || CustomRoles.ShapeMaster.isEnable() || CustomRoles.Ninja.isEnable()) forced = true;
             }
 
             if (forced)

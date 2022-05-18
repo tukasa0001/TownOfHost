@@ -1,4 +1,4 @@
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using System;
@@ -198,6 +198,7 @@ namespace TownOfHost
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
+                {CustomRoles.Ninja, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -277,6 +278,7 @@ namespace TownOfHost
         EvilWatcher,
         FireWorks,
         Mafia,
+        Ninja,
         SerialKiller,
         ShapeMaster,
         Sniper,
