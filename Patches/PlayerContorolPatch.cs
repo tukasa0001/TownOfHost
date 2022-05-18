@@ -110,10 +110,12 @@ namespace TownOfHost
             }
 
             //シュレディンガーの猫が切られた場合の役職変化スタート
-            if (target.Is(CustomRoles.SchrodingerCat))
-            {
-                if (__instance.Is(CustomRoles.Arsonist)) return false;
+            //直接キル出来る役職チェック
+            // Sniperなど自殺扱いのものもあるので追加するときは注意
+            var canDirectKill = !__instance.Is(CustomRoles.Arsonist);
 
+            if (target.Is(CustomRoles.SchrodingerCat) && canDirectKill)
+            {
                 __instance.RpcGuardAndKill(target);
                 if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
                 {
