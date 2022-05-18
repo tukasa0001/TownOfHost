@@ -751,6 +751,14 @@ namespace TownOfHost
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
             {
+                if (GameStates.isLobby)
+                {
+                    if (main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
+                        if (main.version.CompareTo(ver.version) == 0)
+                            __instance.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
+                        else __instance.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    else __instance.nameText.text = __instance?.Data?.PlayerName;
+                }
                 if (GameStates.isInGame)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
