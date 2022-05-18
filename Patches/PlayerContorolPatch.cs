@@ -8,183 +8,6 @@ using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
-    class MurderPlayerPatch
-    {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-        {
-            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
-        }
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-        {
-            PlayerControl killer = __instance;
-            if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
-                return;
-            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
-            {
-                killer = Utils.getPlayerById(Sniper.GetSniper(target.PlayerId));
-            }
-            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
-            {
-                //死因が設定されていない場合は死亡判定
-                PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
-            }
-
-            //When Bait is killed
-            if (target.getCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
-            {
-                Logger.info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
-                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
-            }
-            else
-            //BountyHunter
-            if (killer.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
-            {
-                if (target == killer.getBountyTarget())
-                {//ターゲットをキルした場合
-                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
-                    Utils.CustomSyncAllSettings();//キルクール処理を同期
-                    main.isTargetKilled.Remove(__instance.PlayerId);
-                    main.isTargetKilled.Add(__instance.PlayerId, true);
-                    Logger.info($"{__instance?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                }
-                else
-                {
-                    main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                    Logger.info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                    Utils.CustomSyncAllSettings();//キルクール処理を同期
-                }
-            }
-            if (killer.Is(CustomRoles.SerialKiller))
-            {
-                main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
-                killer.CustomSyncSettings();
-            }
-            //Terrorist
-            if (target.Is(CustomRoles.Terrorist))
-            {
-                Logger.info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
-                Utils.CheckTerroristWin(target.Data);
-            }
-            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
-                killer.TrapperKilled(target);
-            if (main.ExecutionerTarget.ContainsValue(target.PlayerId))
-            {
-                List<byte> RemoveExecutionerKey = new();
-                foreach (var ExecutionerTarget in main.ExecutionerTarget)
-                {
-                    var executioner = Utils.getPlayerById(ExecutionerTarget.Key);
-                    if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
-                    {
-                        executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
-                        RemoveExecutionerKey.Add(ExecutionerTarget.Key);
-                    }
-                }
-                foreach (var RemoveKey in RemoveExecutionerKey)
-                {
-                    main.ExecutionerTarget.Remove(RemoveKey);
-                    RPC.removeExecutionerKey(RemoveKey);
-                }
-            }
-            if (target.Is(CustomRoles.TimeThief))
-                target.ResetThiefVotingTime();
-            if (main.isDeadDoused.TryGetValue(target.PlayerId, out bool value) && !value)
-                target.RemoveDousePlayer();
-
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.isLastImpostor())
-                    main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
-            }
-            FixedUpdatePatch.LoversSuicide(target.PlayerId);
-
-            PlayerState.setDead(target.PlayerId);
-            Utils.CountAliveImpostors();
-            Utils.CustomSyncAllSettings();
-            Utils.NotifyRoles();
-        }
-    }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
-    class ShapeshiftPatch
-    {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
-        {
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            var shapeshifter = __instance;
-            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
-
-            main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
-
-            if (shapeshifter.Is(CustomRoles.Warlock))
-            {
-                if (main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
-                {
-                    if (!shapeshifting && !main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
-                    {
-                        var cp = main.CursedPlayers[shapeshifter.PlayerId];
-                        Vector2 cppos = cp.transform.position;//呪われた人の位置
-                        Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
-                        float dis;
-                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                        {
-                            if (!p.Data.IsDead && p != cp)
-                            {
-                                dis = Vector2.Distance(cppos, p.transform.position);
-                                cpdistance.Add(p, dis);
-                                Logger.info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
-                            }
-                        }
-                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                        PlayerControl targetw = min.Key;
-                        Logger.info($"{targetw.getNameWithRole()}was killed", "Warlock");
-                        cp.RpcMurderPlayer(targetw);//殺す
-                        shapeshifter.RpcGuardAndKill(shapeshifter);
-                        main.isCurseAndKill[shapeshifter.PlayerId] = false;
-                    }
-                    main.CursedPlayers[shapeshifter.PlayerId] = (null);
-                }
-            }
-            var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
-
-            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
-            {//変身したとき一番近い人をマッドメイトにする処理
-                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
-                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
-                float dis;
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                {
-                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate))
-                    {
-                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
-                        mpdistance.Add(p, dis);
-                    }
-                }
-                if (mpdistance.Count() != 0)
-                {
-                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                    PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
-                    main.SKMadmateNowCount++;
-                    Utils.CustomSyncAllSettings();
-                    Utils.NotifyRoles();
-                }
-            }
-            if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
-
-            //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
-            if (!shapeshifting)
-            {
-                new LateTask(() =>
-                {
-                    Utils.NotifyRoles(force: true);
-                },
-                1.2f, "ShapeShiftNotify");
-            }
-        }
-    }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
     class CheckProtectPatch
     {
@@ -458,6 +281,184 @@ namespace TownOfHost
             }
 
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.MurderPlayer))]
+    class MurderPlayerPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.info($"{__instance.getNameWithRole()} => {target.getNameWithRole()}{(target.protectedByGuardian ? "(Protected)" : "")}", "MurderPlayer");
+        }
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            PlayerControl killer = __instance;
+            if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost)
+                return;
+            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+            {
+                killer = Utils.getPlayerById(Sniper.GetSniper(target.PlayerId));
+            }
+            if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.etc)
+            {
+                //死因が設定されていない場合は死亡判定
+                PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+            }
+
+            //When Bait is killed
+            if (target.getCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
+            {
+                Logger.info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+                new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
+            }
+            else
+            //BountyHunter
+            if (killer.Is(CustomRoles.BountyHunter)) //キルが発生する前にここの処理をしないとバグる
+            {
+                if (target == killer.getBountyTarget())
+                {//ターゲットをキルした場合
+                    main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
+                    Utils.CustomSyncAllSettings();//キルクール処理を同期
+                    main.isTargetKilled.Remove(__instance.PlayerId);
+                    main.isTargetKilled.Add(__instance.PlayerId, true);
+                    Logger.info($"{__instance?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
+                }
+                else
+                {
+                    main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
+                    Logger.info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
+                    Utils.CustomSyncAllSettings();//キルクール処理を同期
+                }
+            }
+            if (killer.Is(CustomRoles.SerialKiller))
+            {
+                main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                killer.CustomSyncSettings();
+            }
+            //Terrorist
+            if (target.Is(CustomRoles.Terrorist))
+            {
+                Logger.info(target?.Data?.PlayerName + "はTerroristだった", "MurderPlayer");
+                Utils.CheckTerroristWin(target.Data);
+            }
+            if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
+                killer.TrapperKilled(target);
+            if (main.ExecutionerTarget.ContainsValue(target.PlayerId))
+            {
+                List<byte> RemoveExecutionerKey = new();
+                foreach (var ExecutionerTarget in main.ExecutionerTarget)
+                {
+                    var executioner = Utils.getPlayerById(ExecutionerTarget.Key);
+                    if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
+                    {
+                        executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        RemoveExecutionerKey.Add(ExecutionerTarget.Key);
+                    }
+                }
+                foreach (var RemoveKey in RemoveExecutionerKey)
+                {
+                    main.ExecutionerTarget.Remove(RemoveKey);
+                    RPC.removeExecutionerKey(RemoveKey);
+                }
+            }
+            if (target.Is(CustomRoles.TimeThief))
+                target.ResetThiefVotingTime();
+            if (main.isDeadDoused.TryGetValue(target.PlayerId, out bool value) && !value)
+                target.RemoveDousePlayer();
+
+
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.isLastImpostor())
+                    main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+            }
+            FixedUpdatePatch.LoversSuicide(target.PlayerId);
+
+            PlayerState.setDead(target.PlayerId);
+            Utils.CountAliveImpostors();
+            Utils.CustomSyncAllSettings();
+            Utils.NotifyRoles();
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+
+            var shapeshifter = __instance;
+            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
+
+            main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+            Logger.info($"Shapeshift[{shapeshifter.Data.PlayerName}]:{shapeshifter.name}({shapeshifter.PlayerId})=>{target.name}({target.PlayerId})", "Shapeshift");
+            if (shapeshifter.Is(CustomRoles.Warlock))
+            {
+                if (main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
+                {
+                    if (!shapeshifting && !main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                    {
+                        var cp = main.CursedPlayers[shapeshifter.PlayerId];
+                        Vector2 cppos = cp.transform.position;//呪われた人の位置
+                        Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
+                        float dis;
+                        foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                        {
+                            if (!p.Data.IsDead && p != cp)
+                            {
+                                dis = Vector2.Distance(cppos, p.transform.position);
+                                cpdistance.Add(p, dis);
+                                Logger.info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                            }
+                        }
+                        var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                        PlayerControl targetw = min.Key;
+                        Logger.info($"{targetw.getNameWithRole()}was killed", "Warlock");
+                        cp.RpcMurderPlayer(targetw);//殺す
+                        shapeshifter.RpcGuardAndKill(shapeshifter);
+                        main.isCurseAndKill[shapeshifter.PlayerId] = false;
+                    }
+                    main.CursedPlayers[shapeshifter.PlayerId] = (null);
+                }
+            }
+            var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
+
+            if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
+            {//変身したとき一番近い人をマッドメイトにする処理
+                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
+                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
+                float dis;
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate))
+                    {
+                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
+                        mpdistance.Add(p, dis);
+                    }
+                }
+                if (mpdistance.Count() != 0)
+                {
+                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                    PlayerControl targetm = min.Key;
+                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
+                    Logger.info($"Make SKMadmate:{targetm.name}", "Shapeshift");
+                    main.SKMadmateNowCount++;
+                    Utils.CustomSyncAllSettings();
+                    Utils.NotifyRoles();
+                }
+            }
+            if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
+
+            //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
+            if (!shapeshifting)
+            {
+                new LateTask(() =>
+                {
+                    Utils.NotifyRoles(force: true);
+                },
+                1.2f, "ShapeShiftNotify");
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ReportDeadBody))]
