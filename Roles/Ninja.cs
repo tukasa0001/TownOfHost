@@ -30,7 +30,7 @@ namespace TownOfHost
                 {
                     pc.RpcMurderPlayer(ni);
                     NinjaKillTarget.Remove(ni);
-                    pc.RpcRevertShapeshift(true);
+                    pc.RpcRevertShapeshift(true);//他視点シェイプシフトが解除されないように見える場合があるため、強制解除
                     pc.RpcGuardAndKill(pc);
                     return;
                 }
