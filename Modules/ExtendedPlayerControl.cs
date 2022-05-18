@@ -495,7 +495,7 @@ namespace TownOfHost
 
         public static string getRealName(this PlayerControl player, bool isMeeting = false)
         {
-            return GameStates.isMeeting ? player?.Data?.PlayerName : player?.name;
+            return isMeeting ? player?.Data?.PlayerName : player?.name;
         }
 
         public static PlayerControl getBountyTarget(this PlayerControl player)
