@@ -387,13 +387,13 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            Logger.info($"{__instance?.getNameWithRole()} => {target?.getNameWithRole()}", "Shapeshift");
             if (!AmongUsClient.Instance.AmHost) return;
 
             var shapeshifter = __instance;
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
             main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
-            Logger.info($"Shapeshift[{shapeshifter.Data.PlayerName}]:{shapeshifter.name}({shapeshifter.PlayerId})=>{target.name}({target.PlayerId})", "Shapeshift");
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
                 if (main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
