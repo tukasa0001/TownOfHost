@@ -347,6 +347,7 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     main.isDeadDoused[pc.PlayerId] = false;
+                    pc.ResetKillCooldown();
                     if (pc.Is(CustomRoles.Sheriff))
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
