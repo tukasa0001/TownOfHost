@@ -801,8 +801,10 @@ namespace TownOfHost
         }
         public static string padRight(this object text, int num)
         {
+            int bc = 0;
             var t = text.ToString();
-            return t?.PadRight(num - (Encoding.GetEncoding("UTF-8").GetByteCount(t) - t.Length));
+            foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
+            return t?.PadRight(num - (bc - t.Length));
         }
         public static void dumpLog()
         {
