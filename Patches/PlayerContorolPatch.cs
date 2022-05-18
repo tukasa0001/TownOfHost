@@ -268,6 +268,7 @@ namespace TownOfHost
                     main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
             }
+            if (__instance.Is(CustomRoles.Ninja))__instance.NinjaShapeShiftingKill();
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
