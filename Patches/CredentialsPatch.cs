@@ -28,76 +28,68 @@ namespace TownOfHost
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text += main.credentialsText;
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-            {
                 if (PlayerControl.LocalPlayer.Data.IsDead)
-                {
-                    __instance.transform.localPosition = new Vector3(3.45f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
-                }
+                    __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.0f, 0.0f, 0f);
                 else
+                    __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(1.2f, 0.0f, 0f);
+            else
+                __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.7f, 0.0f, 0f);
+        }
+        [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
+        class VersionShowerPatch
+        {
+            private static TMPro.TextMeshPro ErrorText;
+            static void Postfix(VersionShower __instance)
+            {
+                main.credentialsText = $"\r\n<color={main.modColor}>Town Of Host</color> v{main.PluginVersion}";
+                if (ThisAssembly.Git.Branch != "main")
+                    main.credentialsText += $"\r\n<color={main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+                if (main.AmDebugger.Value)
+                    main.credentialsText += "\r\n<color=#00ff00>デバッグモード</color>";
+                var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
+                credentials.text = main.credentialsText;
+                credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
+                credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
+
+                if (main.hasArgumentException && !main.ExceptionMessageIsShown)
                 {
-                    __instance.transform.localPosition = new Vector3(4.2f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
+                    main.ExceptionMessageIsShown = true;
+                    ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
+                    ErrorText.transform.position = new Vector3(0, 0.20f, 0);
+                    ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
+                    ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
+                    ErrorText.color = Color.red;
                 }
             }
-            else
+        }
+        [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
+        class AwakePatch
+        {
+            public static void Prefix(ModManager __instance)
             {
-                __instance.transform.localPosition = new Vector3(3.5f, __instance.transform.localPosition.y, __instance.transform.localPosition.z);
+                __instance.ShowModStamp();
+                LateTask.Update(Time.deltaTime);
             }
         }
-    }
-    [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-    class VersionShowerPatch
-    {
-        private static TMPro.TextMeshPro ErrorText;
-        static void Postfix(VersionShower __instance)
-        {
-            main.credentialsText = $"\r\n<color={main.modColor}>Town Of Host</color> v{main.PluginVersion}";
-            if (ThisAssembly.Git.Branch != "main")
-                main.credentialsText += $"\r\n<color={main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
-            if (main.AmDebugger.Value)
-                main.credentialsText += "\r\n<color=#00ff00>デバッグモード</color>";
-            var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-            credentials.text = main.credentialsText;
-            credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-            credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
 
-            if (main.hasArgumentException && !main.ExceptionMessageIsShown)
+        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+        class LogoPatch
+        {
+            static void Postfix(PingTracker __instance)
             {
-                main.ExceptionMessageIsShown = true;
-                ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-                ErrorText.transform.position = new Vector3(0, 0.20f, 0);
-                ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
-                ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
-                ErrorText.color = Color.red;
-            }
-        }
-    }
-    [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
-    class AwakePatch
-    {
-        public static void Prefix(ModManager __instance)
-        {
-            __instance.ShowModStamp();
-            LateTask.Update(Time.deltaTime);
-        }
-    }
+                var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
+                if (amongUsLogo != null)
+                {
+                    amongUsLogo.transform.localScale *= 0.4f;
+                    amongUsLogo.transform.position += Vector3.up * 0.25f;
+                }
 
-    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-    class LogoPatch
-    {
-        static void Postfix(PingTracker __instance)
-        {
-            var amongUsLogo = GameObject.Find("bannerLogo_AmongUs");
-            if (amongUsLogo != null)
-            {
-                amongUsLogo.transform.localScale *= 0.4f;
-                amongUsLogo.transform.position += Vector3.up * 0.25f;
+                var tohLogo = new GameObject("titleLogo_TOH");
+                tohLogo.transform.position = Vector3.up;
+                tohLogo.transform.localScale *= 1.2f;
+                var renderer = tohLogo.AddComponent<SpriteRenderer>();
+                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
             }
-
-            var tohLogo = new GameObject("titleLogo_TOH");
-            tohLogo.transform.position = Vector3.up;
-            tohLogo.transform.localScale *= 1.2f;
-            var renderer = tohLogo.AddComponent<SpriteRenderer>();
-            renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
         }
     }
 }
