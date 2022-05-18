@@ -690,20 +690,27 @@ namespace TownOfHost
                 main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
             main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
-        public static void RemoveDousePlayer(this PlayerControl target)
+        public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
         {
             foreach (var arsonist in PlayerControl.AllPlayerControls)
             {
-                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
-                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    bool isDoused = false;
+                    main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
+                    if (main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
                     {
-                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        main.isDeadDoused[target.PlayerId] = true;
                         var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        var LeftPlayer = ArsonistDic.Item1; //塗った人数
+                        var RequireDouse = ArsonistDic.Item2; //塗るべき人数
+                        if (isDoused)
+                            LeftPlayer--;
+                        RequireDouse--;
+                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
                         Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
-                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                        arsonist.RpcSendDousedPlayerCount();
+                        arsonist.RpcSendDousedPlayerCount(); //RPCで他クライアントと塗り状況を同期
                     }
                 }
             }
