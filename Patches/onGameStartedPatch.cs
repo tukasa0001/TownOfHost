@@ -63,6 +63,11 @@ namespace TownOfHost
 
             NameColorManager.Instance.RpcReset();
             main.LastNotifyNames = new();
+            //名前の記録
+            main.AllPlayerNames = new();
+            foreach (var p in PlayerControl.AllPlayerControls)
+                main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
+
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 foreach (var seer in PlayerControl.AllPlayerControls)
@@ -269,13 +274,6 @@ namespace TownOfHost
                 }
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
-
-                //名前の記録
-                main.AllPlayerNames = new();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key, main.RealNames[pair.Key]);
-                }
             }
             else
             {
@@ -330,13 +328,6 @@ namespace TownOfHost
                 foreach (var pair in main.AllPlayerCustomSubRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-
-                //名前の記録
-                main.AllPlayerNames = new();
-                foreach (var pair in main.AllPlayerCustomRoles)
-                {
-                    main.AllPlayerNames.Add(pair.Key, main.RealNames[pair.Key]);
                 }
 
                 HudManager.Instance.SetHudActive(true);
