@@ -495,19 +495,7 @@ namespace TownOfHost
 
         public static string getRealName(this PlayerControl player, bool isMeeting = false)
         {
-            if (player.CurrentOutfitType == PlayerOutfitType.Shapeshifted && isMeeting == false)
-            {
-                return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
-            }
-
-            if (!main.RealNames.TryGetValue(player.PlayerId, out var RealName))
-            {
-                RealName = player.name;
-                if (RealName == "Player(Clone)") return RealName;
-                main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました", "getRealName");
-            }
-            return RealName;
+            return GameStates.isMeeting ? player?.Data?.PlayerName : player?.name;
         }
 
         public static PlayerControl getBountyTarget(this PlayerControl player)
