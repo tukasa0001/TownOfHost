@@ -149,7 +149,7 @@ namespace TownOfHost
                     var target_dir = target_pos.normalized;
                     //内積を取る
                     var target_dot = Vector3.Dot(dir, target_dir);
-                    Logger.info($"{target.Data.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
+                    Logger.info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
                     Logger.info($"  Dot={target_dot}", "Sniper");
                     if (precisionshooting)
                     {

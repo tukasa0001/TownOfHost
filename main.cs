@@ -49,7 +49,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<PlayerControl, PlayerControl> LastKiller;
+        public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
@@ -62,7 +62,6 @@ namespace TownOfHost
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static Dictionary<byte, string> RealNames;
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
@@ -135,8 +134,6 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
-
-            RealNames = new Dictionary<byte, string>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();

@@ -4,6 +4,7 @@ using UnityEngine;
 using Hazel;
 using System.Collections.Generic;
 using static TownOfHost.Translator;
+using System.Text;
 using System.IO;
 
 namespace TownOfHost
@@ -215,27 +216,27 @@ namespace TownOfHost
         }
         public static string getProgressText(byte playerId, bool comms = false)
         {
-            var role = main.AllPlayerCustomRoles[playerId];
+            if (!main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return "Invalid";
             string ProgressText = "";
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    ProgressText = $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({main.DousedPlayerCount[playerId].Item1}/{main.DousedPlayerCount[playerId].Item2})</color>";
+                    ProgressText = main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
+                        $"<color={getRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>" : "Invalid";
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += $" <color=#ffff00>({main.SheriffShotLimit[playerId]})</color>";
+                    ProgressText += main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $" <color=#ffff00>({shotLimit})</color>" : "Invalid";
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
                 default:
                     //タスクテキスト
-                    var taskState = PlayerState.taskState[playerId];
+                    var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
-
                     }
                     break;
             }
@@ -351,7 +352,7 @@ namespace TownOfHost
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n　 {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {getVitalText(id)}";
             }
             SendMessage(text);
@@ -797,6 +798,13 @@ namespace TownOfHost
             if (num == 254) name = "None";
             if (num == 255) name = "Dead";
             return name;
+        }
+        public static string padRight(this object text, int num)
+        {
+            int bc = 0;
+            var t = text.ToString();
+            foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
+            return t?.PadRight(num - (bc - t.Length));
         }
         public static void dumpLog()
         {

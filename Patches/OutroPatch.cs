@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,12 +37,13 @@ namespace TownOfHost
             {
                 if (main.currentWinner == CustomWinner.Default)
                     main.currentWinner = CustomWinner.Impostor;
+                var noLivingImposter = !PlayerControl.AllPlayerControls.ToArray().Any(p => p.getCustomRole().isImpostor() && !p.Data.IsDead);
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.getCustomSubRole() == CustomRoles.Lovers) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
-                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && main.AliveImpostorCount == 0)
+                    if (main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && noLivingImposter)
                         main.currentWinner = CustomWinner.Egoist;
                 }
             }
@@ -81,7 +83,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.isEnable() && main.isLoversDead == false //ラバーズが生きていて
+            if (CustomRoles.Lovers.isEnable() && main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (main.currentWinner == CustomWinner.Impostor
             || (main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -316,13 +318,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(main.AllPlayerCustomRoles);
             foreach (var id in main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {main.AllPlayerNames[id]}<pos=25%><color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=44%>{Utils.getProgressText(id)}</pos><pos=51%>{Utils.getVitalText(id)}</pos>";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {main.RealNames[id]} : <color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color> {Utils.getProgressText(id)}  {Utils.getVitalText(id)}";
+                roleSummaryText += $"\n　 {main.AllPlayerNames[id]}<pos=25%><color={Utils.getRoleColorCode(main.AllPlayerCustomRoles[id])}>{Utils.getRoleName(main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=44%>{Utils.getProgressText(id)}</pos><pos=51%>{Utils.getVitalText(id)}</pos>";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;

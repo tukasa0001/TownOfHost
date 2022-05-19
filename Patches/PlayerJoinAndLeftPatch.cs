@@ -9,9 +9,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            Logger.info("RealNamesをリセット", "OnGameJoined");
             Logger.info($"{__instance.GameId}に参加", "OnGameJoined");
-            main.RealNames = new Dictionary<byte, string>();
             main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
 
@@ -41,8 +39,11 @@ namespace TownOfHost
                 data.Character.ResetThiefVotingTime();
             if (main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
                 data.Character.RemoveDousePlayer();
-            PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
-            PlayerState.setDead(data.Character.PlayerId);
+            if (PlayerState.getDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
+            {
+                PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
+                PlayerState.setDead(data.Character.PlayerId);
+            }
             Logger.info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }
     }

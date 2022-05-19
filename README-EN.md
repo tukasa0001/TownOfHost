@@ -43,11 +43,6 @@ However, please note that the following restrictions apply.<br>
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
 - If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
-Please use Option Controler in Town Of Host to change options and change their value to 0.
-
-- Killcooldown (in Impostor Options)
-- ShapeshifterCooldwn (in Shapeshifter Options)
-
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
 - Display of the special role's own start screen.
@@ -55,23 +50,26 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
-## Roles //FIXME:リリース前に追記
+## Roles
 
-| Impostors                       | Crewmates                             | Neutral                       |
-| ------------------------------- | ------------------------------------- | ----------------------------- |
-| [BountyHunter](###BountyHunter) | [Bait](###Bait)                       | [Jester](###Jester)           |
-| [SerialKiller](###SerialKiller) | [Mayor](###Mayor)                     | [Opportunist](###Opportunist) |
-| [ShapeMaster](###ShapeMaster)   | [SabotageMaster](###SabotageMaster)   | [Terrorist](###Terrorist)     |
-| [Vampire](###Vampire)           | [Sheriff](###Sheriff)                 | [Arsonist](###Arsonist)       |
-| [Warlock](###Warlock)           | [Snitch](###Snitch)                   | [Egoist](###Egoist)           |
-| [Witch](###Witch)               | [Lighter](###Lighter)                 | [Lovers](###Lovers)           |
-| [Mafia](###Mafia)               | [Nice Watcher](###Watcher)            |                               |
-| [Evil Watcher](###Watcher)      | [SpeedBooster](###SpeedBooster)       |                               |
-| [Puppeteer](###Puppeteer)       | [Trapper](###Trapper)                 |                               |
-| [TimeThief](###TimeThief)       | [Doctor](###Doctor)                   |                               |
-| [Madmate](###Madmate)           |                                       |                               |
-| [MadGuardian](###MadGuardian)   |                                       |                               |
-| [MadSnitch](###MadSnitch)       |                                       |                               |
+| Impostors                     | Crewmates                         | Neutral                           |
+| ----------------------------- | --------------------------------- | --------------------------------- |
+| [BountyHunter](#BountyHunter) | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
+| [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
+| [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
+| [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
+| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
+| [Witch](#Witch)               |                                   |                                   |
+| [Mafia](#Mafia)               |                                   |                                   |
+| [Madmate](#Madmate)           |                                   |                                   |
+| [MadGuardian](#MadGuardian)   |                                   |                                   |
+| [MadSnitch](#MadSnitch)       |                                   |                                   |
 
 ### BountyHunter
 
@@ -89,6 +87,25 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing the target(s)                     |
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
+
+### FireWorks
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+The FireWorks can set off fireworks and kill a lot. <br>
+You Install up to 3 fireworks at the timing of shape-shift.  <br>
+After Install all the fireworks, you can set off all fireworks at once at the timing of the shape-shift when you becomes the last Imposter.  <br>
+You can't kill until the fireworks are Installing and Set off fireworks. <br>
+Even if you get caught up in fireworks, you win if you annihilate the enemy. <br>
+
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| FireWorks Max Count |
+| FireWorks Radius    |
+
 ### Mare
 
 Team : Impostor<br>
@@ -97,6 +114,16 @@ Decision : Impostor<br>
 No kills can be made except in the event of a power outage.<br>
 However, if the kill is successful, the KillCooldown is halved.<br>
 And the movement speed will also increase. And name is displayed in red<br>
+
+### Puppeteer
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
+It is not possible to perform normal kills.<br>
+
 ### SerialKiller
 
 Team : Impostor<br>
@@ -124,6 +151,43 @@ Normally, the transformation lasts only 10 seconds, but the duration of the tran
 | --------------------- |
 | Transformable time(s) |
 
+### Sniper
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+Sniper can long-range shooting. <br>
+Kills targets that are on the extension of the shape-shifted point to the released point. <br>
+The crew on the line of sight will be notified of the shooting sound. <br>
+You cannot normally kill until the bullet is cut off. <br>
+
+Precision Shooting:OFF<BR>
+![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+Precision Shooting:ON<BR>
+![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+
+#### Settings
+
+| Settings Name             |
+| ------------------------- |
+| Sniper Bullet Count       |
+| Sniper Precision Shooting |
+
+### TimeThief
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+Killing a player decreases the meeting time.<br>
+Also, when a TimeThief is expelled or killed, the lost meeting time is returned.<br>
+
+#### Settings
+
+| Settings Name                        |
+| ------------------------------------ |
+| TimeThief Decrease DiscussionTime(s) |
+| TimeThief Decrease VotingTime(s)     |
+
 ### Vampire
 
 Team : Impostors<br>
@@ -132,7 +196,7 @@ Decision : Impostor<br>
 The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.<br>
 There is no teleportation when a kill is made.<br>
 Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.<br>
-However, only if they kill the [Baits](###Bait) will it be a normal kill and they will be forced to report it.<br>
+However, only if they kill the [Baits](#Bait) will it be a normal kill and they will be forced to report it.<br>
 
 #### Settings
 
@@ -165,70 +229,6 @@ The Mafias can initially use vents, sabotage, and transformations, but they can 
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
-
-### Puppeteer
-
-Team : Impostors<br>
-Decision : Impostor<br>
-
-The target of the kill is made to kill the next Crewmate that the target approaches.<br>
-If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
-It is not possible to perform normal kills.<br>
-
-### FireWorks
-
-Team : Impostors<br>
-Decision : Shapeshifter<br>
-
-The FireWorks can set off fireworks and kill a lot. <br>
-You Install up to 3 fireworks at the timing of shape-shift.  <br>
-After Install all the fireworks, you can set off all fireworks at once at the timing of the shape-shift when you becomes the last Imposter.  <br>
-You can't kill until the fireworks are Installing and Set off fireworks. <br>
-Even if you get caught up in fireworks, you win if you annihilate the enemy. <br>
-
-#### Settings
-
-| Settings Name       |
-| --------------------|
-| FireWorks Max Count |
-| FireWorks Radius    |
-
-### TimeThief
-
-Team : Impostors<br>
-Decision : Impostor<br>
-
-Killing a player decreases the meeting time.<br>
-Also, when a TimeThief is expelled or killed, the lost meeting time is returned.<br>
-
-#### Settings
-
-| Settings Name                        |
-| ------------------------------------ |
-| TimeThief Decrease DiscussionTime(s) |
-| TimeThief Decrease VotingTime(s)     |
-
-### Sniper
-
-Team : Impostors<br>
-Decision : Shapeshifter<br>
-
-Sniper can long-range shooting. <br>
-Kills targets that are on the extension of the shape-shifted point to the released point. <br>
-The crew on the line of sight will be notified of the shooting sound. <br>
-You cannot normally kill until the bullet is cut off. <br>
-
-Precision Shooting:OFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
-Precision Shooting:ON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
-
-#### Settings
-
-| Settings Name             |
-| ------------------------- |
-| Sniper Bullet Count       |
-| Sniper Precision Shooting |
 
 ### Madmate
 
@@ -301,33 +301,6 @@ Decision : Crewmate<br>
 
 When the Baits are killed, they can force the player who killed them to report their bodies.<br>
 
-### Lighter
-
-Team : Crewmates<br>
-Decision : Crewmate<br>
-
-Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
-
-### SpeedBooster
-
-Team : Crewmates<br>
-Decision : Crewmate<br>
-
-Completing the task will make a random surviving player speed up.<br>
-
-#### Settings
-
-| Settings Name     |
-| ----------------- |
-| Speed at speed up |
-
-### Trapper
-
-Team : Crewmates<br>
-Decision : Crewmate<br>
-
-When killed, it immobilizes the killed player for a few seconds.<br>
-
 ### Dictator
 
 Team : Crewmates<br>
@@ -341,6 +314,25 @@ The dictator dies at the time of the vote.<br>
 | Settings Name   |
 | --------------- |
 | Block Move Time |
+
+### Doctor
+
+Team : Crewmates<br>
+Decision : Scientist<br>
+
+You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+
+#### Settings
+| Settings Name                      |
+| ---------------------------------- |
+| Doctor TaskCompletedBattery Charge |
+
+### Lighter
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
 
 ### Mayor
 
@@ -389,16 +381,16 @@ They do not have tasks.<br>
 
 #### Settings
 
-| Settings Name                                  |
-| ---------------------------------------------- |
-| Sheriff Can Kill [Arsonist](###Arsonist)       |
-| Sheriff Can Kill [Madmate](###Madmate)         |
-| Sheriff Can Kill [Jester](###Jester)           |
-| Sheriff Can Kill [Terrorist](###Terrorist)     |
-| Sheriff Can Kill [Opportunist](###Opportunist) |
-| Sheriff Can Kill [Egoist](###Egoist)           |
-| Sheriff Can Kill Crewmates As It               |
-| Sheriff Shot Limit                             |
+| Settings Name                                |
+| -------------------------------------------- |
+| Sheriff Can Kill [Arsonist](#Arsonist)       |
+| Sheriff Can Kill [Madmate](#Madmate)         |
+| Sheriff Can Kill [Jester](#Jester)           |
+| Sheriff Can Kill [Terrorist](#Terrorist)     |
+| Sheriff Can Kill [Opportunist](#Opportunist) |
+| Sheriff Can Kill [Egoist](#Egoist)           |
+| Sheriff Can Kill Crewmates As It             |
+| Sheriff Shot Limit                           |
 
 ### Snitch
 
@@ -410,22 +402,76 @@ However, when the number of their tasks are low, it will be notified to the Impo
 
 #### Settings
 
-| Settings Name |
-|----------|
-| Snitch Can Get Arrow Color |
+| Settings Name                  |
+| ------------------------------ |
+| Snitch Can Get Arrow Color     |
 | Snitch Can Find Neutral Killer |
 
-### Doctor
+### SpeedBooster
 
 Team : Crewmates<br>
-Decision : Scientist<br>
+Decision : Crewmate<br>
 
-You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+Completing the task will make a random surviving player speed up.<br>
 
 #### Settings
+
+| Settings Name     |
+| ----------------- |
+| Speed at speed up |
+
+### Trapper
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+When killed, it immobilizes the killed player for a few seconds.<br>
+
+### Arsonist
+
+Team : Neutral<br>
+Decision : Impostor<br>
+Victory Conditions : Douse all alive crewmates<br>
+
+When they use kill button and being close to target, they can douse oil to crewmate.<br>
+If they finish dousing to all alive crewmates and enter vents, they will win.<br>
+
+#### Settings
+
 | Settings Name |
-|----------|
-| Doctor TaskCompletedBattery Charge |
+| ------------- |
+| Dousing time  |
+| Cooldown      |
+
+### Egoist
+
+Team : Neutral<br>
+Decision : Shapeshifter<br>
+Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+
+Impostor knows the egoist.<br>
+Egoist also know Impostor.<br>
+Impostor and Egoist cannot kill each other.<br>
+You win when the other Impostor are wiped out.<br>
+If the Egoist wins, the Impostor will be defeated.<br>
+
+The conditions for defeat are as follows.<br>
+
+1.Egoist dies.<br>
+2.Imposter victory with allies remaining.<br>
+3.Other Neutrals win.<br>
+
+### Executioner
+
+
+Team : Neutral<br>
+Decision : Crewmate<br>
+Victory Conditions : Target Voted Out<br>
+
+The target is marked with a diamond that is visible only from here.<br>
+If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
+If the target is killed, the position changes.<br>
+If the target is a jester, it wins an additional victory.<br>
 
 ### Jester
 
@@ -444,53 +490,6 @@ Victory Conditions : Aliving when one of the teams wins<br>
 
 The Opportunists are the Neutral role, with an additional win if thay are still alive at the end of the game.<br>
 They do not have tasks.<br>
-
-### Terrorist
-
-Team : Neutral<br>
-Decision : Engineer<br>
-Victory Conditions : Finish All Tasks, Then Die<br>
-
-They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
-Any cause of death is acceptable.<br>
-If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
-
-### Lovers
-
-Team : Neutral<br>
-Decision : -<br>
-Victory Conditions : Alive at the end of the game. (other than task completion)<br>
-
-Two of all players will be cast. (Duplicate to other positions) <br>
-If a position with a crew camp task becomes a lover, the task will disappear. <br>
-There is a heart symbol after each other's name. <br>
-If one dies, the other will die afterwards. <br>
-If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
-
-Example of overlapping job titles: <br>
-・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
-・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
-・ Snitch lover: No task, Impostor remains unknown. <br>
-・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
-・ Opportunist lover: Win if you survive. <br>
-・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
-・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
-
-### Arsonist
-
-Team : Neutral<br>
-Decision : Impostor<br>
-Victory Conditions : Douse all alive crewmates<br>
-
-When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates and enter vents, they will win.<br>
-
-#### Settings
-
-| Settings Name |
-| ------------- |
-| Dousing time  |
-| Cooldown      |
 
 ### SchrodingerCat
 
@@ -514,43 +513,24 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 | Settings Name                                              |
 | ---------------------------------------------------------- |
 | SchrodingerCat Before The Change CanWin As A Crewmate Team |
-| SchrodingerCat Exiled Team Changes |
-
-### Egoist
-
-Team : Neutral<br>
-Decision : Shapeshifter<br>
-Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
-
-Impostor knows the egoist.<br>
-Egoist also know Impostor.<br>
-Impostor and Egoist cannot kill each other.<br>
-You win when the other Impostor are wiped out.<br>
-If the Egoist wins, the Impostor will be defeated.<br>
-
-The conditions for defeat are as follows.<br>
-
-1.Egoist dies.<br>
-2.Imposter victory with allies remaining.<br>
-3.Other Neutrals win.<br>
-
-### Executioner
-
-Team : Neutral<br>
-Decision : Crewmate<br>
-Victory Conditions : Target Voted Out<br>
-
-The target is marked with a diamond that is visible only from here.<br>
-If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
-If the target is killed, the position changes.<br>
-If the target is a jester, it wins an additional victory.<br>
+| SchrodingerCat Exiled Team Changes                         |
 
 #### Settings
 
-| Settings Name                                 |
-| --------------------------------------------- |
-| Executioner Can be Target Impostor            |
-| Executioner Change Role After Target Killed   |
+| Settings Name                               |
+| ------------------------------------------- |
+| Executioner Can be Target Impostor          |
+| Executioner Change Role After Target Killed |
+
+### Terrorist
+
+Team : Neutral<br>
+Decision : Engineer<br>
+Victory Conditions : Finish All Tasks, Then Die<br>
+
+They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
+Any cause of death is acceptable.<br>
+If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
 ## Attribute
 
@@ -563,13 +543,34 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 | ------------------------- |
 | LastImpostor KillCooldown |
 
+### Lovers
+
+Team : Neutral<br>
+Decision : -<br>
+Victory Conditions : Alive at the end of the game. (other than task completion)<br>
+
+Two of all players will be cast. (Duplicate to other positions) <br>
+If a position with a crew camp task becomes a lover, the task will disappear. <br>
+There is a heart symbol after each other's name. <br>
+If one dies, the other will die afterwards. <br>
+If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
+
+Example of overlapping job titles: <br>
+・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
+・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
+・ Snitch lover: No task, Impostor remains unknown. <br>
+・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
+・ Opportunist lover: Win if you survive. <br>
+・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+
 ## SabotageTimeControl
 
 The time limit for some sabotage can be changed.
 
-| Settings Name |
-|----------|
-| Polus Reactor TimeLimit |
+| Settings Name             |
+| ------------------------- |
+| Polus Reactor TimeLimit   |
 | Airship Reactor TimeLimit |
 
 ## Mode
@@ -695,12 +696,12 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 
 ## Credits
 
-[BountyHunter](###BountyHunter),[Mafia](###Mafia),[Vampire](###Vampire),[Witch](###Witch),[Bait](###Bait),[Mayor](###Mayor),[Sheriff](###Sheriff),[Snitch](###Snitch),[Lighter](###Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](###Opportunist),[Watcher](###Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[SchrodingerCat](###SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[Doctor](###Doctor) role : https://github.com/Dolly1016/Nebula<br>
-[Jester](###Jester) and [Madmate](###Madmate) roles : https://au.libhalt.net<br>
-[Terrorist](###Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+[Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
+[SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
+[Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>
+[Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
+[Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 

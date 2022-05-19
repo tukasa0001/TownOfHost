@@ -121,7 +121,7 @@ namespace TownOfHost
             }
             main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player.Data.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
+            Logger.info($"Set:{player?.Data?.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
 
             var clientId = seer.getClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
@@ -145,28 +145,19 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
+            main.SelfGuard[target.PlayerId] = true;
             killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target == null) return;
+                main.SelfGuard[target.PlayerId] = false;
                 if (!target.Data.IsDead && target.protectedByGuardian)
                 {
                     killer?.RpcMurderPlayer(target);
                 }
                 else
                 {
-                    /*
-                    //ガードはがされていたら剥がした人のキルにする
-                    if (main.LastKiller.TryGetValue(target, out var lastKiller))
-                    {
-                        Logger.info($"LastKiller:{lastKiller.name} killer:{killer.name}");
-                        if(lastKiller != killer)
-                        {
-                            lastKiller?.RpcMurderPlayer(target);
-
-                        }
-                    }
-                    */
+                    main.BlockKilling[killer.PlayerId] = false;
                 }
             }, 0.5f, "GuardAndKill");
         }
@@ -445,13 +436,14 @@ namespace TownOfHost
         }
         public static string getAllRoleName(this PlayerControl player)
         {
+            if (!player) return null;
             var text = player.getRoleName();
             text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
             return text;
         }
         public static string getNameWithRole(this PlayerControl player)
         {
-            return $"{player.Data.PlayerName}({player.getAllRoleName()})";
+            return $"{player?.Data?.PlayerName}({player?.getAllRoleName()})";
         }
         public static string getRoleColorCode(this PlayerControl player)
         {
@@ -503,19 +495,7 @@ namespace TownOfHost
 
         public static string getRealName(this PlayerControl player, bool isMeeting = false)
         {
-            if (player.CurrentOutfitType == PlayerOutfitType.Shapeshifted && isMeeting == false)
-            {
-                return player.Data.Outfits[PlayerOutfitType.Shapeshifted].PlayerName;
-            }
-
-            if (!main.RealNames.TryGetValue(player.PlayerId, out var RealName))
-            {
-                RealName = player.name;
-                if (RealName == "Player(Clone)") return RealName;
-                main.RealNames[player.PlayerId] = RealName;
-                TownOfHost.Logger.warn("プレイヤー" + player.PlayerId + "のRealNameが見つからなかったため、" + RealName + "を代入しました", "getRealName");
-            }
-            return RealName;
+            return isMeeting ? player?.Data?.PlayerName : player?.name;
         }
 
         public static PlayerControl getBountyTarget(this PlayerControl player)
@@ -672,7 +652,7 @@ namespace TownOfHost
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.info($"{target.Data.PlayerName}はTrapperだった", "Trapper");
+            Logger.info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
             main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>
@@ -711,20 +691,27 @@ namespace TownOfHost
                 main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
             main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
-        public static void RemoveDousePlayer(this PlayerControl target)
+        public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
         {
             foreach (var arsonist in PlayerControl.AllPlayerControls)
             {
-                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId)) continue;
+                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
-                    if (!(main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused) && isDoused) && main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗られてなくて、死んだ後の処理もされてない
+                    bool isDoused = false;
+                    main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
+                    if (main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
                     {
-                        main.isDeadDoused[arsonist.PlayerId] = true;
+                        main.isDeadDoused[target.PlayerId] = true;
                         var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        var LeftPlayer = ArsonistDic.Item1; //塗った人数
+                        var RequireDouse = ArsonistDic.Item2; //塗るべき人数
+                        if (isDoused)
+                            LeftPlayer--;
+                        RequireDouse--;
+                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
                         Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
-                        main.DousedPlayerCount[arsonist.PlayerId] = (ArsonistDic.Item1, ArsonistDic.Item2 - 1);
-                        arsonist.RpcSendDousedPlayerCount();
+                        arsonist.RpcSendDousedPlayerCount(); //RPCで他クライアントと塗り状況を同期
                     }
                 }
             }
