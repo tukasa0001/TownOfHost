@@ -352,7 +352,7 @@ namespace TownOfHost
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {main.AllPlayerNames[id]} : {getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n　 {main.AllPlayerNames[id]}:{getRoleName(main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {getVitalText(id)}";
             }
             SendMessage(text);

@@ -110,10 +110,12 @@ namespace TownOfHost
             }
 
             //シュレディンガーの猫が切られた場合の役職変化スタート
-            if (target.Is(CustomRoles.SchrodingerCat))
-            {
-                if (__instance.Is(CustomRoles.Arsonist)) return false;
+            //直接キル出来る役職チェック
+            // Sniperなど自殺扱いのものもあるので追加するときは注意
+            var canDirectKill = !__instance.Is(CustomRoles.Arsonist);
 
+            if (target.Is(CustomRoles.SchrodingerCat) && canDirectKill)
+            {
                 __instance.RpcGuardAndKill(target);
                 if (PlayerState.getDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
                 {
@@ -386,13 +388,13 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            Logger.info($"{__instance?.getNameWithRole()} => {target?.getNameWithRole()}", "Shapeshift");
             if (!AmongUsClient.Instance.AmHost) return;
 
             var shapeshifter = __instance;
             var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
 
             main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
-            Logger.info($"Shapeshift[{shapeshifter.Data.PlayerName}]:{shapeshifter.name}({shapeshifter.PlayerId})=>{target.name}({target.PlayerId})", "Shapeshift");
             if (shapeshifter.Is(CustomRoles.Warlock))
             {
                 if (main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
@@ -751,6 +753,14 @@ namespace TownOfHost
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
             {
+                if (GameStates.isLobby)
+                {
+                    if (main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
+                        if (main.version.CompareTo(ver.version) == 0)
+                            __instance.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
+                        else __instance.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    else __instance.nameText.text = __instance?.Data?.PlayerName;
+                }
                 if (GameStates.isInGame)
                 {
                     var RoleTextData = Utils.GetRoleText(__instance);
@@ -1134,7 +1144,6 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] string name)
         {
-            main.RealNames[__instance.PlayerId] = name;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]

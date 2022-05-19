@@ -62,7 +62,6 @@ namespace TownOfHost
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static Dictionary<byte, string> RealNames;
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
@@ -135,8 +134,6 @@ namespace TownOfHost
 
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
-
-            RealNames = new Dictionary<byte, string>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
