@@ -58,13 +58,14 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
 | [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
 | [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
+| [Ninja](#Ninja)               | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [Puppeteer](#Puppeteer)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [SerialKiller](#SerialKiller) | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [ShapeMaster](#ShapeMaster)   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [Sniper](#Sniper)             | [Snitch](#Snitch)                 |                                   |
+| [TimeThief](#TimeThief)       | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Vampire](#Vampire)           | [Trapper](#Trapper)               |                                   |
+| [Warlock](#Warlock)           |                                   |                                   |
 | [Witch](#Witch)               |                                   |                                   |
 | [Mafia](#Mafia)               |                                   |                                   |
 | [Madmate](#Madmate)           |                                   |                                   |
@@ -114,6 +115,16 @@ Decision : Impostor<br>
 No kills can be made except in the event of a power outage.<br>
 However, if the kill is successful, the KillCooldown is halved.<br>
 And the movement speed will also increase. And name is displayed in red<br>
+
+### Ninja
+
+Team : Impostor<br>
+Decision : ShapeShifter<br>
+
+This position allows you to kill players from a distance.
+If a kill is executed during a shape-shift, the kill is guarded against the target and the KillCoolDown is reset.
+However, when the shapeshift is released, the Ninja teleports to the target wherever it is and kills the target.
+Also, there is no shapeshifting Cooldown, and infinite shapeshifting is possible.
 
 ### Puppeteer
 
@@ -696,7 +707,7 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 
 ## Credits
 
-[BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
+[BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Ninja](#Ninja),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
 [Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>

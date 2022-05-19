@@ -55,18 +55,19 @@
 | [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)            | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
 | [FireWorks/花火職人](#FireWorks花火職人)                           | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
 | [Mare/メアー](#Mareメアー)                                         | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
-| [Puppeteer/パペッティア](#Puppeteerパペッティア)                   | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
-| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                           |                                                                            |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                       |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)   |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)               |                                                                            |                                                                            |
+| [Ninja/ニンジャ](#Ninjaニンジャ)                   | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
+| [Puppeteer/パペッティア](#Puppeteerパペッティア)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
+| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
+| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [Sniper/スナイパー](#Sniperスナイパー)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Vampire//ヴァンパイア](#Vampireヴァンパイア)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                                           |                                                                            |                                                                            |
+| [Witch/魔女](#Witch魔女)                                   |                                                                            |                                                                            |
+| [Mafia/マフィア](#Mafiaマフィア)                       |                                                                            |                                                                            |
+| [Madmate/マッドメイト](#Madmateマッドメイト)   |                                                                            |                                                                            |
+| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)               |                                                                            |                                                                            |
+| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                         |                                                                                              |                                                                            |                                             
 
 ### BountyHunter/バウンティハンター
 
@@ -112,6 +113,16 @@
 
 停電時以外にキルをすることができませんが、キルクールが半分になります。<br>
 停電中にのみ移動速度も上昇しますが、自分の名前が赤く表示されます。<br>
+
+### Ninja/ニンジャ
+
+陣営 : インポスター<br>
+判定 : シェイプシフター<br>
+
+遠くからプレイヤーをキルできる役職です。<br>
+シェイプシフト中にキルを実行すると、対象に対してのキルがガードされ、キルクールがリセットされます。<br>
+しかし、シェイプシフトを解除するとニンジャがどこにいても対象にテレポートして、対象を殺害します。<br>
+また、シェイプシフトクールダウンがなく、無限にシェイプシフトできます。<br>
 
 ### Puppeteer/パペッティア
 
@@ -687,7 +698,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ニンジャ](#ninja/ニンジャ)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
