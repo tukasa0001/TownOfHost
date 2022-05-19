@@ -67,12 +67,12 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RecieveRPC(MessageReader msg)
+        public static void ReceiveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
             nowFireWorksCount[playerId] = msg.ReadInt32();
             state[playerId] = (FireWorksState)msg.ReadInt32();
-            Logger.Info($"Player{playerId}:RecieveRPC", "FireWorks");
+            Logger.Info($"Player{playerId}:ReceiveRPC", "FireWorks");
         }
 
         public static bool CanUseKillButton(PlayerControl pc)
@@ -175,7 +175,7 @@ namespace TownOfHost
                     retText = GetString("FireworksWaitPhase");
                     break;
                 case FireWorksState.ReadyFire:
-                    retText = GetString("FireworksRedyFirePhase");
+                    retText = GetString("FireworksReadyFirePhase");
                     break;
                 case FireWorksState.FireEnd:
                     break;
