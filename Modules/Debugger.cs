@@ -1,9 +1,9 @@
-using System.IO;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 using LogLevel = BepInEx.Logging.LogLevel;
 
 namespace TownOfHost
@@ -13,8 +13,8 @@ namespace TownOfHost
         public static void send(string text)
         {
             if (main.WebhookURL.Value == "none") return;
-            HttpClient httpClient = new HttpClient();
-            Dictionary<string, string> strs = new Dictionary<string, string>()
+            HttpClient httpClient = new();
+            Dictionary<string, string> strs = new()
                 {
                     { "content", text },
                     { "username", "TownOfHost-Debugger" },
@@ -28,8 +28,8 @@ namespace TownOfHost
     class Logger
     {
         public static bool isEnable;
-        public static List<string> disableList = new List<string>();
-        public static List<string> sendToGameList = new List<string>();
+        public static List<string> disableList = new();
+        public static List<string> sendToGameList = new();
         public static bool isDetail = false;
         public static bool isAlsoInGame = false;
         public static void enable() => isEnable = true;
@@ -56,7 +56,7 @@ namespace TownOfHost
             string log_text = $"[{t}][{tag}]{text}";
             if (isDetail && main.AmDebugger.Value)
             {
-                StackFrame stack = new StackFrame(2);
+                StackFrame stack = new(2);
                 string className = stack.GetMethod().ReflectedType.Name;
                 string memberName = stack.GetMethod().Name;
                 log_text = $"[{t}][{className}.{memberName}({Path.GetFileName(fileName)}:{lineNumber})][{tag}]{text}";
@@ -96,7 +96,7 @@ namespace TownOfHost
             SendToFile(text, LogLevel.Message, tag, lineNumber, fileName);
         public static void currentMethod([CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
         {
-            StackFrame stack = new StackFrame(1);
+            StackFrame stack = new(1);
             Logger.msg($"\"{stack.GetMethod().ReflectedType.Name}.{stack.GetMethod().Name}\" Called in \"{Path.GetFileName(fileName)}({lineNumber})\"", "Method");
         }
     }

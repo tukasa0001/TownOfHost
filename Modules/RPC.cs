@@ -1,8 +1,8 @@
 using System;
-using System.Threading.Tasks;
-using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using HarmonyLib;
 using Hazel;
 
 namespace TownOfHost
@@ -375,7 +375,7 @@ namespace TownOfHost
         }
         public static void CustomWinTrigger(byte winnerID)
         {
-            List<PlayerControl> Impostors = new List<PlayerControl>();
+            List<PlayerControl> Impostors = new();
             foreach (var p in PlayerControl.AllPlayerControls)
             {
                 PlayerControl Winner = null;

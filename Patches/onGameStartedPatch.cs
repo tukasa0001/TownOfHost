@@ -1,6 +1,6 @@
 using System;
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -134,7 +134,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
-                List<PlayerControl> AllPlayers = new List<PlayerControl>();
+                List<PlayerControl> AllPlayers = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     AllPlayers.Add(pc);
@@ -206,12 +206,12 @@ namespace TownOfHost
             var rand = new System.Random();
             main.KillOrSpell = new Dictionary<byte, bool>();
 
-            List<PlayerControl> Crewmates = new List<PlayerControl>();
-            List<PlayerControl> Impostors = new List<PlayerControl>();
-            List<PlayerControl> Scientists = new List<PlayerControl>();
-            List<PlayerControl> Engineers = new List<PlayerControl>();
-            List<PlayerControl> GuardianAngels = new List<PlayerControl>();
-            List<PlayerControl> Shapeshifters = new List<PlayerControl>();
+            List<PlayerControl> Crewmates = new();
+            List<PlayerControl> Impostors = new();
+            List<PlayerControl> Scientists = new();
+            List<PlayerControl> Engineers = new();
+            List<PlayerControl> GuardianAngels = new();
+            List<PlayerControl> Shapeshifters = new();
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -383,7 +383,7 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
-                        List<PlayerControl> targetList = new List<PlayerControl>();
+                        List<PlayerControl> targetList = new();
                         rand = new System.Random();
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
@@ -446,7 +446,7 @@ namespace TownOfHost
             var count = Math.Clamp(RawCount, 0, players.Count);
             if (RawCount == -1) count = Math.Clamp(role.getCount(), 0, players.Count);
             if (count <= 0) return null;
-            List<PlayerControl> AssignedPlayers = new List<PlayerControl>();
+            List<PlayerControl> AssignedPlayers = new();
             SetColorPatch.IsAntiGlitchDisabled = true;
             for (var i = 0; i < count; i++)
             {

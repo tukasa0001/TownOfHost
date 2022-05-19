@@ -1,6 +1,6 @@
 using HarmonyLib;
-using UnityEngine;
 using UnhollowerBaseLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -101,7 +101,7 @@ namespace TownOfHost
             if (Options.RandomMapsMode.GetBool())
             {
                 var rand = new System.Random();
-                System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
+                System.Collections.Generic.List<byte> RandomMaps = new();
                 /*TheSkeld   = 0
                 MIRAHQ     = 1
                 Polus      = 2

@@ -9,7 +9,7 @@ namespace TownOfHost
 {
     public class CustomOption
     {
-        public static readonly List<CustomOption> Options = new List<CustomOption>();
+        public static readonly List<CustomOption> Options = new();
         public static int Preset = 0;
 
         public int Id;

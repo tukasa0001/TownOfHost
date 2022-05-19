@@ -1,9 +1,9 @@
-using Hazel;
-using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
+using HarmonyLib;
+using Hazel;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -402,7 +402,7 @@ namespace TownOfHost
                     {
                         var cp = main.CursedPlayers[shapeshifter.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
-                        Dictionary<PlayerControl, float> cpdistance = new Dictionary<PlayerControl, float>();
+                        Dictionary<PlayerControl, float> cpdistance = new();
                         float dis;
                         foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                         {
@@ -428,7 +428,7 @@ namespace TownOfHost
             if (Options.CanMakeMadmateCount.GetFloat() > main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
-                Dictionary<PlayerControl, float> mpdistance = new Dictionary<PlayerControl, float>();
+                Dictionary<PlayerControl, float> mpdistance = new();
                 float dis;
                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
@@ -709,7 +709,7 @@ namespace TownOfHost
                 if (GameStates.isInTask && main.PuppeteerList.ContainsKey(__instance.PlayerId))
                 {
                     Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
-                    Dictionary<byte, float> targetdistance = new Dictionary<byte, float>();
+                    Dictionary<byte, float> targetdistance = new();
                     float dis;
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
@@ -1171,4 +1171,3 @@ namespace TownOfHost
         }
     }
 }
-

@@ -1,9 +1,9 @@
-using HarmonyLib;
-using System.Threading.Tasks;
-using UnityEngine;
-using System.Linq;
-using static TownOfHost.Translator;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
+using HarmonyLib;
+using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

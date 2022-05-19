@@ -1,11 +1,11 @@
 using System;
-using System.Linq;
-using UnityEngine;
-using Hazel;
 using System.Collections.Generic;
-using static TownOfHost.Translator;
-using System.Text;
 using System.IO;
+using System.Linq;
+using System.Text;
+using Hazel;
+using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -810,7 +810,7 @@ namespace TownOfHost
         {
             string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
             string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
-            FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
+            FileInfo file = new(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
             file.CopyTo(@filename);
             System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
             if (PlayerControl.LocalPlayer != null)

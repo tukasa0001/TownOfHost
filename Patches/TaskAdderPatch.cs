@@ -1,8 +1,8 @@
 using System;
-using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -47,8 +47,10 @@ namespace TownOfHost
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
                     button.Text.text = Utils.getRoleName(cRole);
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
-                    var roleBehaviour = new RoleBehaviour();
-                    roleBehaviour.Role = ((RoleTypes)cRole + 1000);
+                    var roleBehaviour = new RoleBehaviour
+                    {
+                        Role = ((RoleTypes)cRole + 1000)
+                    };
                     button.Role = roleBehaviour;
 
                     Color IconColor = Color.white;
@@ -84,7 +86,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
     class AddTaskButtonPatch
     {
-        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
+        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new(){
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
             {CustomRoles.Engineer, RoleTypes.Engineer},
             {CustomRoles.Scientist, RoleTypes.Scientist},

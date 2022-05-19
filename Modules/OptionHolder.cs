@@ -1,6 +1,6 @@
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TownOfHost
@@ -475,7 +475,7 @@ namespace TownOfHost
         }
         public class OverrideTasksData
         {
-            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new Dictionary<CustomRoles, OverrideTasksData>();
+            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new();
             public CustomRoles role { get; private set; }
             public int idStart { get; private set; }
             public CustomOption doOverride;
