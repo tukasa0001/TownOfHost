@@ -236,6 +236,7 @@ BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンタ
 BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 ObstacleDownSpeed,Speed at speed down,スピードダウン時の速さ
+ReturnPlayerSpeedTime,Time for player to return to speed,プレイヤーのスピードが戻るまでの時間(秒)
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
