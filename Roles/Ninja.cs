@@ -27,10 +27,12 @@ namespace TownOfHost
             {
                 foreach (var ni in NinjaKillTarget)
                 {
-                    pc.RpcMurderPlayer(ni);
-                    NinjaKillTarget.Remove(ni);
-                    pc.RpcRevertShapeshift(true);//他視点シェイプシフトが解除されないように見える場合があるため、強制解除
-                    return;
+                    if (!ni.Data.IsDead)
+                    {
+                        pc.RpcMurderPlayer(ni);
+                        NinjaKillTarget.Remove(ni);
+                        pc.RpcRevertShapeshift(true);//他視点シェイプシフトが解除されないように見える場合があるため強制解除
+                    }
                 }
             }
         }
