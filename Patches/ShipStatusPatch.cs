@@ -181,7 +181,7 @@ namespace TownOfHost
                     //切断者と死亡者を除外
                     foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                     {
-                        if (!p.Data.Disconnected && !p.Data.IsDead && !p.isObstacle() && !main.ObstacleTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                        if (!p.Data.Disconnected && !p.Data.IsDead && !p.Is(CustomRoles.Obstacle) && !main.ObstacleTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
                     }
                     //ターゲットが0ならアップ先をプレイヤーをnullに
                     if (targetplayers.Count >= 1)
