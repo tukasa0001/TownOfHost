@@ -249,6 +249,13 @@ namespace TownOfHost
                     return false;
                 }
             }
+            if (__instance.Is(CustomRoles.GBomber)) {
+                if (!__instance.CanUseKillButton())
+                {
+                    main.BlockKilling[__instance.PlayerId] = false;
+                    return false;
+                }
+            }
             if (__instance.Is(CustomRoles.Sniper))
             {
                 if (!__instance.CanUseKillButton())
