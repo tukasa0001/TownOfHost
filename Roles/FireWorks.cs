@@ -77,26 +77,26 @@ namespace TownOfHost
 
         public static bool CanUseKillButton(PlayerControl pc)
         {
-            Logger.info($"FireWorks CanUseKillButton");
+            Logger.info($"FireWorks CanUseKillButton", "FireWorks");
             if (pc.Data.IsDead) return false;
             var canUse = false;
             if ((state[pc.PlayerId] & FireWorksState.CanUseKill) != 0)
             {
                 canUse = true;
             }
-            Logger.info($" CanUseKillButton:{canUse}");
+            Logger.info($"CanUseKillButton:{canUse}", "FireWorks");
             return canUse;
         }
 
         public static void ShapeShiftState(PlayerControl pc, bool shapeshifting)
         {
-            Logger.info($"FireWorks ShapeShift");
+            Logger.info($"FireWorks ShapeShift", "FireWorks");
             if (pc == null || pc.Data.IsDead || !shapeshifting) return;
             switch (state[pc.PlayerId])
             {
                 case FireWorksState.Initial:
                 case FireWorksState.SettingFireWorks:
-                    Logger.info("花火を一個設置");
+                    Logger.info("花火を一個設置", "FireWorks");
                     fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                     nowFireWorksCount[pc.PlayerId]--;
                     if (nowFireWorksCount[pc.PlayerId] == 0)
@@ -116,7 +116,7 @@ namespace TownOfHost
                     }
                     break;
                 case FireWorksState.ReadyFire:
-                    Logger.info("花火を爆破");
+                    Logger.info("花火を爆破", "FireWorks");
                     bool suicide = false;
                     foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     {
