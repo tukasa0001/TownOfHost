@@ -197,11 +197,9 @@ namespace TownOfHost
                     }
                 }
             }
-            Logger.msg("SelectRolesPatch.Prefix.End");
         }
         public static void Postfix(RoleManager __instance)
         {
-            Logger.msg("SelectRolesPatch.Postfix.Start");
             if (!AmongUsClient.Instance.AmHost) return;
             //Utils.ApplySuffix();
 
@@ -341,7 +339,7 @@ namespace TownOfHost
                     {
                         main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
                         pc.RpcSetSheriffShotLimit();
-                        Logger.info($"{pc.getNameWithRole()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発");
+                        Logger.info($"{pc.getNameWithRole()} : 残り{main.SheriffShotLimit[pc.PlayerId]}発", "Sheriff");
                     }
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
@@ -440,8 +438,6 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
-
-            Logger.msg("SelectRolesPatch.Postfix.End");
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {

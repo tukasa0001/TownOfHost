@@ -27,7 +27,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error("テクスチャのロードに失敗しました:" + path);
+                Logger.error("テクスチャのロードに失敗しました:" + path, "loadSprite");
             }
             return null;
         }

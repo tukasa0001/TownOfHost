@@ -499,7 +499,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    Logger.warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました");
+                    Logger.warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
                 }
             }
             public static OverrideTasksData Create(int idStart, CustomRoles role)
