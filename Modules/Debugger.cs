@@ -84,15 +84,15 @@ namespace TownOfHost
                     break;
             }
         }
-        public static void info(string text, string tag = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+        public static void info(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Info, tag, lineNumber, fileName);
-        public static void warn(string text, string tag = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+        public static void warn(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Warning, tag, lineNumber, fileName);
-        public static void error(string text, string tag = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+        public static void error(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Error, tag, lineNumber, fileName);
-        public static void fatal(string text, string tag = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+        public static void fatal(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Fatal, tag, lineNumber, fileName);
-        public static void msg(string text, string tag = "", [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
+        public static void msg(string text, string tag, [CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "") =>
             SendToFile(text, LogLevel.Message, tag, lineNumber, fileName);
         public static void currentMethod([CallerLineNumber] int lineNumber = 0, [CallerFilePath] string fileName = "")
         {
