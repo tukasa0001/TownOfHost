@@ -400,7 +400,8 @@ namespace TownOfHost
                             0.2f + additional, "Recall Meeting");
                         new LateTask(() =>
                         {
-                            MeetingHud.Instance.RpcClose();
+                            if (MeetingHud.Instance != null)
+                                MeetingHud.Instance.RpcClose();
                             CheckForEndVotingPatch.recall = false;
                         },
                             0.5f + additional, "Cancel Meeting");
