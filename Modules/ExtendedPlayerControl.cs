@@ -356,8 +356,8 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Ninja:
-                    opt.RoleOptions.ShapeshifterCooldown = 0;
-                    opt.RoleOptions.ShapeshifterDuration = 0;
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = 0f;
                 break;
 
 
