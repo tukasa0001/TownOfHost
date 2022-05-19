@@ -4,6 +4,7 @@ using HarmonyLib;
 using System.Linq;
 using System;
 using static TownOfHost.Translator;
+using System.Collections.Generic;
 
 namespace TownOfHost
 {
@@ -14,6 +15,7 @@ namespace TownOfHost
         {
             var text = __instance.TextArea.text;
             string[] args = text.Split(' ');
+            string subArgs = "";
             var canceled = false;
             var cancelVal = "";
             main.isChatCommand = true;
@@ -29,6 +31,16 @@ namespace TownOfHost
                     System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
                     Logger.info($"{filename}にログを保存しました。", "dump");
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                    break;
+                case "/v":
+                case "/version":
+                    canceled = true;
+                    string version_text = "";
+                    foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
+                    {
+                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).getRealName()}:{kvp.Value.version}({kvp.Value.tag})\n";
+                    }
+                    if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
                 default:
                     main.isChatCommand = false;
@@ -65,8 +77,8 @@ namespace TownOfHost
 
                     case "/dis":
                         canceled = true;
-                        if (args.Length < 2) { __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor"); cancelVal = "/dis"; }
-                        switch (args[1])
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
                         {
                             case "crewmate":
                                 ShipStatus.Instance.enabled = false;
@@ -89,23 +101,19 @@ namespace TownOfHost
                     case "/h":
                     case "/help":
                         canceled = true;
-                        if (args.Length < 2)
-                        {
-                            Utils.ShowHelp();
-                            break;
-                        }
-                        switch (args[1])
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
                         {
                             case "r":
                             case "roles":
-                                if (args.Length < 3) { getRolesInfo(""); break; }
-                                getRolesInfo(args[2]);
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                getRolesInfo(subArgs);
                                 break;
 
                             case "att":
                             case "attributes":
-                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)"); break; }
-                                switch (args[2])
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                switch (subArgs)
                                 {
                                     case "lastimpostor":
                                     case "limp":
@@ -113,15 +121,15 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage("使用可能な引数(略称): lastimpostor(limp)");
+                                        Utils.SendMessage($"{getString("Command.h_args")}:\n lastimpostor(limp)");
                                         break;
                                 }
                                 break;
 
                             case "m":
                             case "modes":
-                                if (args.Length < 3) { Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)"); break; }
-                                switch (args[2])
+                                subArgs = args.Length < 3 ? "" : args[2];
+                                switch (subArgs)
                                 {
                                     case "hideandseek":
                                     case "has":
@@ -144,7 +152,7 @@ namespace TownOfHost
                                         break;
 
                                     default:
-                                        Utils.SendMessage("使用可能な引数(略称): hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage($"{getString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -178,153 +186,89 @@ namespace TownOfHost
 
         public static void getRolesInfo(string role)
         {
-            switch (role)
+            var roleList = new Dictionary<CustomRoles, string>
             {
-                case "watcher":
-                case "wat":
-                    Utils.SendMessage(getString("WatcherInfoLong"));
-                    break;
+                //Impostor役職
+                { (CustomRoles)(-1),"== Impostor ==" }, //区切り用
+                { CustomRoles.BountyHunter,"bo" },
+                { CustomRoles.FireWorks,"fw" },
+                { CustomRoles.Mafia,"mf" },
+                { CustomRoles.SerialKiller,"sk" },
+                { CustomRoles.ShapeMaster,"sha" },
+                { CustomRoles.Sniper,"snp" },
+                { CustomRoles.Puppeteer,"pup" },
+                { CustomRoles.Vampire,"va" },
+                { CustomRoles.Warlock,"wa" },
+                { CustomRoles.Witch,"wi" },
+                //Madmate役職
+                { (CustomRoles)(-2),"== Madmate ==" }, //区切り用
+                { CustomRoles.MadGuardian,"mg" },
+                { CustomRoles.Madmate,"mm" },
+                { CustomRoles.MadSnitch,"msn" },
+                { CustomRoles.SKMadmate,"sm" },
+                //両陣営役職
+                { (CustomRoles)(-3),"== Impostor or Crewmate ==" }, //区切り用
+                { CustomRoles.Watcher,"wat" },
+                //Crewmate役職
+                { (CustomRoles)(-4),"== Crewmate ==" }, //区切り用
+                { CustomRoles.Bait,"ba" },
+                { CustomRoles.Dictator,"dic" },
+                { CustomRoles.Doctor,"doc" },
+                { CustomRoles.Lighter,"li" },
+                { CustomRoles.Mayor,"my" },
+                { CustomRoles.SabotageMaster,"sa" },
+                { CustomRoles.Sheriff,"sh" },
+                { CustomRoles.Snitch,"sn" },
+                { CustomRoles.SpeedBooster,"sb" },
+                { CustomRoles.Trapper,"tra" },
+                //Neutral役職
+                { (CustomRoles)(-5),"== Neutral ==" }, //区切り用
+                { CustomRoles.Arsonist,"ar" },
+                { CustomRoles.Egoist,"eg" },
+                { CustomRoles.Executioner,"exe" },
+                { CustomRoles.Jester,"je" },
+                { CustomRoles.Opportunist,"op" },
+                { CustomRoles.SchrodingerCat,"sc" },
+                { CustomRoles.Terrorist,"te" },
+                //Sub役職
+                { (CustomRoles)(-6),"== Sub Role ==" }, //区切り用
+                {CustomRoles.Lovers,"lo" },
+                //HAS
+                { (CustomRoles)(-7),"== Hide and Seek ==" }, //区切り用
+                { CustomRoles.HASFox,"hfo" },
+                { CustomRoles.HASTroll,"htr" },
 
-                case "jester":
-                case "je":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Jester) + getString("JesterInfoLong"));
-                    break;
+            };
+            var msg = "";
+            var rolemsg = $"{getString("Command.h_args")}";
+            foreach (var r in roleList)
+            {
+                var roleName = r.Key.ToString();
+                var roleShort = r.Value;
 
-                case "madmate":
-                case "mm":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Madmate) + getString("MadmateInfoLong"));
-                    break;
-
-                case "sidekickmadmate":
-                case "sm":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SKMadmate) + getString("SKMadmateInfoLong"));
-                    break;
-
-                case "bait":
-                case "ba":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Bait) + getString("BaitInfoLong"));
-                    break;
-
-                case "terrorist":
-                case "te":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Terrorist) + getString("TerroristInfoLong"));
-                    break;
-
-                case "mafia":
-                case "mf":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mafia) + getString("MafiaInfoLong"));
-                    break;
-
-                case "vampire":
-                case "va":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Vampire) + getString("VampireInfoLong"));
-                    break;
-
-                case "sabotagemaster":
-                case "sa":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SabotageMaster) + getString("SabotageMasterInfoLong"));
-                    break;
-
-                case "mayor":
-                case "my":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Mayor) + getString("MayorInfoLong"));
-                    break;
-
-                case "madguardian":
-                case "mg":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadGuardian) + getString("MadGuardianInfoLong"));
-                    break;
-
-                case "madsnitch":
-                case "msn":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.MadSnitch) + getString("MadSnitchInfoLong"));
-                    break;
-
-                case "opportunist":
-                case "op":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Opportunist) + getString("OpportunistInfoLong"));
-                    break;
-
-                case "snitch":
-                case "sn":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Snitch) + getString("SnitchInfoLong"));
-                    break;
-
-                case "sheriff":
-                case "sh":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Sheriff) + getString("SheriffInfoLong"));
-                    break;
-
-                case "bountyhunter":
-                case "bo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.BountyHunter) + getString("BountyHunterInfoLong"));
-                    break;
-
-                case "witch":
-                case "wi":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Witch) + getString("WitchInfoLong"));
-                    break;
-
-                case "shapemaster":
-                case "sha":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.ShapeMaster) + getString("ShapeMasterInfoLong"));
-                    break;
-
-                case "warlock":
-                case "wa":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Warlock) + getString("WarlockInfoLong"));
-                    break;
-
-                case "obstacle":
-                case "ob":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Obstacle) + getString("obstacleInfoLong"));
-                    break;
-
-                case "serialkiller":
-                case "sk":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SerialKiller) + getString("SerialKillerInfoLong"));
-                    break;
-
-                case "arsonist":
-                case "ar":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Arsonist) + getString("ArsonistInfoLong"));
-                    break;
-
-                case "Lighter":
-                case "li":
-                    Utils.SendMessage(getString("LighterInfoLong"));
-                    break;
-
-                case "SpeedBooster":
-                case "sb":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SpeedBooster) + getString("SpeedBoosterInfoLong"));
-                    break;
-
-                case "trapper":
-                case "tra":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Trapper) + getString("TrapperInfoLong"));
-                    break;
-
-                case "schrodingercat":
-                case "sc":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.SchrodingerCat) + getString("SchrodingerCatInfoLong"));
-                    break;
-
-                case "fox":
-                case "fo":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Fox) + getString("FoxInfoLong"));
-                    break;
-
-                case "troll":
-                case "tr":
-                    Utils.SendMessage(Utils.getRoleName(CustomRoles.Troll) + getString("TrollInfoLong"));
-                    break;
-
-                default:
-                    Utils.SendMessage("使用可能な引数(略称): watcher(wat), jester(je), madmate(mm), bait(ba), terrorist(te), mafia(mf), vampire(va),\nsabotagemaster(sa), mayor(my), madguardian(mg), madsnitch(msn), opportunist(op), snitch(sn),\nsheriff(sh), bountyhunter(bo), witch(wi), serialkiller(sk),\nsidekickmadmate(sm), warlock(wa), obstacle(ob), shapemaster(sha), lighter(li),\narsonist(ar), schrodingercat(sc), SpeedBooster(sb), trapper(tra), fox(fo), troll(tr)");
-                    break;
+                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
+                {
+                    Utils.SendMessage(getString(roleName) + getString($"{roleName}InfoLong"));
+                    return;
+                }
+                var roleText = $"{roleName.ToLower()}({roleShort.ToLower()}), ";
+                if ((int)r.Key < 0)
+                {
+                    msg += rolemsg + "\n" + roleShort + "\n";
+                    rolemsg = "";
+                }
+                else if ((rolemsg.Length + roleText.Length) > 40)
+                {
+                    msg += rolemsg + "\n";
+                    rolemsg = roleText;
+                }
+                else
+                {
+                    rolemsg += roleText;
+                }
             }
-
+            msg += rolemsg;
+            Utils.SendMessage(msg);
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
@@ -363,15 +307,12 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             switch (chatText)
             {
-                case "/version":
-                    Utils.SendMessage($"バージョン情報:\n{ThisAssembly.Git.BaseTag}({ThisAssembly.Git.Branch})\n{ThisAssembly.Git.Commit}");
-                    break;
                 default:
                     break;
             }
+            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }

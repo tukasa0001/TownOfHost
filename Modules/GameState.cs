@@ -33,6 +33,14 @@ namespace TownOfHost
         public static Dictionary<byte, TaskState> taskState = new();
         public static void setDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
         public static DeathReason getDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
+        public static void setDead(byte p)
+        {
+            isDead[p] = true;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                RPC.SendDeathReason(p, deathReasons[p]);
+            }
+        }
         public static bool isSuicide(byte p) { return deathReasons[p] == DeathReason.Suicide; }
         public static void InitTask(PlayerControl player)
         {
@@ -48,10 +56,12 @@ namespace TownOfHost
             Vote,
             Suicide,
             Spell,
+            LoversSuicide,
             Bite,
             Bombed,
             Misfire,
             Torched,
+            Sniped,
             Disconnected,
             etc = -1
         }
@@ -77,7 +87,7 @@ namespace TownOfHost
             if (player == null || player.Data == null || player.Data.Tasks == null) return;
             if (!Utils.hasTasks(player.Data, false)) return;
             hasTasks = true;
-            AllTasksCount=player.Data.Tasks.Count;
+            AllTasksCount = player.Data.Tasks.Count;
 
             //役職ごとにタスク量の調整を行う
             var adjustedTasksCount = AllTasksCount;
@@ -98,7 +108,7 @@ namespace TownOfHost
             Logger.info($"{player.name}: UpdateTask", "TaskCounts");
             if (!hasTasks) return;
             //初期化出来ていなかったら初期化
-            if(AllTasksCount==-1)Init(player);
+            if (AllTasksCount == -1) Init(player);
             //クリアしてたらカウントしない
             if (CompletedTasksCount >= AllTasksCount) return;
 
@@ -119,7 +129,8 @@ namespace TownOfHost
         public static bool isOnlineGame => AmongUsClient.Instance.GameMode == GameModes.OnlineGame;
         public static bool isLocalGame => AmongUsClient.Instance.GameMode == GameModes.LocalGame;
         public static bool isFreePlay => AmongUsClient.Instance.GameMode == GameModes.FreePlay;
-        public static bool isMeeting => MeetingHud.Instance;
+        public static bool isInTask => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && !MeetingHud.Instance;
+        public static bool isMeeting => AmongUsClient.Instance.GameState == AmongUsClient.GameStates.Started && MeetingHud.Instance;
         public static bool isCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
     }
 }

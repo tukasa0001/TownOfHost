@@ -25,6 +25,7 @@ namespace TownOfHost
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
             main.witchMeeting = false;
+            bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
@@ -36,9 +37,26 @@ namespace TownOfHost
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.JesterExiled(exiled.PlayerId);
+                    DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
+                {
                     Utils.CheckTerroristWin(exiled);
+                    DecidedWinner = true;
+                }
+                foreach (var kvp in main.ExecutionerTarget)
+                {
+                    if (Utils.getPlayerById(kvp.Key).Data.IsDead) continue; //Keyが死んでいたらこのforeach内の処理を全部スキップ
+                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
+                    {
+                        //RPC送信開始
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(kvp.Key);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
+
+                        RPC.ExecutionerWin(kvp.Key);
+                    }
+                }
                 if (role != CustomRoles.Witch && main.SpelledPlayer != null)
                 {
                     foreach (var p in main.SpelledPlayer)
@@ -48,7 +66,7 @@ namespace TownOfHost
                         p.RpcMurderPlayer(p);
                     }
                 }
-                PlayerState.isDead[exiled.PlayerId] = true;
+                PlayerState.setDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
                 main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
@@ -56,40 +74,14 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (PlayerControl.GameOptions.MapId != 4)
+                if (pc.Is(CustomRoles.Warlock))
                 {
-                    if (pc.isSerialKiller())
-                    {
-                        pc.RpcGuardAndKill(pc);
-                        main.SerialKillerTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.isBountyHunter())
-                    {
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                        pc.RpcGuardAndKill(pc);
-                        main.BountyTimer.Add(pc.PlayerId, 0f);
-                    }
-                    if (pc.isWarlock())
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
-                }
-                if (PlayerControl.GameOptions.MapId == 4)//Airship用
-                {
-                    if (pc.isSerialKiller() || pc.isBountyHunter())
-                    {
-                        main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
-                    }
-                    if (pc.isWarlock())
-                    {
-                        main.CursedPlayers[pc.PlayerId] = (null);
-                        main.isCurseAndKill[pc.PlayerId] = false;
-                    }
+                    main.CursedPlayers[pc.PlayerId] = (null);
+                    main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
             Utils.CountAliveImpostors();
+            Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
             Logger.info("タスクフェイズ開始", "Phase");

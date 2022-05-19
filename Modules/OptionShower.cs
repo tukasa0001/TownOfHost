@@ -58,6 +58,8 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
+                    text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
+                    text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                 }
                 if (kvp.Key == CustomRoles.Shapeshifter || kvp.Key == CustomRoles.ShapeMaster || kvp.Key == CustomRoles.Mafia || kvp.Key == CustomRoles.BountyHunter || kvp.Key == CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
@@ -81,6 +83,8 @@ namespace TownOfHost
             {
                 listUp(Options.SyncButtonMode);
                 listUp(Options.VoteMode);
+                listUp(Options.SabotageTimeControl);
+                nameAndValue(Options.StandardHAS);
             }
             else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -93,6 +97,7 @@ namespace TownOfHost
             listUp(Options.DisableTasks);
             listUp(Options.RandomMapsMode);
             nameAndValue(Options.NoGameEnd);
+            nameAndValue(Options.GhostCanSeeOtherRoles);
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));
             for (var i = 0; i < tmp.Count; i++)

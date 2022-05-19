@@ -8,6 +8,10 @@ namespace TownOfHost
         public static void Postfix(RoleOptionSetting __instance)
         {
             bool forced = false;
+            if (__instance.Role.Role == RoleTypes.Scientist)
+            {
+                if (CustomRoles.Doctor.isEnable()) forced = true;
+            }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
                 if (CustomRoles.Madmate.isEnable() || CustomRoles.Terrorist.isEnable()) forced = true;
