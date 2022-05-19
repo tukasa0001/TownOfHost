@@ -193,13 +193,10 @@ namespace TownOfHost
 
 
         public static bool IsEvilWatcher = false;
-        public static void SetWatcherTeam(float EvilWatcherRate)
+        public static void SetWatcherTeam()
         {
-            EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
-            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
-                IsEvilWatcher = true;
-            else
-                IsEvilWatcher = false;
+            var EvilWatcherRate = EvilWatcherChance.GetFloat();
+            IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
         private static bool IsLoaded = false;
 
@@ -232,8 +229,7 @@ namespace TownOfHost
         public static int GetRoleCount(CustomRoles role)
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
-            if (chance == 0) return 0;
-            return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
+            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
         public static void Load()
         {

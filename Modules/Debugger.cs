@@ -15,11 +15,11 @@ namespace TownOfHost
             if (Main.WebhookURL.Value == "none") return;
             HttpClient httpClient = new();
             Dictionary<string, string> strs = new()
-                {
-                    { "content", text },
-                    { "username", "TownOfHost-Debugger" },
-                    { "avatar_url", "https://cdn.discordapp.com/avatars/336095904320716800/95243b1468018a24f7ae03d7454fd5f2.webp?size=40" }
-                };
+            {
+                { "content", text },
+                { "username", "TownOfHost-Debugger" },
+                { "avatar_url", "https://cdn.discordapp.com/avatars/336095904320716800/95243b1468018a24f7ae03d7454fd5f2.webp?size=40" }
+            };
             TaskAwaiter<HttpResponseMessage> awaiter = httpClient.PostAsync(
                 Main.WebhookURL.Value, new FormUrlEncodedContent(strs)).GetAwaiter();
             awaiter.GetResult();
@@ -41,7 +41,7 @@ namespace TownOfHost
             else sendToGameList.Remove(tag);
         }
         public static void Disable(string tag) { if (!disableList.Contains(tag)) disableList.Add(tag); }
-        public static void SendInGame(string text, bool isAlways = false)
+        public static void SendInGame(string text)
         {
             if (!isEnable) return;
             if (DestroyableSingleton<HudManager>._instance) DestroyableSingleton<HudManager>.Instance.Notifier.AddItem(text);

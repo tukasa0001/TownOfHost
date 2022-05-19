@@ -35,7 +35,7 @@ namespace TownOfHost
                 {
                     if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                     {
-                        while (fields[i].TrimEnd()[fields[i].TrimEnd().Length - 1] != '"')
+                        while (fields[i].TrimEnd()[^1] != '"')
                         {
                             fields[i] = fields[i] + "," + fields[i + 1];
                             fields.RemoveAt(i + 1);
@@ -74,10 +74,9 @@ namespace TownOfHost
 
         public static string GetString(string s, SupportedLangs langId)
         {
-            var res = "";
             if (tr.TryGetValue(s, out var dic))
             {
-                if (dic.TryGetValue((int)langId, out res))
+                if (dic.TryGetValue((int)langId, out string res))
                 {
                     return res;
                 }

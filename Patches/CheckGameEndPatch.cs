@@ -85,19 +85,12 @@ namespace TownOfHost
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive)
             {
                 __instance.enabled = false;
-                GameOverReason endReason;
-                switch (TempData.LastDeathReason)
+                var endReason = TempData.LastDeathReason switch
                 {
-                    case DeathReason.Exile:
-                        endReason = GameOverReason.ImpostorByVote;
-                        break;
-                    case DeathReason.Kill:
-                        endReason = GameOverReason.ImpostorByKill;
-                        break;
-                    default:
-                        endReason = GameOverReason.ImpostorByVote;
-                        break;
-                }
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
                 ResetRoleAndEndGame(endReason, false);
                 return true;
             }
@@ -239,7 +232,7 @@ namespace TownOfHost
                             else
                             {
                                 //HideAndSeek中
-                                if (role != CustomRoles.HASFox && role != CustomRoles.HASTroll) numTotalAlive++;
+                                if (role is not CustomRoles.HASFox and not CustomRoles.HASTroll) numTotalAlive++;
                             }
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&

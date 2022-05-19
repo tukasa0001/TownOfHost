@@ -183,12 +183,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ToggleHighlight))]
     class ToggleHighlightPatch
     {
-        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
+        public static void Postfix(PlayerControl __instance)
         {
             var player = PlayerControl.LocalPlayer;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
-                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
+                __instance.MyRend.material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
         }
     }
@@ -259,13 +259,13 @@ namespace TownOfHost
             if (!TypingAmount)
             {
                 //SystemType入力中
-                SystemType = SystemType * 10;
+                SystemType *= 10;
                 SystemType += num;
             }
             else
             {
                 //Amount入力中
-                amount = amount * 10;
+                amount *= 10;
                 amount += num;
             }
         }

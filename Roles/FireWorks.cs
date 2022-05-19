@@ -19,7 +19,7 @@ namespace TownOfHost
             FireEnd = 16,
             CanUseKill = Initial | FireEnd
         }
-        static int Id = 1700;
+        static readonly int Id = 1700;
 
         static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;
@@ -99,21 +99,9 @@ namespace TownOfHost
                     Logger.Info("花火を一個設置", "FireWorks");
                     fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                     nowFireWorksCount[pc.PlayerId]--;
-                    if (nowFireWorksCount[pc.PlayerId] == 0)
-                    {
-                        if (Main.AliveImpostorCount <= 1)
-                        {
-                            state[pc.PlayerId] = FireWorksState.ReadyFire;
-                        }
-                        else
-                        {
-                            state[pc.PlayerId] = FireWorksState.WaitTime;
-                        }
-                    }
-                    else
-                    {
-                        state[pc.PlayerId] = FireWorksState.SettingFireWorks;
-                    }
+                    state[pc.PlayerId] = nowFireWorksCount[pc.PlayerId] == 0
+                        ? Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime
+                        : FireWorksState.SettingFireWorks;
                     break;
                 case FireWorksState.ReadyFire:
                     Logger.Info("花火を爆破", "FireWorks");
@@ -153,7 +141,7 @@ namespace TownOfHost
             Utils.NotifyRoles();
         }
 
-        public static string GetStateText(PlayerControl pc, bool isLocal = true)
+        public static string GetStateText(PlayerControl pc)
         {
             string retText = "";
             if (pc == null || pc.Data.IsDead) return retText;

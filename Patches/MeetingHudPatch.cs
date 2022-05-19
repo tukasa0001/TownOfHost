@@ -155,15 +155,14 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください");
                 throw;
             }
         }
         public static bool IsMayor(byte id)
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
-            if (player == null) return false;
-            return player.Is(CustomRoles.Mayor);
+            return player != null && player.Is(CustomRoles.Mayor);
         }
     }
 
@@ -178,13 +177,12 @@ namespace TownOfHost
             {
                 PlayerVoteArea ps = __instance.playerStates[i];
                 if (ps == null) continue;
-                if (ps.VotedFor != (byte)252 && ps.VotedFor != byte.MaxValue && ps.VotedFor != (byte)254)
+                if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
-                    int num;
                     int VoteNum = 1;
                     if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
-                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out num) ? VoteNum : num + VoteNum;
+                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
             }
             return dic;
@@ -349,21 +347,22 @@ namespace TownOfHost
                     RoleTextMeeting.text = RoleTextData.Item1;
                     if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
-                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
-                    else RoleTextMeeting.enabled = false;
+                    RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId
+|| (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
                 }
                 //死んでいないディクテーターが投票済み
                 if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     var voteTarget = Utils.GetPlayerById(pva.VotedFor);
                     MeetingHud.VoterState[] states;
-                    List<MeetingHud.VoterState> statesList = new();
-                    statesList.Add(new MeetingHud.VoterState()
+                    List<MeetingHud.VoterState> statesList = new()
                     {
-                        VoterId = pva.TargetPlayerId,
-                        VotedForId = pva.VotedFor
-                    });
+                        new MeetingHud.VoterState()
+                        {
+                            VoterId = pva.TargetPlayerId,
+                            VotedForId = pva.VotedFor
+                        }
+                    };
                     states = statesList.ToArray();
                     isDictatorVote = true;
                     pc.RpcMurderPlayer(pc); //自殺

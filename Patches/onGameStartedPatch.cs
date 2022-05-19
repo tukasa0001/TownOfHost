@@ -104,7 +104,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
 
             //ウォッチャーの陣営抽選
-            Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
+            Options.SetWatcherTeam();
 
             var rand = new System.Random();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
@@ -357,7 +357,7 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
-                        var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
+                        var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
                         Main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
                         pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)

@@ -27,13 +27,9 @@ namespace TownOfHost
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text += Main.credentialsText;
-            if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-                if (PlayerControl.LocalPlayer.Data.IsDead)
-                    __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.0f, 0.0f, 0f);
-                else
-                    __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(1.2f, 0.0f, 0f);
-            else
-                __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.7f, 0.0f, 0f);
+            __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started
+                ? PlayerControl.LocalPlayer.Data.IsDead ? new Vector3(2.0f, 0.0f, 0f) : new Vector3(1.2f, 0.0f, 0f)
+                : new Vector3(2.7f, 0.0f, 0f);
         }
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
         class VersionShowerPatch

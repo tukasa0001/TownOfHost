@@ -9,8 +9,8 @@ namespace TownOfHost
 {
     public static class Sniper
     {
-        static int Id = 1800;
-        static List<byte> playeridList = new();
+        static readonly int Id = 1800;
+        static List<byte> playerIdList = new();
 
         static CustomOption SniperBulletCount;
         static CustomOption SniperPrecisionShooting;
@@ -32,7 +32,7 @@ namespace TownOfHost
         }
         public static void Init()
         {
-            playeridList = new();
+            playerIdList = new();
             snipeBasePosition = new();
             snipeTarget = new();
             bulletCount = new();
@@ -44,7 +44,7 @@ namespace TownOfHost
         }
         public static void Add(byte playerId)
         {
-            playeridList.Add(playerId);
+            playerIdList.Add(playerId);
             snipeBasePosition[playerId] = new();
             snipeTarget[playerId] = 0x7F;
             bulletCount[playerId] = maxBulletCount;
@@ -53,7 +53,7 @@ namespace TownOfHost
         }
         public static bool IsEnable()
         {
-            return playeridList.Count > 0;
+            return playerIdList.Count > 0;
         }
         public static void SendRPC(byte playerId, bool notify = false)
         {
@@ -207,7 +207,7 @@ namespace TownOfHost
         }
         public static void OnStartMeeting()
         {
-            foreach (var sniper in playeridList)
+            foreach (var sniper in playerIdList)
                 meetingReset[sniper] = true;
         }
         public static string GetBulletCount(byte playerId)
@@ -220,7 +220,7 @@ namespace TownOfHost
         }
         public static string GetShotNotify(byte seer)
         {
-            foreach (var sniper in playeridList)
+            foreach (var sniper in playerIdList)
             {
                 var snList = shotNotify[sniper];
                 if (snList.Count() > 0 && snList.Contains(seer))

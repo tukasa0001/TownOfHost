@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -81,7 +81,7 @@ namespace TownOfHost
         }
         public bool IsEqual(PlayerVersion pv)
         {
-            return (pv.version == version && pv.tag == tag);
+            return pv.version == version && pv.tag == tag;
         }
     }
 }

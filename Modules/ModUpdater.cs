@@ -231,10 +231,8 @@ namespace TownOfHost
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
-                    using (var fileStream = File.Create(fullname))
-                    {
-                        responseStream.CopyTo(fileStream);
-                    }
+                    using var fileStream = File.Create(fullname);
+                    responseStream.CopyTo(fileStream);
                 }
                 ShowPopup(GetString("updateRestart"));
                 return true;

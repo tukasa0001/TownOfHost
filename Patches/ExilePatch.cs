@@ -84,7 +84,7 @@ namespace TownOfHost
                     pc.RpcGuardAndKill();
                 if (pc.Is(CustomRoles.Warlock))
                 {
-                    Main.CursedPlayers[pc.PlayerId] = (null);
+                    Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
