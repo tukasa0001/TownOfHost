@@ -11,7 +11,7 @@ namespace TownOfHost
         {
             if (ModUpdater.hasUpdate)
             {
-                Logger.info(getString("onSetPublicNoLatest"), "MakePublicPatch");
+                Logger.Info(GetString("onSetPublicNoLatest"), "MakePublicPatch");
                 return false;
             }
             return true;
@@ -31,7 +31,7 @@ namespace TownOfHost
                 var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
                 textObj.transform.position = new Vector3(1f, -0.3f, 0);
                 textObj.name = "CanNotJoinPublic";
-                new LateTask(() => { textObj.text = $"<size=2><color=#ff0000>{getString("CanNotJoinPublicRoomNoLatest")}</color></size>"; }, 0.01f, "CanNotJoinPublic");
+                new LateTask(() => { textObj.text = $"<size=2><color=#ff0000>{GetString("CanNotJoinPublicRoomNoLatest")}</color></size>"; }, 0.01f, "CanNotJoinPublic");
             }
         }
     }
@@ -40,7 +40,7 @@ namespace TownOfHost
     {
         public static void Prefix(SplashManager __instance)
         {
-            if (main.AmDebugger.Value)
+            if (Main.AmDebugger.Value)
             {
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;

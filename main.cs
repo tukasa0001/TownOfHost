@@ -10,13 +10,13 @@ using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 
-[assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
+[assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
     [BepInProcess("Among Us.exe")]
-    public class main : BasePlugin
+    public class Main : BasePlugin
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
@@ -55,7 +55,7 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => CustomRoles.Vampire.isEnable();
+        public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> IgnoreReportPlayers;
@@ -109,7 +109,7 @@ namespace TownOfHost
         public static int DiscussionTime;
         public static int VotingTime;
 
-        public static main Instance;
+        public static Main Instance;
 
         public override void Load()
         {
@@ -121,15 +121,15 @@ namespace TownOfHost
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{main.modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{Main.modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-            TownOfHost.Logger.enable();
-            TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("SendRPC");
-            TownOfHost.Logger.disable("ReceiveRPC");
-            TownOfHost.Logger.disable("SwitchSystem");
+            TownOfHost.Logger.Enable();
+            TownOfHost.Logger.Disable("NotifyRoles");
+            TownOfHost.Logger.Disable("SendRPC");
+            TownOfHost.Logger.Disable("ReceiveRPC");
+            TownOfHost.Logger.Disable("SwitchSystem");
             //TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
@@ -162,14 +162,14 @@ namespace TownOfHost
 
             NameColorManager.Begin();
 
-            Translator.init();
+            Translator.Init();
 
             BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
             ExceptionMessage = "";
 
-            main.IgnoreReportPlayers = new List<byte>();
+            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
@@ -235,19 +235,19 @@ namespace TownOfHost
             }
             catch (ArgumentException ex)
             {
-                TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-                TownOfHost.Logger.error(ex.Message, "LoadDictionary");
+                TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+                TownOfHost.Logger.Error(ex.Message, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
             Harmony.PatchAll();
         }

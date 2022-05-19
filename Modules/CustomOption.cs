@@ -97,12 +97,12 @@ namespace TownOfHost
             Selection = 0;
             if (id == 0)
             {
-                Entry = main.Instance.Config.Bind($"Current Preset", id.ToString(), DefaultSelection);
+                Entry = Main.Instance.Config.Bind($"Current Preset", id.ToString(), DefaultSelection);
                 Preset = Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
             if (id > 0)
             {
-                Entry = main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
+                Entry = Main.Instance.Config.Bind($"Preset{Preset}", id.ToString(), DefaultSelection);
                 Selection = Mathf.Clamp(Entry.Value, 0, selections.Length - 1);
             }
             Options.Add(this);
@@ -172,7 +172,7 @@ namespace TownOfHost
             {
                 if (option.Id <= 0) continue;
 
-                option.Entry = main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
+                option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
                 {
@@ -228,7 +228,7 @@ namespace TownOfHost
             string sel = Selections[Selection].ToString();
             if (Format != "")
             {
-                return string.Format(Translator.getString(Format), sel);
+                return string.Format(Translator.GetString(Format), sel);
             }
 
             if (float.TryParse(sel, out _))
@@ -236,18 +236,18 @@ namespace TownOfHost
                 return sel;
             }
 
-            return Translator.getString(sel);
+            return Translator.GetString(sel);
         }
 
         public string GetName(bool disableColor = false)
         {
-            if (disableColor) return Translator.getString(Name, ReplacementDictionary);
-            return Helpers.ColorString(Color, Translator.getString(Name, ReplacementDictionary));
+            if (disableColor) return Translator.GetString(Name, ReplacementDictionary);
+            return Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
         }
 
-        public virtual string getName(bool display = false)
+        public virtual string GetName_v(bool display = false)
         {
-            return Helpers.ColorString(Color, Translator.getString(Name, ReplacementDictionary));
+            return Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
         }
 
         public void UpdateSelection(bool enable)

@@ -23,7 +23,7 @@ namespace TownOfHost
             }
             foreach (var task in disabledTasks)
             {
-                Logger.msg("削除: " + task.TaskType.ToString(), "AddTask");
+                Logger.Msg("削除: " + task.TaskType.ToString(), "AddTask");
                 unusedTasks.Remove(task);
             }
         }
@@ -39,13 +39,13 @@ namespace TownOfHost
         [HarmonyArgument(1)] ref UnhollowerBaseLib.Il2CppStructArray<byte> taskTypeIds)
         {
             //null対策
-            if (main.RealOptionsData == null)
+            if (Main.RealOptionsData == null)
             {
-                Logger.warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
+                Logger.Warn("警告:RealOptionsDataがnullです。", "RpcSetTasksPatch");
                 return;
             }
 
-            CustomRoles? RoleNullable = Utils.getPlayerById(playerId)?.getCustomRole();
+            CustomRoles? RoleNullable = Utils.GetPlayerById(playerId)?.GetCustomRole();
             if (RoleNullable == null) return;
             CustomRoles role = RoleNullable.Value;
 
@@ -73,7 +73,7 @@ namespace TownOfHost
             //不要な割り当て済みのタスクを削除する処理
             //コモンタスクを割り当てる設定ならコモンタスク以外を削除
             //コモンタスクを割り当てない設定ならリストを空にする
-            if (hasCommonTasks) TasksList.RemoveRange(main.RealOptionsData.NumCommonTasks, TasksList.Count - main.RealOptionsData.NumCommonTasks);
+            if (hasCommonTasks) TasksList.RemoveRange(Main.RealOptionsData.NumCommonTasks, TasksList.Count - Main.RealOptionsData.NumCommonTasks);
             else TasksList.Clear();
 
             //割り当て済みのタスクが入れられるHashSet

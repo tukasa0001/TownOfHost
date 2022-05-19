@@ -14,17 +14,17 @@ namespace TownOfHost
         {
             new LateTask(() =>
             {
-                CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-                if (role.isVanilla()) return;
-                __instance.RoleText.text = Utils.getRoleName(role);
-                __instance.RoleText.color = Utils.getRoleColor(role);
-                __instance.RoleBlurbText.color = Utils.getRoleColor(role);
-                __instance.YouAreText.color = Utils.getRoleColor(role);
+                CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
+                if (role.IsVanilla()) return;
+                __instance.RoleText.text = Utils.GetRoleName(role);
+                __instance.RoleText.color = Utils.GetRoleColor(role);
+                __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
+                __instance.YouAreText.color = Utils.GetRoleColor(role);
 
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher))
-                    __instance.RoleBlurbText.text = getString("WatcherInfo");
+                    __instance.RoleBlurbText.text = GetString("WatcherInfo");
                 else
-                    __instance.RoleBlurbText.text = getString(role.ToString() + "Info");
+                    __instance.RoleBlurbText.text = GetString(role.ToString() + "Info");
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
@@ -37,36 +37,36 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance)
         {
-            Logger.info("------------名前表示------------", "Info");
+            Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc.name.padRight(20), pc.nameText.text), "Info");
+                Logger.Info(string.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, Utils.PadRightV2(pc.name, 20), pc.nameText.text), "Info");
                 pc.nameText.text = pc.name;
             }
-            Logger.info("----------役職割り当て----------", "Info");
+            Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc?.Data?.PlayerName?.padRight(20), pc.getAllRoleName()), "Info");
+                Logger.Info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc?.Data?.PlayerName?.PadRight(20), pc.GetAllRoleName()), "Info");
             }
-            Logger.info("--------------環境--------------", "Info");
+            Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.AmOwner ? "[*]" : "   ";
-                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data?.PlayerName?.padRight(20), pc.getClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
-                if (main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
+                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data?.PlayerName?.PadRight(20), pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
+                if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                     text += $":Mod({pv.version}:{pv.tag})";
                 else text += ":Vanilla";
-                Logger.info(text, "Info");
+                Logger.Info(text, "Info");
             }
-            Logger.info("------------基本設定------------", "Info");
+            Logger.Info("------------基本設定------------", "Info");
             var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
-            foreach (var t in tmp) Logger.info(t, "Info");
-            Logger.info("------------詳細設定------------", "Info");
+            foreach (var t in tmp) Logger.Info(t, "Info");
+            Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in CustomOption.Options)
                 if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
-                    Logger.info(String.Format("{0}:{1}", o.Parent == null ? o.Name.padRight(40) : $"┗ {o.Name}".padRight(41), o.GetString()), "Info");
-            Logger.info("-------------その他-------------", "Info");
-            Logger.info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+                    Logger.Info(string.Format("{0}:{1}", o.Parent == null ? Utils.PadRightV2(o.Name, 40) : Utils.PadRightV2($"┗ {o.Name}", 41), o.GetString()), "Info");
+            Logger.Info("-------------その他-------------", "Info");
+            Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
 
             GameStates.InGame = true;
         }
@@ -88,20 +88,20 @@ namespace TownOfHost
         {
             //チーム表示変更
             var rand = new System.Random();
-            CustomRoles role = PlayerControl.LocalPlayer.getCustomRole();
-            RoleType roleType = role.getRoleType();
+            CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
 
             switch (roleType)
             {
                 case RoleType.Neutral:
-                    __instance.TeamTitle.text = Utils.getRoleName(role);
-                    __instance.TeamTitle.color = Utils.getRoleColor(role);
-                    __instance.BackgroundBar.material.color = Utils.getRoleColor(role);
+                    __instance.TeamTitle.text = Utils.GetRoleName(role);
+                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
-                    __instance.TeamTitle.text = getString("Madmate");
-                    __instance.TeamTitle.color = Utils.getRoleColor(CustomRoles.Madmate);
-                    __instance.ImpostorText.text = getString("TeamImpostor");
+                    __instance.TeamTitle.text = GetString("Madmate");
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
+                    __instance.ImpostorText.text = GetString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
@@ -178,7 +178,7 @@ namespace TownOfHost
                 Color LerpingColor = Color.Lerp(start, end, time);
                 if (__instance == null || milliseconds > 500)
                 {
-                    Logger.info("ループを終了します", "StartFadeIntro");
+                    Logger.Info("ループを終了します", "StartFadeIntro");
                     break;
                 }
                 __instance.BackgroundBar.material.color = LerpingColor;
@@ -216,7 +216,7 @@ namespace TownOfHost
     {
         public static void Postfix(IntroCutscene __instance)
         {
-            main.introDestroyed = true;
+            Main.introDestroyed = true;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace TownOfHost
         static void Postfix(PingTracker __instance)
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
-            __instance.text.text += main.credentialsText;
+            __instance.text.text += Main.credentialsText;
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                 if (PlayerControl.LocalPlayer.Data.IsDead)
                     __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.0f, 0.0f, 0f);
@@ -41,23 +41,23 @@ namespace TownOfHost
             private static TMPro.TextMeshPro ErrorText;
             static void Postfix(VersionShower __instance)
             {
-                main.credentialsText = $"\r\n<color={main.modColor}>Town Of Host</color> v{main.PluginVersion}";
+                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host</color> v{Main.PluginVersion}";
                 if (ThisAssembly.Git.Branch != "main")
-                    main.credentialsText += $"\r\n<color={main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
-                if (main.AmDebugger.Value)
-                    main.credentialsText += "\r\n<color=#00ff00>デバッグモード</color>";
+                    Main.credentialsText += $"\r\n<color={Main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+                if (Main.AmDebugger.Value)
+                    Main.credentialsText += "\r\n<color=#00ff00>デバッグモード</color>";
                 var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
-                credentials.text = main.credentialsText;
+                credentials.text = Main.credentialsText;
                 credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
                 credentials.transform.position = new Vector3(4.3f, __instance.transform.localPosition.y + 0.3f, 0);
 
-                if (main.hasArgumentException && !main.ExceptionMessageIsShown)
+                if (Main.hasArgumentException && !Main.ExceptionMessageIsShown)
                 {
-                    main.ExceptionMessageIsShown = true;
+                    Main.ExceptionMessageIsShown = true;
                     ErrorText = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
                     ErrorText.transform.position = new Vector3(0, 0.20f, 0);
                     ErrorText.alignment = TMPro.TextAlignmentOptions.Center;
-                    ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{main.ExceptionMessage}";
+                    ErrorText.text = $"エラー:Lang系DictionaryにKeyの重複が発生しています!\r\n{Main.ExceptionMessage}";
                     ErrorText.color = Color.red;
                 }
             }

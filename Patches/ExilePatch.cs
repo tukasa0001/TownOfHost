@@ -24,13 +24,13 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            main.witchMeeting = false;
+            Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
-                PlayerState.setDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
-                var role = exiled.getCustomRole();
+                PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
@@ -44,9 +44,9 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                foreach (var kvp in main.ExecutionerTarget)
+                foreach (var kvp in Main.ExecutionerTarget)
                 {
-                    if (Utils.getPlayerById(kvp.Key).Data.IsDead) continue; //Keyが死んでいたらこのforeach内の処理を全部スキップ
+                    if (Utils.GetPlayerById(kvp.Key).Data.IsDead) continue; //Keyが死んでいたらこのforeach内の処理を全部スキップ
                     if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
                         //RPC送信開始
@@ -57,12 +57,12 @@ namespace TownOfHost
                         RPC.ExecutionerWin(kvp.Key);
                     }
                 }
-                if (role != CustomRoles.Witch && main.SpelledPlayer != null)
+                if (role != CustomRoles.Witch && Main.SpelledPlayer != null)
                 {
-                    foreach (var p in main.SpelledPlayer)
+                    foreach (var p in Main.SpelledPlayer)
                     {
-                        PlayerState.setDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        main.IgnoreReportPlayers.Add(p.PlayerId);
+                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        Main.IgnoreReportPlayers.Add(p.PlayerId);
                         p.RpcMurderPlayer(p);
                     }
                 }
@@ -72,11 +72,11 @@ namespace TownOfHost
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
 
-                PlayerState.setDead(exiled.PlayerId);
+                PlayerState.SetDead(exiled.PlayerId);
             }
-            if (AmongUsClient.Instance.AmHost && main.isFixedCooldown)
-                main.RefixCooldownDelay = main.RealOptionsData.KillCooldown - 3f;
-            main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+            if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
+                Main.RefixCooldownDelay = Main.RealOptionsData.KillCooldown - 3f;
+            Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
@@ -84,15 +84,15 @@ namespace TownOfHost
                     pc.RpcGuardAndKill();
                 if (pc.Is(CustomRoles.Warlock))
                 {
-                    main.CursedPlayers[pc.PlayerId] = (null);
-                    main.isCurseAndKill[pc.PlayerId] = false;
+                    Main.CursedPlayers[pc.PlayerId] = (null);
+                    Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Logger.info("タスクフェイズ開始", "Phase");
+            Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
 }

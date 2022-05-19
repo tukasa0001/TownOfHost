@@ -9,7 +9,7 @@ namespace TownOfHost
     {
         internal delegate bool LoadImageDelegate(IntPtr tex, IntPtr data, bool markNonReadable);
         internal static LoadImageDelegate LoadImage;
-        public static Sprite loadSprite(string path)
+        public static Sprite LoadSprite(string path)
         {
             //画像サイズは150*150
             if (LoadImage == null)
@@ -27,7 +27,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error("テクスチャのロードに失敗しました:" + path, "loadSprite");
+                Logger.Error("テクスチャのロードに失敗しました:" + path, "loadSprite");
             }
             return null;
         }

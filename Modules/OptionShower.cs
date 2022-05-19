@@ -13,7 +13,7 @@ namespace TownOfHost
         {
 
         }
-        public static string getText()
+        public static string GetText()
         {
             //初期化
             string text = "";
@@ -26,10 +26,10 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 //役職一覧
-                text += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{getString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
+                text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode == CustomGameMode.Standard || kvp.Value.GameMode == CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
-                        text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{Utils.getRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
+                        text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 pages.Add(text + "\n\n");
                 text = "";
             }
@@ -39,21 +39,21 @@ namespace TownOfHost
             {
                 if (Options.EnableLastImpostor.GetBool())
                 {
-                    text += $"<color={Utils.getRoleColorCode(CustomRoles.Impostor)}>{getString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                    text += $"\t{getString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                 }
             }
             foreach (var kvp in Options.CustomRoleSpawnChances)
             {
-                if (!kvp.Key.isEnable()) continue;
+                if (!kvp.Key.IsEnable()) continue;
                 if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                text += $"<color={Utils.getRoleColorCode(kvp.Key)}>{Utils.getRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.getCount()}\n";
+                text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 foreach (var c in kvp.Value.Children) //詳細設定をループする
                 {
                     if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
                     text += $"\t{c.GetName()}: {c.GetString()}\n";
                 }
-                if (kvp.Key.isMadmate()) //マッドメイトの時に追加する詳細設定
+                if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                 {
                     text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
                     text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
@@ -78,7 +78,7 @@ namespace TownOfHost
                 {
                     text += $"{o.GetName()}: {o.GetString()}\n";
                     foreach (var c in o.Children)
-                        text += $"\t{c.getName()}: {c.GetString()}\n";
+                        text += $"\t{c.GetName_v()}: {c.GetString()}\n";
                     text += "\n";
                 }
             };
@@ -116,9 +116,9 @@ namespace TownOfHost
                 }
             }
             if (currentPage >= pages.Count) currentPage = pages.Count - 1; //現在のページが最大ページ数を超えていれば最後のページに修正
-            return $"{pages[currentPage]}{getString("PressTabToNextPage")}({currentPage + 1}/{pages.Count})";
+            return $"{pages[currentPage]}{GetString("PressTabToNextPage")}({currentPage + 1}/{pages.Count})";
         }
-        public static void next()
+        public static void Next()
         {
             currentPage++;
             if (currentPage >= pages.Count) currentPage = 0; //現在のページが最大ページを超えていれば最初のページに

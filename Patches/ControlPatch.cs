@@ -15,9 +15,9 @@ namespace TownOfHost
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
-            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.isLobby)
+            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
             {
-                OptionShower.next();
+                OptionShower.Next();
             }
             //解像度変更
             if (Input.GetKeyDown(KeyCode.F11))
@@ -29,34 +29,34 @@ namespace TownOfHost
             //ログファイルのダンプ
             if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftControl))
             {
-                Logger.info("Dump Logs", "KeyCommand");
-                Utils.dumpLog();
+                Logger.Info("Dump Logs", "KeyCommand");
+                Utils.DumpLog();
             }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
             //廃村
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.isInGame)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.EndGame();
             }
             //ミーティングを強制終了
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.isMeeting)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
             {
                 MeetingHud.Instance.RpcClose();
             }
             //即スタート
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.isCountDown)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
             {
-                Logger.info("CountDownTimer set to 0", "KeyCommand");
+                Logger.Info("CountDownTimer set to 0", "KeyCommand");
                 GameStartManager.Instance.countDownTimer = 0;
             }
             //カウントダウンキャンセル
-            if (Input.GetKeyDown(KeyCode.C) && GameStates.isCountDown)
+            if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
             {
-                Logger.info("Reset CountDownTimer", "KeyCommand");
+                Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示
@@ -66,7 +66,7 @@ namespace TownOfHost
             }
 
             //--以下デバッグモード用コマンド--//
-            if (!main.AmDebugger.Value) return;
+            if (!Main.AmDebugger.Value) return;
 
             //BOTの作成
             if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N))
@@ -99,17 +99,17 @@ namespace TownOfHost
                 RPC.SyncCustomSettingsRPC();
             }
             //投票をクリア
-            if (Input.GetKeyDown(KeyCode.V) && GameStates.isMeeting && !GameStates.isOnlineGame)
+            if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
             {
                 MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
             }
             //自分自身の死体をレポート
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.isInGame)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.isInGame)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 PlayerControl.LocalPlayer.RpcExile();
             }
@@ -121,7 +121,7 @@ namespace TownOfHost
             }
 
             //--以下フリープレイ用コマンド--//
-            if (!GameStates.isFreePlay) return;
+            if (!GameStates.IsFreePlay) return;
             //キルクールを0秒に設定
             if (Input.GetKeyDown(KeyCode.X))
             {
@@ -142,8 +142,8 @@ namespace TownOfHost
             //タスクカウントの表示切替
             if (Input.GetKeyDown(KeyCode.Equals))
             {
-                main.VisibleTasksCount = !main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
+                Main.VisibleTasksCount = !Main.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
             }
             //エアシップのトイレのドアを全て開ける
             if (Input.GetKeyDown(KeyCode.P))

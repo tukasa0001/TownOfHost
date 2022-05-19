@@ -41,9 +41,9 @@ namespace TownOfHost
                 }
             }
 
-            __instance.GameSettings.text = OptionShower.getText();
+            __instance.GameSettings.text = OptionShower.GetText();
             __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
             //バウンティハンターのターゲットテキスト
@@ -63,15 +63,15 @@ namespace TownOfHost
             if (player.Is(CustomRoles.BountyHunter))
             {
                 //バウンティハンター用処理
-                var target = player.getBountyTarget();
-                LowerInfoText.text = target == null ? "null" : getString("BountyCurrentTarget") + ":" + player.getBountyTarget().name;
-                LowerInfoText.enabled = target != null || main.AmDebugger.Value;
+                var target = player.GetBountyTarget();
+                LowerInfoText.text = target == null ? "null" : GetString("BountyCurrentTarget") + ":" + player.GetBountyTarget().name;
+                LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
             }
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
                 var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
-                LowerInfoText.text = getString("WitchCurrentMode") + ":" + getString(ModeLang);
+                LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.FireWorks))
@@ -89,21 +89,21 @@ namespace TownOfHost
                 LowerInfoText.enabled = false;
             }
 
-            if (!player.getCustomRole().isVanilla())
+            if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = $"<color={player.getRoleColorCode()}>{player.getRoleName()}\r\n";
+                TaskTextPrefix = $"<color={player.GetRoleColorCode()}>{player.GetRoleName()}\r\n";
                 if (player.Is(CustomRoles.Mafia))
                 {
                     if (!player.CanUseKillButton())
-                        TaskTextPrefix += $"{getString("BeforeMafiaInfo")}";
+                        TaskTextPrefix += $"{GetString("BeforeMafiaInfo")}";
                     else
-                        TaskTextPrefix += $"{getString("AfterMafiaInfo")}";
+                        TaskTextPrefix += $"{GetString("AfterMafiaInfo")}";
                 }
                 else
-                    TaskTextPrefix += $"{getString(player.getCustomRole() + "Info")}";
+                    TaskTextPrefix += $"{GetString(player.GetCustomRole() + "Info")}";
                 TaskTextPrefix += "</color>\r\n";
             }
-            switch (player.getCustomRole())
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.Madmate:
                 case CustomRoles.SKMadmate:
@@ -176,7 +176,7 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha8)) RepairSender.Input(8);
                 if (Input.GetKeyDown(KeyCode.Alpha9)) RepairSender.Input(9);
                 if (Input.GetKeyDown(KeyCode.Return)) RepairSender.InputEnter();
-                __instance.TaskText.text = RepairSender.getText();
+                __instance.TaskText.text = RepairSender.GetText();
             }
         }
     }
@@ -186,9 +186,9 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] bool active, [HarmonyArgument(1)] RoleTeamTypes team)
         {
             var player = PlayerControl.LocalPlayer;
-            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
+            if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
-                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.getRoleColor(player.getCustomRole()));
+                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
         }
     }
@@ -198,7 +198,7 @@ namespace TownOfHost
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
         {
             var player = PlayerControl.LocalPlayer;
-            if ((player.getCustomRole() == CustomRoles.Sheriff || player.getCustomRole() == CustomRoles.Arsonist) &&
+            if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 protecting = true;
@@ -211,7 +211,7 @@ namespace TownOfHost
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
             var player = PlayerControl.LocalPlayer;
-            switch (player.getCustomRole())
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
@@ -279,10 +279,10 @@ namespace TownOfHost
             else
             {
                 //Amount入力中
-                send();
+                Send();
             }
         }
-        public static void send()
+        public static void Send()
         {
             ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
             Reset();
@@ -293,7 +293,7 @@ namespace TownOfHost
             SystemType = 0;
             amount = 0;
         }
-        public static string getText()
+        public static string GetText()
         {
             return SystemType.ToString() + "(" + ((SystemTypes)SystemType).ToString() + ")\r\n" + amount;
         }

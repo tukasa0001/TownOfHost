@@ -59,7 +59,7 @@ namespace TownOfHost
             var updateText = updateButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
             __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
             {
-                updateText.SetText(getString("updateButton"));
+                updateText.SetText(GetString("updateButton"));
             })));
 
             SpriteRenderer buttonSpriteUpdate = updateButton.GetComponent<SpriteRenderer>();
@@ -101,38 +101,38 @@ namespace TownOfHost
         {
             if (running) return;
             running = true;
-            checkForUpdate().GetAwaiter().GetResult();
-            clearOldVersions();
-            if (hasUpdate || main.ShowPopUpVersion.Value != main.PluginVersion)
+            CheckForUpdate().GetAwaiter().GetResult();
+            ClearOldVersions();
+            if (hasUpdate || Main.ShowPopUpVersion.Value != Main.PluginVersion)
             {
                 DestroyableSingleton<MainMenuManager>.Instance.Announcement.gameObject.SetActive(true);
-                main.ShowPopUpVersion.Value = main.PluginVersion;
+                Main.ShowPopUpVersion.Value = Main.PluginVersion;
             }
         }
 
         public static void ExecuteUpdate()
         {
-            string info = getString("updatePleaseWait");
+            string info = GetString("updatePleaseWait");
             ModUpdater.InfoPopup.Show(info);
             if (updateTask == null)
             {
                 if (updateURI != null)
                 {
-                    updateTask = downloadUpdate();
+                    updateTask = DownloadUpdate();
                 }
                 else
                 {
-                    info = getString("updateManually");
+                    info = GetString("updateManually");
                 }
             }
             else
             {
-                info = getString("updateInProgress");
+                info = GetString("updateInProgress");
             }
-            ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new System.Action<float>((p) => { ModUpdater.setPopupText(info); })));
+            ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new System.Action<float>((p) => { ModUpdater.SetPopupText(info); })));
         }
 
-        public static void clearOldVersions()
+        public static void ClearOldVersions()
         {
             try
             {
@@ -143,11 +143,11 @@ namespace TownOfHost
             }
             catch (System.Exception e)
             {
-                Logger.error("Exception occurred when clearing old versions:\n" + e, "ModUpdater");
+                Logger.Error("Exception occurred when clearing old versions:\n" + e, "ModUpdater");
             }
         }
 
-        public static async Task<bool> checkForUpdate()
+        public static async Task<bool> CheckForUpdate()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             try
@@ -157,7 +157,7 @@ namespace TownOfHost
                 var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
                 {
-                    Logger.error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
+                    Logger.Error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
                     return false;
                 }
                 string json = await response.Content.ReadAsStringAsync();
@@ -173,11 +173,11 @@ namespace TownOfHost
                 if (changeLog != null) announcement = changeLog;
 
                 System.Version ver = System.Version.Parse(tagname.Replace("v", ""));
-                int diff = main.version.CompareTo(ver);
+                int diff = Main.version.CompareTo(ver);
                 if (diff < 0)
                 {
                     hasUpdate = true;
-                    announcement = string.Format(getString("announcementUpdate"), ver, announcement);
+                    announcement = string.Format(GetString("announcementUpdate"), ver, announcement);
 
                     JToken assets = data["assets"];
                     if (!assets.HasValues)
@@ -199,17 +199,17 @@ namespace TownOfHost
                 }
                 else
                 {
-                    announcement = string.Format(getString("announcementChangelog"), ver, announcement);
+                    announcement = string.Format(GetString("announcementChangelog"), ver, announcement);
                 }
             }
             catch (System.Exception ex)
             {
-                Logger.error(ex.ToString(), "ModUpdater");
+                Logger.Error(ex.ToString(), "ModUpdater");
             }
             return false;
         }
 
-        public static async Task<bool> downloadUpdate()
+        public static async Task<bool> DownloadUpdate()
         {
             try
             {
@@ -218,7 +218,7 @@ namespace TownOfHost
                 var response = await http.GetAsync(new System.Uri(updateURI), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
                 {
-                    Logger.error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
+                    Logger.Error("Server returned no data: " + response.StatusCode.ToString(), "ModUpdater");
                     return false;
                 }
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -236,23 +236,23 @@ namespace TownOfHost
                         responseStream.CopyTo(fileStream);
                     }
                 }
-                showPopup(getString("updateRestart"));
+                ShowPopup(GetString("updateRestart"));
                 return true;
             }
             catch (System.Exception ex)
             {
-                Logger.error(ex.ToString(), "ModUpdater");
+                Logger.Error(ex.ToString(), "ModUpdater");
             }
-            showPopup(getString("updateFailed"));
+            ShowPopup(GetString("updateFailed"));
             return false;
         }
-        private static void showPopup(string message)
+        private static void ShowPopup(string message)
         {
-            setPopupText(message);
+            SetPopupText(message);
             InfoPopup.gameObject.SetActive(true);
         }
 
-        public static void setPopupText(string message)
+        public static void SetPopupText(string message)
         {
             if (InfoPopup == null)
                 return;

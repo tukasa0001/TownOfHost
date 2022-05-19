@@ -8,7 +8,7 @@ namespace TownOfHost
         public float timer;
         public Action action;
         public static List<LateTask> Tasks = new();
-        public bool run(float deltaTime)
+        public bool Run(float deltaTime)
         {
             timer -= deltaTime;
             if (timer <= 0)
@@ -24,7 +24,7 @@ namespace TownOfHost
             this.timer = time;
             this.name = name;
             Tasks.Add(this);
-            Logger.info("\"" + name + "\" is created", "LateTask");
+            Logger.Info("\"" + name + "\" is created", "LateTask");
         }
         public static void Update(float deltaTime)
         {
@@ -34,15 +34,15 @@ namespace TownOfHost
                 var task = Tasks[i];
                 try
                 {
-                    if (task.run(deltaTime))
+                    if (task.Run(deltaTime))
                     {
-                        Logger.info($"\"{task.name}\" is finished", "LateTask");
+                        Logger.Info($"\"{task.name}\" is finished", "LateTask");
                         TasksToRemove.Add(task);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.error($"{ex.GetType().ToString()}: {ex.Message}  in \"{task.name}\"\n{ex.StackTrace}", "LateTask.Error");
+                    Logger.Error($"{ex.GetType().ToString()}: {ex.Message}  in \"{task.name}\"\n{ex.StackTrace}", "LateTask.Error");
                     TasksToRemove.Add(task);
                 }
             }
