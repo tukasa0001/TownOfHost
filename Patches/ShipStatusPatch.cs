@@ -196,7 +196,7 @@ namespace TownOfHost
                     }
                 }
                 if (main.ObstacleTarget.ContainsValue(player.PlayerId))
-                    main.AllPlayerSpeed[player.PlayerId] = 1;// Options.SpeedBoosterUpSpeed.GetFloat();
+                    main.AllPlayerSpeed[player.PlayerId] = Options.ObstacleDownSpeed.GetFloat();
             }
             Logger.SendInGame("サボタージュ" + player.PlayerId);
             Utils.CustomSyncAllSettings();

@@ -65,6 +65,7 @@ namespace TownOfHost
         public static CustomOption SerialKillerLimit;
         public static CustomOption VampireKillDelay;
         public static CustomOption ShapeMasterShapeshiftDuration;
+        public static CustomOption ObstacleDownSpeed;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
@@ -259,7 +260,8 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
-　          SetupRoleOptions(2100, CustomRoles.Obstacle);
+            SetupRoleOptions(2100, CustomRoles.Obstacle);
+            ObstacleDownSpeed = CustomOption.Create(2110, Color.white, "ObstacleDownSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Obstacle]);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
