@@ -1,5 +1,5 @@
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -10,7 +10,7 @@ namespace TownOfHost
             [HarmonyArgument(4)] Il2CppSystem.Collections.Generic.List<NormalPlayerTask> unusedTasks)
         {
             if (!Options.DisableTasks.GetBool()) return;
-            List<NormalPlayerTask> disabledTasks = new List<NormalPlayerTask>();
+            List<NormalPlayerTask> disabledTasks = new();
             for (var i = 0; i < unusedTasks.Count; i++)
             {
                 var task = unusedTasks[i];
@@ -65,7 +65,7 @@ namespace TownOfHost
             if (!doOverride) return;
             //割り当て可能なタスクのIDが入ったリスト
             //本来のRpcSetTasksの第二引数のクローン
-            Il2CppSystem.Collections.Generic.List<byte> TasksList = new Il2CppSystem.Collections.Generic.List<byte>();
+            Il2CppSystem.Collections.Generic.List<byte> TasksList = new();
             foreach (var num in taskTypeIds)
                 TasksList.Add(num);
 
@@ -78,18 +78,18 @@ namespace TownOfHost
 
             //割り当て済みのタスクが入れられるHashSet
             //同じタスクが複数割り当てられるのを防ぐ
-            Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new Il2CppSystem.Collections.Generic.HashSet<TaskTypes>();
+            Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new();
             int start2 = 0;
             int start3 = 0;
 
             //割り当て可能なロングタスクのリスト
-            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new();
             foreach (var task in ShipStatus.Instance.LongTasks)
                 LongTasks.Add(task);
             Shuffle<NormalPlayerTask>(LongTasks);
 
             //割り当て可能なショートタスクのリスト
-            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new Il2CppSystem.Collections.Generic.List<NormalPlayerTask>();
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new();
             foreach (var task in ShipStatus.Instance.NormalTasks)
                 ShortTasks.Add(task);
             Shuffle<NormalPlayerTask>(ShortTasks);

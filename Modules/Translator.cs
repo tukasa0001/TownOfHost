@@ -1,6 +1,6 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 namespace TownOfHost
 {
     public static class Translator
@@ -29,8 +29,8 @@ namespace TownOfHost
                 string line = sr.ReadLine();
                 if (line == "" || line[0] == '#') continue;
                 string[] values = line.Split(',');
-                List<string> fields = new List<string>(values);
-                Dictionary<int, string> tmp = new Dictionary<int, string>();
+                List<string> fields = new(values);
+                Dictionary<int, string> tmp = new();
                 for (var i = 1; i < fields.Count; ++i)
                 {
                     if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')

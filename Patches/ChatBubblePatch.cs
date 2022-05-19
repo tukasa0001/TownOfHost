@@ -1,4 +1,4 @@
-﻿
+
 using HarmonyLib;
 
 namespace TownOfHost.Patches

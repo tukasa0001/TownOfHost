@@ -1,8 +1,8 @@
+using System;
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using UnityEngine;
-using System.Text.RegularExpressions;
 using UnityEngine.SceneManagement;
-using System;
 
 namespace TownOfHost
 {

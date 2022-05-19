@@ -1,14 +1,14 @@
 using HarmonyLib;
-using UnityEngine;
 using Hazel;
 using InnerNet;
+using UnityEngine;
 
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch
     {
-        static System.Random random = new System.Random();
+        static System.Random random = new();
         static PlayerControl bot;
         static (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900) };
         static int resolutionIndex = 0;

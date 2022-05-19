@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using Hazel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hazel;
 using InnerNet;
 using static TownOfHost.Translator;
 
@@ -320,7 +320,7 @@ namespace TownOfHost
                             if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
                             {
                                 var rand = new System.Random();
-                                List<PlayerControl> targetplayers = new List<PlayerControl>();
+                                List<PlayerControl> targetplayers = new();
                                 //切断者と死亡者を除外
                                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                                 {
@@ -512,7 +512,7 @@ namespace TownOfHost
         public static PlayerControl ResetBountyTarget(this PlayerControl player)
         {
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            List<PlayerControl> cTargets = new List<PlayerControl>();
+            List<PlayerControl> cTargets = new();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 // 死者/切断者/インポスターを除外
@@ -620,7 +620,7 @@ namespace TownOfHost
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
         {
             var rand = new System.Random();
-            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new System.Collections.Generic.List<CustomRoles>();
+            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new();
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)

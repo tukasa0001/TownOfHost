@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using UnityEngine;
 using Hazel;
-using System.Linq;
+using UnityEngine;
 using static TownOfHost.Translator;
-using System.Reflection;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
@@ -38,12 +38,12 @@ namespace TownOfHost
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
-        public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
+        public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
-        public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
+        public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
@@ -65,37 +65,37 @@ namespace TownOfHost
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
-        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
-        public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
-        public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
-        public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> WarlockTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, float> AllPlayerKillCooldown = new();
+        public static Dictionary<byte, float> AllPlayerSpeed = new();
+        public static Dictionary<byte, (byte, float)> BitPlayers = new();
+        public static Dictionary<byte, float> SerialKillerTimer = new();
+        public static Dictionary<byte, float> BountyTimer = new();
+        public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> BountyTargets;
-        public static Dictionary<byte, bool> isTargetKilled = new Dictionary<byte, bool>();
-        public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
-        public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
-        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
-        public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
-        public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
-        public static Dictionary<byte, (int, int)> DousedPlayerCount = new Dictionary<byte, (int, int)>();
-        public static Dictionary<byte, bool> isDeadDoused = new Dictionary<byte, bool>();
-        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-        public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : Executioner, Value : target
-        public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
+        public static Dictionary<byte, bool> isTargetKilled = new();
+        public static Dictionary<byte, PlayerControl> CursedPlayers = new();
+        public static List<PlayerControl> SpelledPlayer = new();
+        public static Dictionary<byte, bool> KillOrSpell = new();
+        public static Dictionary<byte, bool> isCurseAndKill = new();
+        public static Dictionary<(byte, byte), bool> isDoused = new();
+        public static Dictionary<byte, (int, int)> DousedPlayerCount = new();
+        public static Dictionary<byte, bool> isDeadDoused = new();
+        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
+        public static Dictionary<byte, float> AirshipMeetingTimer = new();
+        public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
+        public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
         public static bool AirshipMeetingCheck;
-        public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
-        public static Dictionary<byte, int> MayorUsedButtonCount = new Dictionary<byte, int>();
-        public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, byte> SpeedBoostTarget = new();
+        public static Dictionary<byte, int> MayorUsedButtonCount = new();
+        public static Dictionary<byte, int> TimeThiefKillCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
         public static bool isShipStart;
-        public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
+        public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte WonTrollID;
         public static byte ExiledJesterID;

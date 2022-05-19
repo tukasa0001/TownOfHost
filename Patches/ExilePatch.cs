@@ -1,5 +1,5 @@
-using Hazel;
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {

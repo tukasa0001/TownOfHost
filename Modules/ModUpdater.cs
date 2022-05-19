@@ -1,14 +1,14 @@
-using HarmonyLib;
-using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
-using System.Reflection;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
+using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using Twitch;
+using UnityEngine;
+using UnityEngine.UI;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -136,7 +136,7 @@ namespace TownOfHost
         {
             try
             {
-                DirectoryInfo d = new DirectoryInfo(Path.GetDirectoryName(Application.dataPath) + @"\BepInEx\plugins");
+                DirectoryInfo d = new(Path.GetDirectoryName(Application.dataPath) + @"\BepInEx\plugins");
                 string[] files = d.GetFiles("*.old").Select(x => x.FullName).ToArray();
                 foreach (string f in files)
                     File.Delete(f);
@@ -152,7 +152,7 @@ namespace TownOfHost
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             try
             {
-                HttpClient http = new HttpClient();
+                HttpClient http = new();
                 http.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
                 var response = await http.GetAsync(new System.Uri("https://api.github.com/repos/tukasa0001/TownOfHost/releases/latest"), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
@@ -213,7 +213,7 @@ namespace TownOfHost
         {
             try
             {
-                HttpClient http = new HttpClient();
+                HttpClient http = new();
                 http.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
                 var response = await http.GetAsync(new System.Uri(updateURI), HttpCompletionOption.ResponseContentRead);
                 if (response.StatusCode != HttpStatusCode.OK || response.Content == null)
@@ -222,7 +222,7 @@ namespace TownOfHost
                     return false;
                 }
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                System.UriBuilder uri = new System.UriBuilder(codeBase);
+                System.UriBuilder uri = new(codeBase);
                 string fullname = System.Uri.UnescapeDataString(uri.Path);
                 if (File.Exists(fullname + ".old"))
                     File.Delete(fullname + ".old");

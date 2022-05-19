@@ -1,10 +1,10 @@
-using System.IO;
-using Hazel;
-using HarmonyLib;
-using System.Linq;
 using System;
-using static TownOfHost.Translator;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using HarmonyLib;
+using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

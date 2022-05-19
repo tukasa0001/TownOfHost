@@ -1,8 +1,8 @@
 using System;
-using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -31,7 +31,7 @@ namespace TownOfHost
                 bool tie = false;
                 recall = false;
 
-                List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
+                List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
                 {
                     PlayerVoteArea ps = __instance.playerStates[i];
@@ -172,7 +172,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> CustomCalculateVotes(this MeetingHud __instance)
         {
             Logger.info("CustomCalculateVotes開始", "Vote");
-            Dictionary<byte, int> dic = new Dictionary<byte, int>();
+            Dictionary<byte, int> dic = new();
             //| 投票された人 | 投票された回数 |
             for (int i = 0; i < __instance.playerStates.Length; i++)
             {
@@ -358,7 +358,7 @@ namespace TownOfHost
                 {
                     var voteTarget = Utils.getPlayerById(pva.VotedFor);
                     MeetingHud.VoterState[] states;
-                    List<MeetingHud.VoterState> statesList = new List<MeetingHud.VoterState>();
+                    List<MeetingHud.VoterState> statesList = new();
                     statesList.Add(new MeetingHud.VoterState()
                     {
                         VoterId = pva.TargetPlayerId,
