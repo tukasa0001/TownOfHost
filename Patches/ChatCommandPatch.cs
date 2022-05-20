@@ -302,7 +302,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch
     {
-        public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
+        public static void Postfix(string chatText)
         {
             switch (chatText)
             {
