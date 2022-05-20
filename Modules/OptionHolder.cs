@@ -273,6 +273,7 @@ namespace TownOfHost
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            SlaveDriver.SetupCustomOption();
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);

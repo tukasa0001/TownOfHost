@@ -308,6 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+                AssignCustomRolesFromList(CustomRoles.SlaveDriver, Impostors);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
