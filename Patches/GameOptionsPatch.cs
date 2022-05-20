@@ -10,15 +10,15 @@ namespace TownOfHost
             bool forced = false;
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
-                if (CustomRoles.Doctor.isEnable()) forced = true;
+                if (CustomRoles.Doctor.IsEnable()) forced = true;
             }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
-                if (CustomRoles.Madmate.isEnable() || CustomRoles.Terrorist.isEnable()) forced = true;
+                if (CustomRoles.Madmate.IsEnable() || CustomRoles.Terrorist.IsEnable()) forced = true;
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
-                if (CustomRoles.Mafia.isEnable() || CustomRoles.SerialKiller.isEnable() || CustomRoles.Warlock.isEnable() || CustomRoles.BountyHunter.isEnable() || CustomRoles.ShapeMaster.isEnable()) forced = true;
+                if (CustomRoles.Mafia.IsEnable() || CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.BountyHunter.IsEnable() || CustomRoles.ShapeMaster.IsEnable()) forced = true;
             }
 
             if (forced)

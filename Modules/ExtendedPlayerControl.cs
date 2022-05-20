@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using Hazel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Hazel;
 using InnerNet;
 using static TownOfHost.Translator;
 
@@ -13,11 +13,11 @@ namespace TownOfHost
         {
             if (role < CustomRoles.NoSubRoleAssigned)
             {
-                main.AllPlayerCustomRoles[player.PlayerId] = role;
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
             else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
-                main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
             }
             if (AmongUsClient.Instance.AmHost)
             {
@@ -39,39 +39,39 @@ namespace TownOfHost
         }
         public static void SetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            main.AllPlayerCustomRoles[player.PlayerId] = role;
+            Main.AllPlayerCustomRoles[player.PlayerId] = role;
         }
 
         public static void RpcExile(this PlayerControl player)
         {
             RPC.ExileAsync(player);
         }
-        public static InnerNet.ClientData getClient(this PlayerControl player)
+        public static InnerNet.ClientData GetClient(this PlayerControl player)
         {
             var client = AmongUsClient.Instance.allClients.ToArray().Where(cd => cd.Character.PlayerId == player.PlayerId).FirstOrDefault();
             return client;
         }
-        public static int getClientId(this PlayerControl player)
+        public static int GetClientId(this PlayerControl player)
         {
-            var client = player.getClient();
+            var client = player.GetClient();
             if (client == null) return -1;
             return client.Id;
         }
-        public static CustomRoles getCustomRole(this GameData.PlayerInfo player)
+        public static CustomRoles GetCustomRole(this GameData.PlayerInfo player)
         {
             if (player == null || player.Object == null) return CustomRoles.Crewmate;
-            return player.Object.getCustomRole();
+            return player.Object.GetCustomRole();
         }
 
-        public static CustomRoles getCustomRole(this PlayerControl player)
+        public static CustomRoles GetCustomRole(this PlayerControl player)
         {
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                Logger.Warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
                 return cRole;
             }
-            var cRoleFound = main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
+            var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
             if (cRoleFound || player.Data.Role == null) return cRole;
 
             switch (player.Data.Role.Role)
@@ -86,14 +86,14 @@ namespace TownOfHost
             }
         }
 
-        public static CustomRoles getCustomSubRole(this PlayerControl player)
+        public static CustomRoles GetCustomSubRole(this PlayerControl player)
         {
             if (player == null)
             {
-                Logger.warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
+                Logger.Warn("CustomSubRoleを取得しようとしましたが、対象がnullでした。", "getCustomSubRole");
                 return CustomRoles.NoSubRoleAssigned;
             }
-            var cRoleFound = main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
+            var cRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
             if (cRoleFound) return cRole;
             else return CustomRoles.NoSubRoleAssigned;
         }
@@ -101,7 +101,7 @@ namespace TownOfHost
         {
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
-                main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+                Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             }
             HudManagerPatch.LastSetNameDesyncCount++;
 
@@ -114,16 +114,16 @@ namespace TownOfHost
             //seer: 上の変更を確認することができるプレイヤー
             if (player == null || name == null || !AmongUsClient.Instance.AmHost) return;
             if (seer == null) seer = player;
-            if (!force && main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
+            if (!force && Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
             {
                 //Logger.info($"Cancel:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
                 return;
             }
-            main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
             HudManagerPatch.LastSetNameDesyncCount++;
-            Logger.info($"Set:{player?.Data?.PlayerName}:{name} for {seer.getNameWithRole()}", "RpcSetNamePrivate");
+            Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
 
-            var clientId = seer.getClientId();
+            var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetName, Hazel.SendOption.Reliable, clientId);
             writer.Write(name);
             writer.Write(DontShowOnModdedClient);
@@ -136,7 +136,7 @@ namespace TownOfHost
 
             if (player == null) return;
             if (seer == null) seer = player;
-            var clientId = seer.getClientId();
+            var clientId = seer.GetClientId();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SetRole, Hazel.SendOption.Reliable, clientId);
             writer.Write((ushort)role);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -145,19 +145,19 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            main.SelfGuard[target.PlayerId] = true;
+            Main.SelfGuard[target.PlayerId] = true;
             killer.RpcProtectPlayer(target, colorId);
             new LateTask(() =>
             {
                 if (target == null) return;
-                main.SelfGuard[target.PlayerId] = false;
+                Main.SelfGuard[target.PlayerId] = false;
                 if (!target.Data.IsDead && target.protectedByGuardian)
                 {
                     killer?.RpcMurderPlayer(target);
                 }
                 else
                 {
-                    main.BlockKilling[killer.PlayerId] = false;
+                    Main.BlockKilling[killer.PlayerId] = false;
                 }
             }, 0.5f, "GuardAndKill");
         }
@@ -168,7 +168,7 @@ namespace TownOfHost
             {
                 killer.MurderPlayer(target);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.getClientId());
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, killer.GetClientId());
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
@@ -178,7 +178,7 @@ namespace TownOfHost
             {
                 killer.ProtectPlayer(target, colorId);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.getClientId());
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, killer.GetClientId());
             messageWriter.WriteNetObject(target);
             messageWriter.Write(colorId);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
@@ -193,9 +193,9 @@ namespace TownOfHost
             return dic[role];
         }
 
-        public static bool canBeKilledBySheriff(this PlayerControl player)
+        public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
-            var cRole = player.getCustomRole();
+            var cRole = player.GetCustomRole();
             switch (cRole)
             {
                 case CustomRoles.Jester:
@@ -215,8 +215,8 @@ namespace TownOfHost
                 case CustomRoles.SchrodingerCat:
                     return true;
             }
-            CustomRoles role = player.getCustomRole();
-            RoleType roleType = role.getRoleType();
+            CustomRoles role = player.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
             switch (roleType)
             {
                 case RoleType.Impostor:
@@ -250,15 +250,15 @@ namespace TownOfHost
         public static void CustomSyncSettings(this PlayerControl player)
         {
             if (player == null || !AmongUsClient.Instance.AmHost) return;
-            if (main.RealOptionsData == null)
+            if (Main.RealOptionsData == null)
             {
-                main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+                Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             }
 
-            var clientId = player.getClientId();
-            var opt = main.RealOptionsData.DeepCopy();
+            var clientId = player.GetClientId();
+            var opt = Main.RealOptionsData.DeepCopy();
 
-            switch (player.getCustomRole())
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
@@ -268,22 +268,22 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!main.AirshipMeetingCheck)
+                    if (!Main.AirshipMeetingCheck)
                     {
-                        if (!main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                        if (main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
+                        if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                        if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     }
                     else
                         opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat() - 10f;
                     break;
                 case CustomRoles.SerialKiller:
-                    if (!main.AirshipMeetingCheck)
+                    if (!Main.AirshipMeetingCheck)
                         opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     else
                         opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat() - 10f;
                     break;
                 case CustomRoles.BountyHunter:
-                    if (!main.AirshipMeetingCheck)
+                    if (!Main.AirshipMeetingCheck)
                         opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
                     else
                         opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 10f;
@@ -302,7 +302,7 @@ namespace TownOfHost
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.Lighter:
-                    if (player.getPlayerTaskState().isTaskFinished)
+                    if (player.GetPlayerTaskState().IsTaskFinished)
                         opt.SetVision(player, true);
                     break;
                 case CustomRoles.EgoSchrodingerCat:
@@ -315,31 +315,31 @@ namespace TownOfHost
                 case CustomRoles.SpeedBooster:
                     if (!player.Data.IsDead)
                     {
-                        if (player.getPlayerTaskState().isTaskFinished)
+                        if (player.GetPlayerTaskState().IsTaskFinished)
                         {
-                            if (!main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                            if (!Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
                             {
                                 var rand = new System.Random();
-                                List<PlayerControl> targetplayers = new List<PlayerControl>();
+                                List<PlayerControl> targetplayers = new();
                                 //切断者と死亡者を除外
                                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                                 {
-                                    if (!p.Data.Disconnected && !p.Data.IsDead && !main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
+                                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
                                 }
                                 //ターゲットが0ならアップ先をプレイヤーをnullに
                                 if (targetplayers.Count >= 1)
                                 {
                                     PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
                                     //Logger.SendInGame("スピードブースターの相手:"+target.nameText.text);
-                                    main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
                                 }
                                 else
                                 {
-                                    main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
                                 }
                             }
-                            if (main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-                                main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
+                            if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
+                                Main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
                         }
                     }
                     break;
@@ -348,11 +348,11 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:
-                    main.AllPlayerSpeed[player.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
-                    if (Utils.isActive(SystemTypes.Electrical))//もし停電発生した場合
+                    Main.AllPlayerSpeed[player.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                    if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
                     {
-                        main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
-                        main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                        Main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
 
@@ -362,8 +362,8 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
-            CustomRoles role = player.getCustomRole();
-            RoleType roleType = role.getRoleType();
+            CustomRoles role = player.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
             switch (roleType)
             {
                 case RoleType.Madmate:
@@ -373,9 +373,9 @@ namespace TownOfHost
                         opt.SetVision(player, true);
                     break;
             }
-            if (main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
+            if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
-                foreach (var kc in main.AllPlayerKillCooldown)
+                foreach (var kc in Main.AllPlayerKillCooldown)
                 {
                     if (kc.Key == player.PlayerId)
                     {
@@ -386,9 +386,9 @@ namespace TownOfHost
                     }
                 }
             }
-            if (main.AllPlayerSpeed.ContainsKey(player.PlayerId))
+            if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
             {
-                foreach (var speed in main.AllPlayerSpeed)
+                foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
                     {
@@ -407,15 +407,15 @@ namespace TownOfHost
             {
                 opt.ImpostorLightMod = 0f;
             }
-            opt.DiscussionTime = main.DiscussionTime;
-            opt.VotingTime = main.VotingTime;
+            opt.DiscussionTime = Main.DiscussionTime;
+            opt.VotingTime = Main.VotingTime;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
             writer.WriteBytesAndSize(opt.ToBytes(5));
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static TaskState getPlayerTaskState(this PlayerControl player)
+        public static TaskState GetPlayerTaskState(this PlayerControl player)
         {
             return PlayerState.taskState[player.PlayerId];
         }
@@ -426,33 +426,33 @@ namespace TownOfHost
             return GameOptionsData.FromBytes(optByte);
         }
 
-        public static string getRoleName(this PlayerControl player)
+        public static string GetRoleName(this PlayerControl player)
         {
-            return $"{Utils.getRoleName(player.getCustomRole())}" /*({getString("Last")})"*/;
+            return $"{Utils.GetRoleName(player.GetCustomRole())}" /*({getString("Last")})"*/;
         }
-        public static string getSubRoleName(this PlayerControl player)
+        public static string GetSubRoleName(this PlayerControl player)
         {
-            return $"{Utils.getRoleName(player.getCustomSubRole())}";
+            return $"{Utils.GetRoleName(player.GetCustomSubRole())}";
         }
-        public static string getAllRoleName(this PlayerControl player)
+        public static string GetAllRoleName(this PlayerControl player)
         {
             if (!player) return null;
-            var text = player.getRoleName();
-            text += player.getCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.getSubRoleName()}" : "";
+            var text = player.GetRoleName();
+            text += player.GetCustomSubRole() != CustomRoles.NoSubRoleAssigned ? $" + {player.GetSubRoleName()}" : "";
             return text;
         }
-        public static string getNameWithRole(this PlayerControl player)
+        public static string GetNameWithRole(this PlayerControl player)
         {
-            return $"{player?.Data?.PlayerName}({player?.getAllRoleName()})";
+            return $"{player?.Data?.PlayerName}({player?.GetAllRoleName()})";
         }
-        public static string getRoleColorCode(this PlayerControl player)
+        public static string GetRoleColorCode(this PlayerControl player)
         {
-            return Utils.getRoleColorCode(player.getCustomRole());
+            return Utils.GetRoleColorCode(player.GetCustomRole());
         }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
-            int clientId = pc.getClientId();
+            int clientId = pc.GetClientId();
 
             byte reactorId = 3;
             if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
@@ -493,17 +493,17 @@ namespace TownOfHost
                 }, 0.4f + delay, "Fix Desync Reactor 2");
         }
 
-        public static string getRealName(this PlayerControl player, bool isMeeting = false)
+        public static string GetRealName(this PlayerControl player, bool isMeeting = false)
         {
             return isMeeting ? player?.Data?.PlayerName : player?.name;
         }
 
-        public static PlayerControl getBountyTarget(this PlayerControl player)
+        public static PlayerControl GetBountyTarget(this PlayerControl player)
         {
             if (player == null) return null;
-            if (main.BountyTargets == null) main.BountyTargets = new Dictionary<byte, PlayerControl>();
+            if (Main.BountyTargets == null) Main.BountyTargets = new Dictionary<byte, PlayerControl>();
 
-            if (!main.BountyTargets.TryGetValue(player.PlayerId, out var target))
+            if (!Main.BountyTargets.TryGetValue(player.PlayerId, out var target))
             {
                 target = player.ResetBountyTarget();
             }
@@ -512,13 +512,13 @@ namespace TownOfHost
         public static PlayerControl ResetBountyTarget(this PlayerControl player)
         {
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            List<PlayerControl> cTargets = new List<PlayerControl>();
+            List<PlayerControl> cTargets = new();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 // 死者/切断者/インポスターを除外
                 if (!pc.Data.IsDead &&
                     !pc.Data.Disconnected &&
-                    !pc.getCustomRole().isImpostor()
+                    !pc.GetCustomRole().IsImpostor()
                 )
                 {
                     cTargets.Add(pc);
@@ -528,12 +528,12 @@ namespace TownOfHost
             var rand = new System.Random();
             if (cTargets.Count <= 0)
             {
-                Logger.error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
+                Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
             var target = cTargets[rand.Next(0, cTargets.Count - 1)];
-            main.BountyTargets[player.PlayerId] = target;
-            Logger.info($"プレイヤー{player.getNameWithRole()}のターゲットを{target.getNameWithRole()}に変更", "BountyHunter");
+            Main.BountyTargets[player.PlayerId] = target;
+            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
             //RPCによる同期
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
@@ -544,9 +544,9 @@ namespace TownOfHost
         }
         public static bool GetKillOrSpell(this PlayerControl player)
         {
-            if (!main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
+            if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
             {
-                main.KillOrSpell[player.PlayerId] = false;
+                Main.KillOrSpell[player.PlayerId] = false;
                 KillOrSpell = false;
             }
             return KillOrSpell;
@@ -562,70 +562,70 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(main.SheriffShotLimit[player.PlayerId]);
+            writer.Write(Main.SheriffShotLimit[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void RpcSetTimeThiefKillCount(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(main.TimeThiefKillCount[player.PlayerId]);
+            writer.Write(Main.TimeThiefKillCount[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
-                pc.getCustomRole().isImpostor() ||
+                pc.GetCustomRole().IsImpostor() ||
                 pc.Is(CustomRoles.Sheriff) ||
                 pc.Is(CustomRoles.Arsonist);
 
             if (pc.Is(CustomRoles.Mafia))
             {
-                if (main.AliveImpostorCount > 1) canUse = false;
+                if (Main.AliveImpostorCount > 1) canUse = false;
             }
             else if (pc.Is(CustomRoles.Mare))
-                return Utils.isActive(SystemTypes.Electrical);
+                return Utils.IsActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
             return canUse;
         }
-        public static bool isLastImpostor(this PlayerControl pc)
+        public static bool IsLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
-            if (pc.getCustomRole().isImpostor() &&
+            if (pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
                 !pc.Is(CustomRoles.SerialKiller) &&
                 !pc.Is(CustomRoles.GBomber) &&
-                main.AliveImpostorCount == 1)
+                Main.AliveImpostorCount == 1)
                 return true;
             return false;
         }
-        public static bool isDousedPlayer(this PlayerControl arsonist, PlayerControl target)
+        public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;
             if (target == null) return false;
-            if (main.isDoused == null) return false;
-            main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
+            if (Main.isDoused == null) return false;
+            Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
         public static void RpcSendDousedPlayerCount(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendDousedPlayerCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(main.DousedPlayerCount[player.PlayerId].Item1);
-            writer.Write(main.DousedPlayerCount[player.PlayerId].Item2);
+            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item1);
+            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item2);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
         {
             var rand = new System.Random();
-            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new System.Collections.Generic.List<CustomRoles>();
+            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new();
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-                if (CustomRoles.Egoist.isEnable() && (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead))
+                if (CustomRoles.Egoist.IsEnable() && (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead))
                 {
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
                 }
@@ -634,100 +634,100 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
-            switch (player.getCustomRole())
+            Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Sheriff:
-                    main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
                     break;
             }
-            if (player.isLastImpostor())
-                main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+            if (player.IsLastImpostor())
+                Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {
-            Logger.info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
-            main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
+            Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "Trapper");
+            Main.AllPlayerSpeed[killer.PlayerId] = 0.00001f;
             killer.CustomSyncSettings();
             new LateTask(() =>
             {
-                main.AllPlayerSpeed[killer.PlayerId] = main.RealOptionsData.PlayerSpeedMod;
+                Main.AllPlayerSpeed[killer.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
         public static void CanUseImpostorVent(this PlayerControl player)
         {
-            switch (player.getCustomRole())
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;
                     return;
                 case CustomRoles.Arsonist:
-                    bool CanUse = player.isDouseDone();
+                    bool CanUse = player.IsDouseDone();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
                     return;
             }
         }
-        public static bool isDouseDone(this PlayerControl player)
+        public static bool IsDouseDone(this PlayerControl player)
         {
-            if (!main.DousedPlayerCount.ContainsKey(player.PlayerId)) return false;
-            if (main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
+            if (!Main.DousedPlayerCount.ContainsKey(player.PlayerId)) return false;
+            if (Main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
                 return true;
 
             return false;
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
-            for (var i = 0; i < main.TimeThiefKillCount[thief.PlayerId]; i++)
-                main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
-            main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
+            for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
+                Main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+            Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
         {
             foreach (var arsonist in PlayerControl.AllPlayerControls)
             {
-                if (target == arsonist || !main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
+                if (target == arsonist || !Main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
                     bool isDoused = false;
-                    main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
-                    if (main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
+                    Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
+                    if (Main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
                     {
-                        main.isDeadDoused[target.PlayerId] = true;
-                        var ArsonistDic = main.DousedPlayerCount[arsonist.PlayerId];
+                        Main.isDeadDoused[target.PlayerId] = true;
+                        var ArsonistDic = Main.DousedPlayerCount[arsonist.PlayerId];
                         var LeftPlayer = ArsonistDic.Item1; //塗った人数
                         var RequireDouse = ArsonistDic.Item2; //塗るべき人数
                         if (isDoused)
                             LeftPlayer--;
                         RequireDouse--;
-                        main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
-                        Logger.info($"{arsonist.getRealName()} : {ArsonistDic}", "Arsonist");
+                        Main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
+                        Logger.Info($"{arsonist.GetRealName()} : {ArsonistDic}", "Arsonist");
                         arsonist.RpcSendDousedPlayerCount(); //RPCで他クライアントと塗り状況を同期
                     }
                 }
             }
         }
-        public static bool isModClient(this PlayerControl player) => main.playerVersion.ContainsKey(player.PlayerId);
+        public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role)
         {
             if (role > CustomRoles.NoSubRoleAssigned)
             {
-                return target.getCustomSubRole() == role;
+                return target.GetCustomSubRole() == role;
             }
-            return target.getCustomRole() == role;
+            return target.GetCustomRole() == role;
         }
-        public static bool Is(this PlayerControl target, RoleType type) { return target.getCustomRole().getRoleType() == type; }
+        public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
 
     }
 }

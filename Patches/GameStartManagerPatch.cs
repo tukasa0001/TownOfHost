@@ -1,6 +1,6 @@
 using HarmonyLib;
-using UnityEngine;
 using UnhollowerBaseLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -25,11 +25,11 @@ namespace TownOfHost
                 // Reset lobby countdown timer
                 timer = 600f;
 
-                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && main.AllPlayerCustomRoles.Count != 0)
+                if (AmongUsClient.Instance.AmHost && Options.AutoDisplayLastResult.GetBool() && Main.AllPlayerCustomRoles.Count != 0)
                 {
                     new LateTask(() =>
                     {
-                        main.isChatCommand = true;
+                        Main.isChatCommand = true;
                         Utils.ShowLastRoles();
                     }
                         , 5f, "DisplayLastRoles");
@@ -50,17 +50,17 @@ namespace TownOfHost
             public static void Postfix(GameStartManager __instance)
             {
                 // Lobby code
-                string htmlValue = main.HideColor.Value;
+                string htmlValue = Main.HideColor.Value;
                 Color newCol;
-                if (main.HideCodes.Value)
+                if (Main.HideCodes.Value)
                 {
                     if (ColorUtility.TryParseHtmlString(htmlValue, out newCol))
                     {
-                        lobbyCodehide = $"<color={main.HideColor.Value}>{main.HideName.Value}</color>";
+                        lobbyCodehide = $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>";
                     }
                     else
                     {
-                        lobbyCodehide = $"<color={main.modColor}>{main.HideName.Value}</color>";
+                        lobbyCodehide = $"<color={Main.modColor}>{Main.HideName.Value}</color>";
                     }
                 }
                 else
@@ -101,7 +101,7 @@ namespace TownOfHost
             if (Options.RandomMapsMode.GetBool())
             {
                 var rand = new System.Random();
-                System.Collections.Generic.List<byte> RandomMaps = new System.Collections.Generic.List<byte>();
+                System.Collections.Generic.List<byte> RandomMaps = new();
                 /*TheSkeld   = 0
                 MIRAHQ     = 1
                 Polus      = 2

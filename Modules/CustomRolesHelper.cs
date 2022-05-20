@@ -2,7 +2,7 @@ namespace TownOfHost
 {
     static class CustomRolesHelper
     {
-        public static bool isImpostor(this CustomRoles role)
+        public static bool IsImpostor(this CustomRoles role)
         {
             return
                 role == CustomRoles.Impostor ||
@@ -22,7 +22,7 @@ namespace TownOfHost
                 role == CustomRoles.Sniper ||
                 role == CustomRoles.GBomber;
         }
-        public static bool isMadmate(this CustomRoles role)
+        public static bool IsMadmate(this CustomRoles role)
         {
             return
                 role == CustomRoles.Madmate ||
@@ -31,8 +31,8 @@ namespace TownOfHost
                 role == CustomRoles.MadSnitch ||
                 role == CustomRoles.MSchrodingerCat;
         }
-        public static bool isImpostorTeam(this CustomRoles role) => role.isImpostor() || role.isMadmate();
-        public static bool isNeutral(this CustomRoles role)
+        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
+        public static bool IsNeutral(this CustomRoles role)
         {
             return
                 role == CustomRoles.Jester ||
@@ -46,7 +46,7 @@ namespace TownOfHost
                 role == CustomRoles.HASTroll ||
                 role == CustomRoles.HASFox;
         }
-        public static bool isVanilla(this CustomRoles role)
+        public static bool IsVanilla(this CustomRoles role)
         {
             return
                 role == CustomRoles.Crewmate ||
@@ -57,18 +57,18 @@ namespace TownOfHost
                 role == CustomRoles.Shapeshifter;
         }
 
-        public static RoleType getRoleType(this CustomRoles role)
+        public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
-            if (role.isImpostor()) type = RoleType.Impostor;
-            if (role.isNeutral()) type = RoleType.Neutral;
-            if (role.isMadmate()) type = RoleType.Madmate;
+            if (role.IsImpostor()) type = RoleType.Impostor;
+            if (role.IsNeutral()) type = RoleType.Neutral;
+            if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
-        public static void setCount(this CustomRoles role, int num) => Options.setRoleCount(role, num);
-        public static int getCount(this CustomRoles role)
+        public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
+        public static int GetCount(this CustomRoles role)
         {
-            if (role.isVanilla())
+            if (role.IsVanilla())
             {
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 return role switch
@@ -83,10 +83,10 @@ namespace TownOfHost
             }
             else
             {
-                return Options.getRoleCount(role);
+                return Options.GetRoleCount(role);
             }
         }
-        public static bool isEnable(this CustomRoles role) => role.getCount() > 0;
+        public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
     }
     public enum RoleType
     {
