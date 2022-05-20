@@ -69,7 +69,7 @@ namespace TownOfHost
                     //killer.RpcGuardAndKill(target);
                     if (target == killer.GetBountyTarget())
                     {//ターゲットをキルした場合
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat();// * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
                         Utils.CustomSyncAllSettings();//キルクール処理を同期
                         Main.isTargetKilled[killer.PlayerId] = true;
                         Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
@@ -80,10 +80,10 @@ namespace TownOfHost
                         Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
                         Utils.CustomSyncAllSettings();//キルクール処理を同期
                     }
-                    killer.ResetBountyTarget(); //ターゲットリセット
                     Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
                     break;
                 case CustomRoles.SerialKiller:
+                    killer.RpcMurderPlayer(target);
                     killer.RpcGuardAndKill(target);
                     Main.SerialKillerTimer[killer.PlayerId] = 0f;
                     Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
