@@ -18,25 +18,20 @@ namespace TownOfHost
         public static void SlaveDriverKillTargetTaskCheck(PlayerControl __instance, byte playerId, PlayerControl target)
         {
             var taskState = PlayerState.taskState?[playerId];
-
-            float targetPlayerTaskGage = taskState.CompletedTasksCount / taskState.AllTasksCount;
-            int totalTaskNum = GameData.Instance.TotalTasks;
-            int compTaskNum = GameData.Instance.CompletedTasks;
-            float totalTaskGauge = compTaskNum / totalTaskNum;
-            float diff = totalTaskGauge - targetPlayerTaskGage;
+            int TaskHalfValue = taskState.AllTasksCount / 2;
 
 
-            if ((0.5f < diff))
+            if (taskState.CompletedTasksCount <= TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分か、それ以下
             {
-                Main.AllPlayerKillCooldown[__instance.PlayerId] *= 2;
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 1.5f;
             }
-            if (taskState.IsTaskFinished)
+            if (taskState.CompletedTasksCount > TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分を超えている
             {
-                Main.AllPlayerKillCooldown[__instance.PlayerId] /= 3;
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.4f;
             }
-            if (taskState.hasTasks == false)
+            if (taskState.IsTaskFinished)//キル対象がタスクを終えている
             {
-                Main.AllPlayerKillCooldown[__instance.PlayerId] *= 3;
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.9f;
             }
         }
     }
