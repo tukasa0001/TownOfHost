@@ -270,7 +270,10 @@ namespace TownOfHost
                     Main.VotingTime -= Options.TimeThiefDecreaseVotingTime.GetInt();
                 Utils.CustomSyncAllSettings();
             }
-            if (__instance.Is(CustomRoles.SlaveDriver))SlaveDriver.SlaveDriverKillTargetTaskCheck(__instance,target);
+            if (__instance.Is(CustomRoles.SlaveDriver))
+            {
+                SlaveDriver.SlaveDriverKillTargetTaskCheck(__instance,target.PlayerId,target);
+            }
 
             //==キル処理==
             __instance.RpcMurderPlayer(target);
