@@ -73,6 +73,7 @@ namespace TownOfHost
                         Utils.CustomSyncAllSettings();//キルクール処理を同期
                         Main.isTargetKilled[killer.PlayerId] = true;
                         Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
+                        Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
                     }
                     else
                     {
@@ -80,7 +81,6 @@ namespace TownOfHost
                         Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
                         Utils.CustomSyncAllSettings();//キルクール処理を同期
                     }
-                    Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
                     break;
                 case CustomRoles.SerialKiller:
                     killer.RpcMurderPlayer(target);
