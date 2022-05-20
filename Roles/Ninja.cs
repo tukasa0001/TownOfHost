@@ -13,11 +13,11 @@ namespace TownOfHost
         }
         public static void NinjaShapeShiftingKill(this PlayerControl __instance, PlayerControl target)
         {
-            if (main.CheckShapeshift[__instance.PlayerId])
+            if (Main.CheckShapeshift[__instance.PlayerId])
             {
-                Logger.info("Ninja ShapeShifting kill");
+                Logger.Info("Ninja ShapeShifting kill", "Ninja");
                 __instance.RpcGuardAndKill(target);
-                main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
                 NinjaKillTarget.Add(target);
                 __instance.CustomSyncSettings();//負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
             }
@@ -25,13 +25,13 @@ namespace TownOfHost
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
         {
             if (!shapeshifting)
-            Logger.info("Ninja ShapeShift Release");
+            Logger.Info("Ninja ShapeShift Release", "Ninja");
             {
                 foreach (var ni in NinjaKillTarget)
                 {
                     if (!ni.Data.IsDead)
                     {
-                        main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
+                        Main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
                         pc.RpcMurderPlayer(ni);
                         NinjaKillTarget.Remove(ni);
                         pc.RpcRevertShapeshift(true);//他視点シェイプシフトが解除されないように見える場合があるため強制解除
