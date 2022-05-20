@@ -11,7 +11,7 @@ namespace TownOfHost
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
             if (__instance.AllowImpostor) return true;
-            if (!Utils.hasTasks(PlayerControl.LocalPlayer.Data, false))
+            if (!Utils.HasTasks(PlayerControl.LocalPlayer.Data, false))
             {
                 return false;
             }
@@ -47,9 +47,9 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            else if (pc.Object.Is(CustomRoles.Sheriff) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.isDouseDone()))
+            else if (pc.Object.Is(CustomRoles.Sheriff) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
                 return false;
-            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.isDouseDone())
+            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.IsDouseDone())
                 canUse = couldUse = VentForTrigger = true;
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;

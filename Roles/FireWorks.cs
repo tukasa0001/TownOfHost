@@ -1,9 +1,9 @@
-using Hazel;
-using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
+using HarmonyLib;
+using Hazel;
+using UnityEngine;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -59,7 +59,7 @@ namespace TownOfHost
 
         public static void SendRPC(byte playerId)
         {
-            Logger.info($"Player{playerId}:SendRPC", "FireWorks");
+            Logger.Info($"Player{playerId}:SendRPC", "FireWorks");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendFireWorksState, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
             writer.Write(nowFireWorksCount[playerId]);
@@ -72,36 +72,36 @@ namespace TownOfHost
             var playerId = msg.ReadByte();
             nowFireWorksCount[playerId] = msg.ReadInt32();
             state[playerId] = (FireWorksState)msg.ReadInt32();
-            Logger.info($"Player{playerId}:RecieveRPC", "FireWorks");
+            Logger.Info($"Player{playerId}:RecieveRPC", "FireWorks");
         }
 
         public static bool CanUseKillButton(PlayerControl pc)
         {
-            Logger.info($"FireWorks CanUseKillButton");
+            Logger.Info($"FireWorks CanUseKillButton", "FireWorks");
             if (pc.Data.IsDead) return false;
             var canUse = false;
             if ((state[pc.PlayerId] & FireWorksState.CanUseKill) != 0)
             {
                 canUse = true;
             }
-            Logger.info($" CanUseKillButton:{canUse}");
+            Logger.Info($"CanUseKillButton:{canUse}", "FireWorks");
             return canUse;
         }
 
         public static void ShapeShiftState(PlayerControl pc, bool shapeshifting)
         {
-            Logger.info($"FireWorks ShapeShift");
+            Logger.Info($"FireWorks ShapeShift", "FireWorks");
             if (pc == null || pc.Data.IsDead || !shapeshifting) return;
             switch (state[pc.PlayerId])
             {
                 case FireWorksState.Initial:
                 case FireWorksState.SettingFireWorks:
-                    Logger.info("花火を一個設置");
+                    Logger.Info("花火を一個設置", "FireWorks");
                     fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                     nowFireWorksCount[pc.PlayerId]--;
                     if (nowFireWorksCount[pc.PlayerId] == 0)
                     {
-                        if (main.AliveImpostorCount <= 1)
+                        if (Main.AliveImpostorCount <= 1)
                         {
                             state[pc.PlayerId] = FireWorksState.ReadyFire;
                         }
@@ -116,7 +116,7 @@ namespace TownOfHost
                     }
                     break;
                 case FireWorksState.ReadyFire:
-                    Logger.info("花火を爆破");
+                    Logger.Info("花火を爆破", "FireWorks");
                     bool suicide = false;
                     foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     {
@@ -134,14 +134,14 @@ namespace TownOfHost
                             }
                             else
                             {
-                                PlayerState.setDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
+                                PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
                                 target.RpcMurderPlayer(target);
                             }
                         }
                     }
                     if (suicide)
                     {
-                        PlayerState.setDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         pc.RpcMurderPlayer(pc);
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;
@@ -158,9 +158,9 @@ namespace TownOfHost
             string retText = "";
             if (pc == null || pc.Data.IsDead) return retText;
 
-            if (state[pc.PlayerId] == FireWorksState.WaitTime && main.AliveImpostorCount <= 1)
+            if (state[pc.PlayerId] == FireWorksState.WaitTime && Main.AliveImpostorCount <= 1)
             {
-                Logger.info("爆破準備OK", "FireWorks");
+                Logger.Info("爆破準備OK", "FireWorks");
                 state[pc.PlayerId] = FireWorksState.ReadyFire;
                 SendRPC(pc.PlayerId);
                 Utils.NotifyRoles();
@@ -169,13 +169,13 @@ namespace TownOfHost
             {
                 case FireWorksState.Initial:
                 case FireWorksState.SettingFireWorks:
-                    retText = string.Format(getString("FireworksPutPhase"), nowFireWorksCount[pc.PlayerId]);
+                    retText = string.Format(GetString("FireworksPutPhase"), nowFireWorksCount[pc.PlayerId]);
                     break;
                 case FireWorksState.WaitTime:
-                    retText = getString("FireworksWaitPhase");
+                    retText = GetString("FireworksWaitPhase");
                     break;
                 case FireWorksState.ReadyFire:
-                    retText = getString("FireworksRedyFirePhase");
+                    retText = GetString("FireworksRedyFirePhase");
                     break;
                 case FireWorksState.FireEnd:
                     break;

@@ -1,8 +1,8 @@
 using System;
-using HarmonyLib;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -26,7 +26,7 @@ namespace TownOfHost
         }
         public static void Postfix(TaskAdderGame __instance, [HarmonyArgument(0)] TaskFolder taskFolder)
         {
-            Logger.info("Opened " + taskFolder.FolderName, "TaskFolder");
+            Logger.Info("Opened " + taskFolder.FolderName, "TaskFolder");
             float xCursor = 0f;
             float yCursor = 0f;
             float maxHeight = 0f;
@@ -45,15 +45,17 @@ namespace TownOfHost
                     ) continue;*/
 
                     TaskAddButton button = UnityEngine.Object.Instantiate<TaskAddButton>(__instance.RoleButton);
-                    button.Text.text = Utils.getRoleName(cRole);
+                    button.Text.text = Utils.GetRoleName(cRole);
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
-                    var roleBehaviour = new RoleBehaviour();
-                    roleBehaviour.Role = ((RoleTypes)cRole + 1000);
+                    var roleBehaviour = new RoleBehaviour
+                    {
+                        Role = ((RoleTypes)cRole + 1000)
+                    };
                     button.Role = roleBehaviour;
 
                     Color IconColor = Color.white;
-                    var roleColor = Utils.getRoleColor(cRole);
-                    var RoleType = cRole.getRoleType();
+                    var roleColor = Utils.GetRoleColor(cRole);
+                    var RoleType = cRole.GetRoleType();
 
                     button.FileImage.color = roleColor;
                     button.RolloverHandler.OutColor = roleColor;
@@ -72,7 +74,7 @@ namespace TownOfHost
             {
                 if ((int)__instance.Role.Role >= 1000)
                 {
-                    var PlayerCustomRole = PlayerControl.LocalPlayer.getCustomRole();
+                    var PlayerCustomRole = PlayerControl.LocalPlayer.GetCustomRole();
                     CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
                     ((Renderer)__instance.Overlay).enabled = PlayerCustomRole == FileCustomRole;
                 }
@@ -84,7 +86,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
     class AddTaskButtonPatch
     {
-        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new Dictionary<CustomRoles, RoleTypes>(){
+        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new(){
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
             {CustomRoles.Engineer, RoleTypes.Engineer},
             {CustomRoles.Scientist, RoleTypes.Scientist},

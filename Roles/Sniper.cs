@@ -1,8 +1,8 @@
-using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Hazel;
 using UnityEngine;
 
 namespace TownOfHost
@@ -57,7 +57,7 @@ namespace TownOfHost
         }
         public static void SendRPC(byte playerId, bool notify = false)
         {
-            Logger.info($"Player{playerId}:SendRPC", "Sniper");
+            Logger.Info($"Player{playerId}:SendRPC", "Sniper");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SniperSync, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
             writer.Write(snipeTarget[playerId]);
@@ -96,7 +96,7 @@ namespace TownOfHost
             {
                 bulletCount[playerId] = msg.ReadInt32();
             }
-            Logger.info($"Player{playerId}:RecieveRPC", "Sniper");
+            Logger.Info($"Player{playerId}:RecieveRPC", "Sniper");
         }
         public static bool CanUseKillButton(PlayerControl pc)
         {
@@ -106,7 +106,7 @@ namespace TownOfHost
             {
                 canUse = true;
             }
-            Logger.info($" CanUseKillButton:{canUse}", "Sniper");
+            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
@@ -149,15 +149,15 @@ namespace TownOfHost
                     var target_dir = target_pos.normalized;
                     //内積を取る
                     var target_dot = Vector3.Dot(dir, target_dir);
-                    Logger.info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
-                    Logger.info($"  Dot={target_dot}", "Sniper");
+                    Logger.Info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
+                    Logger.Info($"  Dot={target_dot}", "Sniper");
                     if (precisionshooting)
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認
                         var snipe_point = dir * target_pos.magnitude;
                         var err = (snipe_point - target_pos).magnitude;
-                        Logger.info($"  err={err}", "Sniper");
+                        Logger.Info($"  err={err}", "Sniper");
                         if (err < 1.0)
                         {
                             //ある程度正確なら登録
@@ -169,7 +169,7 @@ namespace TownOfHost
                         if (target_dot < 0.98) continue;
                         //ある程度正確なら登録
                         var err = target_pos.magnitude;
-                        Logger.info($"  err={err}", "Sniper");
+                        Logger.Info($"  err={err}", "Sniper");
                         dot_list.Add(target, err);
                     }
                 }
@@ -178,7 +178,7 @@ namespace TownOfHost
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
                     snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
-                    PlayerState.setDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
+                    PlayerState.SetDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
                     snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
@@ -232,4 +232,3 @@ namespace TownOfHost
         }
     }
 }
-
