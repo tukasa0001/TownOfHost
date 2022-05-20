@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using InnerNet;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

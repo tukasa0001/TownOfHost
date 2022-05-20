@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
