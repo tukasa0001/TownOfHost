@@ -81,13 +81,13 @@ namespace TownOfHost
                     case SystemTypes.Reactor:
                         if (!Options.SabotageMasterFixesReactors.GetBool()) break;
                         if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount == 64 || amount == 65)
+                        if (amount is 64 or 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 66);
                             Options.SabotageMasterUsedSkillCount++;
                         }
-                        if (amount == 16 || amount == 17)
+                        if (amount is 16 or 17)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 18);
@@ -97,7 +97,7 @@ namespace TownOfHost
                     case SystemTypes.Laboratory:
                         if (!Options.SabotageMasterFixesReactors.GetBool()) break;
                         if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount == 64 || amount == 65)
+                        if (amount is 64 or 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 66);
@@ -107,7 +107,7 @@ namespace TownOfHost
                     case SystemTypes.LifeSupp:
                         if (!Options.SabotageMasterFixesOxygens.GetBool()) break;
                         if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount == 64 || amount == 65)
+                        if (amount is 64 or 65)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 66);
@@ -117,7 +117,7 @@ namespace TownOfHost
                     case SystemTypes.Comms:
                         if (!Options.SabotageMasterFixesComms.GetBool()) break;
                         if (Options.SabotageMasterSkillLimit.GetFloat() > 0 && Options.SabotageMasterUsedSkillCount >= Options.SabotageMasterSkillLimit.GetFloat()) break;
-                        if (amount == 16 || amount == 17)
+                        if (amount is 16 or 17)
                         {
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
                             ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 18);
@@ -216,7 +216,7 @@ namespace TownOfHost
                     return;
                 }
 
-                if (0 <= amount && amount <= 4)
+                if (amount is >= 0 and <= 4)
                 {
                     __instance.ActualSwitches = 0;
                     __instance.ExpectedSwitches = 0;

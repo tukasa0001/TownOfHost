@@ -53,7 +53,7 @@ namespace TownOfHost
                 __instance.EnableFriendInvitesButton.transform.localScale = Vector3.one * 0.7f;
             }
 
-            if ((HideCodesButton == null || HideCodesButton.gameObject == null))
+            if (HideCodesButton == null || HideCodesButton.gameObject == null)
             {
                 HideCodesButton = CreateCustomToggle("Hide Game Codes: ", Main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
 
@@ -63,7 +63,7 @@ namespace TownOfHost
                     UpdateToggle(HideCodesButton, "Hide Game Codes: ", Main.HideCodes.Value);
                 }
             }
-            if ((ForceJapanese == null || ForceJapanese?.gameObject == null))
+            if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
                 ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
 
@@ -73,7 +73,7 @@ namespace TownOfHost
                     UpdateToggle(ForceJapanese, "Force Japanese: ", Main.ForceJapanese.Value);
                 }
             }
-            if ((JapaneseRoleName == null || JapaneseRoleName.gameObject == null))
+            if (JapaneseRoleName == null || JapaneseRoleName.gameObject == null)
             {
                 JapaneseRoleName = CreateCustomToggle("Japanese Role Name: ", Main.JapaneseRoleName.Value, new Vector3(1.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)LangModeButtonToggle, __instance);
 

@@ -9,7 +9,7 @@ namespace TownOfHost
 {
     public static class Sniper
     {
-        static int Id = 1800;
+        static readonly int Id = 1800;
         static List<byte> playerIdList = new();
 
         static CustomOption SniperBulletCount;

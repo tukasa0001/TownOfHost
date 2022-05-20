@@ -74,16 +74,16 @@ namespace TownOfHost
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
             if (cRoleFound || player.Data.Role == null) return cRole;
 
-            switch (player.Data.Role.Role)
+            return player.Data.Role.Role switch
             {
-                case RoleTypes.Crewmate: return CustomRoles.Crewmate;
-                case RoleTypes.Engineer: return CustomRoles.Engineer;
-                case RoleTypes.Scientist: return CustomRoles.Scientist;
-                case RoleTypes.GuardianAngel: return CustomRoles.GuardianAngel;
-                case RoleTypes.Impostor: return CustomRoles.Impostor;
-                case RoleTypes.Shapeshifter: return CustomRoles.Shapeshifter;
-                default: return CustomRoles.Crewmate;
-            }
+                RoleTypes.Crewmate => CustomRoles.Crewmate,
+                RoleTypes.Engineer => CustomRoles.Engineer,
+                RoleTypes.Scientist => CustomRoles.Scientist,
+                RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
+                RoleTypes.Impostor => CustomRoles.Impostor,
+                RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                _ => CustomRoles.Crewmate,
+            };
         }
 
         public static CustomRoles GetCustomSubRole(this PlayerControl player)
@@ -217,14 +217,12 @@ namespace TownOfHost
             }
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
-            switch (roleType)
+            return roleType switch
             {
-                case RoleType.Impostor:
-                    return true;
-                case RoleType.Madmate:
-                    return Options.SheriffCanKillMadmate.GetBool();
-            }
-            return false;
+                RoleType.Impostor => true,
+                RoleType.Madmate => Options.SheriffCanKillMadmate.GetBool(),
+                _ => false,
+            };
         }
 
         public static void SendDM(this PlayerControl target, string text)
@@ -624,7 +622,7 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
-                if (CustomRoles.Egoist.IsEnable() && (pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead))
+                if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
                 {
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
                 }
@@ -697,8 +695,7 @@ namespace TownOfHost
                 if (target == arsonist || !Main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
                 if (arsonist.Is(CustomRoles.Arsonist))
                 {
-                    bool isDoused = false;
-                    Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out isDoused); //targetを塗っているかどうかを判定
+                    Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused); //targetを塗っているかどうかを判定
                     if (Main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
                     {
                         Main.isDeadDoused[target.PlayerId] = true;

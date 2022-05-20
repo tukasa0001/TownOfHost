@@ -66,7 +66,7 @@ namespace TownOfHost
                 Vector2 truePosition = pc.Object.GetTruePosition();
                 Vector3 position = __instance.transform.position;
                 num = Vector2.Distance(truePosition, position);
-                canUse &= (num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false));
+                canUse &= num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
             }
             __result = num;
             return false;

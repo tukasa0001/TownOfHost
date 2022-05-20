@@ -53,7 +53,7 @@ namespace TownOfHost
                 GameMode:HideAndSeek & gameMode:Standard == 0
                 GameMode:All         & gameMode:Standard != 0
             */
-            return ((int)(gameMode & GameMode) == 0);
+            return (int)(gameMode & GameMode) == 0;
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
@@ -174,7 +174,7 @@ namespace TownOfHost
 
                 option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
-                if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
+                if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
                     stringOption.ValueText.text = option.GetString();
@@ -186,7 +186,7 @@ namespace TownOfHost
         {
             foreach (var option in Options)
             {
-                if (option.OptionBehaviour != null && option.OptionBehaviour is StringOption stringOption)
+                if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
                     stringOption.oldValue = stringOption.Value = option.Selection;
                     stringOption.ValueText.text = option.GetString();
@@ -197,7 +197,7 @@ namespace TownOfHost
 
         public static void ShareOptionSelections()
         {
-            if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null) return;
+            if (PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
 
             RPC.SyncCustomSettingsRPC();
         }
@@ -220,7 +220,7 @@ namespace TownOfHost
         }
         public int GetInt()
         {
-            return (int)((float)Selections[Selection]);
+            return (int)(float)Selections[Selection];
         }
 
         public string GetString()
@@ -267,7 +267,7 @@ namespace TownOfHost
             }
 
 
-            if (OptionBehaviour != null && OptionBehaviour is StringOption stringOption)
+            if (OptionBehaviour is not null and StringOption stringOption)
             {
                 stringOption.oldValue = stringOption.Value = Selection;
                 stringOption.ValueText.text = GetString();

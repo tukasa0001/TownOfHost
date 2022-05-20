@@ -19,7 +19,7 @@ namespace TownOfHost
             FireEnd = 16,
             CanUseKill = Initial | FireEnd
         }
-        static int Id = 1700;
+        static readonly int Id = 1700;
 
         static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;
