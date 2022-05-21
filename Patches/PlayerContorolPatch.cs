@@ -462,7 +462,11 @@ namespace TownOfHost
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
+                {
                     Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                    if (Main.MayorUsedButtonCount?[__instance.PlayerId] >= Options.MayorNumOfUseButton.GetFloat())
+                        __instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
+                }
             }
             else //死体通報
             {
@@ -1064,9 +1068,9 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
             {
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                if (Main.MayorUsedButtonCount[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
+                if (Main.MayorUsedButtonCount?[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
                 {
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     pc.ReportDeadBody(null);
                 }
             }
@@ -1103,7 +1107,10 @@ namespace TownOfHost
                         RPC.ArsonistWin(__instance.myPlayer.PlayerId);
                         return true;
                     }
-                if (__instance.myPlayer.Is(CustomRoles.Sheriff) || __instance.myPlayer.Is(CustomRoles.SKMadmate) || __instance.myPlayer.Is(CustomRoles.Arsonist))
+                if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
+                __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
+                __instance.myPlayer.Is(CustomRoles.Arsonist)
+                )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
@@ -1114,7 +1121,7 @@ namespace TownOfHost
                         MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
                         writer2.Write(id);
                         AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                    }, 0.5f, "Fix Sheriff Stuck");
+                    }, 0.5f, "Fix DesyncImpostor Stuck");
                     return false;
                 }
             }
