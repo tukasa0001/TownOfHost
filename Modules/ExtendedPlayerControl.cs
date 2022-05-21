@@ -268,25 +268,14 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.AirshipMeetingCheck)
-                    {
-                        if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
-                        if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
-                    }
-                    else
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat() - 10f;
+                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     break;
                 case CustomRoles.SerialKiller:
-                    if (!Main.AirshipMeetingCheck)
-                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
-                    else
-                        opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat() - 10f;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     break;
                 case CustomRoles.BountyHunter:
-                    if (!Main.AirshipMeetingCheck)
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
-                    else
-                        opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 10f;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
                     break;
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:

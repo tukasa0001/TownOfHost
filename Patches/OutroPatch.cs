@@ -180,7 +180,7 @@ namespace TownOfHost
                         winner.Add(pc);
                         break;
                     }
-                    else if (role == CustomRoles.HASFox && !pc.Data.IsDead)
+                    else if (role == CustomRoles.HASFox && Main.currentWinner != CustomWinner.HASTroll && !pc.Data.IsDead)
                     {
                         winner.Add(pc);
                         Main.additionalwinners.Add(AdditionalWinners.HASFox);
