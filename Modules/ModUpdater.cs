@@ -115,20 +115,9 @@ namespace TownOfHost
             string info = GetString("updatePleaseWait");
             ModUpdater.InfoPopup.Show(info);
             if (updateTask == null)
-            {
-                if (updateURI != null)
-                {
-                    updateTask = DownloadUpdate();
-                }
-                else
-                {
-                    info = GetString("updateManually");
-                }
-            }
-            else
-            {
-                info = GetString("updateInProgress");
-            }
+                if (updateURI != null) updateTask = DownloadUpdate();
+                else info = GetString("updateManually");
+            else info = GetString("updateInProgress");
             ModUpdater.InfoPopup.StartCoroutine(Effects.Lerp(0.01f, new System.Action<float>((p) => { ModUpdater.SetPopupText(info); })));
         }
 

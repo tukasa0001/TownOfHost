@@ -225,23 +225,15 @@ namespace TownOfHost
         public string GetString()
         {
             string sel = Selections[Selection].ToString();
-            if (Format != "")
-            {
-                return string.Format(Translator.GetString(Format), sel);
-            }
-
-            if (float.TryParse(sel, out _))
-            {
-                return sel;
-            }
-
-            return Translator.GetString(sel);
+            if (Format != "") return string.Format(Translator.GetString(Format), sel);
+            return float.TryParse(sel, out _) ? sel : Translator.GetString(sel);
         }
 
         public string GetName(bool disableColor = false)
         {
-            if (disableColor) return Translator.GetString(Name, ReplacementDictionary);
-            return Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
+            return disableColor
+                ? Translator.GetString(Name, ReplacementDictionary)
+                : Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
         }
 
         public virtual string GetName_v(bool display = false)
@@ -256,15 +248,7 @@ namespace TownOfHost
 
         public void UpdateSelection(int newSelection)
         {
-            if (newSelection < 0)
-            {
-                Selection = Selections.Length - 1;
-            }
-            else
-            {
-                Selection = newSelection % Selections.Length;
-            }
-
+            Selection = newSelection < 0 ? Selections.Length - 1 : newSelection % Selections.Length;
 
             if (OptionBehaviour is not null and StringOption stringOption)
             {
@@ -278,8 +262,6 @@ namespace TownOfHost
                     {
                         SwitchPreset(Selection);
                     }
-
-
                     ShareOptionSelections();
                 }
             }

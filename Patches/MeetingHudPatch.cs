@@ -162,8 +162,7 @@ namespace TownOfHost
         public static bool IsMayor(byte id)
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
-            if (player == null) return false;
-            return player.Is(CustomRoles.Mayor);
+            return player != null && player.Is(CustomRoles.Mayor);
         }
     }
 
@@ -348,9 +347,8 @@ namespace TownOfHost
                     RoleTextMeeting.text = RoleTextData.Item1;
                     if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
-                    if (pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) RoleTextMeeting.enabled = true;
-                    else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleTextMeeting.enabled = true;
-                    else RoleTextMeeting.enabled = false;
+                    RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
+                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
                 }
                 //死んでいないディクテーターが投票済み
                 if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)

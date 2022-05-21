@@ -15,11 +15,7 @@ namespace TownOfHost
         {
             var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
             Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-
-            if (SwitchSystem != null && SwitchSystem.IsActive)
-                return true;
-
-            return false;
+            return SwitchSystem != null && SwitchSystem.IsActive;
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
@@ -39,11 +35,7 @@ namespace TownOfHost
             }
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
-        public static int SetRoleCountToggle(int currentCount)
-        {
-            if (currentCount > 0) return 0;
-            else return 1;
-        }
+        public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
         public static void SetRoleCountToggle(CustomRoles role)
         {
             int count = Options.GetRoleCount(role);
@@ -92,19 +84,8 @@ namespace TownOfHost
             return (RoleText, GetRoleColor(cRole));
         }
 
-        public static string GetVitalText(byte player)
-        {
-            string text = null;
-            if (PlayerState.isDead[player])
-            {
-                text = GetString("DeathReason." + PlayerState.GetDeathReason(player));
-            }
-            else
-            {
-                text = GetString("Alive");
-            }
-            return text;
-        }
+        public static string GetVitalText(byte player) =>
+            PlayerState.isDead[player] ? GetString("DeathReason." + PlayerState.GetDeathReason(player)) : GetString("Alive");
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -361,8 +342,7 @@ namespace TownOfHost
         public static string GetShowLastSubRolesText(byte id)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            if (!cSubRoleFound) return "";
-            return cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
+            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
         }
 
         public static void ShowHelp()

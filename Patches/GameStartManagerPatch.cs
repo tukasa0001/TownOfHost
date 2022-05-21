@@ -52,20 +52,11 @@ namespace TownOfHost
                 // Lobby code
                 string htmlValue = Main.HideColor.Value;
                 if (Main.HideCodes.Value)
-                {
-                    if (ColorUtility.TryParseHtmlString(htmlValue, out Color newCol))
-                    {
-                        lobbyCodehide = $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>";
-                    }
-                    else
-                    {
-                        lobbyCodehide = $"<color={Main.modColor}>{Main.HideName.Value}</color>";
-                    }
-                }
+                    lobbyCodehide = ColorUtility.TryParseHtmlString(htmlValue, out Color newCol)
+                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
                 else
-                {
                     lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
-                }
                 __instance.GameRoomName.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;

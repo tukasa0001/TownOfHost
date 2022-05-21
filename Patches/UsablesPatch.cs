@@ -10,12 +10,7 @@ namespace TownOfHost
         {
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
-            if (__instance.AllowImpostor) return true;
-            if (!Utils.HasTasks(PlayerControl.LocalPlayer.Data, false))
-            {
-                return false;
-            }
-            return true;
+            return __instance.AllowImpostor || Utils.HasTasks(PlayerControl.LocalPlayer.Data, false);
         }
     }
     [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]

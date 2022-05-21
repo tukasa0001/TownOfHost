@@ -97,20 +97,9 @@ namespace TownOfHost
                     fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                     nowFireWorksCount[pc.PlayerId]--;
                     if (nowFireWorksCount[pc.PlayerId] == 0)
-                    {
-                        if (Main.AliveImpostorCount <= 1)
-                        {
-                            state[pc.PlayerId] = FireWorksState.ReadyFire;
-                        }
-                        else
-                        {
-                            state[pc.PlayerId] = FireWorksState.WaitTime;
-                        }
-                    }
+                        state[pc.PlayerId] = Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime;
                     else
-                    {
                         state[pc.PlayerId] = FireWorksState.SettingFireWorks;
-                    }
                     break;
                 case FireWorksState.ReadyFire:
                     Logger.Info("花火を爆破", "FireWorks");
