@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using InnerNet;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -364,7 +365,7 @@ namespace TownOfHost
                 foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
-                        opt.PlayerSpeedMod = speed.Value > 0 ? speed.Value : 0.0001f;
+                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, 0.0001f, 3f);
                 }
             }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
