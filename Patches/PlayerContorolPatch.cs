@@ -34,11 +34,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return false;
 
             var killer = __instance; //読み替え変数
-            if (Main.AirshipMeetingCheck)
-            {
-                Main.AirshipMeetingCheck = false;
-                Utils.CustomSyncAllSettings();
-            }
             if (Main.SelfGuard[target.PlayerId])
             {
                 Main.SelfGuard[target.PlayerId] = false;
@@ -616,14 +611,9 @@ namespace TownOfHost
                     }
                     else Main.WarlockTimer[__instance.PlayerId] = (Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
                 }
-                //バウハンのキルクールの変換とターゲットのリセット
+                //ターゲットのリセット
                 if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if (Main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat() - 1f && Main.AirshipMeetingCheck)
-                    {
-                        Main.AirshipMeetingCheck = false;
-                        Utils.CustomSyncAllSettings();
-                    }
                     if (Main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
                         Main.BountyTimer[__instance.PlayerId] = 0f;
