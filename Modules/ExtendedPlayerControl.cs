@@ -565,10 +565,8 @@ namespace TownOfHost
                 pc.Is(CustomRoles.Arsonist);
 
             if (pc.Is(CustomRoles.Mafia))
-            {
                 if (Main.AliveImpostorCount > 1) canUse = false;
-            }
-            else if (pc.Is(CustomRoles.Mare))
+            if (pc.Is(CustomRoles.Mare))
                 return Utils.IsActive(SystemTypes.Electrical);
             if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
             if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
