@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using InnerNet;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -52,13 +53,11 @@ namespace TownOfHost
         public static int GetClientId(this PlayerControl player)
         {
             var client = player.GetClient();
-            if (client == null) return -1;
-            return client.Id;
+            return client == null ? -1 : client.Id;
         }
         public static CustomRoles GetCustomRole(this GameData.PlayerInfo player)
         {
-            if (player == null || player.Object == null) return CustomRoles.Crewmate;
-            return player.Object.GetCustomRole();
+            return player == null || player.Object == null ? CustomRoles.Crewmate : player.Object.GetCustomRole();
         }
 
         public static CustomRoles GetCustomRole(this PlayerControl player)
@@ -70,18 +69,18 @@ namespace TownOfHost
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
-            if (cRoleFound || player.Data.Role == null) return cRole;
-
-            return player.Data.Role.Role switch
-            {
-                RoleTypes.Crewmate => CustomRoles.Crewmate,
-                RoleTypes.Engineer => CustomRoles.Engineer,
-                RoleTypes.Scientist => CustomRoles.Scientist,
-                RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
-                RoleTypes.Impostor => CustomRoles.Impostor,
-                RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
-                _ => CustomRoles.Crewmate,
-            };
+            return cRoleFound || player.Data.Role == null
+                ? cRole
+                : player.Data.Role.Role switch
+                {
+                    RoleTypes.Crewmate => CustomRoles.Crewmate,
+                    RoleTypes.Engineer => CustomRoles.Engineer,
+                    RoleTypes.Scientist => CustomRoles.Scientist,
+                    RoleTypes.GuardianAngel => CustomRoles.GuardianAngel,
+                    RoleTypes.Impostor => CustomRoles.Impostor,
+                    RoleTypes.Shapeshifter => CustomRoles.Shapeshifter,
+                    _ => CustomRoles.Crewmate,
+                };
         }
 
         public static CustomRoles GetCustomSubRole(this PlayerControl player)
@@ -92,8 +91,7 @@ namespace TownOfHost
                 return CustomRoles.NoSubRoleAssigned;
             }
             var cRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cRole);
-            if (cRoleFound) return cRole;
-            else return CustomRoles.NoSubRoleAssigned;
+            return cRoleFound ? cRole : CustomRoles.NoSubRoleAssigned;
         }
         public static void RpcSetNameEx(this PlayerControl player, string name)
         {
@@ -150,13 +148,9 @@ namespace TownOfHost
                 if (target == null) return;
                 Main.SelfGuard[target.PlayerId] = false;
                 if (!target.Data.IsDead && target.protectedByGuardian)
-                {
                     killer?.RpcMurderPlayer(target);
-                }
                 else
-                {
                     Main.BlockKilling[killer.PlayerId] = false;
-                }
             }, 0.5f, "GuardAndKill");
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -363,12 +357,7 @@ namespace TownOfHost
                 foreach (var kc in Main.AllPlayerKillCooldown)
                 {
                     if (kc.Key == player.PlayerId)
-                    {
-                        if (kc.Value > 0)
-                            opt.KillCooldown = kc.Value;
-                        else
-                            opt.KillCooldown = 0.01f;
-                    }
+                        opt.KillCooldown = kc.Value > 0 ? kc.Value : 0.01f;
                 }
             }
             if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
@@ -376,12 +365,7 @@ namespace TownOfHost
                 foreach (var speed in Main.AllPlayerSpeed)
                 {
                     if (speed.Key == player.PlayerId)
-                    {
-                        if (speed.Value > 0)
-                            opt.PlayerSpeedMod = speed.Value;
-                        else
-                            opt.PlayerSpeedMod = 0.0001f;
-                    }
+                        opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, 0.0001f, 3f);
                 }
             }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
@@ -389,9 +373,7 @@ namespace TownOfHost
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
-            {
                 opt.ImpostorLightMod = 0f;
-            }
             opt.DiscussionTime = Main.DiscussionTime;
             opt.VotingTime = Main.VotingTime;
 
@@ -564,25 +546,24 @@ namespace TownOfHost
                 pc.Is(CustomRoles.Sheriff) ||
                 pc.Is(CustomRoles.Arsonist);
 
-            if (pc.Is(CustomRoles.Mafia))
-                if (Main.AliveImpostorCount > 1) canUse = false;
-            if (pc.Is(CustomRoles.Mare))
-                return Utils.IsActive(SystemTypes.Electrical);
-            if (pc.Is(CustomRoles.FireWorks)) return FireWorks.CanUseKillButton(pc);
-            if (pc.Is(CustomRoles.Sniper)) return Sniper.CanUseKillButton(pc);
-            return canUse;
+            return pc.GetCustomRole() switch
+            {
+                CustomRoles.Mafia => Main.AliveImpostorCount <= 1 && canUse,
+                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
+                CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
+                CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
+                _ => canUse,
+            };
         }
         public static bool IsLastImpostor(this PlayerControl pc)
         { //キルクールを変更するインポスター役職は省く
-            if (pc.GetCustomRole().IsImpostor() &&
+            return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
                 !pc.Is(CustomRoles.SerialKiller) &&
-                Main.AliveImpostorCount == 1)
-                return true;
-            return false;
+                Main.AliveImpostorCount == 1;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
@@ -608,9 +589,7 @@ namespace TownOfHost
             RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
             foreach (var pc in PlayerControl.AllPlayerControls)
                 if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
-                {
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
-                }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
@@ -661,11 +640,8 @@ namespace TownOfHost
         }
         public static bool IsDouseDone(this PlayerControl player)
         {
-            if (!Main.DousedPlayerCount.ContainsKey(player.PlayerId)) return false;
-            if (Main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2)
-                return true;
-
-            return false;
+            return Main.DousedPlayerCount.ContainsKey(player.PlayerId) &&
+                    Main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2;
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
@@ -700,14 +676,8 @@ namespace TownOfHost
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
-        public static bool Is(this PlayerControl target, CustomRoles role)
-        {
-            if (role > CustomRoles.NoSubRoleAssigned)
-            {
-                return target.GetCustomSubRole() == role;
-            }
-            return target.GetCustomRole() == role;
-        }
+        public static bool Is(this PlayerControl target, CustomRoles role) =>
+            role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
 
     }

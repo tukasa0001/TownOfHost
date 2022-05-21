@@ -21,10 +21,9 @@ namespace TownOfHost
                 __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
                 __instance.YouAreText.color = Utils.GetRoleColor(role);
 
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher))
-                    __instance.RoleBlurbText.text = GetString("WatcherInfo");
-                else
-                    __instance.RoleBlurbText.text = GetString(role.ToString() + "Info");
+                __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
+                    ? GetString("WatcherInfo")
+                    : GetString(role.ToString() + "Info");
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 

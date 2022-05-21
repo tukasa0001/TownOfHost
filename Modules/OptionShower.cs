@@ -106,13 +106,8 @@ namespace TownOfHost
             for (var i = 0; i < tmp.Count; i++)
             {
                 if (pages[^1].Count(c => c == '\n') + 1 + tmp[i].Count(c => c == '\n') + 1 > 35)
-                {
                     pages.Add(tmp[i] + "\n\n");
-                }
-                else
-                {
-                    pages[^1] += tmp[i] + "\n\n";
-                }
+                else pages[^1] += tmp[i] + "\n\n";
             }
             if (currentPage >= pages.Count) currentPage = pages.Count - 1; //現在のページが最大ページ数を超えていれば最後のページに修正
             return $"{pages[currentPage]}{GetString("PressTabToNextPage")}({currentPage + 1}/{pages.Count})";
