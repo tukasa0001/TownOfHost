@@ -316,7 +316,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
-        //HideAndSeak
+        //HideAndSeek
         HASFox,
         HASTroll,
         // Sub-roll after 500
