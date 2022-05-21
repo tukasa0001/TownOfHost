@@ -99,7 +99,7 @@ namespace TownOfHost
                         Main.isCursed = true;
                         Utils.CustomSyncAllSettings();
                         killer.RpcGuardAndKill(target);
-                        Main.CursedPlayers[killer.PlayerId] = (target);
+                        Main.CursedPlayers[killer.PlayerId] = target;
                         Main.WarlockTimer.Add(killer.PlayerId, 0f);
                         Main.isCurseAndKill[killer.PlayerId] = true;
                         return false;
@@ -400,7 +400,7 @@ namespace TownOfHost
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
-                    Main.CursedPlayers[shapeshifter.PlayerId] = (null);
+                    Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
@@ -597,7 +597,7 @@ namespace TownOfHost
                     else
                     {
                         Main.SerialKillerTimer[__instance.PlayerId] =
-                        (Main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
+                        Main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
                 }
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
@@ -609,7 +609,7 @@ namespace TownOfHost
                         Utils.CustomSyncAllSettings();
                         Main.WarlockTimer.Remove(__instance.PlayerId);
                     }
-                    else Main.WarlockTimer[__instance.PlayerId] = (Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
+                    else Main.WarlockTimer[__instance.PlayerId] = Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                 }
                 //ターゲットのリセット
                 if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(__instance.PlayerId))
@@ -629,7 +629,7 @@ namespace TownOfHost
                         Main.isTargetKilled[__instance.PlayerId] = false;
                     }
                     if (Main.BountyTimer[__instance.PlayerId] >= 0)
-                        Main.BountyTimer[__instance.PlayerId] = (Main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                        Main.BountyTimer[__instance.PlayerId] = Main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime;
                 }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
@@ -660,7 +660,7 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         Main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         Main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        Main.DousedPlayerCount[__instance.PlayerId] = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
+                        Main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1 + 1, ArsonistDic.Item2);//塗った人数を増やす
                         Logger.Info($"{__instance.GetNameWithRole()} : {Main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
                         __instance.RpcSendDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
@@ -845,7 +845,7 @@ namespace TownOfHost
 
                     }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
-                    if (!GameStates.IsMeeting && target.GetCustomRole().IsImpostor()
+                    if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)))
                     { //targetがインポスターかつ自分自身
                         var found = false;

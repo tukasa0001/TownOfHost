@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -19,7 +16,7 @@ namespace TownOfHost
             FireEnd = 16,
             CanUseKill = Initial | FireEnd
         }
-        static int Id = 1700;
+        static readonly int Id = 1700;
 
         static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;

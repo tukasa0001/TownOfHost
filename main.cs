@@ -6,9 +6,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
-using Hazel;
-using UnityEngine;
-using static TownOfHost.Translator;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]

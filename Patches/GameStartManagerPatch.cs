@@ -51,10 +51,9 @@ namespace TownOfHost
             {
                 // Lobby code
                 string htmlValue = Main.HideColor.Value;
-                Color newCol;
                 if (Main.HideCodes.Value)
                 {
-                    if (ColorUtility.TryParseHtmlString(htmlValue, out newCol))
+                    if (ColorUtility.TryParseHtmlString(htmlValue, out Color newCol))
                     {
                         lobbyCodehide = $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>";
                     }

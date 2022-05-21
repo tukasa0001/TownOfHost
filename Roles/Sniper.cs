@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Hazel;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ namespace TownOfHost
 {
     public static class Sniper
     {
-        static int Id = 1800;
+        static readonly int Id = 1800;
         static List<byte> playerIdList = new();
 
         static CustomOption SniperBulletCount;
