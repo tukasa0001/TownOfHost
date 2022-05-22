@@ -56,42 +56,7 @@ namespace TownOfHost
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-            switch (target.GetCustomRole())
-            {
-                case CustomRoles.SchrodingerCat:
-                    //シュレディンガーの猫が切られた場合の役職変化スタート
-                    //直接キル出来る役職チェック
-                    // Sniperなど自殺扱いのものもあるので追加するときは注意
-                    var canDirectKill = !killer.Is(CustomRoles.Arsonist);
-                    if (canDirectKill)
-                    {
-                        killer.RpcGuardAndKill(target);
-                        if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
-                        {
-                            //スナイプされた時
-                            target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                            var sniperId = Sniper.GetSniper(target.PlayerId);
-                            NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
-                        }
-                        else
-                        {
-                            if (killer.GetCustomRole().IsImpostor())
-                                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
-                            if (killer.Is(CustomRoles.Sheriff))
-                                target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
-                            if (killer.Is(CustomRoles.Egoist))
-                                target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
 
-                            NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
-                        }
-                        Utils.NotifyRoles();
-                        Utils.CustomSyncAllSettings();
-                        return false;
-                        //シュレディンガーの猫の役職変化処理終了
-                        //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
-                    }
-                    break;
-            }
             switch (killer.GetCustomRole())
             {
                 //==========インポスター役職==========//
@@ -213,21 +178,6 @@ namespace TownOfHost
                     break;
 
                 //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
-
-                        Main.BlockKilling[killer.PlayerId] = false;
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
-                        return false;
-                    }
-                    break;
                 case CustomRoles.SKMadmate:
                     //キル可能職がサイドキックされた場合
                     Main.BlockKilling[killer.PlayerId] = false;
@@ -269,6 +219,59 @@ namespace TownOfHost
                         if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
                             killer.RpcMurderPlayer(target);
 
+                        return false;
+                    }
+                    break;
+            }
+            switch (target.GetCustomRole())
+            {
+                case CustomRoles.SchrodingerCat:
+                    //シュレディンガーの猫が切られた場合の役職変化スタート
+                    //直接キル出来る役職チェック
+                    // Sniperなど自殺扱いのものもあるので追加するときは注意
+                    var canDirectKill = !killer.Is(CustomRoles.Arsonist);
+                    if (canDirectKill)
+                    {
+                        killer.RpcGuardAndKill(target);
+                        if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+                        {
+                            //スナイプされた時
+                            target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                            var sniperId = Sniper.GetSniper(target.PlayerId);
+                            NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
+                        }
+                        else
+                        {
+                            if (killer.GetCustomRole().IsImpostor())
+                                target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
+                            if (killer.Is(CustomRoles.Sheriff))
+                                target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
+                            if (killer.Is(CustomRoles.Egoist))
+                                target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+
+                            NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
+                        }
+                        Utils.NotifyRoles();
+                        Utils.CustomSyncAllSettings();
+                        return false;
+                        //シュレディンガーの猫の役職変化処理終了
+                        //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
+                    }
+                    break;
+
+                //==========マッドメイト系役職==========//
+                case CustomRoles.MadGuardian:
+                    var taskState = target.GetPlayerTaskState();
+                    if (taskState.IsTaskFinished)
+                    {
+                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
+                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
+                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
+
+                        Main.BlockKilling[killer.PlayerId] = false;
+                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                            Utils.NotifyRoles();
                         return false;
                     }
                     break;
