@@ -177,6 +177,12 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();
                     break;
 
+                //==========マッドメイト系役職==========//
+                case CustomRoles.SKMadmate:
+                    //キル可能職がサイドキックされた場合
+                    Main.BlockKilling[killer.PlayerId] = false;
+                    return false;
+
                 //==========第三陣営役職==========//
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
@@ -269,10 +275,6 @@ namespace TownOfHost
                         return false;
                     }
                     break;
-                case CustomRoles.SKMadmate:
-                    //キル可能職がサイドキックされた場合
-                    Main.BlockKilling[killer.PlayerId] = false;
-                    return false;
             }
 
 
