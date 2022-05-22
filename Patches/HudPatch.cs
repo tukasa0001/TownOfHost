@@ -107,7 +107,6 @@ namespace TownOfHost
             switch (player.getCustomRole())
             {
                 case CustomRoles.Madmate:
-                case CustomRoles.SKMadmate:
                 case CustomRoles.Jester:
                     TaskTextPrefix += FakeTasksText;
                     break;
@@ -125,6 +124,13 @@ namespace TownOfHost
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
                     }
+                break;
+                case CustomRoles.SKMadmate:
+                    TaskTextPrefix += FakeTasksText;
+                    __instance.KillButton.SetDisabled();
+                    __instance.KillButton.ToggleVisible(false);
+                    __instance.AbilityButton.SetDisabled();
+                    __instance.AbilityButton.ToggleVisible(false);
                 break;
                 case CustomRoles.Sheriff:
                     if (main.SheriffShotLimit[player.PlayerId] == 0)
