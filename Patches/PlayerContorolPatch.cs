@@ -177,27 +177,6 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();
                     break;
 
-                //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
-
-                        Main.BlockKilling[killer.PlayerId] = false;
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
-                        return false;
-                    }
-                    break;
-                case CustomRoles.SKMadmate:
-                    //キル可能職がサイドキックされた場合
-                    Main.BlockKilling[killer.PlayerId] = false;
-                    return false;
-
                 //==========第三陣営役職==========//
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
@@ -273,6 +252,27 @@ namespace TownOfHost
                         //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
                     }
                     break;
+
+                //==========マッドメイト系役職==========//
+                case CustomRoles.MadGuardian:
+                    var taskState = target.GetPlayerTaskState();
+                    if (taskState.IsTaskFinished)
+                    {
+                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
+                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
+                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
+
+                        Main.BlockKilling[killer.PlayerId] = false;
+                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                            Utils.NotifyRoles();
+                        return false;
+                    }
+                    break;
+                case CustomRoles.SKMadmate:
+                    //キル可能職がサイドキックされた場合
+                    Main.BlockKilling[killer.PlayerId] = false;
+                    return false;
             }
 
 
