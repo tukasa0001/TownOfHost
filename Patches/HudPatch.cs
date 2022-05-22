@@ -259,13 +259,13 @@ namespace TownOfHost
             if (!TypingAmount)
             {
                 //SystemType入力中
-                SystemType = SystemType * 10;
+                SystemType *= 10;
                 SystemType += num;
             }
             else
             {
                 //Amount入力中
-                amount = amount * 10;
+                amount *= 10;
                 amount += num;
             }
         }

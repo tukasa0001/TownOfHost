@@ -199,10 +199,7 @@ namespace TownOfHost
         public static void SetWatcherTeam(float EvilWatcherRate)
         {
             EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
-            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
-                IsEvilWatcher = true;
-            else
-                IsEvilWatcher = false;
+            IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
         private static bool IsLoaded = false;
 
@@ -235,8 +232,7 @@ namespace TownOfHost
         public static int GetRoleCount(CustomRoles role)
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
-            if (chance == 0) return 0;
-            return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
+            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
         public static void Load()
         {
@@ -501,14 +497,8 @@ namespace TownOfHost
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
                 numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
 
-                if (!AllData.ContainsKey(role))
-                {
-                    AllData.Add(role, this);
-                }
-                else
-                {
-                    Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
-                }
+                if (!AllData.ContainsKey(role)) AllData.Add(role, this);
+                else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
             }
             public static OverrideTasksData Create(int idStart, CustomRoles role)
             {

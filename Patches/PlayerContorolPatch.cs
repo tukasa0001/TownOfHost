@@ -15,7 +15,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
-            if (__instance.Is(CustomRoles.Sheriff))
+            if (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Mayor))
             {
                 if (__instance.Data.IsDead)
                 {
@@ -99,7 +99,7 @@ namespace TownOfHost
                         Main.isCursed = true;
                         Utils.CustomSyncAllSettings();
                         killer.RpcGuardAndKill(target);
-                        Main.CursedPlayers[killer.PlayerId] = (target);
+                        Main.CursedPlayers[killer.PlayerId] = target;
                         Main.WarlockTimer.Add(killer.PlayerId, 0f);
                         Main.isCurseAndKill[killer.PlayerId] = true;
                         return false;
@@ -178,21 +178,6 @@ namespace TownOfHost
                     break;
 
                 //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
-                    var taskState = target.GetPlayerTaskState();
-                    if (taskState.IsTaskFinished)
-                    {
-                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
-                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
-                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
-
-                        Main.BlockKilling[killer.PlayerId] = false;
-                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
-                            Utils.NotifyRoles();
-                        return false;
-                    }
-                    break;
                 case CustomRoles.SKMadmate:
                     //キル可能職がサイドキックされた場合
                     Main.BlockKilling[killer.PlayerId] = false;
@@ -205,6 +190,41 @@ namespace TownOfHost
                     killer.RpcGuardAndKill(target);
                     if (!Main.isDoused[(killer.PlayerId, target.PlayerId)]) Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                     return false;
+
+                //==========クルー役職==========//
+                case CustomRoles.Sheriff:
+                    if (killer.Data.IsDead)
+                    {
+                        Main.BlockKilling[killer.PlayerId] = false;
+                        return false;
+                    }
+
+                    if (Main.SheriffShotLimit[killer.PlayerId] == 0)
+                    {
+                        //Logger.info($"{killer.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
+                        //killer.RpcSetRoleDesync(RoleTypes.GuardianAngel);
+                        //Utils.hasTasks(killer.Data, false);
+                        //Utils.NotifyRoles();
+                        return false;
+                    }
+
+                    Main.SheriffShotLimit[killer.PlayerId]--;
+                    Logger.Info($"{killer.GetNameWithRole()} : 残り{Main.SheriffShotLimit[killer.PlayerId]}発", "Sheriff");
+                    killer.RpcSetSheriffShotLimit();
+
+                    if (!target.CanBeKilledBySheriff())
+                    {
+                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
+                        killer.RpcMurderPlayer(killer);
+                        if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
+                            killer.RpcMurderPlayer(target);
+
+                        return false;
+                    }
+                    break;
+            }
+            switch (target.GetCustomRole())
+            {
                 case CustomRoles.SchrodingerCat:
                     //シュレディンガーの猫が切られた場合の役職変化スタート
                     //直接キル出来る役職チェック
@@ -239,34 +259,19 @@ namespace TownOfHost
                     }
                     break;
 
-                //==========クルー役職==========//
-                case CustomRoles.Sheriff:
-                    if (killer.Data.IsDead)
+                //==========マッドメイト系役職==========//
+                case CustomRoles.MadGuardian:
+                    var taskState = target.GetPlayerTaskState();
+                    if (taskState.IsTaskFinished)
                     {
+                        int dataCountBefore = NameColorManager.Instance.NameColors.Count;
+                        NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
+                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                            NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
+
                         Main.BlockKilling[killer.PlayerId] = false;
-                        return false;
-                    }
-
-                    if (Main.SheriffShotLimit[killer.PlayerId] == 0)
-                    {
-                        //Logger.info($"{killer.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
-                        //killer.RpcSetRoleDesync(RoleTypes.GuardianAngel);
-                        //Utils.hasTasks(killer.Data, false);
-                        //Utils.NotifyRoles();
-                        return false;
-                    }
-
-                    Main.SheriffShotLimit[killer.PlayerId]--;
-                    Logger.Info($"{killer.GetNameWithRole()} : 残り{Main.SheriffShotLimit[killer.PlayerId]}発", "Sheriff");
-                    killer.RpcSetSheriffShotLimit();
-
-                    if (!target.CanBeKilledBySheriff())
-                    {
-                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                        killer.RpcMurderPlayer(killer);
-                        if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
-                            killer.RpcMurderPlayer(target);
-
+                        if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
+                            Utils.NotifyRoles();
                         return false;
                     }
                     break;
@@ -400,7 +405,7 @@ namespace TownOfHost
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
-                    Main.CursedPlayers[shapeshifter.PlayerId] = (null);
+                    Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
@@ -597,7 +602,7 @@ namespace TownOfHost
                     else
                     {
                         Main.SerialKillerTimer[__instance.PlayerId] =
-                        (Main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
+                        Main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
                 }
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
@@ -609,7 +614,7 @@ namespace TownOfHost
                         Utils.CustomSyncAllSettings();
                         Main.WarlockTimer.Remove(__instance.PlayerId);
                     }
-                    else Main.WarlockTimer[__instance.PlayerId] = (Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime);//時間をカウント
+                    else Main.WarlockTimer[__instance.PlayerId] = Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                 }
                 //ターゲットのリセット
                 if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(__instance.PlayerId))
@@ -629,7 +634,7 @@ namespace TownOfHost
                         Main.isTargetKilled[__instance.PlayerId] = false;
                     }
                     if (Main.BountyTimer[__instance.PlayerId] >= 0)
-                        Main.BountyTimer[__instance.PlayerId] = (Main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime);
+                        Main.BountyTimer[__instance.PlayerId] = Main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime;
                 }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
@@ -660,7 +665,7 @@ namespace TownOfHost
                         __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
                         Main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
                         Main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        Main.DousedPlayerCount[__instance.PlayerId] = ((ArsonistDic.Item1 + 1), ArsonistDic.Item2);//塗った人数を増やす
+                        Main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1 + 1, ArsonistDic.Item2);//塗った人数を増やす
                         Logger.Info($"{__instance.GetNameWithRole()} : {Main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
                         __instance.RpcSendDousedPlayerCount();
                         MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
@@ -845,7 +850,7 @@ namespace TownOfHost
 
                     }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
-                    if (!GameStates.IsMeeting && target.GetCustomRole().IsImpostor()
+                    if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)))
                     { //targetがインポスターかつ自分自身
                         var found = false;
