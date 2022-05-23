@@ -375,12 +375,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
     class MeetingHudOnDestroyPatch
     {
-        public static void Postfix(MeetingHud __instance)
+        public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
             //生きてる適当なプレイヤーを選択
-            if (CheckForEndVotingPatch.recall)
+            if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
                 new LateTask(() =>
                 {
                     var reporter = PlayerControl.LocalPlayer;
