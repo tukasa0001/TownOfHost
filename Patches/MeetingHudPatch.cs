@@ -382,13 +382,15 @@ namespace TownOfHost
             if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
                 new LateTask(() =>
                 {
-                    var reporter = PlayerControl.LocalPlayer;
-                    MeetingRoomManager.Instance.AssignSelf(reporter, reporter?.Data);
-                    DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
-                    reporter.RpcStartMeeting(reporter?.Data);
-                    Main.IgnoreReportPlayers.Clear();
-                    MeetingHud.Instance?.Despawn(); //会議終了
-                    CheckForEndVotingPatch.recall = false;
+                    //生きてる適当なプレイヤーを選択
+                    var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
+                    if (pc != null)
+                    {
+                        pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
+                        Main.IgnoreReportPlayers.Clear();
+                        MeetingHud.Instance?.Despawn(); //会議終了
+                        CheckForEndVotingPatch.recall = false;
+                    }
                 }, 3f, "Recall Meeting");
             else Logger.Info("------------会議終了------------", "Phase");
         }
