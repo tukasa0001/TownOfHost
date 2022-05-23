@@ -194,6 +194,7 @@ namespace TownOfHost
                 { CustomRoles.Vampire,"va" },
                 { CustomRoles.Warlock,"wa" },
                 { CustomRoles.Witch,"wi" },
+                { CustomRoles.Insider,"in" },
                 //Madmate役職
                 { (CustomRoles)(-2),"== Madmate ==" }, //区切り用
                 { CustomRoles.MadGuardian,"mg" },
