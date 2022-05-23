@@ -379,7 +379,6 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
-            //生きてる適当なプレイヤーを選択
             if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
                 new LateTask(() =>
                 {
