@@ -377,24 +377,21 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
-            Logger.Info("------------会議終了------------", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
 
-            //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。
-            var additional = PlayerControl.GameOptions.MapId == 4 ? 5f : 0f;
-
             //生きてる適当なプレイヤーを選択
-            new LateTask(() =>
-            {
-                var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                if (pc != null)
+            if (CheckForEndVotingPatch.recall)
+                new LateTask(() =>
                 {
-                    pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
+                    var reporter = PlayerControl.LocalPlayer;
+                    MeetingRoomManager.Instance.AssignSelf(reporter, reporter?.Data);
+                    DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
+                    reporter.RpcStartMeeting(reporter?.Data);
                     Main.IgnoreReportPlayers.Clear();
-                    MeetingHud.Instance?.Despawn();
+                    MeetingHud.Instance?.Despawn(); //会議終了
                     CheckForEndVotingPatch.recall = false;
-                }
-            }, 0.2f, "Recall Meeting");
+                }, 3f, "Recall Meeting");
+            else Logger.Info("------------会議終了------------", "Phase");
         }
     }
 }
