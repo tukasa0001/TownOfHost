@@ -383,25 +383,18 @@ namespace TownOfHost
             //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。
             var additional = PlayerControl.GameOptions.MapId == 4 ? 5f : 0f;
 
-            if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
+            //生きてる適当なプレイヤーを選択
+            new LateTask(() =>
             {
-                new LateTask(() =>
+                var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
+                if (pc != null)
                 {
-                    //生きてる適当なプレイヤーを選択
-                    var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                    if (pc != null)
-                    {
-                        pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
-                        new LateTask(() =>
-                        {
-                            MeetingHud.Instance.RpcClose();
-                            CheckForEndVotingPatch.recall = false;
-                        },
-                        0.5f, "Cancel Meeting");
-                    }
-                },
-                0.2f + additional, "Recall Meeting");
-            }
+                    pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
+                    Main.IgnoreReportPlayers.Clear();
+                    MeetingHud.Instance?.Despawn();
+                    CheckForEndVotingPatch.recall = false;
+                }
+            }, 0.2f, "Recall Meeting");
         }
     }
 }
