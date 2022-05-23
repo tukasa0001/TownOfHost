@@ -307,6 +307,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+                AssignAssasinAndMarlinRolesFromList(CustomRoles.AssasinAndMarlin, Impostors, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -497,6 +498,28 @@ namespace TownOfHost
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
+        }
+        private static void AssignAssasinAndMarlinRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
+        {
+            var AssasinRole = CustomRoles.Assasin;
+            var MarlinRole = CustomRoles.Marlin;
+            var rand = new Random();
+            var count = Math.Clamp(RawCount, 0, imp.Count);
+            if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, imp.Count);
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var assasin = imp[rand.Next(0, imp.Count)];
+                imp.Remove(assasin);
+                Main.AllPlayerCustomRoles[assasin.PlayerId] = AssasinRole;
+                Logger.Info("役職設定:" + assasin?.Data?.PlayerName + " = " + AssasinRole.ToString(), "AssignAssasin");
+
+                var marlin = crew[rand.Next(0, crew.Count)];
+                crew.Remove(marlin);
+                Main.AllPlayerCustomRoles[marlin.PlayerId] = MarlinRole;
+                Logger.Info("役職設定:" + marlin?.Data?.PlayerName + " = " + MarlinRole.ToString(), "AssignMarlin");
+            }
         }
     }
 }

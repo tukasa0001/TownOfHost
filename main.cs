@@ -191,6 +191,7 @@ namespace TownOfHost
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
+                {CustomRoles.Assasin, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -212,6 +213,7 @@ namespace TownOfHost
                 {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.Dictator, "#df9b00"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                {CustomRoles.Marlin, "#00ffff"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -279,6 +281,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        Assasin,
         //Madmate
         MadGuardian,
         Madmate,
@@ -287,6 +290,8 @@ namespace TownOfHost
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
         Watcher,
+        //ペア役職
+        AssasinAndMarlin,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,
@@ -304,6 +309,7 @@ namespace TownOfHost
         Dictator,
         Doctor,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
+        Marlin,
         //Neutral
         Arsonist,
         Egoist,

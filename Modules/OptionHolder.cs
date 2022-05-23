@@ -293,6 +293,8 @@ namespace TownOfHost
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
+            //Combination
+            SetupRoleOptions(40000, CustomRoles.AssasinAndMarlin);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
@@ -449,6 +451,24 @@ namespace TownOfHost
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
+                .HiddenOnDisplay(true)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
+        public static void SetupAAMPairRoleOptions(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.AssasinAndMarlin;
+            Dictionary<string, string> replacementDic = new()
+            {
+                { "%Assasin%", Utils.GetRoleName(CustomRoles.Assasin) },
+                { "%Marlin%", Utils.GetRoleName(CustomRoles.Marlin) }
+            };
+            var spawnOption = CustomOption.Create(id, Color.white, "AssasinAndMarlin", rates, rates[0], null, true, replacementDic: replacementDic)
+                .HiddenOnDisplay(true)
+                .SetGameMode(customGameMode);
+            var countOption = CustomOption.Create(id + 1, Color.white, "NumOfPairs", 1, 1, 15, 1, spawnOption, false)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
