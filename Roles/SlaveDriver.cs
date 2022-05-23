@@ -34,7 +34,7 @@ namespace TownOfHost
             if (taskState.IsTaskFinished)//キル対象がタスクを終えている
             {
                 Logger.Info($"SlaveDriver Kill 3", "SlaveDriver");
-                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.9f;
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2f;
             }
         }
     }
