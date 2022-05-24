@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -267,7 +268,7 @@ namespace TownOfHost
                 {
                     SeerKnowsImpostors = true;
                 }
-                if (seer.Is(CustomRoles.Marlin))
+                if (seer.Is(CustomRoles.Marine))
                     SeerKnowsImpostors = true;
 
                 if (SeerKnowsImpostors)
@@ -331,6 +332,14 @@ namespace TownOfHost
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.GetRoleColorCode(CustomRoles.Doctor)}>{Utils.GetVitalText(target.PlayerId)}</color>)";
             }
+        }
+    }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CoIntro))]
+    class MeetingHudCoIntroPatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            if (Assasin.IsAssasinMeeting) __instance.TitleText.text = GetString("WhoIsMarine");
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
@@ -412,12 +421,6 @@ namespace TownOfHost
                     }
                 },
                 0.2f + additional, "Recall Meeting");
-            }
-            if (Assasin.IsAssasinMeeting)
-            {
-                //MeetingHud.Instance?.Despawn();
-                Logger.Info("アサシン会議開始", "Special Phase");
-                Assasin.BootAssasinTrigger(Assasin.TriggerPlayer);
             }
         }
     }

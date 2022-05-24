@@ -93,7 +93,7 @@ namespace TownOfHost
             }
             FireWorks.Init();
             Sniper.Init();
-            AssasinAndMarlin.Init();
+            AssasinAndMarine.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -308,7 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignAssasinAndMarlinRolesFromList(CustomRoles.AssasinAndMarlin, Impostors, Crewmates);
+                AssignAssasinAndMarineRolesFromList(CustomRoles.AssasinAndMarine, Impostors, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -383,7 +383,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Assasin)) Assasin.Add(pc.PlayerId);
-                    if (pc.Is(CustomRoles.Marlin)) Marlin.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Marine)) Marine.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
                         List<PlayerControl> targetList = new();
@@ -502,10 +502,10 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        private static void AssignAssasinAndMarlinRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
+        private static void AssignAssasinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
         {
             var AssasinRole = CustomRoles.Assasin;
-            var MarlinRole = CustomRoles.Marlin;
+            var MarineRole = CustomRoles.Marine;
             var rand = new Random();
             var count = Math.Clamp(RawCount, 0, imp.Count);
             if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, imp.Count);
@@ -518,10 +518,10 @@ namespace TownOfHost
                 Main.AllPlayerCustomRoles[assasin.PlayerId] = AssasinRole;
                 Logger.Info("役職設定:" + assasin?.Data?.PlayerName + " = " + AssasinRole.ToString(), "AssignAssasin");
 
-                var marlin = crew[rand.Next(0, crew.Count)];
-                crew.Remove(marlin);
-                Main.AllPlayerCustomRoles[marlin.PlayerId] = MarlinRole;
-                Logger.Info("役職設定:" + marlin?.Data?.PlayerName + " = " + MarlinRole.ToString(), "AssignMarlin");
+                var marine = crew[rand.Next(0, crew.Count)];
+                crew.Remove(marine);
+                Main.AllPlayerCustomRoles[marine.PlayerId] = MarineRole;
+                Logger.Info("役職設定:" + marine?.Data?.PlayerName + " = " + MarineRole.ToString(), "AssignMarine");
             }
         }
     }

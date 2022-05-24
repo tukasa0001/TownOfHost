@@ -573,7 +573,7 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
                 }
-                if (seer.Is(CustomRoles.Marlin))
+                if (seer.Is(CustomRoles.Marine))
                     SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む

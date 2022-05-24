@@ -38,7 +38,7 @@ SKMadmate,SideKickMadmate,サイドキックマッドメイト
 Watcher,Watcher,ウォッチャー
 
 # ペア役職
-AssasinAndMarlin,<color=#ff0000>Assasin</color>And<color=#00ffff>Marlin</color>,<color=#ff0000>アサシン</color>と<color=#00ffff>マーリン</color>
+AssasinAndMarine,<color=#ff0000>Assasin</color>And<color=#00ffff>Marine</color>,<color=#ff0000>アサシン</color>と<color=#00ffff>マーリン</color>
 
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー
@@ -53,7 +53,7 @@ SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
 Dictator,Dictator,ディクテーター
-Marlin,Marlin,マーリン
+Marine,Marine,マーリン
 
 # 第三陣営役職
 Jester,Jester,ジェスター
@@ -117,7 +117,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
-MarlinInfo,"Know it all, see it all, don't get assassinated, and lead your crew to victory",全てを知り、見通し、暗殺されず、クルーを勝利に導け
+MarineInfo,"Know it all, see it all, don't get assassinated, and lead your crew to victory",全てを知り、見通し、暗殺されず、クルーを勝利に導け
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -402,3 +402,4 @@ doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
 assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+WhoIsMarine,Who is the Marine?,マーリンは誰だ？

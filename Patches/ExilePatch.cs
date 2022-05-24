@@ -88,6 +88,14 @@ namespace TownOfHost
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
+            if (Assasin.IsAssasinMeeting)
+            {
+                new LateTask(() =>
+                {
+                    Logger.Info("アサシン会議開始", "Special Phase");
+                    Assasin.BootAssasinTrigger(Assasin.TriggerPlayer);
+                }, PlayerControl.GameOptions.MapId == 4 ? 1.5f : 0f, "Start Assasin Meeting");
+            }
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
