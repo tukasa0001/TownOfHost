@@ -27,7 +27,7 @@ namespace TownOfHost
                 }
 
                 MeetingHud.VoterState[] states;
-                GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
+                GameData.PlayerInfo exiledPlayerInfo = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
                 recall = false;
 
@@ -124,9 +124,18 @@ namespace TownOfHost
                 }
 
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
-                exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                var exilePlayer = Utils.GetPlayerById(exileId);
+                if (exilePlayer.Is(CustomRoles.Assasin))
+                {
+                    tie = true;
+                    Assasin.TriggerPlayer = exilePlayer;
+                    Assasin.IsAssasinMeeting = true;
+                }
+                exiledPlayerInfo = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+
+
+                __instance.RpcVotingComplete(states, exiledPlayerInfo, tie); //RPC
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
@@ -142,13 +151,13 @@ namespace TownOfHost
 
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
+                    FixedUpdatePatch.LoversSuicide(exiledPlayerInfo.PlayerId, true);
                 }
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayerInfo?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -252,19 +261,21 @@ namespace TownOfHost
                 //変更する場合でも、このコードはMadSnitchで使うと思うので消さないでください。
 
                 //インポスター表示
-                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                bool SeerKnowsImpostors = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
                 if ((seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch)) && //seerがSnitch/MadSnitch
                     seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                 {
-                    LocalPlayerKnowsImpostor = true;
+                    SeerKnowsImpostors = true;
                 }
+                if (seer.Is(CustomRoles.Marlin))
+                    SeerKnowsImpostors = true;
 
-                if (LocalPlayerKnowsImpostor)
+                if (SeerKnowsImpostors)
                 {
                     if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
                     {
                         //変更対象の名前を赤くする
-                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{pva.NameText.text}</color>";
                     }
                 }
 
@@ -401,6 +412,12 @@ namespace TownOfHost
                     }
                 },
                 0.2f + additional, "Recall Meeting");
+            }
+            if (Assasin.IsAssasinMeeting)
+            {
+                //MeetingHud.Instance?.Despawn();
+                Logger.Info("アサシン会議開始", "Special Phase");
+                Assasin.BootAssasinTrigger(Assasin.TriggerPlayer);
             }
         }
     }

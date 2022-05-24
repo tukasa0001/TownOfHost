@@ -567,13 +567,14 @@ namespace TownOfHost
                         }
                     }
                 }
-
                 if (seer.Is(CustomRoles.MadSnitch))
                 {
                     var TaskState = seer.GetPlayerTaskState();
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+                if (seer.Is(CustomRoles.Marlin))
+                    SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);

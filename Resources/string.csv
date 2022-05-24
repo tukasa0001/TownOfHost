@@ -95,6 +95,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
+AssasinInfo,Find the one who knows everything and get rid of him,全てを知りし者を探し出し、始末するのだ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -116,6 +117,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
+MarlinInfo,"Know it all, see it all, don't get assassinated, and lead your crew to victory",全てを知り、見通し、暗殺されず、クルーを勝利に導け
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
