@@ -380,19 +380,17 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
 
             if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
-                new LateTask(() =>
+            {
+                //生きてる適当なプレイヤーを選択
+                var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
+                if (pc != null)
                 {
-                    //生きてる適当なプレイヤーを選択
-                    var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                    if (pc != null)
-                    {
-                        pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
-                        Main.IgnoreReportPlayers.Clear();
-                        MeetingHud.Instance?.Despawn(); //会議終了
-                        CheckForEndVotingPatch.recall = false;
-                    }
-                }, 3f, "Recall Meeting");
-            else Logger.Info("------------会議終了------------", "Phase");
+                    pc.RpcStartMeeting(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
+                    Main.IgnoreReportPlayers.Clear();
+                    CheckForEndVotingPatch.recall = false;
+                }
+            }
+            Logger.Info("------------会議終了------------", "Phase");
         }
     }
 }
