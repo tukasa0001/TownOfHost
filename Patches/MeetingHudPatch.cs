@@ -388,6 +388,7 @@ namespace TownOfHost
                     pc.RpcStartMeeting(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
                     Main.IgnoreReportPlayers.Clear();
                     CheckForEndVotingPatch.recall = false;
+                    Logger.Info("Recall Meeting", "Recall");
                 }
             }
             Logger.Info("------------会議終了------------", "Phase");
