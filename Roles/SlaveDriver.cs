@@ -19,8 +19,6 @@ namespace TownOfHost
         {
             var taskState = PlayerState.taskState?[playerId];
             int TaskHalfValue = taskState.AllTasksCount / 2;
-
-
             if (taskState.CompletedTasksCount <= TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分か、それ以下
             {
                 Logger.Info($"SlaveDriver Kill 1", "SlaveDriver");
@@ -36,6 +34,8 @@ namespace TownOfHost
                 Logger.Info($"SlaveDriver Kill 3", "SlaveDriver");
                 Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2f;
             }
+            if (taskState.hasTasks == false)
+                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
         }
     }
 }
