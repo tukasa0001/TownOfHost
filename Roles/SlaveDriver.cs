@@ -23,6 +23,7 @@ namespace TownOfHost
             {
                 Logger.Info($"SlaveDriver Kill 1", "SlaveDriver");
                 Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 1.5f;
+                __instance.CustomSyncSettings();//負荷軽減&ホストのキルクール変更を反映させるため、__instanceだけがCustomSyncSettingsを実行
             }
             if (taskState.CompletedTasksCount > TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分を超えている
             {
