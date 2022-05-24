@@ -597,6 +597,7 @@ namespace TownOfHost
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
                 !pc.Is(CustomRoles.SerialKiller) &&
+                !pc.Is(CustomRoles.SlaveDriver) &&
                 Main.AliveImpostorCount == 1)
                 return true;
             return false;
