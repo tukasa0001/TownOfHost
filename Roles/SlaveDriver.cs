@@ -20,7 +20,7 @@ namespace TownOfHost
             if (taskState.CompletedTasksCount > TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分を超えている
             {
                 Logger.Info($"SlaveDriver Kill 2", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.4f;
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.5f;
             }
             if (taskState.IsTaskFinished)//キル対象がタスクを終えている
             {
