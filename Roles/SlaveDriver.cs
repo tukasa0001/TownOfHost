@@ -9,13 +9,13 @@ namespace TownOfHost
 {
     public static class SlaveDriver
     {
-        static int Id = 2700;
+        static readonly int Id = 2700;
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.SlaveDriver);
         }
-        public static void SlaveDriverKillTargetTaskCheck(PlayerControl __instance, byte playerId, PlayerControl target)
+        public static void SlaveDriverKillTargetTaskCheck(PlayerControl __instance, byte playerId)
         {
             var taskState = PlayerState.taskState?[playerId];
             int TaskHalfValue = taskState.AllTasksCount / 2;
