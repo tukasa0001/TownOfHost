@@ -34,7 +34,7 @@ namespace TownOfHost
                 Logger.Info($"SlaveDriver Kill 3", "SlaveDriver");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2f;
             }
-            if (taskState.hasTasks == false)
+            if (taskState.hasTasks == false)//キル対象のタスクがない
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
             killer.CustomSyncSettings();//負荷軽減するため、__instanceだけがCustomSyncSettingsを実行
         }
