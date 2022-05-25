@@ -43,7 +43,7 @@ dotnet_style_collection_initializer = true:suggestion
 # 明示的に提供されたタプル名を使用する
 dotnet_style_explicit_tuple_names = true:suggestion
 # null 値の反映を使用する
-dotnet_style_null_propagation = true:suggestion
+dotnet_style_null_propagation = true:silent
 # 可能であれば、null 条件演算子を使用する
 dotnet_style_object_initializer = true:warning
 # 折り返し時の演算子の位置
