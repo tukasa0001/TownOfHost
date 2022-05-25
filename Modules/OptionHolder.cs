@@ -267,7 +267,7 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(1900, CustomRoles.GBomber);
-            GBomberKillCooldown = CustomOption.Create(1910, Color.white, "GBomberKillCooldown", 20, 1, 60, 1, CustomRoleSpawnChances[CustomRoles.GBomber]);//TODO:
+            GBomberKillCooldown = CustomOption.Create(1910, Color.white, "GBomberKillCooldown", 20, 1, 60, 1, CustomRoleSpawnChances[CustomRoles.GBomber]);
             GBomberKillCountReductionValue = CustomOption.Create(1920, Color.white, "GBomberKillCountReductionValue", 500, 100, 1000, 100, CustomRoleSpawnChances[CustomRoles.GBomber]);
             GBomberMeetingCountReductionValue = CustomOption.Create(1930, Color.white, "GBomberMeetingCountReductionValue", 2, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.GBomber]);
 
