@@ -187,7 +187,7 @@ namespace TownOfHost
                     Main.SpelledPlayer.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
                 case CustomRPC.SniperSync:
-                    Sniper.RecieveRPC(reader);
+                    Sniper.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetLoversPlayers:
                     Main.LoversPlayers.Clear();
@@ -205,7 +205,7 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Remove(Key);
                     break;
                 case CustomRPC.SendFireWorksState:
-                    FireWorks.RecieveRPC(reader);
+                    FireWorks.ReceiveRPC(reader);
                     break;
             }
         }
@@ -330,7 +330,7 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomRoles[targetId] = role;
             }
-            else if ((role >= CustomRoles.NoSubRoleAssigned))   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }

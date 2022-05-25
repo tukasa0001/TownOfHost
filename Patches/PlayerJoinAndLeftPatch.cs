@@ -35,14 +35,17 @@ namespace TownOfHost
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
-            if (data.Character.Is(CustomRoles.TimeThief))
-                data.Character.ResetThiefVotingTime();
-            if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
-                data.Character.RemoveDousePlayer();
-            if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
+            if (GameStates.IsInGame)
             {
-                PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
-                PlayerState.SetDead(data.Character.PlayerId);
+                if (data.Character.Is(CustomRoles.TimeThief))
+                    data.Character.ResetThiefVotingTime();
+                if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
+                    data.Character.RemoveDousePlayer();
+                if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                {
+                    PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
+                    PlayerState.SetDead(data.Character.PlayerId);
+                }
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }

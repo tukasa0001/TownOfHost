@@ -49,7 +49,7 @@ namespace TownOfHost
                     __instance.AddFileAsChild(CustomRolesFolder, button, ref xCursor, ref yCursor, ref maxHeight);
                     var roleBehaviour = new RoleBehaviour
                     {
-                        Role = ((RoleTypes)cRole + 1000)
+                        Role = (RoleTypes)cRole + 1000
                     };
                     button.Role = roleBehaviour;
 
@@ -86,27 +86,28 @@ namespace TownOfHost
     [HarmonyPatch(typeof(TaskAddButton), nameof(TaskAddButton.AddTask))]
     class AddTaskButtonPatch
     {
-        private static Dictionary<CustomRoles, RoleTypes> RolePairs = new(){
+        private static readonly Dictionary<CustomRoles, RoleTypes> RolePairs = new()
+        {
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
-            {CustomRoles.Engineer, RoleTypes.Engineer},
-            {CustomRoles.Scientist, RoleTypes.Scientist},
-            {CustomRoles.Shapeshifter, RoleTypes.Shapeshifter},
-            {CustomRoles.Impostor, RoleTypes.Impostor},
-            {CustomRoles.GuardianAngel, RoleTypes.GuardianAngel},
-            {CustomRoles.Mafia, RoleTypes.Shapeshifter},
-            {CustomRoles.BountyHunter, RoleTypes.Shapeshifter},
-            {CustomRoles.Witch, RoleTypes.Impostor},
-            {CustomRoles.Warlock, RoleTypes.Shapeshifter},
-            {CustomRoles.SerialKiller, RoleTypes.Shapeshifter},
-            {CustomRoles.Vampire, RoleTypes.Impostor},
-            {CustomRoles.ShapeMaster, RoleTypes.Shapeshifter},
-            {CustomRoles.Madmate, RoleTypes.Engineer},
-            {CustomRoles.Terrorist, RoleTypes.Engineer},
-            {CustomRoles.EvilWatcher, RoleTypes.Impostor},
-            {CustomRoles.Mare, RoleTypes.Impostor},
-            {CustomRoles.Doctor, RoleTypes.Scientist},
-            {CustomRoles.TimeThief, RoleTypes.Impostor},
-            {CustomRoles.SlaveDriver, RoleTypes.Impostor},
+            { CustomRoles.Engineer, RoleTypes.Engineer },
+            { CustomRoles.Scientist, RoleTypes.Scientist },
+            { CustomRoles.Shapeshifter, RoleTypes.Shapeshifter },
+            { CustomRoles.Impostor, RoleTypes.Impostor },
+            { CustomRoles.GuardianAngel, RoleTypes.GuardianAngel },
+            { CustomRoles.Mafia, RoleTypes.Shapeshifter },
+            { CustomRoles.BountyHunter, RoleTypes.Shapeshifter },
+            { CustomRoles.Witch, RoleTypes.Impostor },
+            { CustomRoles.Warlock, RoleTypes.Shapeshifter },
+            { CustomRoles.SerialKiller, RoleTypes.Shapeshifter },
+            { CustomRoles.Vampire, RoleTypes.Impostor },
+            { CustomRoles.ShapeMaster, RoleTypes.Shapeshifter },
+            { CustomRoles.Madmate, RoleTypes.Engineer },
+            { CustomRoles.Terrorist, RoleTypes.Engineer },
+            { CustomRoles.EvilWatcher, RoleTypes.Impostor },
+            { CustomRoles.Mare, RoleTypes.Impostor },
+            { CustomRoles.Doctor, RoleTypes.Scientist },
+            { CustomRoles.TimeThief, RoleTypes.Impostor },
+            { CustomRoles.SlaveDriver, RoleTypes.Impostor },
         };
         public static bool Prefix(TaskAddButton __instance)
         {
@@ -116,8 +117,7 @@ namespace TownOfHost
                 {
                     CustomRoles FileCustomRole = (CustomRoles)__instance.Role.Role - 1000;
                     PlayerControl.LocalPlayer.RpcSetCustomRole(FileCustomRole);
-                    RoleTypes oRole;
-                    if (!RolePairs.TryGetValue(FileCustomRole, out oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                    if (!RolePairs.TryGetValue(FileCustomRole, out RoleTypes oRole)) PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                     else PlayerControl.LocalPlayer.RpcSetRole(oRole);
                     return false;
                 }

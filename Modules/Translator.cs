@@ -35,7 +35,7 @@ namespace TownOfHost
                 {
                     if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                     {
-                        while (fields[i].TrimEnd()[fields[i].TrimEnd().Length - 1] != '"')
+                        while (fields[i].TrimEnd()[^1] != '"')
                         {
                             fields[i] = fields[i] + "," + fields[i + 1];
                             fields.RemoveAt(i + 1);

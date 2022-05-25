@@ -15,11 +15,7 @@ namespace TownOfHost
         {
             var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
             Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-
-            if (SwitchSystem != null && SwitchSystem.IsActive)
-                return true;
-
-            return false;
+            return SwitchSystem != null && SwitchSystem.IsActive;
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
@@ -39,11 +35,7 @@ namespace TownOfHost
             }
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
-        public static int SetRoleCountToggle(int currentCount)
-        {
-            if (currentCount > 0) return 0;
-            else return 1;
-        }
+        public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
         public static void SetRoleCountToggle(CustomRoles role)
         {
             int count = Options.GetRoleCount(role);
@@ -92,19 +84,8 @@ namespace TownOfHost
             return (RoleText, GetRoleColor(cRole));
         }
 
-        public static string GetVitalText(byte player)
-        {
-            string text = null;
-            if (PlayerState.isDead[player])
-            {
-                text = GetString("DeathReason." + PlayerState.GetDeathReason(player));
-            }
-            else
-            {
-                text = GetString("Alive");
-            }
-            return text;
-        }
+        public static string GetVitalText(byte player) =>
+            PlayerState.isDead[player] ? GetString("DeathReason." + PlayerState.GetDeathReason(player)) : GetString("Alive");
         public static (string, Color) GetRoleTextHideAndSeek(RoleTypes oRole, CustomRoles hRole)
         {
             string text = "Invalid";
@@ -153,7 +134,7 @@ namespace TownOfHost
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) hasTasks = false;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
                 }
             }
             else
@@ -259,7 +240,7 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
-                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) continue;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
                 if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo")); }
@@ -281,7 +262,7 @@ namespace TownOfHost
             {
                 foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
-                    if (role == CustomRoles.HASFox || role == CustomRoles.HASTroll) continue;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
                 }
                 SendMessage(text);
@@ -361,8 +342,7 @@ namespace TownOfHost
         public static string GetShowLastSubRolesText(byte id)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            if (!cSubRoleFound) return "";
-            return cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
+            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
         }
 
         public static void ShowHelp()
@@ -608,7 +588,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: (force || isMeeting));
+                seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -721,7 +701,7 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: (force || isMeeting));
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
