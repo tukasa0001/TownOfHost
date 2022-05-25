@@ -296,6 +296,7 @@ TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タ�
 SlaveDriverIncreaseKC,KillCooldown increase multiplier,キルクール増加倍率
 SlaveDriverDecreaseKC,KillCooldown reduction multiplier,キルクール減少倍率
 SlaveDriverTaskCompleteDecreaseKC,Multiplier for reduction of killCooldown task completion,タスク完了時のキルクール減少倍率
+SlaveDriverNoTaskKC,KillCooldown on player kills with no task,タスクがないプレイヤーキル時のキルクール
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

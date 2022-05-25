@@ -9,6 +9,7 @@ namespace TownOfHost
         static CustomOption SlaveDriverIncreaseKC;
         static CustomOption SlaveDriverDecreaseKC;
         static CustomOption SlaveDriverTaskCompleteDecreaseKC;
+        static CustomOption SlaveDriverNoTaskKC;
 
         public static void SetupCustomOption()
         {
@@ -16,6 +17,7 @@ namespace TownOfHost
             SlaveDriverIncreaseKC = CustomOption.Create(Id + 10, Color.white, "SlaveDriverIncreaseKC", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverDecreaseKC = CustomOption.Create(Id + 11, Color.white, "SlaveDriverDecreaseKC1", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverTaskCompleteDecreaseKC = CustomOption.Create(Id + 12, Color.white, "SlaveDriverTaskCompleteDecreaseKC", 2f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
+            SlaveDriverNoTaskKC = CustomOption.Create(Id + 13, Color.white, "SlaveDriverNoTaskKC", 30f, 0.25f, 100f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
         }
         public static void SlaveDriverKillTargetTaskCheck(PlayerControl killer, byte playerId)
         {
@@ -37,7 +39,7 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / SlaveDriverTaskCompleteDecreaseKC.GetFloat();
             }
             if (taskState.hasTasks == false)//キル対象のタスクがない
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = SlaveDriverNoTaskKC.GetFloat();
             killer.CustomSyncSettings();//負荷軽減するため、__instanceだけがCustomSyncSettingsを実行
         }
     }
