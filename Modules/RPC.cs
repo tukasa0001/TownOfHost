@@ -35,6 +35,7 @@ namespace TownOfHost
         SetExecutionerTarget,
         RemoveExecutionerTarget,
         SendFireWorksState,
+        IsAssasinMeeting,
     }
     public enum Sounds
     {
@@ -206,6 +207,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.IsAssasinMeeting:
+                    Assasin.IsAssasinMeeting = reader.ReadBoolean();
                     break;
             }
         }
@@ -421,6 +425,12 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void IsAssasinMeetingToggle()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.IsAssasinMeeting, Hazel.SendOption.Reliable, -1);
+            writer.Write(Assasin.IsAssasinMeeting);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }

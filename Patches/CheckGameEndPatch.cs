@@ -10,9 +10,12 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance)
         {
             if (!GameData.Instance) return false;
+            if (CheckForEndVotingPatch.ExiledMarine) return true;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
             if (Options.NoGameEnd.GetBool()) return false;
+
+            if (CheckAndEndGameForExileMarine(__instance)) return false;
 
             if (CheckAndEndGameForJester(__instance)) return false;
             if (CheckAndEndGameForTerrorist(__instance)) return false;
@@ -65,6 +68,16 @@ namespace TownOfHost
                     criticalSystem.ClearSabotage();
                     return true;
                 }
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForExileMarine(ShipStatus __instance)
+        {
+            if (Assasin.IsExileMarine)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByVote, false);
+                return true;
             }
             return false;
         }

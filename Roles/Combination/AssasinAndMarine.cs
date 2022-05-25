@@ -27,10 +27,14 @@ namespace TownOfHost
         static List<byte> playerIdList = new();
         public static PlayerControl TriggerPlayer = null;
         public static bool IsAssasinMeeting;
+        public static bool IsExileMarine;
+        public static bool IsAssasinMeetingEnd;
         public static void Init()
         {
             playerIdList = new();
             IsAssasinMeeting = false;
+            IsExileMarine = false;
+            IsAssasinMeetingEnd = false;
         }
         public static void Add(byte playerId)
         {
@@ -44,7 +48,6 @@ namespace TownOfHost
         public static void BootAssasinTrigger(PlayerControl assasin)
         {
             assasin?.ReportDeadBody(null);
-            MeetingHud.Instance.Start();
         }
     }
     public static class Marine

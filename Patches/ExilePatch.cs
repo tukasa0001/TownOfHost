@@ -29,6 +29,10 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (exiled != null)
             {
+                if (AssasinAndMarine.IsEnable() && !Assasin.IsAssasinMeeting)
+                {
+                    Assasin.IsExileMarine = CheckForEndVotingPatch.ExiledMarine;
+                }
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
@@ -90,12 +94,10 @@ namespace TownOfHost
             }
             if (Assasin.IsAssasinMeeting)
             {
-                new LateTask(() =>
-                {
-                    Logger.Info("アサシン会議開始", "Special Phase");
-                    Assasin.BootAssasinTrigger(Assasin.TriggerPlayer);
-                }, PlayerControl.GameOptions.MapId == 4 ? 1.5f : 0f, "Start Assasin Meeting");
+                Logger.Info("アサシン会議開始", "Special Phase");
+                Assasin.BootAssasinTrigger(Assasin.TriggerPlayer);
             }
+            else Assasin.IsExileMarine = CheckForEndVotingPatch.ExiledMarine;
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
