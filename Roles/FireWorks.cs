@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -19,7 +16,7 @@ namespace TownOfHost
             FireEnd = 16,
             CanUseKill = Initial | FireEnd
         }
-        static int Id = 1700;
+        static readonly int Id = 1700;
 
         static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;
@@ -67,12 +64,12 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RecieveRPC(MessageReader msg)
+        public static void ReceiveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
             nowFireWorksCount[playerId] = msg.ReadInt32();
             state[playerId] = (FireWorksState)msg.ReadInt32();
-            Logger.Info($"Player{playerId}:RecieveRPC", "FireWorks");
+            Logger.Info($"Player{playerId}:ReceiveRPC", "FireWorks");
         }
 
         public static bool CanUseKillButton(PlayerControl pc)
@@ -100,20 +97,9 @@ namespace TownOfHost
                     fireWorksPosition[pc.PlayerId].Add(pc.transform.position);
                     nowFireWorksCount[pc.PlayerId]--;
                     if (nowFireWorksCount[pc.PlayerId] == 0)
-                    {
-                        if (Main.AliveImpostorCount <= 1)
-                        {
-                            state[pc.PlayerId] = FireWorksState.ReadyFire;
-                        }
-                        else
-                        {
-                            state[pc.PlayerId] = FireWorksState.WaitTime;
-                        }
-                    }
+                        state[pc.PlayerId] = Main.AliveImpostorCount <= 1 ? FireWorksState.ReadyFire : FireWorksState.WaitTime;
                     else
-                    {
                         state[pc.PlayerId] = FireWorksState.SettingFireWorks;
-                    }
                     break;
                 case FireWorksState.ReadyFire:
                     Logger.Info("花火を爆破", "FireWorks");
@@ -175,7 +161,7 @@ namespace TownOfHost
                     retText = GetString("FireworksWaitPhase");
                     break;
                 case FireWorksState.ReadyFire:
-                    retText = GetString("FireworksRedyFirePhase");
+                    retText = GetString("FireworksReadyFirePhase");
                     break;
                 case FireWorksState.FireEnd:
                     break;

@@ -15,11 +15,11 @@ namespace TownOfHost
             if (Main.WebhookURL.Value == "none") return;
             HttpClient httpClient = new();
             Dictionary<string, string> strs = new()
-                {
-                    { "content", text },
-                    { "username", "TownOfHost-Debugger" },
-                    { "avatar_url", "https://cdn.discordapp.com/avatars/336095904320716800/95243b1468018a24f7ae03d7454fd5f2.webp?size=40" }
-                };
+            {
+                { "content", text },
+                { "username", "TownOfHost-Debugger" },
+                { "avatar_url", "https://cdn.discordapp.com/avatars/336095904320716800/95243b1468018a24f7ae03d7454fd5f2.webp?size=40" }
+            };
             TaskAwaiter<HttpResponseMessage> awaiter = httpClient.PostAsync(
                 Main.WebhookURL.Value, new FormUrlEncodedContent(strs)).GetAwaiter();
             awaiter.GetResult();

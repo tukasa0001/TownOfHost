@@ -5,56 +5,56 @@ namespace TownOfHost
         public static bool IsImpostor(this CustomRoles role)
         {
             return
-                role == CustomRoles.Impostor ||
-                role == CustomRoles.Shapeshifter ||
-                role == CustomRoles.BountyHunter ||
-                role == CustomRoles.Vampire ||
-                role == CustomRoles.Witch ||
-                role == CustomRoles.ShapeMaster ||
-                role == CustomRoles.Warlock ||
-                role == CustomRoles.SerialKiller ||
-                role == CustomRoles.Mare ||
-                role == CustomRoles.Puppeteer ||
-                role == CustomRoles.EvilWatcher ||
-                role == CustomRoles.TimeThief ||
-                role == CustomRoles.Mafia ||
-                role == CustomRoles.FireWorks ||
-                role == CustomRoles.Sniper ||
-                role == CustomRoles.Ninja;
+                role is CustomRoles.Impostor or
+                CustomRoles.Shapeshifter or
+                CustomRoles.BountyHunter or
+                CustomRoles.Vampire or
+                CustomRoles.Witch or
+                CustomRoles.ShapeMaster or
+                CustomRoles.Warlock or
+                CustomRoles.SerialKiller or
+                CustomRoles.Mare or
+                CustomRoles.Puppeteer or
+                CustomRoles.EvilWatcher or
+                CustomRoles.TimeThief or
+                CustomRoles.Mafia or
+                CustomRoles.FireWorks or
+                CustomRoles.Sniper or
+                CustomRoles.Ninja;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
             return
-                role == CustomRoles.Madmate ||
-                role == CustomRoles.SKMadmate ||
-                role == CustomRoles.MadGuardian ||
-                role == CustomRoles.MadSnitch ||
-                role == CustomRoles.MSchrodingerCat;
+                role is CustomRoles.Madmate or
+                CustomRoles.SKMadmate or
+                CustomRoles.MadGuardian or
+                CustomRoles.MadSnitch or
+                CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
         {
             return
-                role == CustomRoles.Jester ||
-                role == CustomRoles.Opportunist ||
-                role == CustomRoles.SchrodingerCat ||
-                role == CustomRoles.Terrorist ||
-                role == CustomRoles.Executioner ||
-                role == CustomRoles.Arsonist ||
-                role == CustomRoles.Egoist ||
-                role == CustomRoles.EgoSchrodingerCat ||
-                role == CustomRoles.HASTroll ||
-                role == CustomRoles.HASFox;
+                role is CustomRoles.Jester or
+                CustomRoles.Opportunist or
+                CustomRoles.SchrodingerCat or
+                CustomRoles.Terrorist or
+                CustomRoles.Executioner or
+                CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.HASTroll or
+                CustomRoles.HASFox;
         }
         public static bool IsVanilla(this CustomRoles role)
         {
             return
-                role == CustomRoles.Crewmate ||
-                role == CustomRoles.Engineer ||
-                role == CustomRoles.Scientist ||
-                role == CustomRoles.GuardianAngel ||
-                role == CustomRoles.Impostor ||
-                role == CustomRoles.Shapeshifter;
+                role is CustomRoles.Crewmate or
+                CustomRoles.Engineer or
+                CustomRoles.Scientist or
+                CustomRoles.GuardianAngel or
+                CustomRoles.Impostor or
+                CustomRoles.Shapeshifter;
         }
 
         public static RoleType GetRoleType(this CustomRoles role)

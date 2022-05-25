@@ -31,7 +31,6 @@ namespace TownOfHost
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
-            Main.AirshipMeetingCheck = false;
             Main.ExecutionerTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
@@ -99,7 +98,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch
     {
-        public static void Prefix(RoleManager __instance)
+        public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
@@ -198,7 +197,7 @@ namespace TownOfHost
                 }
             }
         }
-        public static void Postfix(RoleManager __instance)
+        public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             //Utils.ApplySuffix();
@@ -358,7 +357,7 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
-                        var targetPlayerCount = (PlayerControl.AllPlayerControls.Count - 1);
+                        var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
                         Main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
                         pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
