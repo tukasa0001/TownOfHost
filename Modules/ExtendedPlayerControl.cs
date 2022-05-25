@@ -101,6 +101,7 @@ namespace TownOfHost
             }
             HudManagerPatch.LastSetNameDesyncCount++;
 
+            Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for All", "RpcSetNameEx");
             player.RpcSetName(name);
         }
 
