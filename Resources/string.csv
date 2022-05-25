@@ -291,8 +291,10 @@ FireWorksMaxCount,FireWorks Max Count,花火の所持数
 FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
+InsiderCanSeeRolesOfImpostors,Insider Can See Roles Of Impostors,インサイダーが味方インポスターの役職が分かる
 InsiderCanSeeWholeRolesOfGhosts,Insider Can See Whole Roles Of Ghosts,インサイダーが死者全員の役職が分かる
-InsiderCanSeeMadmateKillCount,Insider Can See Madmate Kill Count,インサイダーがマッドメイトが分かるキル回数
+InsiderCanSeeMadmate,Insider Can See Madmate,インサイダーがマッドメイトが分かる
+InsiderCanSeeMadmateKillCount,Insider's Kill Count Can See Madmate,インサイダーのマッドメイトが分かるキル回数
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム

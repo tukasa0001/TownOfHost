@@ -268,6 +268,22 @@ namespace TownOfHost
                     }
                 }
 
+                bool LocalPlayerKnowsMadmate = false;
+                if (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeMadmate.GetBool())
+                {
+                    Main.InsiderKillCount.TryGetValue(seer.PlayerId, out var KillCount);
+                    LocalPlayerKnowsMadmate = KillCount >= Options.InsiderCanSeeMadmateKillCount.GetFloat() ? true : false;
+                }
+
+                if (LocalPlayerKnowsMadmate)
+                {
+                    if (target != null && target.GetCustomRole().IsMadmate()) //変更先がマッドメイト
+                    {
+                        //変更対象の名前を赤くする
+                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                    }
+                }
+
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                     pva.NameText.text += "<color=#ff0000>†</color>";
@@ -344,11 +360,18 @@ namespace TownOfHost
                 {
 
                     var RoleTextData = Utils.GetRoleText(pc);
+                    //インサイダー設定
+                    bool InsiderVision = Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && pva.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId //前提条件
+                    && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && pc.GetCustomRole().IsImpostor()) //味方インポスターの視認
+                    || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && pc.Data.IsDead) //死者全員の視認
+                    || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && Main.IsKilledByInsider.Contains(pc)) //自分がキルした相手のみ
+                    );
                     RoleTextMeeting.text = RoleTextData.Item1;
                     if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
+                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
+                        InsiderVision;
                 }
                 //死んでいないディクテーターが投票済み
                 if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)

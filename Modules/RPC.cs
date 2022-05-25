@@ -24,8 +24,10 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetTimeThiefKillCount,
+        SetInsiderKillCount,
         SetDousedPlayer,
         SendDousedPlayerCount,
+        setPlayerKIlledByInsider,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -35,6 +37,7 @@ namespace TownOfHost
         SetExecutionerTarget,
         RemoveExecutionerTarget,
         SendFireWorksState,
+        InsiderKill,
     }
     public enum Sounds
     {
@@ -156,6 +159,14 @@ namespace TownOfHost
                     else
                         Main.TimeThiefKillCount.Add(TimeThiefId, 0);
                     break;
+                case CustomRPC.SetInsiderKillCount:
+                    byte InsiderId = reader.ReadByte();
+                    float KillCount = reader.ReadSingle();
+                    if (Main.InsiderKillCount.ContainsKey(InsiderId))
+                        Main.InsiderKillCount[InsiderId] = KillCount;
+                    else
+                        Main.InsiderKillCount.Add(InsiderId, Options.InsiderCanSeeMadmateKillCount.GetFloat());
+                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
@@ -206,6 +217,9 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.InsiderKill:
+                    Main.IsKilledByInsider.Add(Utils.GetPlayerById(reader.ReadByte()));
                     break;
             }
         }
@@ -352,6 +366,12 @@ namespace TownOfHost
         public static void RpcDoSpell(byte player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.DoSpell, Hazel.SendOption.Reliable, -1);
+            writer.Write(player);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcInsiderKill(byte player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.InsiderKill, Hazel.SendOption.Reliable, -1);
             writer.Write(player);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

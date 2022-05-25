@@ -211,6 +211,19 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
+                case CustomRoles.Insider:
+                    if (Options.InsiderCanSeeMadmate.GetBool())
+                    {
+                        float Norma = Options.InsiderCanSeeMadmateKillCount.GetFloat();
+                        if (Main.InsiderKillCount.TryGetValue(playerId, out var KillCount))
+                        {
+                            if (KillCount < Norma) ProgressText += $" <color=#ff0000>({KillCount}/{Norma})</color>";
+                            else ProgressText += $"<color=#ff0000>★</color>";
+                        }
+                        else ProgressText += "Invalid";
+
+                    }
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = PlayerState.taskState?[playerId];
@@ -575,6 +588,14 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
+                bool SeerKnowsMadmate = false;
+
+                if (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeMadmate.GetBool())
+                {
+                    Main.InsiderKillCount.TryGetValue(seer.PlayerId, out var KillCount);
+                    SeerKnowsMadmate = KillCount >= Options.InsiderCanSeeMadmateKillCount.GetFloat() ? true : false;
+                }
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
 
@@ -590,9 +611,15 @@ namespace TownOfHost
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
 
+                //Insiderは死んでいる扱いに
+                bool SeerDataIsDead = false;
+                if (seer.Data.IsDead || seer.Is(CustomRoles.Insider)) SeerDataIsDead = true;
+                else SeerDataIsDead = false;
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if (seer.Data.IsDead //seerが死んでいる
+                if (SeerDataIsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
+                    || SeerKnowsMadmate
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
@@ -613,7 +640,7 @@ namespace TownOfHost
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = HasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
+                        string TargetTaskText = HasTasks(target.Data, false) && SeerDataIsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
@@ -637,7 +664,7 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
                         //霊界からラバーズ視認
-                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        else if (SeerDataIsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
@@ -660,15 +687,25 @@ namespace TownOfHost
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
+                        // //インサイダーの処理
+                        // bool InsiderVision = seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target != seer //インサイダーが生きているかつ自分以外
+                        //     && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
+                        //     || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
+                        //     || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && Main.IsKilledByInsider.Contains(target)) //自分がキルした相手のみ
+                        //     );
+                        // if (InsiderVision) TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";
+
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
                         //ターゲットのプレイヤー名の色を書き換えます。
-                        if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
+                        if (SeerKnowsImpostors || SeerKnowsMadmate) //Seerがインポスター/マッドメイトが誰かわかる状態
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
-                            var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist));
+                            var snitchOption = SeerKnowsImpostors && (seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch))
+                                && target.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist));
+                            var insiderOption = SeerKnowsMadmate && seer.Is(CustomRoles.Insider) && target.GetCustomRole().IsMadmate(); //インサイダーの条件
+                            var foundCheck = snitchOption || insiderOption;
                             if (foundCheck)
                                 TargetPlayerName = $"<color={target.GetRoleColorCode()}>{TargetPlayerName}</color>";
                         }
@@ -696,6 +733,14 @@ namespace TownOfHost
                         target.Data.IsDead //変更対象が死人
                         )
                             TargetDeathReason = $"(<color={GetRoleColorCode(CustomRoles.Doctor)}>{GetVitalText(target.PlayerId)}</color>)";
+
+                        //インサイダー
+                        bool InsiderVision = seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target != seer //インサイダーが生きているかつ自分以外
+                            && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
+                            || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
+                            || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
+                            );
+                        if (InsiderVision) TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
