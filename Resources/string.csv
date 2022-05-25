@@ -293,6 +293,9 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+SlaveDriverIncreaseKC,KillCooldown increase multiplier,キルクール増加倍率
+SlaveDriverDecreaseKC,KillCooldown reduction multiplier,キルクール減少倍率
+SlaveDriverTaskCompleteDecreaseKC,Multiplier for reduction of killCooldown task completion,タスク完了時のキルクール減少倍率
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

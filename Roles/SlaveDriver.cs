@@ -1,12 +1,21 @@
+using UnityEngine;
+
 namespace TownOfHost
 {
     public static class SlaveDriver
     {
         static readonly int Id = 2700;
 
+        static CustomOption SlaveDriverIncreaseKC;
+        static CustomOption SlaveDriverDecreaseKC;
+        static CustomOption SlaveDriverTaskCompleteDecreaseKC;
+
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.SlaveDriver);
+            SlaveDriverIncreaseKC = CustomOption.Create(Id + 10, Color.white, "SlaveDriverIncreaseKC", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
+            SlaveDriverDecreaseKC = CustomOption.Create(Id + 11, Color.white, "SlaveDriverDecreaseKC1", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
+            SlaveDriverTaskCompleteDecreaseKC = CustomOption.Create(Id + 12, Color.white, "SlaveDriverTaskCompleteDecreaseKC", 2f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
         }
         public static void SlaveDriverKillTargetTaskCheck(PlayerControl killer, byte playerId)
         {
@@ -15,17 +24,17 @@ namespace TownOfHost
             if (taskState.CompletedTasksCount <= TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分か、それ以下
             {
                 Logger.Info($"SlaveDriver Kill 1", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 1.5f;
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * SlaveDriverIncreaseKC.GetFloat();
             }
             if (taskState.CompletedTasksCount > TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分を超えている
             {
                 Logger.Info($"SlaveDriver Kill 2", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 1.5f;
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / SlaveDriverDecreaseKC.GetFloat();
             }
             if (taskState.IsTaskFinished)//キル対象がタスクを終えている
             {
                 Logger.Info($"SlaveDriver Kill 3", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2f;
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / SlaveDriverTaskCompleteDecreaseKC.GetFloat();
             }
             if (taskState.hasTasks == false)//キル対象のタスクがない
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat();
