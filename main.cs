@@ -64,6 +64,8 @@ namespace TownOfHost
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
+        public static List<(PlayerControl, int)> GBombAttachedPlayers = new();
+        public static List<(PlayerControl, int)> GBombAttachedPlayersDisplay = new();//表示用
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
