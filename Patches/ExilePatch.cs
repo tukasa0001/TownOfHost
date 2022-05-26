@@ -62,7 +62,7 @@ namespace TownOfHost
                     foreach (var p in Main.SpelledPlayer)
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
+                        Main.AfterMeetingExilePlayers.Add(p.PlayerId);
                         p.RpcMurderPlayer(p);
                     }
                 }

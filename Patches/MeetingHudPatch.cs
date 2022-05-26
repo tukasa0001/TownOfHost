@@ -45,7 +45,7 @@ namespace TownOfHost
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcExileV2();
                                 Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                Main.AfterMeetingExilePlayers.Add(voter.PlayerId);
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -63,7 +63,7 @@ namespace TownOfHost
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                 voter.RpcExileV2();
                                 Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                Main.AfterMeetingExilePlayers.Add(voter.PlayerId);
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -128,7 +128,7 @@ namespace TownOfHost
                     foreach (var p in Main.SpelledPlayer)
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
+                        Main.AfterMeetingExilePlayers.Add(p.PlayerId);
                         p.RpcExileV2();
                     }
                 }
@@ -360,7 +360,7 @@ namespace TownOfHost
                     isDictatorVote = true;
                     pc.RpcExileV2(); //自殺
                     __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
-                    Main.IgnoreReportPlayers.Add(pc.PlayerId);
+                    Main.AfterMeetingExilePlayers.Add(pc.PlayerId);
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
             }
