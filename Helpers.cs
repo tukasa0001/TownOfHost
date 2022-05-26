@@ -1,5 +1,3 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
 using System;
 using System.Reflection;
 using UnhollowerBaseLib;
@@ -22,7 +20,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error($"Error loading sprite from path: {path}", "LoadSprite");
+                Logger.Error($"Error loading sprite from path: {path}", "LoadSprite");
             }
             return null;
         }
@@ -42,7 +40,7 @@ namespace TownOfHost
             }
             catch
             {
-                Logger.error($"Error loading texture from resources: {path}", "LoadTexture");
+                Logger.Error($"Error loading texture from resources: {path}", "LoadTexture");
             }
             return null;
         }
@@ -79,9 +77,9 @@ namespace TownOfHost
             version = Version.Parse(ver);
             tag = tag_str;
         }
-        public bool isEqual(PlayerVersion pv)
+        public bool IsEqual(PlayerVersion pv)
         {
-            return (pv.version == version && pv.tag == tag);
+            return pv.version == version && pv.tag == tag;
         }
     }
 }

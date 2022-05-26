@@ -1,6 +1,6 @@
-using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TownOfHost
@@ -196,18 +196,15 @@ namespace TownOfHost
         public static void SetWatcherTeam(float EvilWatcherRate)
         {
             EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
-            if (UnityEngine.Random.Range(1, 100) < EvilWatcherRate)
-                IsEvilWatcher = true;
-            else
-                IsEvilWatcher = false;
+            IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
         private static bool IsLoaded = false;
 
         static Options()
         {
-            resetRoleCounts();
+            ResetRoleCounts();
         }
-        public static void resetRoleCounts()
+        public static void ResetRoleCounts()
         {
             roleCounts = new Dictionary<CustomRoles, int>();
             roleSpawnChances = new Dictionary<CustomRoles, float>();
@@ -219,7 +216,7 @@ namespace TownOfHost
             }
         }
 
-        public static void setRoleCount(CustomRoles role, int count)
+        public static void SetRoleCount(CustomRoles role, int count)
         {
             roleCounts[role] = count;
 
@@ -229,11 +226,10 @@ namespace TownOfHost
             }
         }
 
-        public static int getRoleCount(CustomRoles role)
+        public static int GetRoleCount(CustomRoles role)
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
-            if (chance == 0) return 0;
-            return CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
+            return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
         public static void Load()
         {
@@ -358,7 +354,7 @@ namespace TownOfHost
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
 
             // Attribute
-            EnableLastImpostor = CustomOption.Create(80000, Utils.getRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+            EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
@@ -449,7 +445,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
@@ -462,7 +458,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = CustomOption.Create(id, Utils.getRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
@@ -475,9 +471,9 @@ namespace TownOfHost
         }
         public class OverrideTasksData
         {
-            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new Dictionary<CustomRoles, OverrideTasksData>();
-            public CustomRoles role { get; private set; }
-            public int idStart { get; private set; }
+            public static Dictionary<CustomRoles, OverrideTasksData> AllData = new();
+            public CustomRoles Role { get; private set; }
+            public int IdStart { get; private set; }
             public CustomOption doOverride;
             public CustomOption assignCommonTasks;
             public CustomOption numLongTasks;
@@ -485,22 +481,16 @@ namespace TownOfHost
 
             public OverrideTasksData(int idStart, CustomRoles role)
             {
-                this.idStart = idStart;
-                this.role = role;
-                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.getRoleName(role) } };
+                this.IdStart = idStart;
+                this.Role = role;
+                Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
                 doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
                 assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
                 numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
 
-                if (!AllData.ContainsKey(role))
-                {
-                    AllData.Add(role, this);
-                }
-                else
-                {
-                    Logger.warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました");
-                }
+                if (!AllData.ContainsKey(role)) AllData.Add(role, this);
+                else Logger.Warn("重複したCustomRolesを対象とするOverrideTasksDataが作成されました", "OverrideTasksData");
             }
             public static OverrideTasksData Create(int idStart, CustomRoles role)
             {

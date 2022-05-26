@@ -6,7 +6,116 @@ root = true
 [*.cs]
 indent_style = space
 indent_size = 4
-end_of_line = crlf
+end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = false
+trim_trailing_whitespace = true
 insert_final_newline = false
+
+dotnet_diagnostic.IDE0051.severity = silent
+dotnet_diagnostic.IDE0052.severity = silent
+
+# usingをディレクティブごとにスペースで分けるか
+dotnet_separate_import_directive_groups = false
+# usingの先頭をSystemに並び変えるか
+dotnet_sort_system_directives_first = true
+# usingをどこに配置するか
+csharp_using_directive_placement = outside_namespace:suggestion
+
+# this.とMe.強制するか
+dotnet_style_qualification_for_event = false:silent
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_property = false:silent
+
+# 型参照のためのフレームワーク型名の代わりに言語キーワードを使用するか
+dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_predefined_type_for_member_access = true:silent
+
+# 二幸演算子の括弧の設定
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggestion
+# その他の演算子の括弧の設定
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:suggestion
+
+# アクセス修飾子の設定
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+
+# 結合式を使用する
+dotnet_style_coalesce_expression = true:suggestion
+# コレクション初期化子を使用する
+dotnet_style_collection_initializer = true:suggestion
+# 明示的に提供されたタプル名を使用する
+dotnet_style_explicit_tuple_names = true:suggestion
+# 可能であれば、null 条件演算子を使用する
+dotnet_style_null_propagation = true:silent
+# オブジェクト初期化子を使用する
+dotnet_style_object_initializer = true:warning
+# 折り返し時の演算子の位置
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+# 複合代入を使用する
+dotnet_style_prefer_compound_assignment = true:silent
+# 代入に条件式を使用する
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+# 戻り値に条件式を使用する
+dotnet_style_prefer_conditional_expression_over_return = true:suggestion
+# 推論された匿名型のメンバー名を優先する
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+# 推論されたタプル要素名を優先する
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+# 参照の等価性メソッドよりもnull検査を優先する
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+# 簡略化した条件式を使用する
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+# 補間文字列を簡略化する
+dotnet_style_prefer_simplified_interpolation = true:suggestion
+
+# 読み取り専用修飾子を追加する
+dotnet_style_readonly_field = true:suggestion
+
+# 使用されていないパラメーターを削除する
+dotnet_code_quality_unused_parameters = all:silent
+# 不要な値の代入を削除する
+csharp_style_unused_value_assignment_preference = true:silent
+
+# 不要な抑制を削除する
+dotnet_remove_unnecessary_suppression_exclusions = none
+
+# new式を簡略化する
+csharp_style_implicit_object_creation_when_type_is_apparent = true:warning
+
+# varを使わず明示的に型を指定するか
+csharp_style_var_elsewhere = false:silent
+csharp_style_var_for_built_in_types = false:silent
+csharp_style_var_when_type_is_apparent = false:silent
+
+# パターンマッチング設定
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+csharp_style_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+
+# nullチェックの実行時ではなく、ラムダ式を呼び出すときに、条件付き合体演算子 (?.) を使用する
+csharp_style_conditional_delegate_call = true:suggestion
+
+# ローカル関数をstaticでマークする
+csharp_prefer_static_local_function = true:suggestion
+
+# コードが1行であっても中かっこを使用するか
+csharp_prefer_braces = false:suggestion
+# 単純なusingステートメントを使用するか
+csharp_prefer_simple_using_statement = true:suggestion
+
+# 式レベルの設定
+csharp_prefer_simple_default_expression = true:suggestion
+# 分解された変数宣言を優先するか
+csharp_style_deconstructed_variable_declaration = true:suggestion
+# 可能であれば、メソッド呼び出しの引数リスト内で out 変数をインラインで宣言しするか
+csharp_style_inlined_variable_declaration = true:suggestion
+# 匿名関数よりローカル関数を優先するか
+csharp_style_pattern_local_over_anonymous_function = true:suggestion
+# コレクションの末尾からのインデックスを計算するときに、^ 演算子を使用するか
+csharp_style_prefer_index_operator = true:suggestion
+# コレクションの "スライス" を抽出するときに、範囲演算子 .. を使用するか
+csharp_style_prefer_range_operator = true:suggestion
+# throw ステートメントの代わりに throw 式を使用します
+csharp_style_throw_expression = true:suggestion

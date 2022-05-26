@@ -10,12 +10,7 @@ namespace TownOfHost
         {
             canUse = couldUse = false;
             //こいつをfalseでreturnしても、タスク(サボ含む)以外の使用可能な物は使えるまま(ボタンなど)
-            if (__instance.AllowImpostor) return true;
-            if (!Utils.hasTasks(PlayerControl.LocalPlayer.Data, false))
-            {
-                return false;
-            }
-            return true;
+            return __instance.AllowImpostor || Utils.HasTasks(PlayerControl.LocalPlayer.Data, false);
         }
     }
     [HarmonyPatch(typeof(EmergencyMinigame), nameof(EmergencyMinigame.Update))]
@@ -47,9 +42,9 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            else if (pc.Object.Is(CustomRoles.Sheriff) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.isDouseDone()))
+            else if (pc.Object.Is(CustomRoles.Sheriff) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
                 return false;
-            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.isDouseDone())
+            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.IsDouseDone())
                 canUse = couldUse = VentForTrigger = true;
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
@@ -66,7 +61,7 @@ namespace TownOfHost
                 Vector2 truePosition = pc.Object.GetTruePosition();
                 Vector3 position = __instance.transform.position;
                 num = Vector2.Distance(truePosition, position);
-                canUse &= (num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false));
+                canUse &= num <= usableDistance && !PhysicsHelpers.AnythingBetween(truePosition, position, Constants.ShipOnlyMask, false);
             }
             __result = num;
             return false;
