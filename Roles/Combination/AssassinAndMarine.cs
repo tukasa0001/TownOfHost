@@ -45,14 +45,17 @@ namespace TownOfHost
         static List<byte> playerIdList = new();
         public static PlayerControl TriggerPlayer = null;
         public static bool IsAssassinMeeting;
-        public static bool IsExileMarine;
-        public static bool IsAssassinMeetingEnd;
+        public static bool FinishAssassinMeetingTrigger;
+        public static PlayerControl AssassinTarget = null;
+        public static CustomRoles TargetRole = CustomRoles.Crewmate;
         public static void Init()
         {
             playerIdList = new();
             IsAssassinMeeting = false;
-            IsExileMarine = false;
-            IsAssassinMeetingEnd = false;
+            FinishAssassinMeetingTrigger = false;
+            TriggerPlayer = null;
+            AssassinTarget = null;
+            TargetRole = CustomRoles.Crewmate;
         }
         public static void Add(byte playerId)
         {

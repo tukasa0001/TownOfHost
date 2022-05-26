@@ -10,7 +10,6 @@ namespace TownOfHost
         public static bool Prefix(ShipStatus __instance)
         {
             if (!GameData.Instance) return false;
-            if (CheckForEndVotingPatch.ExiledMarine) return true;
             if (DestroyableSingleton<TutorialManager>.InstanceExists) return true;
             var statistics = new PlayerStatistics(__instance);
             if (Options.NoGameEnd.GetBool()) return false;

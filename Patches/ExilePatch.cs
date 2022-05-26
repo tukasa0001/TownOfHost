@@ -27,14 +27,14 @@ namespace TownOfHost
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            if (Assassin.TargetRole == CustomRoles.Marine)
+            {
+                AssassinAndMarine.MarineExiledInAssassinMeeting();
+                AssassinAndMarine.GameEndForAssassinMeeting();
+                return; //インポスター勝利確定なのでこれ以降の処理は不要
+            }
             if (exiled != null)
             {
-                if (Assassin.IsExileMarine)
-                {
-                    AssassinAndMarine.MarineExiledInAssassinMeeting();
-                    AssassinAndMarine.GameEndForAssassinMeeting();
-                    return; //インポスター勝利確定なのでこれ以降の処理は不要
-                }
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)

@@ -302,12 +302,23 @@ namespace TownOfHost
     {
         public static void Postfix(string chatText)
         {
-            switch (chatText)
+            foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                default:
-                    break;
+                if (!(GameStates.IsMeeting || Assassin.IsAssassinMeeting)) continue;
+                if (chatText == pc.Data.PlayerName)
+                {
+                    Assassin.AssassinTarget = pc;
+                    Assassin.TargetRole = pc.GetCustomRole();
+                    Assassin.FinishAssassinMeetingTrigger = true;
+                }
+
+                switch (chatText)
+                {
+                    default:
+                        break;
+                }
+                if (!AmongUsClient.Instance.AmHost) return;
             }
-            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }
