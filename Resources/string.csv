@@ -147,7 +147,7 @@ MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his f
 PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
 TimeThiefInfoLong,"(Impostors):\nEach kill decreases the meeting time.\nIf the time thief is exiled or killed, the lost meeting time is returned.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
-InsiderInfoLong,"(Impostors):\nYou can see roles of Impostors.\nYou can also see roles whose you killed,\nA certain times of kill tell you Madmate as well.",(インポスター陣営):\n味方インポスターの役職が分かる。\nまた、キルした相手の役職が分かり、\nさらに特定回数キルするとマッドメイトも分かる。
+InsiderInfoLong,"(Impostors):\nYou can see roles and abilities of Impostors.\nYou can also see roles whose you killed,\nA certain times of kill tell you Madmate as well.",(インポスター陣営):\n味方インポスターの役職と能力が見える。\nまた、キルした相手の役職が分かり、\nさらに特定回数キルするとマッドメイトも分かる。
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。

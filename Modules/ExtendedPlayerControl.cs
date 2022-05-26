@@ -681,9 +681,7 @@ namespace TownOfHost
                 }
             }
         }
-        public static void IsKilledByInsider(this PlayerControl player)
-        {
-        }
+
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用

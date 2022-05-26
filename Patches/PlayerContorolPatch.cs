@@ -177,7 +177,7 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();
                     break;
                 case CustomRoles.Insider:
-                    if (!Main.IsKilledByInsider.Contains(target) && !(target.Is(CustomRoles.MadGuardian) && target.GetPlayerTaskState().IsTaskFinished))
+                    if ((Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) == null) && !target.Is(CustomRoles.SchrodingerCat) && !(target.Is(CustomRoles.MadGuardian) && target.GetPlayerTaskState().IsTaskFinished))
                     {
                         float Norma = Options.InsiderCanSeeMadmateKillCount.GetFloat();
                         Main.InsiderKillCount[killer.PlayerId]++;
@@ -860,7 +860,7 @@ namespace TownOfHost
                     }
                     if (seer.Is(CustomRoles.Puppeteer) || seer.Is(CustomRoles.Insider))
                     {
-                        if ((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId)
+                        if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
                         || (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool()))
                         && Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
