@@ -10,7 +10,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
-        public static bool recall = false;
         public static bool ExiledAssassin = false;
         public static bool ExiledMarine = false;
         public static bool Prefix(MeetingHud __instance)
@@ -32,7 +31,6 @@ namespace TownOfHost
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayerInfo = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
-                recall = false;
                 ExiledMarine = false;
 
                 List<MeetingHud.VoterState> statesList = new();
@@ -49,10 +47,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -68,10 +65,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -169,8 +165,7 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
-                        recall = true;
+                        p.RpcExileV2();
                     }
                 }
                 Main.SpelledPlayer.Clear();
@@ -430,10 +425,9 @@ namespace TownOfHost
                     });
                     states = statesList.ToArray();
                     isDictatorVote = true;
-                    pc.RpcMurderPlayer(pc); //自殺
+                    pc.RpcExileV2(); //自殺
                     __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
                     Main.IgnoreReportPlayers.Add(pc.PlayerId);
-                    CheckForEndVotingPatch.recall = true;
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
                 if (pc.Is(CustomRoles.Assassin) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
@@ -449,18 +443,6 @@ namespace TownOfHost
             Logger.Info("------------会議終了------------", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
 
-            if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
-            {
-                //生きてる適当なプレイヤーを選択
-                var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                if (pc != null)
-                {
-                    pc.RpcStartMeeting(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
-                    Main.IgnoreReportPlayers.Clear();
-                    CheckForEndVotingPatch.recall = false;
-                    Logger.Info("Recall Meeting", "Recall");
-                }
-            }
             if (AssassinAndMarine.IsEnable())
             {
                 Assassin.IsAssassinMeeting = CheckForEndVotingPatch.ExiledAssassin;
