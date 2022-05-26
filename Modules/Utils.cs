@@ -796,5 +796,21 @@ namespace TownOfHost
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
+        public static string[] SplitLength(this string str, int length)
+        {
+            List<string> res = new();
+            string tmp = "";
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (tmp != "" && i % length == 0)
+                {
+                    res.Add(tmp);
+                    tmp = "";
+                }
+                tmp += str[i];
+            }
+            if (tmp != "") res.Add(tmp);
+            return res.ToArray();
+        }
     }
 }
