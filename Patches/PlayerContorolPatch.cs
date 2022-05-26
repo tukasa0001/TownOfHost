@@ -858,11 +858,11 @@ namespace TownOfHost
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
-                    if (seer.Is(CustomRoles.Puppeteer))
+                    if (seer.Is(CustomRoles.Puppeteer) || seer.Is(CustomRoles.Insider))
                     {
-                        if (seer.Is(CustomRoles.Puppeteer) &&
-                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
-                        Main.PuppeteerList.ContainsKey(target.PlayerId))
+                        if ((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId)
+                        || (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool()))
+                        && Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                     }
                     if (Sniper.IsEnable() && target.AmOwner)

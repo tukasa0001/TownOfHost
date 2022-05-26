@@ -273,11 +273,11 @@ namespace TownOfHost
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            SetupRoleOptions(2500, CustomRoles.Insider);
-            InsiderCanSeeRolesOfImpostors = CustomOption.Create(2510, Color.white, "InsiderCanSeeRolesOfImpostors", true, CustomRoleSpawnChances[CustomRoles.Insider]);
-            InsiderCanSeeWholeRolesOfGhosts = CustomOption.Create(2511, Color.white, "InsiderCanSeeWholeRolesOfGhosts", false, CustomRoleSpawnChances[CustomRoles.Insider]);
-            InsiderCanSeeMadmate = CustomOption.Create(2512, Color.white, "InsiderCanSeeMadmate", false, CustomRoleSpawnChances[CustomRoles.Insider]);
-            InsiderCanSeeMadmateKillCount = CustomOption.Create(2513, Color.white, "InsiderCanSeeMadmateKillCount", 3, 0, 12, 1, InsiderCanSeeMadmate);
+            SetupRoleOptions(2800, CustomRoles.Insider);
+            InsiderCanSeeRolesOfImpostors = CustomOption.Create(2810, Color.white, "InsiderCanSeeRolesOfImpostors", true, CustomRoleSpawnChances[CustomRoles.Insider]);
+            InsiderCanSeeWholeRolesOfGhosts = CustomOption.Create(2811, Color.white, "InsiderCanSeeWholeRolesOfGhosts", false, CustomRoleSpawnChances[CustomRoles.Insider]);
+            InsiderCanSeeMadmate = CustomOption.Create(2812, Color.white, "InsiderCanSeeMadmate", false, CustomRoleSpawnChances[CustomRoles.Insider]);
+            InsiderCanSeeMadmateKillCount = CustomOption.Create(2813, Color.white, "InsiderCanSeeMadmateKillCount", 3, 0, 12, 1, InsiderCanSeeMadmate);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);

@@ -615,13 +615,9 @@ namespace TownOfHost
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
 
-                //Insiderは死んでいる扱いに
-                bool SeerDataIsDead = false;
-                if (seer.Data.IsDead || seer.Is(CustomRoles.Insider)) SeerDataIsDead = true;
-                else SeerDataIsDead = false;
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
-                if (SeerDataIsDead //seerが死んでいる
+                if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
                     || SeerKnowsMadmate
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
@@ -634,6 +630,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || IsActive(SystemTypes.Electrical)
+                    || seer.Is(CustomRoles.Insider)
                     || force
                 )
                 {
@@ -668,7 +665,13 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
                         //霊界からラバーズ視認
-                        else if (SeerDataIsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        {
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        }
+                        //インサイダーからのラバーズ表示
+                        else if (seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers)
+                            && (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() || (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)))
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
@@ -678,7 +681,7 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
                         if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
-                            || seer.Is(CustomRoles.Insider))
+                            || (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool()))
                             && Main.PuppeteerList.ContainsKey(target.PlayerId))
                         {
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
@@ -733,12 +736,11 @@ namespace TownOfHost
                         )
                             TargetDeathReason = $"(<color={GetRoleColorCode(CustomRoles.Doctor)}>{GetVitalText(target.PlayerId)}</color>)";
 
-                        //インサイダー
-                        Logger.Info(Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null ? "true" : "false", "Insider");
+                        //インサイダーの表示処理
                         bool InsiderVision = seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target != seer //インサイダーが生きているかつ自分以外
                             && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
                             || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
-                            || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
+                            || (target.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
                             );
                         if (InsiderVision) TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";
 
