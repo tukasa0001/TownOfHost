@@ -470,7 +470,7 @@ namespace TownOfHost
             }
             else //死体通報
             {
-                if (Main.IgnoreReportPlayers.Contains(target.PlayerId) && !CheckForEndVotingPatch.recall)
+                if (Main.IgnoreReportPlayers.Contains(target.PlayerId))
                 {
                     Logger.Info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました", "ReportDeadBody");
                     return false;
@@ -970,7 +970,6 @@ namespace TownOfHost
                             if (isExiled)
                             {
                                 Main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                                CheckForEndVotingPatch.recall = true;
                             }
                             partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
