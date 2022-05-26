@@ -63,7 +63,6 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.AfterMeetingExilePlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
@@ -88,6 +87,8 @@ namespace TownOfHost
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
+            Main.AfterMeetingExilePlayers.Do(p => Utils.GetPlayerById(p));
+            Main.AfterMeetingExilePlayers.Clear();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();

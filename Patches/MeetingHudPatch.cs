@@ -43,7 +43,6 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
                                 Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.AfterMeetingExilePlayers.Add(voter.PlayerId);
                                 break;
@@ -61,7 +60,6 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
                                 Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.AfterMeetingExilePlayers.Add(voter.PlayerId);
                                 break;
@@ -129,7 +127,6 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.AfterMeetingExilePlayers.Add(p.PlayerId);
-                        p.RpcExileV2();
                     }
                 }
                 Main.SpelledPlayer.Clear();
@@ -358,7 +355,6 @@ namespace TownOfHost
                     });
                     states = statesList.ToArray();
                     isDictatorVote = true;
-                    pc.RpcExileV2(); //自殺
                     __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
                     Main.AfterMeetingExilePlayers.Add(pc.PlayerId);
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
