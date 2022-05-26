@@ -360,10 +360,9 @@ namespace TownOfHost
                     });
                     states = statesList.ToArray();
                     isDictatorVote = true;
-                    pc.RpcMurderPlayer(pc); //自殺
+                    pc.RpcExileV2(); //自殺
                     __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
                     Main.IgnoreReportPlayers.Add(pc.PlayerId);
-                    CheckForEndVotingPatch.recall = true;
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
             }
