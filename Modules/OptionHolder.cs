@@ -276,7 +276,7 @@ namespace TownOfHost
             SetupRoleOptions(2500, CustomRoles.Insider);
             InsiderCanSeeRolesOfImpostors = CustomOption.Create(2510, Color.white, "InsiderCanSeeRolesOfImpostors", true, CustomRoleSpawnChances[CustomRoles.Insider]);
             InsiderCanSeeWholeRolesOfGhosts = CustomOption.Create(2511, Color.white, "InsiderCanSeeWholeRolesOfGhosts", false, CustomRoleSpawnChances[CustomRoles.Insider]);
-            InsiderCanSeeMadmate = CustomOption.Create(2512, Color.white, "InsiderCanSeeMadmate", true, CustomRoleSpawnChances[CustomRoles.Insider]);
+            InsiderCanSeeMadmate = CustomOption.Create(2512, Color.white, "InsiderCanSeeMadmate", false, CustomRoleSpawnChances[CustomRoles.Insider]);
             InsiderCanSeeMadmateKillCount = CustomOption.Create(2513, Color.white, "InsiderCanSeeMadmateKillCount", 3, 0, 12, 1, InsiderCanSeeMadmate);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);

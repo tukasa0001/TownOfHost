@@ -211,13 +211,16 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
+                case CustomRoles.FireWorks: //インサイダー視点専用
+                    ProgressText += $" {FireWorks.GetFireWorksCount(playerId)}";
+                    break;
                 case CustomRoles.Insider:
                     if (Options.InsiderCanSeeMadmate.GetBool())
                     {
                         float Norma = Options.InsiderCanSeeMadmateKillCount.GetFloat();
                         if (Main.InsiderKillCount.TryGetValue(playerId, out var KillCount))
                         {
-                            if (KillCount < Norma) ProgressText += $" <color=#ff0000>({KillCount}/{Norma})</color>";
+                            if (KillCount < Norma) ProgressText += $" <color=#ffff00>({KillCount}/{Norma})</color>";
                             else ProgressText += $"<color=#ff0000>★</color>";
                         }
                         else ProgressText += "Invalid";
@@ -505,6 +508,7 @@ namespace TownOfHost
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
+                if (seer.Is(CustomRoles.FireWorks)) SelfTaskText = "";
 
                 //名前の後ろに付けるマーカー
                 string SelfMark = "";
@@ -640,7 +644,7 @@ namespace TownOfHost
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = HasTasks(target.Data, false) && SeerDataIsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
+                        string TargetTaskText = (HasTasks(target.Data, false) && seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() && !target.Is(CustomRoles.FireWorks)) || seer.Is(CustomRoles.Insider) ? $"{GetProgressText(target)}" : "";
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
@@ -673,10 +677,12 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
-                        if (seer.Is(CustomRoles.Puppeteer) &&
-                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
-                        Main.PuppeteerList.ContainsKey(target.PlayerId))
+                        if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
+                            || seer.Is(CustomRoles.Insider))
+                            && Main.PuppeteerList.ContainsKey(target.PlayerId))
+                        {
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                        }
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";
@@ -687,13 +693,6 @@ namespace TownOfHost
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
-                        // //インサイダーの処理
-                        // bool InsiderVision = seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target != seer //インサイダーが生きているかつ自分以外
-                        //     && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
-                        //     || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
-                        //     || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && Main.IsKilledByInsider.Contains(target)) //自分がキルした相手のみ
-                        //     );
-                        // if (InsiderVision) TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -735,10 +734,11 @@ namespace TownOfHost
                             TargetDeathReason = $"(<color={GetRoleColorCode(CustomRoles.Doctor)}>{GetVitalText(target.PlayerId)}</color>)";
 
                         //インサイダー
+                        Logger.Info(Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null ? "true" : "false", "Insider");
                         bool InsiderVision = seer.Is(CustomRoles.Insider) && !seer.Data.IsDead && target != seer //インサイダーが生きているかつ自分以外
                             && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
                             || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
-                            || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
+                            || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
                             );
                         if (InsiderVision) TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";
 

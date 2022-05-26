@@ -168,5 +168,9 @@ namespace TownOfHost
             }
             return retText;
         }
+        public static string GetFireWorksCount(byte playerId)
+        {
+            return $"<color=#ffff00>({nowFireWorksCount[playerId]})</color>";
+        }
     }
 }

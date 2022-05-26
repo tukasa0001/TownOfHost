@@ -304,6 +304,14 @@ namespace TownOfHost
                 {
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
+                //インサイダーが死んだラバーズを見られる
+                else if (!PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(CustomRoles.Insider)
+                    && target.Is(CustomRoles.Lovers) && target.Data.IsDead
+                    && (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool()
+                    || Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null))
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )
@@ -361,13 +369,13 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     //インサイダー設定
-                    bool InsiderVision = Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && pva.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId //前提条件
+                    bool InsiderVision = Main.VisibleTasksCount && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && pva.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId //前提条件
                     && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && pc.GetCustomRole().IsImpostor()) //味方インポスターの視認
                     || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && pc.Data.IsDead) //死者全員の視認
-                    || (!Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && Main.IsKilledByInsider.Contains(pc)) //自分がキルした相手のみ
+                    || (pc.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == pc.PlayerId) != null)) //自分がキルした相手のみ
                     );
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
+                    if ((Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) || InsiderVision) RoleTextMeeting.text += Utils.GetProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
                         (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||

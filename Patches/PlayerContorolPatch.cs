@@ -177,7 +177,7 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();
                     break;
                 case CustomRoles.Insider:
-                    if (!Main.IsKilledByInsider.Contains(target))
+                    if (!Main.IsKilledByInsider.Contains(target) && !(target.Is(CustomRoles.MadGuardian) && target.GetPlayerTaskState().IsTaskFinished))
                     {
                         float Norma = Options.InsiderCanSeeMadmateKillCount.GetFloat();
                         Main.InsiderKillCount[killer.PlayerId]++;
@@ -186,6 +186,7 @@ namespace TownOfHost
                         Main.IsKilledByInsider.Add(target);
                         RPC.RpcInsiderKill(target.PlayerId);
                     }
+                    Utils.NotifyRoles();
                     break;
 
                 //==========マッドメイト系役職==========//
@@ -776,7 +777,7 @@ namespace TownOfHost
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
                         if (!__instance.AmOwner) __instance.nameText.text = __instance?.Data?.PlayerName;
                     }
-                    if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
+                    if (Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Is(CustomRoles.FireWorks)) //他プレイヤーでVisibleTasksCountは有効なら
                         RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
 
 
@@ -831,7 +832,7 @@ namespace TownOfHost
                         var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
                         RealName = ncd.OpenTag + RealName + ncd.CloseTag;
                     }
-                    if (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeMadmate.GetBool()) //seerがインサイダー
+                    if (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeMadmate.GetBool() && target.GetCustomRole().IsMadmate()) //seerがインサイダー
                     {
                         Main.InsiderKillCount.TryGetValue(seer.PlayerId, out var KillCount);
                         if (KillCount >= Options.InsiderCanSeeMadmateKillCount.GetFloat()) RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>";
