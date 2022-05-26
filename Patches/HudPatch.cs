@@ -41,47 +41,47 @@ namespace TownOfHost
                 }
             }
             //MOD入り用のボタン下テキスト変更
-            switch (player.getCustomRole())
+            switch (player.GetCustomRole())
             {
                 case CustomRoles.Sniper:
-                    __instance.AbilityButton.OverrideText($"{getString("SniperSnipeButtonText")}");
+                    __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
                 break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
-                        __instance.AbilityButton.OverrideText($"{getString("FireWorksExplosionButtonText")}");
+                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                     else
-                        __instance.AbilityButton.OverrideText($"{getString("FireWorksInstallAtionButtonText")}");
+                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                 break;
                 case CustomRoles.SerialKiller:
-                    __instance.AbilityButton.OverrideText($"{getString("SerialKillerSuicideButtonText")}");
+                    __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
                 break;
                 case CustomRoles.Warlock:
-                    if (!main.CheckShapeshift[player.PlayerId] && !main.isCurseAndKill[player.PlayerId])
+                    if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                     {
-                        __instance.KillButton.OverrideText($"{getString("WarlockCurseButtonText")}");
+                        __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                     }
                     else
                     {
-                        __instance.KillButton.OverrideText($"{getString("KillButtonText")}");
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     }
                 break;
                 case CustomRoles.Witch:
                     if (player.GetKillOrSpell())
                     {
-                        __instance.KillButton.OverrideText($"{getString("WitchSpellButtonText")}");
+                        __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
                     }
                 break;
                 case CustomRoles.Vampire:
-                    __instance.KillButton.OverrideText($"{getString("VampireBiteButtonText")}");
+                    __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
                 break;
                 case CustomRoles.Arsonist:
-                    __instance.KillButton.OverrideText($"{getString("ArsonistDouseButtonText")}");
+                    __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
                 break;
                 case CustomRoles.Puppeteer:
-                    __instance.KillButton.OverrideText($"{getString("PuppeteerOperateButtonText")}");
+                    __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                 break;
                 case CustomRoles.BountyHunter:
-                    __instance.AbilityButton.OverrideText($"{getString("BountyHunterChangeButtonText")}");
+                    __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
                 break;
             }
 
