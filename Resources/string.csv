@@ -294,7 +294,7 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
-GBomberKillCooldown,GBomber KillCooldownTime,GBomerのキルクールタイム
+GBomberKillCooldown,GBomber KillCooldownTime,GBomberのキルクールタイム
 GBomberKillCountReductionValue,GBomber KillCountReductionValue,キルボタンでのカウント減少値
 GBomberMeetingCountReductionValue,GBomber MeetingCountReductionValue,議論中1秒当たりのカウントダウンスピード
 

@@ -179,9 +179,9 @@ namespace TownOfHost
                 case CustomRoles.GBomber:
                     //TODO:キルブロック
                     //TODO:爆弾取付処理
-                    //GBomerClassに処理を記載しこちらで呼び出す。
-                        //GBombAttachedPlayers に target が いなければ (target,6000) を 追加する
-                        //GBombAttachedPlayers に target が いれば     (target,int) int を -GBomberKillCountReductionValueする
+                    //GBomberClassに処理を記載しこちらで呼び出す。
+                    //GBombAttachedPlayers に target が いなければ (target,6000) を 追加する
+                    //GBombAttachedPlayers に target が いれば     (target,int) int を -GBomberKillCountReductionValueする
                     break;
 
                 //==========マッドメイト系役職==========//
@@ -894,7 +894,7 @@ namespace TownOfHost
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                     }
 
-                    //TODO:GBomerTimer
+                    //TODO:GBomberTimer
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
                     if (!GameStates.IsMeeting && Options.SnitchEnableTargetArrow.GetBool() && target.Is(CustomRoles.Snitch))
