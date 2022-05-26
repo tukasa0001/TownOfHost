@@ -132,7 +132,7 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                 break;
                 case CustomRoles.Sheriff:
-                    if (main.SheriffShotLimit[player.PlayerId] == 0)
+                    if (Main.SheriffShotLimit[player.PlayerId] == 0)
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
@@ -140,7 +140,7 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Arsonist:
-                    if (player.isDouseDone())
+                    if (player.IsDouseDone())
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
