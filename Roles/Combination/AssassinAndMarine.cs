@@ -21,6 +21,24 @@ namespace TownOfHost
             Assassin.Init();
             Marine.Init();
         }
+        public static void IsAssassinMeetingToggle()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.IsAssassinMeeting, Hazel.SendOption.Reliable, -1);
+            writer.Write(Assassin.IsAssassinMeeting);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void MarineExiledInAssassinMeeting()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.MarineExiledInAssassinMeeting, Hazel.SendOption.Reliable, -1);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void GameEndForAssassinMeeting()
+        {
+            Main.currentWinner = CustomWinner.Impostor;
+            //new LateTask(() =>
+            Main.CustomWinTrigger = true;//,
+            //    0.2f, "Custom Win Trigger Task");
+        }
     }
     public static class Assassin
     {

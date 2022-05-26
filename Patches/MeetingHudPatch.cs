@@ -33,6 +33,7 @@ namespace TownOfHost
                 GameData.PlayerInfo exiledPlayerInfo = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
                 recall = false;
+                ExiledMarine = false;
 
                 List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
@@ -149,7 +150,8 @@ namespace TownOfHost
                     tie = false;
                     ExiledMarine = __instance.playerStates.Any(ps => ps.VotedFor == exileId);
                     Assassin.IsAssassinMeetingEnd = true;
-                    __instance.RpcVotingComplete(states, Assassin.TriggerPlayer.Data, false); //RPC
+                    exiledPlayerInfo = Assassin.TriggerPlayer.Data;
+                    ExiledAssassin = false;
                 }
                 else if (exilePlayer.Is(CustomRoles.Assassin))
                 {
@@ -203,6 +205,11 @@ namespace TownOfHost
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Assassin);
         }
+        public static bool IsMarine(byte id)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return player != null && player.Is(CustomRoles.Marine);
+        }
     }
 
     static class ExtendedMeetingHud
@@ -218,18 +225,23 @@ namespace TownOfHost
                 if (ps == null) continue;
                 if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
                 {
-                    /*int VoteNum;
+                    int VoteNum = 0;
                     if (Assassin.IsAssassinMeeting)
                     {
                         if (CheckForEndVotingPatch.IsAssassin(ps.TargetPlayerId))
+                        {
+                            Assassin.IsExileMarine = CheckForEndVotingPatch.IsMarine(ps.VotedFor);
+                            ps.VotedFor = ps.TargetPlayerId;
                             VoteNum = 1;
-                        else VoteNum = 0;
+                            Logger.Info($"マーリン吊り {Assassin.IsExileMarine}", "Assassin");
+                        }
                     }
                     else
-                    {*/
-                    int VoteNum = 1;
-                    if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
-                    //投票を1追加 キーが定義されていない場合は1で上書きして定義
+                    {
+                        VoteNum = 1;
+                        if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                        //投票を1追加 キーが定義されていない場合は1で上書きして定義
+                    }
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
             }
@@ -372,14 +384,6 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CoIntro))]
-    class MeetingHudCoIntroPatch
-    {
-        public static void Postfix(MeetingHud __instance)
-        {
-            if (Assassin.IsAssassinMeeting) __instance.TitleText.text = GetString("WhoIsMarine");
-        }
-    }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
     class MeetingHudUpdatePatch
     {
@@ -433,7 +437,7 @@ namespace TownOfHost
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
                 if (pc.Is(CustomRoles.Assassin) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
-                    __instance.CheckForEndVoting();
+                    pva.voteComplete = true;
             }
         }
     }
@@ -467,10 +471,10 @@ namespace TownOfHost
                 },
                 0.2f + additional, "Recall Meeting");
             }
-            if (AssassinAndMarine.IsEnable() && !Assassin.IsAssassinMeetingEnd)
+            if (AssassinAndMarine.IsEnable())
             {
                 Assassin.IsAssassinMeeting = CheckForEndVotingPatch.ExiledAssassin;
-                RPC.IsAssassinMeetingToggle();
+                AssassinAndMarine.IsAssassinMeetingToggle();
                 Logger.Info($"アサシン会議：{Utils.GetOnOff(Assassin.IsAssassinMeeting)}", "Assassin");
             }
         }
