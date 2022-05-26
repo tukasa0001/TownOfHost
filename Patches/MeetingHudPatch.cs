@@ -45,10 +45,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -64,10 +63,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
