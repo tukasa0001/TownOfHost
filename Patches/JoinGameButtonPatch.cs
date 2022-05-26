@@ -1,8 +1,6 @@
+using System.Text.RegularExpressions;
 using HarmonyLib;
 using UnityEngine;
-using System.Text.RegularExpressions;
-using UnityEngine.SceneManagement;
-using System;
 
 namespace TownOfHost
 {
@@ -14,7 +12,7 @@ namespace TownOfHost
             if (__instance.GameIdText == null) return;
             if (Regex.IsMatch(GUIUtility.systemCopyBuffer, @"[A-Z]{6}"))
             {
-                Logger.info($"{GUIUtility.systemCopyBuffer}", "ClipBoard");
+                Logger.Info($"{GUIUtility.systemCopyBuffer}", "ClipBoard");
                 __instance.GameIdText.SetText(GUIUtility.systemCopyBuffer);
             }
         }

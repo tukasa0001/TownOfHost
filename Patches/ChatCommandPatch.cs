@@ -1,10 +1,9 @@
-using System.IO;
-using Hazel;
-using HarmonyLib;
-using System.Linq;
 using System;
-using static TownOfHost.Translator;
 using System.Collections.Generic;
+using System.Linq;
+using HarmonyLib;
+using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -18,43 +17,37 @@ namespace TownOfHost
             string subArgs = "";
             var canceled = false;
             var cancelVal = "";
-            main.isChatCommand = true;
-            Logger.info(text, "SendChat");
+            Main.isChatCommand = true;
+            Logger.Info(text, "SendChat");
             switch (args[0])
             {
                 case "/dump":
                     canceled = true;
-                    string t = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
-                    string filename = $"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}/TownOfHost-v{main.PluginVersion}-{t}.log";
-                    FileInfo file = new FileInfo(@$"{System.Environment.CurrentDirectory}/BepInEx/LogOutput.log");
-                    file.CopyTo(@filename);
-                    System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
-                    Logger.info($"{filename}にログを保存しました。", "dump");
-                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+                    Utils.DumpLog();
                     break;
                 case "/v":
                 case "/version":
                     canceled = true;
                     string version_text = "";
-                    foreach (var kvp in main.playerVersion.OrderBy(pair => pair.Key))
+                    foreach (var kvp in Main.playerVersion.OrderBy(pair => pair.Key))
                     {
-                        version_text += $"{kvp.Key}:{Utils.getPlayerById(kvp.Key).Data.PlayerName}:{kvp.Value.version}({kvp.Value.tag})\n";
+                        version_text += $"{kvp.Key}:{Utils.GetPlayerById(kvp.Key)?.Data?.PlayerName}:{kvp.Value.version}({kvp.Value.tag})\n";
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
                 default:
-                    main.isChatCommand = false;
+                    Main.isChatCommand = false;
                     break;
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                main.isChatCommand = true;
+                Main.isChatCommand = true;
                 switch (args[0])
                 {
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: " + string.Join(",", main.winnerList.Select(b => main.AllPlayerNames[b])));
+                        Utils.SendMessage("Winner: " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -66,7 +59,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if (args.Length > 1) { main.nickName = args[1]; }
+                        if (args.Length > 1) { Main.nickName = args[1]; }
                         break;
 
                     case "/n":
@@ -107,7 +100,7 @@ namespace TownOfHost
                             case "r":
                             case "roles":
                                 subArgs = args.Length < 3 ? "" : args[2];
-                                getRolesInfo(subArgs);
+                                GetRolesInfo(subArgs);
                                 break;
 
                             case "att":
@@ -117,11 +110,11 @@ namespace TownOfHost
                                 {
                                     case "lastimpostor":
                                     case "limp":
-                                        Utils.SendMessage(getString("LastImpostor") + getString("LastImpostorInfo"));
+                                        Utils.SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo"));
                                         break;
 
                                     default:
-                                        Utils.SendMessage($"{getString("Command.h_args")}:\n lastimpostor(limp)");
+                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n lastimpostor(limp)");
                                         break;
                                 }
                                 break;
@@ -133,26 +126,26 @@ namespace TownOfHost
                                 {
                                     case "hideandseek":
                                     case "has":
-                                        Utils.SendMessage(getString("HideAndSeekInfo"));
+                                        Utils.SendMessage(GetString("HideAndSeekInfo"));
                                         break;
 
                                     case "nogameend":
                                     case "nge":
-                                        Utils.SendMessage(getString("NoGameEndInfo"));
+                                        Utils.SendMessage(GetString("NoGameEndInfo"));
                                         break;
 
                                     case "syncbuttonmode":
                                     case "sbm":
-                                        Utils.SendMessage(getString("SyncButtonModeInfo"));
+                                        Utils.SendMessage(GetString("SyncButtonModeInfo"));
                                         break;
 
                                     case "randommapsmode":
                                     case "rmm":
-                                        Utils.SendMessage(getString("RandomMapsModeInfo"));
+                                        Utils.SendMessage(GetString("RandomMapsModeInfo"));
                                         break;
 
                                     default:
-                                        Utils.SendMessage($"{getString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;
@@ -170,13 +163,13 @@ namespace TownOfHost
                         break;
 
                     default:
-                        main.isChatCommand = false;
+                        Main.isChatCommand = false;
                         break;
                 }
             }
             if (canceled)
             {
-                Logger.info("Command Canceled", "ChatCommand");
+                Logger.Info("Command Canceled", "ChatCommand");
                 __instance.TextArea.Clear();
                 __instance.TextArea.SetText(cancelVal);
                 __instance.quickChatMenu.ResetGlyphs();
@@ -184,7 +177,7 @@ namespace TownOfHost
             return !canceled;
         }
 
-        public static void getRolesInfo(string role)
+        public static void GetRolesInfo(string role)
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
@@ -241,7 +234,7 @@ namespace TownOfHost
 
             };
             var msg = "";
-            var rolemsg = $"{getString("Command.h_args")}";
+            var rolemsg = $"{GetString("Command.h_args")}";
             foreach (var r in roleList)
             {
                 var roleName = r.Key.ToString();
@@ -249,7 +242,7 @@ namespace TownOfHost
 
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
-                    Utils.SendMessage(getString(roleName) + getString($"{roleName}InfoLong"));
+                    Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
                     return;
                 }
 
@@ -280,12 +273,12 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             float num = 3f - __instance.TimeSinceLastMessage;
-            if (main.MessagesToSend.Count > 0 && num <= 0.0f)
+            if (Main.MessagesToSend.Count > 0 && num <= 0.0f)
             {
-                (string, byte) msgData = main.MessagesToSend[0];
+                (string, byte) msgData = Main.MessagesToSend[0];
                 string msg = msgData.Item1;
                 byte sendTo = msgData.Item2;
-                main.MessagesToSend.RemoveAt(0);
+                Main.MessagesToSend.RemoveAt(0);
                 __instance.TimeSinceLastMessage = 0.0f;
                 if (sendTo == byte.MaxValue)
                 {
@@ -293,9 +286,9 @@ namespace TownOfHost
                 }
                 else
                 {
-                    PlayerControl target = Utils.getPlayerById(sendTo);
+                    PlayerControl target = Utils.GetPlayerById(sendTo);
                     if (target == null) return;
-                    int clientId = target.getClientId();
+                    int clientId = target.GetClientId();
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);
                     writer.Write(msg);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -307,7 +300,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch
     {
-        public static void Postfix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
+        public static void Postfix(string chatText)
         {
             switch (chatText)
             {

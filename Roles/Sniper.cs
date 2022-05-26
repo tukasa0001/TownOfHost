@@ -1,25 +1,27 @@
-using Hazel;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Hazel;
 using UnityEngine;
 
 namespace TownOfHost
 {
     public static class Sniper
     {
-        static int Id = 1800;
-        static List<byte> playeridList = new();
+        static readonly int Id = 1800;
+        static List<byte> playerIdList = new();
 
         static CustomOption SniperBulletCount;
         static CustomOption SniperPrecisionShooting;
 
+        static Dictionary<byte, byte> snipeTarget = new();
         static Dictionary<byte, Vector3> snipeBasePosition = new();
         static Dictionary<byte, int> bulletCount = new();
-        static Dictionary<byte, List<byte>> shotNortify = new();
+        static Dictionary<byte, List<byte>> shotNotify = new();
+        static Dictionary<byte, bool> meetingReset = new();
+
         static int maxBulletCount;
         static bool precisionshooting;
+
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Sniper);
@@ -28,33 +30,39 @@ namespace TownOfHost
         }
         public static void Init()
         {
-            playeridList = new();
+            playerIdList = new();
             snipeBasePosition = new();
+            snipeTarget = new();
             bulletCount = new();
-            shotNortify = new();
+            shotNotify = new();
+            meetingReset = new();
+
             maxBulletCount = SniperBulletCount.GetInt();
             precisionshooting = SniperPrecisionShooting.GetBool();
         }
         public static void Add(byte playerId)
         {
-            playeridList.Add(playerId);
+            playerIdList.Add(playerId);
             snipeBasePosition[playerId] = new();
+            snipeTarget[playerId] = 0x7F;
             bulletCount[playerId] = maxBulletCount;
-            shotNortify[playerId] = new();
+            shotNotify[playerId] = new();
+            meetingReset[playerId] = false;
         }
-        public static bool isEnable()
+        public static bool IsEnable()
         {
-            return playeridList.Count > 0;
+            return playerIdList.Count > 0;
         }
         public static void SendRPC(byte playerId, bool notify = false)
         {
-            Logger.info($"Player{playerId}:SendRPC", "Sniper");
+            Logger.Info($"Player{playerId}:SendRPC", "Sniper");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SniperSync, Hazel.SendOption.Reliable, -1);
             writer.Write(playerId);
+            writer.Write(snipeTarget[playerId]);
             writer.Write(notify);
             if (notify)
             {
-                var snList = shotNortify[playerId];
+                var snList = shotNotify[playerId];
                 writer.Write(snList.Count());
                 foreach (var sn in snList)
                 {
@@ -68,24 +76,25 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static void RecieveRPC(MessageReader msg)
+        public static void ReceiveRPC(MessageReader msg)
         {
             var playerId = msg.ReadByte();
+            snipeTarget[playerId] = msg.ReadByte();
             var notify = msg.ReadBoolean();
             if (notify)
             {
-                shotNortify[playerId].Clear();
+                shotNotify[playerId].Clear();
                 var count = msg.ReadInt32();
                 while (count > 0)
                 {
-                    shotNortify[playerId].Add(msg.ReadByte());
+                    shotNotify[playerId].Add(msg.ReadByte());
                 }
             }
             else
             {
                 bulletCount[playerId] = msg.ReadInt32();
             }
-            Logger.info($"Player{playerId}:RecieveRPC", "Sniper");
+            Logger.Info($"Player{playerId}:ReceiveRPC", "Sniper");
         }
         public static bool CanUseKillButton(PlayerControl pc)
         {
@@ -95,21 +104,29 @@ namespace TownOfHost
             {
                 canUse = true;
             }
-            Logger.info($" CanUseKillButton:{canUse}", "Sniper");
+            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
-        public static void ShapeShiftCheck(PlayerControl pc, bool shapeShifted)
+        public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
-            if(bulletCount[pc.PlayerId] <= 0) return;
+            if (bulletCount[pc.PlayerId] <= 0) return;
             //スナイパーで弾が残ってたら
-            if (!shapeShifted)
+            if (shapeshifting)
             {
+                meetingReset[pc.PlayerId] = false;
+
                 //変身のタイミングでスナイプ地点の登録
                 snipeBasePosition[pc.PlayerId] = pc.transform.position;
+                snipeTarget[pc.PlayerId] = 0x7F;
                 SendRPC(pc.PlayerId);
             }
             else
             {
+                if (meetingReset[pc.PlayerId])
+                {
+                    meetingReset[pc.PlayerId] = false;
+                    return;
+                }
                 Dictionary<PlayerControl, float> dot_list = new();
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
@@ -130,15 +147,15 @@ namespace TownOfHost
                     var target_dir = target_pos.normalized;
                     //内積を取る
                     var target_dot = Vector3.Dot(dir, target_dir);
-                    Logger.info($"{target.Data.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
-                    Logger.info($"  Dot={target_dot}", "Sniper");
+                    Logger.Info($"{target?.Data?.PlayerName}:pos={target_pos} dir={target_dir}", "Sniper");
+                    Logger.Info($"  Dot={target_dot}", "Sniper");
                     if (precisionshooting)
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認
                         var snipe_point = dir * target_pos.magnitude;
                         var err = (snipe_point - target_pos).magnitude;
-                        Logger.info($"  err={err}", "Sniper");
+                        Logger.Info($"  err={err}", "Sniper");
                         if (err < 1.0)
                         {
                             //ある程度正確なら登録
@@ -150,7 +167,7 @@ namespace TownOfHost
                         if (target_dot < 0.98) continue;
                         //ある程度正確なら登録
                         var err = target_pos.magnitude;
-                        Logger.info($"  err={err}", "Sniper");
+                        Logger.Info($"  err={err}", "Sniper");
                         dot_list.Add(target, err);
                     }
                 }
@@ -158,53 +175,52 @@ namespace TownOfHost
                 {
                     //一番正確な対象がターゲット
                     var snipedTarget = dot_list.OrderBy(c => c.Value).First().Key;
-                    PlayerState.setDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
-                    snipedTarget.RpcMurderPlayer(snipedTarget);
+                    snipeTarget[pc.PlayerId] = snipedTarget.PlayerId;
+                    PlayerState.SetDeathReason(snipedTarget.PlayerId, PlayerState.DeathReason.Sniped);
+                    snipedTarget.CheckMurder(snipedTarget);
                     //キル出来た通知
                     pc.RpcGuardAndKill();
-                    if (snipedTarget.Is(CustomRoles.Trapper))
+
+                    //スナイプが起きたことを聞こえそうな対象に通知したい
+                    dot_list.Remove(snipedTarget);
+                    var snList = shotNotify[pc.PlayerId];
+                    snList.Clear();
+                    foreach (var otherPc in dot_list.Keys)
                     {
-                        pc.TrapperKilled(snipedTarget);
+                        snList.Add(otherPc.PlayerId);
                     }
-                    if (snipedTarget.Is(CustomRoles.Bait))
-                    {
-                        Logger.info(snipedTarget.Data.PlayerName + "はBaitだった", "Sniper");
-                        new LateTask(() => pc.CmdReportDeadBody(snipedTarget.Data), 0.15f, "Bait Self Report");
-                    }
-                    else
-                    {
-                        //スナイプが起きたことを聞こえそうな対象に通知したい
-                        dot_list.Remove(snipedTarget);
-                        var snList = shotNortify[pc.PlayerId];
-                        snList.Clear();
-                        foreach (var otherPc in dot_list.Keys)
+                    SendRPC(pc.PlayerId, true);
+                    Utils.NotifyRoles();
+                    new LateTask(
+                        () =>
                         {
-                            snList.Add(otherPc.PlayerId);
-                            //otherPc.RpcGuardAndKill();
-                        }
-                        SendRPC(pc.PlayerId, true);
-                        new LateTask(
-                            () =>
-                            {
-                                snList.Clear();
-                                SendRPC(pc.PlayerId, true);
-                                Utils.NotifyRoles();
-                            },
-                            0.5f, "Sniper shot Notify"
-                            );
-                    }
+                            snList.Clear();
+                            SendRPC(pc.PlayerId, true);
+                            Utils.NotifyRoles();
+                        },
+                        0.5f, "Sniper shot Notify"
+                        );
                 }
             }
         }
-        public static string GetBulletCount(PlayerControl pc)
+        public static void OnStartMeeting()
         {
-            return $"<color=#ffff00>({bulletCount[pc.PlayerId]})</color>";
+            foreach (var sniper in playerIdList)
+                meetingReset[sniper] = true;
+        }
+        public static string GetBulletCount(byte playerId)
+        {
+            return $"<color=#ffff00>({bulletCount[playerId]})</color>";
+        }
+        public static byte GetSniper(byte target)
+        {
+            return snipeTarget.Where(st => st.Value == target).First().Key;
         }
         public static string GetShotNotify(byte seer)
         {
-            foreach (var sniper in playeridList)
+            foreach (var sniper in playerIdList)
             {
-                var snList = shotNortify[sniper];
+                var snList = shotNotify[sniper];
                 if (snList.Count() > 0 && snList.Contains(seer))
                 {
                     return $"<color=#ff0000><size=200%>!</size></color>";
@@ -214,4 +230,3 @@ namespace TownOfHost
         }
     }
 }
-

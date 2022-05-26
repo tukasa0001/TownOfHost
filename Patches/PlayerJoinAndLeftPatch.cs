@@ -1,5 +1,5 @@
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 using InnerNet;
 
 namespace TownOfHost
@@ -9,10 +9,8 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            Logger.info("RealNamesをリセット", "OnGameJoined");
-            Logger.info($"{__instance.GameId}に参加", "OnGameJoined");
-            main.RealNames = new Dictionary<byte, string>();
-            main.playerVersion = new Dictionary<byte, PlayerVersion>();
+            Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
+            Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
 
             NameColorManager.Begin();
@@ -25,8 +23,8 @@ namespace TownOfHost
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
 
-            Logger.info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
-            main.playerVersion = new Dictionary<byte, PlayerVersion>();
+            Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
         }
     }
@@ -37,13 +35,19 @@ namespace TownOfHost
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
-            if (data.Character.Is(CustomRoles.TimeThief))
-                data.Character.ResetThiefVotingTime();
-            if (main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
-                data.Character.RemoveDousePlayer();
-            PlayerState.setDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
-            PlayerState.setDead(data.Character.PlayerId);
-            Logger.info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
+            if (GameStates.IsInGame)
+            {
+                if (data.Character.Is(CustomRoles.TimeThief))
+                    data.Character.ResetThiefVotingTime();
+                if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
+                    data.Character.RemoveDousePlayer();
+                if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                {
+                    PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
+                    PlayerState.SetDead(data.Character.PlayerId);
+                }
+            }
+            Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }
     }
 }

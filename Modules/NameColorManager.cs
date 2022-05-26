@@ -1,16 +1,6 @@
-using BepInEx;
-using BepInEx.Configuration;
-using BepInEx.IL2CPP;
-using System;
-using HarmonyLib;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using UnhollowerBaseLib;
-using TownOfHost;
-using Hazel;
 using System.Linq;
-using System.Threading.Tasks;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -86,7 +76,7 @@ namespace TownOfHost
 
         public static void Begin()
         {
-            Logger.info("NameColorManagerをリセット", "NameColorManager");
+            Logger.Info("NameColorManagerをリセット", "NameColorManager");
             Instance = new NameColorManager();
         }
     }

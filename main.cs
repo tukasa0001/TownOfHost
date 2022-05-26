@@ -1,22 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
-using System;
 using HarmonyLib;
-using System.Collections.Generic;
-using UnityEngine;
-using Hazel;
-using System.Linq;
-using static TownOfHost.Translator;
-using System.Reflection;
 
-[assembly: AssemblyFileVersionAttribute(TownOfHost.main.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(TownOfHost.main.PluginVersion)]
+[assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
     [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
     [BepInProcess("Among Us.exe")]
-    public class main : BasePlugin
+    public class Main : BasePlugin
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
@@ -38,65 +35,63 @@ namespace TownOfHost
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
-        public static Dictionary<byte, PlayerVersion> playerVersion = new Dictionary<byte, PlayerVersion>();
+        public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
         public static CustomWinner currentWinner;
-        public static HashSet<AdditionalWinners> additionalwinners = new HashSet<AdditionalWinners>();
+        public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<PlayerControl, PlayerControl> LastKiller;
+        public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
-        public static bool isFixedCooldown => CustomRoles.Vampire.isEnable();
+        public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> IgnoreReportPlayers;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
-        public static Dictionary<byte, string> RealNames;
         public static string TextCursor => TextCursorVisible ? "_" : "";
         public static bool TextCursorVisible;
         public static float TextCursorTimer;
-        public static List<PlayerControl> LoversPlayers = new List<PlayerControl>();
+        public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
-        public static Dictionary<byte, float> AllPlayerKillCooldown = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> AllPlayerSpeed = new Dictionary<byte, float>();
-        public static Dictionary<byte, (byte, float)> BitPlayers = new Dictionary<byte, (byte, float)>();
-        public static Dictionary<byte, float> SerialKillerTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> BountyTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, float> WarlockTimer = new Dictionary<byte, float>();
+        public static Dictionary<byte, float> AllPlayerKillCooldown = new();
+        public static Dictionary<byte, float> AllPlayerSpeed = new();
+        public static Dictionary<byte, (byte, float)> BitPlayers = new();
+        public static Dictionary<byte, float> SerialKillerTimer = new();
+        public static Dictionary<byte, float> BountyTimer = new();
+        public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> BountyTargets;
-        public static Dictionary<byte, bool> isTargetKilled = new Dictionary<byte, bool>();
-        public static Dictionary<byte, PlayerControl> CursedPlayers = new Dictionary<byte, PlayerControl>();
-        public static List<PlayerControl> SpelledPlayer = new List<PlayerControl>();
-        public static Dictionary<byte, bool> KillOrSpell = new Dictionary<byte, bool>();
-        public static Dictionary<byte, bool> isCurseAndKill = new Dictionary<byte, bool>();
-        public static Dictionary<(byte, byte), bool> isDoused = new Dictionary<(byte, byte), bool>();
-        public static Dictionary<byte, (int, int)> DousedPlayerCount = new Dictionary<byte, (int, int)>();
-        public static Dictionary<byte, bool> isDeadDoused = new Dictionary<byte, bool>();
-        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-        public static Dictionary<byte, float> AirshipMeetingTimer = new Dictionary<byte, float>();
-        public static Dictionary<byte, byte> ExecutionerTarget = new Dictionary<byte, byte>(); //Key : Executioner, Value : target
-        public static Dictionary<byte, byte> PuppeteerList = new Dictionary<byte, byte>(); // Key: targetId, Value: PuppeteerId
-        public static bool AirshipMeetingCheck;
-        public static Dictionary<byte, byte> SpeedBoostTarget = new Dictionary<byte, byte>();
-        public static Dictionary<byte, int> MayorUsedButtonCount = new Dictionary<byte, int>();
-        public static Dictionary<byte, int> TimeThiefKillCount = new Dictionary<byte, int>();
+        public static Dictionary<byte, bool> isTargetKilled = new();
+        public static Dictionary<byte, PlayerControl> CursedPlayers = new();
+        public static List<PlayerControl> SpelledPlayer = new();
+        public static Dictionary<byte, bool> KillOrSpell = new();
+        public static Dictionary<byte, bool> isCurseAndKill = new();
+        public static Dictionary<(byte, byte), bool> isDoused = new();
+        public static Dictionary<byte, (int, int)> DousedPlayerCount = new();
+        public static Dictionary<byte, bool> isDeadDoused = new();
+        public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
+        public static Dictionary<byte, float> AirshipMeetingTimer = new();
+        public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
+        public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
+        public static Dictionary<byte, byte> SpeedBoostTarget = new();
+        public static Dictionary<byte, int> MayorUsedButtonCount = new();
+        public static Dictionary<byte, int> TimeThiefKillCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
         public static bool isShipStart;
-        public static Dictionary<byte, bool> CheckShapeshift = new Dictionary<byte, bool>();
+        public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static byte WonTrollID;
         public static byte ExiledJesterID;
@@ -110,7 +105,7 @@ namespace TownOfHost
         public static int DiscussionTime;
         public static int VotingTime;
 
-        public static main Instance;
+        public static Main Instance;
 
         public override void Load()
         {
@@ -122,21 +117,19 @@ namespace TownOfHost
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{main.modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{Main.modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-            TownOfHost.Logger.enable();
-            TownOfHost.Logger.disable("NotifyRoles");
-            TownOfHost.Logger.disable("SendRPC");
-            TownOfHost.Logger.disable("ReceiveRPC");
-            TownOfHost.Logger.disable("SwitchSystem");
-            TownOfHost.Logger.isDetail = true;
+            TownOfHost.Logger.Enable();
+            TownOfHost.Logger.Disable("NotifyRoles");
+            TownOfHost.Logger.Disable("SendRPC");
+            TownOfHost.Logger.Disable("ReceiveRPC");
+            TownOfHost.Logger.Disable("SwitchSystem");
+            //TownOfHost.Logger.isDetail = true;
 
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
-
-            RealNames = new Dictionary<byte, string>();
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
@@ -165,14 +158,14 @@ namespace TownOfHost
 
             NameColorManager.Begin();
 
-            Translator.init();
+            Translator.Init();
 
             BlockKilling = new Dictionary<byte, bool>();
 
             hasArgumentException = false;
             ExceptionMessage = "";
 
-            main.IgnoreReportPlayers = new List<byte>();
+            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
@@ -238,19 +231,19 @@ namespace TownOfHost
             }
             catch (ArgumentException ex)
             {
-                TownOfHost.Logger.error("エラー:Dictionaryの値の重複を検出しました");
-                TownOfHost.Logger.error(ex.Message);
+                TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+                TownOfHost.Logger.Error(ex.Message, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
-            TownOfHost.Logger.info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Commits)}: {ThisAssembly.Git.Commits}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.IsDirty)}: {ThisAssembly.Git.IsDirty}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
+            TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
             Harmony.PatchAll();
         }
@@ -320,7 +313,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
-        //HideAndSeak
+        //HideAndSeek
         HASFox,
         HASTroll,
         // Sub-roll after 500

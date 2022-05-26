@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using UnityEngine;
 using UnhollowerBaseLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -9,7 +9,7 @@ namespace TownOfHost
     {
         internal delegate bool LoadImageDelegate(IntPtr tex, IntPtr data, bool markNonReadable);
         internal static LoadImageDelegate LoadImage;
-        public static Sprite loadSprite(string path)
+        public static Sprite LoadSprite(string path)
         {
             //画像サイズは150*150
             if (LoadImage == null)
@@ -18,16 +18,16 @@ namespace TownOfHost
             try
             {
                 byte[] bytes = File.ReadAllBytes(path);
-                Texture2D texture = new Texture2D(2, 2);
+                Texture2D texture = new(2, 2);
                 var Array = (Il2CppStructArray<byte>)bytes;
                 LoadImage.Invoke(texture.Pointer, Array.Pointer, false);
 
-                Rect rect = new Rect(0f, 0f, texture.width, texture.height);
+                Rect rect = new(0f, 0f, texture.width, texture.height);
                 return Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f), 115f);
             }
             catch
             {
-                Logger.error("テクスチャのロードに失敗しました:" + path);
+                Logger.Error("テクスチャのロードに失敗しました:" + path, "loadSprite");
             }
             return null;
         }
