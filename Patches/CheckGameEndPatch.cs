@@ -73,7 +73,7 @@ namespace TownOfHost
         }
         private static bool CheckAndEndGameForExileMarine(ShipStatus __instance)
         {
-            if (Assasin.IsExileMarine)
+            if (Assassin.IsExileMarine)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByVote, false);

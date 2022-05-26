@@ -191,7 +191,7 @@ namespace TownOfHost
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
-                {CustomRoles.Assasin, "#ff0000"},
+                {CustomRoles.Assassin, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -281,7 +281,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
-        Assasin,
+        Assassin,
         //Madmate
         MadGuardian,
         Madmate,
@@ -291,7 +291,7 @@ namespace TownOfHost
         //両陣営
         Watcher,
         //ペア役職
-        AssasinAndMarine,
+        AssassinAndMarine,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,

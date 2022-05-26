@@ -93,7 +93,7 @@ namespace TownOfHost
             }
             FireWorks.Init();
             Sniper.Init();
-            AssasinAndMarine.Init();
+            AssassinAndMarine.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -308,7 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignAssasinAndMarineRolesFromList(CustomRoles.AssasinAndMarine, Impostors, Crewmates);
+                AssignAssassinAndMarineRolesFromList(CustomRoles.AssassinAndMarine, Impostors, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -382,7 +382,7 @@ namespace TownOfHost
                         }
                     }
                     if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
-                    if (pc.Is(CustomRoles.Assasin)) Assasin.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Assassin)) Assassin.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Marine)) Marine.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
@@ -502,9 +502,9 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        private static void AssignAssasinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
+        private static void AssignAssassinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
         {
-            var AssasinRole = CustomRoles.Assasin;
+            var AssassinRole = CustomRoles.Assassin;
             var MarineRole = CustomRoles.Marine;
             var rand = new Random();
             var count = Math.Clamp(RawCount, 0, imp.Count);
@@ -513,10 +513,10 @@ namespace TownOfHost
 
             for (var i = 0; i < count; i++)
             {
-                var assasin = imp[rand.Next(0, imp.Count)];
-                imp.Remove(assasin);
-                Main.AllPlayerCustomRoles[assasin.PlayerId] = AssasinRole;
-                Logger.Info("役職設定:" + assasin?.Data?.PlayerName + " = " + AssasinRole.ToString(), "AssignAssasin");
+                var assassin = imp[rand.Next(0, imp.Count)];
+                imp.Remove(assassin);
+                Main.AllPlayerCustomRoles[assassin.PlayerId] = AssassinRole;
+                Logger.Info("役職設定:" + assassin?.Data?.PlayerName + " = " + AssassinRole.ToString(), "AssignAssassin");
 
                 var marine = crew[rand.Next(0, crew.Count)];
                 crew.Remove(marine);

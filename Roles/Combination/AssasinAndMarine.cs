@@ -5,36 +5,36 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class AssasinAndMarine
+    public static class AssassinAndMarine
     {
         static readonly int Id = 40000;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.AssasinAndMarine);
+            Options.SetupRoleOptions(Id, CustomRoles.AssassinAndMarine);
         }
         public static bool IsEnable()
         {
-            return CustomRoles.AssasinAndMarine.IsEnable();
+            return CustomRoles.AssassinAndMarine.IsEnable();
         }
         public static void Init()
         {
-            Assasin.Init();
+            Assassin.Init();
             Marine.Init();
         }
     }
-    public static class Assasin
+    public static class Assassin
     {
         static List<byte> playerIdList = new();
         public static PlayerControl TriggerPlayer = null;
-        public static bool IsAssasinMeeting;
+        public static bool IsAssassinMeeting;
         public static bool IsExileMarine;
-        public static bool IsAssasinMeetingEnd;
+        public static bool IsAssassinMeetingEnd;
         public static void Init()
         {
             playerIdList = new();
-            IsAssasinMeeting = false;
+            IsAssassinMeeting = false;
             IsExileMarine = false;
-            IsAssasinMeetingEnd = false;
+            IsAssassinMeetingEnd = false;
         }
         public static void Add(byte playerId)
         {
@@ -45,9 +45,12 @@ namespace TownOfHost
             return playerIdList.Count > 0;
         }
 
-        public static void BootAssasinTrigger(PlayerControl assasin)
+        public static void BootAssassinTrigger(PlayerControl assassin)
         {
-            assasin?.ReportDeadBody(null);
+            MeetingRoomManager.Instance.AssignSelf(assassin, null);
+            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
+            assassin.RpcStartMeeting(null);
+            //assassin?.ReportDeadBody(null);
         }
     }
     public static class Marine
