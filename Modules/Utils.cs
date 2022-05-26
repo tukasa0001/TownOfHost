@@ -588,6 +588,9 @@ namespace TownOfHost
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
+                if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer)
+                    SelfName = GetString("WritePlayerName");
+
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
 
@@ -700,6 +703,9 @@ namespace TownOfHost
 
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+
+                        if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer)
+                            TargetName = target.Data.PlayerName;
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);
