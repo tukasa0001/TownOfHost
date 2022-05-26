@@ -131,8 +131,7 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
-                        recall = true;
+                        p.RpcExileV2();
                     }
                 }
                 Main.SpelledPlayer.Clear();
