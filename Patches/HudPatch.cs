@@ -128,8 +128,6 @@ namespace TownOfHost
                     TaskTextPrefix += FakeTasksText;
                     __instance.KillButton.SetDisabled();
                     __instance.KillButton.ToggleVisible(false);
-                    __instance.AbilityButton.SetDisabled();
-                    __instance.AbilityButton.ToggleVisible(false);
                 break;
                 case CustomRoles.Sheriff:
                     if (Main.SheriffShotLimit[player.PlayerId] == 0)
