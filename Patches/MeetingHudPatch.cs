@@ -9,7 +9,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
-        public static bool recall = false;
         public static bool Prefix(MeetingHud __instance)
         {
             if (MeetingHudUpdatePatch.isDictatorVote)
@@ -29,7 +28,6 @@ namespace TownOfHost
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
-                recall = false;
 
                 List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
@@ -373,20 +371,6 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
-            {
-                //生きてる適当なプレイヤーを選択
-                var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                if (pc != null)
-                {
-                    pc.RpcStartMeeting(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
-                    Main.IgnoreReportPlayers.Clear();
-                    CheckForEndVotingPatch.recall = false;
-                    Logger.Info("Recall Meeting", "Recall");
-                }
-            }
             Logger.Info("------------会議終了------------", "Phase");
         }
     }
