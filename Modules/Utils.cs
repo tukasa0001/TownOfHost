@@ -220,7 +220,7 @@ namespace TownOfHost
                         float Norma = Options.InsiderCanSeeMadmateKillCount.GetFloat();
                         if (Main.InsiderKillCount.TryGetValue(playerId, out var KillCount))
                         {
-                            if (KillCount < Norma) ProgressText += $" <color=#ffff00>({KillCount}/{Norma})</color>";
+                            if (KillCount < Norma) ProgressText += $" <color=#ff0000>({KillCount}/{Norma})</color>";
                             else ProgressText += $"<color=#ff0000>★</color>";
                         }
                         else ProgressText += "Invalid";
