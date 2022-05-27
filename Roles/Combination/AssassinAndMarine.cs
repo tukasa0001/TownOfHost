@@ -68,6 +68,7 @@ namespace TownOfHost
 
         public static void BootAssassinTrigger(PlayerControl assassin)
         {
+            Utils.NotifyRoles();
             IsAssassinMeeting = true;
             AssassinAndMarine.IsAssassinMeetingToggle();
             MeetingRoomManager.Instance.AssignSelf(assassin, null);
