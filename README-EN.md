@@ -230,6 +230,22 @@ Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
 They can transform after becoming to able to kill.<br>
 
+### Insider
+
+Team : Impostors<br>
+Decision : Impostor<br>
+
+The Insider is an impostor which can see others' roles.<br>
+They can see all impostors' roles and statuses.<br>
+Other roles whose they killed on their own are visible to them as well.<br>
+In Addition, a certain times of kill shows them Madmate.<br>
+
+| Settings Name                         |
+| ------------------------------------- |
+| Insider Can See Roles Of Impostors    |
+| Insider Can See Whole Roles Of Ghosts |
+| Insider Can See Madmate               |
+| Insider's Kill Count To See Madmate   |
 ### Madmate
 
 Team : Impostors<br>
