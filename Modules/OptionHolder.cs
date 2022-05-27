@@ -457,6 +457,24 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
+        public static void SetupAssassinAndMarineOptions(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var role = CustomRoles.AssassinAndMarine;
+            Dictionary<string, string> replacementDic = new()
+            {
+                { "%Assassin%", Utils.GetRoleName(CustomRoles.Assassin) },
+                { "%Marine%", Utils.GetRoleName(CustomRoles.Marine) }
+            };
+            var spawnOption = CustomOption.Create(id, Color.white, "AssassinAndMarine", rates, rates[0], null, true, replacementDic: replacementDic)
+                .HiddenOnDisplay(true)
+                .SetGameMode(customGameMode);
+            var countOption = CustomOption.Create(id + 1, Color.white, "NumOfPairs", 1, 1, 7, 1, spawnOption, false)
+                .HiddenOnDisplay(false)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;

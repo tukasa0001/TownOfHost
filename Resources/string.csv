@@ -38,7 +38,7 @@ SKMadmate,SideKickMadmate,サイドキックマッドメイト
 Watcher,Watcher,ウォッチャー
 
 # コンビネーション役職
-AssassinAndMarine,<color=#ff0000>Assassin</color>And<color=#00ffff>Marine</color>,<color=#ff0000>アサシン</color>と<color=#00ffff>マーリン</color>
+AssassinAndMarine,%Assassin%And%Marine%,%Assassin%と%Marine%
 
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー
@@ -162,6 +162,9 @@ SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nYou can see where everyone is voting.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。
+
+# コンビネーション役職
+AssassinAndMarineInfoLong,"(Impostors, Crewmates):\nAssassin(Impostors):\nRole that is paired with Merine and adds a new victory condition to the Impostors.\nWhen an assassin is about to be killed or expelled, an 「Assassin Meeting」 is held. The Assassin Meeting does not end until the Assassin names a player.\nIf you can guess Merine at the Assassin Meeting, you win an unconditional Impostor victory. Assassins are exiled at the Assassins Meeting. After the Assassins Meeting, the game continues as usual.\nMarine(Crewmates):\nIt is the counterpart to the Assassin, a position that all Impostors know from the beginning.\nUnconditional defeat if nominated by the Assassin Meeting to be an Assassin.","(インポスター, クルーメイト陣営):\nアサシン(インポスター陣営):\nマーリンと対であり、インポスター陣営に新しい勝利条件を追加する役職。\nアサシンがキル及び追放されかけると、「アサシン会議」が開かれる。アサシン会議は、アサシンがプレイヤーを一人指名するまで終わることはない。\nアサシン会議でマーリンを当てることができれば無条件インポスター勝利。アサシン会議でアサシンは吊られる。アサシン会議後は通常通り試合続行。\nマーリン(クルーメイト陣営):\nアサシンと対であり、インポスター全員が始めからわかる役職。\nアサシン会議でアサシンに指名されると無条件敗北。"
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
