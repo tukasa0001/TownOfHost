@@ -300,25 +300,28 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch
     {
-        public static void Postfix(string chatText)
+        public static void Postfix(ref PlayerControl sourcePlayer, ref string chatText)
         {
-            foreach (var assassin in PlayerControl.AllPlayerControls)
+            foreach (var target in PlayerControl.AllPlayerControls)
             {
-                foreach (var target in PlayerControl.AllPlayerControls)
+                if (!Assassin.IsAssassinMeeting) continue;
+                Logger.Info($"{Utils.GetPlayerById(Assassin.TriggerPlayerId).Data.PlayerName}({Assassin.TriggerPlayerId})と{sourcePlayer.Data.PlayerName}({sourcePlayer.PlayerId})が同じ : {Assassin.TriggerPlayerId == sourcePlayer.PlayerId}", "AssassinMeeting");
+                Logger.Info($"{chatText}と{target.Data.PlayerName}が同じ : {chatText == target.Data.PlayerName}", "AssassinMeeting");
+                if (Assassin.TriggerPlayerId == sourcePlayer.PlayerId && chatText == target.Data.PlayerName)
                 {
-                    if (!Assassin.IsAssassinMeeting) continue;
-                    if (assassin == target) continue;
-                    if (Assassin.TriggerPlayer == assassin && chatText == target.Data.PlayerName)
-                    {
-                        Assassin.AssassinTarget = target;
-                        Assassin.TargetRole = target.GetCustomRole();
-                        Assassin.FinishAssassinMeetingTrigger = true;
-                    }
+                    Assassin.AssassinTargetId = target.PlayerId;
+                    Assassin.TargetRole = target.GetCustomRole();
+                    Assassin.FinishAssassinMeetingTrigger = true;
+                    Logger.Info($"アサシン会議終了...対象の役職 : {Assassin.TargetRole}", "Assassin");
+                    break;
                 }
             }
 
             switch (chatText)
             {
+                case "/kill":
+                    sourcePlayer.RpcMurderPlayer(sourcePlayer);
+                    break;
                 default:
                     break;
             }

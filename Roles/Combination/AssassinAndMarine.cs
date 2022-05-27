@@ -43,18 +43,18 @@ namespace TownOfHost
     public static class Assassin
     {
         static List<byte> playerIdList = new();
-        public static PlayerControl TriggerPlayer = null;
+        public static byte TriggerPlayerId;
         public static bool IsAssassinMeeting;
         public static bool FinishAssassinMeetingTrigger;
-        public static PlayerControl AssassinTarget = null;
+        public static byte AssassinTargetId;
         public static CustomRoles TargetRole = CustomRoles.Crewmate;
         public static void Init()
         {
             playerIdList = new();
             IsAssassinMeeting = false;
             FinishAssassinMeetingTrigger = false;
-            TriggerPlayer = null;
-            AssassinTarget = null;
+            TriggerPlayerId = 0x73;
+            AssassinTargetId = 0x74;
             TargetRole = CustomRoles.Crewmate;
         }
         public static void Add(byte playerId)
@@ -68,13 +68,17 @@ namespace TownOfHost
 
         public static void BootAssassinTrigger(PlayerControl assassin)
         {
+            Assassin.TriggerPlayerId = assassin.PlayerId;
             Utils.NotifyRoles();
-            IsAssassinMeeting = true;
-            AssassinAndMarine.IsAssassinMeetingToggle();
-            MeetingRoomManager.Instance.AssignSelf(assassin, null);
-            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
-            assassin.RpcStartMeeting(null);
-            //assassin?.ReportDeadBody(null);
+            new LateTask(() =>
+            {
+                IsAssassinMeeting = true;
+                AssassinAndMarine.IsAssassinMeetingToggle();
+                MeetingRoomManager.Instance.AssignSelf(assassin, null);
+                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
+                assassin.RpcStartMeeting(null);
+            }, 0.5f, "StartAssassinMeeting");
+            Logger.Info("アサシン会議開始", "Special Phase");
         }
     }
     public static class Marine

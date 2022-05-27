@@ -226,7 +226,6 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Assassin:
-                    Assassin.IsAssassinMeeting = true;
                     Assassin.BootAssassinTrigger(target);
                     return false;
                 case CustomRoles.SchrodingerCat:

@@ -584,12 +584,11 @@ namespace TownOfHost
                 string SelfName = $"{SelfTaskText}</size>\r\n<color={seer.GetRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("EnterVentToWin")}</color>";
+                if (Assassin.IsAssassinMeeting && seer.PlayerId == Assassin.TriggerPlayerId)
+                    SelfName = $"<color={seer.GetRoleColorCode()}>{SelfRoleName}\r\n{GetString("WritePlayerName")}</color>";
                 SelfName = SelfRoleName + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
-
-                if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer)
-                    SelfName = GetString("WritePlayerName");
 
                 //適用
                 seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
@@ -661,6 +660,8 @@ namespace TownOfHost
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
                         else if (target.Is(CustomRoles.Arsonist))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.DousedPlayerCount[target.PlayerId].Item1}/{Main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
+                        else if (target.PlayerId == Assassin.TriggerPlayerId)
+                            TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color></size>\r\n";
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
@@ -701,16 +702,16 @@ namespace TownOfHost
                         )
                             TargetDeathReason = $"(<color={GetRoleColorCode(CustomRoles.Doctor)}>{GetVitalText(target.PlayerId)}</color>)";
 
-                        //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
-
                         if (Assassin.IsAssassinMeeting)
                         {
-                            if (seer == Assassin.TriggerPlayer)
-                                TargetName = target.Data.PlayerName;
-                            if (seer != Assassin.TriggerPlayer && target == Assassin.TriggerPlayer)
-                                TargetName = GetString("WhoIsMarine");
+                            if (seer == GetPlayerById(Assassin.TriggerPlayerId))
+                                TargetPlayerName = target.Data.PlayerName;
+                            if (seer.PlayerId != Assassin.TriggerPlayerId && target.PlayerId == Assassin.TriggerPlayerId)
+                                TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Impostor)}>{TargetRoleText}\r\n{GetString("WhoIsMarine")}</color>";
                         }
+
+                        //全てのテキストを合成します。
+                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);

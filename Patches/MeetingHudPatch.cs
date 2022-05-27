@@ -129,7 +129,7 @@ namespace TownOfHost
                 if (!Assassin.IsAssassinMeeting && exilePlayer.Is(CustomRoles.Assassin))
                 {
                     tie = true;
-                    Assassin.TriggerPlayer = exilePlayer;
+                    Assassin.TriggerPlayerId = exileId;
                     ExiledAssassin = true;
                 }
                 exiledPlayerInfo = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
@@ -329,8 +329,13 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.GetRoleColorCode(CustomRoles.Doctor)}>{Utils.GetVitalText(target.PlayerId)}</color>)";
-                if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer && target.AmOwner)
-                    pva.NameText.text = GetString("WritePlayerName");
+                if (Assassin.IsAssassinMeeting)
+                {
+                    if (seer.PlayerId == Assassin.TriggerPlayerId && target.AmOwner)
+                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("WritePlayerName")}</color>";
+                    else if (target.PlayerId == Assassin.TriggerPlayerId)
+                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{pva.NameText.text}</color>";
+                }
             }
         }
     }
@@ -390,11 +395,11 @@ namespace TownOfHost
                     Assassin.FinishAssassinMeetingTrigger = false;
                     statesList.Add(new MeetingHud.VoterState()
                     {
-                        VoterId = Assassin.TriggerPlayer.PlayerId,
-                        VotedForId = Assassin.AssassinTarget.PlayerId
+                        VoterId = Assassin.TriggerPlayerId,
+                        VotedForId = Assassin.AssassinTargetId
                     });
                     states = statesList.ToArray();
-                    __instance.RpcVotingComplete(states, Assassin.TriggerPlayer.Data, false);
+                    __instance.RpcVotingComplete(states, Utils.GetPlayerById(Assassin.TriggerPlayerId)?.Data, false);
                 }
             }
         }
