@@ -764,12 +764,18 @@ namespace TownOfHost
                     //    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
                     //}
                     //インサイダー設定
-                    bool InsiderVision = Main.VisibleTasksCount && !__instance.AmOwner && !PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) //前提条件
-                    && Options.InsiderCanSeeRolesOfImpostors.GetBool() && __instance.GetCustomRole().IsImpostor(); //味方インポスター
+                    bool InsiderVision = Main.VisibleTasksCount && !__instance.AmOwner && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) //前提条件
+                    && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && __instance.GetCustomRole().IsImpostor()) //味方インポスター
+                    || (PlayerControl.LocalPlayer.Data.IsDead //死んでいる場合
+                    && (Options.GhostCanSeeOtherRoles.GetBool() //幽霊から全員見える設定
+                    || (__instance.Data.IsDead ////相手が死んでいる
+                    && (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() //幽霊全員見える場合
+                    || (Main.IsKilledByInsider.Find(x => x.PlayerId == __instance.PlayerId) != null))))) //自分がキルしている場合
+                    );
                     RoleText.text = RoleTextData.Item1;
                     RoleText.color = RoleTextData.Item2;
                     if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
-                    else if (InsiderVision) RoleText.enabled = true; //インサイダーの味方表示
+                    else if (InsiderVision) RoleText.enabled = true; //インサイダーの表示
                     else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
                     else RoleText.enabled = false; //そうでなければロールを非表示
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
@@ -858,12 +864,40 @@ namespace TownOfHost
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
-                    if (seer.Is(CustomRoles.Puppeteer) || seer.Is(CustomRoles.Insider))
+
+                    //インサイダーからの味方の能力表示
+                    bool InsiderCanSeeImpostorAbility = seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool();
+
+                    if (seer.Is(CustomRoles.BountyHunter) && Main.BountyTargets[seer.PlayerId] == target)
                     {
-                        if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
-                        || (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool()))
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                    }
+                    else if (InsiderCanSeeImpostorAbility)
+                    {
+                        foreach (var kvp in Main.BountyTargets)
+                        {
+                            bool TargetIsTargeted = target.PlayerId == kvp.Value.PlayerId;
+                            if (TargetIsTargeted)
+                            {
+                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                            }
+                        }
+                    }
+
+                    if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
+                        || InsiderCanSeeImpostorAbility)
                         && Main.PuppeteerList.ContainsKey(target.PlayerId))
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                    {
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                    }
+                    foreach (var kvp in Main.BitPlayers)
+                    {
+                        bool SeerBite = seer.PlayerId == kvp.Value.Item1;
+                        if (((seer.Is(CustomRoles.Vampire) && SeerBite) || InsiderCanSeeImpostorAbility)
+                            && Main.BitPlayers.ContainsKey(target.PlayerId) && !target.Data.IsDead)
+                        {
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>×</color>";
+                        }
                     }
                     if (Sniper.IsEnable() && target.AmOwner)
                     {

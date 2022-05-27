@@ -680,12 +680,41 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
+                        //インサイダーからの味方の能力表示
+                        bool InsiderCanSeeImpostorAbility = seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool();
+
+                        if (seer.Is(CustomRoles.BountyHunter) && Main.BountyTargets[seer.PlayerId] == target)
+                        {
+                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                        }
+                        else if (InsiderCanSeeImpostorAbility)
+                        {
+                            foreach (var kvp in Main.BountyTargets)
+                            {
+                                bool TargetIsTargeted = target.PlayerId == kvp.Value.PlayerId;
+                                if (TargetIsTargeted)
+                                {
+                                    TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                                }
+                            }
+                        }
+
                         if (((seer.Is(CustomRoles.Puppeteer) && Main.PuppeteerList.ContainsValue(seer.PlayerId))
-                            || (seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool()))
+                            || InsiderCanSeeImpostorAbility)
                             && Main.PuppeteerList.ContainsKey(target.PlayerId))
                         {
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                         }
+                        foreach (var kvp in Main.BitPlayers)
+                        {
+                            bool SeerBite = seer.PlayerId == kvp.Value.Item1;
+                            if (((seer.Is(CustomRoles.Vampire) && SeerBite) || InsiderCanSeeImpostorAbility)
+                                && Main.BitPlayers.ContainsKey(target.PlayerId) && !target.Data.IsDead)
+                            {
+                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>×</color>";
+                            }
+                        }
+
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";
@@ -693,8 +722,9 @@ namespace TownOfHost
                         bool InsiderVision = seer.Is(CustomRoles.Insider) && target != seer //前提条件
                             && ((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool())//死んでいるかつ設定有効な場合は全員
                             || (Options.InsiderCanSeeRolesOfImpostors.GetBool() && target.GetCustomRole().IsImpostor()) //味方インポスター
-                            || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && target.Data.IsDead) //死者全員が見える場合
-                            || (target.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null)) //自分がキルした相手のみ
+                            || (target.Data.IsDead //幽霊の役職
+                            && (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() //幽霊全員が見える場合
+                            || (Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null))) //自分がキルした相手のみ
                             );
                         if (InsiderVision)
                             TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n";

@@ -312,6 +312,24 @@ namespace TownOfHost
                 {
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
+                //インサイダーからの味方の能力表示
+                bool InsiderCanSeeImpostorAbility = PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool();
+
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.BountyHunter) && Main.BountyTargets[PlayerControl.LocalPlayer.PlayerId] == target)
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                }
+                else if (InsiderCanSeeImpostorAbility)
+                {
+                    foreach (var kvp in Main.BountyTargets)
+                    {
+                        bool TargetIsTargeted = target.PlayerId == kvp.Value.PlayerId;
+                        if (TargetIsTargeted)
+                        {
+                            pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                        }
+                    }
+                }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )
