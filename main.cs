@@ -290,7 +290,7 @@ namespace TownOfHost
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
         Watcher,
-        //ペア役職
+        //コンビネーション役職
         AssassinAndMarine,
         //Crewmate(Vanilla)
         Engineer,
