@@ -31,7 +31,7 @@ namespace TownOfHost
                 Assassin.TriggerPlayer.RpcExileV2();
             if (Assassin.TargetRole == CustomRoles.Marine)
             {
-                AssassinAndMarine.MarineExiledInAssassinMeeting();
+                AssassinAndMarine.MarineSelectedInAssassinMeeting();
                 AssassinAndMarine.GameEndForAssassinMeeting();
                 return; //インポスター勝利確定なのでこれ以降の処理は不要
             }

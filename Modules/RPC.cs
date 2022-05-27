@@ -36,7 +36,7 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         IsAssassinMeeting,
-        MarineExiledInAssassinMeeting,
+        MarineSelectedInAssassinMeeting,
     }
     public enum Sounds
     {
@@ -212,7 +212,7 @@ namespace TownOfHost
                 case CustomRPC.IsAssassinMeeting:
                     Assassin.IsAssassinMeeting = reader.ReadBoolean();
                     break;
-                case CustomRPC.MarineExiledInAssassinMeeting:
+                case CustomRPC.MarineSelectedInAssassinMeeting:
                     AssassinAndMarine.GameEndForAssassinMeeting();
                     break;
             }

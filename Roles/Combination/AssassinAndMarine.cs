@@ -27,9 +27,9 @@ namespace TownOfHost
             writer.Write(Assassin.IsAssassinMeeting);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void MarineExiledInAssassinMeeting()
+        public static void MarineSelectedInAssassinMeeting()
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.MarineExiledInAssassinMeeting, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.MarineSelectedInAssassinMeeting, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void GameEndForAssassinMeeting()
