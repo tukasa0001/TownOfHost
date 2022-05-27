@@ -300,16 +300,20 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     class AddChatPatch
     {
-        public static void Postfix(PlayerControl sourcePlayer, string chatText)
+        public static void Postfix(string chatText)
         {
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var assassin in PlayerControl.AllPlayerControls)
             {
-                if (!Assassin.IsAssassinMeeting) continue;
-                if (sourcePlayer == Assassin.TriggerPlayer && chatText == pc.Data.PlayerName)
+                foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    Assassin.AssassinTarget = pc;
-                    Assassin.TargetRole = pc.GetCustomRole();
-                    Assassin.FinishAssassinMeetingTrigger = true;
+                    if (!Assassin.IsAssassinMeeting) continue;
+                    if (assassin == target) continue;
+                    if (Assassin.TriggerPlayer == assassin && chatText == target.Data.PlayerName)
+                    {
+                        Assassin.AssassinTarget = target;
+                        Assassin.TargetRole = target.GetCustomRole();
+                        Assassin.FinishAssassinMeetingTrigger = true;
+                    }
                 }
             }
 

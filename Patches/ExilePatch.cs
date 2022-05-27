@@ -27,8 +27,6 @@ namespace TownOfHost
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
-            if (!Assassin.IsAssassinMeeting && Assassin.TriggerPlayer != null)
-                Assassin.TriggerPlayer.RpcExileV2();
             if (Assassin.TargetRole == CustomRoles.Marine)
             {
                 AssassinAndMarine.MarineSelectedInAssassinMeeting();
@@ -99,7 +97,6 @@ namespace TownOfHost
             if (Assassin.IsAssassinMeeting)
             {
                 Logger.Info("アサシン会議開始", "Special Phase");
-                Utils.NotifyRoles();
                 Assassin.BootAssassinTrigger(Assassin.TriggerPlayer);
             }
             Utils.CountAliveImpostors();

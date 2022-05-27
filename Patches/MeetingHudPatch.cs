@@ -366,11 +366,11 @@ namespace TownOfHost
                         (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
                 }
                 var voteTarget = Utils.GetPlayerById(pva.VotedFor);
+                MeetingHud.VoterState[] states;
+                List<MeetingHud.VoterState> statesList = new();
                 //死んでいないディクテーターが投票済み
                 if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
-                    MeetingHud.VoterState[] states;
-                    List<MeetingHud.VoterState> statesList = new();
                     statesList.Add(new MeetingHud.VoterState()
                     {
                         VoterId = pva.TargetPlayerId,
@@ -386,7 +386,13 @@ namespace TownOfHost
                 if (Assassin.FinishAssassinMeetingTrigger)
                 {
                     Assassin.FinishAssassinMeetingTrigger = false;
-                    __instance.RpcClose();
+                    statesList.Add(new MeetingHud.VoterState()
+                    {
+                        VoterId = Assassin.TriggerPlayer.PlayerId,
+                        VotedForId = Assassin.AssassinTarget.PlayerId
+                    });
+                    states = statesList.ToArray();
+                    __instance.RpcVotingComplete(states, Assassin.TriggerPlayer.Data, false);
                 }
             }
         }
