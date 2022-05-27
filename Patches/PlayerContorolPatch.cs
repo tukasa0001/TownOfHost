@@ -225,6 +225,10 @@ namespace TownOfHost
             }
             switch (target.GetCustomRole())
             {
+                case CustomRoles.Assassin:
+                    Assassin.IsAssassinMeeting = true;
+                    Assassin.BootAssassinTrigger(target);
+                    return false;
                 case CustomRoles.SchrodingerCat:
                     //シュレディンガーの猫が切られた場合の役職変化スタート
                     //直接キル出来る役職チェック
