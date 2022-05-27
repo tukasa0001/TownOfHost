@@ -403,4 +403,4 @@ assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割�
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
 WhoIsMarine,Who is the Marine?,マーリンは誰だ？
-WritePlayerName,Write the player name,プレイヤー名を入力せよ
+WritePlayerName,Write player name,プレイヤー名を打て
