@@ -68,6 +68,8 @@ namespace TownOfHost
 
         public static void BootAssassinTrigger(PlayerControl assassin)
         {
+            IsAssassinMeeting = true;
+            AssassinAndMarine.IsAssassinMeetingToggle();
             MeetingRoomManager.Instance.AssignSelf(assassin, null);
             DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
             assassin.RpcStartMeeting(null);
