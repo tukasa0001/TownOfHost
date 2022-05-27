@@ -295,6 +295,33 @@
 | ------------------------------- |
 | イビルウォッチャーになる確率(%) |
 
+### AssassinAndMarine/アサシンとマーリン
+
+陣営 : インポスター, クルーメイト<br>
+判定 : インポスター, クルーメイト<br>
+
+#### アサシン
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+追加勝利条件 : 「アサシン会議」でマーリンを当てる<br>
+
+- インポスター陣営に新しい勝利条件を追加する役職です。<br>
+マーリンと対になる役職です。<br>
+アサシンがキル及び追放されかけると、「アサシン会議」が開かれます。<br>
+アサシン会議は、アサシンがプレイヤーを一人指名するまで終わることはありません。<br>
+プレイヤーの指名方法はチャットです。クイックチャットでプレイヤー名を選択すると良いです。<br>
+アサシン会議でアサシンは吊られます。<br>
+アサシン会議後は通常通り試合続行です。<br>
+#### マーリン
+
+陣営 : クルーメイト<br>
+判定 : クルーメイト<br>
+
+- インポスター全員が始めからわかる役職です。<br>
+アサシンと対になる役職です。<br>
+アサシン会議でアサシンに指名されると無条件敗北です。<br>
+
 ### Bait/ベイト
 
 陣営 : クルーメイト<br>
@@ -691,6 +718,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
+[アサシンとマーリン](#AssassinAndMarine/アサシンとマーリン) の役職 : https://github.com/yukieiji/ExtremeRoles<br>
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
