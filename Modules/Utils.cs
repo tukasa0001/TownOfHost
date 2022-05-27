@@ -704,8 +704,13 @@ namespace TownOfHost
                         //全てのテキストを合成します。
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
-                        if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer)
-                            TargetName = target.Data.PlayerName;
+                        if (Assassin.IsAssassinMeeting)
+                        {
+                            if (seer == Assassin.TriggerPlayer)
+                                TargetName = target.Data.PlayerName;
+                            if (seer != Assassin.TriggerPlayer && target == Assassin.TriggerPlayer)
+                                TargetName = GetString("WhoIsMarine");
+                        }
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);

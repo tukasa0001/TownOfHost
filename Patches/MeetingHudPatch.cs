@@ -329,6 +329,8 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.GetRoleColorCode(CustomRoles.Doctor)}>{Utils.GetVitalText(target.PlayerId)}</color>)";
+                if (Assassin.IsAssassinMeeting && seer == Assassin.TriggerPlayer && target.AmOwner)
+                    pva.NameText.text = GetString("WritePlayerName");
             }
         }
     }
