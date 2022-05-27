@@ -304,21 +304,21 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (!(GameStates.IsMeeting || Assassin.IsAssassinMeeting)) continue;
+                if (!Assassin.IsAssassinMeeting) continue;
                 if (chatText == pc.Data.PlayerName)
                 {
                     Assassin.AssassinTarget = pc;
                     Assassin.TargetRole = pc.GetCustomRole();
                     Assassin.FinishAssassinMeetingTrigger = true;
                 }
-
-                switch (chatText)
-                {
-                    default:
-                        break;
-                }
-                if (!AmongUsClient.Instance.AmHost) return;
             }
+
+            switch (chatText)
+            {
+                default:
+                    break;
+            }
+            if (!AmongUsClient.Instance.AmHost) return;
         }
     }
 }
