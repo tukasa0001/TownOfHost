@@ -42,6 +42,7 @@ namespace TownOfHost
                 if (data.Character.Is(CustomRoles.Lovers) && !Main.isLoversDead)
                     foreach (var lovers in Main.LoversPlayers)
                     {
+                        Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
