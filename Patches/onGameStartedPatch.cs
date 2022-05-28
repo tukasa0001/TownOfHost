@@ -502,14 +502,13 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        private static void AssignAssassinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew, int RawCount = -1)
+        private static void AssignAssassinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew)
         {
             var AssassinRole = CustomRoles.Assassin;
             var MarineRole = CustomRoles.Marine;
             var rand = new Random();
-            var count = Math.Clamp(RawCount, 0, imp.Count);
-            if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, imp.Count);
-            if (count <= 0) return;
+            var count = Math.Clamp(role.GetCount(), 0, imp.Count);
+            if (count <= 0 || imp.Count <= 0) return;
 
             for (var i = 0; i < count; i++)
             {
