@@ -35,7 +35,7 @@ namespace TownOfHost
 
             var killer = __instance; //読み替え変数
 
-            //RPCGuadrAndKillによるガードは外す
+            //RPCGuardAndKillによるガードは外す
             if (Main.SelfGuard[target.PlayerId])
             {
                 Main.SelfGuard[target.PlayerId] = false;
