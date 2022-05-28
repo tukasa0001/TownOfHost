@@ -674,6 +674,12 @@ namespace TownOfHost
                 }
             }
         }
+        public static void RpcExileV2(this PlayerControl player)
+        {
+            player.Exiled();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
