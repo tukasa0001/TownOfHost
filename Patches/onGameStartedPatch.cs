@@ -479,7 +479,7 @@ namespace TownOfHost
                 switch (role)
                 {
                     case CustomRoles.Scapegoat:
-                        return player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && IsCrewmate);
+                        return player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && !player.Is(CustomRoles.Sheriff) && IsCrewmate) || (Options.AssignScapegoatToSheriffAsWell.GetBool() && player.Is(CustomRoles.Sheriff));
                     default:
                         return true;
                 }

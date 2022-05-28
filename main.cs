@@ -227,7 +227,7 @@ namespace TownOfHost
                 //サブ役職
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                 {CustomRoles.Lovers, "#ffaaaa"},
-                {CustomRoles.Scapegoat, "#ff0000"},
+                {CustomRoles.Scapegoat, "#404040"},
                 {CustomRoles.Dummy, "#ff0000"},
             };
             }

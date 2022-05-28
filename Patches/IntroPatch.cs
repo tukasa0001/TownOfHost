@@ -25,7 +25,8 @@ namespace TownOfHost
                     ? GetString("WatcherInfo")
                     : GetString(role.ToString() + "Info");
 
-                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                bool HideIntrosubrole = PlayerControl.LocalPlayer.Is(CustomRoles.Scapegoat) && !(Options.RealizeScapegoatWhileLiving.GetBool() && (Options.ScapegoatTaskCountToRealize.GetFloat() == 0));
+                __instance.RoleText.text += HideIntrosubrole ? "" : Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 

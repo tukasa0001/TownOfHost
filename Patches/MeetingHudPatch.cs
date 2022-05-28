@@ -289,9 +289,11 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 //スケープゴート
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.Scapegoat) && target.Is(CustomRoles.Scapegoat))
+                if (target.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (seer.Is(CustomRoles.Scapegoat)
+                        && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
+                        || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
                 {
-                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+                    pva.NameText.text += $"<color=#ff0000>⚠</color>";
                 }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist

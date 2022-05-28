@@ -517,7 +517,9 @@ namespace TownOfHost
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 //スケープゴートに警告マーク
-                if (seer.Is(CustomRoles.Scapegoat)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+                if (seer.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (Options.RealizeScapegoatWhileLiving.GetBool()
+                    && (seer.Is(CustomRoles.Sheriff) || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat()))))
+                    SelfMark += $"<color=#ff0000>⚠</color>";
                 if (seer.Is(CustomRoles.Dummy)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Dummy)}>○</color>";
 
 
@@ -646,6 +648,11 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
+                        if (seer.Data.IsDead && target.Is(CustomRoles.Scapegoat))
+                        {
+                            TargetMark += $"<color=#ff0000>⚠</color>";
+                        }
+
                         if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
@@ -672,7 +679,8 @@ namespace TownOfHost
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist));
+                            var scapegoatoption = seer.Is(CustomRoles.Snitch) && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
+                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist)) || scapegoatoption;
                             if (foundCheck)
                                 TargetPlayerName = $"<color={target.GetRoleColorCode()}>{TargetPlayerName}</color>";
                         }

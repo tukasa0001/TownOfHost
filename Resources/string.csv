@@ -296,8 +296,9 @@ NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
 RealizeScapegoatWhileLiving,Realize Scapegoat While Living,生存中にスケープゴートと分かる
-TaskCountToRealizeScapegoat,Task Count To Realize Scapegoat,スケープゴートと分かるタスク数
+ScapegoatTaskCountToRealize,Task Count To Realize Scapegoat,スケープゴートと分かるタスク数
 AssignScapegoatOnlyToCrewmate,Assign Scapegoat Only To Crewmate,クルーメイトのみに割り当てる
+AssignScapegoatToSheriffAsWell,Assign Scapegoat To Sheriff As Well,シェリフにも割り当てる
 ScapegoatLooksRedForSnitch,Scapegoat Looks Red For Snitch,スニッチから赤く表示される
 
 ## かくれんぼ設定

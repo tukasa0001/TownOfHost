@@ -886,13 +886,11 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                     }
-                    if (__instance.Is(CustomRoles.Scapegoat) && PlayerControl.LocalPlayer.Is(CustomRoles.Scapegoat))
+                    if (target.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (seer.Is(CustomRoles.Scapegoat)
+                        && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
+                        || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
-                    }
-                    else if (__instance.Is(CustomRoles.Scapegoat) && PlayerControl.LocalPlayer.Data.IsDead)
-                    {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+                        Mark += $"<color=#ff0000>⚠</color>";
                     }
 
 
