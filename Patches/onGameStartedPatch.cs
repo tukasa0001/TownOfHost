@@ -294,7 +294,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignLoversRolesFromList();
+                // AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
@@ -307,7 +307,9 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignScapegoatFromList(CustomRoles.Scapegoat);
+                AssignSubRolesFromList(CustomRoles.Scapegoat);
+                AssignSubRolesFromList(CustomRoles.Dummy);
+                AssignSubRolesFromList(CustomRoles.Lovers);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -467,39 +469,74 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
         }
-        private static void AssignScapegoatFromList(CustomRoles role)
+        //属性ごとの割り当て条件
+        public static bool AssignSubRolesTarget(PlayerControl player, CustomRoles role)
+        {
+            if (!Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var subRole))
+            {
+                bool IsCrewmate = !player.GetCustomRole().IsImpostorTeam() && !player.GetCustomRole().IsNeutral(); //クルー陣営
+                // var subrole = player.GetCustomRole();
+                switch (role)
+                {
+                    case CustomRoles.Scapegoat:
+                        return player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && IsCrewmate);
+                    default:
+                        return true;
+                }
+            }
+            else return false;
+        }
+        private static void AssignSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
             if (role.IsEnable())
             {
-                //Scapegoatを初期化
-                Main.ScapegoatPlayer.Clear();
-                //ランダムに選出
-                AssignScapegoat(role.GetCount());
-            }
-        }
-        private static void AssignScapegoat(int RawCount = -1)
-        {
-            var allPlayers = new List<PlayerControl>();
-            foreach (var player in PlayerControl.AllPlayerControls)
-            {
-                bool IsCrewmate = !player.GetCustomRole().IsImpostorTeam() && !player.GetCustomRole().IsNeutral();
-                if (player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && IsCrewmate)) allPlayers.Add(player);
-            }
-            var ScapegoatRole = CustomRoles.Scapegoat;
-            var rand = new System.Random();
-            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(ScapegoatRole.GetCount(), 0, allPlayers.Count);
-            if (count <= 0) return;
+                if (role == CustomRoles.Lovers)
+                {
+                    //Loversを初期化
+                    Main.LoversPlayers.Clear();
+                    Main.isLoversDead = false;
+                    var allPlayers = new List<PlayerControl>();
+                    foreach (var player in PlayerControl.AllPlayerControls)
+                    {
+                        if (AssignSubRolesTarget(player, role)) allPlayers.Add(player);
+                    }
+                    var rand = new System.Random();
+                    var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+                    if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, allPlayers.Count);
+                    if (count <= 0) return;
 
-            for (var i = 0; i < count; i++)
-            {
-                var player = allPlayers[rand.Next(0, allPlayers.Count)];
-                Main.ScapegoatPlayer.Add(player);
-                allPlayers.Remove(player);
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = ScapegoatRole;
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + ScapegoatRole.ToString(), "AssignScapegoat");
+                    for (var i = 0; i < count; i++)
+                    {
+                        var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                        Main.LoversPlayers.Add(player);
+                        allPlayers.Remove(player);
+                        Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                        Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignLovers");
+                    }
+                    RPC.SyncLoversPlayers();
+                }
+                else
+                {
+                    var allPlayers = new List<PlayerControl>();
+                    foreach (var player in PlayerControl.AllPlayerControls)
+                    {
+                        if (AssignSubRolesTarget(player, role)) allPlayers.Add(player);
+                    }
+                    var rand = new System.Random();
+                    var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+                    if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, allPlayers.Count);
+                    if (count <= 0) return;
+
+                    for (var i = 0; i < count; i++)
+                    {
+                        var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                        allPlayers.Remove(player);
+                        Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                        Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignSubRoles");
+                    }
+                }
+
             }
-            RPC.SyncScapegoatPlayer();
         }
         private static void AssignLoversRolesFromList()
         {

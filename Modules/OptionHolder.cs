@@ -339,6 +339,7 @@ namespace TownOfHost
             RealizeScapegoatWhileLiving = CustomOption.Create(21010, Color.white, "RealizeScapegoatWhileLiving", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
             AssignScapegoatOnlyToCrewmate = CustomOption.Create(21011, Color.white, "AssignScapegoatOnlyToCrewmate", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
             ScapegoatLooksRedForSnitch = CustomOption.Create(21012, Color.white, "ScapegoatLooksRedForSnitch", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
+            SetupRoleOptions(21100, CustomRoles.Dummy);
             // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);

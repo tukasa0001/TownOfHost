@@ -64,7 +64,6 @@ namespace TownOfHost
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
-        public static List<PlayerControl> ScapegoatPlayer = new();
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
@@ -229,6 +228,7 @@ namespace TownOfHost
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                 {CustomRoles.Lovers, "#ffaaaa"},
                 {CustomRoles.Scapegoat, "#ff0000"},
+                {CustomRoles.Dummy, "#ff0000"},
             };
             }
             catch (ArgumentException ex)
@@ -322,6 +322,7 @@ namespace TownOfHost
         NoSubRoleAssigned = 500,
         Lovers,
         Scapegoat,
+        Dummy,
     }
     //WinData
     public enum CustomWinner

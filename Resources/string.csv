@@ -69,6 +69,7 @@ HASTroll,Troll,トロール
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
 Scapegoat,Scapegoat,スケープゴート
+Dummy,Dummy,ダミー
 
 # その他
 TeamImpostor,Team Impostor,インポスター陣営
@@ -185,6 +186,7 @@ HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this c
 # 属性
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
 ScapegoatInfo,"(Attributes):\nAttributes Assigned to Crewmate.You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
+DummyInfo,"(Attributes):\nAttributes Assigned to Crewmate.You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ

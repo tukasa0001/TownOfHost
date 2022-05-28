@@ -518,6 +518,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 //スケープゴートに警告マーク
                 if (seer.Is(CustomRoles.Scapegoat)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+                if (seer.Is(CustomRoles.Dummy)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Dummy)}>○</color>";
 
 
                 //呪われている場合
