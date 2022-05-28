@@ -307,7 +307,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignScapegoatFromList();
+                AssignScapegoatFromList(CustomRoles.Scapegoat);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -467,19 +467,18 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
         }
-        private static void AssignScapegoatFromList()
+        private static void AssignScapegoatFromList(CustomRoles role)
         {
-            if (CustomRoles.Scapegoat.IsEnable())
+            if (role.IsEnable())
             {
                 //Scapegoatを初期化
                 Main.ScapegoatPlayer.Clear();
                 //ランダムに選出
-                AssignScapegoat(CustomRoles.Scapegoat.GetCount());
+                AssignScapegoat(role.GetCount());
             }
         }
         private static void AssignScapegoat(int RawCount = -1)
         {
-            Logger.Info("スケープゴートを選出", "Scapegoat");
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
