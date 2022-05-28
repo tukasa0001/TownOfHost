@@ -227,6 +227,7 @@ namespace TownOfHost
                 //Sub役職
                 { (CustomRoles)(-6),"== Sub Role ==" }, //区切り用
                 {CustomRoles.Lovers,"lo" },
+                {CustomRoles.Scapegoat,"sg" },
                 //HAS
                 { (CustomRoles)(-7),"== Hide and Seek ==" }, //区切り用
                 { CustomRoles.HASFox,"hfo" },

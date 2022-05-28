@@ -516,6 +516,9 @@ namespace TownOfHost
 
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                //スケープゴートに警告マーク
+                if (seer.Is(CustomRoles.Scapegoat)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+
 
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)

@@ -35,6 +35,7 @@ namespace TownOfHost
         SetExecutionerTarget,
         RemoveExecutionerTarget,
         SendFireWorksState,
+        SetScapegoatPlayer,
     }
     public enum Sounds
     {
@@ -207,6 +208,12 @@ namespace TownOfHost
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
                     break;
+                case CustomRPC.SetScapegoatPlayer:
+                    Main.ScapegoatPlayer.Clear();
+                    int sgcount = reader.ReadInt32();
+                    for (int i = 0; i < sgcount; i++)
+                        Main.ScapegoatPlayer.Add(Utils.GetPlayerById(reader.ReadByte()));
+                    break;
             }
         }
     }
@@ -371,6 +378,17 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(executionerId);
             writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SyncScapegoatPlayer()
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetScapegoatPlayer, Hazel.SendOption.Reliable, -1);
+            writer.Write(Main.ScapegoatPlayer.Count);
+            foreach (var lp in Main.ScapegoatPlayer)
+            {
+                writer.Write(lp.PlayerId);
+            }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void CustomWinTrigger(byte winnerID)

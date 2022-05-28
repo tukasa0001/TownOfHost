@@ -288,6 +288,11 @@ namespace TownOfHost
                 {
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
+                //スケープゴート
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.Scapegoat) && target.Is(CustomRoles.Scapegoat))
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Scapegoat)}>⚠</color>";
+                }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )

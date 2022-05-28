@@ -307,6 +307,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+                AssignScapegoatFromList();
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -466,7 +467,41 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
         }
+        private static void AssignScapegoatFromList()
+        {
+            if (CustomRoles.Scapegoat.IsEnable())
+            {
+                //Scapegoatを初期化
+                Main.ScapegoatPlayer.Clear();
+                //ランダムに選出
+                AssignScapegoat(CustomRoles.Scapegoat.GetCount());
+            }
+        }
+        private static void AssignScapegoat(int RawCount = -1)
+        {
+            Logger.Info("スケープゴートを選出", "Scapegoat");
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                bool IsCrewmate = !player.GetCustomRole().IsImpostorTeam() && !player.GetCustomRole().IsNeutral();
+                if (player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && IsCrewmate)) allPlayers.Add(player);
+            }
+            var ScapegoatRole = CustomRoles.Scapegoat;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(ScapegoatRole.GetCount(), 0, allPlayers.Count);
+            if (count <= 0) return;
 
+            for (var i = 0; i < count; i++)
+            {
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                Main.ScapegoatPlayer.Add(player);
+                allPlayers.Remove(player);
+                Main.AllPlayerCustomSubRoles[player.PlayerId] = ScapegoatRole;
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + ScapegoatRole.ToString(), "AssignScapegoat");
+            }
+            RPC.SyncScapegoatPlayer();
+        }
         private static void AssignLoversRolesFromList()
         {
             if (CustomRoles.Lovers.IsEnable())
