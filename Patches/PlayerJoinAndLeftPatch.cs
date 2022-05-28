@@ -39,7 +39,7 @@ namespace TownOfHost
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetThiefVotingTime();
-                if (data.Character.Is(CustomRoles.Lovers))
+                if (data.Character.Is(CustomRoles.Lovers) && !Main.isLoversDead)
                     foreach (var lovers in Main.LoversPlayers)
                     {
                         Main.LoversPlayers.Remove(lovers);
