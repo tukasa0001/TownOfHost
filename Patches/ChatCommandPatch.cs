@@ -271,29 +271,14 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-            float num = 3f - __instance.TimeSinceLastMessage;
-            if (Main.MessagesToSend.Count > 0 && num <= 0.0f)
-            {
-                (string, byte) msgData = Main.MessagesToSend[0];
-                string msg = msgData.Item1;
-                byte sendTo = msgData.Item2;
-                Main.MessagesToSend.RemoveAt(0);
-                __instance.TimeSinceLastMessage = 0.0f;
-                if (sendTo == byte.MaxValue)
-                {
-                    PlayerControl.LocalPlayer.RpcSendChat(msg);
-                }
-                else
-                {
-                    PlayerControl target = Utils.GetPlayerById(sendTo);
-                    if (target == null) return;
-                    int clientId = target.GetClientId();
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.Reliable, clientId);
-                    writer.Write(msg);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                }
-            }
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1) return;
+            (string msg, byte sendTo) = Main.MessagesToSend[0];
+            Main.MessagesToSend.RemoveAt(0);
+            int clientId = sendTo == byte.MaxValue ? -1 : sendTo;
+            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
+            writer.Write(msg);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
 
