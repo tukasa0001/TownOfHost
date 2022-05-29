@@ -68,6 +68,10 @@ namespace TownOfHost
                 {
                     text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
                 }
+                if (kvp.Key == CustomRoles.Scapegoat && Options.RealizeScapegoatWhileLiving.GetBool())
+                {
+                    text += $"\t{Options.ScapegoatTaskCountToRealize.GetName()}: {Options.ScapegoatTaskCountToRealize.GetString()}\n";
+                }
                 text += "\n";
             }
             //Onの時に子要素まで表示するメソッド
