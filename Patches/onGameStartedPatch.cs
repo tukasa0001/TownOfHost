@@ -500,6 +500,7 @@ namespace TownOfHost
                     {
                         if (AssignSubRolesTarget(player, role)) allPlayers.Add(player);
                     }
+                    if (allPlayers.Count < role.GetCount()) return;
                     var rand = new System.Random();
                     var count = Math.Clamp(RawCount, 0, allPlayers.Count);
                     if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, allPlayers.Count);
@@ -538,36 +539,36 @@ namespace TownOfHost
 
             }
         }
-        private static void AssignLoversRolesFromList()
-        {
-            if (CustomRoles.Lovers.IsEnable())
-            {
-                //Loversを初期化
-                Main.LoversPlayers.Clear();
-                Main.isLoversDead = false;
-                //ランダムに2人選出
-                AssignLoversRoles(2);
-            }
-        }
-        private static void AssignLoversRoles(int RawCount = -1)
-        {
-            var allPlayers = new List<PlayerControl>();
-            foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
-            var loversRole = CustomRoles.Lovers;
-            var rand = new System.Random();
-            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
-            if (count <= 0) return;
+        // private static void AssignLoversRolesFromList()
+        // {
+        //     if (CustomRoles.Lovers.IsEnable())
+        //     {
+        //         //Loversを初期化
+        //         Main.LoversPlayers.Clear();
+        //         Main.isLoversDead = false;
+        //         //ランダムに2人選出
+        //         AssignLoversRoles(2);
+        //     }
+        // }
+        // private static void AssignLoversRoles(int RawCount = -1)
+        // {
+        //     var allPlayers = new List<PlayerControl>();
+        //     foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
+        //     var loversRole = CustomRoles.Lovers;
+        //     var rand = new System.Random();
+        //     var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+        //     if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
+        //     if (count <= 0) return;
 
-            for (var i = 0; i < count; i++)
-            {
-                var player = allPlayers[rand.Next(0, allPlayers.Count)];
-                Main.LoversPlayers.Add(player);
-                allPlayers.Remove(player);
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
-            }
-            RPC.SyncLoversPlayers();
-        }
+        //     for (var i = 0; i < count; i++)
+        //     {
+        //         var player = allPlayers[rand.Next(0, allPlayers.Count)];
+        //         Main.LoversPlayers.Add(player);
+        //         allPlayers.Remove(player);
+        //         Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+        //         Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
+        //     }
+        //     RPC.SyncLoversPlayers();
+        // }
     }
 }
