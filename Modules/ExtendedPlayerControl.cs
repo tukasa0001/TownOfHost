@@ -189,7 +189,7 @@ namespace TownOfHost
             {
                 //targetがホスト以外だった場合
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, target.GetClientId());
-                writer.WriteNetObject(null);
+                writer.Write(0); //writer.WriteNetObject(null); と同じ
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
