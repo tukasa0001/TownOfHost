@@ -337,13 +337,6 @@ namespace TownOfHost
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator);
-            SetupRoleOptions(21000, CustomRoles.Scapegoat);
-            RealizeScapegoatWhileLiving = CustomOption.Create(21010, Color.white, "RealizeScapegoatWhileLiving", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
-            ScapegoatTaskCountToRealize = CustomOption.Create(21011, Color.white, "ScapegoatTaskCountToRealize", 4, 0, 15, 1, RealizeScapegoatWhileLiving);
-            AssignScapegoatOnlyToCrewmate = CustomOption.Create(21012, Color.white, "AssignScapegoatOnlyToCrewmate", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
-            AssignScapegoatToSheriffAsWell = CustomOption.Create(21013, Color.white, "AssignScapegoatToSheriffAsWell", false, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
-            ScapegoatLooksRedForSnitch = CustomOption.Create(21014, Color.white, "ScapegoatLooksRedForSnitch", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
-            SetupRoleOptions(21100, CustomRoles.Dummy);
             // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
@@ -370,6 +363,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
+            SetupRoleOptions(80100, CustomRoles.Scapegoat);
+            RealizeScapegoatWhileLiving = CustomOption.Create(80110, Color.white, "RealizeScapegoatWhileLiving", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
+            ScapegoatTaskCountToRealize = CustomOption.Create(80111, Color.white, "ScapegoatTaskCountToRealize", 4, 0, 15, 1, RealizeScapegoatWhileLiving);
+            AssignScapegoatOnlyToCrewmate = CustomOption.Create(80112, Color.white, "AssignScapegoatOnlyToCrewmate", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
+            AssignScapegoatToSheriffAsWell = CustomOption.Create(80113, Color.white, "AssignScapegoatToSheriffAsWell", false, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
+            ScapegoatLooksRedForSnitch = CustomOption.Create(80114, Color.white, "ScapegoatLooksRedForSnitch", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
+            SetupRoleOptions(80200, CustomRoles.Dummy);
             #endregion
 
             // HideAndSeek

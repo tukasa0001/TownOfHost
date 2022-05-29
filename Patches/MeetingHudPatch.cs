@@ -290,8 +290,8 @@ namespace TownOfHost
                 }
                 //スケープゴート
                 if (target.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (seer.Is(CustomRoles.Scapegoat)
-                        && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
-                        || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
+                    && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
+                    || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
                 {
                     pva.NameText.text += $"<color=#ff0000>⚠</color>";
                 }

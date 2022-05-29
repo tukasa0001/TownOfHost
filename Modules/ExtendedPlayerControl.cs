@@ -207,8 +207,6 @@ namespace TownOfHost
                     return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
-                case CustomRoles.Scapegoat:
-                    return true;
             }
             var cSubRole = player.GetCustomSubRole();
             switch (cSubRole)
