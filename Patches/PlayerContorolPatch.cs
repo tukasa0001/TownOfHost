@@ -800,6 +800,11 @@ namespace TownOfHost
                         {
                             RealName = $"<color={target.GetRoleColorCode()}>{RealName}</color>"; //targetの名前を役職色で表示
                         }
+                        var scapegoatCheck = !seer.Data.IsDead && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
+                        if (scapegoatCheck)//__instanceがターゲット
+                        {
+                            RealName = $"<color=#ff0000>{RealName}</color>"; //targetの名前を役職色で表示
+                        }
                     }
                     else if (seer.GetCustomRole().IsImpostor() && //seerがインポスター
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
@@ -906,7 +911,8 @@ namespace TownOfHost
                             {
                                 var foundCheck =
                                     pc.GetCustomRole().IsImpostor() ||
-                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.Is(CustomRoles.Egoist));
+                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.Is(CustomRoles.Egoist))
+                                    || (Options.ScapegoatLooksRedForSnitch.GetBool() && pc.Is(CustomRoles.Scapegoat));
 
                                 //発見対象じゃ無ければ次
                                 if (!foundCheck) continue;
@@ -1018,7 +1024,14 @@ namespace TownOfHost
             var arrow = "↑↗→↘↓↙←↖・"[index].ToString();
             if (coloredArrow)
             {
-                arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
+                if (target.Is(CustomRoles.Scapegoat))
+                {
+                    arrow = $"<color=#ff0000>{arrow}</color>";
+                }
+                else
+                {
+                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
+                }
             }
             if (oldArrow != arrow)
             {

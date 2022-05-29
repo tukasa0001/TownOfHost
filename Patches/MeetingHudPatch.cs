@@ -261,10 +261,17 @@ namespace TownOfHost
 
                 if (LocalPlayerKnowsImpostor)
                 {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
+                    bool ScapegoatOption = !seer.Data.IsDead && target.Is(CustomRoles.Scapegoat) && Options.ScapegoatLooksRedForSnitch.GetBool();
+                    if (target != null && (target.GetCustomRole().IsImpostor() || ScapegoatOption)) //変更先がインポスター
                     {
                         //変更対象の名前を赤くする
                         pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                    }
+                    bool EgoistOption = target.Is(CustomRoles.Egoist) && Options.SnitchCanFindNeutralKiller.GetBool();
+                    if (target != null && EgoistOption) //変更先がインポスター
+                    {
+                        //変更対象の名前を赤くする
+                        pva.NameText.text = "<color=#5600ff>" + pva.NameText.text + "</color>";
                     }
                 }
 

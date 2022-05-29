@@ -679,10 +679,13 @@ namespace TownOfHost
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var scapegoatoption = seer.Is(CustomRoles.Snitch) && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist)) || scapegoatoption;
+                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist));
                             if (foundCheck)
                                 TargetPlayerName = $"<color={target.GetRoleColorCode()}>{TargetPlayerName}</color>";
+                            var scapegoatoption = seer.Is(CustomRoles.Snitch) && !seer.Data.IsDead && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
+                            if (scapegoatoption)
+                                TargetPlayerName = $"<color=#ff0000>{TargetPlayerName}</color>";
+
                         }
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Egoist)}>{TargetPlayerName}</color>";
