@@ -387,7 +387,7 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     //インサイダー設定
-                    bool InsiderVision = Main.VisibleTasksCount && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && pva.TargetPlayerId != PlayerControl.LocalPlayer.PlayerId //前提条件
+                    bool InsiderVision = Main.VisibleTasksCount && PlayerControl.LocalPlayer.Is(CustomRoles.Insider) //前提条件
                     && ((Options.InsiderCanSeeRolesOfImpostors.GetBool() && pc.GetCustomRole().IsImpostor()) //味方インポスターの視認
                     || (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool() && pc.Data.IsDead) //死者全員の視認
                     || (pc.Data.IsDead && (Main.IsKilledByInsider.Find(x => x.PlayerId == pc.PlayerId) != null)) //自分がキルした相手のみ

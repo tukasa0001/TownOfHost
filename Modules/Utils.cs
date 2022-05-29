@@ -743,7 +743,7 @@ namespace TownOfHost
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = SeerKnowsImpostors && (seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch))
-                                && target.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist));
+                                && (target.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)));
                             var insiderOption = SeerKnowsMadmate && seer.Is(CustomRoles.Insider) && target.GetCustomRole().IsMadmate(); //インサイダーの条件
                             var foundCheck = snitchOption || insiderOption;
                             if (foundCheck)
