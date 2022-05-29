@@ -273,6 +273,8 @@ namespace TownOfHost
             }
             else
             {
+                //コンビネーション役職を優先して割り当てる
+                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarine, CustomRoles.Assassin, CustomRoles.Marine, Impostors, Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
@@ -308,7 +310,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarine, CustomRoles.Assassin, CustomRoles.Marine, Impostors, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -517,12 +518,13 @@ namespace TownOfHost
                 var combi1 = role1L[rand.Next(0, role1L.Count)];
                 role1L.Remove(combi1);
                 Main.AllPlayerCustomRoles[combi1.PlayerId] = Combi1;
-                Logger.Info("役職設定:" + combi1?.Data?.PlayerName + " = " + Combi1.ToString(), "AssignAssassin");
+                Logger.Info("役職設定:" + combi1?.Data?.PlayerName + " = " + Combi1.ToString(), "Assign CombinationRole1");
 
-                var combi2 = role1L[rand.Next(0, role1L.Count)];
-                role1L.Remove(combi2);
+                if (role2L.Count <= 0) continue;
+                var combi2 = role2L[rand.Next(0, role2L.Count)];
+                role2L.Remove(combi2);
                 Main.AllPlayerCustomRoles[combi2.PlayerId] = Combi2;
-                Logger.Info("役職設定:" + combi2?.Data?.PlayerName + " = " + Combi2.ToString(), "AssignMarine");
+                Logger.Info("役職設定:" + combi2?.Data?.PlayerName + " = " + Combi2.ToString(), "Assign CombinationRole2");
             }
         }
     }
