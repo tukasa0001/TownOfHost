@@ -62,9 +62,10 @@ Note that if a player other than the host plays with this mod installed, the fol
 | [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
 | [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
+| [SlaveDriver](#SlaveDriver)   | [Snitch](#Snitch)                 |                                   |
+| [TimeThief](#TimeThief)       | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Vampire](#Vampire)           | [Trapper](#Trapper)               |                                   |
+| [Warlock](#Warlock)           |                                   |                                   |
 | [Witch](#Witch)               |                                   |                                   |
 | [Mafia](#Mafia)               |                                   |                                   |
 | [Madmate](#Madmate)           |                                   |                                   |
@@ -172,6 +173,24 @@ Precision Shooting:ON<BR>
 | ------------------------- |
 | Sniper Bullet Count       |
 | Sniper Precision Shooting |
+
+### SlaveDriver
+
+Team : Impostors<br>
+Decision : ShapeShifter<br>
+
+This is an imposter team where the kill rules change depending on the task progress of the player who made the kill.<br>
+KillCoolDown is "increased" by a set multiplier when the task is less than half completed, and "decreased" by a set multiplier when the task is half completed or more than half completed.<br>
+You can also set up kill rules for players who do not have tasks.<br>
+
+#### Settings
+
+| Settings Name                                            |
+| -------------------------------------------------------- |
+| KillCooldown increase multiplier                         |
+| KillCooldown reduction multiplier                        |
+| Multiplier for reduction of killCooldown task completion |
+| KillCooldown on player kills with no task                |
 
 ### TimeThief
 
@@ -700,6 +719,7 @@ If the client language is English, this setting is meaningless unless `ForceJapa
 [Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>
+[SlaveDriver](#SlaveDriver) role idea:https://github.com/yukieiji/ExtremeRoles<br>
 [Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

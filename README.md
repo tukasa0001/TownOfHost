@@ -59,14 +59,16 @@
 | [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
 | [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
 | [Sniper/スナイパー](#Sniperスナイパー)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                           |                                                                            |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                       |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)   |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)               |                                                                            |                                                                            |
+| [SlaveDriver/スレイヴドライバー](#SlaveDriverスレイヴドライバー)    | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                       |                                                                            |                                                                            |
+| [Witch/魔女](#Witch魔女)                                          | |                                                                                                            
+| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                                                   
+|
+| [Madmate/マッドメイト](#Madmateマッドメイト)                        |                                                                            |                                                                   |
+| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)     |                                                                            |                                                                            |
+| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                |                                                                                                   |                                                                            |
 
 ### BountyHunter/バウンティハンター
 
@@ -172,6 +174,24 @@
 | ------------------------ |
 | スナイパーの所持弾数     |
 | スナイパー精密射撃モード |
+
+### SlaveDriver/スレイヴドライバー
+
+陣営 : インポスター<br>
+判定 : インポスター<br>
+
+キルしたプレイヤーのタスク進捗によってキルクールが変わるインポスター陣営です。<br>
+半分以下はキルクールが設定の倍率によって"増加"し、半分以上、タスク完了はキルクールが設定の倍率によって"減少"します。<br>
+また、タスクがないプレイヤーに対してのキルクールも設定できます。<br>
+
+#### 設定
+
+| 設定名                               |
+| ------------------------------------ |
+| キルクール増加倍率                     |
+| キルクール減少倍率                     |
+| タスク完了時のキルクール減少倍率        |
+| タスクがないプレイヤーキル時のキルクール |
 
 ### TimeThief/タイムシーフ
 
@@ -691,6 +711,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
+[スレイヴドライバー](#SlaveDriver/スレイヴドライバー)の役職の参考 : https://github.com/yukieiji/ExtremeRoles<br>
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
