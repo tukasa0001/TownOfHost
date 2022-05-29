@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace TownOfHost
 {
     public static class SlaveDriver
     {
         static readonly int Id = 2700;
+        static List<byte> playerIdList = new();
 
         static CustomOption SlaveDriverIncreaseKC;
         static CustomOption SlaveDriverDecreaseKC;
@@ -18,6 +20,18 @@ namespace TownOfHost
             SlaveDriverDecreaseKC = CustomOption.Create(Id + 11, Color.white, "SlaveDriverDecreaseKC1", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverTaskCompleteDecreaseKC = CustomOption.Create(Id + 12, Color.white, "SlaveDriverTaskCompleteDecreaseKC", 2f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverNoTaskKC = CustomOption.Create(Id + 13, Color.white, "SlaveDriverNoTaskKC", 30f, 0.25f, 100f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
+        }
+        public static void Init()
+        {
+            playerIdList = new();
+        }
+        public static void Add(byte playerId)
+        {
+            playerIdList.Add(playerId);
+        }
+        public static bool IsEnable()
+        {
+            return playerIdList.Count > 0;
         }
         public static void SlaveDriverKillTargetTaskCheck(PlayerControl killer, byte playerId)
         {
