@@ -84,7 +84,7 @@ namespace TownOfHost
                 MeetingRoomManager.Instance.AssignSelf(assassin, null);
                 DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
                 assassin.RpcStartMeeting(null);
-            }, 0.5f, "StartAssassinMeeting");
+            }, PlayerControl.GameOptions.MapId == 4 ? 0.5f : 0, "StartAssassinMeeting"); //Airshipなら0.5sの遅延を追加
             Logger.Info("アサシン会議開始", "Special Phase");
         }
     }
