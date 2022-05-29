@@ -394,25 +394,7 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var tmp_text = text.Replace("#", "＃").Replace("<", "＜").Replace(">", "＞");
-            string[] textList = tmp_text.Split('\n');
-            string tmp = "";
-            var l = 0;
-            foreach (string t in textList)
-            {
-                if (tmp.Length + t.Length < 120 && l < 4)
-                {
-                    tmp += t + "\n";
-                    l++;
-                }
-                else
-                {
-                    Main.MessagesToSend.Add((tmp, sendTo));
-                    tmp = t + "\n";
-                    l = 1;
-                }
-            }
-            if (tmp.Length != 0) Main.MessagesToSend.Add((tmp, sendTo));
+            Main.MessagesToSend.Add((text, sendTo));
         }
         public static void ApplySuffix()
         {
