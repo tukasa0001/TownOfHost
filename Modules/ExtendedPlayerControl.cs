@@ -179,6 +179,7 @@ namespace TownOfHost
         public static void RpcResetAbilityCooldown(this PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外が実行しても何も起こさない
+            Logger.Info($"アビリティクールダウンのリセット:{target.name}({target.PlayerId})", "RpcResetAbilityCooldown");
             if (PlayerControl.LocalPlayer == target)
             {
                 //targetがホストだった場合
