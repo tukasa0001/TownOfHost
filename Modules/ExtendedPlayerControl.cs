@@ -176,6 +176,26 @@ namespace TownOfHost
             messageWriter.Write(colorId);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
+        public static void RpcResetAbilityCooldown(this PlayerControl target)
+        {
+            if (!AmongUsClient.Instance.AmHost) return; //ホスト以外が実行しても何も起こさない
+            if (PlayerControl.LocalPlayer == target)
+            {
+                //targetがホストだった場合
+                PlayerControl.LocalPlayer.Data.Role.SetCooldown();
+            }
+            else
+            {
+                //targetがホスト以外だった場合
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.Reliable, target.GetClientId());
+                writer.WriteNetObject(null);
+                writer.Write(0);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+            /*  nullにバリアを張ろうとすると、アビリティーのクールダウンがリセットされてからnull参照で中断されます。
+                ホストに対しての場合、RPCを介さず直接クールダウンを書き換えています。
+                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。*/
+        }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
