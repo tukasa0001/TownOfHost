@@ -129,7 +129,7 @@ namespace TownOfHost
                 if (!Assassin.IsAssassinMeeting && exilePlayer.Is(CustomRoles.Assassin))
                 {
                     tie = true;
-                    Assassin.TriggerPlayerId = exileId;
+                    Assassin.SendTriggerPlayerId(exileId);
                     ExiledAssassin = true;
                 }
                 exiledPlayerInfo = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
@@ -334,7 +334,7 @@ namespace TownOfHost
                     if (seer.PlayerId == Assassin.TriggerPlayerId && target.AmOwner)
                         pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("WritePlayerName")}</color>";
                     else if (target.PlayerId == Assassin.TriggerPlayerId)
-                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{pva.NameText.text}</color>";
+                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Marine)}>{pva.NameText.text}</color>";
                 }
             }
         }
@@ -347,10 +347,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
 
-            if (Assassin.IsAssassinMeeting)
-            {
-                __instance.TitleText.text = GetString("WhoIsMarine");
-            }
+            if (Assassin.IsAssassinMeeting) __instance.TitleText.text = GetString("WhoIsMarine");
 
             foreach (var pva in __instance.playerStates)
             {
@@ -367,10 +364,11 @@ namespace TownOfHost
 
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
-                    if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
+                    if (Main.VisibleTasksCount) RoleTextMeeting.text += Utils.GetProgressText(pc);
                     RoleTextMeeting.color = RoleTextData.Item2;
                     RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
+                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
+                        (Main.VisibleTasksCount && Assassin.IsAssassinMeeting && pc.PlayerId == Assassin.TriggerPlayerId);
                 }
                 var voteTarget = Utils.GetPlayerById(pva.VotedFor);
                 MeetingHud.VoterState[] states;

@@ -37,6 +37,7 @@ namespace TownOfHost
         SendFireWorksState,
         IsAssassinMeeting,
         MarineSelectedInAssassinMeeting,
+        TriggerAssassinId,
     }
     public enum Sounds
     {
@@ -214,6 +215,11 @@ namespace TownOfHost
                     break;
                 case CustomRPC.MarineSelectedInAssassinMeeting:
                     AssassinAndMarine.GameEndForAssassinMeeting();
+                    break;
+                case CustomRPC.TriggerAssassinId:
+                    Assassin.TriggerPlayerId = reader.ReadByte();
+                    Logger.Info($"トリガープレイヤー: {Utils.GetPlayerById(Assassin.TriggerPlayerId)}({Assassin.TriggerPlayerId})", "Assassin");
+                    Logger.Info($"届いた値: {Assassin.TriggerPlayerId}", "Assassin");
                     break;
             }
         }

@@ -87,6 +87,13 @@ namespace TownOfHost
             }, PlayerControl.GameOptions.MapId == 4 ? 0.5f : 0, "StartAssassinMeeting"); //Airshipなら0.5sの遅延を追加
             Logger.Info("アサシン会議開始", "Special Phase");
         }
+        public static void SendTriggerPlayerId(byte playerId)
+        {
+            Assassin.TriggerPlayerId = playerId;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TriggerAssassinId, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
     public static class Marine
     {

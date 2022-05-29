@@ -573,7 +573,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("EnterVentToWin")}</color>";
                 if (Assassin.IsAssassinMeeting && seer.PlayerId == Assassin.TriggerPlayerId)
-                    SelfName = $"<color={seer.GetRoleColorCode()}>{SelfRoleName}\r\n{GetString("WritePlayerName")}</color>";
+                    SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("WritePlayerName")}</color>";
                 SelfName = SelfRoleName + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
@@ -695,7 +695,7 @@ namespace TownOfHost
                             if (seer == GetPlayerById(Assassin.TriggerPlayerId))
                                 TargetPlayerName = target.Data.PlayerName;
                             if (seer.PlayerId != Assassin.TriggerPlayerId && target.PlayerId == Assassin.TriggerPlayerId)
-                                TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Impostor)}>{TargetRoleText}\r\n{GetString("WhoIsMarine")}</color>";
+                                TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Marine)}>{GetString("WhoIsMarine")}</color>";
                         }
 
                         //全てのテキストを合成します。

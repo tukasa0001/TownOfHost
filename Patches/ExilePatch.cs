@@ -28,7 +28,11 @@ namespace TownOfHost
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (!Assassin.IsAssassinMeeting)
+            {
                 Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
+                PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
+                PlayerState.SetDead(Assassin.TriggerPlayerId);
+            }
             if (Assassin.TargetRole == CustomRoles.Marine)
             {
                 AssassinAndMarine.MarineSelectedInAssassinMeeting();
