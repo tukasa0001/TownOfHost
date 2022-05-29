@@ -6,10 +6,23 @@ namespace TownOfHost
     {
         static readonly int Id = 2600;
         static readonly List<PlayerControl> NinjaKillTarget = new();
+        static List<byte> playerIdList = new();
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Ninja);
+        }
+        public static void Init()
+        {
+            playerIdList = new();
+        }
+        public static void Add(byte playerId)
+        {
+            playerIdList.Add(playerId);
+        }
+        public static bool IsEnable()
+        {
+            return playerIdList.Count > 0;
         }
         public static void NinjaShapeShiftingKill(this PlayerControl __instance, PlayerControl target)
         {

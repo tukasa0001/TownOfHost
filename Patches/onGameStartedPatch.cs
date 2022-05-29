@@ -93,6 +93,7 @@ namespace TownOfHost
             }
             FireWorks.Init();
             Sniper.Init();
+            Ninja.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -307,7 +308,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Ninja, Shapeshifters);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -381,6 +381,7 @@ namespace TownOfHost
                         }
                     }
                     if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Ninja)) Ninja.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
                         List<PlayerControl> targetList = new();
