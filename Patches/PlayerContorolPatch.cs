@@ -177,11 +177,7 @@ namespace TownOfHost
                     Utils.CustomSyncAllSettings();
                     break;
                 case CustomRoles.GBomber:
-                    //TODO:キルブロック
-                    //TODO:爆弾取付処理
-                    //GBomberClassに処理を記載しこちらで呼び出す。
-                    //GBombAttachedPlayers に target が いなければ (target,6000) を 追加する
-                    //GBombAttachedPlayers に target が いれば     (target,int) int を -GBomberKillCountReductionValueする
+                    GBomber.KillAction(killer, target);
                     break;
 
                 //==========マッドメイト系役職==========//

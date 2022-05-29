@@ -113,9 +113,6 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
-        public static CustomOption GBomberKillCooldown;//キルクール
-        public static CustomOption GBomberKillCountReductionValue;//キルボタンでのカウント減少値
-        public static CustomOption GBomberMeetingCountReductionValue;//議論中のカウントダウンスピード 1sあたり
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -266,11 +263,7 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
-            SetupRoleOptions(1900, CustomRoles.GBomber);
-            GBomberKillCooldown = CustomOption.Create(1910, Color.white, "GBomberKillCooldown", 20, 1, 60, 1, CustomRoleSpawnChances[CustomRoles.GBomber]);
-            GBomberKillCountReductionValue = CustomOption.Create(1920, Color.white, "GBomberKillCountReductionValue", 500, 100, 1000, 100, CustomRoleSpawnChances[CustomRoles.GBomber]);
-            GBomberMeetingCountReductionValue = CustomOption.Create(1930, Color.white, "GBomberMeetingCountReductionValue", 2, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.GBomber]);
-
+            GBomber.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
             SetupRoleOptions(2300, CustomRoles.Mare);
             BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
