@@ -190,7 +190,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
-            Utils.NotifyRoles(isMeeting: true);
+            Utils.NotifyRoles(isMeeting: true, force: true);
             Main.witchMeeting = false;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
