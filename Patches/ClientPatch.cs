@@ -9,9 +9,12 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            if (ModUpdater.hasUpdate)
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
             {
-                Logger.Info(GetString("onSetPublicNoLatest"), "MakePublicPatch");
+                var message = GetString("CanNotJoinPublicRoomNoLatest");
+                if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
                 return false;
             }
             return true;
