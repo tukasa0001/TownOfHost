@@ -462,13 +462,13 @@ namespace TownOfHost
             var role = CustomRoles.AssassinAndMarine;
             Dictionary<string, string> replacementDic = new()
             {
-                { "%Assassin%", Utils.GetRoleName(CustomRoles.Assassin) },
-                { "%Marine%", Utils.GetRoleName(CustomRoles.Marine) }
+                { "{0}", Assassin.ColorString },
+                { "{1}", Marine.ColorString }
             };
             var spawnOption = CustomOption.Create(id, Color.white, "AssassinAndMarine", rates, rates[0], null, true, replacementDic: replacementDic)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
-            var countOption = CustomOption.Create(id + 1, Color.white, "NumOfPairs", 1, 1, 7, 1, spawnOption, false)
+            var countOption = CustomOption.Create(id + 1, Color.white, "NumOfPairs", 1, 1, 7, 1, spawnOption, false, true)
                 .HiddenOnDisplay(false)
                 .SetGameMode(customGameMode);
 

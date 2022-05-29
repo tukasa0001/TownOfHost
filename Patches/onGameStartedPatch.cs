@@ -308,7 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignAssassinAndMarineRolesFromList(CustomRoles.AssassinAndMarine, Impostors, Crewmates);
+                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarine, CustomRoles.Assassin, CustomRoles.Marine, Impostors, Crewmates);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -502,25 +502,27 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
-        private static void AssignAssassinAndMarineRolesFromList(CustomRoles role, List<PlayerControl> imp, List<PlayerControl> crew)
+        private static void AssignCombinationRolesFromList(CustomRoles role, CustomRoles role1, CustomRoles role2, List<PlayerControl> role1L, List<PlayerControl> role2L)
         {
-            var AssassinRole = CustomRoles.Assassin;
-            var MarineRole = CustomRoles.Marine;
+            var Combi1 = role1;
+            var Combi2 = role2;
             var rand = new Random();
-            var count = Math.Clamp(role.GetCount(), 0, imp.Count);
-            if (count <= 0 || imp.Count <= 0) return;
+            var count = role.GetCount();
+            if (role1L.Count <= 0 || role2L.Count <= 0) //role1のリストかrole2のリストが空なら
+                count = 0; //カウントを0に
+            if (count <= 0) return;
 
             for (var i = 0; i < count; i++)
             {
-                var assassin = imp[rand.Next(0, imp.Count)];
-                imp.Remove(assassin);
-                Main.AllPlayerCustomRoles[assassin.PlayerId] = AssassinRole;
-                Logger.Info("役職設定:" + assassin?.Data?.PlayerName + " = " + AssassinRole.ToString(), "AssignAssassin");
+                var combi1 = role1L[rand.Next(0, role1L.Count)];
+                role1L.Remove(combi1);
+                Main.AllPlayerCustomRoles[combi1.PlayerId] = Combi1;
+                Logger.Info("役職設定:" + combi1?.Data?.PlayerName + " = " + Combi1.ToString(), "AssignAssassin");
 
-                var marine = crew[rand.Next(0, crew.Count)];
-                crew.Remove(marine);
-                Main.AllPlayerCustomRoles[marine.PlayerId] = MarineRole;
-                Logger.Info("役職設定:" + marine?.Data?.PlayerName + " = " + MarineRole.ToString(), "AssignMarine");
+                var combi2 = role1L[rand.Next(0, role1L.Count)];
+                role1L.Remove(combi2);
+                Main.AllPlayerCustomRoles[combi2.PlayerId] = Combi2;
+                Logger.Info("役職設定:" + combi2?.Data?.PlayerName + " = " + Combi2.ToString(), "AssignMarine");
             }
         }
     }

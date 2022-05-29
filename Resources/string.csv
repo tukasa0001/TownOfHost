@@ -38,7 +38,7 @@ SKMadmate,SideKickMadmate,サイドキックマッドメイト
 Watcher,Watcher,ウォッチャー
 
 # コンビネーション役職
-AssassinAndMarine,%Assassin%And%Marine%,%Assassin%と%Marine%
+AssassinAndMarine,{0}And{1},{0}と{1}
 
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー

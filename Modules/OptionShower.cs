@@ -28,7 +28,12 @@ namespace TownOfHost
                 text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
-                        text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                    {
+                        if (kvp.Key == CustomRoles.AssassinAndMarine)
+                            text += $"{AssassinAndMarine.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                        else
+                            text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                    }
                 pages.Add(text + "\n\n");
                 text = "";
             }

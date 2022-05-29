@@ -7,10 +7,16 @@ namespace TownOfHost
 {
     public static class AssassinAndMarine
     {
+        public static string DisplayRole(bool disableColor = false)
+        {
+            return disableColor
+            ? $"{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarine), Utils.GetRoleName(CustomRoles.Assassin), Utils.GetRoleName(CustomRoles.Marine))}"
+            : $"<color={Utils.GetRoleColorCode(CustomRoles.AssassinAndMarine)}>{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarine), Assassin.ColorString, Marine.ColorString)}";
+        }
         static readonly int Id = 40000;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.AssassinAndMarine);
+            Options.SetupAssassinAndMarineOptions(Id);
         }
         public static bool IsEnable()
         {
@@ -42,6 +48,7 @@ namespace TownOfHost
     }
     public static class Assassin
     {
+        public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Assassin), Utils.GetRoleName(CustomRoles.Assassin));
         static List<byte> playerIdList = new();
         public static byte TriggerPlayerId;
         public static bool IsAssassinMeeting;
@@ -83,6 +90,7 @@ namespace TownOfHost
     }
     public static class Marine
     {
+        public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Marine), Utils.GetRoleName(CustomRoles.Marine));
         static List<byte> playerIdList = new();
         public static void Init()
         {
