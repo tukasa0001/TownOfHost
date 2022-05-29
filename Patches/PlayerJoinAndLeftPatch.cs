@@ -39,6 +39,13 @@ namespace TownOfHost
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetThiefVotingTime();
+                if (data.Character.Is(CustomRoles.Lovers) && !Main.isLoversDead)
+                    foreach (var lovers in Main.LoversPlayers)
+                    {
+                        Main.isLoversDead = true;
+                        Main.LoversPlayers.Remove(lovers);
+                        Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
+                    }
                 if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
                     data.Character.RemoveDousePlayer();
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
