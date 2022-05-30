@@ -24,7 +24,7 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void NinjaShapeShiftingKill(this PlayerControl __instance, PlayerControl target)
+        public static void KillCheck(this PlayerControl __instance, PlayerControl target)
         {
             if (Main.CheckShapeshift[__instance.PlayerId])
             {
