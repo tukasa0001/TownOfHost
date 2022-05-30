@@ -33,7 +33,7 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void SlaveDriverKillTargetTaskCheck(PlayerControl killer, byte playerId)
+        public static void KillTargetTaskCheck(PlayerControl killer, byte playerId)
         {
             var taskState = PlayerState.taskState?[playerId];
             int TaskHalfValue = taskState.AllTasksCount / 2;
