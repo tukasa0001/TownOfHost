@@ -87,7 +87,7 @@ namespace TownOfHost
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
-            Main.AfterMeetingExilePlayers.Do(p => Utils.GetPlayerById(p));
+            Main.AfterMeetingExilePlayers.Do(p => Utils.GetPlayerById(p).RpcExileV2());
             Main.AfterMeetingExilePlayers.Clear();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
