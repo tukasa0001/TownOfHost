@@ -680,6 +680,10 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
 また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
 
+## Force Japanese/強制日本語化
+
+有効化することで言語設定にかかわらず、メニューを強制的に日本語にします。
+
 ## Japanese Role Name/役職名日本語化
 
 有効化することで、役職名を日本語で表示させることができます。
