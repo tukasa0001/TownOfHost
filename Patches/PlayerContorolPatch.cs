@@ -130,7 +130,7 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Assassin:
-                    Assassin.BootAssassinTrigger(target);
+                    Assassin.BootAssassinTrigger(target, BeKilled: false);
                     return false;
                 case CustomRoles.SchrodingerCat:
                     //シュレディンガーの猫が切られた場合の役職変化スタート

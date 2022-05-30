@@ -73,7 +73,7 @@ namespace TownOfHost
             return playerIdList.Count > 0;
         }
 
-        public static void BootAssassinTrigger(PlayerControl assassin)
+        public static void BootAssassinTrigger(PlayerControl assassin, bool BeKilled = false)
         {
             bool HeldMeeting = false;
             Assassin.TriggerPlayerId = assassin.PlayerId;
@@ -94,7 +94,7 @@ namespace TownOfHost
                         Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
                         HeldMeeting = true;
                     }
-                }, PlayerControl.GameOptions.MapId == 4 ? 3f : 0, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
+                }, PlayerControl.GameOptions.MapId == 4 && BeKilled ? 3f : 0, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
             }
         }
         public static void SendTriggerPlayerId(byte playerId)
