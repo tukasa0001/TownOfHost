@@ -49,24 +49,25 @@
 
 ## 役職
 
-| インポスター陣営                                                   | クルーメイト陣営                                                           | 第三陣営                                                                   |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター) | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
-| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)            | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
-| [FireWorks/花火職人](#FireWorks花火職人)                           | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
-| [Mare/メアー](#Mareメアー)                                         | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
-| [Puppeteer/パペッティア](#Puppeteerパペッティア)                   | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
-| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                           |                                                                            |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                       |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)   |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)               |                                                                            |                                                                            |
+| インポスター陣営                                                                     | クルーメイト陣営                                                           | 第三陣営                                                                   |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター)                   | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
+| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)                              | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
+| [FireWorks/花火職人](#FireWorks花火職人)                                             | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
+| [Mare/メアー](#Mareメアー)                                                           | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
+| [Puppeteer/パペッティア](#Puppeteerパペッティア)                                     | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
+| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
+| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)                         | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
+| [Sniper/スナイパー](#Sniperスナイパー)                                               | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
+| [Witch/魔女](#Witch魔女)                                                             |                                                                            |                                                                            |
+| [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
+| [Madmate/マッドメイト](#Madmateマッドメイト)                                         |                                                                            |                                                                            |
+| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)                     |                                                                            |                                                                            |
+| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
+| [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
 ### BountyHunter/バウンティハンター
 
@@ -271,6 +272,16 @@
 | ------------------------------ |
 | マッドスニッチがベントを使える |
 | マッドスニッチのタスク数       |
+
+### SidekickMadmate/サイドキックマッドメイト
+
+陣営 : インポスター<br>
+判定 : クルーメイトorエンジニア<br>
+
+この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に作られます。<br>
+インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
+インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
+
 
 また、マッドメイト系役職共通の設定があります。
 

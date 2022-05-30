@@ -52,24 +52,26 @@ Note that if a player other than the host plays with this mod installed, the fol
 
 ## Roles
 
-| Impostors                     | Crewmates                         | Neutral                           |
-| ----------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#BountyHunter) | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
-| [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
-| [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
-| [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
-| [Witch](#Witch)               |                                   |                                   |
-| [Mafia](#Mafia)               |                                   |                                   |
-| [Madmate](#Madmate)           |                                   |                                   |
-| [MadGuardian](#MadGuardian)   |                                   |                                   |
-| [MadSnitch](#MadSnitch)       |                                   |                                   |
+| Impostors                           | Crewmates                         | Neutral                           |
+| ----------------------------------- | --------------------------------- | --------------------------------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
+| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [ShapeMaster](#ShapeMaster)         | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Warlock](#Warlock)                 | [Trapper](#Trapper)               |                                   |
+| [Witch](#Witch)                     |                                   |                                   |
+| [Mafia](#Mafia)                     |                                   |                                   |
+| [Madmate](#Madmate)                 |                                   |                                   |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
+
 
 ### BountyHunter
 
@@ -270,6 +272,16 @@ However, if they complete some of their own tasks, the name of the evildoer will
 | ---------------------- |
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
+
+### SidekickMadmate
+
+Team : Impostor<br>
+Decision : Crewmate or Engineer<br>
+
+This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
+Impostors also doesn't know who SidekickMadmate is.<br>
+
 
 There is also a common setting for Madmate type Roles.
 
