@@ -241,7 +241,13 @@ namespace TownOfHost
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
+                    if (role.IsEnable())
+                    {
+                        string RoleName = GetRoleName(role);
+                        if (role is CustomRoles.AssassinAndMarine)
+                            RoleName = AssassinAndMarine.DisplayRole(disableColor: true);
+                        SendMessage(RoleName + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
+                    }
                 }
                 if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo")); }
             }

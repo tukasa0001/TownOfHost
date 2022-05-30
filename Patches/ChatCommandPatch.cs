@@ -245,7 +245,10 @@ namespace TownOfHost
 
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
-                    Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
+                    string RoleName = GetString(roleName);
+                    if (r.Key is CustomRoles.AssassinAndMarine)
+                        RoleName = AssassinAndMarine.DisplayRole(disableColor: true);
+                    Utils.SendMessage(RoleName + GetString($"{roleName}InfoLong"));
                     return;
                 }
 
