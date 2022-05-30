@@ -287,12 +287,13 @@ namespace TownOfHost
     {
         public static void Postfix(ref PlayerControl sourcePlayer, ref string chatText)
         {
+            Logger.Info($"送信者：{sourcePlayer.Data.PlayerName}, テキスト：{chatText.TrimEnd()}", "AddChat");
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 if (!Assassin.IsAssassinMeeting) continue;
-                //Logger.Info($"{Utils.GetPlayerById(Assassin.TriggerPlayerId).Data.PlayerName}({Assassin.TriggerPlayerId})と{sourcePlayer.Data.PlayerName}({sourcePlayer.PlayerId})が同じ : {Assassin.TriggerPlayerId == sourcePlayer.PlayerId}", "AssassinMeeting");
-                //Logger.Info($"{chatText}と{target.Data.PlayerName}が同じ : {chatText == target.Data.PlayerName}", "AssassinMeeting");
-                if (Assassin.TriggerPlayerId == sourcePlayer.PlayerId && chatText == target.Data.PlayerName)
+                Logger.Info($"{Utils.GetPlayerById(Assassin.TriggerPlayerId).Data.PlayerName}({Assassin.TriggerPlayerId})と{sourcePlayer.Data.PlayerName}({sourcePlayer.PlayerId})が同じ : {Assassin.TriggerPlayerId == sourcePlayer.PlayerId}", "AssassinMeeting");
+                Logger.Info($"{chatText.TrimEnd()}と{target.Data.PlayerName}が同じ : {chatText.TrimEnd() == target.Data.PlayerName}", "AssassinMeeting");
+                if (Assassin.TriggerPlayerId == sourcePlayer.PlayerId && chatText.TrimEnd() == target.Data.PlayerName)
                 {
                     Assassin.AssassinTargetId = target.PlayerId;
                     Assassin.TargetRole = target.GetCustomRole();
