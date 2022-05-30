@@ -673,17 +673,17 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 #### クライアント設定
 
-## HideCodes/コード隠し
+## Hide Game Codes/コード隠し
 
 有効化することで、ロビーコードを非表示にすることができます。
 
 コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
 また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
 
-## JapaneseRoleName/役職名日本語化
+## Japanese Role Name/役職名日本語化
 
 有効化することで、役職名を日本語で表示させることができます。
-クライアントの言語を英語にしている場合、`ForceJapanese`を有効にしていないとこの設定は意味のないものとなります。
+クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
 
 ## 参考など
 

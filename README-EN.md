@@ -682,17 +682,17 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 #### Client Settings
 
-## HideCodes
+## Hide Codes
 
 By activating, you can hide the lobby code.
 
 You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
 You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
-## JapaneseRoleName
+## Japanese Role Name
 
 By activating, the job title can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless `ForceJapanese` is enabled.
+If the client language is English, this setting is meaningless unless `Force Japanese` is enabled.
 
 ## Credits
 
