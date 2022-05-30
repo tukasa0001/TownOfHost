@@ -50,6 +50,43 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
+## Features
+### Hotkeys
+
+#### All Clients
+| HotKey      | Function                                                               | Usable Scene |
+| ----------- | ---------------------------------------------------------------------- | ------------ |
+| `Tab`       | Option list page feed                                                  | Lobby        |
+| `Ctrl`+`F1` | Output log to desktop                                                  | Anywhere     |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | Anywhere     |
+| `Ctrl`+`C`  | Copy the text                                                          | Chat         |
+| `Ctrl`+`V`  | Paste the text                                                         | Chat         |
+| `Ctrl`+`X`  | Cut the text                                                           | Chat         |
+
+#### Host only
+| HotKey              | Function                      | Usable Scene  |
+| ------------------- | ----------------------------- | ------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game       |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game       |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
+| `C`                 | Abort game start              | In Countdown  |
+| `Shift`             | Start the game immediately    | In Countdown  |
+
+### Chat Commands
+Chat commands are commands that can be typed in chat.
+| Command                                               | Function                                          |
+| ----------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                       | Show winner                                       |
+| /lastresult<br>/l                                     | Show game result                                  |
+| /now<br>/n                                            | Show active settings                              |
+| /rename <string><br>/r <string>                       | Change my name                                    |
+| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /help<br>/h                                           | Show command description                          |
+| /help roles <role><br>/help r <role>                  | Display role description                          |
+| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
+| /help modes <mode><br>/help m <mode>                  | Display mode description                          |
+| /help now<br>/help n                                  | Show active setting descriptions                  |
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutral                           |
