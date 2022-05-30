@@ -60,7 +60,7 @@ namespace TownOfHost
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
                 Utils.ShowActiveRoles();
             }
