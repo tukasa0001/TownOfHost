@@ -51,7 +51,10 @@ namespace TownOfHost
             {
                 if (!kvp.Key.IsEnable()) continue;
                 if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                if (kvp.Key == CustomRoles.AssassinAndMarine)
+                    text += $"{AssassinAndMarine.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                else
+                    text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 foreach (var c in kvp.Value.Children) //詳細設定をループする
                 {
                     if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
