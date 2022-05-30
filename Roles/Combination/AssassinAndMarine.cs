@@ -75,17 +75,27 @@ namespace TownOfHost
 
         public static void BootAssassinTrigger(PlayerControl assassin)
         {
+            bool HeldMeeting = false;
             Assassin.TriggerPlayerId = assassin.PlayerId;
             Utils.NotifyRoles();
-            new LateTask(() =>
-            {
-                IsAssassinMeeting = true;
-                AssassinAndMarine.IsAssassinMeetingToggle();
-                MeetingRoomManager.Instance.AssignSelf(assassin, null);
-                DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
-                assassin.RpcStartMeeting(null);
-            }, PlayerControl.GameOptions.MapId == 4 ? 0.5f : 0, "StartAssassinMeeting"); //Airshipなら0.5sの遅延を追加
             Logger.Info("アサシン会議開始", "Special Phase");
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                Main.AllPlayerSpeed[pc.PlayerId] = 0.00001f;
+                new LateTask(() =>
+                {
+                    if (AmongUsClient.Instance.AmHost && !HeldMeeting)
+                    {
+                        IsAssassinMeeting = true;
+                        AssassinAndMarine.IsAssassinMeetingToggle();
+                        MeetingRoomManager.Instance.AssignSelf(assassin, null);
+                        DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
+                        assassin.RpcStartMeeting(null);
+                        Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                        HeldMeeting = true;
+                    }
+                }, PlayerControl.GameOptions.MapId == 4 ? 3f : 0, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
+            }
         }
         public static void SendTriggerPlayerId(byte playerId)
         {

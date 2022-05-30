@@ -1,4 +1,4 @@
-using HarmonyLib;
+/*using HarmonyLib;
 
 namespace TownOfHost
 {
@@ -11,4 +11,4 @@ namespace TownOfHost
             return !Assassin.IsAssassinMeeting;
         }
     }
-}
+}*/

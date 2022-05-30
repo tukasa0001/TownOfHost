@@ -203,8 +203,11 @@ namespace TownOfHost
                 //両陣営役職
                 { (CustomRoles)(-3),"== Impostor or Crewmate ==" }, //区切り用
                 { CustomRoles.Watcher,"wat" },
+                //コンビネーション役職
+                { (CustomRoles)(-4),"== Combination ==" }, //区切り用
+                { CustomRoles.AssassinAndMarine,"aam" },
                 //Crewmate役職
-                { (CustomRoles)(-4),"== Crewmate ==" }, //区切り用
+                { (CustomRoles)(-5),"== Crewmate ==" }, //区切り用
                 { CustomRoles.Bait,"ba" },
                 { CustomRoles.Dictator,"dic" },
                 { CustomRoles.Doctor,"doc" },
@@ -216,7 +219,7 @@ namespace TownOfHost
                 { CustomRoles.SpeedBooster,"sb" },
                 { CustomRoles.Trapper,"tra" },
                 //Neutral役職
-                { (CustomRoles)(-5),"== Neutral ==" }, //区切り用
+                { (CustomRoles)(-6),"== Neutral ==" }, //区切り用
                 { CustomRoles.Arsonist,"ar" },
                 { CustomRoles.Egoist,"eg" },
                 { CustomRoles.Executioner,"exe" },
@@ -225,10 +228,10 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat,"sc" },
                 { CustomRoles.Terrorist,"te" },
                 //Sub役職
-                { (CustomRoles)(-6),"== Sub Role ==" }, //区切り用
+                { (CustomRoles)(-7),"== Sub Role ==" }, //区切り用
                 {CustomRoles.Lovers,"lo" },
                 //HAS
-                { (CustomRoles)(-7),"== Hide and Seek ==" }, //区切り用
+                { (CustomRoles)(-8),"== Hide and Seek ==" }, //区切り用
                 { CustomRoles.HASFox,"hfo" },
                 { CustomRoles.HASTroll,"htr" },
 
