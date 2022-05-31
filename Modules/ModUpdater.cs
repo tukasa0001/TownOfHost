@@ -92,6 +92,7 @@ namespace TownOfHost
     {
         public static bool running = false;
         public static bool hasUpdate = false;
+        public static bool isBroken = false;
         public static string updateURI = null;
         private static Task updateTask = null;
         public static string announcement = "";
@@ -194,6 +195,7 @@ namespace TownOfHost
             catch (System.Exception ex)
             {
                 Logger.Error(ex.ToString(), "ModUpdater");
+                isBroken = true;
             }
             return false;
         }

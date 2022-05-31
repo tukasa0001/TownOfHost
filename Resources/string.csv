@@ -2,6 +2,8 @@ id,0,11
 
 
 ## 役職
+Neutral,Neutral,第三陣営
+SubRole,Sub Role,サブ役職
 
 # バニラ役職
 
@@ -337,7 +339,7 @@ AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクタ
 ## ヘルプテキスト
 CommandList,Command List:,コマンド一覧:
 Command.winner,Display Winners,勝者を表示
-Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.lastresult,Display Match Result,試合結果を表示
 Command.rename,Change Host Name,ホストの名前を変更
 Command.now,Display ActiveSettings,現在有効な設定を表示
 Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
@@ -360,6 +362,7 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...

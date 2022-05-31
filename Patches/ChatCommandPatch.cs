@@ -51,7 +51,7 @@ namespace TownOfHost
                         break;
 
                     case "/l":
-                    case "/lastroles":
+                    case "/lastresult":
                         canceled = true;
                         Utils.ShowLastRoles();
                         break;
@@ -182,58 +182,58 @@ namespace TownOfHost
             var roleList = new Dictionary<CustomRoles, string>
             {
                 //Impostor役職
-                { (CustomRoles)(-1),"== Impostor ==" }, //区切り用
-                { CustomRoles.BountyHunter,"bo" },
-                { CustomRoles.FireWorks,"fw" },
-                { CustomRoles.Mafia,"mf" },
-                { CustomRoles.SerialKiller,"sk" },
-                { CustomRoles.ShapeMaster,"sha" },
-                { CustomRoles.TimeThief,"tt"},
-                { CustomRoles.Sniper,"snp" },
-                { CustomRoles.Puppeteer,"pup" },
-                { CustomRoles.Vampire,"va" },
-                { CustomRoles.Warlock,"wa" },
-                { CustomRoles.Witch,"wi" },
+                { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
+                { CustomRoles.BountyHunter, "bo" },
+                { CustomRoles.FireWorks, "fw" },
+                { CustomRoles.Mafia, "mf" },
+                { CustomRoles.SerialKiller, "sk" },
+                { CustomRoles.ShapeMaster, "sha" },
+                { CustomRoles.TimeThief, "tt"},
+                { CustomRoles.Sniper, "snp" },
+                { CustomRoles.Puppeteer, "pup" },
+                { CustomRoles.Vampire, "va" },
+                { CustomRoles.Warlock, "wa" },
+                { CustomRoles.Witch, "wi" },
                 //Madmate役職
-                { (CustomRoles)(-2),"== Madmate ==" }, //区切り用
-                { CustomRoles.MadGuardian,"mg" },
-                { CustomRoles.Madmate,"mm" },
-                { CustomRoles.MadSnitch,"msn" },
-                { CustomRoles.SKMadmate,"sm" },
+                { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
+                { CustomRoles.MadGuardian, "mg" },
+                { CustomRoles.Madmate, "mm" },
+                { CustomRoles.MadSnitch, "msn" },
+                { CustomRoles.SKMadmate, "sm" },
                 //両陣営役職
-                { (CustomRoles)(-3),"== Impostor or Crewmate ==" }, //区切り用
-                { CustomRoles.Watcher,"wat" },
+                { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
+                { CustomRoles.Watcher, "wat" },
                 //コンビネーション役職
                 { (CustomRoles)(-4),"== Combination ==" }, //区切り用
                 { CustomRoles.AssassinAndMarine,"aam" },
                 //Crewmate役職
-                { (CustomRoles)(-5),"== Crewmate ==" }, //区切り用
-                { CustomRoles.Bait,"ba" },
-                { CustomRoles.Dictator,"dic" },
-                { CustomRoles.Doctor,"doc" },
-                { CustomRoles.Lighter,"li" },
-                { CustomRoles.Mayor,"my" },
-                { CustomRoles.SabotageMaster,"sa" },
-                { CustomRoles.Sheriff,"sh" },
-                { CustomRoles.Snitch,"sn" },
-                { CustomRoles.SpeedBooster,"sb" },
-                { CustomRoles.Trapper,"tra" },
+                { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
+                { CustomRoles.Bait, "ba" },
+                { CustomRoles.Dictator, "dic" },
+                { CustomRoles.Doctor, "doc" },
+                { CustomRoles.Lighter, "li" },
+                { CustomRoles.Mayor, "my" },
+                { CustomRoles.SabotageMaster, "sa" },
+                { CustomRoles.Sheriff, "sh" },
+                { CustomRoles.Snitch, "sn" },
+                { CustomRoles.SpeedBooster, "sb" },
+                { CustomRoles.Trapper, "tra" },
                 //Neutral役職
-                { (CustomRoles)(-6),"== Neutral ==" }, //区切り用
-                { CustomRoles.Arsonist,"ar" },
-                { CustomRoles.Egoist,"eg" },
-                { CustomRoles.Executioner,"exe" },
-                { CustomRoles.Jester,"je" },
-                { CustomRoles.Opportunist,"op" },
-                { CustomRoles.SchrodingerCat,"sc" },
-                { CustomRoles.Terrorist,"te" },
+                { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
+                { CustomRoles.Arsonist, "ar" },
+                { CustomRoles.Egoist, "eg" },
+                { CustomRoles.Executioner, "exe" },
+                { CustomRoles.Jester, "je" },
+                { CustomRoles.Opportunist, "op" },
+                { CustomRoles.SchrodingerCat, "sc" },
+                { CustomRoles.Terrorist, "te" },
                 //Sub役職
-                { (CustomRoles)(-7),"== Sub Role ==" }, //区切り用
-                {CustomRoles.Lovers,"lo" },
+                { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
+                {CustomRoles.Lovers, "lo" },
                 //HAS
-                { (CustomRoles)(-8),"== Hide and Seek ==" }, //区切り用
-                { CustomRoles.HASFox,"hfo" },
-                { CustomRoles.HASTroll,"htr" },
+                { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
+                { CustomRoles.HASFox, "hfo" },
+                { CustomRoles.HASTroll, "htr" },
 
             };
             var msg = "";
