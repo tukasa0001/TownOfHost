@@ -7,8 +7,7 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            main.VisibleTasksCount = false;
-            main.OptionControllerIsEnable = false;
+            Main.VisibleTasksCount = false;
         }
     }
 }

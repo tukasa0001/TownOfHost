@@ -11,14 +11,15 @@ namespace TownOfHost
             __instance.CompletedTasks = 0;
             foreach (var p in __instance.AllPlayers)
             {
-                if(p == null) continue;
-                var hasTasks = main.hasTasks(p);
+                if (p == null) continue;
+                var hasTasks = Utils.HasTasks(p);
                 if (hasTasks)
                 {
-//                    if(p.Tasks == null) {
-//                        Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
-//                        continue;//これより下を実行しない
-//                    }
+                    // if (p.Tasks == null)
+                    // {
+                    //     Logger.warn("警告:" + p.PlayerName + "のタスクがnullです");
+                    //     continue;//これより下を実行しない
+                    // }
                     foreach (var task in p.Tasks)
                     {
                         __instance.TotalTasks++;
@@ -31,11 +32,16 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(GameData), nameof(GameData.CompleteTask))]
-    class CompleteTaskPatch {
-        public static void Postfix(GameData __instance) {
-            if(!AmongUsClient.Instance.AmHost) return;
+    class CompleteTaskPatch
+    {
+        public static void Postfix(GameData __instance)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
 
-            main.NotifyRoles();
+            Utils.NotifyRoles();
+            foreach (var p in __instance.AllPlayers)
+                if (p.Object.GetCustomRole() == CustomRoles.Lighter || p.Object.Is(CustomRoles.SpeedBooster) || p.Object.Is(CustomRoles.Doctor))
+                    Utils.CustomSyncAllSettings();//ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
         }
     }
 }

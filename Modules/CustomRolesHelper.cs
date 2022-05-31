@@ -1,75 +1,94 @@
-
-namespace TownOfHost {
-    static class CustomRolesHelper {
-        public static bool isImpostor(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
-                role == CustomRoles.Impostor ||
-                role == CustomRoles.Shapeshifter ||
-                role == CustomRoles.BountyHunter ||
-                role == CustomRoles.Vampire ||
-                role == CustomRoles.BountyHunter ||
-                role == CustomRoles.Witch ||
-                role == CustomRoles.Mafia;
-            return isImpostor;
+namespace TownOfHost
+{
+    static class CustomRolesHelper
+    {
+        public static bool IsImpostor(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Impostor or
+                CustomRoles.Shapeshifter or
+                CustomRoles.BountyHunter or
+                CustomRoles.Vampire or
+                CustomRoles.Witch or
+                CustomRoles.ShapeMaster or
+                CustomRoles.Warlock or
+                CustomRoles.SerialKiller or
+                CustomRoles.Mare or
+                CustomRoles.Puppeteer or
+                CustomRoles.EvilWatcher or
+                CustomRoles.TimeThief or
+                CustomRoles.Mafia or
+                CustomRoles.FireWorks or
+                CustomRoles.Sniper;
         }
-        public static bool isImpostorTeam(this CustomRoles role) {
-            if(!AmongUsClient.Instance.IsGameStarted && 
-            AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false;
-            bool isImpostor =
-                role.isImpostor() ||
-                role == CustomRoles.Madmate ||
-                role == CustomRoles.MadGuardian;
-            return isImpostor;
+        public static bool IsMadmate(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Madmate or
+                CustomRoles.SKMadmate or
+                CustomRoles.MadGuardian or
+                CustomRoles.MadSnitch or
+                CustomRoles.MSchrodingerCat;
         }
-        public static bool CanUseKillButton(this CustomRoles role) {
-            bool canUse =
-                role.isImpostor() ||
-                role == CustomRoles.Sheriff;
-
-            if(role == CustomRoles.Mafia) {
-                int AliveImpostorCount = 0;
-                foreach(var pc in PlayerControl.AllPlayerControls) {
-                    CustomRoles pc_role = pc.getCustomRole();
-                    if(pc_role.isImpostor() && !pc.Data.IsDead && pc_role != CustomRoles.Mafia) AliveImpostorCount++;
-                }
-                if(AliveImpostorCount > 0) canUse = false;
-            }
-            return canUse;
+        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
+        public static bool IsNeutral(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Jester or
+                CustomRoles.Opportunist or
+                CustomRoles.SchrodingerCat or
+                CustomRoles.Terrorist or
+                CustomRoles.Executioner or
+                CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.HASTroll or
+                CustomRoles.HASFox;
         }
-        public static IntroTypes GetIntroType(this CustomRoles role) {
-            IntroTypes type = IntroTypes.Crewmate;
-            switch(role) {
-                case CustomRoles.Impostor:
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Vampire:
-                case CustomRoles.Mafia:
-                case CustomRoles.BountyHunter:
-                case CustomRoles.Witch:
-                    type = IntroTypes.Impostor;
-                    break;
+        public static bool IsVanilla(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Crewmate or
+                CustomRoles.Engineer or
+                CustomRoles.Scientist or
+                CustomRoles.GuardianAngel or
+                CustomRoles.Impostor or
+                CustomRoles.Shapeshifter;
+        }
 
-                case CustomRoles.Jester:
-                case CustomRoles.Opportunist:
-                case CustomRoles.Terrorist:
-                case CustomRoles.Troll:
-                case CustomRoles.Fox:
-                    type = IntroTypes.Neutral;
-                    break;
-
-                case CustomRoles.Madmate:
-                case CustomRoles.MadGuardian:
-                    type = IntroTypes.Madmate;
-                    break;
-            }
+        public static RoleType GetRoleType(this CustomRoles role)
+        {
+            RoleType type = RoleType.Crewmate;
+            if (role.IsImpostor()) type = RoleType.Impostor;
+            if (role.IsNeutral()) type = RoleType.Neutral;
+            if (role.IsMadmate()) type = RoleType.Madmate;
             return type;
         }
-        public static void SetCount(this CustomRoles role, int num) {
-            main.SetRoleCount(role, num);
+        public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
+        public static int GetCount(this CustomRoles role)
+        {
+            if (role.IsVanilla())
+            {
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                return role switch
+                {
+                    CustomRoles.Engineer => roleOpt.GetNumPerGame(RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetNumPerGame(RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetNumPerGame(RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetNumPerGame(RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetNumPerGame(RoleTypes.Crewmate),
+                    _ => 0
+                };
+            }
+            else
+            {
+                return Options.GetRoleCount(role);
+            }
         }
+        public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
     }
-    public enum IntroTypes {
+    public enum RoleType
+    {
         Crewmate,
         Impostor,
         Neutral,

@@ -1,57 +1,79 @@
 using HarmonyLib;
-using UnityEngine;
 using Hazel;
 using InnerNet;
+using UnityEngine;
 
 namespace TownOfHost
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
-    class DebugManager
+    class ControllerManagerUpdatePatch
     {
-        static System.Random random = new System.Random();
+        static readonly System.Random random = new();
         static PlayerControl bot;
+        static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900) };
+        static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
+            //カスタム設定切り替え
+            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
+            {
+                OptionShower.Next();
+            }
+            //解像度変更
+            if (Input.GetKeyDown(KeyCode.F11))
+            {
+                resolutionIndex++;
+                if (resolutionIndex >= resolutions.Length) resolutionIndex = 0;
+                ResolutionManager.SetResolution(resolutions[resolutionIndex].Item1, resolutions[resolutionIndex].Item2, false);
+            }
+            //ログファイルのダンプ
+            if (Input.GetKeyDown(KeyCode.F1) && Input.GetKey(KeyCode.LeftControl))
+            {
+                Logger.Info("Dump Logs", "KeyCommand");
+                Utils.DumpLog();
+            }
 
-            //##ホスト専用コマンド##
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost &&  AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
+            //--以下ホスト専用コマンド--//
+            if (!AmongUsClient.Instance.AmHost) return;
+            //廃村
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPCProcedure.EndGame();
+                RPC.EndGame();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStartManager.InstanceExists && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
+            //ミーティングを強制終了
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
             {
-                Logger.info("CountDownTimer set to 0");
+                MeetingHud.Instance.RpcClose();
+            }
+            //即スタート
+            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
+            {
+                Logger.Info("CountDownTimer set to 0", "KeyCommand");
                 GameStartManager.Instance.countDownTimer = 0;
             }
-            if (Input.GetKeyDown(KeyCode.C) && GameStartManager.InstanceExists && GameStartManager.Instance?.startState == GameStartManager.StartingStates.Countdown && AmongUsClient.Instance.AmHost)
+            //カウントダウンキャンセル
+            if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
             {
-                Logger.info("Reset CountDownTimer");
+                Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
             }
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl) && AmongUsClient.Instance.AmHost)
+            //現在の有効な設定を表示
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
-                main.ShowActiveRoles();
+                Utils.ShowActiveRoles();
             }
-            //====================
-            //##テスト用キーコマンド##
-            // | キー | 条件 | 動作 |
-            // | ---- | ---- | ---- |
-            // | X | フリープレイ中 | キルクール0 |
-            // | Y | ホスト | カスタム設定同期 |
-            // | O | フリープレイ中 | 全タスク完了 |
-            // | G | フリープレイ中 | 開始画面表示 |
-            // | = | フリープレイ中 | VisibleTaskCountを切り替え |
-            // | P | フリープレイ中 | トイレのドアを一気に開ける |
-            // | U | オンライン以外 | 自分の投票をClearする |
-            // | N | ホストデバッガー | プレイヤーを生成 |
-            //====================
 
+            //--以下デバッグモード用コマンド--//
+            if (!Main.AmDebugger.Value) return;
 
-            if(Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N) && AmongUsClient.Instance.AmHost && main.AmDebugger.Value) {
+            //BOTの作成
+            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N))
+            {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
-                if(bot == null) {
+                if (bot == null)
+                {
                     bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
                     bot.PlayerId = 15;
                     GameData.Instance.AddPlayer(bot);
@@ -67,53 +89,74 @@ namespace TownOfHost
                 bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
                 bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
 
-                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0,15)), 0.2f, "Bot TP Task");
-                new LateTask(() => {foreach(var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot);}, 0.4f, "Bot Kill Task");
+                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
+                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
                 new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
-            if (Input.GetKeyDown(KeyCode.X) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //設定の同期
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                RPC.SyncCustomSettingsRPC();
+            }
+            //投票をクリア
+            if (Input.GetKeyDown(KeyCode.V) && GameStates.IsMeeting && !GameStates.IsOnlineGame)
+            {
+                MeetingHud.Instance.RpcClearVote(AmongUsClient.Instance.ClientId);
+            }
+            //自分自身の死体をレポート
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
+            {
+                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+            }
+            //自分自身を追放
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+            {
+                PlayerControl.LocalPlayer.RpcExile();
+            }
+            //ログをゲーム内にも出力するかトグル
+            if (Input.GetKeyDown(KeyCode.F2) && Input.GetKey(KeyCode.LeftControl))
+            {
+                Logger.isAlsoInGame = !Logger.isAlsoInGame;
+                Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
+            }
+            //RpcResetAbilityCooldownのテスト
+            if (Input.GetKey(KeyCode.R))
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0)) PlayerControl.LocalPlayer.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha1)) Utils.GetPlayerById(1)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
+            }
+
+            //--以下フリープレイ用コマンド--//
+            if (!GameStates.IsFreePlay) return;
+            //キルクールを0秒に設定
+            if (Input.GetKeyDown(KeyCode.X))
             {
                 PlayerControl.LocalPlayer.Data.Object.SetKillTimer(0f);
             }
-            if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.AmHost)
-            {
-                main.SyncCustomSettingsRPC();
-            }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && AmongUsClient.Instance.AmHost)
-            {
-                MeetingHud.Instance.RpcClose();
-            }
-            if (Input.GetKeyDown(KeyCode.V) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-            {
-                if (AmongUsClient.Instance.GameMode != GameModes.OnlineGame && main.AmDebugger.Value)
-                {
-                    MeetingHud.Instance?.RpcClearVote(AmongUsClient.Instance.ClientId);
-                }
-            }
+            //自身のタスクをすべて完了
             if (Input.GetKeyDown(KeyCode.O))
             {
-                if (AmongUsClient.Instance.GameMode == GameModes.FreePlay)
-                {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        foreach (var task in pc.myTasks)
-                        {
-                            pc.RpcCompleteTask(task.Id);
-                        }
-                    }
-                }
+                foreach (var task in PlayerControl.LocalPlayer.myTasks)
+                    PlayerControl.LocalPlayer.RpcCompleteTask(task.Id);
             }
-            if (Input.GetKeyDown(KeyCode.G) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //イントロテスト
+            if (Input.GetKeyDown(KeyCode.G))
             {
                 HudManager.Instance.StartCoroutine(HudManager.Instance.CoFadeFullScreen(Color.clear, Color.black));
                 HudManager.Instance.StartCoroutine(DestroyableSingleton<HudManager>.Instance.CoShowIntro());
             }
-            if (Input.GetKeyDown(KeyCode.Equals) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+            //タスクカウントの表示切替
+            if (Input.GetKeyDown(KeyCode.Equals))
             {
-                main.VisibleTasksCount = !main.VisibleTasksCount;
-                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + main.VisibleTasksCount.ToString() + "に変更されました。");
+                Main.VisibleTasksCount = !Main.VisibleTasksCount;
+                DestroyableSingleton<HudManager>.Instance.Notifier.AddItem("VisibleTaskCountが" + Main.VisibleTasksCount.ToString() + "に変更されました。");
             }
-            if(Input.GetKeyDown(KeyCode.P) && AmongUsClient.Instance.GameMode == GameModes.FreePlay) {
+            //エアシップのトイレのドアを全て開ける
+            if (Input.GetKeyDown(KeyCode.P))
+            {
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 79);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 80);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
@@ -147,65 +190,40 @@ namespace TownOfHost
                 VentilationSystem.Update(VentilationSystem.Operation.StartCleaning, 0);
             }*/
             //マスゲーム用コード終わり
-
-            //##カスタム設定コマンド##
-            if (Input.GetKeyDown(KeyCode.Tab) && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Joined)
-            {
-                //Logger.SendInGame("tabキーが押されました");
-                main.OptionControllerIsEnable = !main.OptionControllerIsEnable;
-                CustomOptionController.currentPage = CustomOptionController.basePage;
-                CustomOptionController.currentCursor = 0;
-            }
-            if (main.OptionControllerIsEnable)
-            {
-                main.TextCursorTimer += Time.deltaTime;
-                if (main.TextCursorTimer > 0.5f)
-                {
-                    main.TextCursorTimer = 0f;
-                    main.TextCursorVisible = !main.TextCursorVisible;
-                }
-                if (Input.GetKeyDown(KeyCode.UpArrow)) CustomOptionController.Up();
-                if (Input.GetKeyDown(KeyCode.DownArrow)) CustomOptionController.Down();
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    CustomOptionController.Enter();
-                }
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    CustomOptionController.Return();
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0)) CustomOptionController.Input(0);
-                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) CustomOptionController.Input(1);
-                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) CustomOptionController.Input(2);
-                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) CustomOptionController.Input(3);
-                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)) CustomOptionController.Input(4);
-                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5)) CustomOptionController.Input(5);
-                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6)) CustomOptionController.Input(6);
-                if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7)) CustomOptionController.Input(7);
-                if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8)) CustomOptionController.Input(8);
-                if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9)) CustomOptionController.Input(9);
-            }
         }
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
-    class ConsoleJoystickHandleHUDPatch {
-        public static void Postfix() {
+    class ConsoleJoystickHandleHUDPatch
+    {
+        public static void Postfix()
+        {
             HandleHUDPatch.Postfix(ConsoleJoystick.player);
         }
     }
     [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.HandleHud))]
-    class KeyboardJoystickHandleHUDPatch {
-        public static void Postfix() {
+    class KeyboardJoystickHandleHUDPatch
+    {
+        public static void Postfix()
+        {
             HandleHUDPatch.Postfix(KeyboardJoystick.player);
         }
     }
-    class HandleHUDPatch {
-        public static void Postfix(Rewired.Player player) {
-            if(player.GetButtonDown(8) && 
+    class HandleHUDPatch
+    {
+        public static void Postfix(Rewired.Player player)
+        {
+            if (player.GetButtonDown(8) && // 8:キルボタンのactionId
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            PlayerControl.LocalPlayer.isSheriff()) {
+            (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist)) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
+            }
+            if (player.GetButtonDown(50) && // 50:インポスターのベントボタンのactionId
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
+            PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            {
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }
         }
     }
