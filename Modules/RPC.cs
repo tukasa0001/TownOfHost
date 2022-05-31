@@ -329,6 +329,7 @@ namespace TownOfHost
             if (role < CustomRoles.NoSubRoleAssigned)
             {
                 Main.AllPlayerCustomRoles[targetId] = role;
+                if (role == CustomRoles.Sniper) Sniper.Add(targetId);
             }
             else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
