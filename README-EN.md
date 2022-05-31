@@ -313,7 +313,7 @@ However, if they complete some of their own tasks, the name of the evildoer will
 ### SidekickMadmate
 
 Team : Impostor<br>
-Decision : Crewmate or Engineer<br>
+Decision : Change before Role<br>
 
 This role is created when roles with the ability to shape-shift is shape-shifted.<br>
 Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
