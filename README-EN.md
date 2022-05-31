@@ -301,7 +301,7 @@ Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
-However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
+Once all tasks are completed, the impostor can be recognized from the MadSnitch.<br>
 
 #### Settings
 
