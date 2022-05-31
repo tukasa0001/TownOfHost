@@ -388,7 +388,7 @@ namespace TownOfHost
                     Main.IgnoreReportPlayers.Add(pc.PlayerId);
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
-                if (Assassin.FinishAssassinMeetingTrigger)
+                if (Assassin.FinishAssassinMeetingTrigger && AmongUsClient.Instance.AmHost)
                 {
                     Assassin.FinishAssassinMeetingTrigger = false;
                     statesList.Add(new MeetingHud.VoterState()
