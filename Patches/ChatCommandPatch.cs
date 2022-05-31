@@ -184,6 +184,7 @@ namespace TownOfHost
                 //Impostor役職
                 { (CustomRoles)(-1),"== Impostor ==" }, //区切り用
                 { CustomRoles.BountyHunter,"bo" },
+                { CustomRoles.EvilTracker,"et" },
                 { CustomRoles.FireWorks,"fw" },
                 { CustomRoles.Mafia,"mf" },
                 { CustomRoles.SerialKiller,"sk" },
@@ -211,6 +212,7 @@ namespace TownOfHost
                 { CustomRoles.Lighter,"li" },
                 { CustomRoles.Mayor,"my" },
                 { CustomRoles.SabotageMaster,"sa" },
+                { CustomRoles.Seer,"se" },
                 { CustomRoles.Sheriff,"sh" },
                 { CustomRoles.Snitch,"sn" },
                 { CustomRoles.SpeedBooster,"sb" },

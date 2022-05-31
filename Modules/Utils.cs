@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
@@ -33,6 +34,56 @@ namespace TownOfHost
                     opt.ImpostorLightMod /= 5;
                 return;
             }
+        }
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
+        {
+            if (seer.Data.IsDead || killer == seer || target == seer) return false;
+            switch (seer.GetCustomRole())
+            {
+                case CustomRoles.EvilTracker:
+                    return Options.EvilTrackerCanSeeKillFlash.GetBool();
+                case CustomRoles.Seer:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        //誰かが死亡したときのメソッド
+        public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
+        {
+            //キルフラッシュの処理
+            if (!target.Data.IsDead || GameStates.IsMeeting) return;
+            Logger.Info("target dies", "TargetDies");
+
+            foreach (var seer in PlayerControl.AllPlayerControls)
+            {
+                if (KillFlashCheck(killer, target, seer, deathReason) == false) continue;
+                Main.RealOptionsData.DeepCopy().KillFlash(seer);
+            }
+        }
+        public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
+        {
+            // Logger.Info(player.GetRealName(), "KillFlash");
+            // Logger.Info(ForImpVision ? "true" : "false", "ForImpVision");
+            PlayerState.isFlash[player.PlayerId] = true;
+            ExtendedPlayerControl.CustomSyncSettings(player);
+            int Duration = (int)Math.Ceiling(Options.KillFlashDuration.GetFloat() * 1000);
+            await Task.Delay(Duration); //キルフラッシュの時間
+            PlayerState.isFlash[player.PlayerId] = false;
+            ExtendedPlayerControl.CustomSyncSettings(player);
+        }
+        public static void KillFlashVision(this GameOptionsData opt, PlayerControl player, bool IsFlash)
+        {
+            Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "before");
+            opt.ImpostorLightMod = Main.DefaultImpostorVision;
+            opt.CrewLightMod = Main.DefaultCrewmateVision;
+            if (IsFlash)
+            {
+                opt.ImpostorLightMod = 0.0f;
+                opt.CrewLightMod = 0.0f; //5.0fだと落ちる
+            }
+            Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "after");
+            return;
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
@@ -573,6 +624,20 @@ namespace TownOfHost
                     var TaskState = seer.GetPlayerTaskState();
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
+                }
+
+                if (seer.Is(CustomRoles.EvilTracker))
+                {
+                    //ミーティング以外では矢印表示
+                    if (!isMeeting)
+                    {
+                        foreach (var arrow in Main.targetArrows)
+                        {
+                            //自分用の矢印で対象が死んでない時
+                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                SelfSuffix += arrow.Value;
+                        }
+                    }
                 }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む

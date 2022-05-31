@@ -26,6 +26,7 @@ EvilWatcher,Evil Watcher,イビルウォッチャー
 Puppeteer,Puppeteer,パペッティア
 TimeThief,TimeThief,タイムシーフ
 Sniper,Sniper,スナイパー
+EvilTracker,EvilTracker,イビルトラッカー
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト
@@ -49,6 +50,7 @@ SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
 Dictator,Dictator,ディクテーター
+Seer,Seer,シーア
 
 # 第三陣営役職
 Jester,Jester,ジェスター
@@ -90,6 +92,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
+EvilTrackerInfo,Track Players,追跡せよ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -111,6 +114,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
+SeerInfo,You Will See Players Die.,死が見える
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -145,6 +149,7 @@ MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his f
 PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
 TimeThiefInfoLong,"(Impostors):\nEach kill decreases the meeting time.\nIf the time thief is exiled or killed, the lost meeting time is returned.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
+EvilTrackerInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
@@ -167,6 +172,7 @@ SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive
 DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
 DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
+SeerInfoLong,,
 
 # 第三陣営役職
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
@@ -291,6 +297,9 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+EvilTrackerCanSeeKillFlash,EvilTracker Can See KillFlash,キルフラッシュを見ることができる
+EvilTrackerResetTargetAfterMeeting,EvilTracker Reset Target After Meeting,会議後に再度ターゲットを設定できる
+KillFlashDuration,KillFlash Duration(s),キルフラッシュの長さ(秒)
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

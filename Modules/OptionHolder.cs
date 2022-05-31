@@ -113,6 +113,9 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
+        public static CustomOption EvilTrackerCanSeeKillFlash;
+        public static CustomOption EvilTrackerResetTargetAfterMeeting;
+        public static CustomOption KillFlashDuration;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -269,10 +272,14 @@ namespace TownOfHost
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            SetupRoleOptions(2900, CustomRoles.EvilTracker);
+            EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTrackerResetTargetAfterMeeting = CustomOption.Create(2910, Color.white, "EvilTrackerResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
 
             BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
             CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 1, 0, 15, 1, null, true);
+            KillFlashDuration = CustomOption.Create(5013, Color.white, "KillFlashDuration", 0.2f, 0.05f, 0.45f, 0.05f, null, true);
 
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
@@ -332,6 +339,8 @@ namespace TownOfHost
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator);
+            SetupRoleOptions(21000, CustomRoles.Seer);
+
             // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);

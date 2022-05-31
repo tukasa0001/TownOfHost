@@ -335,6 +335,13 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
+                case CustomRoles.EvilTracker:
+                    opt.RoleOptions.ShapeshifterDuration = 0.1f;
+                    if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.KillFlashVision(player, PlayerState.isFlash[player.PlayerId]);
+                    break;
+                case CustomRoles.Seer:
+                    opt.KillFlashVision(player, PlayerState.isFlash[player.PlayerId]);
+                    break;
 
 
                 InfinityVent:

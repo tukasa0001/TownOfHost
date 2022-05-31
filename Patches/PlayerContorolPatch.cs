@@ -304,6 +304,7 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
+
             PlayerControl killer = __instance; //読み替え変数
             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
             {
@@ -365,6 +366,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Utils.TargetDies(__instance, target, PlayerState.GetDeathReason(target.PlayerId));
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -407,6 +409,10 @@ namespace TownOfHost
                     }
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
+            }
+            if (shapeshifter.Is(CustomRoles.EvilTracker))
+            {
+
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
 
@@ -919,6 +925,33 @@ namespace TownOfHost
                             }
                         }
                     }
+                    if (!GameStates.IsMeeting && target.Is(CustomRoles.EvilTracker))
+                    {
+                        var coloredArrow = true;
+                        var update = false;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            var foundCheck =
+                                pc.GetCustomRole().IsImpostor() && pc != target;
+
+                            //発見対象じゃ無ければ次
+                            if (!foundCheck) continue;
+
+                            update = CheckArrowUpdate(target, pc, update, coloredArrow);
+                            var key = (target.PlayerId, pc.PlayerId);
+                            if (target.AmOwner)
+                            {
+                                //MODなら矢印表示
+                                Suffix += Main.targetArrows[key];
+                            }
+                        }
+                        if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+                        {
+                            //更新があったら非Modに通知
+                            Utils.NotifyRoles(SpecifySeer: target);
+                        }
+                    }
+
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";
                     }*/

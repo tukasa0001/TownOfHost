@@ -86,6 +86,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> TimeThiefKillCount = new();
+        public static Dictionary<byte, PlayerControl> EvilTrackerTarget;
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -104,6 +105,8 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int DiscussionTime;
         public static int VotingTime;
+        public static float DefaultCrewmateVision;
+        public static float DefaultImpostorVision;
 
         public static Main Instance;
 
@@ -147,6 +150,7 @@ namespace TownOfHost
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
+            EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
@@ -191,6 +195,7 @@ namespace TownOfHost
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
+                {CustomRoles.EvilTracker, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -212,6 +217,8 @@ namespace TownOfHost
                 {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.Dictator, "#df9b00"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                {CustomRoles.Seer, "#3CB564"},
+
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -279,6 +286,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        EvilTracker,
         //Madmate
         MadGuardian,
         Madmate,
@@ -303,6 +311,7 @@ namespace TownOfHost
         Trapper,
         Dictator,
         Doctor,
+        Seer,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral
         Arsonist,
