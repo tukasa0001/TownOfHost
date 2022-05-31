@@ -326,7 +326,7 @@ AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクタ
 ## ヘルプテキスト
 CommandList,Command List:,コマンド一覧:
 Command.winner,Display Winners,勝者を表示
-Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.lastresult,Display Match Result,試合結果を表示
 Command.rename,Change Host Name,ホストの名前を変更
 Command.now,Display ActiveSettings,現在有効な設定を表示
 Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示

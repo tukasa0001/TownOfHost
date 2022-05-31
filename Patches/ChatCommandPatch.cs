@@ -51,7 +51,7 @@ namespace TownOfHost
                         break;
 
                     case "/l":
-                    case "/lastroles":
+                    case "/lastresult":
                         canceled = true;
                         Utils.ShowLastRoles();
                         break;

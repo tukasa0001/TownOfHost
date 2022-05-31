@@ -350,7 +350,7 @@ namespace TownOfHost
             SendMessage(
                 GetString("CommandList")
                 + $"\n/winner - {GetString("Command.winner")}"
-                + $"\n/lastroles - {GetString("Command.lastroles")}"
+                + $"\n/lastresult - {GetString("Command.lastresult")}"
                 + $"\n/rename - {GetString("Command.rename")}"
                 + $"\n/now - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
