@@ -135,7 +135,7 @@ HASTrollInfo,Die to win,自爆しよう
 ## 役職説明ロング
 
 # 特殊インポスター役職
-BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+BountyHunterInfoLong,"(Impostors):\nIf you kill the indicated target, the next KillCooldown will be very short.\nIf you kill a player who is not the target, the KillCooldown will be extended.\nYou must also set the KillCooldown to 2.5 seconds in the settings.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nまた、設定でキルクールを2.5秒に設定する必要がある。\nターゲットは一定時間ごとに変更される。
 FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
