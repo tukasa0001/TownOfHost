@@ -968,7 +968,7 @@ namespace TownOfHost
                         {
                             PlayerState.SetDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                             if (isExiled)
-                                Main.AfterMeetingExilePlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
+                                Main.AfterMeetingExilePlayers.Add(partnerPlayer.PlayerId);   //通報後に死ぬリストに追加
                             else
                                 partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
