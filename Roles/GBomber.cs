@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace TownOfHost
 {
+
     public static class GBomber
     {
         static readonly int Id = 1900;
@@ -17,10 +18,11 @@ namespace TownOfHost
         public static Dictionary<byte, int> GBombAttachedPlayers = new();//管理用
         public static Dictionary<byte, int> GBombAttachedPlayersDisplay = new();//表示用
 
-        public static int InitialTimer = 6000;
+        public static int InitialTimer = 600;
 
         public static Timer timer = null;
 
+        public static PlayerControl workP = null;
 
         public static void SetupCustomOption()
         {
@@ -32,7 +34,7 @@ namespace TownOfHost
 
         public static void Init()
         {
-            GBombAttachedPlayers = new();
+            GBombAttachedPlayers = new Dictionary<byte, int>();
             GBombAttachedPlayersDisplay = new Dictionary<byte, int>(GBombAttachedPlayers);
         }
 
@@ -43,11 +45,11 @@ namespace TownOfHost
             //キルを防ぐ
             killer.RpcGuardAndKill(target);
             //キルクールをセットする
-            Main.AllPlayerKillCooldown[killer.PlayerId] = GBomberKillCooldown.GetFloat() * 2;   //GuardAndKillの場合キルクが半分になるので2倍値
-
+            Main.AllPlayerKillCooldown[killer.PlayerId] = GBomberKillCooldown.GetInt() * 2;   //GuardAndKillの場合キルクが半分になるので2倍値
             //爆弾取り付け済みかどうか
-            if (GBombAttachedPlayers.ContainsKey(target.PlayerId))
+            if (GBombAttachedPlayers.Count == 0 || !GBombAttachedPlayers.ContainsKey(target.PlayerId))
             {
+                workP = target;
                 GBombAttache(target.PlayerId);
             }
             else
@@ -65,8 +67,8 @@ namespace TownOfHost
             GBombAttachedPlayersDisplay = new Dictionary<byte, int>(GBombAttachedPlayers);
             if (timer == null)
             {
-                TimerCallback timerDelegate = new(CountDown);
-                timer = new(timerDelegate, null, 0, 100);
+                Main.GBomberTimerDelegate = new(CountDowDelegate);
+                timer = new(Main.GBomberTimerDelegate, null, 100, 10000);    //0.1秒後に10秒おきにデリゲートメソッドを実行
                 SetGBomberTimer();
             }
             Logger.Info($"newGBombAttached GBombCount: {GBombAttachedPlayers[playerId]}", "GBomber");
@@ -92,40 +94,89 @@ namespace TownOfHost
         //
         public static void SetGBomberTimer()
         {
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
+            // timer.Change(Timeout.Infinite, Timeout.Infinite);
             Logger.Info($"GBomberTimer Start", "GBomber");
         }
 
         ///Time thread
-        private static void CountDown(object state)
+        private static void CountDowDelegate(object state)
         {
-            if (!GameStates.IsInGame) Dispose();
-            foreach (var p in GBombAttachedPlayers)
+            Logger.Info($"CountDown1", "GBomber");
+            if (!GameStates.IsInGame)
             {
-                GBombAttachedPlayers[p.Key] -= GameStates.IsMeeting ? GBomberMeetingCountReductionValue.GetInt() : 1;
-                if (CheckAlive(p)) continue;
-                Explosion(p);
+                Logger.Info($"CountDown noGame", "GBomber");
+                Dispose();
+                return;
             }
+            Logger.Info($"CountDown2", "GBomber");
+
+
+            // テスト用
+            // foreach (var p in GBombAttachedPlayers)
+            // {
+            //     Logger.Info($"CountDown3", "GBomber");
+            //     GBombAttachedPlayers[p.Key] -= 10;
+            //     Logger.Info($"CountDown4", "GBomber");
+            // }
+
+            Logger.Info($"CountDown3", "GBomber");
+            GBombAttachedPlayers[workP.PlayerId] -= GameStates.IsMeeting ? GBomberMeetingCountReductionValue.GetInt() * 10 : 1 * 10;
+            Logger.Info($"CountDown4", "GBomber");
+            if (workP.Data.IsDead || workP.Data.Disconnected)
+            {
+                //GBombAttachedPlayers.Remove(workP.PlayerId);//TODO:Removeは別の所(死ぬ所)でやったほうが良き
+            }
+
+            if (GBombAttachedPlayers[workP.PlayerId] <= 0)
+            {
+                // PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(s => s.PlayerId == p.Key).FirstOrDefault();
+                if (GameStates.IsMeeting)
+                {
+                    //TODO:会議中に死ぬ処理.要動作確認
+                    Logger.Info($"IsMeeting Explosion : {workP.GetNameWithRole()}", "GBomber");
+                    // workP.RpcExile();   //スレッドで呼び出すとホストが強制終了する
+                }
+                else if (GameStates.IsInTask)
+                {
+                    Logger.Info($"IsInTask Explosion : {workP.GetNameWithRole()}", "GBomber");
+                    // workP.RpcMurderPlayer(workP);   //スレッドで呼び出すとホストが強制終了する
+                }
+                //TODO:死因
+            }
+
+
+
+
+            // Logger.Info($"CountDown_End", "GBomber");
+
+            // try
+            // {
+
+            // foreach (var p in GBombAttachedPlayers)
+            // {
+            //     Logger.Info($"CountDown3", "GBomber");
+            //     GBombAttachedPlayers[p.Key] -= GameStates.IsMeeting ? GBomberMeetingCountReductionValue.GetInt() * 10 : 1 * 10;
+            //     Logger.Info($"CountDown4", "GBomber");
+            //     if (CheckAlive(p)) continue;
+            //     Logger.Info($"CountDown5", "GBomber");
+            //     Explosion(p);
+            //     Logger.Info($"CountDown6", "GBomber");
+            // }
+            Logger.Info($"CountDown_end", "GBomber");
+
+
+            // }
+            // catch
+            // {
+            //     Logger.Info($"CountDown Error", "GBomber");
+            // }
+
         }
-        private static bool CheckAlive(KeyValuePair<byte, int> p)
+        public static void Explosion(KeyValuePair<byte, int> p)
         {
             PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(s => s.PlayerId == p.Key).FirstOrDefault();
-            if (player == null) return false;
-            if (player.Data.IsDead || player.Data.Disconnected)
-            {
-                GBombAttachedPlayers.Remove(p.Key);
-                return true;
-            }
-            return false;
-        }
-
-        private static void Explosion(KeyValuePair<byte, int> p)
-        {
             if (p.Value <= 0)
             {
-                GBombAttachedPlayers.Remove(p.Key);
-                PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(s => s.PlayerId == p.Key).FirstOrDefault();
-                if (player == null) return;
                 if (GameStates.IsMeeting)
                 {
                     //TODO:会議中に死ぬ処理.要動作確認
@@ -137,9 +188,40 @@ namespace TownOfHost
                     Logger.Info($"IsInTask Explosion : {player.GetNameWithRole()}", "GBomber");
                     player.RpcMurderPlayer(player);
                 }
+                GBombAttachedPlayers.Remove(p.Key);
                 //TODO:死因
             }
         }
+
+
+        private static bool CheckAlive(KeyValuePair<byte, int> p)
+        {
+            PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(s => s.PlayerId == p.Key).FirstOrDefault();
+            if (player == null) return false;
+            return player.Data.IsDead || player.Data.Disconnected;
+
+        }
+
+        // private static void Explosion(KeyValuePair<byte, int> p)
+        // {
+        //     if (p.Value <= 0)
+        //     {
+        //         PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(s => s.PlayerId == p.Key).FirstOrDefault();
+        //         if (player == null) return;
+        //         if (GameStates.IsMeeting)
+        //         {
+        //             //TODO:会議中に死ぬ処理.要動作確認
+        //             Logger.Info($"IsMeeting Explosion : {player.GetNameWithRole()}", "GBomber");
+        //             player.RpcExile();
+        //         }
+        //         else if (GameStates.IsInTask)
+        //         {
+        //             Logger.Info($"IsInTask Explosion : {player.GetNameWithRole()}", "GBomber");
+        //             player.RpcMurderPlayer(player);
+        //         }
+        //         //TODO:死因
+        //     }
+        // }
 
         public static void Dispose()
         {

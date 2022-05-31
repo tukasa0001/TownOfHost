@@ -100,7 +100,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.GBomber:
                         GBomber.KillAction(killer, target);
-                        break;
+                        return false;
 
                     //==========マッドメイト系役職==========//
                     case CustomRoles.SKMadmate:
@@ -733,6 +733,13 @@ namespace TownOfHost
                             Main.PuppeteerList.Remove(__instance.PlayerId);
                             Utils.NotifyRoles();
                         }
+                    }
+                }
+                if (CustomRoles.GBomber.IsEnable() && GBomber.GBombAttachedPlayers.Count > 0)
+                {
+                    foreach (var p in GBomber.GBombAttachedPlayers)
+                    {
+                        GBomber.Explosion(p);
                     }
                 }
 

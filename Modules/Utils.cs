@@ -508,6 +508,10 @@ namespace TownOfHost
                     //銃声が聞こえるかチェック
                     SelfMark += Sniper.GetShotNotify(seer.PlayerId);
                 }
+                if (GBomber.GBombAttachedPlayers.ContainsKey(seer.PlayerId) && (GBomber.GBombAttachedPlayers[seer.PlayerId] < 1000))
+                {
+                    SelfMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}> {GBomber.GBombAttachedPlayers[seer.PlayerId]}</color>";
+                }
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
@@ -632,6 +636,12 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+
+                        if (seer.Is(CustomRoles.GBomber) &&
+                            GBomber.GBombAttachedPlayers.ContainsKey(target.PlayerId))
+                        {
+                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}> {GBomber.GBombAttachedPlayers[target.PlayerId]}</color>";
+                        }
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";
