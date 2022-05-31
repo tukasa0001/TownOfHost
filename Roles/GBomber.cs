@@ -18,7 +18,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> GBombAttachedPlayers = new();//管理用
         public static Dictionary<byte, int> GBombAttachedPlayersDisplay = new();//表示用
 
-        public static int InitialTimer = 600;
+        public static int InitialTimer = 6000;
 
         public static Timer timer = null;
 
