@@ -151,7 +151,7 @@ SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the ex
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
-MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
+MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nOnce all tasks are completed, the impostor can be recognized from the Mad Snitch.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 
 # 両陣営可能役職
