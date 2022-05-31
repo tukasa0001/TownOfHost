@@ -93,9 +93,10 @@ namespace TownOfHost
             switch (roleType)
             {
                 case RoleType.Neutral:
-                    __instance.TeamTitle.text = Utils.GetRoleName(role);
-                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    __instance.TeamTitle.text = GetString("Neutral");
+                    __instance.TeamTitle.color = Color.gray;
+                    __instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.BackgroundBar.material.color = Color.gray;
                     break;
                 case RoleType.Madmate:
                     __instance.TeamTitle.text = GetString("Madmate");
