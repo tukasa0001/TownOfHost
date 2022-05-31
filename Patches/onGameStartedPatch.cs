@@ -93,6 +93,7 @@ namespace TownOfHost
             }
             FireWorks.Init();
             Sniper.Init();
+            GBomber.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
