@@ -9,9 +9,12 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            if (ModUpdater.hasUpdate)
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
             {
-                Logger.Info(GetString("onSetPublicNoLatest"), "MakePublicPatch");
+                var message = GetString("CanNotJoinPublicRoomNoLatest");
+                if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
                 return false;
             }
             return true;
@@ -22,7 +25,7 @@ namespace TownOfHost
     {
         public static void Postfix(MMOnlineManager __instance)
         {
-            if (!ModUpdater.hasUpdate) return;
+            if (!(ModUpdater.hasUpdate || ModUpdater.isBroken)) return;
             var obj = GameObject.Find("FindGameButton");
             if (obj)
             {
@@ -31,7 +34,9 @@ namespace TownOfHost
                 var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
                 textObj.transform.position = new Vector3(1f, -0.3f, 0);
                 textObj.name = "CanNotJoinPublic";
-                new LateTask(() => { textObj.text = $"<size=2><color=#ff0000>{GetString("CanNotJoinPublicRoomNoLatest")}</color></size>"; }, 0.01f, "CanNotJoinPublic");
+                var message = ModUpdater.isBroken ? $"<size=2><color=#ff0000>{GetString("ModBrokenMessage")}</color></size>"
+                    : $"<size=2><color=#ff0000>{GetString("CanNotJoinPublicRoomNoLatest")}</color></size>";
+                new LateTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
             }
         }
     }

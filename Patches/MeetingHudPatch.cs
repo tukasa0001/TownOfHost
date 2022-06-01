@@ -9,7 +9,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
-        public static bool recall = false;
         public static bool Prefix(MeetingHud __instance)
         {
             if (MeetingHudUpdatePatch.isDictatorVote)
@@ -29,7 +28,6 @@ namespace TownOfHost
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayer = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
-                recall = false;
 
                 List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
@@ -45,10 +43,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -64,10 +61,9 @@ namespace TownOfHost
                         {
                             case VoteMode.Suicide:
                                 PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcMurderPlayer(voter);
+                                voter.RpcExileV2();
                                 Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                 Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                recall = true;
                                 break;
                             case VoteMode.SelfVote:
                                 ps.VotedFor = ps.TargetPlayerId;
@@ -133,8 +129,7 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
-                        recall = true;
+                        p.RpcExileV2();
                     }
                 }
                 Main.SpelledPlayer.Clear();
@@ -195,7 +190,7 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
-            Utils.NotifyRoles(isMeeting: true);
+            Utils.NotifyRoles(isMeeting: true, force: true);
             Main.witchMeeting = false;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -377,10 +372,9 @@ namespace TownOfHost
                     });
                     states = statesList.ToArray();
                     isDictatorVote = true;
-                    pc.RpcMurderPlayer(pc); //自殺
+                    pc.RpcExileV2(); //自殺
                     __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
                     Main.IgnoreReportPlayers.Add(pc.PlayerId);
-                    CheckForEndVotingPatch.recall = true;
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
             }
@@ -389,33 +383,9 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
     class MeetingHudOnDestroyPatch
     {
-        public static void Postfix(MeetingHud __instance)
+        public static void Postfix()
         {
             Logger.Info("------------会議終了------------", "Phase");
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            //エアシップの場合スポーン位置選択が発生するため死体消し用の会議を5秒遅らせる。
-            var additional = PlayerControl.GameOptions.MapId == 4 ? 5f : 0f;
-
-            if (CheckForEndVotingPatch.recall && GameStates.IsInGame)
-            {
-                new LateTask(() =>
-                {
-                    //生きてる適当なプレイヤーを選択
-                    var pc = PlayerControl.AllPlayerControls.ToArray().Where(p => !p.Data.IsDead).FirstOrDefault();
-                    if (pc != null)
-                    {
-                        pc.ReportDeadBody(Utils.GetPlayerById(Main.IgnoreReportPlayers.Last()).Data);
-                        new LateTask(() =>
-                        {
-                            MeetingHud.Instance.RpcClose();
-                            CheckForEndVotingPatch.recall = false;
-                        },
-                        0.5f, "Cancel Meeting");
-                    }
-                },
-                0.2f + additional, "Recall Meeting");
-            }
         }
     }
 }

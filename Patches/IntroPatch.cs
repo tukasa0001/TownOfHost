@@ -25,11 +25,22 @@ namespace TownOfHost
                     ? GetString("WatcherInfo")
                     : GetString(role.ToString() + "Info");
 
-                bool HideIntrosubrole = PlayerControl.LocalPlayer.Is(CustomRoles.Scapegoat) && !(Options.RealizeScapegoatWhileLiving.GetBool() && (Options.ScapegoatTaskCountToRealize.GetFloat() == 0));
-                __instance.RoleText.text += HideIntrosubrole ? "" : Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                __instance.RoleText.text += HideIntroSubRole(PlayerControl.LocalPlayer) ? "" : Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 
+        }
+        public static bool HideIntroSubRole(PlayerControl player)
+        {
+            switch (player.GetCustomSubRole())
+            {
+                case CustomRoles.Scapegoat:
+                    return !(Options.RealizeScapegoatWhileLiving.GetBool() && ((Options.ScapegoatTaskCountToRealize.GetFloat() == 0) || player.Is(CustomRoles.Sheriff)));
+                case CustomRoles.NoSubRoleAssigned:
+                    return false;
+                default:
+                    return false;
+            }
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]

@@ -2,6 +2,8 @@ id,0,11
 
 
 ## 役職
+Neutral,Neutral,第三陣営
+SubRole,Sub Role,サブ役職
 
 # バニラ役職
 
@@ -135,7 +137,7 @@ HASTrollInfo,Die to win,自爆しよう
 ## 役職説明ロング
 
 # 特殊インポスター役職
-BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+BountyHunterInfoLong,"(Impostors):\nIf you kill the indicated target, the next KillCooldown will be very short.\nIf you kill a player who is not the target, the KillCooldown will be extended.\nYou must also set the KillCooldown to 2.5 seconds in the settings.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nまた、設定でキルクールを2.5秒に設定する必要がある。\nターゲットは一定時間ごとに変更される。
 FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
 ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
@@ -151,7 +153,7 @@ SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the ex
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
-MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
+MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nOnce all tasks are completed, the impostor can be recognized from the Mad Snitch.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 
 # 両陣営可能役職
@@ -335,7 +337,7 @@ AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクタ
 ## ヘルプテキスト
 CommandList,Command List:,コマンド一覧:
 Command.winner,Display Winners,勝者を表示
-Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.lastresult,Display Match Result,試合結果を表示
 Command.rename,Change Host Name,ホストの名前を変更
 Command.now,Display ActiveSettings,現在有効な設定を表示
 Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
@@ -358,6 +360,7 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...
@@ -403,3 +406,14 @@ doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
 assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+KillButtonText,Kill,キル
+SniperSnipeButtonText,Snipe,狙撃
+FireWorksExplosionButtonText,Explosion,爆破
+FireWorksInstallAtionButtonText,Installation,設置
+SerialKillerSuicideButtonText,Suicide,自殺まで
+WarlockCurseButtonText,Curse,呪う
+WitchSpellButtonText,Spell,スペル
+VampireBiteButtonText,Bite,噛む
+ArsonistDouseButtonText,Douse,塗る
+PuppeteerOperateButtonText,Operate,操る
+BountyHunterChangeButtonText,Change,変更

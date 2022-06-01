@@ -307,9 +307,9 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignSubRolesFromList(CustomRoles.Scapegoat);
-                AssignSubRolesFromList(CustomRoles.Dummy);
-                AssignSubRolesFromList(CustomRoles.Lovers);
+                AssignCustomSubRolesFromList(CustomRoles.Scapegoat);
+                AssignCustomSubRolesFromList(CustomRoles.Dummy);
+                AssignCustomSubRolesFromList(CustomRoles.Lovers);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -470,7 +470,7 @@ namespace TownOfHost
             return AssignedPlayers;
         }
         //属性ごとの割り当て条件
-        public static bool AssignSubRolesTarget(PlayerControl player, CustomRoles role)
+        public static bool AssignCustomSubRolesTarget(PlayerControl player, CustomRoles role)
         {
             if (!Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var subRole))
             {
@@ -486,7 +486,7 @@ namespace TownOfHost
             }
             else return false;
         }
-        private static void AssignSubRolesFromList(CustomRoles role, int RawCount = -1)
+        private static void AssignCustomSubRolesFromList(CustomRoles role, int RawCount = -1)
         {
             if (role.IsEnable())
             {
@@ -498,7 +498,7 @@ namespace TownOfHost
                     var allPlayers = new List<PlayerControl>();
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        if (AssignSubRolesTarget(player, role)) allPlayers.Add(player);
+                        if (AssignCustomSubRolesTarget(player, role)) allPlayers.Add(player);
                     }
                     if (allPlayers.Count < role.GetCount()) return;
                     var rand = new System.Random();
@@ -521,7 +521,7 @@ namespace TownOfHost
                     var allPlayers = new List<PlayerControl>();
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
-                        if (AssignSubRolesTarget(player, role)) allPlayers.Add(player);
+                        if (AssignCustomSubRolesTarget(player, role)) allPlayers.Add(player);
                     }
                     var rand = new System.Random();
                     var count = Math.Clamp(RawCount, 0, allPlayers.Count);
