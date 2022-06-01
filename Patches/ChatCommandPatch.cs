@@ -226,9 +226,9 @@ namespace TownOfHost
                 { CustomRoles.Terrorist, "te" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
+                {CustomRoles.Dummy,"du" },
                 {CustomRoles.Lovers, "lo" },
                 {CustomRoles.Scapegoat,"sg" },
-                {CustomRoles.Dummy,"du" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
