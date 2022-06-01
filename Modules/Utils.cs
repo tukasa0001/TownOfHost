@@ -241,7 +241,7 @@ namespace TownOfHost
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
+                    if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
                 if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo")); }
             }
@@ -350,7 +350,7 @@ namespace TownOfHost
             SendMessage(
                 GetString("CommandList")
                 + $"\n/winner - {GetString("Command.winner")}"
-                + $"\n/lastroles - {GetString("Command.lastroles")}"
+                + $"\n/lastresult - {GetString("Command.lastresult")}"
                 + $"\n/rename - {GetString("Command.rename")}"
                 + $"\n/now - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
@@ -394,25 +394,7 @@ namespace TownOfHost
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            var tmp_text = text.Replace("#", "＃").Replace("<", "＜").Replace(">", "＞");
-            string[] textList = tmp_text.Split('\n');
-            string tmp = "";
-            var l = 0;
-            foreach (string t in textList)
-            {
-                if (tmp.Length + t.Length < 120 && l < 4)
-                {
-                    tmp += t + "\n";
-                    l++;
-                }
-                else
-                {
-                    Main.MessagesToSend.Add((tmp, sendTo));
-                    tmp = t + "\n";
-                    l = 1;
-                }
-            }
-            if (tmp.Length != 0) Main.MessagesToSend.Add((tmp, sendTo));
+            Main.MessagesToSend.Add((text, sendTo));
         }
         public static void ApplySuffix()
         {
