@@ -1114,7 +1114,8 @@ namespace TownOfHost
                     }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
-                __instance.myPlayer.Is(CustomRoles.Arsonist)
+                __instance.myPlayer.Is(CustomRoles.Arsonist) ||
+                Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
