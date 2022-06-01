@@ -115,7 +115,6 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     if (player.CanUseKillButton())
                     {
-                        __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(true && !player.Data.IsDead);
                     }
                     else
