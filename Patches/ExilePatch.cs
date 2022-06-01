@@ -80,7 +80,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (pc.Is(CustomRoles.Mayor))
+                if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
                     pc.RpcGuardAndKill();
                 if (pc.Is(CustomRoles.Warlock))
                 {
