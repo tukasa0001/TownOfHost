@@ -24,10 +24,8 @@ namespace TownOfHost
         SetKillOrSpell,
         SetSheriffShotLimit,
         SetTimeThiefKillCount,
-        SetInsiderKillCount,
         SetDousedPlayer,
         SendDousedPlayerCount,
-        setPlayerKIlledByInsider,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -38,6 +36,8 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         InsiderKill,
+        SetInsiderKillCount,
+        setPlayerKIlledByInsider,
     }
     public enum Sounds
     {
@@ -84,8 +84,8 @@ namespace TownOfHost
                         if (AmongUsClient.Instance.AmHost)
                         {
                             AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
-                            Logger.Info($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。\n", "Kick");
-                            Logger.SendInGame($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。");
+                            Logger.Info($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                            Logger.SendInGame($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。\nTOH以外のMODが入っていないか確認してください。");
                         }
                     }
                     break;
@@ -159,14 +159,6 @@ namespace TownOfHost
                     else
                         Main.TimeThiefKillCount.Add(TimeThiefId, 0);
                     break;
-                case CustomRPC.SetInsiderKillCount:
-                    byte InsiderId = reader.ReadByte();
-                    float KillCount = reader.ReadSingle();
-                    if (Main.InsiderKillCount.ContainsKey(InsiderId))
-                        Main.InsiderKillCount[InsiderId] = KillCount;
-                    else
-                        Main.InsiderKillCount.Add(InsiderId, Options.InsiderCanSeeMadmateKillCount.GetFloat());
-                    break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
@@ -220,6 +212,14 @@ namespace TownOfHost
                     break;
                 case CustomRPC.InsiderKill:
                     Main.IsKilledByInsider.Add(Utils.GetPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SetInsiderKillCount:
+                    byte InsiderId = reader.ReadByte();
+                    float KillCount = reader.ReadSingle();
+                    if (Main.InsiderKillCount.ContainsKey(InsiderId))
+                        Main.InsiderKillCount[InsiderId] = KillCount;
+                    else
+                        Main.InsiderKillCount.Add(InsiderId, Options.InsiderCanSeeMadmateKillCount.GetFloat());
                     break;
             }
         }
@@ -349,6 +349,7 @@ namespace TownOfHost
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
             if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
+            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
