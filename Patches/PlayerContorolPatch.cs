@@ -1075,10 +1075,10 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
             {
-                if (Main.MayorUsedButtonCount?[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
+                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
                 {
-                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    pc.ReportDeadBody(null);
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    pc?.ReportDeadBody(null);
                 }
             }
         }
