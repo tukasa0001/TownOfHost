@@ -477,8 +477,6 @@ namespace TownOfHost
                 if (__instance.Is(CustomRoles.Mayor))
                 {
                     Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                    if (Main.MayorUsedButtonCount?[__instance.PlayerId] >= Options.MayorNumOfUseButton.GetFloat())
-                        __instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
                 }
             }
             else //死体通報
