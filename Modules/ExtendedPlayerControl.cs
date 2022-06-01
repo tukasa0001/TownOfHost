@@ -209,6 +209,14 @@ namespace TownOfHost
 
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
+            var cSubRole = player.GetCustomSubRole();
+            switch (cSubRole)
+            {
+                case CustomRoles.Scapegoat:
+                    return true;
+                case CustomRoles.Criminal:
+                    return false;
+            }
             var cRole = player.GetCustomRole();
             switch (cRole)
             {
@@ -227,12 +235,6 @@ namespace TownOfHost
                 case CustomRoles.EgoSchrodingerCat:
                     return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
-                    return true;
-            }
-            var cSubRole = player.GetCustomSubRole();
-            switch (cSubRole)
-            {
-                case CustomRoles.Scapegoat:
                     return true;
             }
             CustomRoles role = player.GetCustomRole();

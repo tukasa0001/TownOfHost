@@ -228,7 +228,7 @@ namespace TownOfHost
                 {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                 {CustomRoles.Lovers, "#ffaaaa"},
                 {CustomRoles.Scapegoat, "#404040"},
-                {CustomRoles.Dummy, "#ff0000"},
+                {CustomRoles.Criminal, "#ff0000"},
             };
             }
             catch (ArgumentException ex)
@@ -322,7 +322,7 @@ namespace TownOfHost
         NoSubRoleAssigned = 500,
         Lovers,
         Scapegoat,
-        Dummy,
+        Criminal,
     }
     //WinData
     public enum CustomWinner

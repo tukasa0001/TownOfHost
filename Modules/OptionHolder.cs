@@ -118,6 +118,7 @@ namespace TownOfHost
         public static CustomOption AssignScapegoatOnlyToCrewmate;
         public static CustomOption AssignScapegoatToSheriffAsWell;
         public static CustomOption ScapegoatLooksRedForSnitch;
+        public static CustomOption AssignCriminalOnlyToImpostor;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -369,7 +370,8 @@ namespace TownOfHost
             AssignScapegoatOnlyToCrewmate = CustomOption.Create(80112, Color.white, "AssignScapegoatOnlyToCrewmate", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
             AssignScapegoatToSheriffAsWell = CustomOption.Create(80113, Color.white, "AssignScapegoatToSheriffAsWell", false, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
             ScapegoatLooksRedForSnitch = CustomOption.Create(80114, Color.white, "ScapegoatLooksRedForSnitch", true, CustomRoleSpawnChances[CustomRoles.Scapegoat]);
-            SetupRoleOptions(80200, CustomRoles.Dummy);
+            SetupRoleOptions(80200, CustomRoles.Criminal);
+            AssignCriminalOnlyToImpostor = CustomOption.Create(80210, Color.white, "AssignCriminalOnlyToImpostor", false, CustomRoleSpawnChances[CustomRoles.Criminal]);
             #endregion
 
             // HideAndSeek

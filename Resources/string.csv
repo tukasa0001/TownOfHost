@@ -71,7 +71,7 @@ HASTroll,Troll,トロール
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
 Scapegoat,Scapegoat,スケープゴート
-Dummy,Dummy,ダミー
+Criminal,Criminal,クリミナル
 
 # その他
 TeamImpostor,Team Impostor,インポスター陣営
@@ -187,8 +187,8 @@ HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this c
 
 # 属性
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
-ScapegoatInfo,"(Attributes):\nAttributes Assigned to Crewmate.You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
-DummyInfo,"(Attributes):\nAttributes Assigned to Crewmate.You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
+ScapegoatInfo,"(Attributes):\nAttributes Assigned to Crewmate. You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
+CriminalInfo,"(Attributes):\nAttributes Assigned to Imposter. You cannot be killed by sheriff. However, after exiled everyone knows you are Criminal",(属性):\nインポスターに割り当てられる属性。シェリフでキルできないが、追放後クリミナルだと全員から分かってしまう。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
@@ -302,6 +302,7 @@ ScapegoatTaskCountToRealize,Task Count To Realize Scapegoat,スケープゴー�
 AssignScapegoatOnlyToCrewmate,Assign Scapegoat Only To Crewmate,クルーメイトのみに割り当てる
 AssignScapegoatToSheriffAsWell,Assign Scapegoat To Sheriff As Well,シェリフにも割り当てる
 ScapegoatLooksRedForSnitch,Scapegoat Looks Red For Snitch,スニッチから赤く表示される
+AssignCriminalOnlyToImpostor,Assign Criminal Only To Impostor,インポスターのみに割り当てる
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

@@ -308,7 +308,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
                 AssignCustomSubRolesFromList(CustomRoles.Scapegoat);
-                AssignCustomSubRolesFromList(CustomRoles.Dummy);
+                AssignCustomSubRolesFromList(CustomRoles.Criminal);
                 AssignCustomSubRolesFromList(CustomRoles.Lovers);
 
                 //RPCによる同期
@@ -480,6 +480,8 @@ namespace TownOfHost
                 {
                     case CustomRoles.Scapegoat:
                         return player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && !player.Is(CustomRoles.Sheriff) && IsCrewmate) || (Options.AssignScapegoatToSheriffAsWell.GetBool() && player.Is(CustomRoles.Sheriff));
+                    case CustomRoles.Criminal:
+                        return player.Is(CustomRoles.Impostor) || (!Options.AssignCriminalOnlyToImpostor.GetBool() && player.GetCustomRole().IsImpostor());
                     default:
                         return true;
                 }

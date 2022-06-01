@@ -502,7 +502,7 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (Options.RealizeScapegoatWhileLiving.GetBool()
                     && (seer.Is(CustomRoles.Sheriff) || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat()))))
                     SelfMark += $"<color=#ff0000>⚠</color>";
-                if (seer.Is(CustomRoles.Dummy)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Dummy)}>○</color>";
+                if (seer.Is(CustomRoles.Criminal)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Criminal)}>★</color>";
 
 
                 //呪われている場合
@@ -634,9 +634,9 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color=#ff0000>⚠</color>";
                         }
-                        if (seer.Data.IsDead && target.Is(CustomRoles.Dummy))
+                        if ((seer.Data.IsDead || target.Data.IsDead) && target.Is(CustomRoles.Criminal))
                         {
-                            TargetMark += $"<color=#ff0000>○</color>";
+                            TargetMark += $"<color=#ff0000>★</color>";
                         }
 
                         if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))

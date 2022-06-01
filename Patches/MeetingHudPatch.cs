@@ -297,6 +297,10 @@ namespace TownOfHost
                 {
                     pva.NameText.text += $"<color=#ff0000>⚠</color>";
                 }
+                if (target.Is(CustomRoles.Criminal) && (seer.Is(CustomRoles.Criminal) || target.Data.IsDead))
+                {
+                    pva.NameText.text += $"<color=#ff0000>★</color>";
+                }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist
                 )
