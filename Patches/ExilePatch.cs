@@ -47,18 +47,16 @@ namespace TownOfHost
                 foreach (var kvp in Main.ExecutionerTarget)
                 {
                     var executioner = Utils.GetPlayerById(kvp.Key);
-                    if (executioner != null)
+                    if (executioner == null) continue;
+                    if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
+                    if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
-                        if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
-                        if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                        {
-                            //RPC送信開始
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
-                            writer.Write(kvp.Key);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
+                        //RPC送信開始
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
+                        writer.Write(kvp.Key);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
 
-                            RPC.ExecutionerWin(kvp.Key);
-                        }
+                        RPC.ExecutionerWin(kvp.Key);
                     }
                 }
                 if (role != CustomRoles.Witch && Main.SpelledPlayer != null)
