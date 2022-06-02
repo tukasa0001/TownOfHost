@@ -192,10 +192,10 @@ namespace TownOfHost
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                                                   //killer.RpcGuardAndKill(target);
                         if (target == killer.GetBountyTarget())
                         {//ターゲットをキルした場合
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat();
+                            killer.RpcResetAbilityCooldown();
                             Utils.CustomSyncAllSettings();//キルクール処理を同期
                             Main.isTargetKilled[killer.PlayerId] = true;
                             Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
@@ -209,10 +209,9 @@ namespace TownOfHost
                         }
                         break;
                     case CustomRoles.SerialKiller:
-                        killer.RpcMurderPlayer(target);
-                        killer.RpcGuardAndKill(target);
+                        killer.RpcResetAbilityCooldown();
                         Main.SerialKillerTimer[killer.PlayerId] = 0f;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat();
                         killer.CustomSyncSettings();
                         break;
                     case CustomRoles.Vampire:
@@ -622,10 +621,10 @@ namespace TownOfHost
                 {
                     if (Main.WarlockTimer[__instance.PlayerId] >= 1f)
                     {
-                        __instance.RpcGuardAndKill(__instance);
                         Main.isCursed = false;//変身クールを１秒に変更
                         Utils.CustomSyncAllSettings();
                         Main.WarlockTimer.Remove(__instance.PlayerId);
+                        __instance.RpcResetAbilityCooldown();
                     }
                     else Main.WarlockTimer[__instance.PlayerId] = Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                 }
@@ -638,7 +637,7 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
                         Logger.Info($"{__instance.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
-                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                        __instance.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
                         Utils.NotifyRoles();
                     }
