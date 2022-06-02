@@ -769,4 +769,3 @@ If the client language is English, this setting is meaningless unless `Force Jap
 Twitter : https://twitter.com/XenonBottle<br>
 
 Translated with https://www.deepl.com<br>
->>>>>>> develop
