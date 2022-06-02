@@ -196,7 +196,7 @@ namespace TownOfHost
                         {//ターゲットをキルした場合
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat();
                             killer.RpcResetAbilityCooldown();
-                            Utils.CustomSyncAllSettings();//キルクール処理を同期
+                            killer.CustomSyncSettings();//キルクール処理を同期
                             Main.isTargetKilled[killer.PlayerId] = true;
                             Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                             Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
@@ -205,7 +205,7 @@ namespace TownOfHost
                         {
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
                             Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                            Utils.CustomSyncAllSettings();//キルクール処理を同期
+                            killer.CustomSyncSettings();//キルクール処理を同期
                         }
                         break;
                     case CustomRoles.SerialKiller:
@@ -635,7 +635,7 @@ namespace TownOfHost
                     {
                         Main.BountyTimer[__instance.PlayerId] = 0f;
                         Logger.Info($"{__instance.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                        __instance.CustomSyncSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
                         __instance.ResetBountyTarget();//ターゲットの選びなおし
                         Utils.NotifyRoles();
