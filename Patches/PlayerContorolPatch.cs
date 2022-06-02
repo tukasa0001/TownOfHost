@@ -179,6 +179,12 @@ namespace TownOfHost
                         return false;
                     }
                     break;
+
+                //==========第三陣営役職==========//
+                case CustomRoles.Executioner:
+                    if (Main.ExecutionerTarget.ContainsKey(target.PlayerId))
+                        Main.ExecutionerTarget.Remove(target.PlayerId);
+                    break;
             }
 
             //以下キルが発生しうるのでブロック処理
