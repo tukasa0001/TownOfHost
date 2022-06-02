@@ -179,12 +179,6 @@ namespace TownOfHost
                         return false;
                     }
                     break;
-
-                //==========第三陣営役職==========//
-                case CustomRoles.Executioner:
-                    if (Main.ExecutionerTarget.ContainsKey(target.PlayerId))
-                        Main.ExecutionerTarget.Remove(target.PlayerId);
-                    break;
             }
 
             //以下キルが発生しうるのでブロック処理
@@ -304,6 +298,9 @@ namespace TownOfHost
                         break;
                 }
             }
+
+            if (target.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(target.PlayerId))
+                Main.ExecutionerTarget.Remove(target.PlayerId);
 
             //==キル処理==
             killer.RpcMurderPlayer(target);
