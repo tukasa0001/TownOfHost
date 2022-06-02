@@ -99,7 +99,6 @@ namespace TownOfHost
                         }
                         break;
 
-
                     //==========マッドメイト系役職==========//
                     case CustomRoles.SKMadmate:
                         //キル可能職がサイドキックされた場合
