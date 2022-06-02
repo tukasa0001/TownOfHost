@@ -218,7 +218,7 @@ Precision Shooting:ON<BR>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-This is an imposter team where the kill rules change depending on the task progress of the player who made the kill.<br>
+This is an impostor team where the kill rules change depending on the task progress of the player who made the kill.<br>
 KillCoolDown is "increased" by a set multiplier when the task is less than half completed, and "decreased" by a set multiplier when the task is half completed or more than half completed.<br>
 You can also set up kill rules for players who do not have tasks.<br>
 
