@@ -117,9 +117,9 @@ namespace TownOfHost
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{Main.modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
-            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
