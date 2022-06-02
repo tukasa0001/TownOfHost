@@ -156,7 +156,7 @@ namespace TownOfHost
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
-            AmDebugger = Config.Bind("Other", "AmDebugger", true);
+            AmDebugger = Config.Bind("Other", "AmDebugger", false);
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
 
             NameColorManager.Begin();

@@ -275,7 +275,7 @@ namespace TownOfHost
                     if (target != null && target.GetCustomRole().IsMadmate()) //変更先がマッドメイト
                     {
                         //変更対象の名前を赤くする
-                        pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
+                        pva.NameText.text = $"<color={target.GetRoleColorCode()}>" + pva.NameText.text + "</color>";
                     }
                 }
 
@@ -300,7 +300,7 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 //インサイダーが死んだラバーズを見られる
-                else if (!PlayerControl.LocalPlayer.Data.IsDead && PlayerControl.LocalPlayer.Is(CustomRoles.Insider)
+                else if (!seer.Data.IsDead && seer.Is(CustomRoles.Insider)
                     && target.Is(CustomRoles.Lovers) && target.Data.IsDead
                     && (Options.InsiderCanSeeWholeRolesOfGhosts.GetBool()
                     || Main.IsKilledByInsider.Find(x => x.PlayerId == target.PlayerId) != null))
@@ -308,11 +308,11 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 //インサイダーからの味方の能力表示
-                bool InsiderCanSeeImpostorAbility = PlayerControl.LocalPlayer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool();
+                bool InsiderCanSeeImpostorAbility = seer.Is(CustomRoles.Insider) && Options.InsiderCanSeeRolesOfImpostors.GetBool();
 
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.BountyHunter) && Main.BountyTargets[PlayerControl.LocalPlayer.PlayerId] == target)
+                if (seer.Is(CustomRoles.BountyHunter) && Main.BountyTargets[seer.PlayerId] == target)
                 {
-                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.BountyHunter)}>⊕</color>";
                 }
                 else if (InsiderCanSeeImpostorAbility)
                 {
@@ -321,7 +321,7 @@ namespace TownOfHost
                         bool TargetIsTargeted = target.PlayerId == kvp.Value.PlayerId;
                         if (TargetIsTargeted)
                         {
-                            pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⊕</color>";
+                            pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.BountyHunter)}>⊕</color>";
                         }
                     }
                 }
