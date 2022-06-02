@@ -81,7 +81,7 @@ namespace TownOfHost
             {
                 pc.ResetKillCooldown();
                 if (pc.Is(CustomRoles.Mayor))
-                    pc.RpcGuardAndKill();
+                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;
