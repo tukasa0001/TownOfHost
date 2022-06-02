@@ -634,7 +634,6 @@ namespace TownOfHost
                     if (Main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
                         Main.BountyTimer[__instance.PlayerId] = 0f;
-                        Main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
                         Logger.Info($"{__instance.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
                         Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
                         __instance.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
