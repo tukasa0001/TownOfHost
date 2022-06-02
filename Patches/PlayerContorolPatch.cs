@@ -598,7 +598,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (Main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.IsInTask && Main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
                 {
                     if (Main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
                     {//自滅時間が来たとき
