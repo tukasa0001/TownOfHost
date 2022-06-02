@@ -270,7 +270,7 @@ namespace TownOfHost
                         Utils.CustomSyncAllSettings();
                         break;
                     case CustomRoles.Ninja:
-                        Ninja.NinjaShapeShiftingKill(killer,target);
+                        Ninja.KillCheck(killer,target);
                         break;
 
                     //==========マッドメイト系役職==========//
