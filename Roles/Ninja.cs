@@ -32,7 +32,7 @@ namespace TownOfHost
                 killer.RpcGuardAndKill(target);
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
                 NinjaKillTarget.Add(target);
-                killer.CustomSyncSettings();//負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
+                killer.CustomSyncSettings();//負荷軽減のため、killerだけがCustomSyncSettingsを実行
             }
         }
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
