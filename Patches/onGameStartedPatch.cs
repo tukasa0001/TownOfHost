@@ -317,9 +317,9 @@ namespace TownOfHost
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                 }
 
+                // AssignCustomSubRolesFromList(CustomRoles.Lovers);
                 AssignCustomSubRolesFromList(CustomRoles.Scapegoat);
                 AssignCustomSubRolesFromList(CustomRoles.Criminal);
-                // AssignCustomSubRolesFromList(CustomRoles.Lovers);
 
                 foreach (var pair in Main.AllPlayerCustomRoles)
                 {
