@@ -1155,8 +1155,8 @@ namespace TownOfHost
             if (pc.GetPlayerTaskState().IsTaskFinished &&
                 pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor)
             {
-                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncSettingsを実行する
-                pc.CustomSyncSettings();
+                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
+                Utils.CustomSyncAllSettings();
             }
 
         }
