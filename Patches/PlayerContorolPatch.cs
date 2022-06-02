@@ -1148,9 +1148,17 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            Logger.Info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
-            PlayerState.UpdateTask(__instance);
+            var pc = __instance;
+            Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
+            PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
+            if (pc.GetPlayerTaskState().IsTaskFinished &&
+                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor)
+            {
+                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncSettingsを実行する
+                pc.CustomSyncSettings();
+            }
+
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]
