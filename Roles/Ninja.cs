@@ -24,15 +24,15 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void KillCheck(this PlayerControl __instance, PlayerControl target)
+        public static void KillCheck(this PlayerControl killer, PlayerControl target)
         {
-            if (Main.CheckShapeshift[__instance.PlayerId])
+            if (Main.CheckShapeshift[killer.PlayerId])
             {
                 Logger.Info("Ninja ShapeShifting kill", "Ninja");
-                __instance.RpcGuardAndKill(target);
-                Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                killer.RpcGuardAndKill(target);
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
                 NinjaKillTarget.Add(target);
-                __instance.CustomSyncSettings();//負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
+                killer.CustomSyncSettings();//負荷軽減のため、__instanceだけがCustomSyncSettingsを実行
             }
         }
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
