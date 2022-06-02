@@ -271,7 +271,7 @@ namespace TownOfHost
                         Utils.CustomSyncAllSettings();
                         break;
                     case CustomRoles.SlaveDriver:
-                        SlaveDriver.SlaveDriverKillTargetTaskCheck(killer,target.PlayerId);
+                        SlaveDriver.KillTargetTaskCheck(killer,target.PlayerId);
                         break;
 
                     //==========マッドメイト系役職==========//
