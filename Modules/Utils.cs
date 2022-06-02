@@ -501,7 +501,8 @@ namespace TownOfHost
                 //スケープゴートに警告マーク
                 if (seer.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (Options.RealizeScapegoatWhileLiving.GetBool()
                     && (seer.Is(CustomRoles.Sheriff) || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat()))))
-                    SelfMark += $"<color=#ff0000>⚠</color>";
+                    SelfMark += $"<color={GetRoleColorCode(CustomRoles.Impostor)}>⚠</color>";
+                //クリミナルにマーク
                 if (seer.Is(CustomRoles.Criminal)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Criminal)}>★</color>";
 
 
@@ -630,13 +631,13 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-                        if (seer.Data.IsDead && target.Is(CustomRoles.Scapegoat))
+                        if (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() && target.Is(CustomRoles.Scapegoat))
                         {
-                            TargetMark += $"<color=#ff0000>⚠</color>";
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Impostor)}>⚠</color>";
                         }
-                        if ((seer.Data.IsDead || target.Data.IsDead) && target.Is(CustomRoles.Criminal))
+                        if (((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || target.Data.IsDead) && target.Is(CustomRoles.Criminal))
                         {
-                            TargetMark += $"<color=#ff0000>★</color>";
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Criminal)}>★</color>";
                         }
 
                         if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
@@ -665,12 +666,13 @@ namespace TownOfHost
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.Is(CustomRoles.Egoist));
+                            var ExcludeCriminal = !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && target.Is(CustomRoles.Criminal) && Options.CriminalCanDeceiveSnitch.GetBool();
+                            var foundCheck = (target.GetCustomRole().IsImpostor() && !ExcludeCriminal) || (snitchOption && target.Is(CustomRoles.Egoist));
                             if (foundCheck)
                                 TargetPlayerName = $"<color={target.GetRoleColorCode()}>{TargetPlayerName}</color>";
-                            var scapegoatoption = seer.Is(CustomRoles.Snitch) && !seer.Data.IsDead && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
-                            if (scapegoatoption)
-                                TargetPlayerName = $"<color=#ff0000>{TargetPlayerName}</color>";
+                            var IncludeScapegoat = seer.Is(CustomRoles.Snitch) && !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
+                            if (IncludeScapegoat)
+                                TargetPlayerName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{TargetPlayerName}</color>";
 
                         }
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))

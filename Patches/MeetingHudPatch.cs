@@ -256,8 +256,9 @@ namespace TownOfHost
 
                 if (LocalPlayerKnowsImpostor)
                 {
-                    bool ScapegoatOption = !seer.Data.IsDead && target.Is(CustomRoles.Scapegoat) && Options.ScapegoatLooksRedForSnitch.GetBool();
-                    if (target != null && (target.GetCustomRole().IsImpostor() || ScapegoatOption)) //変更先がインポスター
+                    bool IncludeScapegoat = !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && target.Is(CustomRoles.Scapegoat) && Options.ScapegoatLooksRedForSnitch.GetBool();
+                    bool ExcludeCriminal = !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && target.Is(CustomRoles.Criminal) && Options.CriminalCanDeceiveSnitch.GetBool();
+                    if (target != null && ((target.GetCustomRole().IsImpostor() && !ExcludeCriminal) || IncludeScapegoat)) //変更先がインポスター
                     {
                         //変更対象の名前を赤くする
                         pva.NameText.text = "<color=#ff0000>" + pva.NameText.text + "</color>";
@@ -291,15 +292,17 @@ namespace TownOfHost
                     pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                 }
                 //スケープゴート
-                if (target.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (seer.Is(CustomRoles.Scapegoat)
-                    && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
-                    || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
+                if (target.Is(CustomRoles.Scapegoat) && ((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) //前提条件 && （幽霊視点
+                    || (seer == target && seer.Is(CustomRoles.Scapegoat) //ここから本人視点
+                    && (seer.Data.IsDead || (Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //本人死亡 || 設定有効 && (シェリフ
+                    || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))))) // || タスク完了)
                 {
-                    pva.NameText.text += $"<color=#ff0000>⚠</color>";
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⚠</color>";
                 }
-                if (target.Is(CustomRoles.Criminal) && (seer.Is(CustomRoles.Criminal) || target.Data.IsDead))
+                if (target.Is(CustomRoles.Criminal) && ((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) //前提条件 && （幽霊視点
+                    || (seer == target && seer.Is(CustomRoles.Criminal)) || target.Data.IsDead)) // || 本人視点 || 本人死亡）
                 {
-                    pva.NameText.text += $"<color=#ff0000>★</color>";
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Criminal)}>★</color>";
                 }
                 if (seer.GetCustomRole().IsImpostor() && //LocalPlayerがImpostor
                     target.Is(CustomRoles.Egoist) //変更対象がEgoist

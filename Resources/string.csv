@@ -187,8 +187,8 @@ HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this c
 
 # 属性
 LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
-ScapegoatInfo,"(Attributes):\nAttributes Assigned to Crewmate. You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルーに割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
-CriminalInfo,"(Attributes):\nAttributes Assigned to Imposter. You cannot be killed by sheriff. However, after exiled everyone knows you are Criminal",(属性):\nインポスターに割り当てられる属性。シェリフでキルできないが、追放後クリミナルだと全員から分かってしまう。
+ScapegoatInfo,"(Attributes):\nAttributes Assigned to Crewmate. You can be killed by sheriff dispite your innocence. (with settings)",(属性):\nクルー役職に割り当てられる属性。クルーにも関わらずシェリフにキルされてしまう。(設定有)
+CriminalInfo,"(Attributes):\nAttributes Assigned to Impostor. You cannot be killed by sheriff. After exiled, however, you are exposed as Criminal by everyone",(属性):\nインポスター役職に割り当てられる属性。シェリフでキルできないが、追放後はクリミナルだと全員から分かってしまう。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
@@ -297,12 +297,13 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
-RealizeScapegoatWhileLiving,Realize Scapegoat While Living,生存中にスケープゴートと分かる
-ScapegoatTaskCountToRealize,Task Count To Realize Scapegoat,スケープゴートと分かるタスク数
 AssignScapegoatOnlyToCrewmate,Assign Scapegoat Only To Crewmate,クルーメイトのみに割り当てる
 AssignScapegoatToSheriffAsWell,Assign Scapegoat To Sheriff As Well,シェリフにも割り当てる
 ScapegoatLooksRedForSnitch,Scapegoat Looks Red For Snitch,スニッチから赤く表示される
+RealizeScapegoatWhileLiving,Realize Scapegoat While Living,生存中にスケープゴートと分かる
+ScapegoatTaskCountToRealize,Task Count To Realize Scapegoat,スケープゴートと分かるタスク数
 AssignCriminalOnlyToImpostor,Assign Criminal Only To Impostor,インポスターのみに割り当てる
+CriminalCanDeceiveSnitch,CriminalCanDeceiveSnitch,スニッチを欺ける
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

@@ -307,9 +307,6 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
-                AssignCustomSubRolesFromList(CustomRoles.Scapegoat);
-                AssignCustomSubRolesFromList(CustomRoles.Criminal);
-                AssignCustomSubRolesFromList(CustomRoles.Lovers);
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -319,6 +316,11 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                 }
+
+                AssignCustomSubRolesFromList(CustomRoles.Scapegoat);
+                AssignCustomSubRolesFromList(CustomRoles.Criminal);
+                AssignCustomSubRolesFromList(CustomRoles.Lovers);
+
                 foreach (var pair in Main.AllPlayerCustomRoles)
                 {
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
@@ -470,13 +472,12 @@ namespace TownOfHost
             return AssignedPlayers;
         }
         //属性ごとの割り当て条件
-        public static bool AssignCustomSubRolesTarget(PlayerControl player, CustomRoles role)
+        public static bool AssignCustomSubRolesTarget(PlayerControl player, CustomRoles subrole)
         {
-            if (!Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var subRole))
+            if (!Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var result))
             {
                 bool IsCrewmate = !player.GetCustomRole().IsImpostorTeam() && !player.GetCustomRole().IsNeutral(); //クルー陣営
-                // var subrole = player.GetCustomRole();
-                switch (role)
+                switch (subrole)
                 {
                     case CustomRoles.Scapegoat:
                         return player.Is(CustomRoles.Crewmate) || (!Options.AssignScapegoatOnlyToCrewmate.GetBool() && !player.Is(CustomRoles.Sheriff) && IsCrewmate) || (Options.AssignScapegoatToSheriffAsWell.GetBool() && player.Is(CustomRoles.Sheriff));

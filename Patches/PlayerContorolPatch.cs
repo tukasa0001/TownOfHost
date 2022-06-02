@@ -808,12 +808,13 @@ namespace TownOfHost
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
                         PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
                     {
-                        var targetCheck = __instance.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.Is(CustomRoles.Egoist));
+                        var criminalcheck = !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && Options.CriminalCanDeceiveSnitch.GetBool() && target.Is(CustomRoles.Criminal);
+                        var targetCheck = (__instance.GetCustomRole().IsImpostor() && !criminalcheck) || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.Is(CustomRoles.Egoist));
                         if (targetCheck)//__instanceがターゲット
                         {
                             RealName = $"<color={target.GetRoleColorCode()}>{RealName}</color>"; //targetの名前を役職色で表示
                         }
-                        var scapegoatCheck = !seer.Data.IsDead && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
+                        var scapegoatCheck = !(seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && Options.ScapegoatLooksRedForSnitch.GetBool() && target.Is(CustomRoles.Scapegoat);
                         if (scapegoatCheck)//__instanceがターゲット
                         {
                             RealName = $"<color=#ff0000>{RealName}</color>"; //targetの名前を役職色で表示
@@ -904,11 +905,15 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                     }
-                    if (target.Is(CustomRoles.Scapegoat) && (seer.Data.IsDead || (seer.Is(CustomRoles.Scapegoat)
-                        && Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //設定有効・シェリフ
-                        || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))) //タスク完了
+                    if (target.Is(CustomRoles.Scapegoat) && ((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (seer == target && seer.Is(CustomRoles.Scapegoat)
+                        && (seer.Data.IsDead || (Options.RealizeScapegoatWhileLiving.GetBool() && (seer.Is(CustomRoles.Sheriff) //本人死亡 || 設定有効 && (シェリフ
+                        || seer.GetPlayerTaskState().CompletedTasksCount >= Options.ScapegoatTaskCountToRealize.GetFloat())))))) // || タスク完了）
                     {
-                        Mark += $"<color=#ff0000>⚠</color>";
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>⚠</color>";
+                    }
+                    if (target.Is(CustomRoles.Criminal) && ((seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (seer == target && seer.Is(CustomRoles.Criminal))))
+                    {
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Criminal)}>★</color>";
                     }
 
 
@@ -922,10 +927,12 @@ namespace TownOfHost
                             var update = false;
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
+                                var IncludeScapegoat = !(target.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && Options.ScapegoatLooksRedForSnitch.GetBool() && pc.Is(CustomRoles.Scapegoat);
+                                var ExcludeCriminal = !(target.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) && Options.CriminalCanDeceiveSnitch.GetBool() && pc.Is(CustomRoles.Criminal);
                                 var foundCheck =
-                                    pc.GetCustomRole().IsImpostor() ||
+                                    (pc.GetCustomRole().IsImpostor() && !ExcludeCriminal) ||
                                     (Options.SnitchCanFindNeutralKiller.GetBool() && pc.Is(CustomRoles.Egoist))
-                                    || (Options.ScapegoatLooksRedForSnitch.GetBool() && pc.Is(CustomRoles.Scapegoat));
+                                    || IncludeScapegoat;
 
                                 //発見対象じゃ無ければ次
                                 if (!foundCheck) continue;
