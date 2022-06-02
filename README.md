@@ -107,8 +107,6 @@
 | [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
 | [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
-
-
 ### BountyHunter/バウンティハンター
 
 陣営 : インポスター<br>
