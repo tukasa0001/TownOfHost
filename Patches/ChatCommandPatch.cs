@@ -297,8 +297,8 @@ namespace TownOfHost
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 if (!Assassin.IsAssassinMeeting) continue;
-                Logger.Info($"{Utils.GetPlayerById(Assassin.TriggerPlayerId).Data.PlayerName}({Assassin.TriggerPlayerId})と{sourcePlayer.Data.PlayerName}({sourcePlayer.PlayerId})が同じ : {Assassin.TriggerPlayerId == sourcePlayer.PlayerId}", "AssassinMeeting");
-                Logger.Info($"{chatText.TrimEnd()}と{target.Data.PlayerName}が同じ : {chatText.TrimEnd() == target.Data.PlayerName}", "AssassinMeeting");
+                //Logger.Info($"{Utils.GetPlayerById(Assassin.TriggerPlayerId).Data.PlayerName}({Assassin.TriggerPlayerId})と{sourcePlayer.Data.PlayerName}({sourcePlayer.PlayerId})が同じ : {Assassin.TriggerPlayerId == sourcePlayer.PlayerId}", "AssassinMeeting");
+                //Logger.Info($"{chatText.TrimEnd()}と{target.Data.PlayerName}が同じ : {chatText.TrimEnd() == target.Data.PlayerName}", "AssassinMeeting");
                 if (Assassin.TriggerPlayerId == sourcePlayer.PlayerId && chatText.TrimEnd() == target.Data.PlayerName)
                 {
                     Assassin.AssassinTargetId = target.PlayerId;
