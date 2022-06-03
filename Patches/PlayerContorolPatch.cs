@@ -352,6 +352,7 @@ namespace TownOfHost
                 foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                 {
                     var executioner = Utils.GetPlayerById(ExecutionerTarget.Key);
+                    if (executioner == null) continue;
                     if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
                     {
                         executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
@@ -363,6 +364,11 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Remove(RemoveKey);
                     RPC.RemoveExecutionerKey(RemoveKey);
                 }
+            }
+            if (target.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(target.PlayerId))
+            {
+                Main.ExecutionerTarget.Remove(target.PlayerId);
+                RPC.RemoveExecutionerKey(target.PlayerId);
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetThiefVotingTime();
@@ -1151,9 +1157,17 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            Logger.Info($"TaskComplete:{__instance.PlayerId}", "CompleteTask");
-            PlayerState.UpdateTask(__instance);
+            var pc = __instance;
+            Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
+            PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
+            if (pc.GetPlayerTaskState().IsTaskFinished &&
+                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor)
+            {
+                //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
+                Utils.CustomSyncAllSettings();
+            }
+
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.ProtectPlayer))]

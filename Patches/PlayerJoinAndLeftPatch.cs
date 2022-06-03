@@ -46,6 +46,11 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
+                if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId))
+                {
+                    Main.ExecutionerTarget.Remove(data.Character.PlayerId);
+                    RPC.RemoveExecutionerKey(data.Character.PlayerId);
+                }
                 if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
                     data.Character.RemoveDousePlayer();
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
