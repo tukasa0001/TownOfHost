@@ -357,11 +357,11 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterDuration = 0.1f;
-                    if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.KillFlashVision(player, PlayerState.isFlash[player.PlayerId]);
+                    opt.RoleOptions.ShapeshifterDuration = 1f;
+                    if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
                 case CustomRoles.Seer:
-                    opt.KillFlashVision(player, PlayerState.isFlash[player.PlayerId]);
+                    opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
 
 

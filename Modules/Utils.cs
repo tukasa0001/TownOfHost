@@ -65,24 +65,24 @@ namespace TownOfHost
         {
             // Logger.Info(player.GetRealName(), "KillFlash");
             // Logger.Info(ForImpVision ? "true" : "false", "ForImpVision");
-            PlayerState.isFlash[player.PlayerId] = true;
+            PlayerState.IsBlackOut[player.PlayerId] = true;
             ExtendedPlayerControl.CustomSyncSettings(player);
             int Duration = (int)Math.Ceiling(Options.KillFlashDuration.GetFloat() * 1000);
             await Task.Delay(Duration); //キルフラッシュの時間
-            PlayerState.isFlash[player.PlayerId] = false;
+            PlayerState.IsBlackOut[player.PlayerId] = false;
             ExtendedPlayerControl.CustomSyncSettings(player);
         }
-        public static void KillFlashVision(this GameOptionsData opt, PlayerControl player, bool IsFlash)
+        public static void BlackOut(this GameOptionsData opt, PlayerControl player, bool IsBlackOut)
         {
-            Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "before");
+            // Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "before");
             opt.ImpostorLightMod = Main.DefaultImpostorVision;
             opt.CrewLightMod = Main.DefaultCrewmateVision;
-            if (IsFlash)
+            if (IsBlackOut)
             {
                 opt.ImpostorLightMod = 0.0f;
-                opt.CrewLightMod = 0.0f; //5.0fだと落ちる
+                opt.CrewLightMod = 0.0f;
             }
-            Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "after");
+            // Logger.Info($"{opt.ImpostorLightMod}/{opt.CrewLightMod}", "after");
             return;
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
