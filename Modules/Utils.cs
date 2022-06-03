@@ -66,6 +66,7 @@ namespace TownOfHost
             // Logger.Info(player.GetRealName(), "KillFlash");
             // Logger.Info(ForImpVision ? "true" : "false", "ForImpVision");
             PlayerState.IsBlackOut[player.PlayerId] = true;
+            player.ReactorFlash(0f);
             ExtendedPlayerControl.CustomSyncSettings(player);
             int Duration = (int)Math.Ceiling(Options.KillFlashDuration.GetFloat() * 1000);
             await Task.Delay(Duration); //キルフラッシュの時間
