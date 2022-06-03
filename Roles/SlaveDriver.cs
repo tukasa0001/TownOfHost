@@ -17,7 +17,7 @@ namespace TownOfHost
         {
             Options.SetupRoleOptions(Id, CustomRoles.SlaveDriver);
             SlaveDriverIncreaseKC = CustomOption.Create(Id + 10, Color.white, "SlaveDriverIncreaseKC", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
-            SlaveDriverDecreaseKC = CustomOption.Create(Id + 11, Color.white, "SlaveDriverDecreaseKC1", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
+             = CustomOption.Create(Id + 11, Color.white, "SlaveDriverDecreaseKC", 1.5f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverTaskCompleteDecreaseKC = CustomOption.Create(Id + 12, Color.white, "SlaveDriverTaskCompleteDecreaseKC", 2f, 0.25f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
             SlaveDriverNoTaskKC = CustomOption.Create(Id + 13, Color.white, "SlaveDriverNoTaskKC", 30f, 0.25f, 100f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.SlaveDriver]);
         }
