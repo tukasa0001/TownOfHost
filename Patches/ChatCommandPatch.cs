@@ -293,7 +293,7 @@ namespace TownOfHost
     {
         public static void Postfix(ref PlayerControl sourcePlayer, ref string chatText)
         {
-            Logger.Info($"送信者：{sourcePlayer.Data.PlayerName}, テキスト：{chatText.TrimEnd()}", "AddChat");
+            //Logger.Info($"送信者：{sourcePlayer.Data.PlayerName}, テキスト：{chatText.TrimEnd()}", "AddChat");
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 if (!Assassin.IsAssassinMeeting) continue;
