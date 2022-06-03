@@ -401,8 +401,8 @@ namespace TownOfHost
                     var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
 
                     string ExileText = Assassin.TargetRole == CustomRoles.Marine
-                    ? $"<size=200%>{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}だった</size>"
-                    : $"<size=200%>{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}ではなかった</size>";
+                        ? $"<size=200%>{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}だった</size>"
+                        : $"<size=200%>{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}ではなかった</size>";
 
                     TriggerPlayer?.RpcSetNameEx(ExileText);
                     __instance.RpcVotingComplete(states, TriggerPlayer?.Data, false);
