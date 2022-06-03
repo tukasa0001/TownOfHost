@@ -6,7 +6,7 @@ root = true
 [*.cs]
 indent_style = space
 indent_size = 4
-end_of_line = crlf
+end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = false
@@ -52,9 +52,9 @@ dotnet_style_object_initializer = true:warning
 # 折り返し時の演算子の位置
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 # 複合代入を使用する
-dotnet_style_prefer_compound_assignment = true:suggestion
+dotnet_style_prefer_compound_assignment = true:silent
 # 代入に条件式を使用する
-dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 # 戻り値に条件式を使用する
 dotnet_style_prefer_conditional_expression_over_return = true:suggestion
 # 推論された匿名型のメンバー名を優先する

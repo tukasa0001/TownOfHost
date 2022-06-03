@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.0.0";
+        public const string PluginVersion = "2.0.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -120,9 +120,9 @@ namespace TownOfHost
             //Client Options
             HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{Main.modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
-            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");

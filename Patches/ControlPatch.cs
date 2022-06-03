@@ -60,7 +60,7 @@ namespace TownOfHost
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
                 Utils.ShowActiveRoles();
             }
@@ -118,6 +118,15 @@ namespace TownOfHost
             {
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
+            }
+            //RpcResetAbilityCooldownのテスト
+            if (Input.GetKey(KeyCode.R))
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0)) PlayerControl.LocalPlayer.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha1)) Utils.GetPlayerById(1)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
+                if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
             }
 
             //--以下フリープレイ用コマンド--//

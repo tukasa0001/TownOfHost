@@ -15,6 +15,7 @@
 
 | Among Us バージョン | Mod バージョン | リンク                                                                                                  |
 | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
 | 2022.3.29s          | v1.4.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
 | 2022.2.23s          | v1.4b#5        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
@@ -47,26 +48,64 @@
 - 設定項目の追加
 - その他
 
+## 機能
+### ホットキー
+
+#### 全クライアント
+| キー        | 機能                                                              | 使えるシーン |
+| ----------- | ----------------------------------------------------------------- | ------------ |
+| `Tab`       | オプション一覧のページ送り                                        | ロビー       |
+| `Ctrl`+`F1` | ログをデスクトップに出力                                          | どこでも     |
+| `F11`       | 解像度を変更<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | どこでも     |
+| `Ctrl`+`C`  | 文章をコピー                                                      | チャット     |
+| `Ctrl`+`V`  | 文章を貼り付け                                                    | チャット     |
+| `Ctrl`+`X`  | 文章を切り取り                                                    | チャット     |
+
+#### ホストのみ
+| キー                | 機能                         | 使えるシーン     |
+| ------------------- | ---------------------------- | ---------------- |
+| `Shift`+`L`+`Enter` | 廃村                         | ゲーム内         |
+| `Shift`+`M`+`Enter` | ミーティングをスキップで終了 | ゲーム内         |
+| `Ctrl`+`N`          | 有効な役職の説明を表示       | ロビー&ゲーム内  |
+| `C`                 | ゲーム開始を中断             | カウントダウン中 |
+| `Shift`             | ゲームを即開始               | カウントダウン中 |
+
+### チャットコマンド
+チャットコマンドはチャットで入力して使用できるコマンドです。
+| コマンド                                    | 機能                                                |
+| ------------------------------------------- | --------------------------------------------------- |
+| /winner<br>/win                             | 勝者を表示                                          |
+| /lastresult<br>/l                           | 試合結果を表示                                      |
+| /now<br>/n                                  | 現在の設定を表示                                    |
+| /rename <名前><br>/r <名前>                 | 名前を変更                                          |
+| /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /help<br>/h                                 | コマンドの説明を表示                                |
+| /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
+| /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
+| /help modes <モード><br>/help m <モード>    | モードの説明を表示                                  |
+| /help now<br>/help n                        | 有効な設定の説明を表示                              |
+
 ## 役職
 
-| インポスター陣営                                                   | クルーメイト陣営                                                           | 第三陣営                                                                   |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター) | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
-| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)            | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
-| [FireWorks/花火職人](#FireWorks花火職人)                           | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
-| [Mare/メアー](#Mareメアー)                                         | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
-| [Puppeteer/パペッティア](#Puppeteerパペッティア)                   | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
-| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                           |                                                                            |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                       |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)   |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)               |                                                                            |                                                                            |
+| インポスター陣営                                                                     | クルーメイト陣営                                                           | 第三陣営                                                                   |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター)                   | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
+| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)                              | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
+| [FireWorks/花火職人](#FireWorks花火職人)                                             | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
+| [Mare/メアー](#Mareメアー)                                                           | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
+| [Puppeteer/パペッティア](#Puppeteerパペッティア)                                     | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
+| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
+| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)                         | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
+| [Sniper/スナイパー](#Sniperスナイパー)                                               | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
+| [Witch/魔女](#Witch魔女)                                                             |                                                                            |                                                                            |
+| [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
+| [Madmate/マッドメイト](#Madmateマッドメイト)                                         |                                                                            |                                                                            |
+| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)                     |                                                                            |                                                                            |
+| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
+| [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
 ### BountyHunter/バウンティハンター
 
@@ -263,7 +302,7 @@
 
 インポスター陣営に属しますが、マッドスニッチからはインポスターが誰なのかはわかりません。<br>
 インポスターからもマッドスニッチが誰なのかはわかりません。<br>
-しかし、自身のタスクを一定数完了させるとインポスターの名前が赤色に変化します。<br>
+タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになります。<br>
 
 #### 設定
 
@@ -271,6 +310,16 @@
 | ------------------------------ |
 | マッドスニッチがベントを使える |
 | マッドスニッチのタスク数       |
+
+### SidekickMadmate/サイドキックマッドメイト
+
+陣営 : インポスター<br>
+判定 : 変化前の役職<br>
+
+この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に作られます。<br>
+インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
+インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
+
 
 また、マッドメイト系役職共通の設定があります。
 
@@ -342,7 +391,7 @@
 | -------------------------------------- |
 | メイヤーの追加投票数                   |
 | メイヤーがポータブルボタンを持っている |
-| メイヤーが使えるボタンの回数   |
+| メイヤーが使えるボタンの回数           |
 
 ### SabotageMaster/サボタージュマスター
 
@@ -673,17 +722,21 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 #### クライアント設定
 
-## HideCodes/コード隠し
+## Hide Game Codes/コード隠し
 
 有効化することで、ロビーコードを非表示にすることができます。
 
 コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
 また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
 
-## JapaneseRoleName/役職名日本語化
+## Force Japanese/強制日本語化
+
+有効化することで言語設定にかかわらず、メニューを強制的に日本語にします。
+
+## Japanese Role Name/役職名日本語化
 
 有効化することで、役職名を日本語で表示させることができます。
-クライアントの言語を英語にしている場合、`ForceJapanese`を有効にしていないとこの設定は意味のないものとなります。
+クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
 
 ## 参考など
 

@@ -18,6 +18,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 | Among Us - Version | Mod Version | Link                                                                                                    |
 | ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s         | v2.0.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
 | 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
 | 2022.2.23s         | v1.4b#5     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
@@ -50,26 +51,65 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
+## Features
+### Hotkeys
+
+#### All Clients
+| HotKey      | Function                                                               | Usable Scene |
+| ----------- | ---------------------------------------------------------------------- | ------------ |
+| `Tab`       | Option list page feed                                                  | Lobby        |
+| `Ctrl`+`F1` | Output log to desktop                                                  | Anywhere     |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | Anywhere     |
+| `Ctrl`+`C`  | Copy the text                                                          | Chat         |
+| `Ctrl`+`V`  | Paste the text                                                         | Chat         |
+| `Ctrl`+`X`  | Cut the text                                                           | Chat         |
+
+#### Host only
+| HotKey              | Function                      | Usable Scene  |
+| ------------------- | ----------------------------- | ------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game       |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game       |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
+| `C`                 | Abort game start              | In Countdown  |
+| `Shift`             | Start the game immediately    | In Countdown  |
+
+### Chat Commands
+Chat commands are commands that can be typed in chat.
+| Command                                               | Function                                          |
+| ----------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                       | Show winner                                       |
+| /lastresult<br>/l                                     | Show game result                                  |
+| /now<br>/n                                            | Show active settings                              |
+| /rename <string><br>/r <string>                       | Change my name                                    |
+| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /help<br>/h                                           | Show command description                          |
+| /help roles <role><br>/help r <role>                  | Display role description                          |
+| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
+| /help modes <mode><br>/help m <mode>                  | Display mode description                          |
+| /help now<br>/help n                                  | Show active setting descriptions                  |
+
 ## Roles
 
-| Impostors                     | Crewmates                         | Neutral                           |
-| ----------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#BountyHunter) | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
-| [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
-| [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
-| [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
-| [Witch](#Witch)               |                                   |                                   |
-| [Mafia](#Mafia)               |                                   |                                   |
-| [Madmate](#Madmate)           |                                   |                                   |
-| [MadGuardian](#MadGuardian)   |                                   |                                   |
-| [MadSnitch](#MadSnitch)       |                                   |                                   |
+| Impostors                           | Crewmates                         | Neutral                           |
+| ----------------------------------- | --------------------------------- | --------------------------------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
+| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [ShapeMaster](#ShapeMaster)         | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Warlock](#Warlock)                 | [Trapper](#Trapper)               |                                   |
+| [Witch](#Witch)                     |                                   |                                   |
+| [Mafia](#Mafia)                     |                                   |                                   |
+| [Madmate](#Madmate)                 |                                   |                                   |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
+
 
 ### BountyHunter
 
@@ -262,7 +302,7 @@ Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
-However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
+Once all tasks are completed, the impostor can be recognized from the MadSnitch.<br>
 
 #### Settings
 
@@ -270,6 +310,16 @@ However, if they complete some of their own tasks, the name of the evildoer will
 | ---------------------- |
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
+
+### SidekickMadmate
+
+Team : Impostor<br>
+Decision : Change before Role<br>
+
+This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
+Impostors also doesn't know who SidekickMadmate is.<br>
+
 
 There is also a common setting for Madmate type Roles.
 
@@ -343,11 +393,11 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name                       |
-| ----------------------------------- |
-| Mayor Additional Votes Count        |
-| Mayor Has Portable Button           |
-| Mayor Number Of Use Button |
+| Settings Name                |
+| ---------------------------- |
+| Mayor Additional Votes Count |
+| Mayor Has Portable Button    |
+| Mayor Number Of Use Button   |
 
 ### SabotageMaster
 
@@ -682,17 +732,21 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 #### Client Settings
 
-## HideCodes
+## Hide Codes
 
 By activating, you can hide the lobby code.
 
 You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
 You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
-## JapaneseRoleName
+## Force Japanese
+
+Activating forces the menu to be in Japanese, regardless of the language setting.
+
+## Japanese Role Name
 
 By activating, the job title can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless `ForceJapanese` is enabled.
+If the client language is English, this setting is meaningless unless `Force Japanese` is enabled.
 
 ## Credits
 
