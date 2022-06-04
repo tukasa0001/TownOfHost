@@ -635,7 +635,7 @@ namespace TownOfHost
                                 ar_kvp.Item1 == target //オイルを塗っている対象がtarget
                             )
                             {
-                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>...</color>";
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                             }
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
