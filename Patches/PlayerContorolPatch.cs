@@ -277,7 +277,11 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
                         Main.BlockKilling[killer.PlayerId] = false;
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)]) Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)])
+                        {
+                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                            Utils.NotifyRoles();
+                        }
                         return false;
 
                     //==========クルー役職==========//
@@ -706,6 +710,8 @@ namespace TownOfHost
                         else//それ以外は削除
                         {
                             Main.ArsonistTimer.Remove(__instance.PlayerId);
+                            Utils.NotifyRoles();
+
                             Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                         }
                     }
