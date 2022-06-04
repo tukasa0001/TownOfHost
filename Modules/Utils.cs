@@ -624,9 +624,19 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-                        if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
+                        if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
                         {
-                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                            }
+                            if (
+                                Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
+                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
+                            )
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                            }
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
