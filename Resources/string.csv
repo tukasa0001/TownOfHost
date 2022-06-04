@@ -253,6 +253,8 @@ MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメ�
 MadmateVentCooldown,Madmate Vent Cooldown,マッドメイト系役職のベントクールダウン
 MadmateVentMaxTime,Madmate In Vent Max Time,マッドメイト系役職のベント内での最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
+LighterVision,LighterVision,ライターの視界
+LighterTaskCompletedDisablePowerFailure,Lighter TaskCompleted Disable Power Failure,タスク完了時に停電を無効にする
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
