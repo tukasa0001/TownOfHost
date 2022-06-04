@@ -893,9 +893,18 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                     }
-                    if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
+                    if (seer.Is(CustomRoles.Arsonist))
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                        if (seer.IsDousedPlayer(target))
+                        {
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                        }
+                        if (
+                            false//条件式
+                        )
+                        {
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                        }
                     }
                     foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                     {
