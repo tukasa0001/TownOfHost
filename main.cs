@@ -104,6 +104,7 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int DiscussionTime;
         public static int VotingTime;
+        public static byte currentDousingTarget;
 
         public static Main Instance;
 
@@ -150,6 +151,7 @@ namespace TownOfHost
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
+            currentDousingTarget = 255;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");

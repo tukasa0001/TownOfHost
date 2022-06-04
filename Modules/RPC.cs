@@ -35,6 +35,7 @@ namespace TownOfHost
         SetExecutionerTarget,
         RemoveExecutionerTarget,
         SendFireWorksState,
+        SetCurrentDousingTarget,
     }
     public enum Sounds
     {
@@ -206,6 +207,12 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.SetCurrentDousingTarget:
+                    byte arsonistId = reader.ReadByte();
+                    byte dousingTargetId = reader.ReadByte();
+                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+                        Main.currentDousingTarget = dousingTargetId;
                     break;
             }
         }
@@ -424,6 +431,21 @@ namespace TownOfHost
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
+        {
+            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+            {
+                Main.currentDousingTarget = targetId;
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
+                writer.Write(arsonistId);
+                writer.Write(targetId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch
