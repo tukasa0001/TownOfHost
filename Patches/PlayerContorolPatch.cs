@@ -733,6 +733,7 @@ namespace TownOfHost
                             writer.Write(true);
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                             Utils.NotifyRoles();//名前変更
+                            RPC.ResetCurrentDousingTarget(player.PlayerId);
                         }
                         else
                         {
