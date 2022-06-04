@@ -95,6 +95,7 @@ namespace TownOfHost
                 case RoleType.Neutral:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    __instance.ImpostorText.enabled = true;
                     __instance.ImpostorText.text = GetString("NeutralInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
