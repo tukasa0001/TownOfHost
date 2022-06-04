@@ -21,7 +21,7 @@ namespace TownOfHost
         static CustomOption FireWorksCount;
         static CustomOption FireWorksRadius;
 
-        static Dictionary<byte, int> nowFireWorksCount = new();
+        public static Dictionary<byte, int> nowFireWorksCount = new();
         static Dictionary<byte, List<Vector3>> fireWorksPosition = new();
         static Dictionary<byte, FireWorksState> state = new();
         static Dictionary<byte, int> fireWorksBombKill = new();
