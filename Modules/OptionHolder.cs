@@ -298,7 +298,7 @@ namespace TownOfHost
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
-            LighterTaskCompletedVision = CustomOption.Create(20110, Color.white, "LighterTaskCompletedVision", 2f, 0f, 15f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter]);
+            LighterTaskCompletedVision = CustomOption.Create(20110, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter]);
             LighterTaskCompletedDisablePowerFailure = CustomOption.Create(20111, Color.white, "LighterTaskCompletedDisablePowerFailure", true, CustomRoleSpawnChances[CustomRoles.Lighter]);
             SetupRoleOptions(20200, CustomRoles.Mayor);
             MayorAdditionalVote = CustomOption.Create(20210, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
