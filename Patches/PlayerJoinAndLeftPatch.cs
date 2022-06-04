@@ -53,7 +53,7 @@ namespace TownOfHost
                 }
                 if (Main.isDeadDoused.TryGetValue(data.Character.PlayerId, out bool value) && !value)
                     data.Character.RemoveDousePlayer();
-                if (PlayerState.GetDeathReason(data.Character.PlayerId) != PlayerState.DeathReason.etc) //死因が設定されていなかったら
+                if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
                     PlayerState.SetDead(data.Character.PlayerId);
