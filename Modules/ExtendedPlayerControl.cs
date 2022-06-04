@@ -522,7 +522,7 @@ namespace TownOfHost
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
-            var target = cTargets[rand.Next(0, cTargets.Count - 1)];
+            var target = cTargets[rand.Next(0, cTargets.Count)];
             Main.BountyTargets[player.PlayerId] = target;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
