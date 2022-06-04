@@ -311,9 +311,6 @@ namespace TownOfHost
 
             switch (chatText)
             {
-                case "/kill":
-                    sourcePlayer.RpcMurderPlayer(sourcePlayer);
-                    break;
                 default:
                     break;
             }
