@@ -304,7 +304,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
-                        opt.SetVision(player, true);
+                        opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                            opt.CrewLightMod *= 5;
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
@@ -520,7 +522,7 @@ namespace TownOfHost
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
-            var target = cTargets[rand.Next(0, cTargets.Count - 1)];
+            var target = cTargets[rand.Next(0, cTargets.Count)];
             Main.BountyTargets[player.PlayerId] = target;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
@@ -707,6 +709,7 @@ namespace TownOfHost
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+        public static bool IsAlive(this PlayerControl target) { return target != null && !PlayerState.isDead[target.PlayerId]; }
 
     }
 }

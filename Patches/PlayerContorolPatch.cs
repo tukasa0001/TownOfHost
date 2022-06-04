@@ -481,6 +481,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             Main.BountyTimer.Clear();
             Main.SerialKillerTimer.Clear();
+            Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
@@ -568,32 +569,40 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
+            var player = __instance;
+
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
                 if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
+
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
                     //Vampireの処理
-                    if (Main.BitPlayers.ContainsKey(__instance.PlayerId))
+                    if (Main.BitPlayers.ContainsKey(player.PlayerId))
                     {
                         //__instance:キルされる予定のプレイヤー
                         //main.BitPlayers[__instance.PlayerId].Item1:キルしたプレイヤーのID
                         //main.BitPlayers[__instance.PlayerId].Item2:キルするまでの秒数
-                        if (Main.BitPlayers[__instance.PlayerId].Item2 >= Options.VampireKillDelay.GetFloat())
+                        byte vampireID = Main.BitPlayers[player.PlayerId].Item1;
+                        float killTimer = Main.BitPlayers[player.PlayerId].Item2;
+                        if (killTimer >= Options.VampireKillDelay.GetFloat())
                         {
-                            byte vampireID = Main.BitPlayers[__instance.PlayerId].Item1;
-                            var bitten = __instance;
+                            var bitten = player;
                             //vampireのキルブロック解除
                             Main.BlockKilling[vampireID] = false;
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
-                                __instance.RpcMurderPlayer(bitten);
-                                RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                bitten.RpcMurderPlayer(bitten);
+                                var vampirePC = Utils.GetPlayerById(vampireID);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
-                                if (bitten.Is(CustomRoles.Trapper))
-                                    Utils.GetPlayerById(vampireID).TrapperKilled(bitten);
+                                if (vampirePC.IsAlive())
+                                {
+                                    RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                                    if (bitten.Is(CustomRoles.Trapper))
+                                        vampirePC.TrapperKilled(bitten);
+                                }
                             }
                             else
                             {
@@ -603,60 +612,72 @@ namespace TownOfHost
                         }
                         else
                         {
-                            Main.BitPlayers[__instance.PlayerId] =
-                            (Main.BitPlayers[__instance.PlayerId].Item1, Main.BitPlayers[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                            Main.BitPlayers[player.PlayerId] =
+                            (vampireID, killTimer + Time.fixedDeltaTime);
                         }
                     }
                 }
-                if (Main.SerialKillerTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.IsInTask && Main.SerialKillerTimer.ContainsKey(player.PlayerId))
                 {
-                    if (Main.SerialKillerTimer[__instance.PlayerId] >= Options.SerialKillerLimit.GetFloat())
-                    {//自滅時間が来たとき
-                        if (!__instance.Data.IsDead)
-                        {
-                            PlayerState.SetDeathReason(__instance.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
-                            __instance.RpcMurderPlayer(__instance);//自滅させる
-                            RPC.PlaySoundRPC(__instance.PlayerId, Sounds.KillSound);
-                        }
-                        else
-                            Main.SerialKillerTimer.Remove(__instance.PlayerId);
+                    if (!player.IsAlive())
+                    {
+                        Main.SerialKillerTimer.Remove(player.PlayerId);
+                    }
+                    else if (Main.SerialKillerTimer[player.PlayerId] >= Options.SerialKillerLimit.GetFloat())
+                    {
+                        //自滅時間が来たとき
+                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
+                        player.RpcMurderPlayer(player);//自滅させる
                     }
                     else
                     {
-                        Main.SerialKillerTimer[__instance.PlayerId] =
-                        Main.SerialKillerTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
+                        Main.SerialKillerTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
                     }
                 }
-                if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(__instance.PlayerId))//処理を1秒遅らせる
+                if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
-                    if (Main.WarlockTimer[__instance.PlayerId] >= 1f)
+                    if (player.IsAlive())
                     {
-                        __instance.RpcGuardAndKill(__instance);
-                        Main.isCursed = false;//変身クールを１秒に変更
-                        Utils.CustomSyncAllSettings();
-                        Main.WarlockTimer.Remove(__instance.PlayerId);
+                        if (Main.WarlockTimer[player.PlayerId] >= 1f)
+                        {
+                            player.RpcGuardAndKill(player);
+                            Main.isCursed = false;//変身クールを１秒に変更
+                            Utils.CustomSyncAllSettings();
+                            Main.WarlockTimer.Remove(player.PlayerId);
+                        }
+                        else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
-                    else Main.WarlockTimer[__instance.PlayerId] = Main.WarlockTimer[__instance.PlayerId] + Time.fixedDeltaTime;//時間をカウント
+                    else
+                    {
+                        Main.WarlockTimer.Remove(player.PlayerId);
+                    }
                 }
                 //ターゲットのリセット
-                if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(__instance.PlayerId))
+                if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(player.PlayerId))
                 {
-                    if (Main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
+                    if (!player.IsAlive())
                     {
-                        Main.BountyTimer[__instance.PlayerId] = 0f;
-                        Main.AllPlayerKillCooldown[__instance.PlayerId] = 10;
-                        Logger.Info($"{__instance.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
-                        Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
-                        __instance.RpcGuardAndKill(__instance);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
-                        __instance.ResetBountyTarget();//ターゲットの選びなおし
-                        Utils.NotifyRoles();
+                        Main.BountyTimer.Remove(player.PlayerId);
                     }
-                    if (Main.isTargetKilled[__instance.PlayerId])//ターゲットをキルした場合
+                    else
                     {
-                        Main.isTargetKilled[__instance.PlayerId] = false;
+                        if (Main.BountyTimer[player.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[player.PlayerId])//時間経過でターゲットをリセットする処理
+                        {
+                            Main.BountyTimer[player.PlayerId] = 0f;
+                            Main.AllPlayerKillCooldown[player.PlayerId] = 10;
+                            Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
+                            Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
+                            player.RpcGuardAndKill(player);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                            player.ResetBountyTarget();//ターゲットの選びなおし
+                            Utils.NotifyRoles();
+                        }
+                        if (Main.isTargetKilled[player.PlayerId])//ターゲットをキルした場合
+                        {
+                            Main.isTargetKilled[player.PlayerId] = false;
+                        }
+                        if (Main.BountyTimer[player.PlayerId] >= 0)
+                            Main.BountyTimer[player.PlayerId] += Time.fixedDeltaTime;
                     }
-                    if (Main.BountyTimer[__instance.PlayerId] >= 0)
-                        Main.BountyTimer[__instance.PlayerId] = Main.BountyTimer[__instance.PlayerId] + Time.fixedDeltaTime;
                 }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
@@ -676,69 +697,89 @@ namespace TownOfHost
                 }*/
 
                 if (GameStates.IsInGame) LoversSuicide();
-                if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(__instance.PlayerId))//アーソニストが誰かを塗っているとき
+
+                if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(player.PlayerId))//アーソニストが誰かを塗っているとき
                 {
-                    var ArsonistDic = Main.DousedPlayerCount[__instance.PlayerId];
-                    var ar_target = Main.ArsonistTimer[__instance.PlayerId].Item1;//塗られる人
-                    if (Main.ArsonistTimer[__instance.PlayerId].Item2 >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
+                    if (!player.IsAlive())
                     {
-                        Main.AllPlayerKillCooldown[__instance.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
-                        Utils.CustomSyncAllSettings();//同期
-                        __instance.RpcGuardAndKill(ar_target);//通知とクールリセット
-                        Main.ArsonistTimer.Remove(__instance.PlayerId);//塗が完了したのでDictionaryから削除
-                        Main.isDoused[(__instance.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                        Main.DousedPlayerCount[__instance.PlayerId] = (ArsonistDic.Item1 + 1, ArsonistDic.Item2);//塗った人数を増やす
-                        Logger.Info($"{__instance.GetNameWithRole()} : {Main.DousedPlayerCount[__instance.PlayerId]}", "Arsonist");
-                        __instance.RpcSendDousedPlayerCount();
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
-                        writer.Write(__instance.PlayerId);
-                        writer.Write(ar_target.PlayerId);
-                        writer.Write(true);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        Utils.NotifyRoles();//名前変更
+                        Main.ArsonistTimer.Remove(player.PlayerId);
                     }
                     else
                     {
-                        float dis;
-                        dis = Vector2.Distance(__instance.transform.position, ar_target.transform.position);//距離を出す
-                        if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
+                        var ArsonistDic = Main.DousedPlayerCount[player.PlayerId];
+                        var ar_target = Main.ArsonistTimer[player.PlayerId].Item1;//塗られる人
+                        var ar_time = Main.ArsonistTimer[player.PlayerId].Item2;//塗った時間
+                        if (!ar_target.IsAlive())
                         {
-                            Main.ArsonistTimer[__instance.PlayerId] =
-                            (Main.ArsonistTimer[__instance.PlayerId].Item1, Main.ArsonistTimer[__instance.PlayerId].Item2 + Time.fixedDeltaTime);
+                            Main.ArsonistTimer.Remove(player.PlayerId);
                         }
-                        else//それ以外は削除
+                        else if (ar_time >= Options.ArsonistDouseTime.GetFloat())//時間以上一緒にいて塗れた時
                         {
-                            Main.ArsonistTimer.Remove(__instance.PlayerId);
+                            Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
+                            Utils.CustomSyncAllSettings();//同期
+                            player.RpcGuardAndKill(ar_target);//通知とクールリセット
+                            Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
+                            Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
+                            Main.DousedPlayerCount[player.PlayerId] = (ArsonistDic.Item1 + 1, ArsonistDic.Item2);//塗った人数を増やす
+                            Logger.Info($"{player.GetNameWithRole()} : {Main.DousedPlayerCount[player.PlayerId]}", "Arsonist");
+                            player.RpcSendDousedPlayerCount();
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
+                            writer.Write(player.PlayerId);
+                            writer.Write(ar_target.PlayerId);
+                            writer.Write(true);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            Utils.NotifyRoles();//名前変更
                         }
+                        else
+                        {
+                            float dis;
+                            dis = Vector2.Distance(player.transform.position, ar_target.transform.position);//距離を出す
+                            if (dis <= 1.75f)//一定の距離にターゲットがいるならば時間をカウント
+                            {
+                                Main.ArsonistTimer[player.PlayerId] = (ar_target, ar_time + Time.fixedDeltaTime);
+                            }
+                            else//それ以外は削除
+                            {
+                                Main.ArsonistTimer.Remove(player.PlayerId);
+                            }
+                        }
+
                     }
                 }
-                if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(__instance.PlayerId))
+                if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
                 {
-                    Vector2 __instancepos = __instance.transform.position;//PuppeteerListのKeyの位置
-                    Dictionary<byte, float> targetdistance = new();
-                    float dis;
-                    foreach (var target in PlayerControl.AllPlayerControls)
+                    if (!player.IsAlive())
                     {
-                        if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor() && target != __instance)
-                        {
-                            dis = Vector2.Distance(__instancepos, target.transform.position);
-                            targetdistance.Add(target.PlayerId, dis);
-                        }
+                        Main.PuppeteerList.Remove(player.PlayerId);
                     }
-                    if (targetdistance.Count() != 0)
+                    else
                     {
-                        var min = targetdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                        PlayerControl targetp = Utils.GetPlayerById(min.Key);
-                        if (__instance.Data.IsDead)
-                            Main.PuppeteerList.Remove(__instance.PlayerId);
-                        if (min.Value <= 1.75f && !targetp.Data.IsDead)
+                        Vector2 puppeteerPos = player.transform.position;//PuppeteerListのKeyの位置
+                        Dictionary<byte, float> targetDistance = new();
+                        float dis;
+                        foreach (var target in PlayerControl.AllPlayerControls)
                         {
-                            RPC.PlaySoundRPC(Main.PuppeteerList[__instance.PlayerId], Sounds.KillSound);
-                            __instance.RpcMurderPlayer(targetp);
-                            Utils.CustomSyncAllSettings();
-                            Main.PuppeteerList.Remove(__instance.PlayerId);
-                            Utils.NotifyRoles();
+                            if (!target.IsAlive()) continue;
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            {
+                                dis = Vector2.Distance(puppeteerPos, target.transform.position);
+                                targetDistance.Add(target.PlayerId, dis);
+                            }
                         }
+                        if (targetDistance.Count() != 0)
+                        {
+                            var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                            PlayerControl target = Utils.GetPlayerById(min.Key);
+                            if (min.Value <= 1.75f)
+                            {
+                                RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
+                                player.RpcMurderPlayer(target);
+                                Utils.CustomSyncAllSettings();
+                                Main.PuppeteerList.Remove(player.PlayerId);
+                                Utils.NotifyRoles();
+                            }
+                        }
+
                     }
                 }
 
