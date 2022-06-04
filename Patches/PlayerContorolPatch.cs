@@ -277,7 +277,7 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
                         Main.BlockKilling[killer.PlayerId] = false;
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)])
+                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                             Utils.NotifyRoles(SpecifySeer: killer);
