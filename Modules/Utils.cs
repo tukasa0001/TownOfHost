@@ -624,12 +624,9 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-                        if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
+                        if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
                         {
-                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            {
-                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
-                            }
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
