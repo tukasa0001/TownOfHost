@@ -705,6 +705,7 @@ namespace TownOfHost
                         else//それ以外は削除
                         {
                             Main.ArsonistTimer.Remove(__instance.PlayerId);
+                            Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                         }
                     }
                 }
