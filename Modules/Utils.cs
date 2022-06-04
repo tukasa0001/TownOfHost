@@ -632,7 +632,8 @@ namespace TownOfHost
                             }
                             if (
                                 Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
-                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
+                                ar_kvp.Item1 == target && //オイルを塗っている対象がtarget
+                                ar_kvp.Item2 > 0.5f //0.5秒以上オイルを塗り続けている(負荷軽減)
                             )
                             {
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>...</color>";
