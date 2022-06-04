@@ -80,7 +80,6 @@ namespace TownOfHost
         //誰かが死亡したときのメソッド
         public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
         {
-            //キルフラッシュの処理
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             // Logger.Info("target dies", "TargetDies");
             if (PlayerControl.GameOptions.MapId == 2) Logger.Info($"{IsActive(SystemTypes.Laboratory)}", "IsReactor");
@@ -94,17 +93,23 @@ namespace TownOfHost
         }
         public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
         {
+            //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
             Logger.Info(player.GetRealName(), "KillFlash");
-            // Logger.Info(ForImpVision ? "true" : "false", "ForImpVision");
-            PlayerState.IsBlackOut[player.PlayerId] = true;
-            bool ReactorCheck = false;
+
+            bool ReactorCheck = false; //リアクターフラッシュの確認
             if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
             else ReactorCheck = IsActive(SystemTypes.Reactor);
-            if (!ReactorCheck) player.ReactorFlash(0f);
+
+            int Duration = (int)Math.Floor(Options.KillFlashDuration.GetFloat() * 1000); //100~400(ms)
+            if (ReactorCheck) Duration = Math.Min(Duration + 100, 400); //リアクター中はブラックアウトを長くする
+            Logger.Info($"{Duration}", "Duration");
+
+            //実行
+            PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
+            if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
             ExtendedPlayerControl.CustomSyncSettings(player);
-            int Duration = (int)Math.Ceiling(Options.KillFlashDuration.GetFloat() * 1000);
-            await Task.Delay(Duration); //キルフラッシュの時間
-            PlayerState.IsBlackOut[player.PlayerId] = false;
+            await Task.Delay(Duration); //ブラックアウトの時間
+            PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
             ExtendedPlayerControl.CustomSyncSettings(player);
         }
         public static void BlackOut(this GameOptionsData opt, PlayerControl player, bool IsBlackOut)
