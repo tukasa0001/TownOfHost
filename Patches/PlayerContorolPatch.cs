@@ -705,6 +705,8 @@ namespace TownOfHost
                     if (!player.IsAlive())
                     {
                         Main.ArsonistTimer.Remove(player.PlayerId);
+                        Utils.NotifyRoles(SpecifySeer: __instance);
+                        RPC.ResetCurrentDousingTarget(player.PlayerId);
                     }
                     else
                     {
