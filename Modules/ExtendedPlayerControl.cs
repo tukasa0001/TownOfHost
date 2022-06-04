@@ -492,9 +492,10 @@ namespace TownOfHost
         {
             if (pc == null) return;
             int clientId = pc.GetClientId();
-
+            Logger.Info($"{pc}", "ReactorFlash");
             byte reactorId = 3;
             if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+            float FlashDuration = Options.KillFlashDuration.GetFloat();
 
             new LateTask(() =>
             {
@@ -512,7 +513,7 @@ namespace TownOfHost
                 MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
                 SabotageFixWriter.Write((byte)16);
                 AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-            }, 0.4f + delay, "Fix Desync Reactor");
+            }, FlashDuration + delay, "Fix Desync Reactor");
 
             if (PlayerControl.GameOptions.MapId == 4) //Airship用
                 new LateTask(() =>
@@ -522,7 +523,7 @@ namespace TownOfHost
                     MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
                     SabotageFixWriter.Write((byte)17);
                     AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                }, 0.4f + delay, "Fix Desync Reactor 2");
+                }, FlashDuration + delay, "Fix Desync Reactor 2");
         }
 
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)

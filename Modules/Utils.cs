@@ -14,9 +14,38 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
-            Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-            return SwitchSystem != null && SwitchSystem.IsActive;
+            switch (type)
+            {
+                case SystemTypes.Electrical:
+                    {
+                        var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+                        Logger.Info($"SystemTypes:{type}", "SwitchSystem");
+                        return SwitchSystem != null && SwitchSystem.IsActive;
+                    }
+                case SystemTypes.Reactor:
+                    {
+                        if (PlayerControl.GameOptions.MapId == 4)
+                        {
+                            var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
+                            Logger.Info($"HeliSabotageSystem:{type}", "HeliSabotageSystem");
+                            return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                        }
+                        else
+                        {
+                            var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                            Logger.Info($"ReactorSystemType:{type}", "ReactorSystemType");
+                            return ReactorSystemType != null && ReactorSystemType.IsActive;
+                        }
+                    }
+                case SystemTypes.Laboratory:
+                    {
+                        var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                        Logger.Info($"SystemTypes:{type}", "SwitchSystem");
+                        return ReactorSystemType != null && ReactorSystemType.IsActive;
+                    }
+                default:
+                    return false;
+            }
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
@@ -53,7 +82,9 @@ namespace TownOfHost
         {
             //キルフラッシュの処理
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
-            Logger.Info("target dies", "TargetDies");
+            // Logger.Info("target dies", "TargetDies");
+            if (PlayerControl.GameOptions.MapId == 2) Logger.Info($"{IsActive(SystemTypes.Laboratory)}", "IsReactor");
+            else Logger.Info($"{IsActive(SystemTypes.Reactor)}", "IsReactor");
 
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
@@ -63,10 +94,13 @@ namespace TownOfHost
         }
         public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
         {
-            // Logger.Info(player.GetRealName(), "KillFlash");
+            Logger.Info(player.GetRealName(), "KillFlash");
             // Logger.Info(ForImpVision ? "true" : "false", "ForImpVision");
             PlayerState.IsBlackOut[player.PlayerId] = true;
-            player.ReactorFlash(0f);
+            bool ReactorCheck = false;
+            if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
+            else ReactorCheck = IsActive(SystemTypes.Reactor);
+            if (!ReactorCheck) player.ReactorFlash(0f);
             ExtendedPlayerControl.CustomSyncSettings(player);
             int Duration = (int)Math.Ceiling(Options.KillFlashDuration.GetFloat() * 1000);
             await Task.Delay(Duration); //キルフラッシュの時間
