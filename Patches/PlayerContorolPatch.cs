@@ -900,6 +900,7 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                         }
                         if (
+                            Main.currentDousingTarget != 255 &&
                             Main.currentDousingTarget == target.PlayerId
                         )
                         {
