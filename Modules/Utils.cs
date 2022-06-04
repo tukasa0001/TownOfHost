@@ -64,19 +64,6 @@ namespace TownOfHost
                 return;
             }
         }
-        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
-        {
-            if (seer.Data.IsDead || killer == seer || target == seer) return false;
-            switch (seer.GetCustomRole())
-            {
-                case CustomRoles.EvilTracker:
-                    return Options.EvilTrackerCanSeeKillFlash.GetBool();
-                case CustomRoles.Seer:
-                    return true;
-                default:
-                    return false;
-            }
-        }
         //誰かが死亡したときのメソッド
         public static void TargetDies(PlayerControl killer, PlayerControl target, PlayerState.DeathReason deathReason)
         {
@@ -89,6 +76,19 @@ namespace TownOfHost
             {
                 if (KillFlashCheck(killer, target, seer, deathReason) == false) continue;
                 Main.RealOptionsData.DeepCopy().KillFlash(seer);
+            }
+        }
+        public static bool KillFlashCheck(PlayerControl killer, PlayerControl target, PlayerControl seer, PlayerState.DeathReason deathReason)
+        {
+            if (seer.Data.IsDead || killer == seer || target == seer) return false;
+            switch (seer.GetCustomRole())
+            {
+                case CustomRoles.EvilTracker:
+                    return Options.EvilTrackerCanSeeKillFlash.GetBool();
+                case CustomRoles.Seer:
+                    return true;
+                default:
+                    return false;
             }
         }
         public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
