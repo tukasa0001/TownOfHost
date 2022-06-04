@@ -625,7 +625,6 @@ namespace TownOfHost
                         //自滅時間が来たとき
                         PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
                         player.RpcMurderPlayer(player);//自滅させる
-                        RPC.PlaySoundRPC(player.PlayerId, Sounds.KillSound);
                     }
                     else
                     {
