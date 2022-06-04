@@ -631,7 +631,7 @@ namespace TownOfHost
                 //ターゲットのリセット
                 if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(__instance.PlayerId))
                 {
-                    if (Main.BountyTimer[__instance.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
+                    if (Main.BountyTimer[__instance.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() || Main.isTargetKilled[__instance.PlayerId])//時間経過でターゲットをリセットする処理
                     {
                         Main.BountyTimer[__instance.PlayerId] = 0f;
                         Logger.Info($"{__instance.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
