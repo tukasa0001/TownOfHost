@@ -55,6 +55,7 @@ namespace TownOfHost
         public static bool FinishAssassinMeetingTrigger;
         public static byte AssassinTargetId;
         public static CustomRoles TargetRole = CustomRoles.Crewmate;
+        public static string TriggerPlayerName = "";
         public static void Init()
         {
             playerIdList = new();
@@ -63,6 +64,7 @@ namespace TownOfHost
             TriggerPlayerId = 0x73;
             AssassinTargetId = 0x74;
             TargetRole = CustomRoles.Crewmate;
+            TriggerPlayerName = "";
         }
         public static void Add(byte playerId)
         {
