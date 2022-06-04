@@ -55,12 +55,9 @@ namespace TownOfHost
             bool doOverride = data.doOverride.GetBool(); // タスク数を上書きするかどうか
                                                          // falseの時、タスクの内容が変更される前にReturnされる。
 
-            bool hasCommonTasks = data.assignCommonTasks.GetBool(); // コモンタスク(通常タスク)を割り当てるかどうか
-                                                                    // 割り当てる場合でも再割り当てはされず、他のクルーと同じコモンタスクが割り当てられる。
-
+            int numCommonTasks = (int)data.numCommonTasks.GetFloat(); // 割り当てるコモンタスクの数
             int NumLongTasks = (int)data.numLongTasks.GetFloat(); // 割り当てるロングタスクの数
             int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
-                                                                    // ロングとショートは常時再割り当てが行われる。
 
             if (!doOverride) return;
             //割り当て可能なタスクのIDが入ったリスト
@@ -71,16 +68,20 @@ namespace TownOfHost
 
             //参考:ShipStatus.Begin
             //不要な割り当て済みのタスクを削除する処理
-            //コモンタスクを割り当てる設定ならコモンタスク以外を削除
-            //コモンタスクを割り当てない設定ならリストを空にする
-            if (hasCommonTasks) TasksList.RemoveRange(Main.RealOptionsData.NumCommonTasks, TasksList.Count - Main.RealOptionsData.NumCommonTasks);
-            else TasksList.Clear();
+            TasksList.Clear();
 
             //割り当て済みのタスクが入れられるHashSet
             //同じタスクが複数割り当てられるのを防ぐ
             Il2CppSystem.Collections.Generic.HashSet<TaskTypes> usedTaskTypes = new();
             int start2 = 0;
             int start3 = 0;
+            int start4 = 0;
+
+            //割り当て可能な通常タスクのリスト
+            Il2CppSystem.Collections.Generic.List<NormalPlayerTask> CommonTasks = new();
+            foreach (var task in ShipStatus.Instance.CommonTasks)
+                CommonTasks.Add(task);
+            Shuffle<NormalPlayerTask>(CommonTasks);
 
             //割り当て可能なロングタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> LongTasks = new();
@@ -97,13 +98,20 @@ namespace TownOfHost
             //実際にAmong Us側で使われているタスクを割り当てる関数を使う。
             ShipStatus.Instance.AddTasksFromList(
                 ref start2,
+                numCommonTasks,
+                TasksList,
+                usedTaskTypes,
+                CommonTasks
+            );
+            ShipStatus.Instance.AddTasksFromList(
+                ref start3,
                 NumLongTasks,
                 TasksList,
                 usedTaskTypes,
                 LongTasks
             );
             ShipStatus.Instance.AddTasksFromList(
-                ref start3,
+                ref start4,
                 NumShortTasks,
                 TasksList,
                 usedTaskTypes,

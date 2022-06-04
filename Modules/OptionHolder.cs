@@ -475,7 +475,7 @@ namespace TownOfHost
             public CustomRoles Role { get; private set; }
             public int IdStart { get; private set; }
             public CustomOption doOverride;
-            public CustomOption assignCommonTasks;
+            public CustomOption numCommonTasks;
             public CustomOption numLongTasks;
             public CustomOption numShortTasks;
 
@@ -485,7 +485,7 @@ namespace TownOfHost
                 this.Role = role;
                 Dictionary<string, string> replacementDic = new() { { "%role%", Utils.GetRoleName(role) } };
                 doOverride = CustomOption.Create(idStart++, Color.white, "doOverride", false, CustomRoleSpawnChances[role], false, false, "", replacementDic);
-                assignCommonTasks = CustomOption.Create(idStart++, Color.white, "assignCommonTasks", true, doOverride, false, false, "", replacementDic);
+                numCommonTasks = CustomOption.Create(idStart++, Color.white, "roleCommonTasksNum", 2, 0, 99, 1, doOverride, false, false, "", replacementDic);
                 numLongTasks = CustomOption.Create(idStart++, Color.white, "roleLongTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
                 numShortTasks = CustomOption.Create(idStart++, Color.white, "roleShortTasksNum", 3, 0, 99, 1, doOverride, false, false, "", replacementDic);
 

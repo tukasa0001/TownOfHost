@@ -394,6 +394,6 @@ GameMode,GameMode,ゲームモード
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
 RoleSummaryText,"Players and roles at the end of the game:",ゲーム終了時の役職一覧:
 doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
-assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
+roleCommonTasksNum,Amount Of Common Tasks For %role%,%role%の通常タスクの数
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
