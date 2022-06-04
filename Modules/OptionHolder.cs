@@ -79,6 +79,8 @@ namespace TownOfHost
         public static CustomOption MadmateVentMaxTime;
 
         public static CustomOption EvilWatcherChance;
+        public static CustomOption LighterTaskCompletedVision;
+        public static CustomOption LighterTaskCompletedDisableLightOut;
         public static CustomOption MayorAdditionalVote;
         public static CustomOption MayorHasPortableButton;
         public static CustomOption MayorNumOfUseButton;
@@ -296,6 +298,8 @@ namespace TownOfHost
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
+            LighterTaskCompletedVision = CustomOption.Create(20110, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter]);
+            LighterTaskCompletedDisableLightOut = CustomOption.Create(20111, Color.white, "LighterTaskCompletedDisableLightOut", true, CustomRoleSpawnChances[CustomRoles.Lighter]);
             SetupRoleOptions(20200, CustomRoles.Mayor);
             MayorAdditionalVote = CustomOption.Create(20210, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorHasPortableButton = CustomOption.Create(20211, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);

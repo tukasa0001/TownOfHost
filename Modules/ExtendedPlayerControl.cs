@@ -304,7 +304,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
-                        opt.SetVision(player, true);
+                        opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                            opt.CrewLightMod *= 5;
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
