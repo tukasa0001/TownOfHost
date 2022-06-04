@@ -276,6 +276,7 @@ namespace TownOfHost
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
+                        Main.BlockKilling[killer.PlayerId] = false;
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)]) Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                         return false;
 
