@@ -281,6 +281,7 @@ namespace TownOfHost
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
                             Utils.NotifyRoles(SpecifySeer: __instance);
+                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         return false;
 
@@ -743,6 +744,7 @@ namespace TownOfHost
                             {
                                 Main.ArsonistTimer.Remove(player.PlayerId);
                                 Utils.NotifyRoles(SpecifySeer: __instance);
+                                RPC.ResetCurrentDousingTarget(player.PlayerId);
 
                                 Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                             }
