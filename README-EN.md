@@ -758,6 +758,7 @@ If the client language is English, this setting is meaningless unless `Force Jap
 [Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
+## Developers
 Twitter : https://twitter.com/XenonBottle<br>
 
 Translated with https://www.deepl.com<br>

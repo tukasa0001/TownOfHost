@@ -748,4 +748,5 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
+## 開発者
 作者の Twitter : https://twitter.com/XenonBottle<br>
