@@ -215,7 +215,7 @@ namespace TownOfHost
                 {CustomRoles.Trapper, "#5a8fd0"},
                 {CustomRoles.Dictator, "#df9b00"},
                 {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                {CustomRoles.Marine, "#00ffff"},
+                {CustomRoles.Marin, "#00ffff"},
                 //第三陣営役職
                 {CustomRoles.Arsonist, "#ff6633"},
                 {CustomRoles.Jester, "#ec62a5"},
@@ -293,7 +293,7 @@ namespace TownOfHost
         //両陣営
         Watcher,
         //コンビネーション役職
-        AssassinAndMarine,
+        AssassinAndMarin,
         //Crewmate(Vanilla)
         Engineer,
         GuardianAngel,
@@ -311,7 +311,7 @@ namespace TownOfHost
         Dictator,
         Doctor,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        Marine,
+        Marin,
         //Neutral
         Arsonist,
         Egoist,

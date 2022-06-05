@@ -95,7 +95,7 @@ namespace TownOfHost
             }
             FireWorks.Init();
             Sniper.Init();
-            AssassinAndMarine.Init();
+            AssassinAndMarin.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -276,7 +276,7 @@ namespace TownOfHost
             else
             {
                 //コンビネーション役職を優先して割り当てる
-                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarine, CustomRoles.Assassin, CustomRoles.Marine, Impostors, Crewmates);
+                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarin, CustomRoles.Assassin, CustomRoles.Marin, Impostors, Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
@@ -386,7 +386,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Sniper)) Sniper.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Assassin)) Assassin.Add(pc.PlayerId);
-                    if (pc.Is(CustomRoles.Marine)) Marine.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Marin)) Marin.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Executioner))
                     {
                         List<PlayerControl> targetList = new();

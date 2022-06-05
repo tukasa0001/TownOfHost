@@ -296,7 +296,7 @@ namespace TownOfHost
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             //Combination
-            AssassinAndMarine.SetupCustomOption();
+            AssassinAndMarin.SetupCustomOption();
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);
@@ -461,15 +461,15 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
-        public static void SetupAssassinAndMarineOptions(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
+        public static void SetupAssassinAndMarinOptions(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var role = CustomRoles.AssassinAndMarine;
+            var role = CustomRoles.AssassinAndMarin;
             Dictionary<string, string> replacementDic = new()
             {
                 { "{0}", Assassin.ColorString },
-                { "{1}", Marine.ColorString }
+                { "{1}", Marin.ColorString }
             };
-            var spawnOption = CustomOption.Create(id, Color.white, "AssassinAndMarine", rates, rates[0], null, true, replacementDic: replacementDic)
+            var spawnOption = CustomOption.Create(id, Color.white, "AssassinAndMarin", rates, rates[0], null, true, replacementDic: replacementDic)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "NumOfPairs", 1, 1, 7, 1, spawnOption, false, true)

@@ -5,27 +5,27 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public static class AssassinAndMarine
+    public static class AssassinAndMarin
     {
         public static string DisplayRole(bool disableColor = false)
         {
             return disableColor
-            ? $"{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarine), Utils.GetRoleName(CustomRoles.Assassin), Utils.GetRoleName(CustomRoles.Marine))}"
-            : $"<color={Utils.GetRoleColorCode(CustomRoles.AssassinAndMarine)}>{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarine), Assassin.ColorString, Marine.ColorString)}";
+            ? $"{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarin), Utils.GetRoleName(CustomRoles.Assassin), Utils.GetRoleName(CustomRoles.Marin))}"
+            : $"<color={Utils.GetRoleColorCode(CustomRoles.AssassinAndMarin)}>{string.Format(Utils.GetRoleName(CustomRoles.AssassinAndMarin), Assassin.ColorString, Marin.ColorString)}";
         }
         static readonly int Id = 40000;
         public static void SetupCustomOption()
         {
-            Options.SetupAssassinAndMarineOptions(Id);
+            Options.SetupAssassinAndMarinOptions(Id);
         }
         public static bool IsEnable()
         {
-            return CustomRoles.AssassinAndMarine.IsEnable();
+            return CustomRoles.AssassinAndMarin.IsEnable();
         }
         public static void Init()
         {
             Assassin.Init();
-            Marine.Init();
+            Marin.Init();
         }
         public static void IsAssassinMeetingToggle()
         {
@@ -33,9 +33,9 @@ namespace TownOfHost
             writer.Write(Assassin.IsAssassinMeeting);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void MarineSelectedInAssassinMeeting()
+        public static void MarinSelectedInAssassinMeeting()
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.MarineSelectedInAssassinMeeting, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.MarinSelectedInAssassinMeeting, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void GameEndForAssassinMeeting()
@@ -92,7 +92,7 @@ namespace TownOfHost
                     {
                         TriggerPlayerName = assassin.Data.PlayerName;
                         IsAssassinMeeting = true;
-                        AssassinAndMarine.IsAssassinMeetingToggle();
+                        AssassinAndMarin.IsAssassinMeetingToggle();
 
                         MeetingRoomManager.Instance.AssignSelf(assassin, null);
                         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
@@ -111,9 +111,9 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
-    public static class Marine
+    public static class Marin
     {
-        public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Marine), Utils.GetRoleName(CustomRoles.Marine));
+        public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Marin), Utils.GetRoleName(CustomRoles.Marin));
         static List<byte> playerIdList = new();
         public static void Init()
         {

@@ -159,7 +159,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
-                    if (cRole == CustomRoles.Marine) hasTasks = false;
+                    if (cRole == CustomRoles.Marin) hasTasks = false;
 
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
@@ -245,8 +245,8 @@ namespace TownOfHost
                     if (role.IsEnable())
                     {
                         string RoleName = GetRoleName(role);
-                        if (role is CustomRoles.AssassinAndMarine)
-                            RoleName = AssassinAndMarine.DisplayRole(disableColor: true);
+                        if (role is CustomRoles.AssassinAndMarin)
+                            RoleName = AssassinAndMarin.DisplayRole(disableColor: true);
                         SendMessage(RoleName + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                     }
                 }
@@ -272,8 +272,8 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable())
                     {
-                        if (role == CustomRoles.AssassinAndMarine)
-                            text += AssassinAndMarine.DisplayRole(disableColor: true);
+                        if (role == CustomRoles.AssassinAndMarin)
+                            text += AssassinAndMarin.DisplayRole(disableColor: true);
                         else
                             text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
                     }
@@ -568,7 +568,7 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
                 }
-                if (seer.Is(CustomRoles.Marine))
+                if (seer.Is(CustomRoles.Marin))
                     SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -712,7 +712,7 @@ namespace TownOfHost
                             if (seer == GetPlayerById(Assassin.TriggerPlayerId))
                                 TargetPlayerName = target.Data.PlayerName;
                             if (seer.PlayerId != Assassin.TriggerPlayerId && target.PlayerId == Assassin.TriggerPlayerId)
-                                TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Marine)}>{GetString("WhoIsMarine")}</color>";
+                                TargetPlayerName = $"<color={GetRoleColorCode(CustomRoles.Marin)}>{GetString("WhoIsMarin")}</color>";
                         }
 
                         //全てのテキストを合成します。

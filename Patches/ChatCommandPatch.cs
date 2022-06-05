@@ -205,7 +205,7 @@ namespace TownOfHost
                 { CustomRoles.Watcher, "wat" },
                 //コンビネーション役職
                 { (CustomRoles)(-4),"== Combination ==" }, //区切り用
-                { CustomRoles.AssassinAndMarine,"aam" },
+                { CustomRoles.AssassinAndMarin,"aam" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, "ba" },
@@ -246,8 +246,8 @@ namespace TownOfHost
                 if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
                 {
                     string RoleName = GetString(roleName);
-                    if (r.Key is CustomRoles.AssassinAndMarine)
-                        RoleName = AssassinAndMarine.DisplayRole(disableColor: true);
+                    if (r.Key is CustomRoles.AssassinAndMarin)
+                        RoleName = AssassinAndMarin.DisplayRole(disableColor: true);
                     Utils.SendMessage(RoleName + GetString($"{roleName}InfoLong"));
                     return;
                 }

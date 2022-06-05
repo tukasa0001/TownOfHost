@@ -886,7 +886,7 @@ namespace TownOfHost
                         RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
                         RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの赤色で表示
-                    else if (seer.Is(CustomRoles.Marine) && target.GetCustomRole().IsImpostor())
+                    else if (seer.Is(CustomRoles.Marin) && target.GetCustomRole().IsImpostor())
                         RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの名前を赤色で表示
                     else if (seer != null)
                     {//NameColorManager準拠の処理

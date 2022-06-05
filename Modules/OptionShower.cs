@@ -29,8 +29,8 @@ namespace TownOfHost
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                     {
-                        if (kvp.Key == CustomRoles.AssassinAndMarine)
-                            text += $"{AssassinAndMarine.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                        if (kvp.Key == CustomRoles.AssassinAndMarin)
+                            text += $"{AssassinAndMarin.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                         else
                             text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     }
@@ -51,8 +51,8 @@ namespace TownOfHost
             {
                 if (!kvp.Key.IsEnable()) continue;
                 if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                if (kvp.Key == CustomRoles.AssassinAndMarine)
-                    text += $"{AssassinAndMarine.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                if (kvp.Key == CustomRoles.AssassinAndMarin)
+                    text += $"{AssassinAndMarin.DisplayRole()}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 else
                     text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 foreach (var c in kvp.Value.Children) //詳細設定をループする

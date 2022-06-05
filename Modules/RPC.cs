@@ -36,7 +36,7 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         IsAssassinMeeting,
-        MarineSelectedInAssassinMeeting,
+        MarinSelectedInAssassinMeeting,
         ShareTriggerAssassin,
         SendExilePLStringInAssassinMeeting,
         SetCurrentDousingTarget,
@@ -215,8 +215,8 @@ namespace TownOfHost
                 case CustomRPC.IsAssassinMeeting:
                     Assassin.IsAssassinMeeting = reader.ReadBoolean();
                     break;
-                case CustomRPC.MarineSelectedInAssassinMeeting:
-                    AssassinAndMarine.GameEndForAssassinMeeting();
+                case CustomRPC.MarinSelectedInAssassinMeeting:
+                    AssassinAndMarin.GameEndForAssassinMeeting();
                     break;
                 case CustomRPC.ShareTriggerAssassin:
                     Assassin.TriggerPlayerId = reader.ReadByte();

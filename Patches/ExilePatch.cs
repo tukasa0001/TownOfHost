@@ -52,10 +52,10 @@ namespace TownOfHost
                     Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
                 Utils.CustomSyncAllSettings();
 
-                if (Assassin.TargetRole == CustomRoles.Marine)
+                if (Assassin.TargetRole == CustomRoles.Marin)
                 {
-                    AssassinAndMarine.MarineSelectedInAssassinMeeting();
-                    AssassinAndMarine.GameEndForAssassinMeeting();
+                    AssassinAndMarin.MarinSelectedInAssassinMeeting();
+                    AssassinAndMarin.GameEndForAssassinMeeting();
                     return; //インポスター勝利確定なのでこれ以降の処理は不要
                 }
             }

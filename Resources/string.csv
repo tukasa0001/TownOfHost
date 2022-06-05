@@ -40,7 +40,7 @@ SKMadmate,SideKickMadmate,サイドキックマッドメイト
 Watcher,Watcher,ウォッチャー
 
 # コンビネーション役職
-AssassinAndMarine,{0}And{1},{0}と{1}
+AssassinAndMarin,{0}And{1},{0}と{1}
 
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー
@@ -55,7 +55,7 @@ SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
 Dictator,Dictator,ディクテーター
-Marine,Marine,マーリン
+Marin,Marin,マーリン
 
 # 第三陣営役職
 Jester,Jester,ジェスター
@@ -120,7 +120,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
-MarineInfo,"Know it all, see it all, don't get assassinated, and lead your crew to victory",全てを知り、見通し、暗殺されず、クルーを勝利に導け
+MarinInfo,"Know it all, see it all, don't get assassinated, and lead your crew to victory",全てを知り、見通し、暗殺されず、クルーを勝利に導け
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -167,7 +167,7 @@ SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was
 WatcherInfoLong,(Impostors or Crewmates):\nYou can see where everyone is voting.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。
 
 # コンビネーション役職
-AssassinAndMarineInfoLong,"(Impostors, Crewmates):\nAssassin(Impostors):\nRole that is paired with Merine and adds a new victory condition to the Impostors.\nWhen an assassin is about to be killed or expelled, an 「Assassin Meeting」 is held. The Assassin Meeting does not end until the Assassin names a player.\nIf you can guess Merine at the Assassin Meeting, you win an unconditional Impostor victory. Assassins are exiled at the Assassins Meeting. After the Assassins Meeting, the game continues as usual.\nMarine(Crewmates):\nIt is the counterpart to the Assassin, a position that all Impostors know from the beginning.\nUnconditional defeat if nominated by the Assassin Meeting to be an Assassin. they don't have tasks.","(インポスター, クルーメイト陣営):\nアサシン(インポスター陣営):\nマーリンと対であり、インポスター陣営に新しい勝利条件を追加する役職。\nアサシンがキル及び追放されかけると、「アサシン会議」が開かれる。アサシン会議は、アサシンがプレイヤーを一人指名するまで終わることはない。\nアサシン会議でマーリンを当てることができれば無条件インポスター勝利。アサシン会議でアサシンは吊られる。アサシン会議後は通常通り試合続行。\nマーリン(クルーメイト陣営):\nアサシンと対であり、インポスター全員が始めからわかる役職。\nアサシン会議でアサシンに指名されると無条件敗北。タスクはない。"
+AssassinAndMarinInfoLong,"(Impostors, Crewmates):\nAssassin(Impostors):\nRole that is paired with Merine and adds a new victory condition to the Impostors.\nWhen an assassin is about to be killed or expelled, an 「Assassin Meeting」 is held. The Assassin Meeting does not end until the Assassin names a player.\nIf you can guess Merine at the Assassin Meeting, you win an unconditional Impostor victory. Assassins are exiled at the Assassins Meeting. After the Assassins Meeting, the game continues as usual.\nMarin(Crewmates):\nIt is the counterpart to the Assassin, a position that all Impostors know from the beginning.\nUnconditional defeat if nominated by the Assassin Meeting to be an Assassin. they don't have tasks.","(インポスター, クルーメイト陣営):\nアサシン(インポスター陣営):\nマーリンと対であり、インポスター陣営に新しい勝利条件を追加する役職。\nアサシンがキル及び追放されかけると、「アサシン会議」が開かれる。アサシン会議は、アサシンがプレイヤーを一人指名するまで終わることはない。\nアサシン会議でマーリンを当てることができれば無条件インポスター勝利。アサシン会議でアサシンは吊られる。アサシン会議後は通常通り試合続行。\nマーリン(クルーメイト陣営):\nアサシンと対であり、インポスター全員が始めからわかる役職。\nアサシン会議でアサシンに指名されると無条件敗北。タスクはない。"
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed,Force the murder who killed it to self-report.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。
@@ -423,7 +423,7 @@ ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
 BountyHunterChangeButtonText,Change,変更
 
-WhoIsMarine,Who is the Marine?,マーリンは誰だ？
+WhoIsMarin,Who is the Marin?,マーリンは誰だ？
 WritePlayerName,Write player name,プレイヤー名を打て
-WasMarine,{0} was the {1},{0}は{1}だった
-WasNotMarine,{0} was not the {1},{0}は{1}ではなかった
+WasMarin,{0} was the {1},{0}は{1}だった
+WasNotMarin,{0} was not the {1},{0}は{1}ではなかった

@@ -269,7 +269,7 @@ namespace TownOfHost
                 {
                     SeerKnowsImpostors = true;
                 }
-                if (seer.Is(CustomRoles.Marine))
+                if (seer.Is(CustomRoles.Marin))
                     SeerKnowsImpostors = true;
 
                 if (SeerKnowsImpostors)
@@ -337,7 +337,7 @@ namespace TownOfHost
                     if (seer.PlayerId == Assassin.TriggerPlayerId && target.AmOwner)
                         pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("WritePlayerName")}</color>";
                     else if (target.PlayerId == Assassin.TriggerPlayerId)
-                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Marine)}>{pva.NameText.text}</color>";
+                        pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Marin)}>{pva.NameText.text}</color>";
                 }
             }
         }
@@ -351,7 +351,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
 
-            if (Assassin.IsAssassinMeeting) __instance.TitleText.text = GetString("WhoIsMarine");
+            if (Assassin.IsAssassinMeeting) __instance.TitleText.text = GetString("WhoIsMarin");
 
             foreach (var pva in __instance.playerStates)
             {
@@ -403,7 +403,7 @@ namespace TownOfHost
                     var TriggerPlayer = Utils.GetPlayerById(Assassin.TriggerPlayerId);
                     var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
 
-                    Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marine ? "WasMarine" : "WasNotMarine"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marine));
+                    Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marin ? "WasMarin" : "WasNotMarin"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marin));
                     string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendExilePLStringInAssassinMeeting, Hazel.SendOption.Reliable, -1);
                     writer.Write(Assassin.ExileText);
@@ -426,10 +426,10 @@ namespace TownOfHost
             Logger.Info("------------会議終了------------", "Phase");
             if (!AmongUsClient.Instance.AmHost) return;
 
-            if (AssassinAndMarine.IsEnable())
+            if (AssassinAndMarin.IsEnable())
             {
                 Assassin.IsAssassinMeeting = CheckForEndVotingPatch.ExiledAssassin;
-                AssassinAndMarine.IsAssassinMeetingToggle();
+                AssassinAndMarin.IsAssassinMeetingToggle();
                 Logger.Info($"アサシン会議：{Utils.GetOnOff(Assassin.IsAssassinMeeting)}", "Assassin");
             }
         }
