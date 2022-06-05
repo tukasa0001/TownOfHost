@@ -174,8 +174,8 @@ namespace TownOfHost
                 roleColors = new Dictionary<CustomRoles, string>(){
                 //バニラ役職
                 {CustomRoles.Crewmate, "#ffffff"},
-                {CustomRoles.Engineer, "#00ffff"},
-                {CustomRoles.Scientist, "#00ffff"},
+                {CustomRoles.Engineer, "#b6f0ff"},
+                {CustomRoles.Scientist, "#b6f0ff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},
