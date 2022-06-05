@@ -7,14 +7,10 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
     class ExileControllerBeginePatch
     {
-        public static bool Prefix(ExileController __instance)
+        public static void Postfix(ExileController __instance)
         {
             if (Assassin.FinishAssassinMeetingTrigger)
-            {
                 __instance.completeString = Assassin.ExileText;
-                return false;
-            }
-            return true;
         }
     }
     class ExileControllerWrapUpPatch
