@@ -204,10 +204,10 @@ namespace TownOfHost
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
                 //コンビネーション役職
-                { (CustomRoles)(-4),"== Combination ==" }, //区切り用
+                { (CustomRoles)(-4), $"== {GetString("Combination")} ==" }, //区切り用
                 { CustomRoles.AssassinAndMarin,"aam" },
                 //Crewmate役職
-                { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
+                { (CustomRoles)(-5), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, "ba" },
                 { CustomRoles.Dictator, "dic" },
                 { CustomRoles.Doctor, "doc" },
@@ -219,7 +219,7 @@ namespace TownOfHost
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
                 //Neutral役職
-                { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
+                { (CustomRoles)(-6), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
@@ -228,10 +228,10 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },
                 //Sub役職
-                { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
+                { (CustomRoles)(-7), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
                 //HAS
-                { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
+                { (CustomRoles)(-8), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
                 { CustomRoles.HASTroll, "htr" },
 
