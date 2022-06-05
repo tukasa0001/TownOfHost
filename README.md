@@ -761,7 +761,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 - [しゅー](https://github.com/shu-TownofHost) <!--([Twitter](https://twitter.com/))-->
 - [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
 - [TAKU_GG](https://github.com/TAKUGG) <!--([Twitter](https://twitter.com/))-->
-- [そうくんさんです](https://github.com/soukunsandesu) <!--([Twitter](https://twitter.com/))-->
+- [そうくんさんです](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Palpunte))
 - [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
 - [たんぽぽ](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
 - [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
