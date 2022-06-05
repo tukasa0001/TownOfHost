@@ -758,11 +758,11 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 - [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
 - [Integral](https://github.com/integral6174) <!--([Twitter](https://twitter.com/))-->
 - [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
-- [たんぽぽ](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
-- [TAKU_GG](https://github.com/TAKUGG) <!--([Twitter](https://twitter.com/))-->
-- [そうくんさんです](https://github.com/soukunsandesu) <!--([Twitter](https://twitter.com/))-->
 - [しゅー](https://github.com/shu-TownofHost) <!--([Twitter](https://twitter.com/))-->
 - [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) <!--([Twitter](https://twitter.com/))-->
+- [そうくんさんです](https://github.com/soukunsandesu) <!--([Twitter](https://twitter.com/))-->
 - [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [たんぽぽ](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
 - [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
