@@ -129,6 +129,7 @@ namespace TownOfHost
                 if (!Assassin.IsAssassinMeeting && exilePlayer.Is(CustomRoles.Assassin))
                 {
                     tie = true;
+                    Assassin.TriggerPlayerName = exilePlayer.Data.PlayerName;
                     Assassin.SendTriggerPlayerId(exileId);
                     ExiledAssassin = true;
                 }
@@ -343,6 +344,7 @@ namespace TownOfHost
     class MeetingHudUpdatePatch
     {
         public static bool isDictatorVote = false;
+        private static bool AssassinFinish = false;
         public static void Postfix(MeetingHud __instance)
         {
             if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
@@ -388,9 +390,8 @@ namespace TownOfHost
                     Main.IgnoreReportPlayers.Add(pc.PlayerId);
                     Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                 }
-                if (Assassin.FinishAssassinMeetingTrigger && AmongUsClient.Instance.AmHost)
+                if (Assassin.FinishAssassinMeetingTrigger && !AssassinFinish && AmongUsClient.Instance.AmHost)
                 {
-                    Assassin.FinishAssassinMeetingTrigger = false;
                     statesList.Add(new MeetingHud.VoterState()
                     {
                         VoterId = Assassin.TriggerPlayerId,
@@ -400,12 +401,14 @@ namespace TownOfHost
                     var TriggerPlayer = Utils.GetPlayerById(Assassin.TriggerPlayerId);
                     var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
 
-                    string ExileText = Assassin.TargetRole == CustomRoles.Marine
-                        ? $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}だった\n\n\n\n\n\n\n\n\n\n\n\n</size>"
-                        : $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{TargetPlayer?.Data?.PlayerName}は{Utils.GetRoleName(CustomRoles.Marine)}ではなかった\n\n\n\n\n\n\n\n\n\n\n\n</size>";
+                    Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marine ? "WasMarine" : "WasNotMarine"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marine));
+                    string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
 
-                    TriggerPlayer?.RpcSetNameEx(ExileText);
+                    TriggerPlayer.RpcSetNamePrivate(ExileText, true, force: true);
+                    TriggerPlayer.nameText.text = ExileText;
                     __instance.RpcVotingComplete(states, TriggerPlayer?.Data, false);
+                    CheckForEndVotingPatch.ExiledAssassin = false;
+                    AssassinFinish = true;
                 }
             }
         }

@@ -3,6 +3,16 @@ using Hazel;
 
 namespace TownOfHost
 {
+    //参考:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/Controller/ExileControllerPatch.cs
+    /*[HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
+    class ExileControllerBeginePatch
+    {
+        public static void Prefix(ExileController __instance)
+        {
+            if (Assassin.FinishAssassinMeetingTrigger)
+                __instance.completeString = Assassin.ExileText;
+        }
+    }*/
     class ExileControllerWrapUpPatch
     {
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
@@ -27,17 +37,23 @@ namespace TownOfHost
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
-            if (!Assassin.IsAssassinMeeting)
+            if (Assassin.FinishAssassinMeetingTrigger)
             {
                 Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
                 PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
                 PlayerState.SetDead(Assassin.TriggerPlayerId);
-            }
-            if (Assassin.TargetRole == CustomRoles.Marine)
-            {
-                AssassinAndMarine.MarineSelectedInAssassinMeeting();
-                AssassinAndMarine.GameEndForAssassinMeeting();
-                return; //インポスター勝利確定なのでこれ以降の処理は不要
+                Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcSetNameEx(Assassin.TriggerPlayerName);
+                Assassin.FinishAssassinMeetingTrigger = false;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                    Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                Utils.CustomSyncAllSettings();
+
+                if (Assassin.TargetRole == CustomRoles.Marine)
+                {
+                    AssassinAndMarine.MarineSelectedInAssassinMeeting();
+                    AssassinAndMarine.GameEndForAssassinMeeting();
+                    return; //インポスター勝利確定なのでこれ以降の処理は不要
+                }
             }
             if (exiled != null)
             {

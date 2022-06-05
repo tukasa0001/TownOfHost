@@ -94,9 +94,6 @@ namespace TownOfHost
                         IsAssassinMeeting = true;
                         AssassinAndMarine.IsAssassinMeetingToggle();
 
-                        Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
-                        Utils.CustomSyncAllSettings();
-
                         MeetingRoomManager.Instance.AssignSelf(assassin, null);
                         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
                         assassin.RpcStartMeeting(null);
