@@ -56,15 +56,17 @@ namespace TownOfHost
         public static byte AssassinTargetId;
         public static CustomRoles TargetRole = CustomRoles.Crewmate;
         public static string TriggerPlayerName = "";
+        public static string ExileText = "";
         public static void Init()
         {
             playerIdList = new();
             IsAssassinMeeting = false;
             FinishAssassinMeetingTrigger = false;
-            TriggerPlayerId = 0x73;
-            AssassinTargetId = 0x74;
+            TriggerPlayerId = 0x73; //各所でRPC送信必須
+            AssassinTargetId = 0x74; //各所でRPC送信必須
             TargetRole = CustomRoles.Crewmate;
-            TriggerPlayerName = "";
+            TriggerPlayerName = ""; //各所でRPC送信必須
+            ExileText = "";
         }
         public static void Add(byte playerId)
         {
@@ -78,7 +80,7 @@ namespace TownOfHost
         public static void BootAssassinTrigger(PlayerControl assassin, bool BeKilled = false)
         {
             bool HeldMeeting = false;
-            Assassin.TriggerPlayerId = assassin.PlayerId;
+            TriggerPlayerId = assassin.PlayerId;
             Utils.NotifyRoles();
             Logger.Info("アサシン会議開始", "Special Phase");
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -88,12 +90,16 @@ namespace TownOfHost
                 {
                     if (AmongUsClient.Instance.AmHost && !HeldMeeting)
                     {
+                        TriggerPlayerName = assassin.Data.PlayerName;
                         IsAssassinMeeting = true;
                         AssassinAndMarine.IsAssassinMeetingToggle();
+
+                        Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                        Utils.CustomSyncAllSettings();
+
                         MeetingRoomManager.Instance.AssignSelf(assassin, null);
                         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
                         assassin.RpcStartMeeting(null);
-                        Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
                         HeldMeeting = true;
                     }
                 }, PlayerControl.GameOptions.MapId == 4 && BeKilled ? 3f : 0, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
@@ -101,9 +107,10 @@ namespace TownOfHost
         }
         public static void SendTriggerPlayerId(byte playerId)
         {
-            Assassin.TriggerPlayerId = playerId;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TriggerAssassinId, Hazel.SendOption.Reliable, -1);
-            writer.Write(playerId);
+            TriggerPlayerId = playerId;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareTriggerAssassin, Hazel.SendOption.Reliable, -1);
+            writer.Write(TriggerPlayerId);
+            writer.Write(TriggerPlayerName);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
