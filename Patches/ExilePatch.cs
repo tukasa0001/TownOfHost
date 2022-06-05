@@ -3,16 +3,20 @@ using Hazel;
 
 namespace TownOfHost
 {
-    //参考:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/Controller/ExileControllerPatch.cs
-    /*[HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
+    //引用元:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/Controller/ExileControllerPatch.cs
+    [HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
     class ExileControllerBeginePatch
     {
-        public static void Prefix(ExileController __instance)
+        public static bool Prefix(ExileController __instance)
         {
             if (Assassin.FinishAssassinMeetingTrigger)
+            {
                 __instance.completeString = Assassin.ExileText;
+                return false;
+            }
+            return true;
         }
-    }*/
+    }
     class ExileControllerWrapUpPatch
     {
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
