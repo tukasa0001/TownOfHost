@@ -755,6 +755,7 @@ If the client language is English, this setting is meaningless unless `Force Jap
 [Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>
+[AssassinAndMarin](#AssassinAndMarin) Idea by [Extreme Roles](https://github.com/yukieiji/ExtremeRoles)<br>
 [Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 

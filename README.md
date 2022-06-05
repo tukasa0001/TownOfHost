@@ -773,7 +773,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
 [シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
 [ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
-[アサシンとマーリン](#AssassinAndMarin/アサシンとマーリン) の役職 : https://github.com/yukieiji/ExtremeRoles<br>
+[アサシンとマーリン](#AssassinAndMarin/アサシンとマーリン) のアイデア元 : [Extreme Roles](https://github.com/yukieiji/ExtremeRoles)<br>
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
