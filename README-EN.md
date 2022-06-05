@@ -759,6 +759,16 @@ If the client language is English, this setting is meaningless unless `Force Jap
 [Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
 
 ## Developers
-Twitter : https://twitter.com/XenonBottle<br>
+- [EmptyBottle(空き瓶)](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Integral](https://github.com/integral6174) <!--([Twitter](https://twitter.com/))-->
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [Tampopo](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) <!--([Twitter](https://twitter.com/))-->
+- [Soukunsandesu](https://github.com/soukunsandesu) <!--([Twitter](https://twitter.com/))-->
+- [Shu](https://github.com/shu-TownofHost) <!--([Twitter](https://twitter.com/))-->
+- [Kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>
