@@ -38,6 +38,7 @@ namespace TownOfHost
         IsAssassinMeeting,
         MarineSelectedInAssassinMeeting,
         TriggerAssassinId,
+        SetCurrentDousingTarget,
     }
     public enum Sounds
     {
@@ -221,6 +222,12 @@ namespace TownOfHost
                     Logger.Info($"トリガープレイヤー: {Utils.GetPlayerById(Assassin.TriggerPlayerId)}({Assassin.TriggerPlayerId})", "Assassin");
                     Logger.Info($"届いた値: {Assassin.TriggerPlayerId}", "Assassin");
                     break;
+                case CustomRPC.SetCurrentDousingTarget:
+                    byte arsonistId = reader.ReadByte();
+                    byte dousingTargetId = reader.ReadByte();
+                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+                        Main.currentDousingTarget = dousingTargetId;
+                    break;
             }
         }
     }
@@ -261,11 +268,11 @@ namespace TownOfHost
         }
         public static async void RpcVersionCheck()
         {
-            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
+            while (PlayerControl.LocalPlayer == null) await Task.Delay(1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            writer.EndMessage();
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
@@ -438,6 +445,21 @@ namespace TownOfHost
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
+        {
+            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+            {
+                Main.currentDousingTarget = targetId;
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
+                writer.Write(arsonistId);
+                writer.Write(targetId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch

@@ -15,6 +15,7 @@
 
 | Among Us バージョン | Mod バージョン | リンク                                                                                                  |
 | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s          | v2.0.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
 | 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
 | 2022.3.29s          | v1.4.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |

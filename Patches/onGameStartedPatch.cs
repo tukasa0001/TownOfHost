@@ -61,6 +61,8 @@ namespace TownOfHost
 
             NameColorManager.Instance.RpcReset();
             Main.LastNotifyNames = new();
+
+            Main.currentDousingTarget = 255;
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)

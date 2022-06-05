@@ -347,7 +347,10 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Mayor:
-                    opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
+                    opt.RoleOptions.EngineerCooldown =
+                        Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
+                        ? opt.EmergencyCooldown
+                        : 300f;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:

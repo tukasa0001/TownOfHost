@@ -279,8 +279,13 @@ namespace TownOfHost
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
-                        killer.RpcGuardAndKill(target);
-                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)]) Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                        Main.BlockKilling[killer.PlayerId] = false;
+                        if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
+                        {
+                            Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
+                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
+                        }
                         return false;
 
                     //==========クルー役職==========//
@@ -487,8 +492,6 @@ namespace TownOfHost
                 if (__instance.Is(CustomRoles.Mayor))
                 {
                     Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                    if (Main.MayorUsedButtonCount?[__instance.PlayerId] >= Options.MayorNumOfUseButton.GetFloat())
-                        __instance.RpcSetRoleDesync(RoleTypes.GuardianAngel);
                 }
             }
             else //死体通報
@@ -703,6 +706,8 @@ namespace TownOfHost
                     if (!player.IsAlive())
                     {
                         Main.ArsonistTimer.Remove(player.PlayerId);
+                        Utils.NotifyRoles(SpecifySeer: __instance);
+                        RPC.ResetCurrentDousingTarget(player.PlayerId);
                     }
                     else
                     {
@@ -729,6 +734,7 @@ namespace TownOfHost
                             writer.Write(true);
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                             Utils.NotifyRoles();//名前変更
+                            RPC.ResetCurrentDousingTarget(player.PlayerId);
                         }
                         else
                         {
@@ -741,6 +747,10 @@ namespace TownOfHost
                             else//それ以外は削除
                             {
                                 Main.ArsonistTimer.Remove(player.PlayerId);
+                                Utils.NotifyRoles(SpecifySeer: __instance);
+                                RPC.ResetCurrentDousingTarget(player.PlayerId);
+
+                                Logger.Info($"Canceled: {__instance.GetNameWithRole()}", "Arsonist");
                             }
                         }
 
@@ -891,9 +901,19 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                     }
-                    if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
+                    if (seer.Is(CustomRoles.Arsonist))
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                        if (seer.IsDousedPlayer(target))
+                        {
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                        }
+                        else if (
+                            Main.currentDousingTarget != 255 &&
+                            Main.currentDousingTarget == target.PlayerId
+                        )
+                        {
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                        }
                     }
                     foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                     {
@@ -1127,10 +1147,10 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
             {
-                if (Main.MayorUsedButtonCount?[pc.PlayerId] < Options.MayorNumOfUseButton.GetFloat())
+                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
                 {
-                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    pc.ReportDeadBody(null);
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    pc?.ReportDeadBody(null);
                 }
             }
         }
@@ -1168,7 +1188,8 @@ namespace TownOfHost
                     }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
-                __instance.myPlayer.Is(CustomRoles.Arsonist)
+                __instance.myPlayer.Is(CustomRoles.Arsonist) ||
+                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
