@@ -128,6 +128,7 @@ namespace TownOfHost
                     foreach (var p in Main.SpelledPlayer)
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        PlayerState.SetDead(p.PlayerId);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
                         p.RpcExileV2();
                     }
