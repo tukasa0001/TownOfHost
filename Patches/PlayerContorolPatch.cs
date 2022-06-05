@@ -130,6 +130,7 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Assassin:
+                    Assassin.SendTriggerPlayerId(target.PlayerId);
                     Assassin.BootAssassinTrigger(target, BeKilled: false);
                     return false;
                 case CustomRoles.SchrodingerCat:
