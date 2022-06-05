@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using Hazel;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -404,9 +405,12 @@ namespace TownOfHost
 
                     Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marine ? "WasMarine" : "WasNotMarine"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marine));
                     string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendExilePLStringInAssassinMeeting, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Assassin.ExileText);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-                    TriggerPlayer.RpcSetNamePrivate(ExileText, true, force: true);
-                    TriggerPlayer.nameText.text = ExileText;
+                    foreach (var p in PlayerControl.AllPlayerControls)
+                        TriggerPlayer.RpcSetNamePrivate(ExileText, true, p, force: true);
                     __instance.RpcVotingComplete(states, TriggerPlayer?.Data, false);
                     CheckForEndVotingPatch.ExiledAssassin = false;
                     AssassinFinish = true;

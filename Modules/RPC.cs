@@ -38,6 +38,7 @@ namespace TownOfHost
         IsAssassinMeeting,
         MarineSelectedInAssassinMeeting,
         ShareTriggerAssassin,
+        SendExilePLStringInAssassinMeeting,
         SetCurrentDousingTarget,
     }
     public enum Sounds
@@ -222,6 +223,9 @@ namespace TownOfHost
                     Assassin.TriggerPlayerName = reader.ReadString();
                     Logger.Info($"トリガープレイヤー: {Utils.GetPlayerById(Assassin.TriggerPlayerId)}({Assassin.TriggerPlayerId})", "Assassin");
                     Logger.Info($"届いた値: {Assassin.TriggerPlayerId}", "Assassin");
+                    break;
+                case CustomRPC.SendExilePLStringInAssassinMeeting:
+                    Assassin.ExileText = reader.ReadString();
                     break;
                 case CustomRPC.SetCurrentDousingTarget:
                     byte arsonistId = reader.ReadByte();
