@@ -750,10 +750,11 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 開発者
 <!--
-- 開発者になった順番で記載する
+開発者になった順番で記載する
 - [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
 - [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
 - [何もなくていい場合は消してOK](https://github.com/)
+注：README-ENへの追記を忘れないでください。
 -->
 - [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
 - [Integral](https://github.com/integral6174) <!--([Twitter](https://twitter.com/))-->
