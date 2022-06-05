@@ -496,7 +496,7 @@ Completing the task will make a random surviving player speed up.<br>
 
 ### Trapper
 
-Original idea by yadran
+Original idea by 宿主ランニング
 Created by そうくん
 
 Team : Crewmates<br>
