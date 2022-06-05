@@ -975,7 +975,7 @@ namespace TownOfHost
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
-                    if (!GameStates.IsMeeting && Options.SnitchEnableTargetArrow.GetBool() && target.Is(CustomRoles.Snitch))
+                    if (GameStates.IsInTask && Options.SnitchEnableTargetArrow.GetBool() && target.Is(CustomRoles.Snitch))
                     {
                         var TaskState = target.GetPlayerTaskState();
                         if (TaskState.IsTaskFinished)
