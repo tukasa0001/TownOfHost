@@ -280,7 +280,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat();
                     if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     break;
                 case CustomRoles.SerialKiller:
@@ -305,8 +305,8 @@ namespace TownOfHost
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
                         opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
-                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                            opt.CrewLightMod *= 5;
+                    if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                        opt.CrewLightMod *= 5;
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
@@ -358,7 +358,7 @@ namespace TownOfHost
                     if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
                     {
                         Main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
-                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown / 2; //Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
 
@@ -622,7 +622,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:

@@ -255,7 +255,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
                         killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                         killer.RpcGuardAndKill(target);
                         return false;
@@ -793,7 +793,7 @@ namespace TownOfHost
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.Is(CustomRoles.Vampire) || pc.Is(CustomRoles.Warlock))
-                            Main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                            Main.AllPlayerKillCooldown[pc.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
