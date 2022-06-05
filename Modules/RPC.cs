@@ -37,7 +37,7 @@ namespace TownOfHost
         SendFireWorksState,
         IsAssassinMeeting,
         MarineSelectedInAssassinMeeting,
-        TriggerAssassinId,
+        ShareTriggerAssassin,
         SetCurrentDousingTarget,
     }
     public enum Sounds
@@ -217,8 +217,9 @@ namespace TownOfHost
                 case CustomRPC.MarineSelectedInAssassinMeeting:
                     AssassinAndMarine.GameEndForAssassinMeeting();
                     break;
-                case CustomRPC.TriggerAssassinId:
+                case CustomRPC.ShareTriggerAssassin:
                     Assassin.TriggerPlayerId = reader.ReadByte();
+                    Assassin.TriggerPlayerName = reader.ReadString();
                     Logger.Info($"トリガープレイヤー: {Utils.GetPlayerById(Assassin.TriggerPlayerId)}({Assassin.TriggerPlayerId})", "Assassin");
                     Logger.Info($"届いた値: {Assassin.TriggerPlayerId}", "Assassin");
                     break;
