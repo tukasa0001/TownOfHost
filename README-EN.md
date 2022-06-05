@@ -764,7 +764,7 @@ If the client language is English, this setting is meaningless unless `Force Jap
 - [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
 - [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
 - [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
-- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/channel/UCJ_y7_ld0IR7qjp2ScRs6xg))
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
 - [Soukunsandesu](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Palpunte), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
 - [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
 - [Tampopo](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
