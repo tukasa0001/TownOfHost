@@ -425,3 +425,5 @@ BountyHunterChangeButtonText,Change,変更
 
 WhoIsMarine,Who is the Marine?,マーリンは誰だ？
 WritePlayerName,Write player name,プレイヤー名を打て
+WasMarine,{0} was the {1},{0}は{1}だった
+WasNotMarine,{0} was not the {1},{0}は{1}ではなかった
