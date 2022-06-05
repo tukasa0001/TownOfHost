@@ -131,7 +131,7 @@ If they kill the player who is not their target, they will keep their next kill 
 
 ### FireWorks
 
-Create and idea by こう。
+Create and idea by こう。<br>
 
 Team : Impostors<br>
 Decision : Shapeshifter<br>
@@ -184,7 +184,7 @@ If he can not kill on deadline, he will kill him.<br>
 
 ### ShapeMaster
 
-Create and idea by しゅー
+Create and idea by しゅー<br>
 
 Team : Impostor<br>
 Decision : ShapeShifter<br>
@@ -200,7 +200,7 @@ Normally, the transformation lasts only 10 seconds, but the duration of the tran
 
 ### Sniper
 
-Create and idea by こう。
+Create and idea by こう。<br>
 
 Team : Impostors<br>
 Decision : Shapeshifter<br>
@@ -224,8 +224,8 @@ Precision Shooting:ON<BR>
 
 ### TimeThief
 
-Created by integral, しゅー, そうくん, ゆりの
-Idea by みぃー
+Created by integral, しゅー, そうくん, ゆりの<br>
+Idea by みぃー<br>
 
 Team : Impostors<br>
 Decision : Impostor<br>
@@ -293,7 +293,7 @@ They can not kill or sabotage, but they can use vents.<br>
 
 ### MadGuardian
 
-Create and idea by 空き瓶/EmptyBottle
+Create and idea by 空き瓶/EmptyBottle<br>
 
 Team : Impostors<br>
 Decision : Crewmate<br>
@@ -311,7 +311,7 @@ They can not kill, sabotage, and using vents.<br>
 
 ### MadSnitch
 
-Create and idea by そうくん
+Create and idea by そうくん<br>
 
 Team : Impostor<br>
 Decision : Crewmate or Engineer<br>
@@ -329,7 +329,7 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 
 ### SidekickMadmate
 
-Create and idea by たんぽぽ
+Create and idea by たんぽぽ<br>
 
 Team : Impostor<br>
 Decision : Change before Role<br>
@@ -371,7 +371,7 @@ When the Baits are killed, they can force the player who killed them to report t
 
 ### Dictator
 
-Create and idea by そうくん
+Create and idea by そうくん<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -421,7 +421,7 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 ### SabotageMaster
 
-Create and idea by 空き瓶/EmptyBottle
+Create and idea by 空き瓶/EmptyBottle<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -481,7 +481,7 @@ However, when the number of their tasks are low, it will be notified to the Impo
 
 ### SpeedBooster
 
-Create and idea by よっキング
+Create and idea by よっキング<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -496,8 +496,8 @@ Completing the task will make a random surviving player speed up.<br>
 
 ### Trapper
 
-Original idea by 宿主ランニング
-Created by そうくん
+Original idea by 宿主ランニング<br>
+Created by そうくん<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -522,8 +522,8 @@ If they finish dousing to all alive crewmates and enter vents, they will win.<br
 
 ### Egoist
 
-Original idea by しゅー
-Created by そうくん
+Original idea by しゅー<br>
+Created by そうくん<br>
 
 Team : Neutral<br>
 Decision : Shapeshifter<br>
@@ -604,7 +604,7 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 
 ### Terrorist
 
-Create and original idea by 空き瓶/EmptyBottle
+Create and original idea by 空き瓶/EmptyBottle<br>
 
 Team : Neutral<br>
 Decision : Engineer<br>
@@ -671,7 +671,7 @@ It is possible to disable certain tasks.<br>
 
 ### HideAndSeek
 
-Create and idea by 空き瓶/EmptyBottle
+Create and idea by 空き瓶/EmptyBottle<br>
 
 #### Crewmates Team (Blue) Victory Conditions
 
@@ -736,7 +736,7 @@ This is a debug mode where there is no win decision.<br>
 
 ### RandomMapsMode
 
-Created by つがる
+Created by つがる<br>
 
 The RandomMapsMode changes the maps at random.<br>
 
