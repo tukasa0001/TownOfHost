@@ -27,12 +27,13 @@ namespace TownOfHost
                     //死んでいないプレイヤーが投票していない
                     if (!(ps.AmDead || ps.DidVote)) return false;
                 }
+
+                ExiledAssassin = false;
                 if (Assassin.IsAssassinMeeting && !Assassin.FinishAssassinMeetingTrigger) return false;
 
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayerInfo = PlayerControl.LocalPlayer.Data;
                 bool tie = false;
-                ExiledAssassin = false;
 
                 List<MeetingHud.VoterState> statesList = new();
                 for (var i = 0; i < __instance.playerStates.Length; i++)
