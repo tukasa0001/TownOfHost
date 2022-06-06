@@ -169,6 +169,28 @@ namespace TownOfHost
                         }
                     }
                 }
+
+                // Desyncのテスト
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    PlayerControl p0 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 0).FirstOrDefault();
+                    PlayerControl p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    PlayerControl p2 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 2).FirstOrDefault();
+                    if (p0 != null && p1 != null && p2 != null)
+                    {
+                        var sender = CustomRpcSender.Create();
+
+                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p1.GetClientId());
+                        sender.Write((byte)3);
+                        sender.EndRpc();
+
+                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p2.GetClientId());
+                        sender.Write((byte)4);
+                        sender.EndRpc();
+
+                        sender.SendMessage();
+                    }
+                }
             }
 
             //--以下フリープレイ用コマンド--//
