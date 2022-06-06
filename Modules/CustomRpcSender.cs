@@ -63,7 +63,8 @@ public class CustomRpcSender
     public void SendMessage()
     {
         AmongUsClient.Instance.SendOrDisconnect(writer);
-        currentState = State.Sent;
+        currentState = State.Finished;
+        writer.Recycle();
     }
 
     // Write
@@ -88,7 +89,6 @@ public class CustomRpcSender
         BeforeInit = 0,
         Ready,
         Writing,
-        Sent,
-        Closed
+        Finished,
     }
 }
