@@ -224,7 +224,7 @@ namespace TownOfHost
 
             return ProgressText;
         }
-        public static void ShowActiveRoles()
+        public static void ShowActiveSettingsHelp()
         {
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)

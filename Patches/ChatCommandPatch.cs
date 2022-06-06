@@ -155,7 +155,7 @@ namespace TownOfHost
 
                             case "n":
                             case "now":
-                                Utils.ShowActiveRoles();
+                                Utils.ShowActiveSettingsHelp();
                                 break;
 
                             default:
