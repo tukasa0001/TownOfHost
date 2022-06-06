@@ -2,6 +2,7 @@ using HarmonyLib;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using System.Linq;
 
 namespace TownOfHost
 {
@@ -127,6 +128,47 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
                 if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
                 if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
+            }
+            //CustomRpcSenderデバッグ用
+            if (Input.GetKey(KeyCode.RightControl))
+            {
+                // どちらも赤色から茶色までの計10個のSetRoleRPCを送る処理です。
+                // コード上の送信順で処理された場合は最終的な色は茶色になります。
+                // 従来の方式の場合、ほぼ同時に大量の送信処理を行っているため、遅延以外の方法で順番の入れ替わりを回避できません。
+                // それに対してCustomRpcSenderを使用した方式は、一つのメッセージにすべてのRPCを入れているため、順番が入れ替わる心配がありません。
+
+                // CustomRpcSenderを使用した方式
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        var sender = CustomRpcSender.Create();
+                        for (byte i = 0; i < 10; i++)
+                        {
+                            sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor)
+                                .Write(i);
+                            sender.EndRpc();
+                        }
+
+                        sender.SendMessage();
+                    }
+                }
+
+                // 従来の方式
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        for (byte i = 0; i < 10; i++)
+                        {
+                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetColor, SendOption.None);
+                            writer.Write(i);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }
+                    }
+                }
             }
 
             //--以下フリープレイ用コマンド--//
