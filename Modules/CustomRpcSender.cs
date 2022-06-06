@@ -12,7 +12,7 @@ public class CustomRpcSender
     public SendOption sendOption;
     public bool isUnsafe;
 
-    private ActionTypes latestActionType;
+    private State currentState = State.BeforeInit;
 
     private CustomRpcSender() { }
     public CustomRpcSender(SendOption sendOption, bool isUnsafe)
@@ -21,6 +21,8 @@ public class CustomRpcSender
 
         this.sendOption = sendOption;
         this.isUnsafe = isUnsafe;
+
+        currentState = State.Ready;
     }
     public static CustomRpcSender Create(SendOption sendOption = SendOption.None, bool isUnsafe = false)
     {
@@ -49,16 +51,19 @@ public class CustomRpcSender
         writer.WritePacked(targetNetId);
         writer.Write(callId);
 
+        currentState = State.Writing;
         return writer;
     }
     public void EndRpc()
     {
         writer.EndMessage();
         writer.EndMessage();
+        currentState = State.Ready;
     }
     public void SendMessage()
     {
         AmongUsClient.Instance.SendOrDisconnect(writer);
+        currentState = State.Sent;
     }
 
     // Write
@@ -78,8 +83,12 @@ public class CustomRpcSender
     public void WritePacked(int val) => writer.WritePacked(val);
     public void WritePacked(uint val) => writer.WritePacked(val);
 
-    public enum ActionTypes
+    public enum State
     {
-        Free = 0,
+        BeforeInit = 0,
+        Ready,
+        Writing,
+        Sent,
+        Closed
     }
 }
