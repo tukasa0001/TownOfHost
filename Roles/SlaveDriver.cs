@@ -40,17 +40,17 @@ namespace TownOfHost
             if (taskState.CompletedTasksCount <= TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分か、それ以下
             {
                 Logger.Info($"SlaveDriver Kill 1", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * SlaveDriverIncreaseKC.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * SlaveDriverIncreaseKC.GetFloat();
             }
             if (taskState.CompletedTasksCount > TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分を超えている
             {
                 Logger.Info($"SlaveDriver Kill 2", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / SlaveDriverDecreaseKC.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown / SlaveDriverDecreaseKC.GetFloat();
             }
             if (taskState.IsTaskFinished)//キル対象がタスクを終えている
             {
                 Logger.Info($"SlaveDriver Kill 3", "SlaveDriver");
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / SlaveDriverTaskCompleteDecreaseKC.GetFloat();
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown / SlaveDriverTaskCompleteDecreaseKC.GetFloat();
             }
             if (taskState.hasTasks == false)//キル対象のタスクがない
                 Main.AllPlayerKillCooldown[killer.PlayerId] = SlaveDriverNoTaskKC.GetFloat();
