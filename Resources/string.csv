@@ -303,7 +303,7 @@ NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
 TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
 EvilTrackerCanSeeKillFlash,EvilTracker Can See KillFlash,キルフラッシュを見ることができる
-EvilTrackerResetTargetAfterMeeting,EvilTracker Reset Target After Meeting,会議後に再度ターゲットを設定できる
+EvilTrackerCanResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる
 KillFlashDuration,KillFlash Duration(s),キルフラッシュの長さ(秒)
 
 ## かくれんぼ設定

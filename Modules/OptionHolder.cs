@@ -116,7 +116,7 @@ namespace TownOfHost
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
         public static CustomOption EvilTrackerCanSeeKillFlash;
-        public static CustomOption EvilTrackerResetTargetAfterMeeting;
+        public static CustomOption EvilTrackerCanResetTargetAfterMeeting;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -276,7 +276,7 @@ namespace TownOfHost
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             SetupRoleOptions(2900, CustomRoles.EvilTracker);
             EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            EvilTrackerResetTargetAfterMeeting = CustomOption.Create(2910, Color.white, "EvilTrackerResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2910, Color.white, "EvilTrackerCanResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
 
             //BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
