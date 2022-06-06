@@ -197,11 +197,11 @@ namespace TownOfHost
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                                                   //killer.RpcGuardAndKill(target);
                         if (target == killer.GetBountyTarget())
                         {//ターゲットをキルした場合
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat() * 2;
-                            Utils.CustomSyncAllSettings();//キルクール処理を同期
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat();
+                            killer.RpcResetAbilityCooldown();
+                            killer.CustomSyncSettings();//キルクール処理を同期
                             Main.isTargetKilled[killer.PlayerId] = true;
                             Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
                             Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
@@ -210,21 +210,21 @@ namespace TownOfHost
                         {
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
                             Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                            Utils.CustomSyncAllSettings();//キルクール処理を同期
+                            killer.CustomSyncSettings();//キルクール処理を同期
                         }
                         break;
                     case CustomRoles.SerialKiller:
-                        killer.RpcMurderPlayer(target);
-                        killer.RpcGuardAndKill(target);
+                        killer.RpcResetAbilityCooldown();
                         Main.SerialKillerTimer[killer.PlayerId] = 0f;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat() * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat();
                         killer.CustomSyncSettings();
                         break;
                     case CustomRoles.Vampire:
                         if (!target.Is(CustomRoles.Bait))
                         { //キルキャンセル&自爆処理
                             Utils.CustomSyncAllSettings();
-                            killer.RpcGuardAndKill(target);
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
+                            killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
                         }
@@ -261,7 +261,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
                         killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                         killer.RpcGuardAndKill(target);
                         return false;
@@ -649,6 +649,7 @@ namespace TownOfHost
                             Main.isCursed = false;//変身クールを１秒に変更
                             Utils.CustomSyncAllSettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
+                            player.RpcResetAbilityCooldown();
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
@@ -666,13 +667,12 @@ namespace TownOfHost
                     }
                     else
                     {
-                        if (Main.BountyTimer[player.PlayerId] >= (Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat()) || Main.isTargetKilled[player.PlayerId])//時間経過でターゲットをリセットする処理
+                        if (Main.BountyTimer[player.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() || Main.isTargetKilled[player.PlayerId])//時間経過でターゲットをリセットする処理
                         {
                             Main.BountyTimer[player.PlayerId] = 0f;
-                            Main.AllPlayerKillCooldown[player.PlayerId] = 10;
                             Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
-                            Utils.CustomSyncAllSettings();//ここでの処理をキルクールの変更の処理と同期
-                            player.RpcGuardAndKill(player);//タイマー（変身クールダウン）のリセットと、名前の変更のためのKill
+                            player.CustomSyncSettings();//ここでの処理をキルクールの変更の処理と同期
+                            player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
                             player.ResetBountyTarget();//ターゲットの選びなおし
                             Utils.NotifyRoles();
                         }
@@ -799,7 +799,7 @@ namespace TownOfHost
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.Is(CustomRoles.Vampire) || pc.Is(CustomRoles.Warlock))
-                            Main.AllPlayerKillCooldown[pc.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() * 2;
+                            Main.AllPlayerKillCooldown[pc.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
                     }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();

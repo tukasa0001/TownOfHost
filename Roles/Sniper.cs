@@ -104,7 +104,7 @@ namespace TownOfHost
             {
                 canUse = true;
             }
-            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
+//            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)

@@ -393,7 +393,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
-                        pc.MurderPlayer(pc);
+                        pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
                     }
@@ -741,20 +741,14 @@ namespace TownOfHost
             {
                 if (pc.Is(CustomRoles.SerialKiller))
                 {
-                    pc.RpcGuardAndKill(pc);
+                    pc.RpcResetAbilityCooldown();
                     Main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                 }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
-                    pc.RpcGuardAndKill(pc);
+                    pc.RpcResetAbilityCooldown();
                     Main.BountyTimer.Add(pc.PlayerId, 0f);
                 }
-                if (PlayerControl.GameOptions.MapId != 4)//Airship以外
-                    if (pc.Is(CustomRoles.SerialKiller) || pc.Is(CustomRoles.BountyHunter))
-                    {
-                        //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        Main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
-                    }
             }
         }
 

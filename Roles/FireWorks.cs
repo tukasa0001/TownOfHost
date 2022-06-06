@@ -74,14 +74,14 @@ namespace TownOfHost
 
         public static bool CanUseKillButton(PlayerControl pc)
         {
-            Logger.Info($"FireWorks CanUseKillButton", "FireWorks");
+//            Logger.Info($"FireWorks CanUseKillButton", "FireWorks");
             if (pc.Data.IsDead) return false;
             var canUse = false;
             if ((state[pc.PlayerId] & FireWorksState.CanUseKill) != 0)
             {
                 canUse = true;
             }
-            Logger.Info($"CanUseKillButton:{canUse}", "FireWorks");
+//            Logger.Info($"CanUseKillButton:{canUse}", "FireWorks");
             return canUse;
         }
 
