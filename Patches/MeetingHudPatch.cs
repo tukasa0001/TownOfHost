@@ -127,11 +127,11 @@ namespace TownOfHost
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
 
                 var exilePlayer = Utils.GetPlayerById(exileId);
-                if (!Assassin.IsAssassinMeeting && exilePlayer.Is(CustomRoles.Assassin))
+                if (!Assassin.IsAssassinMeeting && exilePlayer.Is(CustomRoles.Assassin)) //アサシン会議外でアサシンが吊り先
                 {
                     tie = true;
-                    Assassin.TriggerPlayerName = exilePlayer.Data.PlayerName;
-                    Assassin.SendTriggerPlayerId(exileId);
+                    Assassin.TriggerPlayerName = exilePlayer.Data.PlayerName; //TriggerPlayer名保存
+                    Assassin.SendTriggerPlayerInfo(exileId); //非ホストMODにトリガープレイヤーを送信
                     ExiledAssassin = true;
                 }
                 exiledPlayerInfo = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);

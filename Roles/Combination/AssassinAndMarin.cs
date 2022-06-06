@@ -102,7 +102,7 @@ namespace TownOfHost
                 }, PlayerControl.GameOptions.MapId == 4 && BeKilled ? 3f : 0, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
             }
         }
-        public static void SendTriggerPlayerId(byte playerId)
+        public static void SendTriggerPlayerInfo(byte playerId)
         {
             TriggerPlayerId = playerId;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareTriggerAssassin, Hazel.SendOption.Reliable, -1);

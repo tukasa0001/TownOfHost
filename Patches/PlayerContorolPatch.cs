@@ -131,7 +131,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Assassin:
                     Assassin.TriggerPlayerName = target.Data.PlayerName;
-                    Assassin.SendTriggerPlayerId(target.PlayerId);
+                    Assassin.SendTriggerPlayerInfo(target.PlayerId);
                     Assassin.BootAssassinTrigger(target, BeKilled: false);
                     return false;
                 case CustomRoles.SchrodingerCat:
