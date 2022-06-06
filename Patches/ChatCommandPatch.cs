@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
@@ -162,6 +164,13 @@ namespace TownOfHost
                         }
                         break;
 
+                    case "/t":
+                    case "/template":
+                        canceled = true;
+                        if (args.Length > 1) SendTemplate(args[1]);
+                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -265,6 +274,27 @@ namespace TownOfHost
             }
             msg += rolemsg;
             Utils.SendMessage(msg);
+        }
+        public static void SendTemplate(string str = "")
+        {
+            if (!File.Exists("template.txt"))
+            {
+                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。\n新規作成します。");
+                File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
+                return;
+            }
+            using StreamReader sr = new(@"template.txt", Encoding.GetEncoding("UTF-8"));
+            string text;
+            string[] tmp = { };
+            List<string> sendList = new();
+            while ((text = sr.ReadLine()) != null)
+            {
+                tmp = text.Split(":");
+                if (tmp[0] == str && tmp.Length > 1 && tmp[1] != "") sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
+            }
+            if (sendList.Count == 0)
+                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
+            else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i]);
         }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]

@@ -280,7 +280,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.BHDefaultKillCooldown.GetFloat();
+                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat();
                     if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     break;
                 case CustomRoles.SerialKiller:
@@ -304,7 +304,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
-                        opt.SetVision(player, true);
+                        opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                    if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                        opt.CrewLightMod *= 5;
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
@@ -345,7 +347,10 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Mayor:
-                    opt.RoleOptions.EngineerCooldown = opt.EmergencyCooldown;
+                    opt.RoleOptions.EngineerCooldown =
+                        Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
+                        ? opt.EmergencyCooldown
+                        : 300f;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:
@@ -353,7 +358,7 @@ namespace TownOfHost
                     if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
                     {
                         Main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
-                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown / 2; //Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
 
@@ -520,7 +525,7 @@ namespace TownOfHost
                 Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
                 return null;
             }
-            var target = cTargets[rand.Next(0, cTargets.Count - 1)];
+            var target = cTargets[rand.Next(0, cTargets.Count)];
             Main.BountyTargets[player.PlayerId] = target;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
 
@@ -618,7 +623,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
@@ -708,6 +713,7 @@ namespace TownOfHost
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;
         public static bool Is(this PlayerControl target, RoleType type) { return target.GetCustomRole().GetRoleType() == type; }
+        public static bool IsAlive(this PlayerControl target) { return target != null && !PlayerState.isDead[target.PlayerId]; }
 
     }
 }

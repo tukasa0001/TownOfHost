@@ -18,6 +18,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 | Among Us - Version | Mod Version | Link                                                                                                    |
 | ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s         | v2.0.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
 | 2022.3.29s         | v2.0.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
 | 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
@@ -221,6 +222,15 @@ Decision : Impostor<br>
 This is an impostor team where the kill rules change depending on the task progress of the player who made the kill.<br>
 KillCoolDown is "increased" by a set multiplier when the task is less than half completed, and "decreased" by a set multiplier when the task is half completed or more than half completed.<br>
 You can also set up kill rules for players who do not have tasks.<br>
+
+#### Settings
+
+| Settings Name                                            |
+| -------------------------------------------------------- |
+| KillCooldown increase multiplier                         |
+| KillCooldown reduction multiplier                        |
+| Multiplier for reduction of killCooldown task completion |
+| KillCooldown on player kills with no task                |
 
 ### TimeThief
 

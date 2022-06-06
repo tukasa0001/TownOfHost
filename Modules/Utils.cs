@@ -380,7 +380,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
-                        pc.MurderPlayer(pc);
+                        pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
                     }
@@ -624,9 +624,19 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
 
-                        if (seer.Is(CustomRoles.Arsonist) && seer.IsDousedPlayer(target))
+                        if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
                         {
-                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                            }
+                            if (
+                                Main.ArsonistTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
+                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
+                            )
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                            }
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
@@ -705,20 +715,14 @@ namespace TownOfHost
             {
                 if (pc.Is(CustomRoles.SerialKiller))
                 {
-                    pc.RpcGuardAndKill(pc);
+                    pc.RpcResetAbilityCooldown();
                     Main.SerialKillerTimer.Add(pc.PlayerId, 0f);
                 }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
-                    pc.RpcGuardAndKill(pc);
+                    pc.RpcResetAbilityCooldown();
                     Main.BountyTimer.Add(pc.PlayerId, 0f);
                 }
-                if (PlayerControl.GameOptions.MapId != 4)//Airship以外
-                    if (pc.Is(CustomRoles.SerialKiller) || pc.Is(CustomRoles.BountyHunter))
-                    {
-                        //main.AirshipMeetingTimer.Add(pc.PlayerId, 0f);
-                        Main.AllPlayerKillCooldown[pc.PlayerId] *= 2; //GuardAndKillを実行する関係でキルクールを2倍に
-                    }
             }
         }
 
