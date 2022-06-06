@@ -88,29 +88,31 @@ namespace TownOfHost
         }
 
         // Write
-        public void Write(MessageWriter msg, bool includeHeader) { if (CheckForWriting()) writer.Write(msg, includeHeader); }
-        public void Write(float val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(string val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(ulong val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(int val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(uint val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(ushort val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(byte val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(sbyte val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(bool val) { if (CheckForWriting()) writer.Write(val); }
-        public void Write(Il2CppStructArray<byte> bytes) { if (CheckForWriting()) writer.Write(bytes); }
-        public void Write(Il2CppStructArray<byte> bytes, int offset, int length) { if (CheckForWriting()) writer.Write(bytes, offset, length); }
-        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) { if (CheckForWriting()) writer.WriteBytesAndSize(bytes); }
-        public void WritePacked(int val) { if (CheckForWriting()) writer.WritePacked(val); }
-        public void WritePacked(uint val) { if (CheckForWriting()) writer.WritePacked(val); }
-        public bool CheckForWriting()
+        public void Write(MessageWriter msg, bool includeHeader) => Write(w => w.Write(msg, includeHeader));
+        public void Write(float val) => Write(w => w.Write(val));
+        public void Write(string val) => Write(w => w.Write(val));
+        public void Write(ulong val) => Write(w => w.Write(val));
+        public void Write(int val) => Write(w => w.Write(val));
+        public void Write(uint val) => Write(w => w.Write(val));
+        public void Write(ushort val) => Write(w => w.Write(val));
+        public void Write(byte val) => Write(w => w.Write(val));
+        public void Write(sbyte val) => Write(w => w.Write(val));
+        public void Write(bool val) => Write(w => w.Write(val));
+        public void Write(Il2CppStructArray<byte> bytes) => Write(w => w.Write(bytes));
+        public void Write(Il2CppStructArray<byte> bytes, int offset, int length) => Write(w => w.Write(bytes, offset, length));
+        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) => Write(w => w.WriteBytesAndSize(bytes));
+        public void WritePacked(int val) => Write(w => w.WritePacked(val));
+        public void WritePacked(uint val) => Write(w => w.WritePacked(val));
+
+        private void Write(Action<MessageWriter> action)
         {
             if (currentState != State.Writing && !isUnsafe)
             {
                 Logger.Error("RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません", "CustomRpcSender.Error");
-                return false;
+                return;
             }
-            return true;
+
+            action(writer);
         }
 
         public enum State
