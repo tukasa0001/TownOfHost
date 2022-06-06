@@ -10,7 +10,7 @@ namespace TownOfHost
 {
     public class CustomRpcSender
     {
-        public MessageWriter writer;
+        public MessageWriter stream;
         public SendOption sendOption;
         public bool isUnsafe;
 
@@ -19,7 +19,7 @@ namespace TownOfHost
         private CustomRpcSender() { }
         public CustomRpcSender(SendOption sendOption, bool isUnsafe)
         {
-            writer = MessageWriter.Get(sendOption);
+            stream = MessageWriter.Get(sendOption);
 
             this.sendOption = sendOption;
             this.isUnsafe = isUnsafe;
@@ -45,22 +45,22 @@ namespace TownOfHost
             if (targetClientId < 0)
             {
                 // 全員に対するRPC
-                writer.StartMessage(5);
-                writer.Write(AmongUsClient.Instance.GameId);
+                stream.StartMessage(5);
+                stream.Write(AmongUsClient.Instance.GameId);
             }
             else
             {
                 // 特定のクライアントに対するRPC (Desync)
-                writer.StartMessage(6);
-                writer.Write(AmongUsClient.Instance.GameId);
-                writer.WritePacked(targetClientId);
+                stream.StartMessage(6);
+                stream.Write(AmongUsClient.Instance.GameId);
+                stream.WritePacked(targetClientId);
             }
-            writer.StartMessage(2);
-            writer.WritePacked(targetNetId);
-            writer.Write(callId);
+            stream.StartMessage(2);
+            stream.WritePacked(targetNetId);
+            stream.Write(callId);
 
             currentState = State.Writing;
-            return writer;
+            return stream;
         }
         public void EndRpc()
         {
@@ -70,8 +70,8 @@ namespace TownOfHost
                 return;
             }
 
-            writer.EndMessage();
-            writer.EndMessage();
+            stream.EndMessage();
+            stream.EndMessage();
             currentState = State.Ready;
         }
         public void SendMessage()
@@ -82,9 +82,9 @@ namespace TownOfHost
                 return;
             }
 
-            AmongUsClient.Instance.SendOrDisconnect(writer);
+            AmongUsClient.Instance.SendOrDisconnect(stream);
             currentState = State.Finished;
-            writer.Recycle();
+            stream.Recycle();
         }
 
         // Write
@@ -112,7 +112,7 @@ namespace TownOfHost
                 return;
             }
 
-            action(writer);
+            action(stream);
         }
 
         public enum State
