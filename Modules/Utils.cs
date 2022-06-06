@@ -315,7 +315,7 @@ namespace TownOfHost
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text);
         }
-        public static void ShowLastRoles()
+        public static void ShowLastResult()
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
