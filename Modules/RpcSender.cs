@@ -50,6 +50,11 @@ public class CustomRpcSender
 
         return writer;
     }
+    public void EndRpc()
+    {
+        writer.EndMessage();
+        writer.EndMessage();
+    }
 
     public enum ActionTypes
     {
