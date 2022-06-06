@@ -39,10 +39,12 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (Assassin.FinishAssassinMeetingTrigger)
             {
-                Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
+                PlayerControl assassin = Utils.GetPlayerById(Assassin.TriggerPlayerId);
+                assassin?.RpcExileV2();
                 PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
                 PlayerState.SetDead(Assassin.TriggerPlayerId);
-                Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcSetNameEx(Assassin.TriggerPlayerName);
+                assassin?.RpcSetNameEx(Assassin.TriggerPlayerName);
+                Utils.NotifyRoles(isMeeting: true, SpecifySeer: assassin, force: true);
                 Assassin.FinishAssassinMeetingTrigger = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                     Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
