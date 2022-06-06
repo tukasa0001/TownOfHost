@@ -84,7 +84,24 @@ namespace TownOfHost
             switch (seer.GetCustomRole())
             {
                 case CustomRoles.EvilTracker:
-                    return Options.EvilTrackerCanSeeKillFlash.GetBool();
+                    if (!Options.EvilTrackerCanSeeKillFlash.GetBool()) return false;
+                    else
+                    {
+                        switch (deathReason)
+                        {
+                            case PlayerState.DeathReason.Bite
+                                or PlayerState.DeathReason.Sniped
+                                or PlayerState.DeathReason.Bombed:
+                                return true;
+                            case PlayerState.DeathReason.Suicide
+                                or PlayerState.DeathReason.LoversSuicide
+                                or PlayerState.DeathReason.Misfire
+                                or PlayerState.DeathReason.Torched:
+                                return false;
+                            default:
+                                return killer.GetCustomRole().IsImpostor();
+                        }
+                    }
                 case CustomRoles.Seer:
                     return true;
                 default:

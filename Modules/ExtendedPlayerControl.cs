@@ -357,6 +357,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EvilTracker:
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = 1f;
                     if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
