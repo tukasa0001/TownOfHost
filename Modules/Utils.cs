@@ -273,7 +273,7 @@ namespace TownOfHost
                     if (role.IsEnable())
                     {
                         if (role == CustomRoles.AssassinAndMarin)
-                            text += AssassinAndMarin.DisplayRole(disableColor: true);
+                            text += string.Format("\n{0}:{1}", AssassinAndMarin.DisplayRole(disableColor: true), role.GetCount());
                         else
                             text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
                     }
