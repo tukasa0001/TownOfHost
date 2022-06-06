@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
+using UnhollowerBaseLib;
 
 public class CustomRpcSender
 {
@@ -59,6 +60,23 @@ public class CustomRpcSender
     {
         AmongUsClient.Instance.SendOrDisconnect(writer);
     }
+
+    // Write
+    public void Write(MessageWriter msg, bool includeHeader) => writer.Write(msg, includeHeader);
+    public void Write(float val) => writer.Write(val);
+    public void Write(string val) => writer.Write(val);
+    public void Write(ulong val) => writer.Write(val);
+    public void Write(int val) => writer.Write(val);
+    public void Write(uint val) => writer.Write(val);
+    public void Write(ushort val) => writer.Write(val);
+    public void Write(byte val) => writer.Write(val);
+    public void Write(sbyte val) => writer.Write(val);
+    public void Write(bool val) => writer.Write(val);
+    public void Write(Il2CppStructArray<byte> bytes) => writer.Write(bytes);
+    public void Write(Il2CppStructArray<byte> bytes, int offset, int length) => writer.Write(bytes, offset, length);
+    public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) => writer.WriteBytesAndSize(bytes);
+    public void WritePacked(int val) => writer.WritePacked(val);
+    public void WritePacked(uint val) => writer.WritePacked(val);
 
     public enum ActionTypes
     {
