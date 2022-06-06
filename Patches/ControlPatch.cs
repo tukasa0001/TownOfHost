@@ -146,8 +146,8 @@ namespace TownOfHost
                         var sender = CustomRpcSender.Create();
                         for (byte i = 0; i < 10; i++)
                         {
-                            sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor)
-                                .Write(i);
+                            sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor);
+                            sender.Write(i);
                             sender.EndRpc();
                         }
 
