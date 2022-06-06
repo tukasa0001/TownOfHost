@@ -117,10 +117,10 @@ namespace TownOfHost
 
         public enum State
         {
-            BeforeInit = 0,
-            Ready,
-            Writing,
-            Finished,
+            BeforeInit = 0, //初期化前 何もできない
+            Ready, //送信準備完了 StartRpcとSendMessageを実行可能
+            Writing, //RPC書き込み中 WriteとEndRpcを実行可能
+            Finished, //送信後 何もできない
         }
     }
 }
