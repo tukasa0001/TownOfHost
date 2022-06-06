@@ -36,6 +36,12 @@ namespace TownOfHost
           byte callId,
           int targetClientId = -1)
         {
+            if (currentState != State.Ready && !isUnsafe)
+            {
+                Logger.Error("RPCを開始しようとしましたが、StateがReady(準備完了)ではありません", "CustomRpcSender.Error");
+                return null;
+            }
+
             if (targetClientId < 0)
             {
                 // 全員に対するRPC
@@ -58,33 +64,54 @@ namespace TownOfHost
         }
         public void EndRpc()
         {
+            if (currentState != State.Writing && !isUnsafe)
+            {
+                Logger.Error("RPCを終了しようとしましたが、StateがWriting(書き込み中)ではありません", "CustomRpcSender.Error");
+                return;
+            }
+
             writer.EndMessage();
             writer.EndMessage();
             currentState = State.Ready;
         }
         public void SendMessage()
         {
+            if (currentState != State.Ready && !isUnsafe)
+            {
+                Logger.Error("RPCを終了しようとしましたが、StateがReady(準備完了)ではありません", "CustomRpcSender.Error");
+                return;
+            }
+
             AmongUsClient.Instance.SendOrDisconnect(writer);
             currentState = State.Finished;
             writer.Recycle();
         }
 
         // Write
-        public void Write(MessageWriter msg, bool includeHeader) => writer.Write(msg, includeHeader);
-        public void Write(float val) => writer.Write(val);
-        public void Write(string val) => writer.Write(val);
-        public void Write(ulong val) => writer.Write(val);
-        public void Write(int val) => writer.Write(val);
-        public void Write(uint val) => writer.Write(val);
-        public void Write(ushort val) => writer.Write(val);
-        public void Write(byte val) => writer.Write(val);
-        public void Write(sbyte val) => writer.Write(val);
-        public void Write(bool val) => writer.Write(val);
-        public void Write(Il2CppStructArray<byte> bytes) => writer.Write(bytes);
-        public void Write(Il2CppStructArray<byte> bytes, int offset, int length) => writer.Write(bytes, offset, length);
-        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) => writer.WriteBytesAndSize(bytes);
-        public void WritePacked(int val) => writer.WritePacked(val);
-        public void WritePacked(uint val) => writer.WritePacked(val);
+        public void Write(MessageWriter msg, bool includeHeader) { if (CheckForWriting()) writer.Write(msg, includeHeader); }
+        public void Write(float val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(string val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(ulong val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(int val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(uint val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(ushort val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(byte val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(sbyte val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(bool val) { if (CheckForWriting()) writer.Write(val); }
+        public void Write(Il2CppStructArray<byte> bytes) { if (CheckForWriting()) writer.Write(bytes); }
+        public void Write(Il2CppStructArray<byte> bytes, int offset, int length) { if (CheckForWriting()) writer.Write(bytes, offset, length); }
+        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) { if (CheckForWriting()) writer.WriteBytesAndSize(bytes); }
+        public void WritePacked(int val) { if (CheckForWriting()) writer.WritePacked(val); }
+        public void WritePacked(uint val) { if (CheckForWriting()) writer.WritePacked(val); }
+        public bool CheckForWriting()
+        {
+            if (currentState != State.Writing && !isUnsafe)
+            {
+                Logger.Error("RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません", "CustomRpcSender.Error");
+                return false;
+            }
+            return true;
+        }
 
         public enum State
         {
