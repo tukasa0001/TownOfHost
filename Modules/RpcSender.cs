@@ -55,6 +55,10 @@ public class CustomRpcSender
         writer.EndMessage();
         writer.EndMessage();
     }
+    public void SendMessage()
+    {
+        AmongUsClient.Instance.SendOrDisconnect(writer);
+    }
 
     public enum ActionTypes
     {
