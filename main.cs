@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.0.1";
+        public const string PluginVersion = "2.0.2";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -106,6 +106,7 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int DiscussionTime;
         public static int VotingTime;
+        public static byte currentDousingTarget;
         public static float DefaultCrewmateVision;
         public static float DefaultImpostorVision;
 
@@ -156,6 +157,7 @@ namespace TownOfHost
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
+            currentDousingTarget = 255;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
@@ -178,8 +180,8 @@ namespace TownOfHost
                 roleColors = new Dictionary<CustomRoles, string>(){
                 //バニラ役職
                 {CustomRoles.Crewmate, "#ffffff"},
-                {CustomRoles.Engineer, "#00ffff"},
-                {CustomRoles.Scientist, "#00ffff"},
+                {CustomRoles.Engineer, "#b6f0ff"},
+                {CustomRoles.Scientist, "#b6f0ff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},

@@ -235,7 +235,7 @@ namespace TownOfHost
                     break;
                 case CustomWinner.Crewmate:
                     CustomWinnerText = Utils.GetRoleName(CustomRoles.Crewmate);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
+                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Engineer);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:
