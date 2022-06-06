@@ -33,6 +33,11 @@ namespace TownOfHost
 
         public MessageWriter StartRpc(
           uint targetNetId,
+          RpcCalls rpcCall,
+          int targetClientId = -1)
+         => StartRpc(targetNetId, (byte)rpcCall, targetClientId);
+        public MessageWriter StartRpc(
+          uint targetNetId,
           byte callId,
           int targetClientId = -1)
         {
