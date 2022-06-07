@@ -37,44 +37,47 @@ namespace TownOfHost
                     Logger.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                    if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
+                    if (Options.VoteMode.GetBool())
                     {
-                        switch (Options.GetWhenSkipVote())
+                        if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                         {
-                            case VoteMode.Suicide:
-                                PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
-                                Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                break;
-                            case VoteMode.SelfVote:
-                                ps.VotedFor = ps.TargetPlayerId;
-                                Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
-                                break;
-                            default:
-                                break;
+                            switch (Options.GetWhenSkipVote())
+                            {
+                                case VoteMode.Suicide:
+                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    voter.RpcExileV2();
+                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                    break;
+                                case VoteMode.SelfVote:
+                                    ps.VotedFor = ps.TargetPlayerId;
+                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
-                    {
-                        switch (Options.GetWhenNonVote())
+                        if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                         {
-                            case VoteMode.Suicide:
-                                PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                break;
-                            case VoteMode.SelfVote:
-                                ps.VotedFor = ps.TargetPlayerId;
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
-                                break;
-                            case VoteMode.Skip:
-                                ps.VotedFor = 253;
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
-                                break;
-                            default:
-                                break;
+                            switch (Options.GetWhenNonVote())
+                            {
+                                case VoteMode.Suicide:
+                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    voter.RpcExileV2();
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                    break;
+                                case VoteMode.SelfVote:
+                                    ps.VotedFor = ps.TargetPlayerId;
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    break;
+                                case VoteMode.Skip:
+                                    ps.VotedFor = 253;
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     statesList.Add(new MeetingHud.VoterState()
