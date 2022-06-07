@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
+using InnerNet;
 using Hazel;
 using UnhollowerBaseLib;
 
@@ -108,6 +109,7 @@ namespace TownOfHost
         public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) => Write(w => w.WriteBytesAndSize(bytes));
         public void WritePacked(int val) => Write(w => w.WritePacked(val));
         public void WritePacked(uint val) => Write(w => w.WritePacked(val));
+        public void WriteNetObject(InnerNetObject obj) => Write(w => w.WriteNetObject(obj));
 
         private void Write(Action<MessageWriter> action)
         {
