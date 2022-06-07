@@ -55,7 +55,7 @@ namespace TownOfHost
                     case "/l":
                     case "/lastresult":
                         canceled = true;
-                        Utils.ShowLastRoles();
+                        Utils.ShowLastResult();
                         break;
 
                     case "/r":
@@ -155,7 +155,7 @@ namespace TownOfHost
 
                             case "n":
                             case "now":
-                                Utils.ShowActiveRoles();
+                                Utils.ShowActiveSettingsHelp();
                                 break;
 
                             default:
