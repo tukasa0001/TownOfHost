@@ -627,6 +627,8 @@ Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
 ### Lovers
 
+Create and idea by ゆりの<br>
+
 Team : Neutral<br>
 Decision : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
@@ -792,6 +794,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 

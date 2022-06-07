@@ -621,6 +621,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### Lovers/恋人
 
+考案・制作者 : ゆりの<br>
+
 陣営 : 第三<br>
 判定 : -<br>
 勝利条件 : 恋人が2人共生き残っている状態で試合が終了すること。全クルーのタスク終了時は生き残っていても敗北。<br>
@@ -785,5 +787,6 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
 作者の Twitter : https://twitter.com/XenonBottle<br>
