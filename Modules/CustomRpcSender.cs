@@ -32,12 +32,12 @@ namespace TownOfHost
             return new CustomRpcSender(sendOption, isUnsafe);
         }
 
-        public MessageWriter StartRpc(
+        public CustomRpcSender StartRpc(
           uint targetNetId,
           RpcCalls rpcCall,
           int targetClientId = -1)
          => StartRpc(targetNetId, (byte)rpcCall, targetClientId);
-        public MessageWriter StartRpc(
+        public CustomRpcSender StartRpc(
           uint targetNetId,
           byte callId,
           int targetClientId = -1)
@@ -45,7 +45,7 @@ namespace TownOfHost
             if (currentState != State.Ready && !isUnsafe)
             {
                 Logger.Error("RPCを開始しようとしましたが、StateがReady(準備完了)ではありません", "CustomRpcSender.Error");
-                return null;
+                return this;
             }
 
             if (targetClientId < 0)
@@ -66,7 +66,7 @@ namespace TownOfHost
             stream.Write(callId);
 
             currentState = State.Writing;
-            return stream;
+            return this;
         }
         public void EndRpc()
         {
@@ -94,32 +94,31 @@ namespace TownOfHost
         }
 
         // Write
-        public void Write(MessageWriter msg, bool includeHeader) => Write(w => w.Write(msg, includeHeader));
-        public void Write(float val) => Write(w => w.Write(val));
-        public void Write(string val) => Write(w => w.Write(val));
-        public void Write(ulong val) => Write(w => w.Write(val));
-        public void Write(int val) => Write(w => w.Write(val));
-        public void Write(uint val) => Write(w => w.Write(val));
-        public void Write(ushort val) => Write(w => w.Write(val));
-        public void Write(byte val) => Write(w => w.Write(val));
-        public void Write(sbyte val) => Write(w => w.Write(val));
-        public void Write(bool val) => Write(w => w.Write(val));
-        public void Write(Il2CppStructArray<byte> bytes) => Write(w => w.Write(bytes));
-        public void Write(Il2CppStructArray<byte> bytes, int offset, int length) => Write(w => w.Write(bytes, offset, length));
-        public void WriteBytesAndSize(Il2CppStructArray<byte> bytes) => Write(w => w.WriteBytesAndSize(bytes));
-        public void WritePacked(int val) => Write(w => w.WritePacked(val));
-        public void WritePacked(uint val) => Write(w => w.WritePacked(val));
-        public void WriteNetObject(InnerNetObject obj) => Write(w => w.WriteNetObject(obj));
+        public CustomRpcSender Write(MessageWriter msg, bool includeHeader) => Write(w => w.Write(msg, includeHeader));
+        public CustomRpcSender Write(float val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(string val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(ulong val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(int val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(uint val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(ushort val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(byte val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(sbyte val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(bool val) => Write(w => w.Write(val));
+        public CustomRpcSender Write(Il2CppStructArray<byte> bytes) => Write(w => w.Write(bytes));
+        public CustomRpcSender Write(Il2CppStructArray<byte> bytes, int offset, int length) => Write(w => w.Write(bytes, offset, length));
+        public CustomRpcSender WriteBytesAndSize(Il2CppStructArray<byte> bytes) => Write(w => w.WriteBytesAndSize(bytes));
+        public CustomRpcSender WritePacked(int val) => Write(w => w.WritePacked(val));
+        public CustomRpcSender WritePacked(uint val) => Write(w => w.WritePacked(val));
+        public CustomRpcSender WriteNetObject(InnerNetObject obj) => Write(w => w.WriteNetObject(obj));
 
-        private void Write(Action<MessageWriter> action)
+        private CustomRpcSender Write(Action<MessageWriter> action)
         {
             if (currentState != State.Writing && !isUnsafe)
-            {
                 Logger.Error("RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません", "CustomRpcSender.Error");
-                return;
-            }
+            else
+                action(stream);
 
-            action(stream);
+            return this;
         }
 
         public enum State
