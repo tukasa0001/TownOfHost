@@ -110,6 +110,7 @@ namespace TownOfHost
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
+            if (PlayerState.isDead[pc.PlayerId]) return;
             //スナイパーで弾が残ってたら
             if (shapeshifting)
             {
@@ -131,7 +132,7 @@ namespace TownOfHost
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
                 SendRPC(pc.PlayerId);
-                Utils.NotifyRoles();
+                Utils.NotifyRoles(SpecifySeer:pc);
 
                 //変身開始地点→解除地点のベクトル
                 var snipeBasePos = snipeBasePosition[pc.PlayerId];
@@ -140,7 +141,8 @@ namespace TownOfHost
 
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    if (target.Data.IsDead || target.PlayerId == pc.PlayerId) continue;
+                    //死者や自分には当たらない
+                    if (PlayerState.isDead[target.PlayerId] || target.PlayerId == pc.PlayerId) continue;
                     //死んでいない対象の方角ベクトル作成
                     var target_pos = target.transform.position - snipePos;
                     //正規化して
@@ -153,8 +155,8 @@ namespace TownOfHost
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認
-                        var snipe_point = dir * target_pos.magnitude;
-                        var err = (snipe_point - target_pos).magnitude;
+                        //単位ベクトルとの外積をとれば大きさ=誤差になる。
+                        var err = Vector3.Cross(dir, target_pos).magnitude;
                         Logger.Info($"  err={err}", "Sniper");
                         if (err < 1.0)
                         {
