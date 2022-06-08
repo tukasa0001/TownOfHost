@@ -263,7 +263,7 @@ namespace TownOfHost
                     case CustomRoles.TimeThief:
                         Main.TimeThiefKillCount[killer.PlayerId]++;
                         killer.RpcSetTimeThiefKillCount();
-                        Main.DiscussionTime -= Options.TimeThiefDecreaseDiscussionTime.GetInt();
+                        Main.DiscussionTime -= Options.TimeThiefDecreaseMeetingTime.GetInt();
                         if (Main.DiscussionTime < 0)
                         {
                             Main.VotingTime += Main.DiscussionTime;
