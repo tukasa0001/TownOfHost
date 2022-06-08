@@ -401,8 +401,8 @@ namespace TownOfHost
                 opt.EmergencyCooldown = 3600;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
                 opt.ImpostorLightMod = 0f;
-            opt.DiscussionTime = Main.DiscussionTime;
-            opt.VotingTime = Main.VotingTime;
+            opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
+            opt.VotingTime = Mathf.Clamp(Main.VotingTime, 10, 300);
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
