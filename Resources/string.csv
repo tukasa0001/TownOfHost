@@ -295,6 +295,7 @@ SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
+TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

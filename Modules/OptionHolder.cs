@@ -64,7 +64,7 @@ namespace TownOfHost
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
-        public static CustomOption TimeThiefDecreaseVotingTime;
+        public static CustomOption TimeThiefLowerLimitVotingTime;
         public static CustomOption VampireKillDelay;
         public static CustomOption BlackOutMareSpeed;
         public static CustomOption ShapeMasterShapeshiftDuration;
@@ -270,6 +270,7 @@ namespace TownOfHost
             BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseMeetingTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            TimeThiefLowerLimitVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
 
             //BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
