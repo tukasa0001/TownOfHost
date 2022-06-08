@@ -667,8 +667,8 @@ namespace TownOfHost
         }
         public static bool IsDouseDone(this PlayerControl player)
         {
-            return Main.DousedPlayerCount.ContainsKey(player.PlayerId) &&
-                    Main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2;
+            var count = Utils.getDousedPlayerCount(player.PlayerId);
+            return count.Item1 == count.Item2;
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
