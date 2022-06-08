@@ -182,7 +182,7 @@ namespace TownOfHost
         }
         public static string GetProgressText(PlayerControl pc)
         {
-            if (!PlayerControl.LocalPlayer.IsModClient()) return ""; //ホストがMODを入れていなければ未記入を返す
+            if (!GetPlayerById(0).IsModClient()) return ""; //ホストがMODを入れていなければ未記入を返す
             var taskState = pc.GetPlayerTaskState();
             var Comms = false;
             if (taskState.hasTasks)
@@ -198,6 +198,7 @@ namespace TownOfHost
         }
         public static string GetProgressText(byte playerId, bool comms = false)
         {
+            if (!GetPlayerById(0).IsModClient()) return ""; //ホストがMODを入れていなければ未記入を返す
             string colorCode = "<color=#ffff00>";
             string closeCode = "</color>";
             if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return $" {colorCode}Invalid{closeCode}";
