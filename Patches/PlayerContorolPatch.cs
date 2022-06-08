@@ -407,7 +407,7 @@ namespace TownOfHost
             {
                 if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
                 {
-                    if (!shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                    if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
                     {
                         var cp = Main.CursedPlayers[shapeshifter.PlayerId];
                         Vector2 cppos = cp.transform.position;//呪われた人の位置
