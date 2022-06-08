@@ -673,7 +673,7 @@ namespace TownOfHost
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
-                Main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+                Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
