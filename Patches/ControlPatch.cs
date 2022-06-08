@@ -62,7 +62,7 @@ namespace TownOfHost
             //現在の有効な設定を表示
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
-                Utils.ShowActiveRoles();
+                Utils.ShowActiveSettingsHelp();
             }
 
             //--以下デバッグモード用コマンド--//

@@ -224,7 +224,7 @@ namespace TownOfHost
 
             return ProgressText;
         }
-        public static void ShowActiveRoles()
+        public static void ShowActiveSettingsHelp()
         {
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -315,7 +315,7 @@ namespace TownOfHost
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text);
         }
-        public static void ShowLastRoles()
+        public static void ShowLastResult()
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
