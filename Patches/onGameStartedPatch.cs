@@ -140,7 +140,7 @@ namespace TownOfHost
                 {
                     AllPlayers.Add(pc);
                 }
-
+                var crs = CustomRpcSender.Create();
                 if (CustomRoles.Sheriff.IsEnable())
                 {
                     for (var i = 0; i < CustomRoles.Sheriff.GetCount(); i++)
@@ -153,12 +153,12 @@ namespace TownOfHost
                         if (sheriff.PlayerId != 0)
                         {
                             //ただしホスト、お前はDesyncするな。
-                            sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                            sheriff.RpcSetRoleDesync(crs, RoleTypes.Impostor);
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == sheriff) continue;
-                                sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
+                                sheriff.RpcSetRoleDesync(crs, RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(crs, RoleTypes.Scientist, sheriff);
                             }
                         }
                         else
@@ -181,12 +181,12 @@ namespace TownOfHost
                         if (arsonist.PlayerId != 0)
                         {
                             //ただしホスト、お前はDesyncするな。
-                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
+                            arsonist.RpcSetRoleDesync(crs, RoleTypes.Impostor);
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                                arsonist.RpcSetRoleDesync(crs, RoleTypes.Scientist, pc);
+                                pc.RpcSetRoleDesync(crs, RoleTypes.Scientist, arsonist);
                             }
                         }
                         else
@@ -197,6 +197,7 @@ namespace TownOfHost
                         arsonist.Data.IsDead = true;
                     }
                 }
+                crs.SendMessage();
             }
         }
         public static void Postfix()

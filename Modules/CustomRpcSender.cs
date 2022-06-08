@@ -129,4 +129,22 @@ namespace TownOfHost
             Finished, //送信後 何もできない
         }
     }
+    public static class CustomRpcSenderExtention
+    {
+        public static void RpcSetRoleDesync(this PlayerControl player, CustomRpcSender crs, RoleTypes role, PlayerControl seer = null)
+        {
+            //player: 名前の変更対象
+            //seer: 上の変更を確認することができるプレイヤー
+
+            if (player == null) return;
+            if (seer == null) seer = player;
+            var clientId = seer.GetClientId();
+
+            crs.StartRpc(player.NetId, RpcCalls.SetRole, clientId)
+                .Write((ushort)role)
+                .EndRpc();
+
+            return;
+        }
+    }
 }
