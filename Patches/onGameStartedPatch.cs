@@ -23,7 +23,6 @@ namespace TownOfHost
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.isDeadDoused = new Dictionary<byte, bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.BountyTargets = new Dictionary<byte, PlayerControl>();
             Main.isTargetKilled = new Dictionary<byte, bool>();
@@ -333,7 +332,6 @@ namespace TownOfHost
                 Main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    Main.isDeadDoused[pc.PlayerId] = false;
                     pc.ResetKillCooldown();
                     if (pc.Is(CustomRoles.Sheriff))
                     {
