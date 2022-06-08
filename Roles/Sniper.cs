@@ -141,7 +141,8 @@ namespace TownOfHost
 
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    if (target.Data.IsDead || target.PlayerId == pc.PlayerId) continue;
+                    //死者や自分には当たらない
+                    if (PlayerState.isDead[target.PlayerId] || target.PlayerId == pc.PlayerId) continue;
                     //死んでいない対象の方角ベクトル作成
                     var target_pos = target.transform.position - snipePos;
                     //正規化して
