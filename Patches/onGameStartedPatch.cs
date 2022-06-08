@@ -37,6 +37,7 @@ namespace TownOfHost
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.IgnoreReportPlayers = new List<byte>();
+            Main.ResetCamPlayerList = new();
 
             Main.SheriffShotLimit = new Dictionary<byte, float>();
             Main.TimeThiefKillCount = new Dictionary<byte, int>();
