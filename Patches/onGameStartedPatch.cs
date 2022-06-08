@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
@@ -427,6 +428,9 @@ namespace TownOfHost
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
+
+            // ResetCamが必要なプレイヤーのリスト
+            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
 
             //サーバーの役職判定をだます
             new LateTask(() =>
