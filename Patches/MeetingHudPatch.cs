@@ -147,7 +147,7 @@ namespace TownOfHost
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
