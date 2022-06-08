@@ -302,6 +302,12 @@ namespace TownOfHost
                     pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
                 }
 
+                if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
+                    seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                }
+
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
 
                 //自分自身の名前の色を変更
