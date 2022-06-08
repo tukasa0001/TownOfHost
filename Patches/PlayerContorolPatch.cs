@@ -719,7 +719,7 @@ namespace TownOfHost
                             player.RpcGuardAndKill(ar_target);//通知とクールリセット
                             Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
                             Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
-                            player.RpcSetDousedPlayer();
+                            player.RpcSetDousedPlayer(ar_target, true);
                             Utils.NotifyRoles();//名前変更
                             RPC.ResetCurrentDousingTarget(player.PlayerId);
                         }
