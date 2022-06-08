@@ -359,7 +359,6 @@ namespace TownOfHost
                         {
                             Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                         }
-                        //TODO: isDousedを送信する必要があるかも
                     }
                     if (pc.Is(CustomRoles.TimeThief))
                     {
