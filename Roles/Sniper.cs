@@ -110,6 +110,7 @@ namespace TownOfHost
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
+            if (PlayerState.isDead[pc.PlayerId]) return;
             //スナイパーで弾が残ってたら
             if (shapeshifting)
             {
