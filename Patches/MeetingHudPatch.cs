@@ -196,17 +196,6 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, force: true);
             Main.witchMeeting = false;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && Main.VotingTime <= 0)
-                {
-                    new LateTask(() =>
-                        {
-                            MeetingHud.Instance.RpcClose();
-                        },
-                        5f);
-                }
-            }
         }
         public static void Postfix(MeetingHud __instance)
         {
