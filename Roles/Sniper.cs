@@ -132,7 +132,7 @@ namespace TownOfHost
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
                 SendRPC(pc.PlayerId);
-                Utils.NotifyRoles();
+                Utils.NotifyRoles(SpecifySeer:pc);
 
                 //変身開始地点→解除地点のベクトル
                 var snipeBasePos = snipeBasePosition[pc.PlayerId];
@@ -155,8 +155,8 @@ namespace TownOfHost
                     {
                         if (target_dot < 0.99) continue;
                         //ある程度正確ならターゲットとの誤差確認
-                        var snipe_point = dir * target_pos.magnitude;
-                        var err = (snipe_point - target_pos).magnitude;
+                        //単位ベクトルとの外積をとれば大きさ=誤差になる。
+                        var err = Vector3.Cross(dir, target_pos).magnitude;
                         Logger.Info($"  err={err}", "Sniper");
                         if (err < 1.0)
                         {
