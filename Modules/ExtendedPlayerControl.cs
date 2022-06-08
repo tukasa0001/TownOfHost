@@ -600,12 +600,12 @@ namespace TownOfHost
             Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
-        public static void RpcSendDousedPlayerCount(this PlayerControl player)
+        public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendDousedPlayerCount, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
             writer.Write(player.PlayerId);
-            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item1);
-            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item2);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
