@@ -202,8 +202,8 @@ namespace TownOfHost
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    ProgressText = Main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
-                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>" : "Invalid";
+                    var doused = Utils.getDousedPlayerCount(playerId);
+                    ProgressText = $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>";
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $" <color=#ffff00>({shotLimit})</color>" : "Invalid";
@@ -648,7 +648,10 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Sheriff))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
                         else if (target.Is(CustomRoles.Arsonist))
-                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.DousedPlayerCount[target.PlayerId].Item1}/{Main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
+                        {
+                            var dousedPlayerCount = Utils.getDousedPlayerCount(target.PlayerId);
+                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({dousedPlayerCount.Item1}/{dousedPlayerCount.Item2})</color>{TargetTaskText}</size>\r\n" : "";
+                        }
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 

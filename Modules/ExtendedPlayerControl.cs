@@ -676,30 +676,6 @@ namespace TownOfHost
                 Main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
-        public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
-        {
-            foreach (var arsonist in PlayerControl.AllPlayerControls)
-            {
-                if (target == arsonist || !Main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
-                if (arsonist.Is(CustomRoles.Arsonist))
-                {
-                    Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused); //targetを塗っているかどうかを判定
-                    if (Main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
-                    {
-                        Main.isDeadDoused[target.PlayerId] = true;
-                        var ArsonistDic = Main.DousedPlayerCount[arsonist.PlayerId];
-                        var LeftPlayer = ArsonistDic.Item1; //塗った人数
-                        var RequireDouse = ArsonistDic.Item2; //塗るべき人数
-                        if (isDoused)
-                            LeftPlayer--;
-                        RequireDouse--;
-                        Main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
-                        Logger.Info($"{arsonist.GetRealName()} : {ArsonistDic}", "Arsonist");
-                        arsonist.RpcSendDousedPlayerCount(); //RPCで他クライアントと塗り状況を同期
-                    }
-                }
-            }
-        }
         public static void RpcExileV2(this PlayerControl player)
         {
             player.Exiled();
