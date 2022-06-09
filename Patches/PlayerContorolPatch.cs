@@ -436,20 +436,31 @@ namespace TownOfHost
             }
             if (shapeshifter.Is(CustomRoles.EvilTracker))
             {
-                Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTracker");
-                if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && !shapeshifting)
+                if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && shapeshifting)
                 {
-                    if (!Main.EvilTrackerTarget.TryGetValue(shapeshifter.PlayerId, out var ettarget))
-                    {
-                        Main.EvilTrackerTarget.Add(shapeshifter.PlayerId, target);
-                        Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
-                    }
-                    Logger.Info($"{ettarget}", "EvilTracker");
-                    if (!ettarget.Data.IsDead && !ettarget.GetCustomRole().IsImpostor())
+                    Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
+                    // Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerBefore");
+                    // if (!Main.EvilTrackerTarget.TryGetValue(shapeshifter.PlayerId, out var ettarget)
+                    //     && !target.Data.IsDead && !target.GetCustomRole().IsImpostor())
+                    // {
+                    //     Main.EvilTrackerTarget.Add(shapeshifter.PlayerId, target);
+                    //     Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
+                    //     RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
+                    //     Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerTarget");
+                    // }
+                    Logger.Info($"{target.GetNameWithRole()}", "Check");
+                    Logger.Info($"{target.Data.IsDead}", "Check");
+                    Logger.Info($"{target.GetCustomRole().IsImpostor()}", "Check");
+                    if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor())
                     {
                         Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
                         Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
+                        RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
+                        Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerTarget");
                     }
+                    Utils.CustomSyncAllSettings();
+                    Utils.NotifyRoles();
+                    Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
                 }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);

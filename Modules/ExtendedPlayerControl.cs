@@ -759,7 +759,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
             Main.BountyTargets[player.PlayerId] = null;
-            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "BountyHunter");
+            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
             RPC.RemoveEvilTrackerKey(player.PlayerId);
             return Main.BountyTargets[player.PlayerId];
         }
