@@ -15,6 +15,7 @@
 
 | Among Us バージョン | Mod バージョン | リンク                                                                                                  |
 | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s          | v2.0.3         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.3/TownOfHost-v2.0.3.zip)     |
 | 2022.3.29s          | v2.0.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
 | 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
@@ -80,6 +81,7 @@
 | /now<br>/n                                  | 現在の設定を表示                                    |
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
 | /help<br>/h                                 | コマンドの説明を表示                                |
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
@@ -115,7 +117,7 @@
 
 表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
 ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-また、設定でキルクールを 2.5 秒に設定する必要があります。<br>
+<!--また、設定でキルクールを 2.5 秒に設定する必要があります。<br>-->
 ターゲットは一定時間ごとに変更されます。<br>
 
 #### 設定
@@ -202,9 +204,9 @@
 弾丸を打ち切るまで通常キルは出来ません。<br>
 
 精密射撃モードOFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
 精密射撃モードON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
 
 #### 設定
 
@@ -223,10 +225,10 @@
 
 #### 設定
 
-| 設定名                |
-| --------------------- |
-| 減少する議論タイム(s) |
-| 減少する投票タイム(s) |
+| 設定名              |
+| ------------------- |
+| 減少する会議時間(s) |
+| 投票時間の下限(s)   |
 
 ### Vampire/ヴァンパイア
 

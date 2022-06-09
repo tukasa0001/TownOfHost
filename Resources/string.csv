@@ -234,7 +234,7 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
-BountyTargetChangeTime,Bounty Target Change Time\n(Added to Bounty Failure Kill Cooldown),バウンティハンターのターゲット変更時間\n(ターゲット以外殺害時のキルクールダウンにプラス)
+BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
 LastImpostorKillCooldown,LastImpostor KillCooldown,ラストインポスターのキルクール
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
@@ -294,8 +294,8 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
-TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
-TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
+TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

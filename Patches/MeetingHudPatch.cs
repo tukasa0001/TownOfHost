@@ -37,44 +37,47 @@ namespace TownOfHost
                     Logger.Info(string.Format("{0,-2}{1}:{2,-3}{3}", ps.TargetPlayerId, Utils.PadRightV2($"({Utils.GetVoteName(ps.TargetPlayerId)})", 40), ps.VotedFor, $"({Utils.GetVoteName(ps.VotedFor)})"), "Vote");
                     var voter = Utils.GetPlayerById(ps.TargetPlayerId);
                     if (voter == null || voter.Data == null || voter.Data.Disconnected) continue;
-                    if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
+                    if (Options.VoteMode.GetBool())
                     {
-                        switch (Options.GetWhenSkipVote())
+                        if (ps.VotedFor == 253 && !voter.Data.IsDead)//スキップ
                         {
-                            case VoteMode.Suicide:
-                                PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
-                                Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                break;
-                            case VoteMode.SelfVote:
-                                ps.VotedFor = ps.TargetPlayerId;
-                                Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
-                                break;
-                            default:
-                                break;
+                            switch (Options.GetWhenSkipVote())
+                            {
+                                case VoteMode.Suicide:
+                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    voter.RpcExileV2();
+                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                    break;
+                                case VoteMode.SelfVote:
+                                    ps.VotedFor = ps.TargetPlayerId;
+                                    Logger.Info($"スキップしたため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
-                    {
-                        switch (Options.GetWhenNonVote())
+                        if (ps.VotedFor == 254 && !voter.Data.IsDead)//無投票
                         {
-                            case VoteMode.Suicide:
-                                PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                voter.RpcExileV2();
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                Main.IgnoreReportPlayers.Add(voter.PlayerId);
-                                break;
-                            case VoteMode.SelfVote:
-                                ps.VotedFor = ps.TargetPlayerId;
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
-                                break;
-                            case VoteMode.Skip:
-                                ps.VotedFor = 253;
-                                Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
-                                break;
-                            default:
-                                break;
+                            switch (Options.GetWhenNonVote())
+                            {
+                                case VoteMode.Suicide:
+                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
+                                    voter.RpcExileV2();
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
+                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
+                                    break;
+                                case VoteMode.SelfVote:
+                                    ps.VotedFor = ps.TargetPlayerId;
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}に自投票させました", "Vote");
+                                    break;
+                                case VoteMode.Skip:
+                                    ps.VotedFor = 253;
+                                    Logger.Info($"無投票のため{voter.GetNameWithRole()}にスキップさせました", "Vote");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                     statesList.Add(new MeetingHud.VoterState()
@@ -128,6 +131,7 @@ namespace TownOfHost
                     foreach (var p in Main.SpelledPlayer)
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
+                        PlayerState.SetDead(p.PlayerId);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
                         p.RpcExileV2();
                     }
@@ -143,7 +147,7 @@ namespace TownOfHost
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -192,17 +196,6 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, force: true);
             Main.witchMeeting = false;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && Main.VotingTime <= 0)
-                {
-                    new LateTask(() =>
-                        {
-                            MeetingHud.Instance.RpcClose();
-                        },
-                        5f);
-                }
-            }
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -296,6 +289,12 @@ namespace TownOfHost
                 {
                     //変更対象の名前をエゴイスト色にする
                     pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+
+                if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
+                    seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
