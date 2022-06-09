@@ -306,7 +306,8 @@ namespace TownOfHost
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
             if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
+            MessageWriter writer = clientId == -1 ? AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId)
+                                                : AmongUsClient.Instance.StartRpcImmediately(Utils.GetPlayerById(sendTo).NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
             writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
