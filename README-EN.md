@@ -226,8 +226,8 @@ Also, when a TimeThief is expelled or killed, the lost meeting time is returned.
 
 | Settings Name                        |
 | ------------------------------------ |
-| TimeThief Decrease DiscussionTime(s) |
-| TimeThief Decrease VotingTime(s)     |
+| TimeThief Decrease Meeting Time(s)   |
+| TimeThief Lower Limit Voting Time(s) |
 
 ### Vampire
 
