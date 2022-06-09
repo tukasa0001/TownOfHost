@@ -182,6 +182,7 @@ namespace TownOfHost
         }
         public static string GetProgressText(PlayerControl pc)
         {
+            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             var taskState = pc.GetPlayerTaskState();
             var Comms = false;
             if (taskState.hasTasks)
@@ -197,16 +198,19 @@ namespace TownOfHost
         }
         public static string GetProgressText(byte playerId, bool comms = false)
         {
-            if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return "Invalid";
+            if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
+            string colorCode = "<color=#ffff00>";
+            string closeCode = "</color>";
+            if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return $" {colorCode}Invalid{closeCode}";
             string ProgressText = "";
             switch (role)
             {
                 case CustomRoles.Arsonist:
                     ProgressText = Main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
-                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>" : "Invalid";
+                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2}){closeCode}" : " Invalid"; //アーソニストの場合はもともと色付けをしていないため、色付けをしない
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $" <color=#ffff00>({shotLimit})</color>" : "Invalid";
+                    ProgressText += colorCode + (Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid") + closeCode;
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
@@ -217,14 +221,14 @@ namespace TownOfHost
                     if (taskState.hasTasks)
                     {
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+                        ProgressText = $"{colorCode}({Completed}/{taskState.AllTasksCount}){closeCode}";
                     }
                     break;
             }
 
             return ProgressText;
         }
-        public static void ShowActiveRoles()
+        public static void ShowActiveSettingsHelp()
         {
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -247,14 +251,14 @@ namespace TownOfHost
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo")); }
         }
-        public static void ShowActiveSettings()
+        public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
             var text = GetString("Roles") + ":";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
                 if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 text += GetString("HideAndSeek");
             }
@@ -265,13 +269,13 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
                 }
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Attributes") + ":";
                 if (Options.EnableLastImpostor.GetBool())
                 {
                     text += String.Format("\n{0}:{1}", GetString("LastImpostor"), Options.EnableLastImpostor.GetString());
                 }
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
@@ -313,13 +317,13 @@ namespace TownOfHost
             }
             if (Options.StandardHAS.GetBool()) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
-            SendMessage(text);
+            SendMessage(text, PlayerId);
         }
-        public static void ShowLastRoles()
+        public static void ShowLastResult(byte PlayerId = byte.MaxValue)
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse/lastroles"));
+                SendMessage(GetString("CantUse/lastroles"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
@@ -336,7 +340,7 @@ namespace TownOfHost
                 text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {GetVitalText(id)}";
             }
-            SendMessage(text);
+            SendMessage(text, PlayerId);
         }
 
         public static string GetShowLastSubRolesText(byte id)
