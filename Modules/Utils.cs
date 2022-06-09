@@ -206,8 +206,8 @@ namespace TownOfHost
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    ProgressText = Main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
-                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2}){closeCode}" : " Invalid"; //アーソニストの場合はもともと色付けをしていないため、色付けをしない
+                    var doused = Utils.getDousedPlayerCount(playerId);
+                    ProgressText = $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2}){closeCode}";
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += colorCode + (Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid") + closeCode;
@@ -652,7 +652,10 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Sheriff))
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.SheriffShotLimit[target.PlayerId]})</color>{TargetTaskText}</size>\r\n" : "";
                         else if (target.Is(CustomRoles.Arsonist))
-                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({Main.DousedPlayerCount[target.PlayerId].Item1}/{Main.DousedPlayerCount[target.PlayerId].Item2})</color>{TargetTaskText}</size>\r\n" : "";
+                        {
+                            var dousedPlayerCount = Utils.getDousedPlayerCount(target.PlayerId);
+                            TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()} ({dousedPlayerCount.Item1}/{dousedPlayerCount.Item2})</color>{TargetTaskText}</size>\r\n" : "";
+                        }
                         else
                             TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
@@ -785,6 +788,26 @@ namespace TownOfHost
             System.Diagnostics.Process.Start(@$"{System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}");
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
+        }
+        public static (int, int) getDousedPlayerCount(byte playerId)
+        {
+            int doused = 0, all = 0; //学校で習った書き方
+            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null ||
+                    pc.Data.IsDead ||
+                    pc.Data.Disconnected ||
+                    pc.PlayerId == playerId
+                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                all++;
+                if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
+                    //塗れている場合
+                    doused++;
+            }
+
+            return (doused, all);
         }
     }
 }
