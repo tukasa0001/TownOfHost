@@ -55,6 +55,7 @@ namespace TownOfHost
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
+        public static List<byte> ResetCamPlayerList;
         public static List<byte> IgnoreReportPlayers;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
