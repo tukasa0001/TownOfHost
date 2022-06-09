@@ -300,6 +300,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             switch (text)
             {
+                case "/n":
+                case "/now":
+                    Utils.ShowActiveSettings(player.PlayerId);
+                    break;
+
                 default:
                     break;
             }
