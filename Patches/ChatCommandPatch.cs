@@ -295,6 +295,15 @@ namespace TownOfHost
                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i]);
         }
+        public static void OnReceiveChat(PlayerControl player, string text)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            switch (text)
+            {
+                default:
+                    break;
+            }
+        }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
