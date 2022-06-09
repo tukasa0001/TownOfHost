@@ -182,6 +182,7 @@ namespace TownOfHost
         }
         public static string GetProgressText(PlayerControl pc)
         {
+            if (!GetPlayerById(0).IsModClient()) return ""; //ホストがMODを入れていなければ未記入を返す
             var taskState = pc.GetPlayerTaskState();
             var Comms = false;
             if (taskState.hasTasks)
@@ -197,16 +198,19 @@ namespace TownOfHost
         }
         public static string GetProgressText(byte playerId, bool comms = false)
         {
-            if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return "Invalid";
+            if (!GetPlayerById(0).IsModClient()) return ""; //ホストがMODを入れていなければ未記入を返す
+            string colorCode = "<color=#ffff00>";
+            string closeCode = "</color>";
+            if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return $" {colorCode}Invalid{closeCode}";
             string ProgressText = "";
             switch (role)
             {
                 case CustomRoles.Arsonist:
                     ProgressText = Main.DousedPlayerCount.TryGetValue(playerId, out var doused) ?
-                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2})</color>" : "Invalid";
+                        $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>({doused.Item1}/{doused.Item2}){closeCode}" : " Invalid"; //アーソニストの場合はもともと色付けをしていないため、色付けをしない
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $" <color=#ffff00>({shotLimit})</color>" : "Invalid";
+                    ProgressText += colorCode + (Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid") + closeCode;
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
@@ -217,7 +221,7 @@ namespace TownOfHost
                     if (taskState.hasTasks)
                     {
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = $"<color=#ffff00>({Completed}/{taskState.AllTasksCount})</color>";
+                        ProgressText = $"{colorCode}({Completed}/{taskState.AllTasksCount}){closeCode}";
                     }
                     break;
             }
