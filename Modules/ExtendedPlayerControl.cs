@@ -401,8 +401,8 @@ namespace TownOfHost
                 opt.EmergencyCooldown = 3600;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
                 opt.ImpostorLightMod = 0f;
-            opt.DiscussionTime = Main.DiscussionTime;
-            opt.VotingTime = Main.VotingTime;
+            opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
+            opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -673,7 +673,7 @@ namespace TownOfHost
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
-                Main.VotingTime += Options.TimeThiefDecreaseVotingTime.GetInt();
+                Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる

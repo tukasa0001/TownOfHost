@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
@@ -37,6 +38,7 @@ namespace TownOfHost
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.IgnoreReportPlayers = new List<byte>();
+            Main.ResetCamPlayerList = new();
 
             Main.SheriffShotLimit = new Dictionary<byte, float>();
             Main.TimeThiefKillCount = new Dictionary<byte, int>();
@@ -427,6 +429,9 @@ namespace TownOfHost
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
+
+            // ResetCamが必要なプレイヤーのリスト
+            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
 
             //サーバーの役職判定をだます
             new LateTask(() =>

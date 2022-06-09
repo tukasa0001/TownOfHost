@@ -55,7 +55,7 @@ namespace TownOfHost
                     case "/l":
                     case "/lastresult":
                         canceled = true;
-                        Utils.ShowLastRoles();
+                        Utils.ShowLastResult();
                         break;
 
                     case "/r":
@@ -155,7 +155,7 @@ namespace TownOfHost
 
                             case "n":
                             case "now":
-                                Utils.ShowActiveRoles();
+                                Utils.ShowActiveSettingsHelp();
                                 break;
 
                             default:
@@ -295,6 +295,25 @@ namespace TownOfHost
                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i]);
         }
+        public static void OnReceiveChat(PlayerControl player, string text)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            switch (text)
+            {
+                case "/l":
+                case "/lastresult":
+                    Utils.ShowLastResult(player.PlayerId);
+                    break;
+
+                case "/n":
+                case "/now":
+                    Utils.ShowActiveSettings(player.PlayerId);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
@@ -304,9 +323,10 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
-            int clientId = sendTo == byte.MaxValue ? -1 : sendTo;
+            int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
             if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
+            MessageWriter writer = clientId == -1 ? AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId)
+                                                : AmongUsClient.Instance.StartRpcImmediately(Utils.GetPlayerById(sendTo).NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
             writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
