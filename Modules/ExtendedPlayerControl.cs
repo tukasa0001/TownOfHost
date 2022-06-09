@@ -126,6 +126,27 @@ namespace TownOfHost
             writer.Write(DontShowOnModdedClient);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcSetNamePrivate(this CustomRpcSender sender, PlayerControl player, string name, bool DontShowOnModdedClient = false, PlayerControl seer = null, bool force = false)
+        {
+            //player: 名前の変更対象
+            //seer: 上の変更を確認することができるプレイヤー
+            if (player == null || name == null || !AmongUsClient.Instance.AmHost) return;
+            if (seer == null) seer = player;
+            if (!force && Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] == name)
+            {
+                //Logger.info($"Cancel:{player.name}:{name} for {seer.name}", "RpcSetNamePrivate");
+                return;
+            }
+            Main.LastNotifyNames[(player.PlayerId, seer.PlayerId)] = name;
+            HudManagerPatch.LastSetNameDesyncCount++;
+            Logger.Info($"Set:{player?.Data?.PlayerName}:{name} for {seer.GetNameWithRole()}", "RpcSetNamePrivate");
+
+            var clientId = seer.GetClientId();
+            sender.StartRpc(player.NetId, RpcCalls.SetName, clientId)
+                .Write(name)
+                .Write(DontShowOnModdedClient)
+                .EndRpc();
+        }
         public static void RpcSetRoleDesync(this PlayerControl player, RoleTypes role, PlayerControl seer = null)
         {
             //player: 名前の変更対象
