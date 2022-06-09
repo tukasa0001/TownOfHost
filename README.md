@@ -15,6 +15,7 @@
 
 | Among Us バージョン | Mod バージョン | リンク                                                                                                  |
 | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s          | v2.0.3         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.3/TownOfHost-v2.0.3.zip)     |
 | 2022.3.29s          | v2.0.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
 | 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
@@ -80,6 +81,7 @@
 | /now<br>/n                                  | 現在の設定を表示                                    |
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
 | /help<br>/h                                 | コマンドの説明を表示                                |
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
@@ -223,10 +225,10 @@
 
 #### 設定
 
-| 設定名                |
-| --------------------- |
-| 減少する議論タイム(s) |
-| 減少する投票タイム(s) |
+| 設定名              |
+| ------------------- |
+| 減少する会議時間(s) |
+| 投票時間の下限(s)   |
 
 ### Vampire/ヴァンパイア
 
