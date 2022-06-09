@@ -320,7 +320,7 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || Main.MessageWait.Value > __instance.TimeSinceLastMessage) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
@@ -329,6 +329,7 @@ namespace TownOfHost
                                                 : AmongUsClient.Instance.StartRpcImmediately(Utils.GetPlayerById(sendTo).NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
             writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            __instance.TimeSinceLastMessage = 0f;
         }
     }
 
