@@ -82,6 +82,7 @@
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
 | /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
+| /messagewait <秒><br>/mw <秒>               | メッセージの表示間隔の秒数を設定                    |
 | /help<br>/h                                 | コマンドの説明を表示                                |
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
