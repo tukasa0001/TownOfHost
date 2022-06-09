@@ -428,7 +428,7 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
-        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool force = false)
+        public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (PlayerControl.AllPlayerControls == null) return;
@@ -574,7 +574,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
+                seer.RpcSetNamePrivate(SelfName, true, force: NoCache || isMeeting);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -589,7 +589,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || IsActive(SystemTypes.Electrical)
-                    || force
+                    || NoCache
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
@@ -700,7 +700,7 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache || isMeeting);
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }

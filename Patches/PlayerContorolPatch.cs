@@ -467,7 +467,7 @@ namespace TownOfHost
             {
                 new LateTask(() =>
                 {
-                    Utils.NotifyRoles(force: true);
+                    Utils.NotifyRoles(NoCache: true);
                 },
                 1.2f, "ShapeShiftNotify");
             }
