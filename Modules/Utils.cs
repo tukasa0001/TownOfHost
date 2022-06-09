@@ -315,11 +315,11 @@ namespace TownOfHost
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text, PlayerId);
         }
-        public static void ShowLastResult()
+        public static void ShowLastResult(byte PlayerId = byte.MaxValue)
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse/lastroles"));
+                SendMessage(GetString("CantUse/lastroles"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
@@ -336,7 +336,7 @@ namespace TownOfHost
                 text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
                 text += $" {GetVitalText(id)}";
             }
-            SendMessage(text);
+            SendMessage(text, PlayerId);
         }
 
         public static string GetShowLastSubRolesText(byte id)
