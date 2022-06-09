@@ -171,6 +171,17 @@ namespace TownOfHost
                         else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
                         break;
 
+                    case "/mw":
+                    case "/messagewait":
+                        canceled = true;
+                        if (args.Length > 1 && int.TryParse(args[1], out int sec))
+                        {
+                            Main.MessageWait.Value = sec;
+                            Utils.SendMessage($"{sec}秒に設定されました", 0);
+                        }
+                        else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
