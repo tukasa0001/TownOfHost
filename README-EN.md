@@ -18,6 +18,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 | Among Us - Version | Mod Version | Link                                                                                                    |
 | ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| 2022.3.29s         | v2.0.3      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.3/TownOfHost-v2.0.3.zip)     |
 | 2022.3.29s         | v2.0.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
 | 2022.3.29s         | v2.0.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
 | 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
@@ -83,6 +84,7 @@ Chat commands are commands that can be typed in chat.
 | /now<br>/n                                            | Show active settings                              |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
 | /help<br>/h                                           | Show command description                          |
 | /help roles <role><br>/help r <role>                  | Display role description                          |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
