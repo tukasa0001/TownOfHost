@@ -300,8 +300,8 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
-TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
-TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
+TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 EvilTrackerCanSeeKillFlash,EvilTracker Can See KillFlash,キルフラッシュを見ることができる
 EvilTrackerCanResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる
 KillFlashDuration,KillFlash Duration(s),キルフラッシュの長さ(秒)

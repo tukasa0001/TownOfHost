@@ -63,8 +63,8 @@ namespace TownOfHost
         //public static CustomOption BHDefaultKillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
-        public static CustomOption TimeThiefDecreaseDiscussionTime;
-        public static CustomOption TimeThiefDecreaseVotingTime;
+        public static CustomOption TimeThiefDecreaseMeetingTime;
+        public static CustomOption TimeThiefLowerLimitVotingTime;
         public static CustomOption VampireKillDelay;
         public static CustomOption BlackOutMareSpeed;
         public static CustomOption ShapeMasterShapeshiftDuration;
@@ -273,8 +273,8 @@ namespace TownOfHost
             SetupRoleOptions(2300, CustomRoles.Mare);
             BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
             SetupRoleOptions(2400, CustomRoles.TimeThief);
-            TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            TimeThiefDecreaseMeetingTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            TimeThiefLowerLimitVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             SetupRoleOptions(2900, CustomRoles.EvilTracker);
             EvilTrackerTrackCoolDown = CustomOption.Create(2910, Color.white, "DefaultShapeshiftCooldown", 10, 1, 60, 1, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             EvilTrackerCanSeeKillFlash = CustomOption.Create(2911, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
