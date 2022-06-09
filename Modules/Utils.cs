@@ -247,14 +247,14 @@ namespace TownOfHost
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo")); }
         }
-        public static void ShowActiveSettings()
+        public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
             var text = GetString("Roles") + ":";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
                 if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 text += GetString("HideAndSeek");
             }
@@ -265,13 +265,13 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
                 }
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Attributes") + ":";
                 if (Options.EnableLastImpostor.GetBool())
                 {
                     text += String.Format("\n{0}:{1}", GetString("LastImpostor"), Options.EnableLastImpostor.GetString());
                 }
-                SendMessage(text);
+                SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
                 {
@@ -313,7 +313,7 @@ namespace TownOfHost
             }
             if (Options.StandardHAS.GetBool()) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
-            SendMessage(text);
+            SendMessage(text, PlayerId);
         }
         public static void ShowLastResult()
         {
