@@ -55,6 +55,23 @@ namespace TownOfHost
                 }
                 if (DoNotifyRoles) Utils.NotifyRoles();
             }
+            if (CustomRoles.EvilTracker.IsEnable())
+            {
+                bool DoNotifyRoles = false;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.Is(CustomRoles.EvilTracker)) continue;
+                    var target = pc.GetEvilTrackerTarget();
+                    //EvilTrackerのターゲット削除
+                    if (pc != target && (target.Data.IsDead || target.Data.Disconnected))
+                    {
+                        pc.RemoveEvilTrackerTarget();
+                        Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
+                        DoNotifyRoles = true;
+                    }
+                }
+                if (DoNotifyRoles) Utils.NotifyRoles();
+            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]

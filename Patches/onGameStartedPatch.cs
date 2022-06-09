@@ -47,6 +47,8 @@ namespace TownOfHost
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.targetArrows = new();
+            Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
+            Main.EvilTrackerCanSetTarget = new Dictionary<byte, bool>();
 
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
@@ -404,6 +406,12 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Mayor))
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                    if (pc.Is(CustomRoles.EvilTracker))
+                    {
+                        pc.RemoveEvilTrackerTarget();
+                        Main.EvilTrackerTarget.Add(pc.PlayerId, pc);
+                        Main.EvilTrackerCanSetTarget.Add(pc.PlayerId, true);
+                    }
                 }
 
                 //役職の人数を戻す

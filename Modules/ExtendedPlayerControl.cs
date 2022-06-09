@@ -362,7 +362,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterCooldown = Options.EvilTrackerTrackCoolDown.GetFloat();
                     opt.RoleOptions.ShapeshifterDuration = 1f;
                     if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
@@ -744,6 +744,24 @@ namespace TownOfHost
                     }
                 }
             }
+        }
+        public static PlayerControl GetEvilTrackerTarget(this PlayerControl player)
+        {
+            if (player == null) return null;
+            if (Main.EvilTrackerTarget == null) Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
+            if (!Main.EvilTrackerTarget.TryGetValue(player.PlayerId, out var target))
+            {
+                target = player.RemoveEvilTrackerTarget();
+            }
+            return target;
+        }
+        public static PlayerControl RemoveEvilTrackerTarget(this PlayerControl player)
+        {
+            if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
+            Main.BountyTargets[player.PlayerId] = null;
+            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "BountyHunter");
+            RPC.RemoveEvilTrackerKey(player.PlayerId);
+            return Main.BountyTargets[player.PlayerId];
         }
         public static void RpcExileV2(this PlayerControl player)
         {

@@ -36,6 +36,8 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
+        SetEvilTrackerTarget,
+        RemoveEvilTrackerTarget,
     }
     public enum Sounds
     {
@@ -213,6 +215,16 @@ namespace TownOfHost
                     byte dousingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
+                    break;
+                case CustomRPC.SetEvilTrackerTarget:
+                    byte TrackerId = reader.ReadByte();
+                    byte TrackingId = reader.ReadByte();
+                    var tracking = Utils.GetPlayerById(TrackingId);
+                    if (tracking != null) Main.EvilTrackerTarget[TrackingId] = tracking;
+                    break;
+                case CustomRPC.RemoveEvilTrackerTarget:
+                    byte TrackerId2 = reader.ReadByte();
+                    Main.EvilTrackerTarget.Remove(TrackerId2);
                     break;
             }
         }
@@ -446,6 +458,19 @@ namespace TownOfHost
             }
         }
         public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
+        public static void SendEvilTrackerTarget(byte EvilTrackerId, byte targetId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(EvilTrackerId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RemoveEvilTrackerKey(byte EvilTrackerId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(EvilTrackerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch

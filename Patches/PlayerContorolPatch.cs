@@ -436,7 +436,21 @@ namespace TownOfHost
             }
             if (shapeshifter.Is(CustomRoles.EvilTracker))
             {
-
+                Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTracker");
+                if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && !shapeshifting)
+                {
+                    if (!Main.EvilTrackerTarget.TryGetValue(shapeshifter.PlayerId, out var ettarget))
+                    {
+                        Main.EvilTrackerTarget.Add(shapeshifter.PlayerId, target);
+                        Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
+                    }
+                    Logger.Info($"{ettarget}", "EvilTracker");
+                    if (!ettarget.Data.IsDead && !ettarget.GetCustomRole().IsImpostor())
+                    {
+                        Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
+                        Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
+                    }
+                }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
 

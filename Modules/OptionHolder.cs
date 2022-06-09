@@ -115,6 +115,7 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
+        public static CustomOption EvilTrackerTrackCoolDown;
         public static CustomOption EvilTrackerCanSeeKillFlash;
         public static CustomOption EvilTrackerCanResetTargetAfterMeeting;
         public static CustomOption KillFlashDuration;
@@ -275,8 +276,9 @@ namespace TownOfHost
             TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             SetupRoleOptions(2900, CustomRoles.EvilTracker);
-            EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2910, Color.white, "EvilTrackerCanResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTrackerTrackCoolDown = CustomOption.Create(2910, Color.white, "DefaultShapeshiftCooldown", 10, 1, 60, 1, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTrackerCanSeeKillFlash = CustomOption.Create(2911, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2912, Color.white, "EvilTrackerCanResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
 
             //BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
