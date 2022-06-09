@@ -590,6 +590,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Puppeteer)
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
+                    || ForceLoop
                 )
                 {
                     foreach (var target in PlayerControl.AllPlayerControls)
