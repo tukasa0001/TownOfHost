@@ -220,6 +220,7 @@ namespace TownOfHost
                             Utils.CustomSyncAllSettings();
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
                             killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                            killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
                         }
