@@ -465,6 +465,7 @@ namespace TownOfHost
                 seerList = new();
                 seerList.Add(SpecifySeer);
             }
+            var sender = CustomRpcSender.Create(SendOption.Reliable);
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach (var seer in seerList)
@@ -574,7 +575,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
+                sender.RpcSetNamePrivate(seer, SelfName, true, force: force || isMeeting);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -700,13 +701,14 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);
+                        sender.RpcSetNamePrivate(target, TargetName, true, seer, force: force || isMeeting);
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
                 }
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
+            sender.SendMessage();
             Main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
