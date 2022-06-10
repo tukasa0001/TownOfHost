@@ -499,5 +499,24 @@ namespace TownOfHost
             }
             RPC.SyncLoversPlayers();
         }
+
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
+        class RpcSetRoleReplacer
+        {
+            public static bool doReplace = false;
+            public static CustomRpcSender sender;
+            public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
+            {
+                if (doReplace && sender != null)
+                {
+                    __instance.SetRole(roleType);
+                    sender.StartRpc(__instance.NetId, RpcCalls.SetRole)
+                          .Write((ushort)roleType)
+                          .EndRpc();
+                    return false;
+                }
+                else return true;
+            }
+        }
     }
 }
