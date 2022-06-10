@@ -158,18 +158,22 @@ namespace TownOfHost
                         if (sheriff.PlayerId != 0)
                         {
                             //ただしホスト、お前はDesyncするな。
-                            sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                            sender.RpcSetRole(sheriff, RoleTypes.Impostor);
+                            //sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == sheriff) continue;
-                                sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
+                                sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc.GetClientId());
+                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriff.GetClientId());
+                                //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                             }
                         }
                         else
                         {
                             //ホストは代わりに普通のクルーにする
-                            sheriff.RpcSetRole(RoleTypes.Crewmate);
+                            sender.RpcSetRole(sheriff, RoleTypes.Crewmate);
+                            //sheriff.RpcSetRole(RoleTypes.Crewmate);
                         }
                         sheriff.Data.IsDead = true;
                     }
@@ -186,18 +190,22 @@ namespace TownOfHost
                         if (arsonist.PlayerId != 0)
                         {
                             //ただしホスト、お前はDesyncするな。
-                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
+                            sender.RpcSetRole(arsonist, RoleTypes.Impostor);
+                            //arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
+                                sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc.GetClientId());
+                                sender.RpcSetRole(pc, RoleTypes.Scientist, arsonist.GetClientId());
+                                //arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
+                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
                             }
                         }
                         else
                         {
                             //ホストは代わりに普通のクルーにする
-                            arsonist.RpcSetRole(RoleTypes.Crewmate);
+                            sender.RpcSetRole(arsonist, RoleTypes.Crewmate);
+                            //arsonist.RpcSetRole(RoleTypes.Crewmate);
                         }
                         arsonist.Data.IsDead = true;
                     }
