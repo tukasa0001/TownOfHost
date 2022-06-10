@@ -167,7 +167,7 @@ namespace TownOfHost
             killer.ProtectPlayer(target, colorId);
             killer.MurderPlayer(target);
             // Other Clients
-            var sender = CustomRpcSender.Create(Input.GetKey(KeyCode.RightControl) ? SendOption.None : SendOption.Reliable);
+            var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
             sender.StartRpc(killer.NetId, RpcCalls.ProtectPlayer)
                   .WriteNetObject((InnerNetObject)target)
                   .Write(colorId)
