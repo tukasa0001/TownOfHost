@@ -71,7 +71,7 @@ namespace TownOfHost
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
