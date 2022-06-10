@@ -575,7 +575,7 @@ namespace TownOfHost
                 if (!isMeeting) SelfName += "\r\n";
 
                 //適用
-                sender.RpcSetNamePrivate(seer, SelfName, true, force: force || isMeeting);
+                seer.RpcSetNamePrivate(SelfName, true, force: force || isMeeting);
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -701,7 +701,7 @@ namespace TownOfHost
                         string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
-                        sender.RpcSetNamePrivate(target, TargetName, true, seer, force: force || isMeeting);
+                        target.RpcSetNamePrivate(TargetName, true, seer, force: force || isMeeting);
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
