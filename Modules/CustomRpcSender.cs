@@ -28,6 +28,7 @@ namespace TownOfHost
             this.isUnsafe = isUnsafe;
 
             currentState = State.Ready;
+            Logger.Info($"\"{name}\" is ready", "CusomRpcSender");
         }
         public static CustomRpcSender Create(string name = "No Name Sender", SendOption sendOption = SendOption.None, bool isUnsafe = false)
         {
@@ -92,6 +93,7 @@ namespace TownOfHost
 
             AmongUsClient.Instance.SendOrDisconnect(stream);
             currentState = State.Finished;
+            Logger.Info($"\"{name}\" is finished", "CusomRpcSender");
             stream.Recycle();
         }
 
