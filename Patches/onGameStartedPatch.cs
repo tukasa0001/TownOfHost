@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -103,6 +104,10 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            //CustomRpcSenderとRpcSetRoleReplacerの初期化
+            CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
+            RpcSetRoleReplacer.doReplace = true;
+            RpcSetRoleReplacer.sender = sender;
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -202,6 +207,10 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            //RpcSetRoleReplacerの無効化と送信処理
+            RpcSetRoleReplacer.doReplace = false;
+            RpcSetRoleReplacer.sender.SendMessage();
+
             //Utils.ApplySuffix();
 
             var rand = new System.Random();
