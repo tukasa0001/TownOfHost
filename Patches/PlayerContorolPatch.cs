@@ -441,15 +441,6 @@ namespace TownOfHost
                 if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && shapeshifting)
                 {
                     Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
-                    // Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerBefore");
-                    // if (!Main.EvilTrackerTarget.TryGetValue(shapeshifter.PlayerId, out var ettarget)
-                    //     && !target.Data.IsDead && !target.GetCustomRole().IsImpostor())
-                    // {
-                    //     Main.EvilTrackerTarget.Add(shapeshifter.PlayerId, target);
-                    //     Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
-                    //     RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
-                    //     Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerTarget");
-                    // }
                     Logger.Info($"{target.GetNameWithRole()}", "Check");
                     Logger.Info($"{target.Data.IsDead}", "Check");
                     Logger.Info($"{target.GetCustomRole().IsImpostor()}", "Check");
@@ -458,7 +449,7 @@ namespace TownOfHost
                         Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
                         Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
                         RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
-                        Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId]}", "EvilTrackerTarget");
+                        Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId].GetRealName()}", "EvilTrackerTarget");
                     }
                     Utils.CustomSyncAllSettings();
                     Utils.NotifyRoles();
