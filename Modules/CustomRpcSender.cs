@@ -135,4 +135,14 @@ namespace TownOfHost
             Finished, //送信後 何もできない
         }
     }
+
+    public static class CustomRpcSenderExtentions
+    {
+        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
+        {
+            sender.StartRpc(player.NetId, RpcCalls.MurderPlayer, targetClientId)
+                  .WriteNetObject(target)
+                  .EndRpc();
+        }
+    }
 }
