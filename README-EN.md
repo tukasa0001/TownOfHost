@@ -85,6 +85,7 @@ Chat commands are commands that can be typed in chat.
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
 | /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
+| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
 | /help<br>/h                                           | Show command description                          |
 | /help roles <role><br>/help r <role>                  | Display role description                          |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
