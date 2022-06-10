@@ -44,10 +44,12 @@ namespace TownOfHost
                 PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
                 PlayerState.SetDead(Assassin.TriggerPlayerId);
                 assassin?.RpcSetNameEx(Assassin.TriggerPlayerName);
-                Utils.NotifyRoles(isMeeting: true, SpecifySeer: assassin, force: true);
                 Assassin.FinishAssassinMeetingTrigger = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    Utils.NotifyRoles(isMeeting: true, NoCache: true);
                     Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                }
                 Utils.CustomSyncAllSettings();
 
                 if (Assassin.TargetRole == CustomRoles.Marin)
