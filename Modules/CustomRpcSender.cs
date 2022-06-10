@@ -12,24 +12,26 @@ namespace TownOfHost
     public class CustomRpcSender
     {
         public MessageWriter stream;
+        public string name;
         public SendOption sendOption;
         public bool isUnsafe;
 
         private State currentState = State.BeforeInit;
 
         private CustomRpcSender() { }
-        public CustomRpcSender(SendOption sendOption, bool isUnsafe)
+        public CustomRpcSender(string name, SendOption sendOption, bool isUnsafe)
         {
             stream = MessageWriter.Get(sendOption);
 
+            this.name = name;
             this.sendOption = sendOption;
             this.isUnsafe = isUnsafe;
 
             currentState = State.Ready;
         }
-        public static CustomRpcSender Create(SendOption sendOption = SendOption.None, bool isUnsafe = false)
+        public static CustomRpcSender Create(string name = "No Name Sender", SendOption sendOption = SendOption.None, bool isUnsafe = false)
         {
-            return new CustomRpcSender(sendOption, isUnsafe);
+            return new CustomRpcSender(name, sendOption, isUnsafe);
         }
 
         public CustomRpcSender StartRpc(
@@ -44,7 +46,7 @@ namespace TownOfHost
         {
             if (currentState != State.Ready && !isUnsafe)
             {
-                Logger.Error("RPCを開始しようとしましたが、StateがReady(準備完了)ではありません", "CustomRpcSender.Error");
+                Logger.Error($"RPCを開始しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return this;
             }
 
@@ -72,7 +74,7 @@ namespace TownOfHost
         {
             if (currentState != State.Writing && !isUnsafe)
             {
-                Logger.Error("RPCを終了しようとしましたが、StateがWriting(書き込み中)ではありません", "CustomRpcSender.Error");
+                Logger.Error($"RPCを終了しようとしましたが、StateがWriting(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return;
             }
 
@@ -84,7 +86,7 @@ namespace TownOfHost
         {
             if (currentState != State.Ready && !isUnsafe)
             {
-                Logger.Error("RPCを終了しようとしましたが、StateがReady(準備完了)ではありません", "CustomRpcSender.Error");
+                Logger.Error($"RPCを終了しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return;
             }
 
@@ -114,7 +116,7 @@ namespace TownOfHost
         private CustomRpcSender Write(Action<MessageWriter> action)
         {
             if (currentState != State.Writing && !isUnsafe)
-                Logger.Error("RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません", "CustomRpcSender.Error");
+                Logger.Error($"RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
             else
                 action(stream);
 
