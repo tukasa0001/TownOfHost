@@ -177,7 +177,7 @@ namespace TownOfHost
                 () =>
                 {
                     if (!GameStates.IsMeeting)
-                        Utils.NotifyRoles();
+                        Utils.NotifyRoles(ForceLoop: true);
                 }, 0.1f, "RepairSystem NotifyRoles");
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
