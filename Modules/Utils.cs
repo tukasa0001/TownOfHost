@@ -465,7 +465,6 @@ namespace TownOfHost
                 seerList = new();
                 seerList.Add(SpecifySeer);
             }
-            var sender = CustomRpcSender.Create(SendOption.Reliable);
             //seer:ここで行われた変更を見ることができるプレイヤー
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach (var seer in seerList)
@@ -708,7 +707,6 @@ namespace TownOfHost
                 }
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
-            sender.SendMessage();
             Main.witchMeeting = false;
         }
         public static void CustomSyncAllSettings()
