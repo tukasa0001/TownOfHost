@@ -45,16 +45,16 @@ namespace TownOfHost
             {
                 case CustomRoles.Sniper:
                     __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
-                break;
+                    break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                     else
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
-                break;
+                    break;
                 case CustomRoles.SerialKiller:
                     __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Warlock:
                     if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                     {
@@ -64,25 +64,25 @@ namespace TownOfHost
                     {
                         __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     }
-                break;
+                    break;
                 case CustomRoles.Witch:
                     if (player.GetKillOrSpell())
                     {
                         __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
                     }
-                break;
+                    break;
                 case CustomRoles.Vampire:
                     __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Arsonist:
                     __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Puppeteer:
                     __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                break;
+                    break;
                 case CustomRoles.BountyHunter:
                     __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
-                break;
+                    break;
             }
 
             __instance.GameSettings.text = OptionShower.GetText();
@@ -123,6 +123,13 @@ namespace TownOfHost
                 var stateText = FireWorks.GetStateText(player);
                 LowerInfoText.text = stateText;
                 LowerInfoText.enabled = true;
+            }
+            else if (player.Is(CustomRoles.EvilTracker))
+            {
+                //イビルトラッカー用処理
+                var target = player.GetBountyTarget();
+                LowerInfoText.text = target == null ? "null" : GetString("TrackerCurrentTarget") + ":" + player.GetEvilTrackerTarget().name;
+                LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
             }
             else
             {
@@ -166,12 +173,12 @@ namespace TownOfHost
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
                     }
-                break;
+                    break;
                 case CustomRoles.SKMadmate:
                     TaskTextPrefix += FakeTasksText;
                     __instance.KillButton.SetDisabled();
                     __instance.KillButton.ToggleVisible(false);
-                break;
+                    break;
                 case CustomRoles.Sheriff:
                     if (Main.SheriffShotLimit[player.PlayerId] == 0)
                     {

@@ -362,7 +362,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.EvilTrackerTrackCoolDown.GetFloat();
+                    opt.RoleOptions.ShapeshifterCooldown = 10f;
                     opt.RoleOptions.ShapeshifterDuration = 1f;
                     if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
@@ -751,7 +751,7 @@ namespace TownOfHost
             if (Main.EvilTrackerTarget == null) Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
             if (!Main.EvilTrackerTarget.TryGetValue(player.PlayerId, out var target))
             {
-                target = player.RemoveEvilTrackerTarget();
+                // target = player.RemoveEvilTrackerTarget();
             }
             return target;
         }
