@@ -361,6 +361,12 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown / 2; //Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
                     }
                     break;
+                case CustomRoles.Assassin:
+                    opt.AnonymousVotes = Assassin.HasWatcherAbility.GetBool();
+                    break;
+                case CustomRoles.Marin:
+                    opt.AnonymousVotes = Marin.HasWatcherAbility.GetBool();
+                    break;
 
 
                 InfinityVent:

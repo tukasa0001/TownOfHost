@@ -17,6 +17,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupAssassinAndMarinOptions(Id);
+            Assassin.HasWatcherAbility = CustomOption.Create(Id + 11, Color.white, "MarinHasWatcherAbility", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
+            Marin.HasTasks = CustomOption.Create(Id + 12, Color.white, "MarinHasTasks", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
+            Marin.CanUseVent = CustomOption.Create(Id + 13, Color.white, "MarinCanUseVent", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
         }
         public static bool IsEnable()
         {
@@ -50,6 +53,7 @@ namespace TownOfHost
     {
         public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Assassin), Utils.GetRoleName(CustomRoles.Assassin));
         static List<byte> playerIdList = new();
+        public static CustomOption HasWatcherAbility;
         public static byte TriggerPlayerId;
         public static bool IsAssassinMeeting;
         public static bool FinishAssassinMeetingTrigger;
@@ -115,6 +119,9 @@ namespace TownOfHost
     public static class Marin
     {
         public static string ColorString => Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Marin), Utils.GetRoleName(CustomRoles.Marin));
+        public static CustomOption HasWatcherAbility;
+        public static CustomOption HasTasks;
+        public static CustomOption CanUseVent;
         static List<byte> playerIdList = new();
         public static void Init()
         {

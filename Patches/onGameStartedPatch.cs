@@ -276,7 +276,7 @@ namespace TownOfHost
             else
             {
                 //コンビネーション役職を優先して割り当てる
-                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarin, CustomRoles.Assassin, CustomRoles.Marin, Impostors, Crewmates);
+                AssignCombinationRolesFromList(CustomRoles.AssassinAndMarin, CustomRoles.Assassin, CustomRoles.Marin, Impostors, Marin.CanUseVent.GetBool() ? Engineers : Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);

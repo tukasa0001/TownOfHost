@@ -308,6 +308,10 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
+AssassinHasWatcherAbility,Assassin has Watcher ability,アサシンがウォッチャーの能力を持っている
+MarinHasWatcherAbility,Marin has Watcher ability,マーリンがウォッチャーの能力を持っている
+MarinHasTasks,Marin has tasks,マーリンがタスクを持っている
+MarinCanUseVent,Marin can use Vent,マーリンがベントを使える
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

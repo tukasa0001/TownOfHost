@@ -159,7 +159,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
-                    if (cRole == CustomRoles.Marin) hasTasks = false;
+                    if (cRole == CustomRoles.Marin && !Marin.HasTasks.GetBool()) hasTasks = false;
 
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
