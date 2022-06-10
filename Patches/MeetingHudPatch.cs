@@ -212,6 +212,7 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, ForceLoop: true);
             Main.witchMeeting = false;
+            MeetingHudUpdatePatch.AssassinFinish = false;
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -345,7 +346,7 @@ namespace TownOfHost
     class MeetingHudUpdatePatch
     {
         public static bool isDictatorVote = false;
-        private static bool AssassinFinish = false;
+        public static bool AssassinFinish = false;
         public static void Postfix(MeetingHud __instance)
         {
             if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
