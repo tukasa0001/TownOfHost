@@ -429,7 +429,7 @@ namespace TownOfHost
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                        cp.RpcMurderPlayer(targetw);//殺す
+                        cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
