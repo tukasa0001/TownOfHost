@@ -99,13 +99,12 @@ namespace TownOfHost
                         IsAssassinMeeting = true;
                         AssassinAndMarin.IsAssassinMeetingToggle();
 
-                        /*MeetingRoomManager.Instance.AssignSelf(assassin, null);
+                        MeetingRoomManager.Instance.AssignSelf(assassin, null);
                         DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
-                        assassin.RpcStartMeeting(null);*/
-                        assassin.ReportDeadBody(null);
+                        assassin.RpcStartMeeting(null);
                         HeldMeeting = true;
                     }
-                }, PlayerControl.GameOptions.MapId == 4 && !BeKilled ? 3f : 0f, "StartAssassinMeeting"); //Airshipなら3sの遅延を追加
+                }, PlayerControl.GameOptions.MapId == 4 && !BeKilled ? 7f : 0f, "StartAssassinMeeting"); //Airshipなら7sの遅延を追加
             }
         }
         public static void SendTriggerPlayerInfo(byte playerId)

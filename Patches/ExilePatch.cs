@@ -10,15 +10,7 @@ namespace TownOfHost
         public static void Postfix(ExileController __instance, [HarmonyArgument(0)] GameData.PlayerInfo exiled)
         {
             if (Assassin.FinishAssassinMeetingTrigger)
-            {
                 __instance.completeString = Assassin.ExileText;
-                if (!PlayerState.isDead[exiled.PlayerId])
-                {
-                    Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
-                    PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
-                    PlayerState.SetDead(Assassin.TriggerPlayerId);
-                }
-            }
         }
     }
     class ExileControllerWrapUpPatch
@@ -26,6 +18,10 @@ namespace TownOfHost
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
         class BaseExileControllerPatch
         {
+            public static void Prefix(ExileController __instance)
+            {
+                WrapUpPrefix(__instance.exiled);
+            }
             public static void Postfix(ExileController __instance)
             {
                 WrapUpPostfix(__instance.exiled);
@@ -35,9 +31,25 @@ namespace TownOfHost
         [HarmonyPatch(typeof(AirshipExileController), nameof(AirshipExileController.WrapUpAndSpawn))]
         class AirshipExileControllerPatch
         {
+            public static void Prefix(AirshipExileController __instance)
+            {
+                WrapUpPrefix(__instance.exiled);
+            }
             public static void Postfix(AirshipExileController __instance)
             {
                 WrapUpPostfix(__instance.exiled);
+            }
+        }
+        static void WrapUpPrefix(GameData.PlayerInfo exiled)
+        {
+            if (Assassin.FinishAssassinMeetingTrigger)
+            {
+                if (!PlayerState.isDead[exiled.PlayerId])
+                {
+                    Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
+                    PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
+                    PlayerState.SetDead(Assassin.TriggerPlayerId);
+                }
             }
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
