@@ -33,6 +33,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
+        public static ConfigEntry<int> MessageWait { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
@@ -154,6 +155,7 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
+            MessageWait = Config.Bind("Other", "MessageWait", 1);
 
             NameColorManager.Begin();
 
