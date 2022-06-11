@@ -149,7 +149,7 @@ namespace TownOfHost
                 if (target == null) return;
                 Main.SelfGuard[target.PlayerId] = false;
                 if (!target.Data.IsDead && target.protectedByGuardian)
-                    killer?.RpcMurderPlayer(target);
+                    killer?.RpcMurderPlayerV2(target);
                 else
                     Main.BlockKilling[killer.PlayerId] = false;
             }, 0.5f, "GuardAndKill");
