@@ -205,6 +205,7 @@ namespace TownOfHost
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
                 { CustomRoles.FireWorks, "fw" },
+                { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.SerialKiller, "sk" },
