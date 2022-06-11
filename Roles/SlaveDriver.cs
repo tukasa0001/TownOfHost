@@ -36,7 +36,7 @@ namespace TownOfHost
         public static void KillTargetTaskCheck(PlayerControl killer, byte playerId)
         {
             var taskState = PlayerState.taskState?[playerId];
-            int TaskHalfValue = taskState.AllTasksCount / 2;
+            int TaskHalfValue = taskState.AllTasksCount / 2;//TaskHalfValueは設定されたタスク数÷2で出た数値を繰り上げした数値
             if (taskState.CompletedTasksCount <= TaskHalfValue)//キル対象の完了タスク数が設定タスク数の半分か、それ以下
             {
                 Logger.Info($"SlaveDriver Kill 1", "SlaveDriver");
