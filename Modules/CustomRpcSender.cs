@@ -15,6 +15,8 @@ namespace TownOfHost
         public string name;
         public SendOption sendOption;
         public bool isUnsafe;
+        public delegate void onSendDelegateType();
+        public onSendDelegateType onSendDelegate;
 
         private State currentState = State.BeforeInit;
 
@@ -26,6 +28,7 @@ namespace TownOfHost
             this.name = name;
             this.sendOption = sendOption;
             this.isUnsafe = isUnsafe;
+            onSendDelegate = () => Logger.Info($"{this.name}'s onSendDelegate =>", "CustomRpcSender");
 
             currentState = State.Ready;
             Logger.Info($"\"{name}\" is ready", "CusomRpcSender");
@@ -92,6 +95,7 @@ namespace TownOfHost
             }
 
             AmongUsClient.Instance.SendOrDisconnect(stream);
+            onSendDelegate();
             currentState = State.Finished;
             Logger.Info($"\"{name}\" is finished", "CusomRpcSender");
             stream.Recycle();
