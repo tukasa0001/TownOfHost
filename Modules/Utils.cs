@@ -69,8 +69,8 @@ namespace TownOfHost
         {
             if (!target.Data.IsDead || GameStates.IsMeeting) return;
             // Logger.Info("target dies", "TargetDies");
-            if (PlayerControl.GameOptions.MapId == 2) Logger.Info($"{IsActive(SystemTypes.Laboratory)}", "IsReactor");
-            else Logger.Info($"{IsActive(SystemTypes.Reactor)}", "IsReactor");
+            // if (PlayerControl.GameOptions.MapId == 2) Logger.Info($"{IsActive(SystemTypes.Laboratory)}", "IsReactor");
+            // else Logger.Info($"{IsActive(SystemTypes.Reactor)}", "IsReactor");
 
             foreach (var seer in PlayerControl.AllPlayerControls)
             {
@@ -99,22 +99,8 @@ namespace TownOfHost
                                 or PlayerState.DeathReason.Torched:
                                 return false;
                             default:
-                                if (!killer.GetCustomRole().IsImpostor() && CustomRoles.Puppeteer.IsEnable()) //パペッティア間接キルの検知
-                                {
-                                    bool PuppeteerCheck = false;
-                                    foreach (var puppeteer in PlayerControl.AllPlayerControls)
-                                    {
-                                        if (puppeteer.Is(CustomRoles.Puppeteer)
-                                            && Main.PuppeteerList.ContainsValue(puppeteer.PlayerId)
-                                            && Main.PuppeteerList.ContainsKey(killer.PlayerId))
-                                        {
-                                            PuppeteerCheck = true;
-                                        }
-                                        if (PuppeteerCheck) break;
-                                    }
-                                    return PuppeteerCheck;
-                                }
-                                else return killer.GetCustomRole().IsImpostor(); //インポスターのノーマルキル
+                                bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
+                                return killer.GetCustomRole().IsImpostor() || PuppeteerCheck; //インポスターのノーマルキル || パペッティアキル
                         }
                     }
                 case CustomRoles.Seer:
@@ -126,7 +112,7 @@ namespace TownOfHost
         public static async void KillFlash(this GameOptionsData opt, PlayerControl player)
         {
             //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
-            Logger.Info(player.GetRealName(), "KillFlash");
+            // Logger.Info(player.GetRealName(), "KillFlash");
 
             bool ReactorCheck = false; //リアクターフラッシュの確認
             if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = IsActive(SystemTypes.Laboratory);
@@ -134,7 +120,7 @@ namespace TownOfHost
 
             int Duration = (int)Math.Floor(Options.KillFlashDuration.GetFloat() * 1000); //100~400(ms)
             if (ReactorCheck) Duration = Math.Min(Duration + 100, 400); //リアクター中はブラックアウトを長くする
-            Logger.Info($"{Duration}", "Duration");
+            // Logger.Info($"{Duration}", "Duration");
 
             //実行
             PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
@@ -788,6 +774,9 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                        if (seer.Is(CustomRoles.EvilTracker) &&
+                            Main.EvilTrackerTarget[seer.PlayerId] == target)
+                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>☚</color>";
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";

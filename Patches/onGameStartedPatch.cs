@@ -411,7 +411,7 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.EvilTracker))
                     {
                         pc.RemoveEvilTrackerTarget();
-                        Main.EvilTrackerTarget.Add(pc.PlayerId, pc);
+                        Main.EvilTrackerTarget.Add(pc.PlayerId, null);
                         Main.EvilTrackerCanSetTarget.Add(pc.PlayerId, true);
                     }
                 }

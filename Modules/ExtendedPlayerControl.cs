@@ -495,7 +495,7 @@ namespace TownOfHost
         {
             if (pc == null) return;
             int clientId = pc.GetClientId();
-            Logger.Info($"{pc}", "ReactorFlash");
+            // Logger.Info($"{pc}", "ReactorFlash");
             byte reactorId = 3;
             if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
             float FlashDuration = Options.KillFlashDuration.GetFloat();
