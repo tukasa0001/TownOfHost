@@ -688,7 +688,7 @@ namespace TownOfHost
             targetがnullの場合はボタンとなる*/
             MeetingRoomManager.Instance.AssignSelf(reporter, target);
             DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
-            reporter.RpcStartMeeting(null);
+            reporter.RpcStartMeeting(target);
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
