@@ -15,6 +15,8 @@ namespace TownOfHost
         public string name;
         public SendOption sendOption;
         public bool isUnsafe;
+        public delegate void onSendDelegateType();
+        public onSendDelegateType onSendDelegate;
 
         private State currentState = State.BeforeInit;
 
@@ -26,6 +28,7 @@ namespace TownOfHost
             this.name = name;
             this.sendOption = sendOption;
             this.isUnsafe = isUnsafe;
+            onSendDelegate = () => Logger.Info($"{this.name}'s onSendDelegate =>", "CustomRpcSender");
 
             currentState = State.Ready;
             Logger.Info($"\"{name}\" is ready", "CusomRpcSender");
@@ -92,6 +95,7 @@ namespace TownOfHost
             }
 
             AmongUsClient.Instance.SendOrDisconnect(stream);
+            onSendDelegate();
             currentState = State.Finished;
             Logger.Info($"\"{name}\" is finished", "CusomRpcSender");
             stream.Recycle();
@@ -138,15 +142,15 @@ namespace TownOfHost
 
     public static class CustomRpcSenderExtentions
     {
-        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
+        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, PlayerControl SendTarget = null)
         {
-            sender.StartRpc(player.NetId, RpcCalls.SetRole, targetClientId)
+            sender.StartRpc(player.NetId, RpcCalls.SetRole, SendTarget == null ? -1 : SendTarget.GetClientId())
                   .Write((ushort)role)
                   .EndRpc();
         }
-        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
+        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, PlayerControl SendTarget = null)
         {
-            sender.StartRpc(player.NetId, RpcCalls.MurderPlayer, targetClientId)
+            sender.StartRpc(player.NetId, RpcCalls.MurderPlayer, SendTarget == null ? -1 : SendTarget.GetClientId())
                   .WriteNetObject(target)
                   .EndRpc();
         }
