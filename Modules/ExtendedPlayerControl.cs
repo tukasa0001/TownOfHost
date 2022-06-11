@@ -269,6 +269,7 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
+            opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
 
             switch (player.GetCustomRole())
             {
@@ -364,10 +365,6 @@ namespace TownOfHost
                 case CustomRoles.EvilTracker:
                     opt.RoleOptions.ShapeshifterCooldown = 10f;
                     opt.RoleOptions.ShapeshifterDuration = 1f;
-                    if (Options.EvilTrackerCanSeeKillFlash.GetBool()) opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
-                    break;
-                case CustomRoles.Seer:
-                    opt.BlackOut(player, PlayerState.IsBlackOut[player.PlayerId]);
                     break;
 
 

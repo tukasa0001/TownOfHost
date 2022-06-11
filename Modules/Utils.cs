@@ -85,9 +85,9 @@ namespace TownOfHost
             {
                 case CustomRoles.EvilTracker:
                     if (!Options.EvilTrackerCanSeeKillFlash.GetBool()) return false;
-                    else
+                    else //インポスターによるキルかどうかの判別
                     {
-                        switch (deathReason)
+                        switch (deathReason) //死因での判別
                         {
                             case PlayerState.DeathReason.Bite
                                 or PlayerState.DeathReason.Sniped
@@ -99,7 +99,7 @@ namespace TownOfHost
                                 or PlayerState.DeathReason.Torched:
                                 return false;
                             default:
-                                if (!killer.GetCustomRole().IsImpostor() && CustomRoles.Puppeteer.IsEnable())
+                                if (!killer.GetCustomRole().IsImpostor() && CustomRoles.Puppeteer.IsEnable()) //パペッティア間接キルの検知
                                 {
                                     bool PuppeteerCheck = false;
                                     foreach (var puppeteer in PlayerControl.AllPlayerControls)
@@ -114,7 +114,7 @@ namespace TownOfHost
                                     }
                                     return PuppeteerCheck;
                                 }
-                                else return killer.GetCustomRole().IsImpostor();
+                                else return killer.GetCustomRole().IsImpostor(); //インポスターのノーマルキル
                         }
                     }
                 case CustomRoles.Seer:
