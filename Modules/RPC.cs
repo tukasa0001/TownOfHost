@@ -25,7 +25,6 @@ namespace TownOfHost
         SetSheriffShotLimit,
         SetTimeThiefKillCount,
         SetDousedPlayer,
-        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -57,10 +56,26 @@ namespace TownOfHost
                     Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
                     break;
+                case RpcCalls.SendChat:
+                    var text = subReader.ReadString();
+                    Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
+                    ChatCommands.OnReceiveChat(__instance, text);
+                    break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
+            }
+            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            {
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                    Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                    Logger.SendInGame($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。\nTOH以外のMODが入っていないか確認してください。");
+                }
+                return false;
             }
             return true;
         }
@@ -162,13 +177,6 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
-                    Main.isDeadDoused[DousedId] = true;
-                    break;
-                case CustomRPC.SendDousedPlayerCount:
-                    ArsonistId = reader.ReadByte();
-                    int DousePlayer = reader.ReadInt32();
-                    int AllTargets = reader.ReadInt32();
-                    Main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
                     break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();

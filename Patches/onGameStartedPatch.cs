@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
@@ -23,8 +24,6 @@ namespace TownOfHost
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.DousedPlayerCount = new Dictionary<byte, (int, int)>();
-            Main.isDeadDoused = new Dictionary<byte, bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.BountyTargets = new Dictionary<byte, PlayerControl>();
             Main.isTargetKilled = new Dictionary<byte, bool>();
@@ -37,6 +36,7 @@ namespace TownOfHost
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
             Main.IgnoreReportPlayers = new List<byte>();
+            Main.ResetCamPlayerList = new();
 
             Main.SheriffShotLimit = new Dictionary<byte, float>();
             Main.TimeThiefKillCount = new Dictionary<byte, int>();
@@ -336,7 +336,6 @@ namespace TownOfHost
                 Main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    Main.isDeadDoused[pc.PlayerId] = false;
                     pc.ResetKillCooldown();
                     if (pc.Is(CustomRoles.Sheriff))
                     {
@@ -360,9 +359,6 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
-                        var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
-                        Main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
-                        pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
@@ -429,6 +425,9 @@ namespace TownOfHost
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
+
+            // ResetCamが必要なプレイヤーのリスト
+            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
 
             //サーバーの役職判定をだます
             new LateTask(() =>

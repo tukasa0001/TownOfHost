@@ -171,6 +171,17 @@ namespace TownOfHost
                         else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
                         break;
 
+                    case "/mw":
+                    case "/messagewait":
+                        canceled = true;
+                        if (args.Length > 1 && int.TryParse(args[1], out int sec))
+                        {
+                            Main.MessageWait.Value = sec;
+                            Utils.SendMessage($"{sec}秒に設定されました", 0);
+                        }
+                        else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -194,6 +205,7 @@ namespace TownOfHost
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
                 { CustomRoles.FireWorks, "fw" },
+                { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.SerialKiller, "sk" },
                 { CustomRoles.ShapeMaster, "sha" },
@@ -296,20 +308,41 @@ namespace TownOfHost
                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i]);
         }
+        public static void OnReceiveChat(PlayerControl player, string text)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            switch (text)
+            {
+                case "/l":
+                case "/lastresult":
+                    Utils.ShowLastResult(player.PlayerId);
+                    break;
+
+                case "/n":
+                case "/now":
+                    Utils.ShowActiveSettings(player.PlayerId);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || Main.MessageWait.Value > __instance.TimeSinceLastMessage) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
             if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
+            MessageWriter writer = clientId == -1 ? AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId)
+                                                : AmongUsClient.Instance.StartRpcImmediately(Utils.GetPlayerById(sendTo).NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
             writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            __instance.TimeSinceLastMessage = 0f;
         }
     }
 

@@ -212,6 +212,7 @@ namespace TownOfHost
     {
         public static void Postfix(EndGameManager __instance)
         {
+            if (!Main.playerVersion.ContainsKey(0)) return;
             //#######################################
             //          ==勝利陣営表示==
             //#######################################

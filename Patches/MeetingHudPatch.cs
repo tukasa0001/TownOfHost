@@ -147,7 +147,7 @@ namespace TownOfHost
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if ((pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Arsonist)) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
                 }
 
                 return false;
@@ -194,19 +194,8 @@ namespace TownOfHost
         {
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
-            Utils.NotifyRoles(isMeeting: true, force: true);
+            Utils.NotifyRoles(isMeeting: true, ForceLoop: true);
             Main.witchMeeting = false;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.TimeThief) && !pc.Data.IsDead && Main.VotingTime <= 0)
-                {
-                    new LateTask(() =>
-                        {
-                            MeetingHud.Instance.RpcClose();
-                        },
-                        5f);
-                }
-            }
         }
         public static void Postfix(MeetingHud __instance)
         {
@@ -300,6 +289,12 @@ namespace TownOfHost
                 {
                     //変更対象の名前をエゴイスト色にする
                     pva.NameText.text = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{pva.NameText.text}</color>";
+                }
+
+                if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
+                    seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                {
+                    pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
                 }
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
