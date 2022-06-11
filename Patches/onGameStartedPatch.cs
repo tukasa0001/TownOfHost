@@ -163,8 +163,8 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == sheriff) continue;
-                                sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc.GetClientId());
-                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriff.GetClientId());
+                                sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc);
+                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriff);
                                 //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                                 //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                             }
@@ -195,8 +195,8 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc.GetClientId());
-                                sender.RpcSetRole(pc, RoleTypes.Scientist, arsonist.GetClientId());
+                                sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc);
+                                sender.RpcSetRole(pc, RoleTypes.Scientist, arsonist);
                                 //arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                                 //pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
                             }
