@@ -127,9 +127,11 @@ namespace TownOfHost
 
 
             //キルされた時の特殊判定
+            var canDirectKill = !killer.Is(CustomRoles.Arsonist);
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Assassin:
+                    if (!canDirectKill) break;
                     Assassin.TriggerPlayerName = target.Data.PlayerName;
                     Assassin.SendTriggerPlayerInfo(target.PlayerId);
                     Assassin.BootAssassinTrigger(target, BeKilled: false);
@@ -138,7 +140,6 @@ namespace TownOfHost
                     //シュレディンガーの猫が切られた場合の役職変化スタート
                     //直接キル出来る役職チェック
                     // Sniperなど自殺扱いのものもあるので追加するときは注意
-                    var canDirectKill = !killer.Is(CustomRoles.Arsonist);
                     if (canDirectKill)
                     {
                         killer.RpcGuardAndKill(target);
