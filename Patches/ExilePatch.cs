@@ -7,10 +7,18 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
     class ExileControllerBeginPatch
     {
-        public static void Postfix(ExileController __instance)
+        public static void Postfix(ExileController __instance, [HarmonyArgument(0)] GameData.PlayerInfo exiled)
         {
             if (Assassin.FinishAssassinMeetingTrigger)
+            {
                 __instance.completeString = Assassin.ExileText;
+                if (!PlayerState.isDead[exiled.PlayerId])
+                {
+                    Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcExileV2();
+                    PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
+                    PlayerState.SetDead(Assassin.TriggerPlayerId);
+                }
+            }
         }
     }
     class ExileControllerWrapUpPatch
@@ -39,11 +47,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             if (Assassin.FinishAssassinMeetingTrigger)
             {
-                PlayerControl assassin = Utils.GetPlayerById(Assassin.TriggerPlayerId);
-                assassin?.RpcExileV2();
-                PlayerState.SetDeathReason(Assassin.TriggerPlayerId, PlayerState.DeathReason.Vote);
-                PlayerState.SetDead(Assassin.TriggerPlayerId);
-                assassin?.RpcSetNameEx(Assassin.TriggerPlayerName);
+                Utils.GetPlayerById(Assassin.TriggerPlayerId)?.RpcSetNameEx(Assassin.TriggerPlayerName);
                 Assassin.FinishAssassinMeetingTrigger = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
