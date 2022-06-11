@@ -67,7 +67,17 @@ namespace TownOfHost
                     case "/n":
                     case "/now":
                         canceled = true;
-                        Utils.ShowActiveSettings();
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
+                        }
                         break;
 
                     case "/dis":
@@ -310,7 +320,9 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            switch (text)
+            string[] args = text.Split(' ');
+            string subArgs = "";
+            switch (args[0])
             {
                 case "/l":
                 case "/lastresult":
@@ -319,7 +331,18 @@ namespace TownOfHost
 
                 case "/n":
                 case "/now":
-                    Utils.ShowActiveSettings(player.PlayerId);
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "r":
+                        case "roles":
+                            Utils.ShowActiveRoles(player.PlayerId);
+                            break;
+
+                        default:
+                            Utils.ShowActiveSettings(player.PlayerId);
+                            break;
+                    }
                     break;
 
                 default:
