@@ -67,7 +67,17 @@ namespace TownOfHost
                     case "/n":
                     case "/now":
                         canceled = true;
-                        Utils.ShowActiveSettings();
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
+                        }
                         break;
 
                     case "/dis":
