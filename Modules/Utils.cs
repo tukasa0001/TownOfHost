@@ -600,7 +600,8 @@ namespace TownOfHost
                     var arrows = "";
                     foreach (var arrow in Main.targetArrows)
                     {
-                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                        var target = GetPlayerById(arrow.Key.Item2);
+                        if (arrow.Key.Item1 == seer.PlayerId && !target.Data.IsDead && target.Is(CustomRoles.Snitch))
                         {
                             //自分用の矢印で対象が死んでない時
                             arrows += arrow.Value;
@@ -677,9 +678,11 @@ namespace TownOfHost
                     {
                         foreach (var arrow in Main.targetArrows)
                         {
-                            //自分用の矢印で対象が死んでない時
-                            if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
-                                SelfSuffix += arrow.Value;
+                            var target = GetPlayerById(arrow.Key.Item2);
+                            bool EvilTrackerTarget = Main.EvilTrackerTarget[seer.PlayerId] == target;
+                            if (arrow.Key.Item1 == seer.PlayerId && !target.Data.IsDead && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
+                                if (EvilTrackerTarget) SelfSuffix += $"<color={Utils.GetRoleColorCode(CustomRoles.Crewmate)}>{arrow.Value}</color>";
+                                else SelfSuffix += arrow.Value;
                         }
                     }
                 }

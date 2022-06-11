@@ -453,7 +453,7 @@ namespace TownOfHost
                     }
                     Utils.CustomSyncAllSettings();
                     Utils.NotifyRoles();
-                    Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
+                    // Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
                 }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
@@ -1031,22 +1031,24 @@ namespace TownOfHost
                     }
                     if (!GameStates.IsMeeting && target.Is(CustomRoles.EvilTracker))
                     {
-                        var coloredArrow = true;
                         var update = false;
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            var foundCheck =
-                                pc.GetCustomRole().IsImpostor() && pc != target;
+                            bool EvilTrackerTarget = Main.EvilTrackerTarget[target.PlayerId] == pc;
+                            bool foundCheck =
+                                pc != target && (pc.GetCustomRole().IsImpostor() || EvilTrackerTarget);
 
                             //発見対象じゃ無ければ次
                             if (!foundCheck) continue;
 
-                            update = CheckArrowUpdate(target, pc, update, coloredArrow);
+                            update = CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
                             var key = (target.PlayerId, pc.PlayerId);
+                            var arrow = Main.targetArrows[key];
+                            if (EvilTrackerTarget) arrow = $"<color={Utils.GetRoleColorCode(CustomRoles.Crewmate)}>{arrow}</color>";
                             if (target.AmOwner)
                             {
                                 //MODなら矢印表示
-                                Suffix += Main.targetArrows[key];
+                                Suffix += arrow;
                             }
                         }
                         if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
