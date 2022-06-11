@@ -667,8 +667,9 @@ namespace TownOfHost
         }
         public static bool IsDouseDone(this PlayerControl player)
         {
+            if (!player.Is(CustomRoles.Arsonist)) return false;
             var count = Utils.getDousedPlayerCount(player.PlayerId);
-            return player.Is(CustomRoles.Arsonist) && count.Item1 == count.Item2;
+            return count.Item1 == count.Item2;
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
