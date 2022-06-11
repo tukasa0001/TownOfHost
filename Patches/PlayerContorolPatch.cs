@@ -440,10 +440,10 @@ namespace TownOfHost
             {
                 if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && shapeshifting)
                 {
-                    Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
-                    Logger.Info($"{target.GetNameWithRole()}", "Check");
-                    Logger.Info($"{target.Data.IsDead}", "Check");
-                    Logger.Info($"{target.GetCustomRole().IsImpostor()}", "Check");
+                    // Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
+                    // Logger.Info($"{target.GetNameWithRole()}", "Check");
+                    // Logger.Info($"{target.Data.IsDead}", "Check");
+                    // Logger.Info($"{target.GetCustomRole().IsImpostor()}", "Check");
                     if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor())
                     {
                         Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
