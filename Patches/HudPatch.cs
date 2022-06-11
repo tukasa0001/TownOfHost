@@ -124,13 +124,6 @@ namespace TownOfHost
                 LowerInfoText.text = stateText;
                 LowerInfoText.enabled = true;
             }
-            else if (player.Is(CustomRoles.EvilTracker))
-            {
-                //イビルトラッカー用処理
-                var target = player.GetBountyTarget();
-                LowerInfoText.text = target == null ? "null" : GetString("TrackerCurrentTarget") + ":" + player.GetEvilTrackerTarget().name;
-                LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
-            }
             else
             {
                 LowerInfoText.enabled = false;

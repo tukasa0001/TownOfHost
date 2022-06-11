@@ -639,11 +639,6 @@ namespace TownOfHost
                     if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + GetString("WitchModeKill");
                     if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + GetString("WitchModeSpell");
                 }
-                if (seer.Is(CustomRoles.EvilTracker) && seer.GetEvilTrackerTarget() != null)
-                {
-                    string EvilTrackerTargetName = seer.GetEvilTrackerTarget().GetRealName(isMeeting);
-                    SelfSuffix = $"<size={fontSize}>Tracking:{EvilTrackerTargetName}</size>";
-                }
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
