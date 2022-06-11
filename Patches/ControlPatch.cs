@@ -90,7 +90,7 @@ namespace TownOfHost
                 bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
 
                 new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
-                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
+                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayerV2(bot); }, 0.4f, "Bot Kill Task");
                 new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
             //設定の同期

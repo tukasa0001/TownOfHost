@@ -65,7 +65,7 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
                         Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
+                        p.RpcMurderPlayerV2(p);
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
