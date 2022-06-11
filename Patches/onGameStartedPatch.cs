@@ -163,7 +163,8 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == sheriff) continue;
-                                sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc);
+                                if (pc.PlayerId == 0) sheriff.SetRole(RoleTypes.Scientist); //ホスト視点用
+                                else sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc);
                                 sender.RpcSetRole(pc, RoleTypes.Scientist, sheriff);
                                 //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                                 //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
@@ -172,6 +173,7 @@ namespace TownOfHost
                         else
                         {
                             //ホストは代わりに普通のクルーにする
+                            sheriff.SetRole(RoleTypes.Crewmate); //ホスト視点用
                             sender.RpcSetRole(sheriff, RoleTypes.Crewmate);
                             //sheriff.RpcSetRole(RoleTypes.Crewmate);
                         }
@@ -195,7 +197,8 @@ namespace TownOfHost
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == arsonist) continue;
-                                sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc);
+                                if (pc.PlayerId == 0) arsonist.SetRole(RoleTypes.Scientist); //ホスト視点用
+                                else sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc);
                                 sender.RpcSetRole(pc, RoleTypes.Scientist, arsonist);
                                 //arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
                                 //pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
@@ -204,6 +207,7 @@ namespace TownOfHost
                         else
                         {
                             //ホストは代わりに普通のクルーにする
+                            arsonist.SetRole(RoleTypes.Crewmate); //ホスト視点用
                             sender.RpcSetRole(arsonist, RoleTypes.Crewmate);
                             //arsonist.RpcSetRole(RoleTypes.Crewmate);
                         }
