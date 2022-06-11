@@ -70,6 +70,10 @@ namespace TownOfHost
                     {
                         __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
                     }
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    }
                     break;
                 case CustomRoles.Vampire:
                     __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");

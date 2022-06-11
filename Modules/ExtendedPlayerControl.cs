@@ -642,12 +642,12 @@ namespace TownOfHost
             Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
-        public static void RpcSendDousedPlayerCount(this PlayerControl player)
+        public static void RpcSetDousedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendDousedPlayerCount, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetDousedPlayer, SendOption.Reliable, -1);//RPCによる同期
             writer.Write(player.PlayerId);
-            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item1);
-            writer.Write(Main.DousedPlayerCount[player.PlayerId].Item2);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
@@ -709,38 +709,15 @@ namespace TownOfHost
         }
         public static bool IsDouseDone(this PlayerControl player)
         {
-            return Main.DousedPlayerCount.ContainsKey(player.PlayerId) &&
-                    Main.DousedPlayerCount.TryGetValue(player.PlayerId, out (int, int) count) && count.Item1 == count.Item2;
+            if (!player.Is(CustomRoles.Arsonist)) return false;
+            var count = Utils.getDousedPlayerCount(player.PlayerId);
+            return count.Item1 == count.Item2;
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
                 Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
-        }
-        public static void RemoveDousePlayer(this PlayerControl target) //死亡時、切断時に呼ばれる
-        {
-            foreach (var arsonist in PlayerControl.AllPlayerControls)
-            {
-                if (target == arsonist || !Main.DousedPlayerCount.ContainsKey(arsonist.PlayerId) || arsonist.Data.IsDead) continue;
-                if (arsonist.Is(CustomRoles.Arsonist))
-                {
-                    Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused); //targetを塗っているかどうかを判定
-                    if (Main.DousedPlayerCount.TryGetValue(arsonist.PlayerId, out (int, int) count) && count.Item1 < count.Item2) //塗った人数より塗るべき人数のほうが多いとき
-                    {
-                        Main.isDeadDoused[target.PlayerId] = true;
-                        var ArsonistDic = Main.DousedPlayerCount[arsonist.PlayerId];
-                        var LeftPlayer = ArsonistDic.Item1; //塗った人数
-                        var RequireDouse = ArsonistDic.Item2; //塗るべき人数
-                        if (isDoused)
-                            LeftPlayer--;
-                        RequireDouse--;
-                        Main.DousedPlayerCount[arsonist.PlayerId] = (LeftPlayer, RequireDouse);
-                        Logger.Info($"{arsonist.GetRealName()} : {ArsonistDic}", "Arsonist");
-                        arsonist.RpcSendDousedPlayerCount(); //RPCで他クライアントと塗り状況を同期
-                    }
-                }
-            }
         }
         public static PlayerControl GetEvilTrackerTarget(this PlayerControl player)
         {
