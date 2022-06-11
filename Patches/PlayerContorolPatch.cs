@@ -953,6 +953,12 @@ namespace TownOfHost
                         Mark += Sniper.GetShotNotify(target.PlayerId);
 
                     }
+                    if (seer.Is(CustomRoles.EvilTracker))
+                    {
+                        if (seer.Is(CustomRoles.EvilTracker) &&
+                        Main.EvilTrackerTarget[seer.PlayerId] == target)
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◀</color>";
+                    }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)))

@@ -776,7 +776,7 @@ namespace TownOfHost
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
                         if (seer.Is(CustomRoles.EvilTracker) &&
                             Main.EvilTrackerTarget[seer.PlayerId] == target)
-                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>☚</color>";
+                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◀</color>";
 
                         //他人の役職とタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = "";
