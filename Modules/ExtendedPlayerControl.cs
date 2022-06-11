@@ -212,6 +212,8 @@ namespace TownOfHost
             var cRole = player.GetCustomRole();
             switch (cRole)
             {
+                case CustomRoles.Assassin:
+                    return Options.SheriffCanKillAssassin.GetBool();
                 case CustomRoles.Jester:
                     return Options.SheriffCanKillJester.GetBool();
                 case CustomRoles.Terrorist:

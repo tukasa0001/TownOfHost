@@ -131,7 +131,7 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.Assassin:
-                    if (!canDirectKill) break;
+                    if (!canDirectKill || (killer.Is(CustomRoles.Sheriff) && !Options.SheriffCanKillAssassin.GetBool())) break;
                     Assassin.TriggerPlayerName = target.Data.PlayerName;
                     Assassin.SendTriggerPlayerInfo(target.PlayerId);
                     Assassin.BootAssassinTrigger(target, BeKilled: false);

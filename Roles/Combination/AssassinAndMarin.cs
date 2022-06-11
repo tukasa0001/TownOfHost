@@ -17,7 +17,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupAssassinAndMarinOptions(Id);
-            Assassin.HasWatcherAbility = CustomOption.Create(Id + 11, Color.white, "AssassinHasWatcherAbility", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
+            Assassin.HasWatcherAbility = CustomOption.Create(Id + 10, Color.white, "AssassinHasWatcherAbility", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
             Marin.HasWatcherAbility = CustomOption.Create(Id + 11, Color.white, "MarinHasWatcherAbility", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
             Marin.HasTasks = CustomOption.Create(Id + 12, Color.white, "MarinHasTasks", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
             Marin.CanUseVent = CustomOption.Create(Id + 13, Color.white, "MarinCanUseVent", false, Options.CustomRoleSpawnChances[CustomRoles.AssassinAndMarin]);
