@@ -685,6 +685,13 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
+        {
+            killer.MurderPlayer(target);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
