@@ -13,23 +13,9 @@
 
 ## リリース
 
-| Among Us バージョン | Mod バージョン | リンク                                                                                                  |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
-| 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s          | v1.4.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s          | v1.4b#5        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#4        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s         | v1.4b#2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s         | v1.4b#1        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s         | v1.3.4         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s         | v1.3.3         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s         | v1.3.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s         | v1.3.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s         | v1.3           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s         | v1.2           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s        | v1.0           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## 特徴
 
@@ -79,6 +65,8 @@
 | /now<br>/n                                  | 現在の設定を表示                                    |
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
+| /messagewait <秒><br>/mw <秒>               | メッセージの表示間隔の秒数を設定                    |
 | /help<br>/h                                 | コマンドの説明を表示                                |
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
@@ -114,7 +102,7 @@
 
 表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
 ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-また、設定でキルクールを 2.5 秒に設定する必要があります。<br>
+<!--また、設定でキルクールを 2.5 秒に設定する必要があります。<br>-->
 ターゲットは一定時間ごとに変更されます。<br>
 
 #### 設定
@@ -211,9 +199,9 @@
 弾丸を打ち切るまで通常キルは出来ません。<br>
 
 精密射撃モードOFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
 精密射撃モードON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
 
 #### 設定
 
@@ -232,10 +220,10 @@
 
 #### 設定
 
-| 設定名                |
-| --------------------- |
-| 減少する議論タイム(s) |
-| 減少する投票タイム(s) |
+| 設定名              |
+| ------------------- |
+| 減少する会議時間(s) |
+| 投票時間の下限(s)   |
 
 ### Vampire/ヴァンパイア
 

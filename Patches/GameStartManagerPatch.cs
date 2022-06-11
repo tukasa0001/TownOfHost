@@ -30,7 +30,7 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         Main.isChatCommand = true;
-                        Utils.ShowLastRoles();
+                        Utils.ShowLastResult();
                     }
                         , 5f, "DisplayLastRoles");
                 }
