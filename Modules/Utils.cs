@@ -99,7 +99,22 @@ namespace TownOfHost
                                 or PlayerState.DeathReason.Torched:
                                 return false;
                             default:
-                                return killer.GetCustomRole().IsImpostor();
+                                if (!killer.GetCustomRole().IsImpostor() && CustomRoles.Puppeteer.IsEnable())
+                                {
+                                    bool PuppeteerCheck = false;
+                                    foreach (var puppeteer in PlayerControl.AllPlayerControls)
+                                    {
+                                        if (puppeteer.Is(CustomRoles.Puppeteer)
+                                            && Main.PuppeteerList.ContainsValue(puppeteer.PlayerId)
+                                            && Main.PuppeteerList.ContainsKey(killer.PlayerId))
+                                        {
+                                            PuppeteerCheck = true;
+                                        }
+                                        if (PuppeteerCheck) break;
+                                    }
+                                    return PuppeteerCheck;
+                                }
+                                else return killer.GetCustomRole().IsImpostor();
                         }
                     }
                 case CustomRoles.Seer:
