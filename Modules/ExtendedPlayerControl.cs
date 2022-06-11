@@ -287,7 +287,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
                     break;
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:
