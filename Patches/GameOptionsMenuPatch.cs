@@ -285,6 +285,9 @@ namespace TownOfHost
             {
                 switch (ob.Title)
                 {
+                    case StringNames.EngineerCooldown:
+                        ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
+                        break;
                     case StringNames.ShapeshifterCooldown:
                         ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
                         break;
