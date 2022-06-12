@@ -134,7 +134,7 @@ namespace TownOfHost
                     if (!canDirectKill || (killer.Is(CustomRoles.Sheriff) && !Options.SheriffCanKillAssassin.GetBool())) break;
                     Assassin.TriggerPlayerName = target.Data.PlayerName;
                     Assassin.SendTriggerPlayerInfo(target.PlayerId);
-                    Assassin.BootAssassinTrigger(target, BeKilled: false);
+                    Assassin.BootAssassinTrigger(target, BeKilled: true);
                     return false;
                 case CustomRoles.SchrodingerCat:
                     //シュレディンガーの猫が切られた場合の役職変化スタート
