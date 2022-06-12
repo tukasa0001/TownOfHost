@@ -95,14 +95,19 @@ namespace TownOfHost
                 {
                     if (AmongUsClient.Instance.AmHost && !HeldMeeting)
                     {
-                        TriggerPlayerName = assassin.Data.PlayerName;
-                        IsAssassinMeeting = true;
-                        AssassinAndMarin.IsAssassinMeetingToggle();
+                        if (PlayerState.isDead[assassin.PlayerId])
+                            Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
+                        else
+                        {
+                            TriggerPlayerName = assassin.Data.PlayerName;
+                            IsAssassinMeeting = true;
+                            AssassinAndMarin.IsAssassinMeetingToggle();
 
-                        MeetingRoomManager.Instance.AssignSelf(assassin, null);
-                        DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
-                        assassin.RpcStartMeeting(null);
-                        HeldMeeting = true;
+                            MeetingRoomManager.Instance.AssignSelf(assassin, null);
+                            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(assassin);
+                            assassin.RpcStartMeeting(null);
+                            HeldMeeting = true;
+                        }
                     }
                 }, PlayerControl.GameOptions.MapId == 4 && !BeKilled ? 7f : 0f, "StartAssassinMeeting"); //Airshipなら7sの遅延を追加
             }
