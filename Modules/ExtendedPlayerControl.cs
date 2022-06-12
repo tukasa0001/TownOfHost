@@ -364,10 +364,10 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Assassin:
-                    opt.AnonymousVotes = Assassin.HasWatcherAbility.GetBool();
+                    opt.AnonymousVotes = !Assassin.HasWatcherAbility.GetBool();
                     break;
                 case CustomRoles.Marin:
-                    opt.AnonymousVotes = Marin.HasWatcherAbility.GetBool();
+                    opt.AnonymousVotes = !Marin.HasWatcherAbility.GetBool();
                     break;
 
 
