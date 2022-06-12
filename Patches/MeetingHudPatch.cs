@@ -378,7 +378,7 @@ namespace TownOfHost
                 MeetingHud.VoterState[] states;
                 List<MeetingHud.VoterState> statesList = new();
                 //死んでいないディクテーターが投票済み
-                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
+                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                 {
                     statesList.Add(new MeetingHud.VoterState()
                     {
