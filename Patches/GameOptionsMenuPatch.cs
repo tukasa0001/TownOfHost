@@ -38,21 +38,6 @@ namespace TownOfHost
                     case StringNames.GameKillCooldown:
                         ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
                         break;
-                    case StringNames.GameRecommendedSettings:
-                        ob.enabled = false;
-                        ob.gameObject.SetActive(false);
-                        break;
-                    /* case StringNames.GameMapName:
-                        var options = new Il2CppSystem.Collections.Generic.List<Il2CppSystem.Collections.Generic.KeyValuePair<string, int>>();
-                        for (int i = 0; i < Constants.MapNames.Length; i++)
-                        {
-                            var kvp = new Il2CppSystem.Collections.Generic.KeyValuePair<string, int>();
-                            kvp.key = Constants.MapNames[i];
-                            kvp.value = i;
-                            options.Add(kvp);
-                        }
-                        ob.GetComponent<KeyValueOption>().Values = options;
-                        break; */
                     default:
                         break;
                 }
