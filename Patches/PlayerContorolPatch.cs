@@ -1054,8 +1054,6 @@ namespace TownOfHost
 
         public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
         {
-            if (!Options.SnitchEnableTargetArrow.GetBool()) return false;
-
             var key = (seer.PlayerId, target.PlayerId);
             if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
             {
@@ -1066,7 +1064,7 @@ namespace TownOfHost
             var arrow = "";
             if (!PlayerState.isDead[seer.PlayerId] && !PlayerState.isDead[target.PlayerId])
             {
-                //インポスターの方角ベクトルを取る
+                //対象の方角ベクトルを取る
                 var dir = target.transform.position - seer.transform.position;
                 byte index;
                 if (dir.magnitude < 2)
