@@ -22,7 +22,7 @@ namespace TownOfHost
     [HarmonyPriority(Priority.First)]
     public static class GameOptionsMenuPatch
     {
-        private const string TownOfHostObjectName = "TOHSettings";
+        public const string TownOfHostObjectName = "TOHSettings";
 
         public static void Postfix(GameOptionsMenu __instance)
         {
