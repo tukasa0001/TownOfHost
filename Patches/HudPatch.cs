@@ -26,8 +26,8 @@ namespace TownOfHost
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
-                    AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                if ((AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started || GameStates.IsFreePlay)
+                    && player.MyAnim.ClipName is "Idle" or "Walk")
                 {
                     player.Collider.offset = new Vector2(0f, 127f);
                 }
