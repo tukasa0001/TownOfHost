@@ -315,6 +315,17 @@ namespace TownOfHost
             __instance.RoleOptions.ProtectionDurationSeconds = 10f;
             __instance.RoleOptions.EngineerCooldown = 30f;
             __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
+            {
+                __instance.PlayerSpeedMod = 1.75f;
+                __instance.CrewLightMod = 5f;
+                __instance.ImpostorLightMod = 0.25f;
+                __instance.NumImpostors = 1;
+                __instance.NumCommonTasks = 0;
+                __instance.NumLongTasks = 0;
+                __instance.NumShortTasks = 10;
+                __instance.KillCooldown = 10f;
+            }
             return false;
         }
     }
