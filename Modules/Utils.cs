@@ -332,7 +332,8 @@ namespace TownOfHost
                 {
                     if (role is CustomRoles.AssassinAndMarin)
                         text += string.Format("\n{0}:{1}x{2}", AssassinAndMarin.DisplayRole(disableColor: true), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
-                    text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
+                    else
+                        text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
                 }
             }
             SendMessage(text, PlayerId);
