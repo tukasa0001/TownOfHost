@@ -575,7 +575,7 @@ namespace TownOfHost
                 string SelfName = $"<color={seer.GetRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("EnterVentToWin")}</color>";
-                SelfName = isMeeting ? SelfName + "\r\n" + SelfRoleName : SelfRoleName + "\r\n" + SelfName;
+                SelfName = SelfRoleName + "\r\n" + SelfName;
                 SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                 if (!isMeeting) SelfName += "\r\n";
 
@@ -696,7 +696,7 @@ namespace TownOfHost
 
                         //全てのテキストを合成します。
                         TargetPlayerName += TargetDeathReason + TargetMark;
-                        string TargetName = isMeeting ? TargetPlayerName + "\r\n" + TargetRoleText : TargetRoleText + "\r\n" + TargetPlayerName;
+                        string TargetName = TargetRoleText + "\r\n" + TargetPlayerName;
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
