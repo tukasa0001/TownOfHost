@@ -118,6 +118,15 @@ namespace TownOfHost
             return continueStart;
         }
     }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
+    class ResetStartStatePatch
+    {
+        public static void Postfix()
+        {
+            PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+            PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+        }
+    }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
     class UnrestrictedNumImpostorsPatch
     {

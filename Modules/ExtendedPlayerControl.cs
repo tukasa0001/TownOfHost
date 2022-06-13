@@ -528,6 +528,7 @@ namespace TownOfHost
                     cTargets.Add(pc);
                 }
             }
+            if (cTargets.Count >= 2 && Main.BountyTargets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId);
 
             var rand = new System.Random();
             if (cTargets.Count <= 0)
