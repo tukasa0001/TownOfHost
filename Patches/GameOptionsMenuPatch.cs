@@ -282,4 +282,40 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.SetRecommendations))]
+    public static class SetRecommendationsPatch
+    {
+        public static bool Prefix(GameOptionsData __instance, int numPlayers, GameModes modes)
+        {
+            numPlayers = Mathf.Clamp(numPlayers, 4, 15);
+            __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
+            __instance.CrewLightMod = 0.5f;
+            __instance.ImpostorLightMod = 1.75f;
+            __instance.KillCooldown = GameOptionsData.RecommendedKillCooldown[numPlayers];
+            __instance.NumCommonTasks = 2;
+            __instance.NumLongTasks = 3;
+            __instance.NumShortTasks = 5;
+            __instance.NumEmergencyMeetings = 1;
+            if (modes != GameModes.OnlineGame)
+                __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
+            __instance.KillDistance = 0;
+            __instance.DiscussionTime = 0;
+            __instance.VotingTime = 150;
+            __instance.isDefaults = true;
+            __instance.ConfirmImpostor = false;
+            __instance.VisualTasks = false;
+            __instance.EmergencyCooldown = (int)__instance.killCooldown - 5; //キルクールより5秒短く
+            __instance.RoleOptions.ShapeshifterCooldown = 10f;
+            __instance.RoleOptions.ShapeshifterDuration = 30f;
+            __instance.RoleOptions.ShapeshifterLeaveSkin = false;
+            __instance.RoleOptions.ImpostorsCanSeeProtect = false;
+            __instance.RoleOptions.ScientistCooldown = 15f;
+            __instance.RoleOptions.ScientistBatteryCharge = 5f;
+            __instance.RoleOptions.GuardianAngelCooldown = 60f;
+            __instance.RoleOptions.ProtectionDurationSeconds = 10f;
+            __instance.RoleOptions.EngineerCooldown = 30f;
+            __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+            return false;
+        }
+    }
 }
