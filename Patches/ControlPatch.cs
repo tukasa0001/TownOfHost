@@ -58,6 +58,8 @@ namespace TownOfHost
             {
                 Logger.Info("Reset CountDownTimer", "KeyCommand");
                 GameStartManager.Instance.ResetStartState();
+                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
             }
             //現在の有効な設定を表示
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
