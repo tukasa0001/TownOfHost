@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
@@ -63,6 +64,11 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
                 Utils.ShowActiveSettingsHelp();
+            }
+            //TOHオプションをデフォルトに設定
+            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
             }
 
             //--以下デバッグモード用コマンド--//
