@@ -148,6 +148,7 @@ namespace TownOfHost
                     var madmate = Utils.GetPlayerById(exileId);
                     var target = PickRevengeTarget(madmate);
                     PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Revenge);
+                    PlayerState.SetDead(target.PlayerId);
                     Main.IgnoreReportPlayers.Add(target.PlayerId);
                     target.RpcExileV2();
                     Logger.Info($"{madmate.GetNameWithRole()}が{target.GetNameWithRole()}を道連れにしました", "BlackCat");
