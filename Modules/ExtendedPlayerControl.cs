@@ -365,7 +365,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterCooldown = 10f;
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = 1f;
                     break;
 
@@ -728,7 +728,8 @@ namespace TownOfHost
             if (Main.EvilTrackerTarget == null) Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
             if (!Main.EvilTrackerTarget.TryGetValue(player.PlayerId, out var target))
             {
-                // target = player.RemoveEvilTrackerTarget();
+                Main.EvilTrackerTarget.Add(player.PlayerId, null);
+                target = player.RemoveEvilTrackerTarget();
             }
             return target;
         }

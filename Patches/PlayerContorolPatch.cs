@@ -439,20 +439,15 @@ namespace TownOfHost
             {
                 if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && shapeshifting)
                 {
-                    // Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
-                    // Logger.Info($"{target.GetNameWithRole()}", "Check");
-                    // Logger.Info($"{target.Data.IsDead}", "Check");
-                    // Logger.Info($"{target.GetCustomRole().IsImpostor()}", "Check");
                     if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor())
                     {
                         Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
                         Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
                         RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
-                        Logger.Info($"{Main.EvilTrackerTarget[shapeshifter.PlayerId].GetRealName()}", "EvilTrackerTarget");
+                        Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{Main.EvilTrackerTarget[shapeshifter.PlayerId].GetNameWithRole()}に設定", "EvilTrackerTarget");
                     }
                     Utils.CustomSyncAllSettings();
                     Utils.NotifyRoles();
-                    // Logger.Info($"{Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId]}", "EvilTrackerCanSetTarget");
                 }
             }
             var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
