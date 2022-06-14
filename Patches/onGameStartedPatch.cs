@@ -404,9 +404,11 @@ namespace TownOfHost
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;
                     if (pc.Is(CustomRoles.EvilTracker))
                     {
-                        pc.RemoveEvilTrackerTarget();
+                        Main.EvilTrackerTarget.Clear();
                         Main.EvilTrackerTarget.Add(pc.PlayerId, null);
+                        Main.EvilTrackerCanSetTarget.Clear();
                         Main.EvilTrackerCanSetTarget.Add(pc.PlayerId, true);
+                        RPC.RemoveEvilTrackerKey(pc.PlayerId);
                     }
                 }
 

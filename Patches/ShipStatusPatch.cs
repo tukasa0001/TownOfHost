@@ -65,6 +65,7 @@ namespace TownOfHost
                     //EvilTrackerのターゲット削除
                     if (pc != target && target != null && (target.Data.IsDead || target.Data.Disconnected))
                     {
+                        Main.EvilTrackerTarget[pc.PlayerId] = null;
                         pc.RemoveEvilTrackerTarget();
                         Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを削除しました", "EvilTracker");
                         DoNotifyRoles = true;
