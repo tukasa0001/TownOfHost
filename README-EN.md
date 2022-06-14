@@ -240,7 +240,8 @@ Team : Impostor<br>
 Decision : Shapeshifter<br>
 
 If warlock kills before shapeshifting, the target will be cursed.<br>
-If he try to shapeshift again, the nearest crewmate will be killed<br>
+Then, the next time he transforms, he has the player closest to the cursed player killed.<br>
+If the curse killing is successful or a meeting is held, the curse is reset.<br>
 
 ### Witch
 
