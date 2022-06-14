@@ -66,6 +66,7 @@ Chat commands are commands that can be typed in chat.
 | /winner<br>/win                                       | Show winner                                       |
 | /lastresult<br>/l                                     | Show game result                                  |
 | /now<br>/n                                            | Show active settings                              |
+| /now roles<br>/n r                                    | Show active roles settings                        |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
 | /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |

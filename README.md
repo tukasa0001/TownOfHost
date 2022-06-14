@@ -63,6 +63,7 @@
 | /winner<br>/win                             | 勝者を表示                                          |
 | /lastresult<br>/l                           | 試合結果を表示                                      |
 | /now<br>/n                                  | 現在の設定を表示                                    |
+| /now roles<br>/n r                          | 現在の役職設定を表示                                |
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
 | /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
