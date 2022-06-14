@@ -51,13 +51,14 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
 
 #### Host only
-| HotKey              | Function                      | Usable Scene  |
-| ------------------- | ----------------------------- | ------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game       |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game       |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
-| `C`                 | Abort game start              | In Countdown  |
-| `Shift`             | Start the game immediately    | In Countdown  |
+| HotKey              | Function                      | Usable Scene    |
+| ------------------- | ----------------------------- | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
+| `C`                 | Abort game start              | In Countdown    |
+| `Shift`             | Start the game immediately    | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
 
 ### Chat Commands
 Chat commands are commands that can be typed in chat.
@@ -66,6 +67,7 @@ Chat commands are commands that can be typed in chat.
 | /winner<br>/win                                       | Show winner                                       |
 | /lastresult<br>/l                                     | Show game result                                  |
 | /now<br>/n                                            | Show active settings                              |
+| /now roles<br>/n r                                    | Show active roles settings                        |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
 | /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
@@ -148,7 +150,7 @@ And the movement speed will also increase. And name is displayed in red<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+The Puppeteer's kill is canceled and the next player (excluding the impostor) who approaches the target of the kill is killed.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
 
@@ -238,7 +240,8 @@ Team : Impostor<br>
 Decision : Shapeshifter<br>
 
 If warlock kills before shapeshifting, the target will be cursed.<br>
-If he try to shapeshift again, the nearest crewmate will be killed<br>
+Then, the next time he transforms, he has the player closest to the cursed player killed.<br>
+If the curse killing is successful or a meeting is held, the curse is reset.<br>
 
 ### Witch
 
@@ -304,7 +307,7 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 Team : Impostor<br>
 Decision : Change before Role<br>
 
-This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+This role will be the nearest player (excluding the imposter team) when the role with the shape-shifting ability shape-shifts.<br>
 Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
 Impostors also doesn't know who SidekickMadmate is.<br>
 
@@ -600,7 +603,7 @@ Example of overlapping job titles: <br>
 ・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
 ・ Opportunist lover: Win if you survive. <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
-・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, No report.<br>
 
 ## SabotageTimeControl
 
