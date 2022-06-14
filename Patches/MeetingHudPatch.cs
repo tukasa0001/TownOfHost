@@ -139,6 +139,15 @@ namespace TownOfHost
                 {
                     FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
+                if (Utils.GetPlayerById(exileId).GetCustomRole().IsMadmate() && Options.MadmateExileCrewmate.GetBool())
+                {
+                    var madmate = Utils.GetPlayerById(exileId);
+                    var target = PickRevengeTarget(madmate);
+                    PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Revenge);
+                    Main.IgnoreReportPlayers.Add(target.PlayerId);
+                    target.RpcExileV2();
+                    Logger.Info($"{madmate.GetNameWithRole()}が{target.GetNameWithRole()}を道連れにしました", "BlackCat");
+                }
 
                 //霊界用暗転バグ対処
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -158,6 +167,24 @@ namespace TownOfHost
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
+        }
+        public static PlayerControl PickRevengeTarget(PlayerControl exiledplayer)//道連れ先選定
+        {
+            List<PlayerControl> TargetList = new();
+            foreach (var candidate in PlayerControl.AllPlayerControls)
+            {
+                if (candidate == exiledplayer || candidate.Data.IsDead) continue;
+                if (exiledplayer.GetCustomRole().IsMadmate())
+                {
+                    if (!candidate.GetCustomRole().IsImpostor())
+                        TargetList.Add(candidate);
+                    continue;
+                }
+            }
+            var rand = new System.Random();
+            var target = TargetList[rand.Next(TargetList.Count)];
+            Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先：{target.GetNameWithRole()}", "PickRevengeTarget");
+            return target;
         }
     }
 
