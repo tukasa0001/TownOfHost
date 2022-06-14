@@ -150,7 +150,7 @@ And the movement speed will also increase. And name is displayed in red<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+The Puppeteer's kill is canceled and the next player (excluding the impostor) who approaches the target of the kill is killed.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
 
