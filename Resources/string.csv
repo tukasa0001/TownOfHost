@@ -76,6 +76,7 @@ TeamImpostor,Team Impostor,インポスター陣営
 
 
 ## 役職説明ショート
+NeutralInfo,A solitary teams that does not belong to any other teams,他のどの陣営にも属さない孤高の陣営
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
@@ -135,10 +136,10 @@ HASTrollInfo,Die to win,自爆しよう
 ## 役職説明ロング
 
 # 特殊インポスター役職
-BountyHunterInfoLong,"(Impostors):\nIf you kill the indicated target, the next KillCooldown will be very short.\nIf you kill a player who is not the target, the KillCooldown will be extended.\nYou must also set the KillCooldown to 2.5 seconds in the settings.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nまた、設定でキルクールを2.5秒に設定する必要がある。\nターゲットは一定時間ごとに変更される。
+BountyHunterInfoLong,"(Impostors):\nIf you kill the indicated target, the next KillCooldown will be very short.\nIf you kill a player who is not the target, the KillCooldown will be extended.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nターゲットは一定時間ごとに変更される。
 FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
-ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
+ShapeMasterInfoLong,"(Impostors):\nAn impostor specialized in Shapeshift.\nWhile the transformation duration is shorter than that of a regular Shapeshifter, there is no cooldown after the transformation is released, and the shapeshifter can transform indefinitely.\nThe transformation duration can be changed in the settings.",(インポスター陣営):\nシェイプシフトに特化したインポスター。\n変身持続時間が通常のシェイプシフターよりも短い半面、変身解除後のクールダウンがなく無限に変身することができる。\n変身継続時間は設定で変更が可能。
 MareInfoLong,"(Impostors):\nYou can't only kill during a power outage.\nBut,when killed,the next kill cool is halved.\nand,The movement speed will also be faster. And name is displayed in red",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
@@ -233,7 +234,7 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
-BountyTargetChangeTime,Bounty Target Change Time\n(Added to Bounty Failure Kill Cooldown),バウンティハンターのターゲット変更時間\n(ターゲット以外殺害時のキルクールダウンにプラス)
+BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
 LastImpostorKillCooldown,LastImpostor KillCooldown,ラストインポスターのキルクール
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
@@ -254,6 +255,8 @@ MadmateVentCooldown,Madmate Vent Cooldown,マッドメイト系役職のベン�
 MadmateVentMaxTime,Madmate In Vent Max Time,マッドメイト系役職のベント内での最大時間
 MadmateExileCrewmate,Exile A Crewmate When Madmate Is Exiled",マッドメイト系役職が追放時クルーを追放する
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
+LighterTaskCompletedVision,Lighter TaskCompleted Vision,ライターのタスク完了時の視界
+LighterTaskCompletedDisableLightOut,Lighter TaskCompleted Disable Light Out,タスク完了時に停電を無効にする
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
@@ -292,8 +295,8 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
-TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
-TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
+TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
@@ -399,3 +402,14 @@ doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
 assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+KillButtonText,Kill,キル
+SniperSnipeButtonText,Snipe,狙撃
+FireWorksExplosionButtonText,Explosion,爆破
+FireWorksInstallAtionButtonText,Installation,設置
+SerialKillerSuicideButtonText,Suicide,自殺まで
+WarlockCurseButtonText,Curse,呪う
+WitchSpellButtonText,Spell,スペル
+VampireBiteButtonText,Bite,噛む
+ArsonistDouseButtonText,Douse,塗る
+PuppeteerOperateButtonText,Operate,操る
+BountyHunterChangeButtonText,Change,変更

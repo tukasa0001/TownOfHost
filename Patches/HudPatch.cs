@@ -26,8 +26,8 @@ namespace TownOfHost
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
-                    AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                if ((AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started || GameStates.IsFreePlay)
+                    && player.MyAnim.ClipName is "Idle" or "Walk")
                 {
                     player.Collider.offset = new Vector2(0f, 127f);
                 }
@@ -39,6 +39,54 @@ namespace TownOfHost
                 {
                     player.Collider.offset = new Vector2(0f, -0.3636f);
                 }
+            }
+            //MOD入り用のボタン下テキスト変更
+            switch (player.GetCustomRole())
+            {
+                case CustomRoles.Sniper:
+                    __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
+                    break;
+                case CustomRoles.FireWorks:
+                    if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
+                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
+                    else
+                        __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
+                    break;
+                case CustomRoles.SerialKiller:
+                    __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+                    break;
+                case CustomRoles.Warlock:
+                    if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
+                    }
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    }
+                    break;
+                case CustomRoles.Witch:
+                    if (player.GetKillOrSpell())
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
+                    }
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    }
+                    break;
+                case CustomRoles.Vampire:
+                    __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
+                    break;
+                case CustomRoles.Arsonist:
+                    __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
+                    break;
+                case CustomRoles.Puppeteer:
+                    __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                    break;
+                case CustomRoles.BountyHunter:
+                    __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
+                    break;
             }
 
             __instance.GameSettings.text = OptionShower.GetText();
@@ -106,16 +154,42 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Madmate:
-                case CustomRoles.SKMadmate:
                 case CustomRoles.Jester:
                     TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.Mafia:
-                    if (!player.CanUseKillButton())
+                case CustomRoles.Mare:
+                case CustomRoles.FireWorks:
+                case CustomRoles.Sniper:
+                    if (player.CanUseKillButton())
+                    {
+                        __instance.KillButton.ToggleVisible(true && !player.Data.IsDead);
+                    }
+                    else
+                    {
                         __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
+                    break;
+                case CustomRoles.SKMadmate:
+                    TaskTextPrefix += FakeTasksText;
+                    __instance.KillButton.SetDisabled();
+                    __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
+                    if (Main.SheriffShotLimit[player.PlayerId] == 0)
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Arsonist:
+                    if (player.IsDouseDone())
+                    {
+                        __instance.KillButton.SetDisabled();
+                        __instance.KillButton.ToggleVisible(false);
+                    }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
 

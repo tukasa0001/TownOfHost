@@ -16,23 +16,9 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
-| Among Us - Version | Mod Version | Link                                                                                                    |
-| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s         | v2.0.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
-| 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s         | v1.4b#5     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#4     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#3     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s        | v1.4b#2     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s        | v1.4b#1     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s        | v1.3.4      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s        | v1.3.3      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s        | v1.3.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s        | v1.3.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s        | v1.3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s        | v1.2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s       | v1.0        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## Features
 
@@ -65,13 +51,14 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
 
 #### Host only
-| HotKey              | Function                      | Usable Scene  |
-| ------------------- | ----------------------------- | ------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game       |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game       |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
-| `C`                 | Abort game start              | In Countdown  |
-| `Shift`             | Start the game immediately    | In Countdown  |
+| HotKey              | Function                      | Usable Scene    |
+| ------------------- | ----------------------------- | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game   |
+| `C`                 | Abort game start              | In Countdown    |
+| `Shift`             | Start the game immediately    | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
 
 ### Chat Commands
 Chat commands are commands that can be typed in chat.
@@ -80,8 +67,11 @@ Chat commands are commands that can be typed in chat.
 | /winner<br>/win                                       | Show winner                                       |
 | /lastresult<br>/l                                     | Show game result                                  |
 | /now<br>/n                                            | Show active settings                              |
+| /now roles<br>/n r                                    | Show active roles settings                        |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
+| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
 | /help<br>/h                                           | Show command description                          |
 | /help roles <role><br>/help r <role>                  | Display role description                          |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
@@ -160,7 +150,7 @@ And the movement speed will also increase. And name is displayed in red<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The target of the kill is made to kill the next Crewmate that the target approaches.<br>
+The Puppeteer's kill is canceled and the next player (excluding the impostor) who approaches the target of the kill is killed.<br>
 If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
 It is not possible to perform normal kills.<br>
 
@@ -202,9 +192,9 @@ The crew on the line of sight will be notified of the shooting sound. <br>
 You cannot normally kill until the bullet is cut off. <br>
 
 Precision Shooting:OFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
 Precision Shooting:ON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
 
 #### Settings
 
@@ -225,8 +215,8 @@ Also, when a TimeThief is expelled or killed, the lost meeting time is returned.
 
 | Settings Name                        |
 | ------------------------------------ |
-| TimeThief Decrease DiscussionTime(s) |
-| TimeThief Decrease VotingTime(s)     |
+| TimeThief Decrease Meeting Time(s)   |
+| TimeThief Lower Limit Voting Time(s) |
 
 ### Vampire
 
@@ -250,7 +240,8 @@ Team : Impostor<br>
 Decision : Shapeshifter<br>
 
 If warlock kills before shapeshifting, the target will be cursed.<br>
-If he try to shapeshift again, the nearest crewmate will be killed<br>
+Then, the next time he transforms, he has the player closest to the cursed player killed.<br>
+If the curse killing is successful or a meeting is held, the curse is reset.<br>
 
 ### Witch
 
@@ -316,7 +307,7 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 Team : Impostor<br>
 Decision : Change before Role<br>
 
-This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+This role will be the nearest player (excluding the imposter team) when the role with the shape-shifting ability shape-shifts.<br>
 Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
 Impostors also doesn't know who SidekickMadmate is.<br>
 
@@ -612,7 +603,7 @@ Example of overlapping job titles: <br>
 ・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
 ・ Opportunist lover: Win if you survive. <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
-・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+・ Bait lover: When the lover is killed and the bait lover dies afterwards, No report.<br>
 
 ## SabotageTimeControl
 
