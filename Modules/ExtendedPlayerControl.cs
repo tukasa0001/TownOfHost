@@ -288,7 +288,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat() + Options.BountyFailureKillCooldown.GetFloat();
+                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
                     break;
                 case CustomRoles.Shapeshifter:
                 case CustomRoles.Mafia:
@@ -305,9 +305,11 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Lighter:
                     if (player.GetPlayerTaskState().IsTaskFinished)
+                    {
                         opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
-                    if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
-                        opt.CrewLightMod *= 5;
+                        if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                            opt.CrewLightMod *= 5;
+                    }
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
@@ -560,6 +562,7 @@ namespace TownOfHost
                     cTargets.Add(pc);
                 }
             }
+            if (cTargets.Count >= 2 && Main.BountyTargets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId);
 
             var rand = new System.Random();
             if (cTargets.Count <= 0)
@@ -742,6 +745,13 @@ namespace TownOfHost
             player.Exiled();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
+        { /*サボタージュ中でも関係なしに会議を起こせるメソッド
+            targetがnullの場合はボタンとなる*/
+            MeetingRoomManager.Instance.AssignSelf(reporter, target);
+            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
+            reporter.RpcStartMeeting(target);
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
