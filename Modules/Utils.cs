@@ -324,6 +324,9 @@ namespace TownOfHost
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
+                case CustomRoles.EvilTracker:
+                    if (Main.EvilTrackerCanSetTarget[playerId]) ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>◁</color>";
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = PlayerState.taskState?[playerId];
