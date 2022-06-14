@@ -306,7 +306,7 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 Team : Impostor<br>
 Decision : Change before Role<br>
 
-This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+This role will be the nearest player (excluding the imposter team) when the role with the shape-shifting ability shape-shifts.<br>
 Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
 Impostors also doesn't know who SidekickMadmate is.<br>
 
