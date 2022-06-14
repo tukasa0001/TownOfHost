@@ -77,6 +77,7 @@ namespace TownOfHost
         public static CustomOption MadmateHasImpostorVision;
         public static CustomOption MadmateVentCooldown;
         public static CustomOption MadmateVentMaxTime;
+        public static CustomOption MadmateExileCrewmate;
 
         public static CustomOption EvilWatcherChance;
         public static CustomOption MayorAdditionalVote;
@@ -290,6 +291,7 @@ namespace TownOfHost
             MadmateHasImpostorVision = CustomOption.Create(15012, Color.white, "MadmateHasImpostorVision", false);
             MadmateVentCooldown = CustomOption.Create(15213, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
+            MadmateExileCrewmate = CustomOption.Create(15215, Color.white, "MadmateExileCrewmate", false);
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);

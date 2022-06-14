@@ -59,6 +59,7 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
                     text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
                     text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
+                    text += $"\t{Options.MadmateExileCrewmate.GetName()}: {Options.MadmateExileCrewmate.GetString()}\n";
                 }
                 if (kvp.Key is CustomRoles.Shapeshifter or CustomRoles.ShapeMaster or CustomRoles.Mafia or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
