@@ -95,7 +95,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
-EvilTrackerInfo,Track Players,追跡せよ
+EvilTrackerInfo,Track Players,プレイヤーを追跡しろ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -117,7 +117,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
-SeerInfo,You Will See Players Die.,死が見える
+SeerInfo,You Will See Players Die,他人の死んだ瞬間がわかる
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -302,9 +302,9 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
-EvilTrackerCanSeeKillFlash,EvilTracker Can See KillFlash,キルフラッシュを見ることができる
-EvilTrackerCanResetTargetAfterMeeting,EvilTracker Can Reset Target After Meeting,会議後に再度ターゲットを設定できる
-KillFlashDuration,KillFlash Duration(s),キルフラッシュの長さ(秒)
+EvilTrackerCanSeeKillFlash,Can See Kill Flash (Only Impostor Kills),インポスターキル時にフラッシュが見える
+EvilTrackerCanResetTargetAfterMeeting,Reset Target After Meeting,会議後に再度ターゲットを設定できる
+KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

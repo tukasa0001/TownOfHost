@@ -116,6 +116,22 @@ If they kill the player who is not their target, they will keep their next kill 
 | Cooldown time after killing anything other than the target(s) |
 | Kill cooldown time other than BountyHunter(s)                 |
 
+### EvilTracker
+
+Team : Impostors<br>
+Decision : Shapeshifter<br>
+
+EvilTracker has ability to track players.<br>
+You can see arrows toward the other impostors and another player selected by shapeshift.<br>
+Depends in option, you can also see kill flash when other impostor kills.<br>
+
+#### Settings
+
+| Settings Name                            |
+| ---------------------------------------- |
+| Can See Kill Flash (Only Impostor Kills) |
+| Reset Target After Meeting               |
+
 ### FireWorks
 
 Team : Impostors<br>
@@ -407,6 +423,21 @@ Opening a door in Polus or The Airship will open all the doors in that room.<br>
 | SabotageMaster Can Fixes Both O2                          |
 | SabotageMaster Can Fixes Both Communications In MIRA HQ   |
 | SabotageMaster Can Fixes Lights Out All At Once           |
+
+### Seer
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+Seer can see when someone dies.<br>
+For an instant, your vision turns total darkness and Reactor is alerted only to you unless on Reactor (named "Kill Flash").<br>
+There is a setting to slightly adjust Kill Flash duration.<br>
+
+#### Settings
+
+| Common Settings        |
+| ---------------------- |
+| Kill Flash Duration(s) |
 
 ### Sheriff
 
