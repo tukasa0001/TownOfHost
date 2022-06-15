@@ -760,7 +760,6 @@ If the client language is English, this setting is meaningless unless `Force Jap
 
 ## Developers
 - [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
-- [Integral](https://github.com/integral6174) ([Twitter](https://twitter.com/integral6174), [Youtube](https://www.youtube.com/channel/UCpmUUYF6qvmsPzisn5gN7KQ))
 - [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
 - [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
 - [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
