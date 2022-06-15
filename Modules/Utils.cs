@@ -721,12 +721,12 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.SerialKiller))
                 {
                     pc.RpcResetAbilityCooldown();
-                    Main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                    Main.SerialKillerTimer.TryAdd(pc.PlayerId, 0f);
                 }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
                     pc.RpcResetAbilityCooldown();
-                    Main.BountyTimer.Add(pc.PlayerId, 0f);
+                    Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
                 }
             }
         }
