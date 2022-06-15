@@ -12,10 +12,12 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     class ChatCommands
     {
+        public static List<string> ChatHistory = new();
         public static bool Prefix(ChatController __instance)
         {
             if (__instance.TextArea.text == "") return false;
             var text = __instance.TextArea.text;
+            if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             string[] args = text.Split(' ');
             string subArgs = "";
             var canceled = false;
