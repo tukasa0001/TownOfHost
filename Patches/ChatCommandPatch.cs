@@ -192,6 +192,12 @@ namespace TownOfHost
                         else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
                         break;
 
+                    case "/exile":
+                        canceled = true;
+                        if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
+                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
