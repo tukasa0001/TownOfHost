@@ -30,6 +30,13 @@ namespace TownOfHost
                 CurrentHistorySelection = Mathf.Clamp(--CurrentHistorySelection, 0, ChatCommands.ChatHistory.Count - 1);
                 __instance.TextArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
             }
+            if (Input.GetKeyDown(KeyCode.DownArrow) && ChatCommands.ChatHistory.Count > 0)
+            {
+                CurrentHistorySelection++;
+                if (CurrentHistorySelection < ChatCommands.ChatHistory.Count)
+                    __instance.TextArea.SetText(ChatCommands.ChatHistory[CurrentHistorySelection]);
+                else __instance.TextArea.SetText("");
+            }
         }
     }
 }
