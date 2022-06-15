@@ -321,7 +321,7 @@ namespace TownOfHost
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
+                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
         }
