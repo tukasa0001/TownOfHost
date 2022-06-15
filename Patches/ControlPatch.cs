@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
@@ -64,6 +65,11 @@ namespace TownOfHost
             {
                 Utils.ShowActiveSettingsHelp();
             }
+            //TOHオプションをデフォルトに設定
+            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+            }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;
@@ -106,7 +112,7 @@ namespace TownOfHost
             //自分自身の死体をレポート
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
             {
-                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
