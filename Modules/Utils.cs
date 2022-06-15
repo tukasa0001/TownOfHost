@@ -253,9 +253,10 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
-            var text = GetString("Roles") + ":";
+            var text = "";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
+                text = GetString("Roles") + ":";
                 if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
                 if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
                 SendMessage(text, PlayerId);
@@ -264,12 +265,7 @@ namespace TownOfHost
             }
             else
             {
-                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
-                {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
-                    if (role.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(role), role.GetCount());
-                }
-                SendMessage(text, PlayerId);
+                ShowActiveRoles(PlayerId);
                 text = GetString("Attributes") + ":";
                 if (Options.EnableLastImpostor.GetBool())
                 {
@@ -305,7 +301,7 @@ namespace TownOfHost
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
-                if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount);
+                if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())
                 {
                     if (PlayerControl.GameOptions.MapId == 2) text += String.Format("\n{0}:{1}", GetString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
@@ -317,6 +313,16 @@ namespace TownOfHost
             }
             if (Options.StandardHAS.GetBool()) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
+            SendMessage(text, PlayerId);
+        }
+        public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
+        {
+            var text = GetString("Roles") + ":";
+            foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+            {
+                if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
+                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
+            }
             SendMessage(text, PlayerId);
         }
         public static void ShowLastResult(byte PlayerId = byte.MaxValue)
