@@ -225,6 +225,7 @@ namespace TownOfHost
                     }
                     break;
             }
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
 
             return ProgressText;
         }
