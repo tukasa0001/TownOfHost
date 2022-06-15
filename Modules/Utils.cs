@@ -695,8 +695,7 @@ namespace TownOfHost
                             TargetDeathReason = $"(<color={GetRoleColorCode(CustomRoles.Doctor)}>{GetVitalText(target.PlayerId)}</color>)";
 
                         //全てのテキストを合成します。
-                        TargetPlayerName += TargetDeathReason + TargetMark;
-                        string TargetName = isMeeting ? TargetPlayerName + "\r\n" + TargetRoleText : TargetRoleText + "\r\n" + TargetPlayerName;
+                        string TargetName = $"{TargetRoleText}\r\n{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
