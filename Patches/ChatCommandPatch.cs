@@ -14,6 +14,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ChatController __instance)
         {
+            if (__instance.TextArea.text == "") return false;
             var text = __instance.TextArea.text;
             string[] args = text.Split(' ');
             string subArgs = "";
