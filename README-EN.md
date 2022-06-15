@@ -28,7 +28,6 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 However, please note that the following restrictions apply.<br>
 
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
-- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
