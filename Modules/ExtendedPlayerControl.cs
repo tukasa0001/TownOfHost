@@ -694,6 +694,13 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
+        { /*サボタージュ中でも関係なしに会議を起こせるメソッド
+            targetがnullの場合はボタンとなる*/
+            MeetingRoomManager.Instance.AssignSelf(reporter, target);
+            DestroyableSingleton<HudManager>.Instance.OpenMeetingRoom(reporter);
+            reporter.RpcStartMeeting(target);
+        }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
 
         //汎用
