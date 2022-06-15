@@ -18,6 +18,7 @@ namespace TownOfHost
             if (__instance.TextArea.text == "") return false;
             var text = __instance.TextArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
+            ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
             string[] args = text.Split(' ');
             string subArgs = "";
             var canceled = false;
