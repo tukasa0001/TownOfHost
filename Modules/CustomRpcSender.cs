@@ -124,7 +124,7 @@ namespace TownOfHost
             currentState = State.InRpc;
             return this;
         }
-        public void EndRpc()
+        public CustomRpcSender EndRpc()
         {
             if (currentState != State.InRpc)
             {
@@ -141,6 +141,7 @@ namespace TownOfHost
 
             stream.EndMessage();
             currentState = State.InRootMessage;
+            return this;
         }
         public void SendMessage()
         {
