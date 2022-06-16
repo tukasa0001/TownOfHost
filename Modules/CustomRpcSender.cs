@@ -29,6 +29,11 @@ namespace TownOfHost
         }
         private State currentState = State.BeforeInit;
 
+        //0~: targetClientId (GameDataTo)
+        //-1: 全プレイヤー (GameData)
+        //-2: 未設定
+        private int currentRpcTarget;
+
         private CustomRpcSender() { }
         public CustomRpcSender(string name, SendOption sendOption, bool isUnsafe)
         {
@@ -37,6 +42,7 @@ namespace TownOfHost
             this.name = name;
             this.sendOption = sendOption;
             this.isUnsafe = isUnsafe;
+            this.currentRpcTarget = -2;
             onSendDelegate = () => Logger.Info($"{this.name}'s onSendDelegate =>", "CustomRpcSender");
 
             currentState = State.Ready;
@@ -77,6 +83,7 @@ namespace TownOfHost
                 stream.WritePacked(targetClientId);
             }
 
+            currentRpcTarget = targetClientId;
             currentState = State.InRootMessage;
             return this;
         }
@@ -96,6 +103,7 @@ namespace TownOfHost
             }
             stream.EndMessage();
 
+            currentRpcTarget = -2;
             currentState = State.Ready;
             return this;
         }
@@ -147,6 +155,33 @@ namespace TownOfHost
             return this;
         }
         #endregion
+        public CustomRpcSender AutoStartRpc(
+          uint targetNetId,
+          byte callId,
+          int targetClientId)
+        {
+            if (currentState != State.Ready && currentState != State.InRootMessage)
+            {
+                string errorMsg = $"RPCを自動で開始しようとしましたが、StateがReadyまたはInRootMessageではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
+            }
+            if (currentRpcTarget != targetClientId)
+            {
+                //StartMessage処理
+                if (currentState == State.InRootMessage) this.EndMessage();
+                this.StartMessage(targetClientId);
+            }
+            this.StartRpc(targetNetId, callId);
+
+            return this;
+        }
         public void SendMessage()
         {
             if (currentState != State.Ready)
