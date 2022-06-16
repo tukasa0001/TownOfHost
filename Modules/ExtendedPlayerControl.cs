@@ -674,6 +674,13 @@ namespace TownOfHost
             var count = Utils.getDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
+        public static bool CanMakeMadmate(this PlayerControl player)
+        {
+            return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
+                    && player != null
+                    && player.Data.Role.Role == RoleTypes.Shapeshifter
+                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper);
+        }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
