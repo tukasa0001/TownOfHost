@@ -157,17 +157,25 @@ namespace TownOfHost
                         //ここからDesyncが始まる
                         if (sheriff.PlayerId != 0)
                         {
+                            int sheriffCID = sheriff.GetClientId();
                             //ただしホスト、お前はDesyncするな。
+                            sender.RpcSetRole(sheriff, RoleTypes.Impostor, sheriffCID);
                             sender.RpcSetRole(sheriff, RoleTypes.Impostor);
                             //sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
+                            //シェリフ視点で他プレイヤーを科学者にするループ
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == sheriff) continue;
+                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriffCID);
+                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
+                            }
+                            //他視点でシェリフを科学者にするループ
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == sheriff) continue;
                                 if (pc.PlayerId == 0) sheriff.SetRole(RoleTypes.Scientist); //ホスト視点用
-                                else sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc);
-                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriff);
+                                else sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc.GetClientId());
                                 //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
                             }
                         }
                         else
