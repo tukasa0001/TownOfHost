@@ -79,14 +79,7 @@ namespace TownOfHost
                 RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
             }
             else*/
-            if (player.IsLastImpostor() && player.Is(CustomRoles.Impostor))
-            {
-                var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) &&
-                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
-                RoleText = $"{GetString("LastImpostor", lang)}";
-            }
-            else
-                RoleText = GetRoleName(cRole);
+            RoleText = GetRoleName(cRole);
 
             return (RoleText, GetRoleColor(cRole));
         }
@@ -232,7 +225,7 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (role.IsImpostor() && role != CustomRoles.Impostor && GetPlayerById(playerId).IsLastImpostor())
+            if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
             {
                 ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>Li</color>";
             }
@@ -579,10 +572,9 @@ namespace TownOfHost
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
-                string SeerRoleName = GetRoleText(seer).Item1;
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}><color={seer.GetRoleColorCode()}>{SeerRoleName}</color>{SelfTaskText}</size>";
+                string SelfRoleName = $"<size={fontSize}><color={seer.GetRoleColorCode()}>{seer.GetRoleName()}</color>{SelfTaskText}</size>";
                 string SelfName = $"<color={seer.GetRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("EnterVentToWin")}</color>";
@@ -666,7 +658,7 @@ namespace TownOfHost
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{GetRoleText(target).Item1}</color>{TargetTaskText}</size>" : "";
+                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>" : "";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -758,6 +750,19 @@ namespace TownOfHost
             }
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
+            if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.IsLastImpostor() && pc.Is(CustomRoles.Impostor))
+                    {
+                        pc.RpcSetCustomRole(CustomRoles.LastImpostor);
+                        break;
+                    }
+                }
+                NotifyRoles();
+                CustomSyncAllSettings();
+            }
         }
         public static string GetAllRoleName(byte playerId)
         {
