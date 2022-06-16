@@ -160,7 +160,6 @@ namespace TownOfHost
                             int sheriffCID = sheriff.GetClientId();
                             //ただしホスト、お前はDesyncするな。
                             sender.RpcSetRole(sheriff, RoleTypes.Impostor, sheriffCID);
-                            sender.RpcSetRole(sheriff, RoleTypes.Impostor);
                             //sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
                             //シェリフ視点で他プレイヤーを科学者にするループ
                             foreach (var pc in PlayerControl.AllPlayerControls)
