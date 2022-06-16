@@ -221,7 +221,10 @@ namespace TownOfHost
                     }
                     break;
             }
-
+            if (role.IsImpostor() && role is not CustomRoles.Impostor && GetPlayerById(playerId).IsLastImpostor())
+            {
+                ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>Li</color>";
+            }
             return ProgressText;
         }
         public static void ShowActiveRoles()
