@@ -230,13 +230,17 @@ namespace TownOfHost
                     }
                 }
             }
+            if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
+            sender.StartMessage(-1);
+            //以下、バニラ側の役職割り当てが入る
         }
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
             //RpcSetRoleReplacerの無効化と送信処理
             RpcSetRoleReplacer.doReplace = false;
-            RpcSetRoleReplacer.sender.SendMessage();
+            RpcSetRoleReplacer.sender.EndMessage()
+                                    .SendMessage();
 
             //Utils.ApplySuffix();
 
