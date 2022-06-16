@@ -79,7 +79,14 @@ namespace TownOfHost
                 RoleText = $"{getRoleName(cRole)} ({getString("Last")})";
             }
             else*/
-            RoleText = GetRoleName(cRole);
+            if (player.IsLastImpostor() && player.Is(CustomRoles.Impostor))
+            {
+                var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) &&
+                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+                RoleText = $"{GetString("LastImpostor", lang)}";
+            }
+            else
+                RoleText = GetRoleName(cRole);
 
             return (RoleText, GetRoleColor(cRole));
         }
@@ -572,9 +579,10 @@ namespace TownOfHost
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
+                string SeerRoleName = GetRoleText(seer).Item1;
 
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}><color={seer.GetRoleColorCode()}>{seer.GetRoleName()}</color>{SelfTaskText}</size>";
+                string SelfRoleName = $"<size={fontSize}><color={seer.GetRoleColorCode()}>{SeerRoleName}</color>{SelfTaskText}</size>";
                 string SelfName = $"<color={seer.GetRoleColorCode()}>{SeerRealName}</color>{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n<color={seer.GetRoleColorCode()}>{GetString("EnterVentToWin")}</color>";
