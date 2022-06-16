@@ -186,7 +186,7 @@ HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive 
 HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
-LastImpostorInfoLong,"(Attributes):\nAn attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual (with settings).\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。キルクールが設定した時間まで短くなる。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
