@@ -240,7 +240,7 @@ namespace TownOfHost
                     }
                 }
 
-                // GuardAndKill
+                // GuardAndKill-new
                 if (Input.GetKeyDown(KeyCode.Alpha6))
                 {
                     PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
@@ -250,6 +250,20 @@ namespace TownOfHost
                         for (int i1 = 0; i1 < 100; i1++)
                         {
                             targetPlayer.RpcGuardAndKill();
+                        }
+                    }
+                }
+                // GuardAndKill-old
+                if (Input.GetKeyDown(KeyCode.Alpha7))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 100; i1++)
+                        {
+                            targetPlayer.RpcProtectPlayer(targetPlayer, 0);
+                            targetPlayer.RpcMurderPlayer(targetPlayer);
                         }
                     }
                 }
