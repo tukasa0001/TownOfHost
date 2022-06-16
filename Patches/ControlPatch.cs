@@ -191,6 +191,62 @@ namespace TownOfHost
                         sender.SendMessage();
                     }
                 }
+
+                // 負荷実験-new
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 15; i1++)
+                        {
+                            var sender = CustomRpcSender.Create();
+                            for (byte i2 = 0; i2 < 15; i2++)
+                            {
+                                var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
+                                writer.Write($"負荷実験-new({i1}-{i2})({i1 + i2})");
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            }
+
+                            sender.SendMessage();
+                        }
+                    }
+                }
+
+                // 負荷実験-old
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 15; i1++)
+                        {
+                            var sender = CustomRpcSender.Create();
+                            for (byte i2 = 0; i2 < 15; i2++)
+                            {
+                                var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
+                                writer.Write($"負荷実験-old({i1}-{i2})({i1 + i2})");
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            }
+                        }
+                    }
+                }
+
+                // GuardAndKill
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 100; i1++)
+                        {
+                            targetPlayer.RpcGuardAndKill();
+                        }
+                    }
+                }
             }
 
             //--以下フリープレイ用コマンド--//
