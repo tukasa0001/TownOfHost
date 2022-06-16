@@ -149,13 +149,14 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         var sender = CustomRpcSender.Create();
+                        sender.StartMessage();
                         for (byte i = 0; i < 10; i++)
                         {
                             sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor);
                             sender.Write(i);
                             sender.EndRpc();
                         }
-
+                        sender.EndMessage();
                         sender.SendMessage();
                     }
                 }

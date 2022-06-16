@@ -18,6 +18,15 @@ namespace TownOfHost
         public delegate void onSendDelegateType();
         public onSendDelegateType onSendDelegate;
 
+        public State CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                if (isUnsafe) currentState = value;
+                else Logger.Warn("CurrentStateはisUnsafeがtrueの時のみ上書きできます", "CustomRpcSender");
+            }
+        }
         private State currentState = State.BeforeInit;
 
         private CustomRpcSender() { }
