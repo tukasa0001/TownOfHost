@@ -137,7 +137,7 @@ namespace TownOfHost
             //CustomRpcSenderデバッグ用
             if (Input.GetKey(KeyCode.RightControl))
             {
-                // どちらも赤色から茶色までの計10個のSetRoleRPCを送る処理です。
+                // どちらも赤色から茶色までの計10個のSetColorRPCを送る処理です。
                 // コード上の送信順で処理された場合は最終的な色は茶色になります。
                 // 従来の方式の場合、ほぼ同時に大量の送信処理を行っているため、遅延以外の方法で順番の入れ替わりを回避できません。
                 // それに対してCustomRpcSenderを使用した方式は、一つのメッセージにすべてのRPCを入れているため、順番が入れ替わる心配がありません。
