@@ -1,8 +1,8 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
 using UnityEngine;
-using System.Linq;
 
 namespace TownOfHost
 {
@@ -65,6 +65,11 @@ namespace TownOfHost
             {
                 Utils.ShowActiveSettingsHelp();
             }
+            //TOHオプションをデフォルトに設定
+            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+            }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;
@@ -107,7 +112,7 @@ namespace TownOfHost
             //自分自身の死体をレポート
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
             {
-                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
@@ -144,13 +149,14 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         var sender = CustomRpcSender.Create();
+                        sender.StartMessage();
                         for (byte i = 0; i < 10; i++)
                         {
                             sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor);
                             sender.Write(i);
                             sender.EndRpc();
                         }
-
+                        sender.EndMessage();
                         sender.SendMessage();
                     }
                 }
@@ -180,15 +186,77 @@ namespace TownOfHost
                     {
                         var sender = CustomRpcSender.Create();
 
-                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p1.GetClientId());
-                        sender.Write((byte)3);
-                        sender.EndRpc();
+                        sender.StartMessage(p1.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)3)
+                          .EndRpc()
+                          .EndMessage();
 
-                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p2.GetClientId());
-                        sender.Write((byte)4);
-                        sender.EndRpc();
+                        sender.StartMessage(p2.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)4)
+                          .EndRpc()
+                          .EndMessage();
 
                         sender.SendMessage();
+                    }
+                }
+
+                // 負荷実験-new
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 15; i1++)
+                        {
+                            var sender = CustomRpcSender.Create();
+                            sender.StartMessage(clientId);
+
+                            for (byte i2 = 0; i2 < 15; i2++)
+                            {
+                                sender.StartRpc(targetPlayer.NetId, RpcCalls.SetName)
+                                  .Write($"負荷実験-new({i1}-{i2})({i1 + i2})")
+                                  .EndRpc();
+                            }
+
+                            sender.EndMessage();
+                            sender.SendMessage();
+                        }
+                    }
+                }
+
+                // 負荷実験-old
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 15; i1++)
+                        {
+                            for (byte i2 = 0; i2 < 15; i2++)
+                            {
+                                var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
+                                writer.Write($"負荷実験-old({i1}-{i2})({i1 + i2})");
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            }
+                        }
+                    }
+                }
+
+                // GuardAndKill
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 100; i1++)
+                        {
+                            targetPlayer.RpcGuardAndKill();
+                        }
                     }
                 }
             }

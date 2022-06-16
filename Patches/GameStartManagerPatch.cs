@@ -85,6 +85,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
     {
+        public static void Prefix()
+        {
+            Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
+            PlayerControl.GameOptions.KillCooldown = 0.1f;
+            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+        }
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
@@ -109,6 +116,15 @@ namespace TownOfHost
 
             }
             return continueStart;
+        }
+    }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
+    class ResetStartStatePatch
+    {
+        public static void Postfix()
+        {
+            PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+            PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
