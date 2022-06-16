@@ -158,7 +158,7 @@ namespace TownOfHost
         public CustomRpcSender AutoStartRpc(
           uint targetNetId,
           byte callId,
-          int targetClientId)
+          int targetClientId = -1)
         {
             if (currentState != State.Ready && currentState != State.InRootMessage)
             {
