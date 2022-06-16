@@ -75,12 +75,12 @@ namespace TownOfHost
             stream.WritePacked(targetNetId);
             stream.Write(callId);
 
-            currentState = State.Writing;
+            currentState = State.InRpc;
             return this;
         }
         public void EndRpc()
         {
-            if (currentState != State.Writing && !isUnsafe)
+            if (currentState != State.InRpc && !isUnsafe)
             {
                 Logger.Error($"RPCを終了しようとしましたが、StateがWriting(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return;
@@ -127,7 +127,7 @@ namespace TownOfHost
 
         private CustomRpcSender Write(Action<MessageWriter> action)
         {
-            if (currentState != State.Writing && !isUnsafe)
+            if (currentState != State.InRpc && !isUnsafe)
                 Logger.Error($"RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
             else
                 action(stream);
@@ -138,8 +138,9 @@ namespace TownOfHost
         public enum State
         {
             BeforeInit = 0, //初期化前 何もできない
-            Ready, //送信準備完了 StartRpcとSendMessageを実行可能
-            Writing, //RPC書き込み中 WriteとEndRpcを実行可能
+            Ready, //送信準備完了 StartMessageとSendMessageを実行可能
+            InRootMessage, //StartMessage～EndMessageの間の状態 StartRpcとEndMessageを実行可能
+            InRpc, //StartRpc～EndRpcの間の状態 WriteとEndRpcを実行可能
             Finished, //送信後 何もできない
         }
     }
