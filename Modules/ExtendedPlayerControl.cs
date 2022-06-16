@@ -281,7 +281,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat();
+                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.DefaultKillCooldown;
                     if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
                     break;
                 case CustomRoles.SerialKiller:
@@ -361,7 +361,7 @@ namespace TownOfHost
                     if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
                     {
                         Main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
-                        Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown / 2; //Options.BHDefaultKillCooldown.GetFloat() / 2;//Mareのキルクールを÷2する
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown / 2;//Mareのキルクールを÷2する
                     }
                     break;
                 case CustomRoles.EvilTracker:
@@ -667,7 +667,7 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = Main.RealOptionsData.killCooldown; //Options.BHDefaultKillCooldown.GetFloat(); //キルクールをデフォルトキルクールに変更
+            Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:

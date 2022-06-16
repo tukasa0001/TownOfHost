@@ -245,7 +245,6 @@ EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
 LastImpostorKillCooldown,LastImpostor KillCooldown,ラストインポスターのキルクール
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
-BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
