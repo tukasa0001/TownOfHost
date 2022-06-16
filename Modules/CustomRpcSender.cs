@@ -214,17 +214,17 @@ namespace TownOfHost
 
     public static class CustomRpcSenderExtentions
     {
-        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
+        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role)
         {
-            sender.StartRpc(player.NetId, (byte)RpcCalls.SetRole, targetClientId)
-                  .Write((ushort)role)
-                  .EndRpc();
+            sender.StartRpc(player.NetId, (byte)RpcCalls.SetRole)
+              .Write((ushort)role)
+              .EndRpc();
         }
-        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
+        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target)
         {
-            sender.StartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
-                  .WriteNetObject(target)
-                  .EndRpc();
+            sender.StartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
+              .WriteNetObject(target)
+              .EndRpc();
         }
     }
 }
