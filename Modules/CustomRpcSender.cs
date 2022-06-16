@@ -184,6 +184,7 @@ namespace TownOfHost
         }
         public void SendMessage()
         {
+            if (currentState == State.InRootMessage) this.EndMessage();
             if (currentState != State.Ready)
             {
                 string errorMsg = $"RPCを送信しようとしましたが、StateがReadyではありません (in: \"{name}\")";
