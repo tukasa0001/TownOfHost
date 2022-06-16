@@ -250,7 +250,7 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"));
                 }
-                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo")); }
+                if (Options.EnableLastImpostor.GetBool()) { SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfoLong")); }
             }
             if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo")); }
         }

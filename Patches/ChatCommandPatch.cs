@@ -122,7 +122,7 @@ namespace TownOfHost
                                 {
                                     case "lastimpostor":
                                     case "limp":
-                                        Utils.SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo"));
+                                        Utils.SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfoLong"));
                                         break;
 
                                     default:
