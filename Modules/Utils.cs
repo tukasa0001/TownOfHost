@@ -330,7 +330,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse/lastroles"), PlayerId);
+                SendMessage(GetString("CantUse.lastroles"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
