@@ -40,10 +40,17 @@ namespace TownOfHost
 
         public CustomRpcSender StartMessage(int targetClientId = -1)
         {
-            if (currentState != State.Ready && !isUnsafe)
+            if (currentState != State.Ready)
             {
-                Logger.Error($"Messageを開始しようとしましたが、StateがReadyではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return this;
+                string errorMsg = $"Messageを開始しようとしましたが、StateがReadyではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
             }
 
             if (targetClientId < 0)
@@ -65,10 +72,17 @@ namespace TownOfHost
         }
         public CustomRpcSender EndMessage(int targetClientId = -1)
         {
-            if (currentState != State.InRootMessage && !isUnsafe)
+            if (currentState != State.InRootMessage)
             {
-                Logger.Error($"Messageを終了しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return this;
+                string errorMsg = $"Messageを終了しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
             }
             stream.EndMessage();
 
@@ -82,10 +96,17 @@ namespace TownOfHost
           byte callId,
           int targetClientId = -1)
         {
-            if (currentState != State.InRootMessage && !isUnsafe)
+            if (currentState != State.InRootMessage)
             {
-                Logger.Error($"RPCを開始しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return this;
+                string errorMsg = $"RPCを開始しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
             }
 
             stream.StartMessage(2);
@@ -97,10 +118,17 @@ namespace TownOfHost
         }
         public void EndRpc()
         {
-            if (currentState != State.InRpc && !isUnsafe)
+            if (currentState != State.InRpc)
             {
-                Logger.Error($"RPCを終了しようとしましたが、StateがInRpcではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return;
+                string errorMsg = $"RPCを終了しようとしましたが、StateがInRpcではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
             }
 
             stream.EndMessage();
@@ -108,10 +136,17 @@ namespace TownOfHost
         }
         public void SendMessage()
         {
-            if (currentState != State.Ready && !isUnsafe)
+            if (currentState != State.Ready)
             {
-                Logger.Error($"RPCを送信しようとしましたが、StateがReadyではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return;
+                string errorMsg = $"RPCを送信しようとしましたが、StateがReadyではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
             }
 
             AmongUsClient.Instance.SendOrDisconnect(stream);
@@ -143,10 +178,19 @@ namespace TownOfHost
 
         private CustomRpcSender Write(Action<MessageWriter> action)
         {
-            if (currentState != State.InRpc && !isUnsafe)
-                Logger.Error($"RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
-            else
-                action(stream);
+            if (currentState != State.InRpc)
+            {
+                string errorMsg = $"RPCを書き込もうとしましたが、StateがWrite(書き込み中)ではありません (in: \"{name}\")";
+                if (isUnsafe)
+                {
+                    Logger.Warn(errorMsg, "CustomRpcSender.Warn");
+                }
+                else
+                {
+                    throw new InvalidOperationException(errorMsg);
+                }
+            }
+            action(stream);
 
             return this;
         }
