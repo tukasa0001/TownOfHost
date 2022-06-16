@@ -12,8 +12,8 @@ namespace TownOfHost
     public class CustomRpcSender
     {
         public MessageWriter stream;
-        public string name;
-        public SendOption sendOption;
+        public readonly string name;
+        public readonly SendOption sendOption;
         public bool isUnsafe;
         public delegate void onSendDelegateType();
         public onSendDelegateType onSendDelegate;
