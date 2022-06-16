@@ -42,7 +42,7 @@ namespace TownOfHost
             onSendDelegate = () => Logger.Info($"{this.name}'s onSendDelegate =>", "CustomRpcSender");
 
             currentState = State.Ready;
-            Logger.Info($"\"{name}\" is ready", "CusomRpcSender");
+            Logger.Info($"\"{name}\" is ready", "CustomRpcSender");
         }
         public static CustomRpcSender Create(string name = "No Name Sender", SendOption sendOption = SendOption.None, bool isUnsafe = false)
         {
@@ -198,7 +198,7 @@ namespace TownOfHost
             AmongUsClient.Instance.SendOrDisconnect(stream);
             onSendDelegate();
             currentState = State.Finished;
-            Logger.Info($"\"{name}\" is finished", "CusomRpcSender");
+            Logger.Info($"\"{name}\" is finished", "CustomRpcSender");
             stream.Recycle();
         }
 
@@ -250,7 +250,7 @@ namespace TownOfHost
         }
     }
 
-    public static class CustomRpcSenderExtentions
+    public static class CustomRpcSenderExtensions
     {
         public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
         {
