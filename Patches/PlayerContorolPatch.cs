@@ -165,6 +165,11 @@ namespace TownOfHost
 
                 //==========マッドメイト系役職==========//
                 case CustomRoles.MadGuardian:
+                    //killerがキルできないインポスター判定役職の場合はスキップ
+                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
+                    ) break;
+
+                    //MadGuardianを切れるかの判定処理
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
@@ -218,7 +223,7 @@ namespace TownOfHost
                         if (!target.Is(CustomRoles.Bait))
                         { //キルキャンセル&自爆処理
                             Utils.CustomSyncAllSettings();
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
                             killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                             killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
@@ -257,7 +262,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
                         killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                         killer.RpcGuardAndKill(target);
                         return false;
@@ -433,9 +438,8 @@ namespace TownOfHost
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
-            var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
 
-            if (Options.CanMakeMadmateCount.GetFloat() > Main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
+            if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new();
@@ -788,7 +792,7 @@ namespace TownOfHost
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.Is(CustomRoles.Vampire) || pc.Is(CustomRoles.Warlock))
-                            Main.AllPlayerKillCooldown[pc.PlayerId] = Main.RealOptionsData.killCooldown * 2; //Options.BHDefaultKillCooldown.GetFloat() * 2;
+                            Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown * 2;
                     }
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
@@ -1054,37 +1058,35 @@ namespace TownOfHost
 
         public static bool CheckArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
         {
-            if (!Options.SnitchEnableTargetArrow.GetBool()) return false;
-
             var key = (seer.PlayerId, target.PlayerId);
-            if (target.Data.IsDead)
-            {
-                //死んでたらリストから削除
-                Main.targetArrows.Remove(key);
-                return updateFlag;
-            }
             if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
             {
-                oldArrow = "";
+                //初回は必ず被らないもの
+                oldArrow = "_";
             }
-            //インポスターの方角ベクトルを取る
-            var dir = target.transform.position - seer.transform.position;
-            byte index;
-            if (dir.magnitude < 2)
+            //初期値は死んでる場合の空白にしておく
+            var arrow = "";
+            if (!PlayerState.isDead[seer.PlayerId] && !PlayerState.isDead[target.PlayerId])
             {
-                //近い時はドット表示
-                index = 8;
-            }
-            else
-            {
-                //-22.5～22.5度を0とするindexに変換
-                var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
-                index = (byte)(((int)(angle / 45)) % 8);
-            }
-            var arrow = "↑↗→↘↓↙←↖・"[index].ToString();
-            if (coloredArrow)
-            {
-                arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
+                //対象の方角ベクトルを取る
+                var dir = target.transform.position - seer.transform.position;
+                byte index;
+                if (dir.magnitude < 2)
+                {
+                    //近い時はドット表示
+                    index = 8;
+                }
+                else
+                {
+                    //-22.5～22.5度を0とするindexに変換
+                    var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                    index = (byte)(((int)(angle / 45)) % 8);
+                }
+                arrow = "↑↗→↘↓↙←↖・"[index].ToString();
+                if (coloredArrow)
+                {
+                    arrow = $"<color={target.GetRoleColorCode()}>{arrow}</color>";
+                }
             }
             if (oldArrow != arrow)
             {

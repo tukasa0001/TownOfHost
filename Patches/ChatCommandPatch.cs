@@ -67,7 +67,17 @@ namespace TownOfHost
                     case "/n":
                     case "/now":
                         canceled = true;
-                        Utils.ShowActiveSettings();
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
+                        }
                         break;
 
                     case "/dis":
@@ -182,6 +192,18 @@ namespace TownOfHost
                         else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
                         break;
 
+                    case "/exile":
+                        canceled = true;
+                        if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
+                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        break;
+
+                    case "/kill":
+                        canceled = true;
+                        if (args.Length < 2 || !int.TryParse(args[1], out int id2)) break;
+                        Utils.GetPlayerById(id2)?.RpcMurderPlayer(Utils.GetPlayerById(id2));
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -205,6 +227,7 @@ namespace TownOfHost
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
                 { CustomRoles.FireWorks, "fw" },
+                { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.SerialKiller, "sk" },
                 { CustomRoles.ShapeMaster, "sha" },
@@ -309,7 +332,9 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            switch (text)
+            string[] args = text.Split(' ');
+            string subArgs = "";
+            switch (args[0])
             {
                 case "/l":
                 case "/lastresult":
@@ -318,7 +343,18 @@ namespace TownOfHost
 
                 case "/n":
                 case "/now":
-                    Utils.ShowActiveSettings(player.PlayerId);
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "r":
+                        case "roles":
+                            Utils.ShowActiveRoles(player.PlayerId);
+                            break;
+
+                        default:
+                            Utils.ShowActiveSettings(player.PlayerId);
+                            break;
+                    }
                     break;
 
                 default:
