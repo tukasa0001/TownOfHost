@@ -40,6 +40,12 @@ namespace TownOfHost
 
         public CustomRpcSender StartMessage(int targetClientId = -1)
         {
+            if (currentState != State.Ready && !isUnsafe)
+            {
+                Logger.Error($"Messageを開始しようとしましたが、StateがReadyではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                return this;
+            }
+
             if (targetClientId < 0)
             {
                 // 全員に対するRPC
@@ -53,11 +59,20 @@ namespace TownOfHost
                 stream.Write(AmongUsClient.Instance.GameId);
                 stream.WritePacked(targetClientId);
             }
+
+            currentState = State.InRootMessage;
             return this;
         }
         public CustomRpcSender EndMessage(int targetClientId = -1)
         {
+            if (currentState != State.InRootMessage && !isUnsafe)
+            {
+                Logger.Error($"Messageを終了しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                return this;
+            }
             stream.EndMessage();
+
+            currentState = State.Ready;
             return this;
         }
         public CustomRpcSender StartRpc(
@@ -65,9 +80,9 @@ namespace TownOfHost
           byte callId,
           int targetClientId = -1)
         {
-            if (currentState != State.Ready && !isUnsafe)
+            if (currentState != State.InRootMessage && !isUnsafe)
             {
-                Logger.Error($"RPCを開始しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                Logger.Error($"RPCを開始しようとしましたが、StateがInRootMessageではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return this;
             }
 
@@ -82,11 +97,10 @@ namespace TownOfHost
         {
             if (currentState != State.InRpc && !isUnsafe)
             {
-                Logger.Error($"RPCを終了しようとしましたが、StateがWriting(書き込み中)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                Logger.Error($"RPCを終了しようとしましたが、StateがInRpcではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return;
             }
 
-            stream.EndMessage();
             stream.EndMessage();
             currentState = State.Ready;
         }
@@ -94,7 +108,7 @@ namespace TownOfHost
         {
             if (currentState != State.Ready && !isUnsafe)
             {
-                Logger.Error($"RPCを終了しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                Logger.Error($"RPCを送信しようとしましたが、StateがReadyではありません (in: \"{name}\")", "CustomRpcSender.Error");
                 return;
             }
 
