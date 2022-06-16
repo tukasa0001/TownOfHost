@@ -247,7 +247,7 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 100; i1++)
+                        for (int i1 = 0; i1 < 300; i1++)
                         {
                             targetPlayer.RpcGuardAndKill();
                         }
@@ -260,7 +260,7 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 100; i1++)
+                        for (int i1 = 0; i1 < 300; i1++)
                         {
                             targetPlayer.RpcProtectPlayer(targetPlayer, 0);
                             targetPlayer.RpcMurderPlayer(targetPlayer);
