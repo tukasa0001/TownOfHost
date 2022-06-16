@@ -89,12 +89,11 @@ namespace TownOfHost
             currentState = State.Ready;
             return this;
         }
-        public CustomRpcSender StartRpc(uint targetNetId, RpcCalls rpcCall, int targetClientId = -1)
-            => StartRpc(targetNetId, (byte)rpcCall, targetClientId);
+        public CustomRpcSender StartRpc(uint targetNetId, RpcCalls rpcCall)
+            => StartRpc(targetNetId, (byte)rpcCall);
         public CustomRpcSender StartRpc(
           uint targetNetId,
-          byte callId,
-          int targetClientId = -1)
+          byte callId)
         {
             if (currentState != State.InRootMessage)
             {
