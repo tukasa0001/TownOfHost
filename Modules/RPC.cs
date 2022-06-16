@@ -53,8 +53,8 @@ namespace TownOfHost
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = subReader.ReadString();
-                    Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
+                    Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
