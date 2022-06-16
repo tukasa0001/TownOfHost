@@ -40,11 +40,6 @@ namespace TownOfHost
 
         public CustomRpcSender StartRpc(
           uint targetNetId,
-          RpcCalls rpcCall,
-          int targetClientId = -1)
-         => StartRpc(targetNetId, (byte)rpcCall, targetClientId);
-        public CustomRpcSender StartRpc(
-          uint targetNetId,
           byte callId,
           int targetClientId = -1)
         {
@@ -144,13 +139,13 @@ namespace TownOfHost
     {
         public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
         {
-            sender.StartRpc(player.NetId, RpcCalls.SetRole, targetClientId)
+            sender.StartRpc(player.NetId, (byte)RpcCalls.SetRole, targetClientId)
                   .Write((ushort)role)
                   .EndRpc();
         }
         public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
         {
-            sender.StartRpc(player.NetId, RpcCalls.MurderPlayer, targetClientId)
+            sender.StartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
                   .WriteNetObject(target)
                   .EndRpc();
         }
