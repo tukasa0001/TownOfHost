@@ -158,8 +158,9 @@ namespace TownOfHost
         public CustomRpcSender AutoStartRpc(
           uint targetNetId,
           byte callId,
-          int targetClientId)
+          int targetClientId = -1)
         {
+            if (targetClientId == -2) targetClientId = -1;
             if (currentState != State.Ready && currentState != State.InRootMessage)
             {
                 string errorMsg = $"RPCを自動で開始しようとしましたが、StateがReadyまたはInRootMessageではありません (in: \"{name}\")";
@@ -255,15 +256,15 @@ namespace TownOfHost
 
     public static class CustomRpcSenderExtentions
     {
-        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role)
+        public static void RpcSetRole(this CustomRpcSender sender, PlayerControl player, RoleTypes role, int targetClientId = -1)
         {
-            sender.StartRpc(player.NetId, (byte)RpcCalls.SetRole)
+            sender.AutoStartRpc(player.NetId, (byte)RpcCalls.SetRole, targetClientId)
               .Write((ushort)role)
               .EndRpc();
         }
-        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target)
+        public static void RpcMurderPlayer(this CustomRpcSender sender, PlayerControl player, PlayerControl target, int targetClientId = -1)
         {
-            sender.StartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
+            sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer, targetClientId)
               .WriteNetObject(target)
               .EndRpc();
         }
