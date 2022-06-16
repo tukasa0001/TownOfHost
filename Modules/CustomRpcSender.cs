@@ -102,7 +102,7 @@ namespace TownOfHost
             }
 
             stream.EndMessage();
-            currentState = State.Ready;
+            currentState = State.InRootMessage;
         }
         public void SendMessage()
         {
