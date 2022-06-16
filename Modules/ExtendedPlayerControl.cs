@@ -147,11 +147,11 @@ namespace TownOfHost
             killer.MurderPlayer(target);
             // Other Clients
             var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-            sender.StartRpc(killer.NetId, RpcCalls.ProtectPlayer)
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
                   .WriteNetObject((InnerNetObject)target)
                   .Write(colorId)
                   .EndRpc();
-            sender.StartRpc(killer.NetId, RpcCalls.MurderPlayer)
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
                   .WriteNetObject((InnerNetObject)target)
                   .EndRpc();
             sender.SendMessage();
