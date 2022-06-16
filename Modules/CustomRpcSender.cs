@@ -158,7 +158,6 @@ namespace TownOfHost
 
         // Write
         #region PublicWriteMethods
-        public CustomRpcSender Write(MessageWriter msg, bool includeHeader) => Write(w => w.Write(msg, includeHeader));
         public CustomRpcSender Write(float val) => Write(w => w.Write(val));
         public CustomRpcSender Write(string val) => Write(w => w.Write(val));
         public CustomRpcSender Write(ulong val) => Write(w => w.Write(val));
