@@ -47,6 +47,7 @@ namespace TownOfHost
             return new CustomRpcSender(name, sendOption, isUnsafe);
         }
 
+        #region Start/End Message
         public CustomRpcSender StartMessage(int targetClientId = -1)
         {
             if (currentState != State.Ready)
@@ -98,6 +99,8 @@ namespace TownOfHost
             currentState = State.Ready;
             return this;
         }
+        #endregion
+        #region Start/End Rpc
         public CustomRpcSender StartRpc(uint targetNetId, RpcCalls rpcCall)
             => StartRpc(targetNetId, (byte)rpcCall);
         public CustomRpcSender StartRpc(
@@ -143,6 +146,7 @@ namespace TownOfHost
             currentState = State.InRootMessage;
             return this;
         }
+        #endregion
         public void SendMessage()
         {
             if (currentState != State.Ready)
