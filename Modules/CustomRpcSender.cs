@@ -38,17 +38,8 @@ namespace TownOfHost
             return new CustomRpcSender(name, sendOption, isUnsafe);
         }
 
-        public CustomRpcSender StartRpc(
-          uint targetNetId,
-          byte callId,
-          int targetClientId = -1)
+        public CustomRpcSender StartMessage(int targetClientId = -1)
         {
-            if (currentState != State.Ready && !isUnsafe)
-            {
-                Logger.Error($"RPCを開始しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
-                return this;
-            }
-
             if (targetClientId < 0)
             {
                 // 全員に対するRPC
@@ -62,6 +53,24 @@ namespace TownOfHost
                 stream.Write(AmongUsClient.Instance.GameId);
                 stream.WritePacked(targetClientId);
             }
+            return this;
+        }
+        public CustomRpcSender EndMessage(int targetClientId = -1)
+        {
+            stream.EndMessage();
+            return this;
+        }
+        public CustomRpcSender StartRpc(
+          uint targetNetId,
+          byte callId,
+          int targetClientId = -1)
+        {
+            if (currentState != State.Ready && !isUnsafe)
+            {
+                Logger.Error($"RPCを開始しようとしましたが、StateがReady(準備完了)ではありません (in: \"{name}\")", "CustomRpcSender.Error");
+                return this;
+            }
+
             stream.StartMessage(2);
             stream.WritePacked(targetNetId);
             stream.Write(callId);
