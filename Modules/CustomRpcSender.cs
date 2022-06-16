@@ -160,6 +160,7 @@ namespace TownOfHost
           byte callId,
           int targetClientId = -1)
         {
+            if (targetClientId == -2) targetClientId = -1;
             if (currentState != State.Ready && currentState != State.InRootMessage)
             {
                 string errorMsg = $"RPCを自動で開始しようとしましたが、StateがReadyまたはInRootMessageではありません (in: \"{name}\")";
