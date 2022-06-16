@@ -209,21 +209,18 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 15; i1++)
+                        var sender = CustomRpcSender.Create();
+                        sender.StartMessage(clientId);
+
+                        for (int i = 0; i < 300; i++)
                         {
-                            var sender = CustomRpcSender.Create();
-                            sender.StartMessage(clientId);
-
-                            for (byte i2 = 0; i2 < 15; i2++)
-                            {
-                                sender.StartRpc(targetPlayer.NetId, RpcCalls.SetName)
-                                  .Write($"負荷実験-new({i1}-{i2})({i1 + i2})")
-                                  .EndRpc();
-                            }
-
-                            sender.EndMessage();
-                            sender.SendMessage();
+                            sender.AutoStartRpc(targetPlayer.NetId, (byte)RpcCalls.SetName, clientId)
+                                .Write($"負荷実験-new({i})")
+                                .EndRpc();
                         }
+
+                        sender.EndMessage();
+                        sender.SendMessage();
                     }
                 }
 
@@ -234,14 +231,11 @@ namespace TownOfHost
                     if (targetPlayer != null)
                     {
                         int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 15; i1++)
+                        for (int i = 0; i < 300; i++)
                         {
-                            for (byte i2 = 0; i2 < 15; i2++)
-                            {
-                                var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
-                                writer.Write($"負荷実験-old({i1}-{i2})({i1 + i2})");
-                                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                            }
+                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
+                            writer.Write($"負荷実験-old({i})");
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
                         }
                     }
                 }
