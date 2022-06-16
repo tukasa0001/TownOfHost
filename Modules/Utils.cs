@@ -232,7 +232,7 @@ namespace TownOfHost
                     }
                     break;
             }
-            if (role.IsImpostor() && role is not CustomRoles.Impostor && GetPlayerById(playerId).IsLastImpostor())
+            if (role.IsImpostor() && role != CustomRoles.Impostor && GetPlayerById(playerId).IsLastImpostor())
             {
                 ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>Li</color>";
             }
