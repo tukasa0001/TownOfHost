@@ -13,23 +13,9 @@
 
 ## リリース
 
-| Among Us バージョン | Mod バージョン | リンク                                                                                                  |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s          | v2.0.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
-| 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s          | v1.4.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s          | v1.4b#5        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#4        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s         | v1.4b#2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s         | v1.4b#1        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s         | v1.3.4         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s         | v1.3.3         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s         | v1.3.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s         | v1.3.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s         | v1.3           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s         | v1.2           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s        | v1.0           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## 特徴
 
@@ -39,7 +25,6 @@
 しかし、以下の制限が発生することにご注意ください。<br>
 
 - ホストが途中抜けをするなどの要因でホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。
-- 特殊役職を使用した場合、その特殊役職の設定を書き換える。(例 : 通気口のクールダウンをなくすなど)
 
 なお、ホスト以外のプレイヤーがこの Mod を導入した状態でプレイすると、以下のような変更が行われます。<br>
 
@@ -69,6 +54,7 @@
 | `Ctrl`+`N`          | 有効な役職の説明を表示       | ロビー&ゲーム内  |
 | `C`                 | ゲーム開始を中断             | カウントダウン中 |
 | `Shift`             | ゲームを即開始               | カウントダウン中 |
+| `Ctrl`+`Delete`     | 全てデフォルト値に設定       | TOH設定画面      |
 
 ### チャットコマンド
 チャットコマンドはチャットで入力して使用できるコマンドです。
@@ -77,8 +63,11 @@
 | /winner<br>/win                             | 勝者を表示                                          |
 | /lastresult<br>/l                           | 試合結果を表示                                      |
 | /now<br>/n                                  | 現在の設定を表示                                    |
+| /now roles<br>/n r                          | 現在の役職設定を表示                                |
 | /rename <名前><br>/r <名前>                 | 名前を変更                                          |
 | /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /template <タグ><br>/t <タグ>               | タグに対応した定型文を表示                          |
+| /messagewait <秒><br>/mw <秒>               | メッセージの表示間隔の秒数を設定                    |
 | /help<br>/h                                 | コマンドの説明を表示                                |
 | /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
 | /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
@@ -114,7 +103,7 @@
 
 表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
 ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-また、設定でキルクールを 2.5 秒に設定する必要があります。<br>
+<!--また、設定でキルクールを 2.5 秒に設定する必要があります。<br>-->
 ターゲットは一定時間ごとに変更されます。<br>
 
 #### 設定
@@ -157,7 +146,7 @@
 陣営 : インポスター<br>
 判定 : インポスター<br>
 
-キルした対象に、対象が次に近づいたクルーをキルさせます。<br>
+パペッティアのキルはキャンセルされ、キル対象に次に近づいたプレイヤー（インポスターを除く）をキルさせます。<br>
 対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映されます。<br>
 普通のキルを行うことはできません。<br>
 
@@ -201,9 +190,9 @@
 弾丸を打ち切るまで通常キルは出来ません。<br>
 
 精密射撃モードOFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
 精密射撃モードON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
 
 #### 設定
 
@@ -222,10 +211,10 @@
 
 #### 設定
 
-| 設定名                |
-| --------------------- |
-| 減少する議論タイム(s) |
-| 減少する投票タイム(s) |
+| 設定名              |
+| ------------------- |
+| 減少する会議時間(s) |
+| 投票時間の下限(s)   |
 
 ### Vampire/ヴァンパイア
 
@@ -249,7 +238,7 @@
 判定 : シェイプシフター<br>
 
 ウォーロックが変身する前にキルすると相手に呪いがかかります。<br>
-そして次変身すると、呪った人に一番近い人が死にます。<br>
+そして次変身すると、呪った人に一番近い人をキルさせます。<br>
 呪いキルの成功または会議を挟むと呪いはリセットされます。<br>
 
 ### Witch/魔女
@@ -316,7 +305,7 @@
 陣営 : インポスター<br>
 判定 : 変化前の役職<br>
 
-この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に作られます。<br>
+この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に最も近いプレイヤー（インポスター陣営を除く）がなります。<br>
 インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
 インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
 
@@ -553,7 +542,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 デフォルトでは勝利条件を持たず、条件を満たすと初めて勝利条件を持ちます。<br>
 
-1.インポスターにキルされるとキルを防いでインポスター陣営となる<br> 2.シェリフにキルされるとキルを防いでクルー陣営となる<br> 3.第三陣営にキルされるとキルを防いで第三陣営となる<br> 4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br> 5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br> 6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
+1.インポスターにキルされるとキルを防いでインポスター陣営となる<br>
+2.シェリフにキルされるとキルを防いでクルー陣営となる<br>
+3.第三陣営にキルされるとキルを防いで第三陣営となる<br>
+4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br>
+5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br>
+6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
 
 また、全シュレディンガーの猫共通でタスクがありません。
 
@@ -603,7 +597,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ・シェリフ恋人：通常通りインポスター等をキルことが出来る。重複元の役職によってキルできるかどうか決まる。(インポスター恋人 キル可能.クルーメイト恋人 キル不可能)<br>
 ・オポチュニスト恋人：生き残れば勝利。<br>
 ・ジェスター恋人：ジェスター恋人が追放されればジェスターとして勝利。恋人が投票で追放された場合はジェスター恋人は敗北。<br>
-・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、恋人がベイト恋人を即通報を行う。<br>
+・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、通報は行われない。<br>
 
 ## SabotageTimeControl/サボタージュの時間制御
 

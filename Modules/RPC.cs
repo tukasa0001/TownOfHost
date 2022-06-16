@@ -25,7 +25,6 @@ namespace TownOfHost
         SetSheriffShotLimit,
         SetTimeThiefKillCount,
         SetDousedPlayer,
-        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -35,6 +34,7 @@ namespace TownOfHost
         SetExecutionerTarget,
         RemoveExecutionerTarget,
         SendFireWorksState,
+        SetCurrentDousingTarget,
     }
     public enum Sounds
     {
@@ -56,10 +56,26 @@ namespace TownOfHost
                     Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
                     break;
+                case RpcCalls.SendChat:
+                    var text = subReader.ReadString();
+                    Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
+                    ChatCommands.OnReceiveChat(__instance, text);
+                    break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
+            }
+            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            {
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                    Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                    Logger.SendInGame($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。\nTOH以外のMODが入っていないか確認してください。");
+                }
+                return false;
             }
             return true;
         }
@@ -161,13 +177,6 @@ namespace TownOfHost
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
-                    Main.isDeadDoused[DousedId] = true;
-                    break;
-                case CustomRPC.SendDousedPlayerCount:
-                    ArsonistId = reader.ReadByte();
-                    int DousePlayer = reader.ReadInt32();
-                    int AllTargets = reader.ReadInt32();
-                    Main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
                     break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
@@ -206,6 +215,12 @@ namespace TownOfHost
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
+                    break;
+                case CustomRPC.SetCurrentDousingTarget:
+                    byte arsonistId = reader.ReadByte();
+                    byte dousingTargetId = reader.ReadByte();
+                    if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+                        Main.currentDousingTarget = dousingTargetId;
                     break;
             }
         }
@@ -248,10 +263,10 @@ namespace TownOfHost
         public static async void RpcVersionCheck()
         {
             while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, Hazel.SendOption.Reliable);
+            MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            writer.EndMessage();
             Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
@@ -424,6 +439,21 @@ namespace TownOfHost
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void SetCurrentDousingTarget(byte arsonistId, byte targetId)
+        {
+            if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
+            {
+                Main.currentDousingTarget = targetId;
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCurrentDousingTarget, Hazel.SendOption.Reliable, -1);
+                writer.Write(arsonistId);
+                writer.Write(targetId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
+        }
+        public static void ResetCurrentDousingTarget(byte arsonistId) => SetCurrentDousingTarget(arsonistId, 255);
     }
     [HarmonyPatch(typeof(InnerNet.InnerNetClient), nameof(InnerNet.InnerNetClient.StartRpc))]
     class StartRpcPatch

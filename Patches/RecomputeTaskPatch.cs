@@ -36,12 +36,6 @@ namespace TownOfHost
     {
         public static void Postfix(GameData __instance)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            Utils.NotifyRoles();
-            foreach (var p in __instance.AllPlayers)
-                if (p.Object.GetCustomRole() == CustomRoles.Lighter || p.Object.Is(CustomRoles.SpeedBooster) || p.Object.Is(CustomRoles.Doctor))
-                    Utils.CustomSyncAllSettings();//ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
         }
     }
 }

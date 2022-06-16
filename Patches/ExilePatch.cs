@@ -46,7 +46,9 @@ namespace TownOfHost
                 }
                 foreach (var kvp in Main.ExecutionerTarget)
                 {
-                    if (Utils.GetPlayerById(kvp.Key).Data.IsDead) continue; //Keyが死んでいたらこのforeach内の処理を全部スキップ
+                    var executioner = Utils.GetPlayerById(kvp.Key);
+                    if (executioner == null) continue;
+                    if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
                     if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
                         //RPC送信開始
@@ -75,13 +77,13 @@ namespace TownOfHost
                 PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
-                Main.RefixCooldownDelay = Main.RealOptionsData.KillCooldown - 3f;
+                Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
             Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
-                if (pc.Is(CustomRoles.Mayor))
-                    pc.RpcGuardAndKill();
+                if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
+                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;
