@@ -186,13 +186,17 @@ namespace TownOfHost
                     {
                         var sender = CustomRpcSender.Create();
 
-                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p1.GetClientId());
-                        sender.Write((byte)3);
-                        sender.EndRpc();
+                        sender.StartMessage(p1.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)3)
+                          .EndRpc()
+                          .EndMessage();
 
-                        sender.StartRpc(p0.NetId, (byte)RpcCalls.SetColor, p2.GetClientId());
-                        sender.Write((byte)4);
-                        sender.EndRpc();
+                        sender.StartMessage(p2.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)4)
+                          .EndRpc()
+                          .EndMessage();
 
                         sender.SendMessage();
                     }
@@ -208,13 +212,16 @@ namespace TownOfHost
                         for (int i1 = 0; i1 < 15; i1++)
                         {
                             var sender = CustomRpcSender.Create();
+                            sender.StartMessage(clientId);
+
                             for (byte i2 = 0; i2 < 15; i2++)
                             {
-                                var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
-                                writer.Write($"負荷実験-new({i1}-{i2})({i1 + i2})");
-                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                                sender.StartRpc(targetPlayer.NetId, RpcCalls.SetName)
+                                  .Write($"負荷実験-new({i1}-{i2})({i1 + i2})")
+                                  .EndRpc();
                             }
 
+                            sender.EndMessage();
                             sender.SendMessage();
                         }
                     }
@@ -229,7 +236,6 @@ namespace TownOfHost
                         int clientId = targetPlayer.GetClientId();
                         for (int i1 = 0; i1 < 15; i1++)
                         {
-                            var sender = CustomRpcSender.Create();
                             for (byte i2 = 0; i2 < 15; i2++)
                             {
                                 var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
