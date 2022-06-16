@@ -75,6 +75,8 @@ namespace TownOfHost
             currentState = State.Ready;
             return this;
         }
+        public CustomRpcSender StartRpc(uint targetNetId, RpcCalls rpcCall, int targetClientId = -1)
+            => StartRpc(targetNetId, (byte)rpcCall, targetClientId);
         public CustomRpcSender StartRpc(
           uint targetNetId,
           byte callId,
