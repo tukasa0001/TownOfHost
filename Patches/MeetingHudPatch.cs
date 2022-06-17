@@ -147,11 +147,8 @@ namespace TownOfHost
                 {
                     var madmate = Utils.GetPlayerById(exileId);
                     var target = PickRevengeTarget(madmate);
-                    PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Revenge);
-                    PlayerState.SetDead(target.PlayerId);
-                    Main.IgnoreReportPlayers.Add(target.PlayerId);
-                    target.RpcExileV2();
-                    Logger.Info($"{madmate.GetNameWithRole()}が{target.GetNameWithRole()}を道連れにしました", "BlackCat");
+                    Logger.Info($"{madmate.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "BlackCat");
+
                 }
 
                 //霊界用暗転バグ対処
@@ -188,7 +185,8 @@ namespace TownOfHost
             }
             var rand = new System.Random();
             var target = TargetList[rand.Next(TargetList.Count)];
-            Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先：{target.GetNameWithRole()}", "PickRevengeTarget");
+            Main.ExileRevengeTarget.Add(target);
+            Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "PickRevengeTarget");
             return target;
         }
     }

@@ -720,6 +720,18 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (Main.ExileRevengeTarget.Find(x => x.PlayerId == pc.PlayerId) != null)
+                {
+                    Logger.Info($"{Main.ExileRevengeTarget[0].GetNameWithRole()}", "ExileRevengeTarget");
+                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Revenge);
+                    PlayerState.SetDead(pc.PlayerId);
+                    Main.IgnoreReportPlayers.Add(pc.PlayerId);
+                    pc.RpcGuardAndKill();
+                    pc.RpcExileV2();
+                    pc.CustomSyncSettings();
+                    Logger.Info($"{pc.GetNameWithRole()}が道連れにされました", "Revenge");
+                    Main.ExileRevengeTarget.Remove(pc);
+                }
                 if (pc.Is(CustomRoles.SerialKiller))
                 {
                     pc.RpcResetAbilityCooldown();
