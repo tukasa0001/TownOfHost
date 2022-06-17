@@ -26,8 +26,7 @@ namespace TownOfHost
                         : GetString(role.ToString() + "Info");
                 }
 
-                var SubRole = role >= CustomRoles.NoSubRoleAssigned;
-                __instance.RoleText.text += SubRole ? $"<color={Utils.GetRoleColorCode(role)}>" : "" + $"{Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId)}</color>";
+                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 
