@@ -353,7 +353,7 @@ namespace TownOfHost
         public static string GetShowLastSubRolesText(byte id)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
+            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " </color>+ " + GetRoleName(cSubRole);
         }
 
         public static void ShowHelp()
