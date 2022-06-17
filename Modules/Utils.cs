@@ -226,6 +226,7 @@ namespace TownOfHost
                     }
                     break;
             }
+            if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
 
             return ProgressText;
         }
@@ -331,9 +332,9 @@ namespace TownOfHost
                 if (role.IsEnable())
                 {
                     if (role is CustomRoles.AssassinAndMarin)
-                        text += string.Format("\n{0}:{1}x{2}", AssassinAndMarin.DisplayRole(disableColor: true), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
+                        text += string.Format("\n{0}:{1}x{2}", AssassinAndMarin.DisplayRole(disableColor: true), $"{role.GetChance() * 100}%", role.GetCount());
                     else
-                        text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), Options.CustomRoleSpawnChances[role].GetString(), role.GetCount());
+                        text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{role.GetChance() * 100}%", role.GetCount());
                 }
             }
             SendMessage(text, PlayerId);
@@ -342,7 +343,7 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                SendMessage(GetString("CantUse/lastroles"), PlayerId);
+                SendMessage(GetString("CantUse.lastroles"), PlayerId);
                 return;
             }
             var text = GetString("LastResult") + ":";
@@ -488,6 +489,7 @@ namespace TownOfHost
             //target:seerが見ることができる変更の対象となるプレイヤー
             foreach (var seer in seerList)
             {
+                if (seer.IsModClient()) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
@@ -748,12 +750,12 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.SerialKiller))
                 {
                     pc.RpcResetAbilityCooldown();
-                    Main.SerialKillerTimer.Add(pc.PlayerId, 0f);
+                    Main.SerialKillerTimer.TryAdd(pc.PlayerId, 0f);
                 }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
                     pc.RpcResetAbilityCooldown();
-                    Main.BountyTimer.Add(pc.PlayerId, 0f);
+                    Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
                 }
             }
         }

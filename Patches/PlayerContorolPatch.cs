@@ -171,6 +171,11 @@ namespace TownOfHost
 
                 //==========マッドメイト系役職==========//
                 case CustomRoles.MadGuardian:
+                    //killerがキルできないインポスター判定役職の場合はスキップ
+                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
+                    ) break;
+
+                    //MadGuardianを切れるかの判定処理
                     var taskState = target.GetPlayerTaskState();
                     if (taskState.IsTaskFinished)
                     {
@@ -439,9 +444,8 @@ namespace TownOfHost
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
-            var canMakeSKMadmateRoles = !shapeshifter.Is(CustomRoles.Warlock) && !shapeshifter.Is(CustomRoles.FireWorks) && !shapeshifter.Is(CustomRoles.Sniper);
 
-            if (Options.CanMakeMadmateCount.GetFloat() > Main.SKMadmateNowCount && canMakeSKMadmateRoles && shapeshifting)
+            if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
                 Dictionary<PlayerControl, float> mpdistance = new();
@@ -777,7 +781,8 @@ namespace TownOfHost
                         {
                             var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                             PlayerControl target = Utils.GetPlayerById(min.Key);
-                            if (min.Value <= 1.75f && player.CanMove && target.CanMove)
+                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+                            if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
                                 player.RpcMurderPlayer(target);
@@ -786,7 +791,6 @@ namespace TownOfHost
                                 Utils.NotifyRoles();
                             }
                         }
-
                     }
                 }
 
