@@ -283,8 +283,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.DefaultKillCooldown;
-                    if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
+                    opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
