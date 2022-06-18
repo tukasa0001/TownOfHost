@@ -142,17 +142,20 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            Main.SelfGuard[target.PlayerId] = true;
-            killer.RpcProtectPlayer(target, colorId);
-            new LateTask(() =>
-            {
-                if (target == null) return;
-                Main.SelfGuard[target.PlayerId] = false;
-                if (!target.Data.IsDead && target.protectedByGuardian)
-                    killer?.RpcMurderPlayer(target);
-                else
-                    Main.BlockKilling[killer.PlayerId] = false;
-            }, 0.5f, "GuardAndKill");
+            // Host
+            killer.ProtectPlayer(target, colorId);
+            killer.MurderPlayer(target);
+            // Other Clients
+            var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+                  .WriteNetObject((InnerNetObject)target)
+                  .Write(colorId)
+                  .EndRpc();
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+                  .WriteNetObject((InnerNetObject)target)
+                  .EndRpc();
+            sender.SendMessage();
+            Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
@@ -673,6 +676,13 @@ namespace TownOfHost
             if (!player.Is(CustomRoles.Arsonist)) return false;
             var count = Utils.getDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
+        }
+        public static bool CanMakeMadmate(this PlayerControl player)
+        {
+            return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
+                    && player != null
+                    && player.Data.Role.Role == RoleTypes.Shapeshifter
+                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper);
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {

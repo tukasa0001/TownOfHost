@@ -233,6 +233,11 @@ namespace TownOfHost
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
             return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
+
+        public static float GetRoleChance(CustomRoles role)
+        {
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10 : roleSpawnChances[role];
+        }
         public static void Load()
         {
             if (IsLoaded) return;
