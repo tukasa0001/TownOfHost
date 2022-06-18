@@ -366,6 +366,12 @@ namespace TownOfHost
                     }
                     break;
 
+                case "/t":
+                case "/template":
+                    if (args.Length > 1) SendTemplate(args[1], player.PlayerId);
+                    else Utils.SendMessage($"使用例:\n{args[0]} test", player.PlayerId);
+                    break;
+
                 default:
                     break;
             }
