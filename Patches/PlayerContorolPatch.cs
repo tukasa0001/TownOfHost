@@ -549,15 +549,6 @@ namespace TownOfHost
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
 
-            if (Options.SyncButtonMode.GetBool() && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
-            {
-                //SyncButtonMode中にホストが死んでいる場合
-                ChangeLocalNameAndRevert(
-                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。",
-                    1000
-                );
-            }
-
             Utils.CustomSyncAllSettings();
             return true;
         }
