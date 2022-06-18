@@ -308,7 +308,7 @@ namespace TownOfHost
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
-        public static void SendTemplate(string str = "")
+        public static void SendTemplate(string str = "", byte playerId = 0xff)
         {
             if (!File.Exists("template.txt"))
             {
@@ -327,7 +327,7 @@ namespace TownOfHost
             }
             if (sendList.Count == 0)
                 HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
-            else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i]);
+            else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
         }
         public static void OnReceiveChat(PlayerControl player, string text)
         {
