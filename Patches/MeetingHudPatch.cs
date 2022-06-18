@@ -346,6 +346,23 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
+    class MeetingHudUpdatePatch
+    {
+        public static void Postfix(MeetingHud __instance)
+        {
+            if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
+            {
+                __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
+                {
+                    var player = Utils.GetPlayerById(x.TargetPlayerId);
+                    player.RpcExileV2();
+                    PlayerState.SetDead(player.PlayerId);
+                    Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                });
+            }
+        }
+    }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
     class MeetingHudOnDestroyPatch
     {
