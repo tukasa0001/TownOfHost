@@ -780,7 +780,7 @@ namespace TownOfHost
             int bc = 0;
             var t = text.ToString();
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
-            return t?.PadRight(num - (bc - t.Length));
+            return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
         public static void DumpLog()
         {
