@@ -351,6 +351,7 @@ namespace TownOfHost
     {
         public static void Postfix(MeetingHud __instance)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
             {
                 __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
