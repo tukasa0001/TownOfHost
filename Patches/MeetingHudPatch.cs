@@ -11,6 +11,7 @@ namespace TownOfHost
     {
         public static bool Prefix(MeetingHud __instance)
         {
+            if (!AmongUsClient.Instance.AmHost) return true;
             try
             {
                 foreach (var pva in __instance.playerStates)
@@ -48,7 +49,6 @@ namespace TownOfHost
                         return true;
                     }
                 }
-                if (!AmongUsClient.Instance.AmHost) return true;
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
