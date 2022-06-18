@@ -637,11 +637,10 @@ namespace TownOfHost
                     {
                         if (Main.WarlockTimer[player.PlayerId] >= 1f)
                         {
-                            player.RpcGuardAndKill(player);
+                            player.RpcResetAbilityCooldown();
                             Main.isCursed = false;//変身クールを１秒に変更
                             Utils.CustomSyncAllSettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
-                            player.RpcResetAbilityCooldown();
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
