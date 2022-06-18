@@ -320,13 +320,22 @@ namespace TownOfHost
             string text;
             string[] tmp = { };
             List<string> sendList = new();
+            HashSet<string> tags = new();
             while ((text = sr.ReadLine()) != null)
             {
                 tmp = text.Split(":");
-                if (tmp[0] == str && tmp.Length > 1 && tmp[1] != "") sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
+                if (tmp.Length > 1 && tmp[1] != "")
+                {
+                    tags.Add(tmp[0]);
+                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
+                }
             }
             if (sendList.Count == 0)
-                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。");
+            {
+                if (playerId == 0xff)
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}");
+                else Utils.SendMessage($"「{str}」に該当するメッセージが見つかりませんでした。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}", playerId);
+            }
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
         }
         public static void OnReceiveChat(PlayerControl player, string text)
