@@ -43,6 +43,7 @@ namespace TownOfHost
                             VotedForId = pva.VotedFor
                         }}, voteTarget.Data, false); //RPC
                         Main.IgnoreReportPlayers.Add(pc.PlayerId);
+                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         return true;
                     }
