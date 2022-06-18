@@ -40,7 +40,7 @@ namespace TownOfHost
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetThiefVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !Main.isLoversDead)
-                    foreach (var lovers in Main.LoversPlayers)
+                    foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
