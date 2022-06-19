@@ -538,8 +538,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + GetString("WitchModeKill");
-                    if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + GetString("WitchModeSpell");
+                    SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
                 }
 
                 //他人用の変数定義
