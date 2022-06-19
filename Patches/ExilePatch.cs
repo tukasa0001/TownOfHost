@@ -59,15 +59,6 @@ namespace TownOfHost
                         RPC.ExecutionerWin(kvp.Key);
                     }
                 }
-                if (role != CustomRoles.Witch && Main.SpelledPlayer != null)
-                {
-                    foreach (var p in Main.SpelledPlayer)
-                    {
-                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
-                    }
-                }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetThiefVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
