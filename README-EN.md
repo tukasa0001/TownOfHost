@@ -16,24 +16,9 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
-| Among Us - Version | Mod Version | Link                                                                                                    |
-| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s         | v2.0.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.2/TownOfHost-v2.0.2.zip)     |
-| 2022.3.29s         | v2.0.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.1/TownOfHost-v2.0.1.zip)     |
-| 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s         | v1.4b#5     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#4     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#3     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s        | v1.4b#2     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s        | v1.4b#1     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s        | v1.3.4      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s        | v1.3.3      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s        | v1.3.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s        | v1.3.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s        | v1.3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s        | v1.2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s       | v1.0        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## Features
 
@@ -43,7 +28,6 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 However, please note that the following restrictions apply.<br>
 
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
-- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
@@ -64,6 +48,8 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`C`  | Copy the text                                                          | Chat         |
 | `Ctrl`+`V`  | Paste the text                                                         | Chat         |
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
+| `↑`         | Go back in time of chat send history                                   | Chat         |
+| `↓`         | Go future in time of chat send history                                 | Chat         |
 
 #### Host only
 | HotKey              | Function                      | Usable Scene  |
@@ -73,6 +59,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
 | `C`                 | Abort game start              | In Countdown  |
 | `Shift`             | Start the game immediately    | In Countdown  |
+| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
 
 ### Chat Commands
 Chat commands are commands that can be typed in chat.
@@ -81,8 +68,11 @@ Chat commands are commands that can be typed in chat.
 | /winner<br>/win                                       | Show winner                                       |
 | /lastresult<br>/l                                     | Show game result                                  |
 | /now<br>/n                                            | Show active settings                              |
+| /now roles<br>/n r                                    | Show active roles settings                        |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
+| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
 | /help<br>/h                                           | Show command description                          |
 | /help roles <role><br>/help r <role>                  | Display role description                          |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
