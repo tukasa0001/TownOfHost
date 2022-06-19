@@ -92,6 +92,13 @@ Chat commands are commands that can be typed in chat.
 | /now roles<br>/n r          | Show active roles settings                   |
 | /template <tag><br>/t <tag> | Display the canned text corresponding to tag |
 
+### Template
+This function allows you to send canned messages.<br>
+It can be called on typing `/template <tag>` or `/t <tag>`.<br>
+To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+Separate each entry with a colon, such as `tag:content`.<br>
+Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutral                           |
