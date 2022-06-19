@@ -64,21 +64,33 @@ Note that if a player other than the host plays with this mod installed, the fol
 
 ### Chat Commands
 Chat commands are commands that can be typed in chat.
+
+#### Host Only
 | Command                                               | Function                                          |
 | ----------------------------------------------------- | ------------------------------------------------- |
 | /winner<br>/win                                       | Show winner                                       |
-| /lastresult<br>/l                                     | Show game result                                  |
-| /now<br>/n                                            | Show active settings                              |
-| /now roles<br>/n r                                    | Show active roles settings                        |
 | /rename <string><br>/r <string>                       | Change my name                                    |
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
-| /template <tag><br>/t <tag>                           | Display the canned text corresponding to tag      |
 | /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
 | /help<br>/h                                           | Show command description                          |
 | /help roles <role><br>/help r <role>                  | Display role description                          |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
 | /help modes <mode><br>/help m <mode>                  | Display mode description                          |
 | /help now<br>/help n                                  | Show active setting descriptions                  |
+
+#### MOD Client Only
+| Command        | Function                    |
+| -------------- | --------------------------- |
+| /dump          | Dump log                    |
+| /version<br>/v | Show version of MOD clients |
+
+#### All Clients
+| Command                     | Function                                     |
+| --------------------------- | -------------------------------------------- |
+| /lastresult<br>/l           | Show game result                             |
+| /now<br>/n                  | Show active settings                         |
+| /now roles<br>/n r          | Show active roles settings                   |
+| /template <tag><br>/t <tag> | Display the canned text corresponding to tag |
 
 ## Roles
 
