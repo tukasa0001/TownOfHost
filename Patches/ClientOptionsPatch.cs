@@ -93,6 +93,12 @@ namespace TownOfHost
                 {
                     Main.HideDiscordButton.Value = !Main.HideDiscordButton.Value;
                     UpdateToggle(HideDiscordButton, $"{GetString("HideDiscordButton")}: ", Main.HideDiscordButton.Value);
+                    var discordButton = ModUpdaterButton.discordButton;
+                    ModUpdaterButton.discordButton.SetActive(true);
+                    //var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+                    //discordText.SetText("Discord");
+                    //discordButton.transform.localPosition = new Vector3(discordButton.transform.localPosition.x, discordButton.transform.localPosition.y + 0.6f, discordButton.transform.localPosition.z);
+                    ModUpdaterButton.discordButton.GetComponent<Renderer>().enabled = Main.HideDiscordButton.Value;
                 }
             }
         }
