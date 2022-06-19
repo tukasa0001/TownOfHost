@@ -255,11 +255,11 @@ namespace TownOfHost
                             killer.RpcGuardAndKill(target);
                             Main.SpelledPlayer.Add(target);
                             RPC.RpcDoSpell(target.PlayerId);
-                            return false;
                         }
                         Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
                         Utils.NotifyRoles();
                         killer.SyncKillOrSpell();
+                        if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
