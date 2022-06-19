@@ -119,6 +119,8 @@
 
 ### FireWorks/花火職人
 
+制作・考案者 : こう。<br>
+
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
 
@@ -136,6 +138,9 @@
 | 花火の爆発半径 |
 
 ### Mare/メアー
+
+制作者 : Kihi,ゆりの,そうくん,しゅー
+考案者 : Kihi<br>
 
 陣営 : インポスター<br>
 判定 : インポスター<br>
@@ -169,6 +174,8 @@
 
 ### ShapeMaster/シェイプマスター
 
+制作・考案者 : しゅー<br>
+
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
 
@@ -182,6 +189,8 @@
 | シェイプマスターの変身可能時間(s) |
 
 ### Sniper/スナイパー
+
+制作・考案者 : こう。<br>
 
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
@@ -204,6 +213,9 @@
 | スナイパー精密射撃モード |
 
 ### TimeThief/タイムシーフ
+
+考案者 : みぃー<br>
+制作者 : integral, しゅー, そうくん, ゆりの<br>
 
 陣営 : インポスター<br>
 判定 : インポスター<br>
@@ -272,6 +284,8 @@
 
 ### MadGuardian/マッドガーディアン
 
+制作・考案者 : 空き瓶/EmptyBottle<br>
+
 陣営 : インポスター<br>
 判定 : クルーメイト<br>
 
@@ -288,6 +302,8 @@
 
 ### MadSnitch/マッドスニッチ
 
+制作・考案者 : そうくん<br>
+
 陣営 : インポスター<br>
 判定 : クルーメイトorエンジニア<br>
 
@@ -303,6 +319,8 @@
 | マッドスニッチのタスク数       |
 
 ### SidekickMadmate/サイドキックマッドメイト
+
+制作・考案者 : たんぽぽ<br>
 
 陣営 : インポスター<br>
 判定 : 変化前の役職<br>
@@ -343,6 +361,8 @@
 キルされたときに、自分をキルしたプレイヤーに強制的に自分の死体を通報させることができる役職です。<br>
 
 ### Dictator/ディクテーター
+
+制作・考案者 : そうくん<br>
 
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
@@ -385,6 +405,8 @@
 | メイヤーが使えるボタンの回数           |
 
 ### SabotageMaster/サボタージュマスター
+
+制作・考案者 : 空き瓶/EmptyBottle<br>
 
 陣営 : クルーメイト<br>
 判定 : クルーメイト<br>
@@ -444,6 +466,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### SpeedBooster/スピードブースター
 
+制作・考案者 : よっキング<br>
+
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
 
@@ -456,6 +480,9 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | スピードアップ時の速さ |
 
 ### Trapper/トラッパー
+
+考案者 : 宿主ランニング<br>
+制作者 : そうくん<br>
 
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
@@ -485,6 +512,9 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 塗るためのクールダウン   |
 
 ### Egoist/エゴイスト
+
+考案者 : しゅー<br>
+制作者 : そうくん<br>
 
 陣営 : 第三<br>
 判定 : シェイプシフター<br>
@@ -562,6 +592,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### Terrorist/テロリスト
 
+制作・考案者 : 空き瓶/EmptyBottle<br>
+
 陣営 : 第三<br>
 判定 : エンジニア<br>
 勝利条件 : 全てのタスクを完了させた状態で死亡すること。<br>
@@ -573,6 +605,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### LastImpostor/ラストインポスター
 
+制作・考案者 : そうくん<br>
+
 最後のインポスターに付与される属性です。<br>
 ヴァンパイア、バウンティハンター、シリアルキラーには付与されません。<br>
 
@@ -581,6 +615,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | ラストインポスターのキルクール |
 
 ### Lovers/恋人
+
+制作・考案者 : ゆりの<br>
 
 陣営 : 第三<br>
 判定 : -<br>
@@ -624,6 +660,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | ダウンロードタスクを無効化する     |
 
 ### HideAndSeek/かくれんぼモード
+
+制作・考案者 : 空き瓶/EmptyBottle<br>
 
 #### クルーメイト陣営(青色)勝利条件
 
@@ -688,6 +726,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### RandomMapsMode/ランダムマップモード
 
+制作者 : つがる<br>
+
 ランダムにマップが変わるモードです。<br>
 
 #### 設定
@@ -736,11 +776,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
-[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
-[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
+[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
 作者の Twitter : https://twitter.com/XenonBottle<br>
