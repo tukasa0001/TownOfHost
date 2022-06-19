@@ -48,6 +48,8 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`C`  | Copy the text                                                          | Chat         |
 | `Ctrl`+`V`  | Paste the text                                                         | Chat         |
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
+| `↑`         | Go back in time of chat send history                                   | Chat         |
+| `↓`         | Go future in time of chat send history                                 | Chat         |
 
 #### Host only
 | HotKey              | Function                      | Usable Scene    |
