@@ -133,7 +133,7 @@ namespace TownOfHost
                     RPC.ArsonistWin(wonArsonist);
                     break;
                 case CustomRPC.EndGame:
-                    RPC.EndGame();
+                    RPC.ForceEndGame();
                     break;
                 case CustomRPC.PlaySound:
                     byte playerID = reader.ReadByte();
@@ -314,7 +314,7 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
         }
-        public static void EndGame()
+        public static void ForceEndGame()
         {
             if (ShipStatus.Instance == null) return;
             Main.currentWinner = CustomWinner.Draw;
