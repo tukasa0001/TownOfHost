@@ -151,6 +151,7 @@ Even if you get caught up in fireworks, you win if you annihilate the enemy. <br
 
 ### Mare
 
+Create by Kihi, しゅー, そうくん, ゆりの<br>
 Idea by Kihi
 
 Team : Impostor<br>
@@ -496,8 +497,8 @@ Completing the task will make a random surviving player speed up.<br>
 
 ### Trapper
 
-Original idea by 宿主ランニング<br>
 Created by そうくん<br>
+Original idea by 宿主ランニング<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -522,8 +523,8 @@ If they finish dousing to all alive crewmates and enter vents, they will win.<br
 
 ### Egoist
 
+Create by そうくん<br>
 Original idea by しゅー<br>
-Created by そうくん<br>
 
 Team : Neutral<br>
 Decision : Shapeshifter<br>
@@ -617,6 +618,8 @@ If they die without completing their tasks, or if the game ends without they dyi
 ## Attribute
 
 ### LastImpostor
+
+Create and idea by そうくん<br>
 
 This is the attribute given to the last Impostor.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
