@@ -58,7 +58,6 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
-        public static List<byte> IgnoreReportPlayers;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
@@ -166,8 +165,6 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
-
-            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
