@@ -12,6 +12,7 @@ namespace TownOfHost
         private static ToggleButtonBehaviour HideCodesButton;
         private static ToggleButtonBehaviour ForceJapanese;
         private static ToggleButtonBehaviour JapaneseRoleName;
+        private static ToggleButtonBehaviour HideDiscordButton;
         public static float xOffset = 1.75f;
         public static float yOffset = -0.25f;
         private static void UpdateToggle(ToggleButtonBehaviour button, string text, bool on)
@@ -82,6 +83,16 @@ namespace TownOfHost
                 {
                     Main.JapaneseRoleName.Value = !Main.JapaneseRoleName.Value;
                     UpdateToggle(JapaneseRoleName, "Japanese Role Name: ", Main.JapaneseRoleName.Value);
+                }
+            }
+            if (HideDiscordButton == null || HideDiscordButton.gameObject == null)
+            {
+                HideDiscordButton = CreateCustomToggle($"{GetString("HideDiscordButton")}: ", Main.HideDiscordButton.Value, new Vector3(3.125f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)HideDiscordButtonToggle, __instance);
+
+                void HideDiscordButtonToggle()
+                {
+                    Main.HideDiscordButton.Value = !Main.HideDiscordButton.Value;
+                    UpdateToggle(HideDiscordButton, $"{GetString("HideDiscordButton")}: ", Main.HideDiscordButton.Value);
                 }
             }
         }

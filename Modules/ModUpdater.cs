@@ -22,32 +22,35 @@ namespace TownOfHost
             ModUpdater.LaunchUpdater();
             var template = GameObject.Find("ExitGameButton");
             if (template == null) return;
-            //Discordボタンを生成
-            var discordButton = UnityEngine.Object.Instantiate(template, null);
-            discordButton.transform.localPosition = new Vector3(discordButton.transform.localPosition.x, discordButton.transform.localPosition.y + 0.6f, discordButton.transform.localPosition.z);
-
-            PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
-            passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
-            passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL("https://discord.gg/W5ug6hXB9V")));
-
-            var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
+            if (!Main.HideDiscordButton.Value)
             {
-                discordText.SetText("Discord");
-            })));
+                //Discordボタンを生成
+                var discordButton = UnityEngine.Object.Instantiate(template, null);
+                discordButton.transform.localPosition = new Vector3(discordButton.transform.localPosition.x, discordButton.transform.localPosition.y + 0.6f, discordButton.transform.localPosition.z);
 
-            SpriteRenderer buttonSpriteDiscord = discordButton.GetComponent<SpriteRenderer>();
-            Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
-            buttonSpriteDiscord.color = discordText.color = discordColor;
-            passiveDiscordButton.OnMouseOut.AddListener((System.Action)delegate
-            {
+                PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
+                passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
+                passiveDiscordButton.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => Application.OpenURL("https://discord.gg/W5ug6hXB9V")));
+
+                var discordText = discordButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
+                __instance.StartCoroutine(Effects.Lerp(0.1f, new System.Action<float>((p) =>
+                {
+                    discordText.SetText("Discord");
+                })));
+
+                SpriteRenderer buttonSpriteDiscord = discordButton.GetComponent<SpriteRenderer>();
+                Color discordColor = new Color32(88, 101, 242, byte.MaxValue);
                 buttonSpriteDiscord.color = discordText.color = discordColor;
-            });
+                passiveDiscordButton.OnMouseOut.AddListener((System.Action)delegate
+                {
+                    buttonSpriteDiscord.color = discordText.color = discordColor;
+                });
+            }
             //以下アップデートがあれば実行
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
             var updateButton = UnityEngine.Object.Instantiate(template, null);
-            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 1.2f, updateButton.transform.localPosition.z);
+            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + (Main.HideDiscordButton.Value ? 0.6f : 1.2f), updateButton.transform.localPosition.z);
 
             PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
             passiveUpdateButton.OnClick = new Button.ButtonClickedEvent();

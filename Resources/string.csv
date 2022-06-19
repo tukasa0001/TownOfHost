@@ -344,6 +344,7 @@ CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使
 
 ## その他
 HideGameCodes,Hide Game Codes,ゲームコードを隠す
+HideDiscordButton,Hide Discord Button,Discordボタンを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...
 updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。
