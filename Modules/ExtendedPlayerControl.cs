@@ -543,7 +543,7 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             return target;
         }
-        public static bool GetKillOrSpell(this PlayerControl player)
+        public static bool IsSpellMode(this PlayerControl player)
         {
             if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
             {
@@ -556,7 +556,7 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(player.GetKillOrSpell());
+            writer.Write(player.IsSpellMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void RpcSetSheriffShotLimit(this PlayerControl player)
