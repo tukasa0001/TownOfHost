@@ -81,6 +81,14 @@ namespace TownOfHost
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
+            Main.AfterMeetingDeathPlayers.Do(x =>
+            {
+                var player = Utils.GetPlayerById(x.Key);
+                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
+                PlayerState.SetDeathReason(x.Key, x.Value);
+                PlayerState.SetDead(x.Key);
+                player?.RpcExileV2();
+            });
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
