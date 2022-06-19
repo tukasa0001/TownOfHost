@@ -37,13 +37,12 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                     {
                         var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        pc.RpcExileV2(); //自殺
+                        Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
                         {
                             VoterId = pva.TargetPlayerId,
                             VotedForId = pva.VotedFor
                         }}, voteTarget.Data, false); //RPC
-                        Main.IgnoreReportPlayers.Add(pc.PlayerId);
                         Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         return true;
@@ -74,10 +73,8 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -92,10 +89,8 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -159,12 +154,7 @@ namespace TownOfHost
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
-                    {
-                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        PlayerState.SetDead(p.PlayerId);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcExileV2();
-                    }
+                        Main.AfterMeetingDeathPlayers.TryAdd(p.PlayerId, PlayerState.DeathReason.Spell);
                 }
                 Main.SpelledPlayer.Clear();
 

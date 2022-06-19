@@ -50,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -57,7 +58,6 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
-        public static List<byte> IgnoreReportPlayers;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
@@ -165,8 +165,6 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
-
-            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
