@@ -39,7 +39,18 @@ Note that if a player other than the host plays with this mod installed, the fol
 ## Features
 ### Hotkeys
 
-#### All Clients
+#### Host Only
+| HotKey              | Function                       | Usable Scene    |
+| ------------------- | ------------------------------ | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
+| `C`                 | Abort game start               | In Countdown    |
+| `Shift`             | Start the game immediately     | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
+| `Ctrl`+`RMB`        | Execute the player who clicked | In Meeting      |
+
+#### MOD Client Only
 | HotKey      | Function                                                               | Usable Scene |
 | ----------- | ---------------------------------------------------------------------- | ------------ |
 | `Tab`       | Option list page feed                                                  | Lobby        |
@@ -50,16 +61,6 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Ctrl`+`X`  | Cut the text                                                           | Chat         |
 | `↑`         | Go back in time of chat send history                                   | Chat         |
 | `↓`         | Go future in time of chat send history                                 | Chat         |
-
-#### Host only
-| HotKey              | Function                      | Usable Scene  |
-| ------------------- | ----------------------------- | ------------- |
-| `Shift`+`L`+`Enter` | Force End Game                | In Game       |
-| `Shift`+`M`+`Enter` | Skip meeting to end           | In Game       |
-| `Ctrl`+`N`          | Show active role descriptions | Lobby&In Game |
-| `C`                 | Abort game start              | In Countdown  |
-| `Shift`             | Start the game immediately    | In Countdown  |
-| `Ctrl`+`Delete`     | Set default all options       | In TOH Settings |
 
 ### Chat Commands
 Chat commands are commands that can be typed in chat.
