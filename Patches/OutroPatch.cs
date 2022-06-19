@@ -83,7 +83,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
+            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (Main.currentWinner == CustomWinner.Impostor
             || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -203,6 +203,7 @@ namespace TownOfHost
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
+                Main.RealOptionsData.KillCooldown = Options.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
             }
         }
@@ -212,6 +213,7 @@ namespace TownOfHost
     {
         public static void Postfix(EndGameManager __instance)
         {
+            if (!Main.playerVersion.ContainsKey(0)) return;
             //#######################################
             //          ==勝利陣営表示==
             //#######################################
@@ -235,7 +237,7 @@ namespace TownOfHost
                     break;
                 case CustomWinner.Crewmate:
                     CustomWinnerText = Utils.GetRoleName(CustomRoles.Crewmate);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
+                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Engineer);
                     break;
                 //特殊勝利
                 case CustomWinner.Jester:

@@ -77,13 +77,13 @@ namespace TownOfHost
                 PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
-                Main.RefixCooldownDelay = Main.RealOptionsData.KillCooldown - 3f;
+                Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
             Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 pc.ResetKillCooldown();
                 if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
-                    pc.RpcGuardAndKill();
+                    pc.RpcResetAbilityCooldown();
                 if (pc.Is(CustomRoles.Warlock))
                 {
                     Main.CursedPlayers[pc.PlayerId] = null;

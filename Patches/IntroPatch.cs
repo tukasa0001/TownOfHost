@@ -15,15 +15,16 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-                if (role.IsVanilla()) return;
-                __instance.RoleText.text = Utils.GetRoleName(role);
-                __instance.RoleText.color = Utils.GetRoleColor(role);
-                __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
-                __instance.YouAreText.color = Utils.GetRoleColor(role);
+                if (!role.IsVanilla())
+                {
+                    __instance.RoleText.text = Utils.GetRoleName(role);
+                    __instance.RoleText.color = Utils.GetRoleColor(role);
+                    __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
 
-                __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
-                    ? GetString("WatcherInfo")
-                    : GetString(role.ToString() + "Info");
+                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
+                        ? GetString("WatcherInfo")
+                        : GetString(role.ToString() + "Info");
+                }
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 

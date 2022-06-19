@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
@@ -10,9 +12,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     class ChatCommands
     {
+        public static List<string> ChatHistory = new();
         public static bool Prefix(ChatController __instance)
         {
+            if (__instance.TextArea.text == "") return false;
             var text = __instance.TextArea.text;
+            if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
+            ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
             string[] args = text.Split(' ');
             string subArgs = "";
             var canceled = false;
@@ -53,7 +59,7 @@ namespace TownOfHost
                     case "/l":
                     case "/lastresult":
                         canceled = true;
-                        Utils.ShowLastRoles();
+                        Utils.ShowLastResult();
                         break;
 
                     case "/r":
@@ -65,7 +71,17 @@ namespace TownOfHost
                     case "/n":
                     case "/now":
                         canceled = true;
-                        Utils.ShowActiveSettings();
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
+                        }
                         break;
 
                     case "/dis":
@@ -153,13 +169,43 @@ namespace TownOfHost
 
                             case "n":
                             case "now":
-                                Utils.ShowActiveRoles();
+                                Utils.ShowActiveSettingsHelp();
                                 break;
 
                             default:
                                 Utils.ShowHelp();
                                 break;
                         }
+                        break;
+
+                    case "/t":
+                    case "/template":
+                        canceled = true;
+                        if (args.Length > 1) SendTemplate(args[1]);
+                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
+                        break;
+
+                    case "/mw":
+                    case "/messagewait":
+                        canceled = true;
+                        if (args.Length > 1 && int.TryParse(args[1], out int sec))
+                        {
+                            Main.MessageWait.Value = sec;
+                            Utils.SendMessage($"{sec}秒に設定されました", 0);
+                        }
+                        else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
+                        break;
+
+                    case "/exile":
+                        canceled = true;
+                        if (args.Length < 2 || !int.TryParse(args[1], out int id)) break;
+                        Utils.GetPlayerById(id)?.RpcExileV2();
+                        break;
+
+                    case "/kill":
+                        canceled = true;
+                        if (args.Length < 2 || !int.TryParse(args[1], out int id2)) break;
+                        Utils.GetPlayerById(id2)?.RpcMurderPlayer(Utils.GetPlayerById(id2));
                         break;
 
                     default:
@@ -185,6 +231,7 @@ namespace TownOfHost
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
                 { CustomRoles.FireWorks, "fw" },
+                { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
                 { CustomRoles.SerialKiller, "sk" },
                 { CustomRoles.ShapeMaster, "sha" },
@@ -265,20 +312,90 @@ namespace TownOfHost
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
+        public static void SendTemplate(string str = "", byte playerId = 0xff)
+        {
+            if (!File.Exists("template.txt"))
+            {
+                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。\n新規作成します。");
+                File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
+                return;
+            }
+            using StreamReader sr = new(@"template.txt", Encoding.GetEncoding("UTF-8"));
+            string text;
+            string[] tmp = { };
+            List<string> sendList = new();
+            HashSet<string> tags = new();
+            while ((text = sr.ReadLine()) != null)
+            {
+                tmp = text.Split(":");
+                if (tmp.Length > 1 && tmp[1] != "")
+                {
+                    tags.Add(tmp[0]);
+                    if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
+                }
+            }
+            if (sendList.Count == 0)
+            {
+                if (playerId == 0xff)
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}");
+                else Utils.SendMessage($"「{str}」に該当するメッセージが見つかりませんでした。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}", playerId);
+            }
+            else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
+        }
+        public static void OnReceiveChat(PlayerControl player, string text)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            string[] args = text.Split(' ');
+            string subArgs = "";
+            switch (args[0])
+            {
+                case "/l":
+                case "/lastresult":
+                    Utils.ShowLastResult(player.PlayerId);
+                    break;
+
+                case "/n":
+                case "/now":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    switch (subArgs)
+                    {
+                        case "r":
+                        case "roles":
+                            Utils.ShowActiveRoles(player.PlayerId);
+                            break;
+
+                        default:
+                            Utils.ShowActiveSettings(player.PlayerId);
+                            break;
+                    }
+                    break;
+
+                case "/t":
+                case "/template":
+                    if (args.Length > 1) SendTemplate(args[1], player.PlayerId);
+                    else Utils.SendMessage($"使用例:\n{args[0]} test", player.PlayerId);
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || Main.MessageWait.Value > __instance.TimeSinceLastMessage) return;
+            var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
-            int clientId = sendTo == byte.MaxValue ? -1 : sendTo;
-            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(PlayerControl.LocalPlayer, msg);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
+            int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();
+            if (clientId == -1) DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player, msg);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.SendChat, SendOption.None, clientId);
             writer.Write(msg);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            __instance.TimeSinceLastMessage = 0f;
         }
     }
 

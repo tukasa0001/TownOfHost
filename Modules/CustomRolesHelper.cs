@@ -85,6 +85,26 @@ namespace TownOfHost
                 return Options.GetRoleCount(role);
             }
         }
+        public static float GetChance(this CustomRoles role)
+        {
+            if (role.IsVanilla())
+            {
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                return role switch
+                {
+                    CustomRoles.Engineer => roleOpt.GetChancePerGame(RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetChancePerGame(RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetChancePerGame(RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
+                    _ => 0
+                } / 100f;
+            }
+            else
+            {
+                return Options.GetRoleChance(role);
+            }
+        }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
     }
     public enum RoleType
