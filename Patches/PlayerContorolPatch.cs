@@ -255,6 +255,7 @@ namespace TownOfHost
                             killer.RpcGuardAndKill(target);
                             Main.SpelledPlayer.Add(target);
                             RPC.RpcDoSpell(target.PlayerId);
+                            return false;
                         }
                         Main.KillOrSpell[killer.PlayerId] = !killer.GetKillOrSpell();
                         Utils.NotifyRoles();
