@@ -66,7 +66,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Witch:
-                    if (player.GetKillOrSpell())
+                    if (player.IsSpellMode())
                     {
                         __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
                     }
@@ -118,7 +118,7 @@ namespace TownOfHost
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
-                var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
+                var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }

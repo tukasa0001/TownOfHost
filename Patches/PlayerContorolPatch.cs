@@ -250,15 +250,16 @@ namespace TownOfHost
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.Witch:
-                        if (killer.GetKillOrSpell() && !Main.SpelledPlayer.Contains(target))
+                        if (killer.IsSpellMode() && !Main.SpelledPlayer.Contains(target))
                         {
                             killer.RpcGuardAndKill(target);
                             Main.SpelledPlayer.Add(target);
                             RPC.RpcDoSpell(target.PlayerId);
                         }
-                        Main.KillOrSpell[killer.PlayerId] = !killer.GetKillOrSpell();
+                        Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
                         Utils.NotifyRoles();
                         killer.SyncKillOrSpell();
+                        if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
@@ -637,11 +638,10 @@ namespace TownOfHost
                     {
                         if (Main.WarlockTimer[player.PlayerId] >= 1f)
                         {
-                            player.RpcGuardAndKill(player);
+                            player.RpcResetAbilityCooldown();
                             Main.isCursed = false;//変身クールを１秒に変更
                             Utils.CustomSyncAllSettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
-                            player.RpcResetAbilityCooldown();
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }

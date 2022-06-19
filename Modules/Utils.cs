@@ -360,7 +360,7 @@ namespace TownOfHost
         public static string GetShowLastSubRolesText(byte id)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
+            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
         }
 
         public static void ShowHelp()
@@ -542,8 +542,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + GetString("WitchModeKill");
-                    if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + GetString("WitchModeSpell");
+                    SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
                 }
 
                 //他人用の変数定義
@@ -797,7 +796,7 @@ namespace TownOfHost
             int bc = 0;
             var t = text.ToString();
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
-            return t?.PadRight(num - (bc - t.Length));
+            return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
         public static void DumpLog()
         {
