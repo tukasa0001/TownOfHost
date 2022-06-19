@@ -799,6 +799,16 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
-Twitter : https://twitter.com/XenonBottle<br>
+## Developers
+- [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Palpunte), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [Tampopo](https://github.com/tampopo-dandelion) <!--([Twitter](https://twitter.com/))-->
+- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>
