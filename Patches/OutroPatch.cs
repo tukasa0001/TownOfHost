@@ -15,6 +15,7 @@ namespace TownOfHost
             GameStates.InGame = false;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
+            PlayerControl.GameOptions = Main.RealOptionsData;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
