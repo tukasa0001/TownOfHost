@@ -408,6 +408,8 @@ namespace TownOfHost
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
 
+            opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
+
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
             writer.WriteBytesAndSize(opt.ToBytes(5));
