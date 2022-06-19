@@ -36,6 +36,7 @@ namespace TownOfHost
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
+            Main.AfterMeetingDeathPlayers = new();
             Main.IgnoreReportPlayers = new List<byte>();
             Main.ResetCamPlayerList = new();
 

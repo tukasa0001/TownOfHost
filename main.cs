@@ -50,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
