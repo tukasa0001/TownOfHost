@@ -19,20 +19,6 @@ namespace TownOfHost
                     if (pva == null) continue;
                     PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
                     if (pc == null) continue;
-
-                    //役職表示系
-                    var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                    TMPro.TextMeshPro RoleTextMeeting = null;
-                    if (RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                    if (RoleTextMeeting != null)
-                    {
-                        var RoleTextData = Utils.GetRoleText(pc);
-                        RoleTextMeeting.text = RoleTextData.Item1;
-                        if (Main.VisibleTasksCount) RoleTextMeeting.text += Utils.GetProgressText(pc);
-                        RoleTextMeeting.color = RoleTextData.Item2;
-                        RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
-                    }
                     //死んでいないディクテーターが投票済み
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
                     {
@@ -221,14 +207,19 @@ namespace TownOfHost
         {
             foreach (var pva in __instance.playerStates)
             {
+                var pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                var RoleTextData = Utils.GetRoleText(pc);
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
-                roleTextMeeting.text = "RoleTextMeeting";
+                roleTextMeeting.text = RoleTextData.Item1;
+                if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
+                roleTextMeeting.color = RoleTextData.Item2;
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
-                roleTextMeeting.enabled = false;
+                roleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
+                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
             }
             if (Options.SyncButtonMode.GetBool())
             {
