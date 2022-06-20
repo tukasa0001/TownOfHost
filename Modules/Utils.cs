@@ -426,10 +426,10 @@ namespace TownOfHost
                         name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
-                        name += "\r\n配信中";
+                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
                         break;
                     case SuffixModes.Recording:
-                        name += "\r\n録画中";
+                        name += $"\r\n{GetString("SuffixMode.Recording")}";
                         break;
                 }
             }
