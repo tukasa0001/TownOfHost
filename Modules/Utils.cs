@@ -416,7 +416,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if (Main.nickName != "") name = Main.nickName;
-            if (!AmongUsClient.Instance.IsGameStarted)
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
+            }
+            else
             {
                 switch (Options.GetSuffixMode())
                 {
