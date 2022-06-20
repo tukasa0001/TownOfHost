@@ -167,6 +167,7 @@ namespace TownOfHost
                 {
                     var madmate = Utils.GetPlayerById(exileId);
                     var target = PickRevengeTarget(madmate);
+                    Main.AfterMeetingDeathPlayers.TryAdd(target.PlayerId, PlayerState.DeathReason.Revenge);
                     Logger.Info($"{madmate.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "BlackCat");
 
                 }
@@ -198,14 +199,12 @@ namespace TownOfHost
                 if (candidate == exiledplayer || candidate.Data.IsDead) continue;
                 if (exiledplayer.GetCustomRole().IsMadmate())
                 {
-                    if (!candidate.GetCustomRole().IsImpostor())
-                        TargetList.Add(candidate);
+                    if (!candidate.GetCustomRole().IsImpostor()) TargetList.Add(candidate);
                     continue;
                 }
             }
             var rand = new System.Random();
             var target = TargetList[rand.Next(TargetList.Count)];
-            Main.ExileRevengeTarget.Add(target);
             Logger.Info($"{exiledplayer.GetNameWithRole()}の道連れ先:{target.GetNameWithRole()}", "PickRevengeTarget");
             return target;
         }

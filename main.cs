@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -105,7 +105,6 @@ namespace TownOfHost
         public static int DiscussionTime;
         public static int VotingTime;
         public static byte currentDousingTarget;
-        public static List<PlayerControl> ExileRevengeTarget;
 
         public static Main Instance;
 
@@ -151,7 +150,6 @@ namespace TownOfHost
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;
-            ExileRevengeTarget = new List<PlayerControl>();
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
