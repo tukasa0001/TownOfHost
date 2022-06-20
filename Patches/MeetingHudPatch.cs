@@ -37,27 +37,6 @@ namespace TownOfHost
                         Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
                         return true;
                     }
-                    if (Assassin.FinishAssassinMeetingTrigger && !AssassinFinish && AmongUsClient.Instance.AmHost)
-                    {
-                        var TriggerPlayer = Utils.GetPlayerById(Assassin.TriggerPlayerId);
-                        var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
-
-                        Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marin ? "WasMarin" : "WasNotMarin"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marin));
-                        string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendExilePLStringInAssassinMeeting, Hazel.SendOption.Reliable, -1);
-                        writer.Write(Assassin.ExileText);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-                        foreach (var p in PlayerControl.AllPlayerControls)
-                            TriggerPlayer.RpcSetNamePrivate(ExileText, true, p, force: true);
-                        __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
-                        {
-                            VoterId = Assassin.TriggerPlayerId,
-                            VotedForId = Assassin.AssassinTargetId
-                        }}, TriggerPlayer?.Data, false);
-                        ExiledAssassin = false;
-                        AssassinFinish = true;
-                    }
                 }
                 foreach (var ps in __instance.playerStates)
                 {
@@ -398,6 +377,28 @@ namespace TownOfHost
                     RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
                         (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
                         (Main.VisibleTasksCount && Assassin.IsAssassinMeeting && pc.PlayerId == Assassin.TriggerPlayerId);
+                }
+
+                if (Assassin.FinishAssassinMeetingTrigger && !CheckForEndVotingPatch.AssassinFinish && AmongUsClient.Instance.AmHost)
+                {
+                    var TriggerPlayer = Utils.GetPlayerById(Assassin.TriggerPlayerId);
+                    var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
+
+                    Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marin ? "WasMarin" : "WasNotMarin"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marin));
+                    string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendExilePLStringInAssassinMeeting, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Assassin.ExileText);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+
+                    foreach (var p in PlayerControl.AllPlayerControls)
+                        TriggerPlayer.RpcSetNamePrivate(ExileText, true, p, force: true);
+                    __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
+                        {
+                            VoterId = Assassin.TriggerPlayerId,
+                            VotedForId = Assassin.AssassinTargetId
+                        }}, TriggerPlayer?.Data, false);
+                    CheckForEndVotingPatch.ExiledAssassin = false;
+                    CheckForEndVotingPatch.AssassinFinish = true;
                 }
             }
             if (!AmongUsClient.Instance.AmHost) return;
