@@ -91,6 +91,7 @@ namespace TownOfHost
                 PlayerState.SetDead(x.Key);
                 player?.RpcExileV2();
             });
+            Main.AfterMeetingDeathPlayers.Clear();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
