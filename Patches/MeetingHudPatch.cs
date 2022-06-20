@@ -14,14 +14,29 @@ namespace TownOfHost
         public static bool ExiledAssassin = false;
         public static bool Prefix(MeetingHud __instance)
         {
-            if (MeetingHudUpdatePatch.isDictatorVote)
-            {
-                MeetingHudUpdatePatch.isDictatorVote = false;
-                return true;
-            }
+            if (!AmongUsClient.Instance.AmHost) return true;
             try
             {
-                if (!AmongUsClient.Instance.AmHost) return true;
+                foreach (var pva in __instance.playerStates)
+                {
+                    if (pva == null) continue;
+                    PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                    if (pc == null) continue;
+                    //死んでいないディクテーターが投票済み
+                    if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
+                    {
+                        var voteTarget = Utils.GetPlayerById(pva.VotedFor);
+                        Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
+                        {
+                            VoterId = pva.TargetPlayerId,
+                            VotedForId = pva.VotedFor
+                        }}, voteTarget.Data, false); //RPC
+                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
+                        Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        return true;
+                    }
+                }
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
@@ -50,10 +65,8 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -68,10 +81,8 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -145,12 +156,7 @@ namespace TownOfHost
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
-                    {
-                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        PlayerState.SetDead(p.PlayerId);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcExileV2();
-                    }
+                        Main.AfterMeetingDeathPlayers.TryAdd(p.PlayerId, PlayerState.DeathReason.Spell);
                 }
                 Main.SpelledPlayer.Clear();
 
@@ -365,7 +371,6 @@ namespace TownOfHost
                 if (RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
                 if (RoleTextMeeting != null)
                 {
-
                     var RoleTextData = Utils.GetRoleText(pc);
                     RoleTextMeeting.text = RoleTextData.Item1;
                     if (Main.VisibleTasksCount) RoleTextMeeting.text += Utils.GetProgressText(pc);
@@ -374,47 +379,17 @@ namespace TownOfHost
                         (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
                         (Main.VisibleTasksCount && Assassin.IsAssassinMeeting && pc.PlayerId == Assassin.TriggerPlayerId);
                 }
-                var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                MeetingHud.VoterState[] states;
-                List<MeetingHud.VoterState> statesList = new();
-                //死んでいないディクテーターが投票済み
-                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
+            }
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
+            {
+                __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
                 {
-                    statesList.Add(new MeetingHud.VoterState()
-                    {
-                        VoterId = pva.TargetPlayerId,
-                        VotedForId = pva.VotedFor
-                    });
-                    states = statesList.ToArray();
-                    isDictatorVote = true;
-                    pc.RpcExileV2(); //自殺
-                    __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
-                    Main.IgnoreReportPlayers.Add(pc.PlayerId);
-                    Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
-                }
-                if (Assassin.FinishAssassinMeetingTrigger && !AssassinFinish && AmongUsClient.Instance.AmHost)
-                {
-                    statesList.Add(new MeetingHud.VoterState()
-                    {
-                        VoterId = Assassin.TriggerPlayerId,
-                        VotedForId = Assassin.AssassinTargetId
-                    });
-                    states = statesList.ToArray();
-                    var TriggerPlayer = Utils.GetPlayerById(Assassin.TriggerPlayerId);
-                    var TargetPlayer = Utils.GetPlayerById(Assassin.AssassinTargetId);
-
-                    Assassin.ExileText = string.Format(GetString(Assassin.TargetRole == CustomRoles.Marin ? "WasMarin" : "WasNotMarin"), TargetPlayer?.Data?.PlayerName, Utils.GetRoleName(CustomRoles.Marin));
-                    string ExileText = $"<size=300%>\n\n\n\n\n\n\n\n\n\n\n\n{Assassin.ExileText}\n\n\n\n\n\n\n\n\n\n\n\n</size>";
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendExilePLStringInAssassinMeeting, Hazel.SendOption.Reliable, -1);
-                    writer.Write(Assassin.ExileText);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-
-                    foreach (var p in PlayerControl.AllPlayerControls)
-                        TriggerPlayer.RpcSetNamePrivate(ExileText, true, p, force: true);
-                    __instance.RpcVotingComplete(states, TriggerPlayer?.Data, false);
-                    CheckForEndVotingPatch.ExiledAssassin = false;
-                    AssassinFinish = true;
-                }
+                    var player = Utils.GetPlayerById(x.TargetPlayerId);
+                    player.RpcExileV2();
+                    PlayerState.SetDead(player.PlayerId);
+                    Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                });
             }
         }
     }

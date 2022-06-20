@@ -315,9 +315,12 @@ namespace TownOfHost
                     if (PlayerControl.GameOptions.MapId == 2) text += String.Format("\n{0}:{1}", GetString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
                     if (PlayerControl.GameOptions.MapId == 4) text += String.Format("\n{0}:{1}", GetString("AirshipReactorTimeLimit"), Options.AirshipReactorTimeLimit.GetString());
                 }
-                if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenSkipVote"), Options.WhenSkipVote.GetString());
-                if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenNonVote"), Options.WhenNonVote.GetString());
-                if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.IsEnable()) text += String.Format("\n{0}:{1}", GetString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
+                if (Options.VoteMode.GetBool())
+                {
+                    if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenSkipVote"), Options.WhenSkipVote.GetString());
+                    if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenNonVote"), Options.WhenNonVote.GetString());
+                    if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.IsEnable()) text += String.Format("\n{0}:{1}", GetString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
+                }
             }
             if (Options.StandardHAS.GetBool()) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
@@ -350,23 +353,24 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
                 text += $" {GetVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
                 text += $" {GetVitalText(id)}";
             }
             SendMessage(text, PlayerId);
         }
 
-        public static string GetShowLastSubRolesText(byte id)
+        public static string GetShowLastSubRolesText(byte id, bool disableColor = false)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " + " + GetRoleName(cSubRole);
+            if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
+            return disableColor ? " + " + GetRoleName(cSubRole) : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
         }
 
         public static void ShowHelp()
@@ -409,7 +413,8 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Terrorist);
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.TerroristWin(Terrorist.PlayerId);
@@ -548,8 +553,7 @@ namespace TownOfHost
                 }
                 if (seer.Is(CustomRoles.Witch))
                 {
-                    if (seer.GetKillOrSpell() == false) SelfSuffix = "Mode:" + GetString("WitchModeKill");
-                    if (seer.GetKillOrSpell() == true) SelfSuffix = "Mode:" + GetString("WitchModeSpell");
+                    SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
                 }
 
                 //他人用の変数定義
@@ -676,7 +680,7 @@ namespace TownOfHost
                         if (Assassin.IsAssassinMeeting && target.PlayerId == Assassin.TriggerPlayerId)
                             TargetRoleText = $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color></size>\r\n";
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        else TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>" : "";
+                        else TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}><color={target.GetRoleColorCode()}>{target.GetRoleName()}</color>{TargetTaskText}</size>\r\n" : "";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -724,7 +728,7 @@ namespace TownOfHost
                         }
 
                         //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}\r\n{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
@@ -804,7 +808,7 @@ namespace TownOfHost
             int bc = 0;
             var t = text.ToString();
             foreach (char c in t) bc += Encoding.GetEncoding("UTF-8").GetByteCount(c.ToString()) == 1 ? 1 : 2;
-            return t?.PadRight(num - (bc - t.Length));
+            return t?.PadRight(Mathf.Max(num - (bc - t.Length), 0));
         }
         public static void DumpLog()
         {

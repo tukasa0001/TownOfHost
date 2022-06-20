@@ -256,15 +256,16 @@ namespace TownOfHost
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.Witch:
-                        if (killer.GetKillOrSpell() && !Main.SpelledPlayer.Contains(target))
+                        if (killer.IsSpellMode() && !Main.SpelledPlayer.Contains(target))
                         {
                             killer.RpcGuardAndKill(target);
                             Main.SpelledPlayer.Add(target);
                             RPC.RpcDoSpell(target.PlayerId);
                         }
-                        Main.KillOrSpell[killer.PlayerId] = !killer.GetKillOrSpell();
+                        Main.KillOrSpell[killer.PlayerId] = !killer.IsSpellMode();
                         Utils.NotifyRoles();
                         killer.SyncKillOrSpell();
+                        if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
@@ -503,14 +504,6 @@ namespace TownOfHost
                     Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
                 }
             }
-            else //死体通報
-            {
-                if (Main.IgnoreReportPlayers.Contains(target.PlayerId))
-                {
-                    Logger.Info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました", "ReportDeadBody");
-                    return false;
-                }
-            }
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -554,15 +547,6 @@ namespace TownOfHost
             //=============================================
             //以下、ボタンが押されることが確定したものとする。
             //=============================================
-
-            if (Options.SyncButtonMode.GetBool() && AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Data.IsDead)
-            {
-                //SyncButtonMode中にホストが死んでいる場合
-                ChangeLocalNameAndRevert(
-                    "緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。",
-                    1000
-                );
-            }
 
             Utils.CustomSyncAllSettings();
             return true;
@@ -652,11 +636,10 @@ namespace TownOfHost
                     {
                         if (Main.WarlockTimer[player.PlayerId] >= 1f)
                         {
-                            player.RpcGuardAndKill(player);
+                            player.RpcResetAbilityCooldown();
                             Main.isCursed = false;//変身クールを１秒に変更
                             Utils.CustomSyncAllSettings();
                             Main.WarlockTimer.Remove(player.PlayerId);
-                            player.RpcResetAbilityCooldown();
                         }
                         else Main.WarlockTimer[player.PlayerId] = Main.WarlockTimer[player.PlayerId] + Time.fixedDeltaTime;//時間をカウント
                     }
@@ -1054,10 +1037,9 @@ namespace TownOfHost
                         {
                             PlayerState.SetDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                             if (isExiled)
-                            {
-                                Main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                            }
-                            partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                            else
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
                     }
                 }
@@ -1179,7 +1161,8 @@ namespace TownOfHost
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    writer.Write((byte)CustomWinner.Arsonist);
                     writer.Write(__instance.myPlayer.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.ArsonistWin(__instance.myPlayer.PlayerId);
