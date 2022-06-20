@@ -142,17 +142,20 @@ namespace TownOfHost
         public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (target == null) target = killer;
-            Main.SelfGuard[target.PlayerId] = true;
-            killer.RpcProtectPlayer(target, colorId);
-            new LateTask(() =>
-            {
-                if (target == null) return;
-                Main.SelfGuard[target.PlayerId] = false;
-                if (!target.Data.IsDead && target.protectedByGuardian)
-                    killer?.RpcMurderPlayer(target);
-                else
-                    Main.BlockKilling[killer.PlayerId] = false;
-            }, 0.5f, "GuardAndKill");
+            // Host
+            killer.ProtectPlayer(target, colorId);
+            killer.MurderPlayer(target);
+            // Other Clients
+            var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+                  .WriteNetObject((InnerNetObject)target)
+                  .Write(colorId)
+                  .EndRpc();
+            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+                  .WriteNetObject((InnerNetObject)target)
+                  .EndRpc();
+            sender.SendMessage();
+            Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
@@ -280,8 +283,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = Options.DefaultKillCooldown;
-                    if (Main.isCursed) opt.RoleOptions.ShapeshifterCooldown = 1f;
+                    opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
@@ -405,6 +407,8 @@ namespace TownOfHost
                 opt.ImpostorLightMod = 0f;
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
+
+            opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -539,7 +543,7 @@ namespace TownOfHost
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             return target;
         }
-        public static bool GetKillOrSpell(this PlayerControl player)
+        public static bool IsSpellMode(this PlayerControl player)
         {
             if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrSpell))
             {
@@ -552,7 +556,7 @@ namespace TownOfHost
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
-            writer.Write(player.GetKillOrSpell());
+            writer.Write(player.IsSpellMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void RpcSetSheriffShotLimit(this PlayerControl player)

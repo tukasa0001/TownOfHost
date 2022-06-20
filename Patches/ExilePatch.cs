@@ -33,7 +33,8 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.JesterExiled, Hazel.SendOption.Reliable, -1);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    writer.Write((byte)CustomWinner.Jester);
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.JesterExiled(exiled.PlayerId);
@@ -52,20 +53,12 @@ namespace TownOfHost
                     if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
                         //RPC送信開始
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ExecutionerWin, Hazel.SendOption.Reliable, -1);
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Executioner);
                         writer.Write(kvp.Key);
                         AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
 
                         RPC.ExecutionerWin(kvp.Key);
-                    }
-                }
-                if (role != CustomRoles.Witch && Main.SpelledPlayer != null)
-                {
-                    foreach (var p in Main.SpelledPlayer)
-                    {
-                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcMurderPlayer(p);
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
@@ -90,6 +83,14 @@ namespace TownOfHost
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
             }
+            Main.AfterMeetingDeathPlayers.Do(x =>
+            {
+                var player = Utils.GetPlayerById(x.Key);
+                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
+                PlayerState.SetDeathReason(x.Key, x.Value);
+                PlayerState.SetDead(x.Key);
+                player?.RpcExileV2();
+            });
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
