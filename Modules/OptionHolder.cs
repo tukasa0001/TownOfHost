@@ -60,7 +60,7 @@ namespace TownOfHost
         public static CustomOption BountyTargetChangeTime;
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
-        public static float DefaultKillCooldown;
+        public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
