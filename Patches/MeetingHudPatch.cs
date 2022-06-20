@@ -53,7 +53,7 @@ namespace TownOfHost
                         __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
                         {
                             VoterId = Assassin.TriggerPlayerId,
-                        VotedForId = Assassin.AssassinTargetId
+                            VotedForId = Assassin.AssassinTargetId
                         }}, TriggerPlayer?.Data, false);
                         ExiledAssassin = false;
                         AssassinFinish = true;
