@@ -347,7 +347,7 @@ namespace TownOfHost
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, )disableColor: true}";
+                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
                 text += $" {GetVitalText(id)}";
             }
             SendMessage(text, PlayerId);
@@ -357,7 +357,7 @@ namespace TownOfHost
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
             if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
-            return disableColor ? " + " GetRoleName(cSubRole) : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
+            return disableColor ? " + " + GetRoleName(cSubRole) : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
         }
 
         public static void ShowHelp()
