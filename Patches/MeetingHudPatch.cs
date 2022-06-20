@@ -348,6 +348,7 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
+                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execusion);
                     PlayerState.SetDead(player.PlayerId);
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
