@@ -227,7 +227,7 @@ namespace TownOfHost
             }
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
             {
-                ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>LI</color>";
+                ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>(Last)</color>";
             }
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
 
