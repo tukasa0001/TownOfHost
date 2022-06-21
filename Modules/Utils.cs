@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -351,6 +352,7 @@ namespace TownOfHost
             }
             var text = GetString("LastResult") + ":";
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
+            text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
                 text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
@@ -430,7 +432,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if (Main.nickName != "") name = Main.nickName;
-            if (!AmongUsClient.Instance.IsGameStarted)
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
+            }
+            else
             {
                 switch (Options.GetSuffixMode())
                 {
@@ -440,10 +446,10 @@ namespace TownOfHost
                         name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
-                        name += "\r\n配信中";
+                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
                         break;
                     case SuffixModes.Recording:
-                        name += "\r\n録画中";
+                        name += $"\r\n{GetString("SuffixMode.Recording")}";
                         break;
                 }
             }
@@ -840,5 +846,6 @@ namespace TownOfHost
 
             return (doused, all);
         }
+        public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
     }
 }

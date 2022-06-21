@@ -67,7 +67,10 @@ namespace TownOfHost
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) p.RpcSetName(Palette.GetColorName(p.Data.DefaultOutfit.ColorId));
                 Main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
+            }
 
             foreach (var target in PlayerControl.AllPlayerControls)
             {

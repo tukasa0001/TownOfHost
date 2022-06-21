@@ -225,14 +225,20 @@ namespace TownOfHost
         {
             foreach (var pva in __instance.playerStates)
             {
+                var pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                if (pc == null) continue;
+                var RoleTextData = Utils.GetRoleText(pc);
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
-                roleTextMeeting.text = "RoleTextMeeting";
+                roleTextMeeting.text = RoleTextData.Item1;
+                if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
+                roleTextMeeting.color = RoleTextData.Item2;
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
-                roleTextMeeting.enabled = false;
+                roleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
+                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
             }
             if (Options.SyncButtonMode.GetBool())
             {
@@ -408,6 +414,7 @@ namespace TownOfHost
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
+                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execusion);
                     PlayerState.SetDead(player.PlayerId);
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });

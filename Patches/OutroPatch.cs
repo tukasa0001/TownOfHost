@@ -212,6 +212,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
     class SetEverythingUpPatch
     {
+        public static string LastWinsText = "";
+
         public static void Postfix(EndGameManager __instance)
         {
             if (!Main.playerVersion.ContainsKey(0)) return;
@@ -305,6 +307,7 @@ namespace TownOfHost
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }
+            LastWinsText = textRenderer.text.RemoveHtmlTags();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
