@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -817,5 +818,6 @@ namespace TownOfHost
 
             return (doused, all);
         }
+        public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
     }
 }
