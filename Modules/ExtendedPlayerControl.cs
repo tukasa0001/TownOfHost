@@ -367,6 +367,9 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown / 2;//Mareのキルクールを÷2する
                     }
                     break;
+                case CustomRoles.Contrarian:
+                    // opt.NumEmergencyMeetings = 0;
+                    break;
 
 
                 InfinityVent:

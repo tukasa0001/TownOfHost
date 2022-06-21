@@ -168,6 +168,13 @@ namespace TownOfHost
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
+            if (player.Is(CustomRoles.Contrarian)
+                && ((systemType == SystemTypes.Electrical && 0 <= amount && amount <= 4)
+                || systemType == SystemTypes.Comms
+                || (systemType == SystemTypes.Reactor && amount is 16 or 17 or 64 or 65)
+                || (systemType == SystemTypes.Laboratory && amount is 64 or 65)
+                || (systemType == SystemTypes.LifeSupp && amount is 64 or 65)))
+                return false;
             return true;
         }
         public static void Postfix(ShipStatus __instance)
