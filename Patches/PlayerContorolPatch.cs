@@ -499,6 +499,11 @@ namespace TownOfHost
                 }
             }
 
+            if (__instance.Is(CustomRoles.Contrarian))
+            {
+                Logger.Info($"{Utils.GetNameWithRole(__instance.PlayerId)}はボタンを押せないので、ボタンはキャンセルされました。", "ReportDeadBody");
+                return false;
+            }
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.Info("最大:" + Options.SyncedButtonCount.GetInt() + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");

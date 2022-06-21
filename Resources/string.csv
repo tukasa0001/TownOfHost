@@ -181,7 +181,7 @@ ExecutionerInfoLong,"(Neutrals):\nThe target is marked with a diamond that is vi
 SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
-ContrarianInfoLong,"(Neutrals):\n",(第三陣営):\n
+ContrarianInfoLong,"(Neutrals):\n",(第三陣営):\nクルー陣営以外の勝利時に生存していれば追加勝利となる。ドア開け以外の全てのサボタージュを直せず、緊急会議ボタンも押せない。
 
 # HideAndSeek
 HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
