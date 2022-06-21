@@ -498,14 +498,6 @@ namespace TownOfHost
                     Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
                 }
             }
-            else //死体通報
-            {
-                if (Main.IgnoreReportPlayers.Contains(target.PlayerId))
-                {
-                    Logger.Info($"{target.PlayerName}は通報が禁止された死体なのでキャンセルされました", "ReportDeadBody");
-                    return false;
-                }
-            }
 
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
@@ -1037,10 +1029,9 @@ namespace TownOfHost
                         {
                             PlayerState.SetDeathReason(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                             if (isExiled)
-                            {
-                                Main.IgnoreReportPlayers.Add(partnerPlayer.PlayerId);   //通報不可な死体にする
-                            }
-                            partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                            else
+                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
                         }
                     }
                 }
@@ -1162,7 +1153,8 @@ namespace TownOfHost
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ArsonistWin, Hazel.SendOption.Reliable, -1);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    writer.Write((byte)CustomWinner.Arsonist);
                     writer.Write(__instance.myPlayer.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.ArsonistWin(__instance.myPlayer.PlayerId);

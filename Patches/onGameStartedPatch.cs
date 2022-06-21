@@ -36,7 +36,7 @@ namespace TownOfHost
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
-            Main.IgnoreReportPlayers = new List<byte>();
+            Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
             Main.SheriffShotLimit = new Dictionary<byte, float>();
@@ -67,7 +67,10 @@ namespace TownOfHost
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) p.RpcSetName(Palette.GetColorName(p.Data.DefaultOutfit.ColorId));
                 Main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
+            }
 
             foreach (var target in PlayerControl.AllPlayerControls)
             {

@@ -344,23 +344,24 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
                 text += $" {GetVitalText(id)}";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id)}";
+                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
                 text += $" {GetVitalText(id)}";
             }
             SendMessage(text, PlayerId);
         }
 
-        public static string GetShowLastSubRolesText(byte id)
+        public static string GetShowLastSubRolesText(byte id, bool disableColor = false)
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
-            return !cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned ? "" : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
+            if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
+            return disableColor ? " + " + GetRoleName(cSubRole) : " <color=#ffffff>+ " + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole)) + "</color>";
         }
 
         public static void ShowHelp()
@@ -403,7 +404,8 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TerroristWin, Hazel.SendOption.Reliable, -1);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Terrorist);
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.TerroristWin(Terrorist.PlayerId);
@@ -419,7 +421,11 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
             if (Main.nickName != "") name = Main.nickName;
-            if (!AmongUsClient.Instance.IsGameStarted)
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
+            }
+            else
             {
                 switch (Options.GetSuffixMode())
                 {
@@ -429,10 +435,10 @@ namespace TownOfHost
                         name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
-                        name += "\r\n配信中";
+                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
                         break;
                     case SuffixModes.Recording:
-                        name += "\r\n録画中";
+                        name += $"\r\n{GetString("SuffixMode.Recording")}";
                         break;
                 }
             }

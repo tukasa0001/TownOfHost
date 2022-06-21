@@ -123,8 +123,11 @@ namespace TownOfHost
     {
         public static void Postfix()
         {
-            PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
-            PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            if (GameStates.IsCountDown)
+            {
+                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            }
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
