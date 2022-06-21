@@ -228,6 +228,8 @@ namespace TownOfHost
                     return Options.SheriffCanKillEgoShrodingerCat.GetBool();
                 case CustomRoles.SchrodingerCat:
                     return true;
+                case CustomRoles.Contrarian:
+                    return Options.SheriffCanKillContrarian.GetBool();
             }
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();

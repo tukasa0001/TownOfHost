@@ -261,6 +261,7 @@ namespace TownOfHost
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
+                { CustomRoles.Contrarian, "Co" },
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },

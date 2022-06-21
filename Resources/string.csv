@@ -63,6 +63,7 @@ EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
 Egoist,Egoist,エゴイスト
 Lovers,Lovers,恋人
+Contrarian,Contrarian,天邪鬼
 
 # HideAndSeek
 HASFox,Fox,狐
@@ -127,6 +128,7 @@ TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆し�
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
+ContrarianInfo,Defeat the Crewmates,クルーを負けさせよう
 
 # HideAndSeek
 HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -179,6 +181,7 @@ ExecutionerInfoLong,"(Neutrals):\nThe target is marked with a diamond that is vi
 SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
+ContrarianInfoLong,"(Neutrals):\n",(第三陣営):\n
 
 # HideAndSeek
 HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
@@ -269,6 +272,7 @@ SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチ�
 SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
+SheriffCanKillContrarian,Sheriff Can Kill Contrarian,シェリフが天邪鬼をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
 DoctorTaskCompletedBatteryCharge,Doctor TaskCompletedBattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数

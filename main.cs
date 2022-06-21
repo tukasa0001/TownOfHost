@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -222,6 +222,7 @@ namespace TownOfHost
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
+                {CustomRoles.Contrarian, "#400040"},
                 //HideAndSeek
                 {CustomRoles.HASFox, "#e478ff"},
                 {CustomRoles.HASTroll, "#00ff00"},
@@ -314,6 +315,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
+        Contrarian,
         //HideAndSeek
         HASFox,
         HASTroll,
@@ -342,6 +344,7 @@ namespace TownOfHost
         Opportunist,
         SchrodingerCat,
         Executioner,
+        Contrarian,
         HASFox
     }
     /*public enum CustomRoles : byte

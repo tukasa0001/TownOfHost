@@ -152,6 +152,11 @@ namespace TownOfHost
                             Main.additionalwinners.Add(AdditionalWinners.Executioner);
                         }
                     }
+                if (pc.Is(CustomRoles.Contrarian) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Crewmate)
+                {
+                    winner.Add(pc);
+                    Main.additionalwinners.Add(AdditionalWinners.Contrarian);
+                }
             }
 
             //HideAndSeek専用
@@ -296,6 +301,9 @@ namespace TownOfHost
 
                 if (Main.additionalwinners.Contains(AdditionalWinners.Executioner))
                     AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>{Utils.GetRoleName(CustomRoles.Executioner)}</color>";
+
+                if (Main.additionalwinners.Contains(AdditionalWinners.Contrarian))
+                    AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.Contrarian)}>{Utils.GetRoleName(CustomRoles.Contrarian)}</color>";
 
                 if (Main.additionalwinners.Contains(AdditionalWinners.HASFox))
                     AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.HASFox)}>{Utils.GetRoleName(CustomRoles.HASFox)}</color>";
