@@ -116,6 +116,7 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
+        public static CustomOption CanDeadContrarianWin;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -358,6 +359,7 @@ namespace TownOfHost
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
             SetupRoleOptions(50800, CustomRoles.Contrarian);
+            CanDeadContrarianWin = CustomOption.Create(50810, Color.white, "CanDeadContrarianWin", false, CustomRoleSpawnChances[CustomRoles.Contrarian]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

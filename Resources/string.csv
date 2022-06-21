@@ -128,7 +128,7 @@ TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆し�
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
-ContrarianInfo,Defeat the Crewmates,クルーを負けさせよう
+ContrarianInfo,Defeat the Crewmates,クルーを負かせよう
 
 # HideAndSeek
 HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -299,6 +299,7 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
+CanDeadContrarianWin,Dead Contrarian Can Win,死亡後も勝利できる
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定

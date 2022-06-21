@@ -152,7 +152,7 @@ namespace TownOfHost
                             Main.additionalwinners.Add(AdditionalWinners.Executioner);
                         }
                     }
-                if (pc.Is(CustomRoles.Contrarian) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Crewmate)
+                if (pc.Is(CustomRoles.Contrarian) && (!pc.Data.IsDead || Options.CanDeadContrarianWin.GetBool()) && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Crewmate)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Contrarian);

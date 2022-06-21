@@ -222,7 +222,7 @@ namespace TownOfHost
                 {CustomRoles.SchrodingerCat, "#696969"},
                 {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
                 {CustomRoles.Egoist, "#5600ff"},
-                {CustomRoles.Contrarian, "#400040"},
+                {CustomRoles.Contrarian, "#562856"},
                 //HideAndSeek
                 {CustomRoles.HASFox, "#e478ff"},
                 {CustomRoles.HASTroll, "#00ff00"},
