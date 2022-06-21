@@ -215,6 +215,7 @@ SuffixMode.None,None,なし
 SuffixMode.Version,Version,バージョン
 SuffixMode.Streaming,Streaming,配信中
 SuffixMode.Recording,Recording,録画中
+ColorNameMode,Color Name Mode,色名前モード
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる
 RoleOptions,Role Options,役職設定
@@ -325,6 +326,7 @@ DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
 DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
+DeathReason.Execusion,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
 DeathReason.etc,etc,その他
 Alive,Alive,生存
@@ -349,9 +351,10 @@ Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説
 Command.dump,Output Log to Desktop,デスクトップにログを出力
 Command.h_args,Available Args (clipped),使用可能な引数 (略称)
 
-CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
+CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
 
 ## その他
+HideGameCodes,Hide Game Codes,ゲームコードを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...
 updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。

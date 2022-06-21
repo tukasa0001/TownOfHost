@@ -60,7 +60,7 @@ namespace TownOfHost
         public static CustomOption BountyTargetChangeTime;
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
-        public static float DefaultKillCooldown;
+        public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
@@ -178,6 +178,7 @@ namespace TownOfHost
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
+        public static CustomOption ColorNameMode;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static readonly string[] suffixModes =
@@ -235,6 +236,11 @@ namespace TownOfHost
         {
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
             return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
+        }
+
+        public static float GetRoleChance(CustomRoles role)
+        {
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10f : roleSpawnChances[role];
         }
         public static void Load()
         {
@@ -446,6 +452,8 @@ namespace TownOfHost
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)
                 .SetGameMode(CustomGameMode.All);
             SuffixMode = CustomOption.Create(100602, Color.white, "SuffixMode", suffixModes, suffixModes[0])
+                .SetGameMode(CustomGameMode.All);
+            ColorNameMode = CustomOption.Create(100605, Color.white, "ColorNameMode", false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(100603, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);

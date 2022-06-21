@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
 using InnerNet;
@@ -39,8 +40,8 @@ namespace TownOfHost
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetThiefVotingTime();
-                if (data.Character.Is(CustomRoles.Lovers) && !Main.isLoversDead)
-                    foreach (var lovers in Main.LoversPlayers)
+                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
+                    foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
