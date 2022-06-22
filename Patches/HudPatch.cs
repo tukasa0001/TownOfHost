@@ -266,19 +266,18 @@ namespace TownOfHost
             }
         }
     }
-    // [HarmonyPatch(typeof(RoleBehaviour), nameof(RoleBehaviour.FindClosestTarget))]
-    // class FindClosestTargetPatch
-    // {
-    //     public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
-    //     {
-    //         var player = PlayerControl.LocalPlayer;
-    //         if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
-    //             __instance.Data.Role.Role != RoleTypes.GuardianAngel)
-    //         {
-    //             protecting = true;
-    //         }
-    //     }
-    // }
+    [HarmonyPatch(typeof(RoleBehaviour), nameof(RoleBehaviour.FindClosestTarget))]
+    class FindClosestTargetPatch
+    {
+        public static void Prefix(RoleBehaviour __instance)
+        {
+            var player = PlayerControl.LocalPlayer;
+            if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
+                __instance.Role != RoleTypes.GuardianAngel)
+            {
+            }
+        }
+    }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
