@@ -147,8 +147,10 @@ namespace TownOfHost
                         else
                         {
                             if (killer.Is(CustomRoles.SerialKiller))
+                            {
                                 killer.RpcResetAbilityCooldown();
-                            Main.SerialKillerTimer[killer.PlayerId] = 0f;
+                                Main.SerialKillerTimer[killer.PlayerId] = 0f;
+                            }
                             if (killer.GetCustomRole().IsImpostor())
                                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                             if (killer.Is(CustomRoles.Sheriff))
