@@ -782,7 +782,7 @@ namespace TownOfHost
             }
 
             //役職テキストの表示
-            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleTextTransform = __instance.cosmetics.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
             {
@@ -790,9 +790,9 @@ namespace TownOfHost
                 {
                     if (Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
                         if (Main.version.CompareTo(ver.version) == 0)
-                            __instance.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
-                        else __instance.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
-                    else __instance.nameText.text = __instance?.Data?.PlayerName;
+                            __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
+                        else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                 }
                 if (GameStates.IsInGame)
                 {
@@ -810,7 +810,7 @@ namespace TownOfHost
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     {
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                        if (!__instance.AmOwner) __instance.nameText.text = __instance?.Data?.PlayerName;
+                        if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                     }
                     if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
                         RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
@@ -985,13 +985,13 @@ namespace TownOfHost
                     }*/
 
                     //Mark・Suffixの適用
-                    target.nameText.text = $"{RealName}{Mark}";
+                    target.cosmetics.nameText.text = $"{RealName}{Mark}";
 
                     if (Suffix != "")
                     {
                         //名前が2行になると役職テキストを上にずらす必要がある
                         RoleText.transform.SetLocalY(0.35f);
-                        target.nameText.text += "\r\n" + Suffix;
+                        target.cosmetics.nameText.text += "\r\n" + Suffix;
 
                     }
                     else
@@ -1085,8 +1085,8 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
-            roleText.transform.SetParent(__instance.nameText.transform);
+            var roleText = UnityEngine.Object.Instantiate(__instance.cosmetics.nameText);
+            roleText.transform.SetParent(__instance.cosmetics.nameText.transform);
             roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
             roleText.fontSize = 0.55f;
             roleText.text = "RoleText";
