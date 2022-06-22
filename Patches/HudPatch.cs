@@ -266,7 +266,7 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
+    [HarmonyPatch(typeof(RoleBehaviour), nameof(RoleBehaviour.FindClosestTarget))]
     class FindClosestTargetPatch
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
