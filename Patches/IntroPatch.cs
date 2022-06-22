@@ -40,8 +40,8 @@ namespace TownOfHost
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.nameText.text}", "Info");
-                pc.nameText.text = pc.name;
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}", "Info");
+                pc.cosmetics.nameText.text = pc.name;
             }
             Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
