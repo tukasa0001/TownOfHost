@@ -274,7 +274,7 @@ namespace TownOfHost
         public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
         {
             var player = PlayerControl.LocalPlayer;
-            if (!player.AmOwner || !AmongUsClient.Instance.AmHost) return true;
+            if (player == null || !player.AmOwner || !AmongUsClient.Instance.AmHost) return true;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Role != RoleTypes.GuardianAngel)
             {
