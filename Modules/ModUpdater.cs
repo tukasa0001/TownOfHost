@@ -47,7 +47,7 @@ namespace TownOfHost
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
             var updateButton = UnityEngine.Object.Instantiate(template, null);
-            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 1.2f, updateButton.transform.localPosition.z);
+            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 0.6f, updateButton.transform.localPosition.z);
 
             PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
             passiveUpdateButton.OnClick = new Button.ButtonClickedEvent();
