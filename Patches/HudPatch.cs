@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -276,6 +278,35 @@ namespace TownOfHost
                 __instance.Role != RoleTypes.GuardianAngel)
             {
             }
+        }
+
+        private static PlayerControl OLD_FindClosestTarget(PlayerControl from)
+        {
+            PlayerControl closestTarget = null;
+            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+            if (!(bool)(UnityEngine.Object)ShipStatus.Instance)
+                return (PlayerControl)null;
+            Vector2 truePosition = from.GetTruePosition();
+            GameData.PlayerInfo[] allPlayers = GameData.Instance.AllPlayers.ToArray();
+            for (int index = 0; index < allPlayers.Length; ++index)
+            {
+                GameData.PlayerInfo playerInfo = allPlayers[index];
+                if (playerInfo != null && !playerInfo.Disconnected && playerInfo.PlayerId != from.PlayerId && !playerInfo.IsDead && !playerInfo.Object.inVent)
+                {
+                    PlayerControl playerControl = playerInfo.Object;
+                    if ((bool)(UnityEngine.Object)playerControl && playerControl.Collider.enabled)
+                    {
+                        Vector2 vector2 = playerControl.GetTruePosition() - truePosition;
+                        float magnitude = vector2.magnitude;
+                        if ((double)magnitude <= (double)num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector2.normalized, magnitude, Constants.ShipAndObjectsMask))
+                        {
+                            closestTarget = playerControl;
+                            num = magnitude;
+                        }
+                    }
+                }
+            }
+            return closestTarget;
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
