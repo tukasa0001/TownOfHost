@@ -121,7 +121,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
     class ResetStartStatePatch
     {
-        public static void Postfix()
+        public static void Prefix()
         {
             if (GameStates.IsCountDown)
             {
