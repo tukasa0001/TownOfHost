@@ -268,10 +268,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(RoleBehaviour), nameof(RoleBehaviour.FindClosestTarget))]
+    [HarmonyPatch(typeof(CrewmateRole), nameof(CrewmateRole.FindClosestTarget))]
     class FindClosestTargetPatch
     {
-        public static bool Prefix(RoleBehaviour __instance, ref PlayerControl __result)
+        public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
         {
             var player = PlayerControl.LocalPlayer;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
