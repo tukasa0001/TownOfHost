@@ -17,7 +17,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.0.3";
+        public const string PluginVersion = "2.1.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -33,6 +33,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
+        public static ConfigEntry<int> MessageWait { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
@@ -49,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
@@ -56,7 +58,6 @@ namespace TownOfHost
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
         public static List<byte> ResetCamPlayerList;
-        public static List<byte> IgnoreReportPlayers;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
@@ -78,8 +79,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
-        public static Dictionary<byte, (int, int)> DousedPlayerCount = new();
-        public static Dictionary<byte, bool> isDeadDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
@@ -144,8 +143,6 @@ namespace TownOfHost
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
-            DousedPlayerCount = new Dictionary<byte, (int, int)>();
-            isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -158,6 +155,7 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
+            MessageWait = Config.Bind("Other", "MessageWait", 1);
 
             NameColorManager.Begin();
 
@@ -167,8 +165,6 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
-
-            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 

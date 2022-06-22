@@ -15,6 +15,7 @@ namespace TownOfHost
             GameStates.InGame = false;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
+            PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
@@ -83,7 +84,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
+            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (Main.currentWinner == CustomWinner.Impostor
             || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -203,6 +204,7 @@ namespace TownOfHost
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
+                Main.RealOptionsData.KillCooldown = Options.DefaultKillCooldown;
                 PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
             }
         }
@@ -210,6 +212,8 @@ namespace TownOfHost
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
     class SetEverythingUpPatch
     {
+        public static string LastWinsText = "";
+
         public static void Postfix(EndGameManager __instance)
         {
             if (!Main.playerVersion.ContainsKey(0)) return;
@@ -303,6 +307,7 @@ namespace TownOfHost
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }
+            LastWinsText = textRenderer.text.RemoveHtmlTags();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

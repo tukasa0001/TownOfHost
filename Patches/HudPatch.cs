@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
 using UnityEngine;
@@ -26,8 +28,8 @@ namespace TownOfHost
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started ||
-                    AmongUsClient.Instance.GameMode == GameModes.FreePlay)
+                if ((AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started || GameStates.IsFreePlay)
+                    && player.MyAnim.ClipName is "Idle" or "Walk")
                 {
                     player.Collider.offset = new Vector2(0f, 127f);
                 }
@@ -45,16 +47,16 @@ namespace TownOfHost
             {
                 case CustomRoles.Sniper:
                     __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
-                break;
+                    break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksExplosionButtonText")}");
                     else
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
-                break;
+                    break;
                 case CustomRoles.SerialKiller:
                     __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Warlock:
                     if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
                     {
@@ -64,25 +66,29 @@ namespace TownOfHost
                     {
                         __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     }
-                break;
+                    break;
                 case CustomRoles.Witch:
-                    if (player.GetKillOrSpell())
+                    if (player.IsSpellMode())
                     {
                         __instance.KillButton.OverrideText($"{GetString("WitchSpellButtonText")}");
                     }
-                break;
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    }
+                    break;
                 case CustomRoles.Vampire:
                     __instance.KillButton.OverrideText($"{GetString("VampireBiteButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Arsonist:
                     __instance.KillButton.OverrideText($"{GetString("ArsonistDouseButtonText")}");
-                break;
+                    break;
                 case CustomRoles.Puppeteer:
                     __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
-                break;
+                    break;
                 case CustomRoles.BountyHunter:
                     __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
-                break;
+                    break;
             }
 
             __instance.GameSettings.text = OptionShower.GetText();
@@ -114,7 +120,7 @@ namespace TownOfHost
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
-                var ModeLang = player.GetKillOrSpell() ? "WitchModeSpell" : "WitchModeKill";
+                var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
@@ -166,12 +172,12 @@ namespace TownOfHost
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
                     }
-                break;
+                    break;
                 case CustomRoles.SKMadmate:
                     TaskTextPrefix += FakeTasksText;
                     __instance.KillButton.SetDisabled();
                     __instance.KillButton.ToggleVisible(false);
-                break;
+                    break;
                 case CustomRoles.Sheriff:
                     if (Main.SheriffShotLimit[player.PlayerId] == 0)
                     {
@@ -258,21 +264,53 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) && !player.Data.IsDead)
             {
-                ((Renderer)__instance.MyRend).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
+                ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
         }
     }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FindClosestTarget))]
+    [HarmonyPatch(typeof(CrewmateRole), nameof(CrewmateRole.FindClosestTarget))]
     class FindClosestTargetPatch
     {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] ref bool protecting)
+        public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
         {
             var player = PlayerControl.LocalPlayer;
+            if (!player.AmOwner || !AmongUsClient.Instance.AmHost) return true;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
-                __instance.Data.Role.Role != RoleTypes.GuardianAngel)
+                __instance.Role != RoleTypes.GuardianAngel)
             {
-                protecting = true;
+                __result = OLD_FindClosestTarget(player);
+                return false;
             }
+            return true;
+        }
+
+        private static PlayerControl OLD_FindClosestTarget(PlayerControl from)
+        {
+            PlayerControl closestTarget = null;
+            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+            if (!(bool)(UnityEngine.Object)ShipStatus.Instance)
+                return (PlayerControl)null;
+            Vector2 truePosition = from.GetTruePosition();
+            GameData.PlayerInfo[] allPlayers = GameData.Instance.AllPlayers.ToArray();
+            for (int index = 0; index < allPlayers.Length; ++index)
+            {
+                GameData.PlayerInfo playerInfo = allPlayers[index];
+                if (playerInfo != null && !playerInfo.Disconnected && playerInfo.PlayerId != from.PlayerId && !playerInfo.IsDead && !playerInfo.Object.inVent)
+                {
+                    PlayerControl playerControl = playerInfo.Object;
+                    if ((bool)(UnityEngine.Object)playerControl && playerControl.Collider.enabled)
+                    {
+                        Vector2 vector2 = playerControl.GetTruePosition() - truePosition;
+                        float magnitude = vector2.magnitude;
+                        if ((double)magnitude <= (double)num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector2.normalized, magnitude, Constants.ShipAndObjectsMask))
+                        {
+                            closestTarget = playerControl;
+                            num = magnitude;
+                        }
+                    }
+                }
+            }
+            return closestTarget;
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]

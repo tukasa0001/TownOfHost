@@ -57,7 +57,7 @@ namespace TownOfHost
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
                 else
                     lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
-                __instance.GameRoomName.text = lobbyCodehide;
+                __instance.GameRoomNameCode.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
@@ -85,6 +85,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.BeginGame))]
     public class GameStartRandomMap
     {
+        public static void Prefix()
+        {
+            Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
+            PlayerControl.GameOptions.KillCooldown = 0.1f;
+            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+            PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+        }
         public static bool Prefix(GameStartRandomMap __instance)
         {
             bool continueStart = true;
@@ -109,6 +116,18 @@ namespace TownOfHost
 
             }
             return continueStart;
+        }
+    }
+    [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
+    class ResetStartStatePatch
+    {
+        public static void Prefix()
+        {
+            if (GameStates.IsCountDown)
+            {
+                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            }
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
