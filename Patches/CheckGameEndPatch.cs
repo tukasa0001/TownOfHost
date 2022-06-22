@@ -127,7 +127,8 @@ namespace TownOfHost
                 if (!hasRole) return false;
                 if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.TrollWin, Hazel.SendOption.Reliable, -1);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    writer.Write((byte)CustomWinner.HASTroll);
                     writer.Write(pc.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.TrollWin(pc.PlayerId);

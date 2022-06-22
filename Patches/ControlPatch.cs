@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
@@ -40,7 +41,7 @@ namespace TownOfHost
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.EndGame();
+                RPC.ForceEndGame();
             }
             //ミーティングを強制終了
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
@@ -63,6 +64,11 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
                 Utils.ShowActiveSettingsHelp();
+            }
+            //TOHオプションをデフォルトに設定
+            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
             }
 
             //--以下デバッグモード用コマンド--//
@@ -106,7 +112,7 @@ namespace TownOfHost
             //自分自身の死体をレポート
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
             {
-                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
@@ -127,6 +133,140 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
                 if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
                 if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
+            }
+            //CustomRpcSenderデバッグ用
+            if (Input.GetKey(KeyCode.RightControl))
+            {
+                // どちらも赤色から茶色までの計10個のSetColorRPCを送る処理です。
+                // コード上の送信順で処理された場合は最終的な色は茶色になります。
+                // 従来の方式の場合、ほぼ同時に大量の送信処理を行っているため、遅延以外の方法で順番の入れ替わりを回避できません。
+                // それに対してCustomRpcSenderを使用した方式は、一つのメッセージにすべてのRPCを入れているため、順番が入れ替わる心配がありません。
+
+                // CustomRpcSenderを使用した方式
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        var sender = CustomRpcSender.Create();
+                        sender.StartMessage();
+                        for (byte i = 0; i < 10; i++)
+                        {
+                            sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor);
+                            sender.Write(i);
+                            sender.EndRpc();
+                        }
+                        sender.EndMessage();
+                        sender.SendMessage();
+                    }
+                }
+
+                // 従来の方式
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        for (byte i = 0; i < 10; i++)
+                        {
+                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetColor, SendOption.None);
+                            writer.Write(i);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }
+                    }
+                }
+
+                // Desyncのテスト
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    PlayerControl p0 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 0).FirstOrDefault();
+                    PlayerControl p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    PlayerControl p2 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 2).FirstOrDefault();
+                    if (p0 != null && p1 != null && p2 != null)
+                    {
+                        var sender = CustomRpcSender.Create();
+
+                        sender.StartMessage(p1.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)3)
+                          .EndRpc()
+                          .EndMessage();
+
+                        sender.StartMessage(p2.GetClientId())
+                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
+                          .Write((byte)4)
+                          .EndRpc()
+                          .EndMessage();
+
+                        sender.SendMessage();
+                    }
+                }
+
+                // 負荷実験-new
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        var sender = CustomRpcSender.Create();
+                        sender.StartMessage(clientId);
+
+                        for (int i = 0; i < 300; i++)
+                        {
+                            sender.AutoStartRpc(targetPlayer.NetId, (byte)RpcCalls.SetName, clientId)
+                                .Write($"負荷実験-new({i})")
+                                .EndRpc();
+                        }
+
+                        sender.EndMessage();
+                        sender.SendMessage();
+                    }
+                }
+
+                // 負荷実験-old
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i = 0; i < 300; i++)
+                        {
+                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
+                            writer.Write($"負荷実験-old({i})");
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }
+                    }
+                }
+
+                // GuardAndKill-new
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 300; i1++)
+                        {
+                            targetPlayer.RpcGuardAndKill();
+                        }
+                    }
+                }
+                // GuardAndKill-old
+                if (Input.GetKeyDown(KeyCode.Alpha7))
+                {
+                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
+                    if (targetPlayer != null)
+                    {
+                        int clientId = targetPlayer.GetClientId();
+                        for (int i1 = 0; i1 < 300; i1++)
+                        {
+                            targetPlayer.RpcProtectPlayer(targetPlayer, 0);
+                            targetPlayer.RpcMurderPlayer(targetPlayer);
+                        }
+                    }
+                }
             }
 
             //--以下フリープレイ用コマンド--//

@@ -11,14 +11,29 @@ namespace TownOfHost
     {
         public static bool Prefix(MeetingHud __instance)
         {
-            if (MeetingHudUpdatePatch.isDictatorVote)
-            {
-                MeetingHudUpdatePatch.isDictatorVote = false;
-                return true;
-            }
+            if (!AmongUsClient.Instance.AmHost) return true;
             try
             {
-                if (!AmongUsClient.Instance.AmHost) return true;
+                foreach (var pva in __instance.playerStates)
+                {
+                    if (pva == null) continue;
+                    PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                    if (pc == null) continue;
+                    //死んでいないディクテーターが投票済み
+                    if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead)
+                    {
+                        var voteTarget = Utils.GetPlayerById(pva.VotedFor);
+                        Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
+                        {
+                            VoterId = pva.TargetPlayerId,
+                            VotedForId = pva.VotedFor
+                        }}, voteTarget.Data, false); //RPC
+                        Logger.Info($"{voteTarget.GetNameWithRole()}を追放", "Dictator");
+                        Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
+                        return true;
+                    }
+                }
                 foreach (var ps in __instance.playerStates)
                 {
                     //死んでいないプレイヤーが投票していない
@@ -44,10 +59,8 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -62,10 +75,8 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    PlayerState.SetDeathReason(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
-                                    voter.RpcExileV2();
+                                    Main.AfterMeetingDeathPlayers.TryAdd(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
-                                    Main.IgnoreReportPlayers.Add(voter.PlayerId);
                                     break;
                                 case VoteMode.SelfVote:
                                     ps.VotedFor = ps.TargetPlayerId;
@@ -129,12 +140,7 @@ namespace TownOfHost
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
-                    {
-                        PlayerState.SetDeathReason(p.PlayerId, PlayerState.DeathReason.Spell);
-                        PlayerState.SetDead(p.PlayerId);
-                        Main.IgnoreReportPlayers.Add(p.PlayerId);
-                        p.RpcExileV2();
-                    }
+                        Main.AfterMeetingDeathPlayers.TryAdd(p.PlayerId, PlayerState.DeathReason.Spell);
                 }
                 Main.SpelledPlayer.Clear();
 
@@ -201,14 +207,20 @@ namespace TownOfHost
         {
             foreach (var pva in __instance.playerStates)
             {
+                var pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                if (pc == null) continue;
+                var RoleTextData = Utils.GetRoleText(pc);
                 var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
-                roleTextMeeting.text = "RoleTextMeeting";
+                roleTextMeeting.text = RoleTextData.Item1;
+                if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
+                roleTextMeeting.color = RoleTextData.Item2;
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
-                roleTextMeeting.enabled = false;
+                roleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
+                    (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
             }
             if (Options.SyncButtonMode.GetBool())
             {
@@ -319,49 +331,19 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Update))]
     class MeetingHudUpdatePatch
     {
-        public static bool isDictatorVote = false;
         public static void Postfix(MeetingHud __instance)
         {
-            if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) return;
-
-            foreach (var pva in __instance.playerStates)
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
             {
-                if (pva == null) continue;
-                PlayerControl pc = Utils.GetPlayerById(pva.TargetPlayerId);
-                if (pc == null) continue;
-
-                //役職表示系
-                var RoleTextMeetingTransform = pva.NameText.transform.Find("RoleTextMeeting");
-                TMPro.TextMeshPro RoleTextMeeting = null;
-                if (RoleTextMeetingTransform != null) RoleTextMeeting = RoleTextMeetingTransform.GetComponent<TMPro.TextMeshPro>();
-                if (RoleTextMeeting != null)
+                __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
                 {
-
-                    var RoleTextData = Utils.GetRoleText(pc);
-                    RoleTextMeeting.text = RoleTextData.Item1;
-                    if (Main.VisibleTasksCount && Utils.HasTasks(pc.Data, false)) RoleTextMeeting.text += Utils.GetProgressText(pc);
-                    RoleTextMeeting.color = RoleTextData.Item2;
-                    RoleTextMeeting.enabled = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
-                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool());
-                }
-                //死んでいないディクテーターが投票済み
-                if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pva.VotedFor < 253 && !pc.Data.IsDead)
-                {
-                    var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                    MeetingHud.VoterState[] states;
-                    List<MeetingHud.VoterState> statesList = new();
-                    statesList.Add(new MeetingHud.VoterState()
-                    {
-                        VoterId = pva.TargetPlayerId,
-                        VotedForId = pva.VotedFor
-                    });
-                    states = statesList.ToArray();
-                    isDictatorVote = true;
-                    pc.RpcExileV2(); //自殺
-                    __instance.RpcVotingComplete(states, voteTarget.Data, false); //RPC
-                    Main.IgnoreReportPlayers.Add(pc.PlayerId);
-                    Logger.Info("ディクテーターによる強制会議終了", "Special Phase");
-                }
+                    var player = Utils.GetPlayerById(x.TargetPlayerId);
+                    player.RpcExileV2();
+                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execusion);
+                    PlayerState.SetDead(player.PlayerId);
+                    Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                });
             }
         }
     }

@@ -18,6 +18,7 @@ namespace TownOfHost
     {
         private static void Prefix(MainMenuManager __instance)
         {
+            SaveManager.CensorChat = false;
             ModUpdater.LaunchUpdater();
             var template = GameObject.Find("ExitGameButton");
             if (template == null) return;
