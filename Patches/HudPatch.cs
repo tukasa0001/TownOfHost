@@ -271,13 +271,16 @@ namespace TownOfHost
     [HarmonyPatch(typeof(RoleBehaviour), nameof(RoleBehaviour.FindClosestTarget))]
     class FindClosestTargetPatch
     {
-        public static void Prefix(RoleBehaviour __instance)
+        public static bool Prefix(RoleBehaviour __instance, ref PlayerControl __result)
         {
             var player = PlayerControl.LocalPlayer;
             if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
                 __instance.Role != RoleTypes.GuardianAngel)
             {
+                __result = OLD_FindClosestTarget(player);
+                return false;
             }
+            return true;
         }
 
         private static PlayerControl OLD_FindClosestTarget(PlayerControl from)
