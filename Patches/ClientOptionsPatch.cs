@@ -1,6 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -55,12 +56,12 @@ namespace TownOfHost
 
             if (HideCodesButton == null || HideCodesButton.gameObject == null)
             {
-                HideCodesButton = CreateCustomToggle("Hide Game Codes: ", Main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
+                HideCodesButton = CreateCustomToggle($"{GetString("HideGameCodes")}: ", Main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
 
                 void HideCodesButtonToggle()
                 {
                     Main.HideCodes.Value = !Main.HideCodes.Value;
-                    UpdateToggle(HideCodesButton, "Hide Game Codes: ", Main.HideCodes.Value);
+                    UpdateToggle(HideCodesButton, $"{GetString("HideGameCodes")}: ", Main.HideCodes.Value);
                 }
             }
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)

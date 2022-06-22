@@ -57,7 +57,7 @@ namespace TownOfHost
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
                 else
                     lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
-                __instance.GameRoomName.text = lobbyCodehide;
+                __instance.GameRoomNameCode.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
@@ -121,10 +121,13 @@ namespace TownOfHost
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.ResetStartState))]
     class ResetStartStatePatch
     {
-        public static void Postfix()
+        public static void Prefix()
         {
-            PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
-            PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            if (GameStates.IsCountDown)
+            {
+                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+            }
         }
     }
     [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
