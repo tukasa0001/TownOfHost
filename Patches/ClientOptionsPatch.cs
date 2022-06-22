@@ -56,7 +56,7 @@ namespace TownOfHost
             if (__instance.ColorBlindButton != null)
             {
                 if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;// + Vector3.up * 0.075f;
-                __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.84f;
+                __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.83f;
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
