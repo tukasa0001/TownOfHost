@@ -248,7 +248,6 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
-            Utils.NotifyRoles();
         }
     }
 }

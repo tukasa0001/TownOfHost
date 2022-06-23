@@ -69,6 +69,8 @@ namespace TownOfHost
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
             PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
 
+            Utils.NotifyRoles();
+
             GameStates.InGame = true;
         }
     }
