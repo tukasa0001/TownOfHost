@@ -17,6 +17,7 @@ namespace TownOfHost
         public static bool Prefix(ChatController __instance)
         {
             if (__instance.TextArea.text == "") return false;
+            __instance.TimeSinceLastMessage = 3f;
             var text = __instance.TextArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
