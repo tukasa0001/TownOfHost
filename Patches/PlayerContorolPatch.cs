@@ -39,7 +39,7 @@ namespace TownOfHost
             if (Main.SelfGuard[target.PlayerId])
             {
                 Main.SelfGuard[target.PlayerId] = false;
-                target.RpcMurderPlayer(target);
+                target.RpcMurderPlayerV2(target);
             }
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
@@ -146,6 +146,11 @@ namespace TownOfHost
                         }
                         else
                         {
+                            if (killer.Is(CustomRoles.SerialKiller))
+                            {
+                                killer.RpcResetAbilityCooldown();
+                                Main.SerialKillerTimer[killer.PlayerId] = 0f;
+                            }
                             if (killer.GetCustomRole().IsImpostor())
                                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                             if (killer.Is(CustomRoles.Sheriff))
@@ -243,7 +248,7 @@ namespace TownOfHost
                         }
                         if (Main.CheckShapeshift[killer.PlayerId])
                         {//呪われてる人がいないくて変身してるときに通常キルになる
-                            killer.RpcMurderPlayer(target);
+                            killer.RpcMurderPlayerV2(target);
                             killer.RpcGuardAndKill(target);
                             return false;
                         }
@@ -303,9 +308,9 @@ namespace TownOfHost
                         if (!target.CanBeKilledBySheriff())
                         {
                             PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                            killer.RpcMurderPlayer(killer);
+                            killer.RpcMurderPlayerV2(killer);
                             if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
-                                killer.RpcMurderPlayer(target);
+                                killer.RpcMurderPlayerV2(target);
 
                             return false;
                         }
@@ -314,7 +319,7 @@ namespace TownOfHost
             }
 
             //==キル処理==
-            killer.RpcMurderPlayer(target);
+            killer.RpcMurderPlayerV2(target);
             //============
 
             return false;
@@ -432,7 +437,7 @@ namespace TownOfHost
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                        cp.RpcMurderPlayer(targetw);//殺す
+                        cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
@@ -525,8 +530,8 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす
                     if (bitten.protectedByGuardian)
-                        bitten.RpcMurderPlayer(bitten);
-                    bitten.RpcMurderPlayer(bitten);
+                        bitten.RpcMurderPlayerV2(bitten);
+                    bitten.RpcMurderPlayerV2(bitten);
                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                 }
@@ -584,7 +589,7 @@ namespace TownOfHost
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
-                                bitten.RpcMurderPlayer(bitten);
+                                bitten.RpcMurderPlayerV2(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
                                 if (vampirePC.IsAlive())
@@ -617,7 +622,7 @@ namespace TownOfHost
                     {
                         //自滅時間が来たとき
                         PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
-                        player.RpcMurderPlayer(player);//自滅させる
+                        player.RpcMurderPlayerV2(player);//自滅させる
                     }
                     else
                     {
@@ -762,7 +767,7 @@ namespace TownOfHost
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
-                                player.RpcMurderPlayer(target);
+                                player.RpcMurderPlayerV2(target);
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
@@ -782,7 +787,7 @@ namespace TownOfHost
             }
 
             //役職テキストの表示
-            var RoleTextTransform = __instance.nameText.transform.Find("RoleText");
+            var RoleTextTransform = __instance.cosmetics.nameText.transform.Find("RoleText");
             var RoleText = RoleTextTransform.GetComponent<TMPro.TextMeshPro>();
             if (RoleText != null && __instance != null)
             {
@@ -790,9 +795,9 @@ namespace TownOfHost
                 {
                     if (Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
                         if (Main.version.CompareTo(ver.version) == 0)
-                            __instance.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
-                        else __instance.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
-                    else __instance.nameText.text = __instance?.Data?.PlayerName;
+                            __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
+                        else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                 }
                 if (GameStates.IsInGame)
                 {
@@ -810,7 +815,7 @@ namespace TownOfHost
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                     {
                         RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                        if (!__instance.AmOwner) __instance.nameText.text = __instance?.Data?.PlayerName;
+                        if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                     }
                     if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
                         RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
@@ -985,13 +990,13 @@ namespace TownOfHost
                     }*/
 
                     //Mark・Suffixの適用
-                    target.nameText.text = $"{RealName}{Mark}";
+                    target.cosmetics.nameText.text = $"{RealName}{Mark}";
 
                     if (Suffix != "")
                     {
                         //名前が2行になると役職テキストを上にずらす必要がある
                         RoleText.transform.SetLocalY(0.35f);
-                        target.nameText.text += "\r\n" + Suffix;
+                        target.cosmetics.nameText.text += "\r\n" + Suffix;
 
                     }
                     else
@@ -1031,7 +1036,7 @@ namespace TownOfHost
                             if (isExiled)
                                 Main.AfterMeetingDeathPlayers.TryAdd(partnerPlayer.PlayerId, PlayerState.DeathReason.LoversSuicide);
                             else
-                                partnerPlayer.RpcMurderPlayer(partnerPlayer);
+                                partnerPlayer.RpcMurderPlayerV2(partnerPlayer);
                         }
                     }
                 }
@@ -1085,8 +1090,8 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerControl __instance)
         {
-            var roleText = UnityEngine.Object.Instantiate(__instance.nameText);
-            roleText.transform.SetParent(__instance.nameText.transform);
+            var roleText = UnityEngine.Object.Instantiate(__instance.cosmetics.nameText);
+            roleText.transform.SetParent(__instance.cosmetics.nameText.transform);
             roleText.transform.localPosition = new Vector3(0f, 0.175f, 0f);
             roleText.fontSize = 0.55f;
             roleText.text = "RoleText";
@@ -1145,7 +1150,7 @@ namespace TownOfHost
                             if (pc != __instance.myPlayer)
                             {
                                 //生存者は焼殺
-                                pc.RpcMurderPlayer(pc);
+                                pc.RpcMurderPlayerV2(pc);
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
                                 PlayerState.SetDead(pc.PlayerId);
                             }
