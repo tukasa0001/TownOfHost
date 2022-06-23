@@ -697,6 +697,17 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
+        {
+            if (target == null) target = killer;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.MurderPlayer(target);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
             targetがnullの場合はボタンとなる*/
