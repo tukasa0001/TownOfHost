@@ -143,6 +143,8 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
+                    if (cRole.IsImpostorTeam() || ForRecompute) hasTasks = false; //一旦hasTasksをfalseに
+                    if (cRole.IsNeutral() || ForRecompute) hasTasks = false; //一旦hasTasksをfalseに
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
@@ -223,6 +225,7 @@ namespace TownOfHost
                     {
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = $"{colorCode}({Completed}/{taskState.AllTasksCount}){closeCode}";
+                        if ((role.IsImpostorTeam() || role.IsNeutral()) && taskState.AllTasksCount <= 0) ProgressText = "";
                     }
                     break;
             }
