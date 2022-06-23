@@ -87,7 +87,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                pc.nameText.text = pc.name;
+                pc.cosmetics.nameText.text = pc.name;
                 Main.SelfGuard[pc.PlayerId] = false;
             }
             Main.VisibleTasksCount = true;
