@@ -593,6 +593,7 @@ namespace TownOfHost
         { //キルクールを変更するインポスター役職は省く
             return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
