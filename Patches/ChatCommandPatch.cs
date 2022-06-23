@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
@@ -410,6 +411,27 @@ namespace TownOfHost
                     break;
             }
             if (!AmongUsClient.Instance.AmHost) return;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
+    class RpcSendChatPatch
+    {
+        public static bool Prefix(PlayerControl __instance, string chatText, bool __result)
+        {
+            if (string.IsNullOrWhiteSpace(chatText))
+            {
+                __result = false;
+                return false;
+            }
+            if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
+            if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
+                DestroyableSingleton<Telemetry>.Instance.SendWho();
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
+            messageWriter.Write(chatText);
+            messageWriter.EndMessage();
+            __result = true;
+            return false;
         }
     }
 }
