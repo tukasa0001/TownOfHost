@@ -24,7 +24,7 @@ namespace TownOfHost
             if (template == null) return;
             //Discordボタンを生成
             var discordButton = UnityEngine.Object.Instantiate(template, null);
-            discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width - 90, 50, 0));
+            discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
 
             PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
             passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
