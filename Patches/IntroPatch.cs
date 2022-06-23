@@ -67,6 +67,7 @@ namespace TownOfHost
                     Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+            PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
 
             GameStates.InGame = true;
         }
