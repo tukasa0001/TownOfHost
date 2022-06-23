@@ -126,7 +126,7 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();// - EngineerNum;
+                int AdditionalEngineerNum = CustomRoles.Terrorist.GetCount();// - EngineerNum;
 
                 if (Options.MayorHasPortableButton.GetBool())
                     AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
@@ -448,7 +448,7 @@ namespace TownOfHost
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
 
-                EngineerNum -= CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();
+                EngineerNum -= CustomRoles.Terrorist.GetCount();
 
                 if (Options.MayorHasPortableButton.GetBool())
                     EngineerNum -= CustomRoles.Mayor.GetCount();

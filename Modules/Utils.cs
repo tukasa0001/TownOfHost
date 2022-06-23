@@ -148,7 +148,7 @@ namespace TownOfHost
                     // if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
-                    if (cRole == CustomRoles.Madmate && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Madmate && (ForRecompute || (!Options.MadmateNoticeImpostors.GetBool() && !Options.MadmateGuardImpostorKill.GetBool()))) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Executioner) hasTasks = false;
