@@ -70,8 +70,12 @@ namespace TownOfHost
         public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
-        public static CustomOption MadGuardianCanSeeWhoTriedToKill;
-        public static CustomOption MadSnitchCanVent;
+        public static CustomOption MadmateCanVent;
+        public static CustomOption MadmateNoticeImpostors;
+        public static CustomOption MadmateGuardImpostorKill;
+        public static CustomOption MadmateCanSeeWhoTriedToKill;
+        // public static CustomOption MadGuardianCanSeeWhoTriedToKill;
+        // public static CustomOption MadSnitchCanVent;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -166,10 +170,11 @@ namespace TownOfHost
         public static CustomOption AirshipReactorTimeLimit;
 
         // タスク上書き
-        public static OverrideTasksData MadGuardianTasks;
+        // public static OverrideTasksData MadGuardianTasks;
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
-        public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData MadmateTasks;
+        // public static OverrideTasksData MadSnitchTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -283,13 +288,18 @@ namespace TownOfHost
 
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
-            SetupRoleOptions(10100, CustomRoles.MadGuardian);
-            MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
+            MadmateCanVent = CustomOption.Create(10010, Color.white, "MadmateCanVent", true, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateNoticeImpostors = CustomOption.Create(10010, Color.white, "MadmateNoticeImpostors", true, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateGuardImpostorKill = CustomOption.Create(10010, Color.white, "MadmateGuardImpostorKill", false, CustomRoleSpawnChances[CustomRoles.Madmate]);
+            MadmateCanSeeWhoTriedToKill = CustomOption.Create(10011, Color.white, "MadmateCanSeeWhoTriedToKill", false, MadmateGuardImpostorKill);
+            MadmateTasks = OverrideTasksData.Create(10012, CustomRoles.Madmate);
+            // SetupRoleOptions(10100, CustomRoles.MadGuardian);
+            // MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
+            // MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             //ID10120~10123を使用
-            SetupRoleOptions(10200, CustomRoles.MadSnitch);
-            MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
+            // SetupRoleOptions(10200, CustomRoles.MadSnitch);
+            // MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
+            // MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             //ID10220~10223を使用
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);

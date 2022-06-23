@@ -253,7 +253,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if ((seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch)) && //seerがSnitch/MadSnitch
+                if ((seer.Is(CustomRoles.Snitch) || (seer.Is(CustomRoles.Madmate) && Options.MadmateNoticeImpostors.GetBool())) && //seerがSnitch/MadSnitch
                     seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;

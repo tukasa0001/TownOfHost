@@ -245,9 +245,11 @@ VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時�
 BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
-MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
-MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
+MadmateCanVent,Madmate Can Use Vent,ベントを使える
+MadmateNoticeImpostors,Show Impostors After Madmate Finishes Tasks,インポスターが分かる
+MadmateGuardImpostorKill,Guard Impostor Kill After Madmate Finishes Tasks,インポスターによるキルをガードする
+MadmateCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,自身の殺害未遂者を知ることができる
+MadmateTasks,Madmate Tasks,マッドメイトのタスク数
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイト系役職が停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイト系役職が通信障害を直すことができる
 MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメイト系役職の視野がインポスターと同じ

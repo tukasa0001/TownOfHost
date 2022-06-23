@@ -144,11 +144,11 @@ namespace TownOfHost
                 if (cRoleFound)
                 {
                     if (cRole == CustomRoles.Jester) hasTasks = false;
-                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
+                    // if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
+                    // if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
-                    if (cRole == CustomRoles.Madmate) hasTasks = false;
+                    if (cRole == CustomRoles.Madmate && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Executioner) hasTasks = false;
@@ -572,7 +572,7 @@ namespace TownOfHost
                     }
                 }
 
-                if (seer.Is(CustomRoles.MadSnitch))
+                if (seer.Is(CustomRoles.Madmate) && Options.MadmateNoticeImpostors.GetBool())
                 {
                     var TaskState = seer.GetPlayerTaskState();
                     if (TaskState.IsTaskFinished)

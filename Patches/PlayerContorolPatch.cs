@@ -169,9 +169,9 @@ namespace TownOfHost
                     break;
 
                 //==========マッドメイト系役職==========//
-                case CustomRoles.MadGuardian:
+                case CustomRoles.Madmate:
                     //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
+                    if (killer.Is(CustomRoles.Arsonist) || !Options.MadmateGuardImpostorKill.GetBool()//アーソニスト
                     ) break;
 
                     //MadGuardianを切れるかの判定処理
@@ -180,7 +180,7 @@ namespace TownOfHost
                     {
                         int dataCountBefore = NameColorManager.Instance.NameColors.Count;
                         NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, "#ff0000");
-                        if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
+                        if (Options.MadmateGuardImpostorKill.GetBool() && Options.MadmateCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
 
                         Main.BlockKilling[killer.PlayerId] = false;
@@ -841,7 +841,7 @@ namespace TownOfHost
                             RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>{GetString("EnterVentToWin")}</color>";
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
+                    else if (seer.Is(CustomRoles.Madmate) && Options.MadmateNoticeImpostors.GetBool() && //seerがMadSnitch
                         target.GetCustomRole().IsImpostor() && //targetがインポスター
                         seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
                     {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -193,8 +193,8 @@ namespace TownOfHost
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
-                {CustomRoles.MadGuardian, "#ff0000"},
-                {CustomRoles.MadSnitch, "#ff0000"},
+                // {CustomRoles.MadGuardian, "#ff0000"},
+                // {CustomRoles.MadSnitch, "#ff0000"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 //両陣営可能役職
                 {CustomRoles.Watcher, "#800080"},
@@ -279,9 +279,9 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         //Madmate
-        MadGuardian,
+        // MadGuardian,
         Madmate,
-        MadSnitch,
+        // MadSnitch,
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
