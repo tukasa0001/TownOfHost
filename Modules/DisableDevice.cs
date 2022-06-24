@@ -130,7 +130,7 @@ namespace TownOfHost
             }
             else if (PlayerControl.GameOptions.MapId == 2)
             {
-                return new Vector2(25.13707f, -21.523f);
+                return new Vector2(23.13707f, -21.523f);
             }
             else if (PlayerControl.GameOptions.MapId == 3)
             {
