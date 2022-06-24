@@ -158,6 +158,7 @@ namespace TownOfHost
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
         // 通常モードでかくれんぼ
+        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
         public static CustomOption StandardHAS;
 
         // リアクターの時間制御
