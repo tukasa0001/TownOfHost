@@ -34,6 +34,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return false;
 
             var killer = __instance; //読み替え変数
+            killer.ResetKillCooldown();
 
             //RPCGuardAndKillによるガードは外す
             if (Main.SelfGuard[target.PlayerId])
