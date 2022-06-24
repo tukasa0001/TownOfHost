@@ -417,7 +417,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
     class RpcSendChatPatch
     {
-        public static bool Prefix(PlayerControl __instance, string chatText, bool __result)
+        public static bool Prefix(PlayerControl __instance, string chatText, ref bool __result)
         {
             if (string.IsNullOrWhiteSpace(chatText))
             {
