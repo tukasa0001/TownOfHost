@@ -239,6 +239,13 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            //サーバーの役職判定をだます
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                RpcSetRoleReplacer.sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetRole)
+                    .Write((ushort)RoleTypes.Shapeshifter)
+                    .EndRpc();
+            }
             //RpcSetRoleReplacerの無効化と送信処理
             RpcSetRoleReplacer.doReplace = false;
             RpcSetRoleReplacer.sender.EndMessage()
