@@ -11,7 +11,28 @@ namespace TownOfHost
     class DisableDevice
     {
         private static List<byte> OldDesyncCommsPlayers = new();
-        private static float UsableDistance = 1.6f;
+        public static float UsableDistance(int CurrentMapId)
+        {
+            //読み替え引数(多い...)
+            var Skeld = CurrentMapId == 0;
+            var Mira = CurrentMapId == 1;
+            var Polus = CurrentMapId == 2;
+            //var dlekS = CurrentMapId == 3;
+            var Airship = CurrentMapId == 4;
+            if (Skeld)
+                return 1.5f;
+            else if (Mira)
+                return 1.5f;
+            else if (Polus)
+                return 1.5f;
+            //else if (dlekS)
+            //    return 1.5f;
+            else if (Airship)
+                return 1.5f;
+
+
+            return 0f;
+        }
         public static void FixedUpdate()
         {
             var DisableDevices =
@@ -35,7 +56,7 @@ namespace TownOfHost
                             if (Options.DisableAdmin.GetBool() || Options.StandardHAS.GetBool())
                             {
                                 var AdminDistance = Vector2.Distance(playerposition, GetAdminTransform());
-                                if (DisableAllAdmins && AdminDistance <= UsableDistance)
+                                if (DisableAllAdmins && AdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                 {
                                     IsGuard = true;
                                 }
@@ -45,13 +66,13 @@ namespace TownOfHost
                                     if (PlayerControl.GameOptions.MapId == 2)
                                     {
                                         var SecondaryPolusAdminDistance = Vector2.Distance(playerposition, new Vector2(24.66107f, -21.523f));
-                                        if (SecondaryPolusAdminDistance <= UsableDistance)
+                                        if (SecondaryPolusAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                             IsGuard = true;
                                     }
                                     else if ((DisableAllAdmins || DisableArchiveAdmin) && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
                                     {
                                         var ArchiveAdminDistance = Vector2.Distance(playerposition, new Vector2(20.0f, 12.3f));
-                                        if (ArchiveAdminDistance <= UsableDistance)
+                                        if (ArchiveAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                             IsGuard = true;
                                     }
                                 }
@@ -109,7 +130,7 @@ namespace TownOfHost
             }
             else if (PlayerControl.GameOptions.MapId == 2)
             {
-                return new Vector2(23.13707f, -21.523f);
+                return new Vector2(25.13707f, -21.523f);
             }
             else if (PlayerControl.GameOptions.MapId == 3)
             {
