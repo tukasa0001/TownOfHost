@@ -242,7 +242,8 @@ namespace TownOfHost
             //サーバーの役職判定をだます
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                RpcSetRoleReplacer.sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetRole)
+                //PrefixのStartMessage(-1)が閉じられることはない。
+                RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
                     .Write((ushort)RoleTypes.Shapeshifter)
                     .EndRpc();
             }
