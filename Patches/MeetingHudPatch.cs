@@ -336,15 +336,27 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
             {
-                __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
+                __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
+                    Utils.SendMessage($"{player.Data.PlayerName}を処刑しました");
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
             }
+        }
+    }
+    [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
+    class SetHighlightedPatch
+    {
+        public static bool Prefix(PlayerVoteArea __instance, bool value)
+        {
+            if (!AmongUsClient.Instance.AmHost) return true;
+            if (!__instance.HighlightedFX) return false;
+            __instance.HighlightedFX.enabled = value;
+            return false;
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
