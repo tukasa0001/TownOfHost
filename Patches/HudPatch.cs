@@ -213,25 +213,6 @@ namespace TownOfHost
                     ConsoleJoystick.SetMode_Task();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F3)) ShowDebugText = !ShowDebugText;
-            if (ShowDebugText)
-            {
-                string text = "==Debug State==\r\n";
-                text += "Frame Per Second: " + LastFPS + "\r\n";
-                text += "Call Notify Roles Per Second: " + LastCallNotifyRolesPerSecond + "\r\n";
-                text += "Last Set Name Desync Count: " + LastSetNameDesyncCount;
-                __instance.TaskText.text = text;
-            }
-            if (FrameRateTimer >= 1.0f)
-            {
-                FrameRateTimer = 0.0f;
-                LastFPS = NowFrameCount;
-                LastCallNotifyRolesPerSecond = NowCallNotifyRolesCount;
-                NowFrameCount = 0;
-                NowCallNotifyRolesCount = 0;
-            }
-            NowFrameCount++;
-            FrameRateTimer += Time.deltaTime;
 
             if (AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
             if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
