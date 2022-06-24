@@ -247,6 +247,14 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            //サーバーの役職判定をだます
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                //PrefixのStartMessage(-1)が閉じられることはない。
+                RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
+                    .Write((ushort)RoleTypes.Shapeshifter)
+                    .EndRpc();
+            }
             //RpcSetRoleReplacerの無効化と送信処理
             RpcSetRoleReplacer.doReplace = false;
             RpcSetRoleReplacer.sender.EndMessage()
@@ -475,16 +483,6 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリスト
             Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
-
-            //サーバーの役職判定をだます
-            new LateTask(() =>
-            {
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        pc.RpcSetRole(RoleTypes.Shapeshifter);
-                    }
-            }, 3f, "SetImpostorForServer");
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
