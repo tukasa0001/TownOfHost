@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
@@ -8,22 +9,10 @@ using UnityEngine;
 namespace TownOfHost
 {
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
-    class DisableDevicePatch
+    class DisableDevice
     {
-        [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
-        class RepairSystemPatch
-        {
-            public static void Prefix([HarmonyArgument(0)] SystemTypes systemType)
-            {
-                if (systemType == SystemTypes.Comms)
-                {
-                    IsCom = !IsCom;
-                }
-            }
-        }
         private static List<byte> OldDesyncCommsPlayers = new();
         private static float UsableDistance = 1.5f;
-        private static bool IsCom;
         public static void FixedUpdate()
         {
             var DisableDevices =
@@ -45,7 +34,9 @@ namespace TownOfHost
                             {
                                 var AdminDistance = Vector2.Distance(playerposition, GetAdminTransform());
                                 if (AdminDistance <= UsableDistance)
+                                {
                                     IsGuard = true;
+                                }
                                 //Polus用のアドミンチェック。Polusはアドミンが2つあるから
                                 if (!IsGuard)
                                 {
@@ -68,18 +59,19 @@ namespace TownOfHost
                                 if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                     OldDesyncCommsPlayers.Add(pc.PlayerId);
 
-                                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
-                                SabotageWriter.Write((byte)SystemTypes.Comms);
-                                MessageExtensions.WriteNetObject(SabotageWriter, pc);
-                                SabotageWriter.Write((byte)128);
-                                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
+                                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
+                                SabotageFixWriter.Write((byte)SystemTypes.Comms);
+                                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                                SabotageFixWriter.Write((byte)128);
+                                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                             }
                             else
                             {
-                                if (!IsCom && OldDesyncCommsPlayers.Contains(pc.PlayerId))
+                                if (!RepairSystemPatch.IsComms && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                 {
+                                    //Logger.Warn("Runned", "DisableAdmin");
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
-                                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
+                                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
                                     SabotageFixWriter.Write((byte)SystemTypes.Comms);
                                     MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
                                     SabotageFixWriter.Write((byte)16);
@@ -87,7 +79,8 @@ namespace TownOfHost
 
                                     if (PlayerControl.GameOptions.MapId == 4)
                                     {
-                                        SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
+                                        //Logger.Warn("Runned", "DisableAdmin");
+                                        SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
                                         SabotageFixWriter.Write((byte)SystemTypes.Comms);
                                         MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
                                         SabotageFixWriter.Write((byte)17);

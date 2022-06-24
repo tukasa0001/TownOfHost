@@ -60,6 +60,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
     class RepairSystemPatch
     {
+        public static bool IsComms;
         public static bool Prefix(ShipStatus __instance,
             [HarmonyArgument(0)] SystemTypes systemType,
             [HarmonyArgument(1)] PlayerControl player,
@@ -73,6 +74,10 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) && systemType == SystemTypes.Sabotage) return false;
 
+            if (systemType == SystemTypes.Comms)
+            {
+                IsComms = !IsComms;
+            }
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
             {
