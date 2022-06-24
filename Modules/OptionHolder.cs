@@ -350,7 +350,7 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
-            SnitchTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
+            TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             //50220~50223を使用
             SetupLoversRoleOptionsToggle(50300);
 
