@@ -30,7 +30,7 @@ namespace TownOfHost
             {
                 Logger.Info("Ninja ShapeShifting kill", "Ninja");
                 killer.RpcGuardAndKill(target);
-                Main.AllPlayerKillCooldown[killer.PlayerId] = Main.RealOptionsData.KillCooldown * 2;
+                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
                 NinjaKillTarget.Add(target);
                 killer.CustomSyncSettings();//負荷軽減のため、killerだけがCustomSyncSettingsを実行
             }
@@ -44,7 +44,7 @@ namespace TownOfHost
                 {
                     if (!ni.Data.IsDead)
                     {
-                        Main.AllPlayerKillCooldown[pc.PlayerId] = Main.RealOptionsData.KillCooldown;
+                        Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown;
                         pc.RpcMurderPlayerV2(ni);
                         NinjaKillTarget.Remove(ni);
                         pc.RpcRevertShapeshift(false);//他視点シェイプシフトが解除されないように見える場合があるため強制解除
