@@ -326,7 +326,7 @@ DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
 DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
-DeathReason.Execusion,Executed,処刑
+DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
 DeathReason.etc,etc,その他
 Alive,Alive,生存

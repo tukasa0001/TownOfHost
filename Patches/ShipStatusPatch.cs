@@ -255,16 +255,7 @@ namespace TownOfHost
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
 
-            if (!AmongUsClient.Instance.AmHost)
-            {
-                //クライアントの役職初期設定はここで行う
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    PlayerState.InitTask(pc);
-                }
-                Utils.CountAliveImpostors();
-                Utils.NotifyRoles();
-            }
+            Utils.CountAliveImpostors();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -275,12 +266,6 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                PlayerState.InitTask(pc);
-            }
-
-            Utils.NotifyRoles();
         }
     }
 }

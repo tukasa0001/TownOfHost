@@ -65,7 +65,7 @@ namespace TownOfHost
             Misfire,
             Torched,
             Sniped,
-            Execusion,
+            Execution,
             Disconnected,
             etc = -1
         }
