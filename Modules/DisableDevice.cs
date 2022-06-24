@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using HarmonyLib;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -12,11 +11,14 @@ namespace TownOfHost
     class DisableDevice
     {
         private static List<byte> OldDesyncCommsPlayers = new();
-        private static float UsableDistance = 1.5f;
+        private static float UsableDistance = 1.6f;
         public static void FixedUpdate()
         {
             var DisableDevices =
                 Options.DisableAdmin.GetBool();
+            var DisableArchiveAdmin = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
+            var DisableAllAdmins = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[0]) ||
+                (PlayerControl.GameOptions.MapId != 4 && DisableArchiveAdmin); //エアシップ以外でアドミンが見れるときはすべて見れるように
 
             if (DisableDevices || Options.StandardHAS.GetBool())
             {
@@ -33,7 +35,7 @@ namespace TownOfHost
                             if (Options.DisableAdmin.GetBool() || Options.StandardHAS.GetBool())
                             {
                                 var AdminDistance = Vector2.Distance(playerposition, GetAdminTransform());
-                                if (AdminDistance <= UsableDistance)
+                                if (DisableAllAdmins && AdminDistance <= UsableDistance)
                                 {
                                     IsGuard = true;
                                 }
@@ -46,10 +48,10 @@ namespace TownOfHost
                                         if (SecondaryPolusAdminDistance <= UsableDistance)
                                             IsGuard = true;
                                     }
-                                    else if (PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
+                                    else if ((DisableAllAdmins || DisableArchiveAdmin) && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
                                     {
-                                        var SecondaryPolusAdminDistance = Vector2.Distance(playerposition, new Vector2(20.0f, 12.3f));
-                                        if (SecondaryPolusAdminDistance <= UsableDistance)
+                                        var ArchiveAdminDistance = Vector2.Distance(playerposition, new Vector2(20.0f, 12.3f));
+                                        if (ArchiveAdminDistance <= UsableDistance)
                                             IsGuard = true;
                                     }
                                 }
@@ -69,7 +71,6 @@ namespace TownOfHost
                             {
                                 if (!RepairSystemPatch.IsComms && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                 {
-                                    //Logger.Warn("Runned", "DisableAdmin");
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
                                     MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
                                     SabotageFixWriter.Write((byte)SystemTypes.Comms);
@@ -79,7 +80,6 @@ namespace TownOfHost
 
                                     if (PlayerControl.GameOptions.MapId == 4)
                                     {
-                                        //Logger.Warn("Runned", "DisableAdmin");
                                         SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
                                         SabotageFixWriter.Write((byte)SystemTypes.Comms);
                                         MessageExtensions.WriteNetObject(SabotageFixWriter, pc);

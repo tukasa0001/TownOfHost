@@ -223,6 +223,9 @@ Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
+DisableDevices,Disable Devices,デバイスを無効化する
+DisableAdmin,Disable Admin,アドミン無効化
+WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
@@ -413,3 +416,6 @@ VampireBiteButtonText,Bite,噛む
 ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
 BountyHunterChangeButtonText,Change,変更
+All,All,すべて
+Archive,Archive,アーカイブ
+CannotUseAdmin,Cannot Use Admin,アドミンは無効化されています

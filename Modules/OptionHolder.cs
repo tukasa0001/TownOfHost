@@ -35,6 +35,11 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
+        public static readonly string[] whichDisableAdmin =
+        {
+            "All", "Archive",
+        };
+
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
@@ -127,6 +132,7 @@ namespace TownOfHost
         //デバイスブロック
         public static CustomOption DisableDevices;
         public static CustomOption DisableAdmin;
+        public static CustomOption WhichDisableAdmin;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -385,9 +391,12 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
+            //デバイス無効化
             DisableDevices = CustomOption.Create(100200, Color.white, "DisableDevices", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             DisableAdmin = CustomOption.Create(100201, Color.white, "DisableAdmin", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            WhichDisableAdmin = CustomOption.Create(100501, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
