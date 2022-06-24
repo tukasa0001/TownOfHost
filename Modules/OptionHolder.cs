@@ -122,7 +122,6 @@ namespace TownOfHost
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
-        public static float HideAndSeekImpVisionMin = 0.25f;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
