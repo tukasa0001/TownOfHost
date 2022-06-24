@@ -24,7 +24,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Main.introDestroyed)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {

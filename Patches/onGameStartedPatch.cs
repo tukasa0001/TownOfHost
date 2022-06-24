@@ -96,6 +96,11 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
                     Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
                 }
+                if (Options.IsStandardHAS)
+                {
+                    Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
+                    Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
+                }
             }
             FireWorks.Init();
             Sniper.Init();
