@@ -336,7 +336,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.LeftControl))
             {
-                __instance.playerStates.DoIf(x => x.transform.Find("votePlayerBase/ControllerHighlight").GetComponent<SpriteRenderer>().enabled, x =>
+                __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
                 {
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
