@@ -347,6 +347,17 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
+    class SetHighlightedPatch
+    {
+        public static bool Prefix(PlayerVoteArea __instance, bool value)
+        {
+            if (!AmongUsClient.Instance.AmHost) return true;
+            if (!__instance.HighlightedFX) return false;
+            __instance.HighlightedFX.enabled = value;
+            return false;
+        }
+    }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
     class MeetingHudOnDestroyPatch
     {
