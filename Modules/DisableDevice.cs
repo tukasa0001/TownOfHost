@@ -22,7 +22,7 @@ namespace TownOfHost
             if (Skeld)
                 return 1.5f;
             else if (Mira)
-                return 1.5f;
+                return 3.0f;
             else if (Polus)
                 return 1.5f;
             //else if (dlekS)
@@ -36,10 +36,8 @@ namespace TownOfHost
         public static void FixedUpdate()
         {
             var DisableDevices =
-                Options.DisableAdmin.GetBool();
-            var DisableArchiveAdmin = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
-            var DisableAllAdmins = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[0]) ||
-                (PlayerControl.GameOptions.MapId == 4 && DisableArchiveAdmin); //エアシップ以外でアーカイブのみ制限になっていたら制限しない
+                Options.DisableAdmin.GetBool() ||
+                AdminPatch.DisableAdmin();
 
             if (DisableDevices || Options.StandardHAS.GetBool())
             {
@@ -56,7 +54,7 @@ namespace TownOfHost
                             if (Options.DisableAdmin.GetBool() || Options.StandardHAS.GetBool())
                             {
                                 var AdminDistance = Vector2.Distance(playerposition, GetAdminTransform());
-                                if (DisableAllAdmins && AdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
+                                if (AdminPatch.DisableAdmin() && AdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                 {
                                     IsGuard = true;
                                 }
@@ -69,7 +67,7 @@ namespace TownOfHost
                                         if (SecondaryPolusAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                             IsGuard = true;
                                     }
-                                    else if ((DisableAllAdmins || DisableArchiveAdmin) && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
+                                    else if (AdminPatch.DisableAdmin() && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
                                     {
                                         var ArchiveAdminDistance = Vector2.Distance(playerposition, new Vector2(20.0f, 12.3f));
                                         if (ArchiveAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
@@ -93,20 +91,22 @@ namespace TownOfHost
                                 if (!RepairSystemPatch.IsComms && OldDesyncCommsPlayers.Contains(pc.PlayerId))
                                 {
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
-                                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
-                                    SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                    SabotageFixWriter.Write((byte)16);
-                                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
 
-                                    if (PlayerControl.GameOptions.MapId == 4)
-                                    {
-                                        SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.None, clientId);
-                                        SabotageFixWriter.Write((byte)SystemTypes.Comms);
-                                        MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
-                                        SabotageFixWriter.Write((byte)17);
-                                        AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
-                                    }
+                                    var sender = CustomRpcSender.Create();
+
+                                    sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
+                                            .Write((byte)SystemTypes.Comms)
+                                            .WriteNetObject(pc)
+                                            .Write((byte)16)
+                                            .EndRpc();
+                                    if (PlayerControl.GameOptions.MapId == 2)
+                                        sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
+                                                .Write((byte)SystemTypes.Comms)
+                                                .WriteNetObject(pc)
+                                                .Write((byte)17)
+                                                .EndRpc();
+
+                                    sender.SendMessage();
                                 }
                             }
                         }
@@ -126,7 +126,7 @@ namespace TownOfHost
             }
             else if (PlayerControl.GameOptions.MapId == 1)
             {
-                return new Vector2(21.024f, 19.095f);
+                return new Vector2(22.024f, 19.095f);
             }
             else if (PlayerControl.GameOptions.MapId == 2)
             {
