@@ -426,7 +426,7 @@ namespace TownOfHost
                         pc.RpcSetTimeThiefKillCount();
                     }
                     //通常モードでかくれんぼをする人用
-                    if (Options.StandardHAS.GetBool())
+                    if (Options.IsStandardHAS)
                     {
                         foreach (var seer in PlayerControl.AllPlayerControls)
                         {
