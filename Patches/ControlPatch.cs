@@ -134,6 +134,8 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
                 if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
             }
+            if (Input.GetKey(KeyCode.T))
+                Logger.Warn(((Vector2)PlayerControl.LocalPlayer.transform.position).ToString(), "GetTransform");
             //CustomRpcSenderデバッグ用
             if (Input.GetKey(KeyCode.RightControl))
             {

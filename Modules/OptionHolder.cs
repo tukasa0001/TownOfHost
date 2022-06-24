@@ -124,6 +124,10 @@ namespace TownOfHost
         public static float HideAndSeekKillDelayTimer = 0f;
         public static float HideAndSeekImpVisionMin = 0.25f;
 
+        //デバイスブロック
+        public static CustomOption DisableDevices;
+        public static CustomOption DisableAdmin;
+
         // ボタン回数
         public static CustomOption SyncButtonMode;
         public static CustomOption SyncedButtonCount;
@@ -380,6 +384,11 @@ namespace TownOfHost
             //    .SetGameMode(CustomGameMode.HideAndSeek);
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
+
+            DisableDevices = CustomOption.Create(100200, Color.white, "DisableDevices", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAdmin = CustomOption.Create(100201, Color.white, "DisableAdmin", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)
