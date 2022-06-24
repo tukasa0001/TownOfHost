@@ -13,7 +13,7 @@ namespace TownOfHost
             public static bool Prefix()
             {
                 var DisableAllAdmins = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[0]) ||
-                    (PlayerControl.GameOptions.MapId != 4 && Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1])); //エアシップ以外でアーカイブのみ制限になっていたら制限しない
+                    (PlayerControl.GameOptions.MapId == 4 && Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1])); //エアシップ以外でアーカイブのみ制限になっていたら制限しない
                 var DisableArchiveAdmin = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
                 var ArchiveAdminDistance = Vector2.Distance(PlayerControl.LocalPlayer.transform.position, new Vector2(20.0f, 12.3f));
                 var DisableAdmin =

@@ -18,7 +18,7 @@ namespace TownOfHost
                 Options.DisableAdmin.GetBool();
             var DisableArchiveAdmin = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
             var DisableAllAdmins = Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[0]) ||
-                (PlayerControl.GameOptions.MapId != 4 && DisableArchiveAdmin); //エアシップ以外でアーカイブのみ制限になっていたら制限しない
+                (PlayerControl.GameOptions.MapId == 4 && DisableArchiveAdmin); //エアシップ以外でアーカイブのみ制限になっていたら制限しない
 
             if (DisableDevices || Options.StandardHAS.GetBool())
             {
