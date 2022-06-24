@@ -467,16 +467,6 @@ namespace TownOfHost
 
             // ResetCamが必要なプレイヤーのリスト
             Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
-
-            //サーバーの役職判定をだます
-            new LateTask(() =>
-            {
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        pc.RpcSetRole(RoleTypes.Shapeshifter);
-                    }
-            }, 3f, "SetImpostorForServer");
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
