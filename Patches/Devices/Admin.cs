@@ -6,7 +6,7 @@ namespace TownOfHost
 {
     public class AdminPatch
     {
-
+        //参考元 : https://github.com/yukinogatari/TheOtherRoles-GM/blob/gm-main/TheOtherRoles/Patches/AdminPatch.cs
         [HarmonyPatch(typeof(MapConsole), nameof(MapConsole.Use))]
         public static class MapConsoleUsePatch
         {
