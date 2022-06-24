@@ -593,6 +593,7 @@ namespace TownOfHost
         { //キルクールを変更するインポスター役職は省く
             return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
@@ -696,6 +697,19 @@ namespace TownOfHost
             player.Exiled();
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Exiled, SendOption.None, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
+        {
+            if (target == null) target = killer;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                killer.MurderPlayer(target);
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            Utils.NotifyRoles();
+            Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド
