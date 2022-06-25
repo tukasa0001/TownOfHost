@@ -31,7 +31,8 @@ namespace TownOfHost
                     {
                         Main.isChatCommand = true;
                         Utils.ShowLastResult();
-                    }
+                    }, 5f, "DisplayLastRoles");
+                }
                         , 5f, "DisplayLastRoles");
                 }
             }
