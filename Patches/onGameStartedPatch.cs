@@ -94,7 +94,10 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
-                    Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
+                }
+                if (Options.IsStandardHAS)
+                {
+                    Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
             FireWorks.Init();
@@ -426,7 +429,7 @@ namespace TownOfHost
                         pc.RpcSetTimeThiefKillCount();
                     }
                     //通常モードでかくれんぼをする人用
-                    if (Options.StandardHAS.GetBool())
+                    if (Options.IsStandardHAS)
                     {
                         foreach (var seer in PlayerControl.AllPlayerControls)
                         {

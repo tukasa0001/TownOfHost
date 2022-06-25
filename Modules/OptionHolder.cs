@@ -122,7 +122,6 @@ namespace TownOfHost
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
-        public static float HideAndSeekImpVisionMin = 0.25f;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -158,7 +157,9 @@ namespace TownOfHost
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
         // 通常モードでかくれんぼ
+        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
         public static CustomOption StandardHAS;
+        public static CustomOption StandardHASWaitingTime;
 
         // リアクターの時間制御
         public static CustomOption SabotageTimeControl;
@@ -435,6 +436,8 @@ namespace TownOfHost
 
             // 通常モードでかくれんぼ用
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
