@@ -184,14 +184,9 @@ namespace TownOfHost
                         }
                         else
                         {
-                            //ホストは代わりに自視点守護天使, 他視点普通のクルーにする
-                            sheriff.SetRole(RoleTypes.GuardianAngel); //ホスト視点用
+                            //ホストは代わりに普通のクルーにする
+                            sheriff.SetRole(RoleTypes.Crewmate); //ホスト視点用
                             sender.RpcSetRole(sheriff, RoleTypes.Crewmate);
-                            //sheriff.RpcSetRole(RoleTypes.Crewmate);
-
-                            //ただし、RoleBehaviourはGuardianAngelRole、RoleTypeはCrewmateという特殊な状態にする。
-                            //これにより、RoleTypeがGuardianEngelになったら本当に守護天使化したと判別できる。
-                            sheriff.Data.Role.Role = RoleTypes.Crewmate;
                         }
                         sheriff.Data.IsDead = true;
                     }
@@ -229,14 +224,9 @@ namespace TownOfHost
                         }
                         else
                         {
-                            //ホストは代わりに自視点守護天使, 他視点普通のクルーにする
-                            arsonist.SetRole(RoleTypes.GuardianAngel); //ホスト視点用
+                            //ホストは代わりに普通のクルーにする
+                            arsonist.SetRole(RoleTypes.Crewmate); //ホスト視点用
                             sender.RpcSetRole(arsonist, RoleTypes.Crewmate);
-                            //arsonist.RpcSetRole(RoleTypes.Crewmate);
-
-                            //ただし、RoleBehaviourはGuardianAngelRole、RoleTypeはCrewmateという特殊な状態にする。
-                            //これにより、RoleTypeがGuardianEngelになったら本当に守護天使化したと判別できる。
-                            arsonist.Data.Role.Role = RoleTypes.Crewmate;
                         }
                         arsonist.Data.IsDead = true;
                     }
