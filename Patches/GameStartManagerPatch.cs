@@ -20,6 +20,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
         {
+            public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
                 // Reset lobby countdown timer
@@ -33,8 +34,10 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                     }, 5f, "DisplayLastRoles");
                 }
-                        , 5f, "DisplayLastRoles");
-                }
+                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
+                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
             }
         }
 
