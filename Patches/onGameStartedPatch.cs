@@ -109,8 +109,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             //CustomRpcSenderとRpcSetRoleReplacerの初期化
             CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
-            RpcSetRoleReplacer.doReplace = true;
-            RpcSetRoleReplacer.sender = sender;
+            RpcSetRoleReplacer.StartReplace(sender);
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -241,22 +240,21 @@ namespace TownOfHost
                 }
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
-            sender.StartMessage(-1);
             //以下、バニラ側の役職割り当てが入る
         }
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
             //サーバーの役職判定をだます
+            RpcSetRoleReplacer.sender.StartMessage(-1);
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                //PrefixのStartMessage(-1)が閉じられることはない。
                 RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
                     .Write((ushort)RoleTypes.Shapeshifter)
                     .EndRpc();
             }
-            //RpcSetRoleReplacerの無効化と送信処理
-            RpcSetRoleReplacer.doReplace = false;
+            //RpcSetRoleReplacerの送信処理
             RpcSetRoleReplacer.sender.EndMessage()
                                     .SendMessage();
 
@@ -553,17 +551,34 @@ namespace TownOfHost
         {
             public static bool doReplace = false;
             public static CustomRpcSender sender;
+            public static List<(PlayerControl, RoleTypes)> StoragedData = new();
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
             {
                 if (doReplace && sender != null)
                 {
-                    __instance.SetRole(roleType);
-                    sender.StartRpc(__instance.NetId, RpcCalls.SetRole)
-                          .Write((ushort)roleType)
-                          .EndRpc();
+                    StoragedData.Add((__instance, roleType));
                     return false;
                 }
                 else return true;
+            }
+            public static void Release()
+            {
+                sender.StartMessage(-1);
+                foreach (var pair in StoragedData)
+                {
+                    pair.Item1.SetRole(pair.Item2);
+                    sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                        .Write((ushort)pair.Item2)
+                        .EndRpc();
+                }
+                sender.EndMessage();
+                doReplace = false;
+            }
+            public static void StartReplace(CustomRpcSender sender)
+            {
+                RpcSetRoleReplacer.sender = sender;
+                StoragedData = new();
+                doReplace = true;
             }
         }
     }
