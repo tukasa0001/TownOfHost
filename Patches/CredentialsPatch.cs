@@ -27,6 +27,9 @@ namespace TownOfHost
         {
             __instance.text.alignment = TMPro.TextAlignmentOptions.TopRight;
             __instance.text.text += Main.credentialsText;
+            if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n<color=#ff0000>{GetString("NoGameEnd")}</color>";
+            if (Options.IsStandardHAS) __instance.text.text += $"\r\n<color=#ffff00>{GetString("StandardHAS")}</color>";
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n<color=#ffff00>{GetString("HideAndSeek")}</color>";
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                 __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = PlayerControl.LocalPlayer.Data.IsDead ? new Vector3(2.0f, 0.0f, 0f) : new Vector3(1.2f, 0.0f, 0f);
             else
