@@ -45,7 +45,7 @@ namespace TownOfHost
                 }
 
                 ExiledAssassin = false;
-                if (Assassin.IsAssassinMeeting && !Assassin.FinishAssassinMeetingTrigger) return false;
+                //if (Assassin.IsAssassinMeeting && !Assassin.FinishAssassinMeetingTrigger) return false;
 
                 MeetingHud.VoterState[] states;
                 GameData.PlayerInfo exiledPlayerInfo = PlayerControl.LocalPlayer.Data;
