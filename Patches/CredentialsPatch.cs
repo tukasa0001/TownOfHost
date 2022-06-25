@@ -37,7 +37,7 @@ namespace TownOfHost
             else
             {
                 __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = new Vector3(2.7f, 0.0f, 0f);
-                if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && CustomRoles.Egoist.IsEnable()) __instance.text.text += $"\r\n<color=#ff0000>{GetString("Warning.EgoistCannotWin")}</color>";
+                if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable()) __instance.text.text += $"\r\n<color=#ff0000>{GetString("Warning.EgoistCannotWin")}</color>";
             }
         }
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
