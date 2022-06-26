@@ -387,7 +387,7 @@ namespace TownOfHost
                 Main.ExecutionerTarget.Remove(target.PlayerId);
                 RPC.RemoveExecutionerKey(target.PlayerId);
             }
-            if (target.Is(CustomRoles.TimeThief) && Options.TimeThiefReturnStolenTimeUponDeath.GetBool())
+            if (target.Is(CustomRoles.TimeThief))
                 target.ResetThiefVotingTime();
 
 

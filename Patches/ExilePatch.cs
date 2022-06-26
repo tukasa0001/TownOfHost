@@ -61,7 +61,7 @@ namespace TownOfHost
                         RPC.ExecutionerWin(kvp.Key);
                     }
                 }
-                if (exiled.Object.Is(CustomRoles.TimeThief) && Options.TimeThiefReturnStolenTimeUponDeath.GetBool())
+                if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetThiefVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                     exiled.Object.ExiledSchrodingerCatTeamChange();
