@@ -691,7 +691,7 @@ namespace TownOfHost
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
-            if (Options.TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
+            if (!Options.TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
             
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
                 Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
