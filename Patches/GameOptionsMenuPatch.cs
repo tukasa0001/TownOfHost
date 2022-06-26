@@ -326,7 +326,7 @@ namespace TownOfHost
                 __instance.NumShortTasks = 10;
                 __instance.KillCooldown = 10f;
             }
-            if (Options.CurrentGameMode == CustomGameMode.Standard && Options.StandardHAS.GetBool()) //StandardHAS
+            if (Options.IsStandardHAS) //StandardHAS
             {
                 __instance.PlayerSpeedMod = 1.75f;
                 __instance.CrewLightMod = 1f;
