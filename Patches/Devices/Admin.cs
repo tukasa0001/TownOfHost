@@ -18,7 +18,7 @@ namespace TownOfHost
             {
                 var PlayerPos = PlayerControl.LocalPlayer.GetTruePosition();
                 var AdminDistance = Vector2.Distance(PlayerPos, DisableDevice.GetAdminTransform());
-                if (DisableAdmin)
+                if (DisableAllAdmins)
                     return AdminDistance <= DisableDevice.UsableDistance(PlayerControl.GameOptions.MapId);
 
                 else if (DisableArchiveAdmin)
