@@ -24,7 +24,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Main.introDestroyed)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -71,7 +71,7 @@ namespace TownOfHost
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) && systemType == SystemTypes.Sabotage) return false;
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
@@ -237,16 +237,7 @@ namespace TownOfHost
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
 
-            if (!AmongUsClient.Instance.AmHost)
-            {
-                //クライアントの役職初期設定はここで行う
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    PlayerState.InitTask(pc);
-                }
-                Utils.CountAliveImpostors();
-                Utils.NotifyRoles();
-            }
+            Utils.CountAliveImpostors();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -257,12 +248,6 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                PlayerState.InitTask(pc);
-            }
-
-            Utils.NotifyRoles();
         }
     }
 }

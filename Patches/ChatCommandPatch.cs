@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
@@ -16,6 +17,7 @@ namespace TownOfHost
         public static bool Prefix(ChatController __instance)
         {
             if (__instance.TextArea.text == "") return false;
+            __instance.TimeSinceLastMessage = 3f;
             var text = __instance.TextArea.text;
             if (ChatHistory.Count == 0 || ChatHistory[^1] != text) ChatHistory.Add(text);
             ChatControllerUpdatePatch.CurrentHistorySelection = ChatHistory.Count;
@@ -387,7 +389,7 @@ namespace TownOfHost
     {
         public static void Postfix(ChatController __instance)
         {
-            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || Main.MessageWait.Value > __instance.TimeSinceLastMessage) return;
+            if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
@@ -411,6 +413,27 @@ namespace TownOfHost
                     break;
             }
             if (!AmongUsClient.Instance.AmHost) return;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
+    class RpcSendChatPatch
+    {
+        public static bool Prefix(PlayerControl __instance, string chatText, ref bool __result)
+        {
+            if (string.IsNullOrWhiteSpace(chatText))
+            {
+                __result = false;
+                return false;
+            }
+            if (AmongUsClient.Instance.AmClient && DestroyableSingleton<HudManager>.Instance)
+                DestroyableSingleton<HudManager>.Instance.Chat.AddChat(__instance, chatText);
+            if (chatText.IndexOf("who", StringComparison.OrdinalIgnoreCase) >= 0)
+                DestroyableSingleton<Telemetry>.Instance.SendWho();
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(__instance.NetId, (byte)RpcCalls.SendChat, SendOption.None);
+            messageWriter.Write(chatText);
+            messageWriter.EndMessage();
+            __result = true;
+            return false;
         }
     }
 }
