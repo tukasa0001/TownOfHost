@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Hazel;
 using InnerNet;
 using UnityEngine;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -13,21 +12,17 @@ namespace TownOfHost
         private static List<byte> OldDesyncCommsPlayers = new();
         public static float UsableDistance(int CurrentMapId)
         {
-            //読み替え引数(多い...)
-            var Skeld = CurrentMapId == 0;
-            var Mira = CurrentMapId == 1;
-            var Polus = CurrentMapId == 2;
-            //var dlekS = CurrentMapId == 3;
-            var Airship = CurrentMapId == 4;
-            if (Skeld)
+            //読み替え変数
+            var CurrentMapName = Enum.GetName(typeof(MapNames), CurrentMapId);
+            if (CurrentMapName == "Skeld")
                 return 1.5f;
-            else if (Mira)
+            else if (CurrentMapName == "Mira")
                 return 3.0f;
-            else if (Polus)
+            else if (CurrentMapName == "Polus")
                 return 1.5f;
             //else if (dlekS)
             //    return 1.5f;
-            else if (Airship)
+            else if (CurrentMapName == "Airship")
                 return 1.5f;
 
 
@@ -36,10 +31,10 @@ namespace TownOfHost
         public static void FixedUpdate()
         {
             var DisableDevices =
-                Options.DisableAdmin.GetBool() ||
-                AdminPatch.DisableAdmin();
+                AdminPatch.DisableAdmin ||
+                Options.StandardHAS.GetBool(); //他に無効化するデバイスを設定する場合はここへ追加
 
-            if (DisableDevices || Options.StandardHAS.GetBool())
+            if (DisableDevices)
             {
                 foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
                 {
@@ -51,29 +46,23 @@ namespace TownOfHost
                             bool IsGuard = false;
                             Vector2 playerposition = pc.GetTruePosition();
                             //アドミンチェック
-                            if (Options.DisableAdmin.GetBool() || Options.StandardHAS.GetBool())
+                            if (AdminPatch.DisableAllAdmins)
                             {
                                 var AdminDistance = Vector2.Distance(playerposition, GetAdminTransform());
-                                if (AdminPatch.DisableAdmin() && AdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
-                                {
+                                if (AdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
                                     IsGuard = true;
-                                }
-                                //Polus用のアドミンチェック。Polusはアドミンが2つあるから
-                                if (!IsGuard)
+                                if (!IsGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
                                 {
-                                    if (PlayerControl.GameOptions.MapId == 2)
-                                    {
-                                        var SecondaryPolusAdminDistance = Vector2.Distance(playerposition, new Vector2(24.66107f, -21.523f));
-                                        if (SecondaryPolusAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
-                                            IsGuard = true;
-                                    }
-                                    else if (AdminPatch.DisableAdmin() && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
-                                    {
-                                        var ArchiveAdminDistance = Vector2.Distance(playerposition, new Vector2(20.0f, 12.3f));
-                                        if (ArchiveAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
-                                            IsGuard = true;
-                                    }
+                                    var SecondaryPolusAdminDistance = Vector2.Distance(playerposition, new Vector2(24.66107f, -21.523f));
+                                    if (SecondaryPolusAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
+                                        IsGuard = true;
                                 }
+                            }
+                            else if (AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin && PlayerControl.GameOptions.MapId == 4) //憎きアーカイブのアドミンチェック
+                            {
+                                var ArchiveAdminDistance = Vector2.Distance(playerposition, AdminPatch.ArchiveAdminPos);
+                                if (ArchiveAdminDistance <= UsableDistance(PlayerControl.GameOptions.MapId))
+                                    IsGuard = true;
                             }
                             if (IsGuard && !pc.inVent)
                             {
@@ -130,7 +119,7 @@ namespace TownOfHost
             }
             else if (PlayerControl.GameOptions.MapId == 2)
             {
-                return new Vector2(23.13707f, -21.523f);
+                return new Vector2(22.13707f, -21.523f);
             }
             else if (PlayerControl.GameOptions.MapId == 3)
             {
