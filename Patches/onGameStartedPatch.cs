@@ -567,41 +567,40 @@ namespace TownOfHost
                 Logger.Info("役職設定:" + combi2?.Data?.PlayerName + " = " + Combi2.ToString(), "Assign CombinationRole2");
             }
         }
-    }
-
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
-    class RpcSetRoleReplacer
-    {
-        public static bool doReplace = false;
-        public static CustomRpcSender sender;
-        public static List<(PlayerControl, RoleTypes)> StoragedData = new();
-        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
+        class RpcSetRoleReplacer
         {
-            if (doReplace && sender != null)
+            public static bool doReplace = false;
+            public static CustomRpcSender sender;
+            public static List<(PlayerControl, RoleTypes)> StoragedData = new();
+            public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
             {
-                StoragedData.Add((__instance, roleType));
-                return false;
+                if (doReplace && sender != null)
+                {
+                    StoragedData.Add((__instance, roleType));
+                    return false;
+                }
+                else return true;
             }
-            else return true;
-        }
-        public static void Release()
-        {
-            sender.StartMessage(-1);
-            foreach (var pair in StoragedData)
+            public static void Release()
             {
-                pair.Item1.SetRole(pair.Item2);
-                sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
-                    .Write((ushort)pair.Item2)
-                    .EndRpc();
+                sender.StartMessage(-1);
+                foreach (var pair in StoragedData)
+                {
+                    pair.Item1.SetRole(pair.Item2);
+                    sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                        .Write((ushort)pair.Item2)
+                        .EndRpc();
+                }
+                sender.EndMessage();
+                doReplace = false;
             }
-            sender.EndMessage();
-            doReplace = false;
-        }
-        public static void StartReplace(CustomRpcSender sender)
-        {
-            RpcSetRoleReplacer.sender = sender;
-            StoragedData = new();
-            doReplace = true;
+            public static void StartReplace(CustomRpcSender sender)
+            {
+                RpcSetRoleReplacer.sender = sender;
+                StoragedData = new();
+                doReplace = true;
+            }
         }
     }
 }
