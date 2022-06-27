@@ -17,7 +17,11 @@ namespace TownOfHost
         {
             public static bool Prefix(MapCountOverlay __instance)
             {
+                var DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
                 bool isGuard = false;
+
+                __instance.SabotageText.gameObject.SetActive(false);
+                DisabledText.gameObject.SetActive(false);
                 if (DisableAdmin)
                 {
                     var PlayerPos = PlayerControl.LocalPlayer.GetTruePosition();
@@ -26,14 +30,14 @@ namespace TownOfHost
                         var AdminDistance = Vector2.Distance(PlayerPos, DisableDevice.GetAdminTransform());
                         isGuard = AdminDistance <= DisableDevice.UsableDistance();
 
-                        if (PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
+                        if (!isGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
                         {
                             var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, SecondaryPolusAdminPos);
                             isGuard = SecondaryPolusAdminDistance <= DisableDevice.UsableDistance();
                         }
                     }
 
-                    if (DisableAllAdmins || DisableArchiveAdmin) //憎きアーカイブのアドミンチェック
+                    if (!isGuard && (DisableAllAdmins || DisableArchiveAdmin)) //憎きアーカイブのアドミンチェック
                     {
                         var ArchiveAdminDistance = Vector2.Distance(PlayerPos, ArchiveAdminPos);
                         isGuard = ArchiveAdminDistance <= DisableDevice.UsableDistance();
@@ -42,7 +46,6 @@ namespace TownOfHost
                 if (Options.StandardHAS.GetBool()) isGuard = true;
                 if (isGuard)
                 {
-                    var DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
                     __instance.SabotageText.gameObject.SetActive(false);
 
                     __instance.BackgroundColor.SetColor(Palette.DisabledGrey);
