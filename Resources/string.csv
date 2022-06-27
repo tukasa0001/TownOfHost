@@ -301,6 +301,7 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
+TimeThiefReturnStolenTimeUponDeath,Return Stolen Time Upon Death,死亡後に盗んだ時間を返す
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
