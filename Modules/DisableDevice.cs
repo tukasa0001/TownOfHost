@@ -17,7 +17,7 @@ namespace TownOfHost
             return Map switch
             {
                 MapNames.Skeld => 1.5f,
-                MapNames.Mira => 3.0f,
+                MapNames.Mira => 2.2f,
                 MapNames.Polus => 1.5f,
                 //MapNames.Dleks => 1.5f,
                 MapNames.Airship => 1.5f,
@@ -78,7 +78,7 @@ namespace TownOfHost
                                 {
                                     OldDesyncCommsPlayers.Remove(pc.PlayerId);
 
-                                    var sender = CustomRpcSender.Create();
+                                    var sender = CustomRpcSender.Create("DisableDevice", SendOption.Reliable);
 
                                     sender.AutoStartRpc(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, clientId)
                                             .Write((byte)SystemTypes.Comms)
@@ -110,7 +110,7 @@ namespace TownOfHost
             return MapName switch
             {
                 MapNames.Skeld => new Vector2(3.48f, -8.624401f),
-                MapNames.Mira => new Vector2(22.024f, 19.095f),
+                MapNames.Mira => new Vector2(20.524f, 20.595f),
                 MapNames.Polus => new Vector2(22.13707f, -21.523f),
                 //MapNames.Dleks => new Vector2(-3.48f, -8.624401f),
                 MapNames.Airship => new Vector2(-22.323f, 0.9099998f),
