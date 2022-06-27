@@ -88,6 +88,7 @@ namespace TownOfHost
                 listUp(Options.VoteMode);
                 listUp(Options.SabotageTimeControl);
                 nameAndValue(Options.StandardHAS);
+                listUp(Options.DisableDevices);
             }
             else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
