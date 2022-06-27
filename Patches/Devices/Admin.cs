@@ -39,6 +39,7 @@ namespace TownOfHost
                         isGuard = ArchiveAdminDistance <= DisableDevice.UsableDistance();
                     }
                 }
+                if (Options.StandardHAS.GetBool()) isGuard = true;
                 if (isGuard)
                 {
                     var DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);

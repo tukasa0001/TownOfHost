@@ -44,7 +44,7 @@ namespace TownOfHost
                             //アドミンチェック
                             if (AdminPatch.DisableAdmin)
                             {
-                                if (AdminPatch.DisableAllAdmins)
+                                if (AdminPatch.DisableAllAdmins || Options.StandardHAS.GetBool())
                                 {
                                     var AdminDistance = Vector2.Distance(PlayerPos, GetAdminTransform());
                                     IsGuard = AdminDistance <= UsableDistance();
@@ -55,7 +55,7 @@ namespace TownOfHost
                                         IsGuard = SecondaryPolusAdminDistance <= UsableDistance();
                                     }
                                 }
-                                if (AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin) //憎きアーカイブのアドミンチェック
+                                if (!IsGuard && AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin || Options.StandardHAS.GetBool()) //憎きアーカイブのアドミンチェック
                                 {
                                     var ArchiveAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.ArchiveAdminPos);
                                     IsGuard = ArchiveAdminDistance <= UsableDistance();
