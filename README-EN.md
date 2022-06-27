@@ -661,6 +661,16 @@ Example of overlapping job titles: <br>
 ・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
 ・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
 
+## DisableDevice
+
+Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+
+Various devices can be disabled (currently admin only, MiraHQ not supported)
+
+| Settings Name         |
+| --------------------- |
+| Disable Admin         |
+|   Which Disable admin |
 ## SabotageTimeControl
 
 The time limit for some sabotage can be changed.
