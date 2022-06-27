@@ -335,7 +335,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
