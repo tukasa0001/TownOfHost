@@ -24,7 +24,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Main.introDestroyed)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -75,9 +75,8 @@ namespace TownOfHost
             foreach (PlayerTask task in PlayerControl.LocalPlayer.myTasks)
                 if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
-
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.StandardHAS.GetBool()) && systemType == SystemTypes.Sabotage) return false;
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
             {
