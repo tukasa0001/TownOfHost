@@ -51,7 +51,7 @@ namespace TownOfHost
 
                                     if (!IsGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
                                     {
-                                        var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, new Vector2(24.66107f, -21.523f));
+                                        var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.SecondaryPolusAdminPos);
                                         IsGuard = SecondaryPolusAdminDistance <= UsableDistance();
                                     }
                                 }
