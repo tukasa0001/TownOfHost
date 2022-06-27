@@ -670,7 +670,7 @@ Various devices can be disabled (currently admin only, MiraHQ not supported)
 | Settings Name         |
 | --------------------- |
 | Disable Admin         |
-|   Which Disable admin |
+| * Which Disable admin |
 ## SabotageTimeControl
 
 The time limit for some sabotage can be changed.
