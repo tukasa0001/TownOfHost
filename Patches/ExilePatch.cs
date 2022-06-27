@@ -10,7 +10,25 @@ namespace TownOfHost
         public static void Postfix(ExileController __instance, [HarmonyArgument(0)] GameData.PlayerInfo exiled)
         {
             if (Assassin.FinishAssassinMeetingTrigger)
+            {
                 __instance.completeString = Assassin.ExileText;
+
+                if (!AmongUsClient.Instance.AmHost) return;
+
+                if (Assassin.TargetRole == CustomRoles.Marin)
+                {
+                    PlayerState.SetDeathReason(Assassin.AssassinTargetId, PlayerState.DeathReason.Assassination);
+                    PlayerState.SetDead(Assassin.AssassinTargetId);
+                    foreach (var crew in PlayerControl.AllPlayerControls)
+                    {
+                        if (!PlayerState.isDead[crew.PlayerId] && crew.Is(RoleType.Crewmate) && crew.PlayerId != Assassin.AssassinTargetId)
+                        {
+                            PlayerState.SetDeathReason(crew.PlayerId, PlayerState.DeathReason.Assassination);
+                            PlayerState.SetDead(crew.PlayerId);
+                        }
+                    }
+                }
+            }
         }
     }
     class ExileControllerWrapUpPatch

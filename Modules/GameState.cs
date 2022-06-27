@@ -63,6 +63,8 @@ namespace TownOfHost
             Torched,
             Sniped,
             Execution,
+            Assassination,
+            Surrender,
             Disconnected,
             etc = -1
         }
