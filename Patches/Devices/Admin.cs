@@ -41,9 +41,12 @@ namespace TownOfHost
                 }
                 if (isGuard)
                 {
+                    var DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
+                    __instance.SabotageText.gameObject.SetActive(false);
+
                     __instance.BackgroundColor.SetColor(Palette.DisabledGrey);
-                    __instance.SabotageText.gameObject.SetActive(true);
-                    __instance.SabotageText.text = GetString("DisabledBySettings");
+                    DisabledText.gameObject.SetActive(true);
+                    DisabledText.text = GetString("DisabledBySettings");
                     return false;
                 }
 
