@@ -39,7 +39,7 @@ namespace TownOfHost
                     }
                 }
 
-                return isGuard;
+                return !isGuard;
             }
         }
     }
