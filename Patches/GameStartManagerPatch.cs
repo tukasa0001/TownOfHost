@@ -16,10 +16,10 @@ namespace TownOfHost
     public class GameStartManagerPatch
     {
         private static float timer = 600f;
-        private static string lobbyCodehide = "";
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
         {
+            public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
                 // Reset lobby countdown timer
@@ -31,9 +31,12 @@ namespace TownOfHost
                     {
                         Main.isChatCommand = true;
                         Utils.ShowLastResult();
-                    }
-                        , 5f, "DisplayLastRoles");
+                    }, 5f, "DisplayLastRoles");
                 }
+                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
+                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
             }
         }
 
@@ -44,20 +47,22 @@ namespace TownOfHost
             private static string currentText = "";
             public static void Prefix(GameStartManager __instance)
             {
+                // Lobby code
+                if (Main.HideCodes.Value)
+                {
+                    __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
+                    GameStartManagerStartPatch.HideName.enabled = true;
+                }
+                else
+                {
+                    __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
+                    GameStartManagerStartPatch.HideName.enabled = false;
+                }
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
             {
-                // Lobby code
-                string htmlValue = Main.HideColor.Value;
-                if (Main.HideCodes.Value)
-                    lobbyCodehide = ColorUtility.TryParseHtmlString(htmlValue, out Color newCol)
-                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
-                else
-                    lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
-                __instance.GameRoomNameCode.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
