@@ -126,18 +126,18 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-If the Bounty Hunter kills their designated target, their kill cooldown will be much less than usual.<br>
-Killing a player that's not their current target results in an increased kill cooldown.<br>
+If the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.<br>
+Killing a player except their current target results in an increased kill cooldown.<br>
 The target swaps after a configurable amount of time.<br>
 
 #### Settings
 
-| Settings Name                                                 |
-| ------------------------------------------------------------- |
-| Time to change target(s)                                      |
-| Cooldown time after killing the target(s)                     |
-| Cooldown time after killing anything other than the target(s) |
-| Kill cooldown time other than BountyHunter(s)                 |
+| Settings Name                            |
+| ---------------------------------------- |
+| Time to swap Bounty(s)                   |
+| Kill cooldown after killing Bounty(s)    |
+| Kill cooldown after killing others(s)    |
+| Kill cooldown other than BountyHunter(s) |
 
 ### FireWorks
 
@@ -146,11 +146,11 @@ Create and idea by こう。<br>
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-The FireWorks can set off fireworks and kill a lot. <br>
+The FireWorks can set off fireworks and kill all at once. <br>
 They can put a few fireworks by Shapeshift.  <br>
-After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks all at once by Shapeshift.  <br>
+After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks at once by Shapeshift.  <br>
 They can take a kill after setting off fireworks. <br>
-Even if they mistakenly bomb themselves, killing everyone would result in Impostor wins. <br>
+Even if they mistakenly bomb themselves, killing everyone results in Impostor win. <br>
 
 #### Settings
 
@@ -167,7 +167,7 @@ Idea by Kihi
 Team : Impostor<br>
 Decision : Impostor<br>
 
-They can kill only in lights out, but next Kill cooldown will be half.<br>
+They can kill only in lights out, but next kill cooldown will be half.<br>
 While lights out they can move faster, and yet their name looks red by everyone.<br>
 
 ### Puppeteer
@@ -176,20 +176,20 @@ Team : Impostors<br>
 Decision : Impostor<br>
 
 They can take secondhand kills but cannot kill like other Impostors.<br>
-Their direct kill is protected, but instead, the protected player kills another Crewmate first getting in Kill range.<br>
+Their direct kill is protected, but instead, the protected player kills another Crewmate first getting in kill range.<br>
 
 ### SerialKiller
 
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
-SerialKiller has even shorter Kill cooldown.<br>
+SerialKiller has even shorter kill cooldown.<br>
 Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 | Settings Name            |
 | ------------------------ |
-| Kill cool down time(s)   |
-| Time to self-destruct(s) |
+| Kill cooldown(s)         |
+| Time limit to suiside(s) |
 
 ### ShapeMaster
 
@@ -203,9 +203,9 @@ On the other hand, their default Shapeshift duration is shorter (default: 10s).<
 
 #### Settings
 
-| Settings Name         |
-| --------------------- |
-| Transformable time(s) |
+| Settings Name          |
+| ---------------------- |
+| Shapeshift duration(s) |
 
 ### Sniper
 
@@ -214,10 +214,10 @@ Create and idea by こう。<br>
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-Sniper can long-range shooting. <br>
-Kills targets that are on the extension of the shape-shifted point to the released point. <br>
-The crew on the line of sight will be notified of the shooting sound. <br>
-You cannot normally kill until the bullet is cut off. <br>
+Sniper can shoot players so far away. <br>
+they kill a player on the extension line from Shapeshift point to release point.<br>
+Players on the line of bullet hear sound of a gunshot.<br>
+You cannot normally kill until the bullet is cut off.<br>
 
 Precision Shooting:OFF<BR>
 ![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
