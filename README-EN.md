@@ -149,7 +149,7 @@ Decision : Shapeshifter<br>
 The FireWorks can set off fireworks and kill all at once. <br>
 They can put a few fireworks by Shapeshift.  <br>
 After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks at once by Shapeshift.  <br>
-They can take a kill after setting off fireworks. <br>
+They can perform kills after setting off fireworks. <br>
 Even if they mistakenly bomb themselves, killing everyone results in Impostor win. <br>
 
 #### Settings
@@ -164,7 +164,7 @@ Even if they mistakenly bomb themselves, killing everyone results in Impostor wi
 Create by Kihi, しゅー, そうくん, ゆりの<br>
 Idea by Kihi
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Impostor<br>
 
 They can kill only in lights out, but next kill cooldown will be half.<br>
@@ -175,12 +175,12 @@ While lights out they can move faster, and yet their name looks red by everyone.
 Team : Impostors<br>
 Decision : Impostor<br>
 
-They can take secondhand kills but cannot kill like other Impostors.<br>
-Their direct kill is protected, but instead, the protected player kills another Crewmate first getting in kill range.<br>
+They can perform secondhand kills but cannot kill like other Impostors.<br>
+Their direct kill is protected, but instead, the protected player forcibly kills another player first getting in kill range.<br>
 
 ### SerialKiller
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Shapeshifter<br>
 
 SerialKiller has even shorter kill cooldown.<br>
@@ -195,7 +195,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 Create and idea by しゅー<br>
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : ShapeShifter<br>
 
 ShapeMaster has no Shapeshift cooldown.<br>
@@ -217,7 +217,7 @@ Decision : Shapeshifter<br>
 Sniper can shoot players so far away. <br>
 they kill a player on the extension line from Shapeshift point to release point.<br>
 Players on the line of bullet hear sound of a gunshot.<br>
-You cannot normally kill until the bullet is cut off.<br>
+You can perform normal kills after all bullets run out.<br>
 
 Precision Shooting:OFF<BR>
 ![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
@@ -226,10 +226,10 @@ Precision Shooting:ON<BR>
 
 #### Settings
 
-| Settings Name             |
-| ------------------------- |
-| Sniper Bullet Count       |
-| Sniper Precision Shooting |
+| Settings Name           |
+| ----------------------- |
+| Sniper bullet count     |
+| Sniper precise shooting |
 
 ### TimeThief
 
@@ -239,25 +239,24 @@ Idea by みぃー<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-Killing a player decreases the meeting time.<br>
-Also, when a TimeThief is expelled or killed, the lost meeting time is returned.<br>
+Every kill of another player cuts down discussion and voting time in meeting.<br>
+Depending on option, the lost time is returned after they die.<br>
 
 #### Settings
 
-| Settings Name                        |
-| ------------------------------------ |
-| TimeThief Decrease DiscussionTime(s) |
-| TimeThief Decrease VotingTime(s)     |
+| Settings Name                     |
+| --------------------------------- |
+| TimeThief Decrease Time Length(s) |
+| Return Stolen Time after death    |
 
 ### Vampire
 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The Vampires are the role where the kill actually occurs after a certain amount of time has passed since the kill button was pressed.<br>
-There is no teleportation when a kill is made.<br>
-Also, if a meeting starts before the set time has elapsed after the kill button is pressed, the kill will occur at that moment.<br>
-However, only if they kill the [Baits](#Bait) will it be a normal kill and they will be forced to report it.<br>
+The Vampires can bite players instead of kill.<br>
+Bitten players die after a configurable amount of time or just before emegency meeting call.<br>
+When biting the [Baits](#Bait), However, they take a no delay, normal kill and are forced to self report.<br>
 
 #### Settings
 
@@ -267,38 +266,36 @@ However, only if they kill the [Baits](#Bait) will it be a normal kill and they 
 
 ### Warlock
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-If warlock kills before shapeshifting, the target will be cursed.<br>
-If he try to shapeshift again, the nearest crewmate will be killed<br>
+The Warlocks can curse another players before Shapeshift.<br>
+When they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.<br>
 
 ### Witch
 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-Pressing the kill button toggles between kill mode and spell mode, and pressing the kill button while in spell mode allows them to cast a spell on the target.<br>
-The target will be given a special mark at the meeting and will die if the Witches cannot be banished during the meeting.<br>
+The Witches can perform kills or spells by turns.<br>
+The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
 
 ### Mafia
 
 Team : Impostors<br>
-Decision : Shapeshifter<br>
+Decision : Impostor<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
-Once all Impostors who are not them are dead, they will be able to kill.<br>
-If they can not kill, they will still have a kill button, but they can not kill.<br>
-They can transform after becoming to able to kill.<br>
+The Mafias can initially use vents and sabotage, but cannot kill.<br>
+They will be able to kill after Impostors except them are all gone.<br>
 
 ### Madmate
 
 Team : Impostors<br>
 Decision : Engineer<br>
 
-The Madmates belong to the Impostors team, but they do not know who the Impostors are.<br>
-The Impostors do not know who the they are too.<br>
-They can not kill or sabotage, but they can use vents.<br>
+The Madmates belong to team Impostors, but they don't know who are Impostors.<br>
+Impostors don't know Madmates either.<br>
+They cannot kill or sabotage, but they can use vents.<br>
 
 ### MadGuardian
 
@@ -307,10 +304,8 @@ Create and idea by 空き瓶/EmptyBottle<br>
 Team : Impostors<br>
 Decision : Crewmate<br>
 
-The MadGuardians belong to the Impostors team, but they do not know who the Impostors are.<br>
-The Impostors do not know who the they are too.<br>
-However, if they complete all of their own tasks, they will not be killed.<br>
-They can not kill, sabotage, and using vents.<br>
+The MadGuardians belong to team Impostors, one type of Madmates.<br>
+Comoared with Madmates, MadGuardian cannot use vents, while they cannot be killed by Impostors after finishing all tasks.<br>
 
 #### Settings
 
@@ -322,7 +317,7 @@ They can not kill, sabotage, and using vents.<br>
 
 Create and idea by そうくん<br>
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
@@ -340,7 +335,7 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 
 Create and idea by たんぽぽ<br>
 
-Team : Impostor<br>
+Team : Impostors<br>
 Decision : Change before Role<br>
 
 This role is created when roles with the ability to shape-shift is shape-shifted.<br>
