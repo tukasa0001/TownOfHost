@@ -5,7 +5,7 @@
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
 
 この README は英語版です。<br>
-! My English isn't very good, so if this readme is wrong, please use Google Translator to Japanese readme. !<br>
+! We are not good at English, so if you have difficulty　in making out, please translate Japanese README into English. !<br>
 
 ## Regarding this mod
 
@@ -47,7 +47,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `C`                 | Cancel game start              | In Countdown    |
 | `Shift`             | Start the game immediately     | In Countdown    |
 | `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
-| `Ctrl`+`RMB`        | Execute the player who clicked | In Meeting      |
+| `Ctrl`+`RMB`        | Execute clicked player         | In Meeting      |
 
 #### MOD Client Only
 | HotKey      | Function                                                               | Usable Scene |
@@ -62,7 +62,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `↓`         | Go future in time of chat send history                                 | Chat         |
 
 ### Chat Commands
-Chat commands are commands that can be typed in chat.
+You can execute chat commands by typing in chat.
 
 #### Host Only
 | Command                                               | Function                                          |
@@ -168,16 +168,15 @@ Team : Impostor<br>
 Decision : Impostor<br>
 
 They can kill only in lights out, but next Kill cooldown will be half.<br>
-While lights out, they can move faster in light out, and yet their names look red.<br>
+While lights out they can move faster, and yet their name looks red by everyone.<br>
 
 ### Puppeteer
 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The target of the kill is made to kill the next Crewmate that the target approaches.<br>
-If the target is the one that is triggered at the moment the opponent is killed, the effect is reflected on the target.<br>
-It is not possible to perform normal kills.<br>
+They can take secondhand kills but cannot kill like other Impostors.<br>
+Their direct kill is protected, but instead, the protected player kills another Crewmate first getting in Kill range.<br>
 
 ### SerialKiller
 
