@@ -9,8 +9,7 @@
 
 ## Regarding this mod
 
-This mod is unofficial, and Innersloth, the developer of Among Us, has no involvement in the development of this mod.<br>
-Please do not contact the official team regarding any issues with this mod.<br>
+This mod is not affiliated with Among Us or Innersloth LLC, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
 [![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
 
@@ -45,7 +44,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
 | `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
 | `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
-| `C`                 | Abort game start               | In Countdown    |
+| `C`                 | Cancel game start              | In Countdown    |
 | `Shift`             | Start the game immediately     | In Countdown    |
 | `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
 | `Ctrl`+`RMB`        | Execute the player who clicked | In Meeting      |
@@ -73,9 +72,9 @@ Chat commands are commands that can be typed in chat.
 | /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
 | /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
 | /help<br>/h                                           | Show command description                          |
-| /help roles <role><br>/help r <role>                  | Display role description                          |
+| /help roles <role><br>/help r <role>                  | Show role description                             |
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
-| /help modes <mode><br>/help m <mode>                  | Display mode description                          |
+| /help modes <mode><br>/help m <mode>                  | Show mode description                             |
 | /help now<br>/help n                                  | Show active setting descriptions                  |
 
 #### MOD Client Only
@@ -85,17 +84,17 @@ Chat commands are commands that can be typed in chat.
 | /version<br>/v | Show version of MOD clients |
 
 #### All Clients
-| Command                     | Function                                     |
-| --------------------------- | -------------------------------------------- |
-| /lastresult<br>/l           | Show game result                             |
-| /now<br>/n                  | Show active settings                         |
-| /now roles<br>/n r          | Show active roles settings                   |
-| /template <tag><br>/t <tag> | Display the canned text corresponding to tag |
+| Command                     | Function                                |
+| --------------------------- | --------------------------------------- |
+| /lastresult<br>/l           | Show game result                        |
+| /now<br>/n                  | Show active settings                    |
+| /now roles<br>/n r          | Show active roles settings              |
+| /template <tag><br>/t <tag> | Show template text corresponding to tag |
 
 ### Template
-This function allows you to send canned messages.<br>
-It can be called on typing `/template <tag>` or `/t <tag>`.<br>
-To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+This function allows you to send prepared messages.<br>
+Execute by typing `/template <tag>` or `/t <tag>`.<br>
+To set the text, edit `template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
@@ -127,8 +126,9 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 Team : Impostors<br>
 Decision : Impostor<br>
 
-If the BountyHunters kill the indicated target, their next kill cooldown will be halved.<br>
-If they kill the player who is not their target, they will keep their next kill cooldown.<br>
+If the Bounty Hunter kills their designated target, their kill cooldown will be much less than usual.<br>
+Killing a player that's not their current target results in an increased kill cooldown.<br>
+The target swaps after a configurable amount of time.<br>
 
 #### Settings
 
@@ -147,10 +147,10 @@ Team : Impostors<br>
 Decision : Shapeshifter<br>
 
 The FireWorks can set off fireworks and kill a lot. <br>
-You Install up to 3 fireworks at the timing of shape-shift.  <br>
-After Install all the fireworks, you can set off all fireworks at once at the timing of the shape-shift when you becomes the last Imposter.  <br>
-You can't kill until the fireworks are Installing and Set off fireworks. <br>
-Even if you get caught up in fireworks, you win if you annihilate the enemy. <br>
+They can put a few fireworks by Shapeshift.  <br>
+After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks all at once by Shapeshift.  <br>
+They can take a kill after setting off fireworks. <br>
+Even if they mistakenly bomb themselves, killing everyone would result in Impostor wins. <br>
 
 #### Settings
 
@@ -167,9 +167,8 @@ Idea by Kihi
 Team : Impostor<br>
 Decision : Impostor<br>
 
-No kills can be made except in the event of a power outage.<br>
-However, if the kill is successful, the KillCooldown is halved.<br>
-And the movement speed will also increase. And name is displayed in red<br>
+They can kill only in lights out, but next Kill cooldown will be half.<br>
+While lights out, they can move faster in light out, and yet their names look red.<br>
 
 ### Puppeteer
 
@@ -185,8 +184,8 @@ It is not possible to perform normal kills.<br>
 Team : Impostor<br>
 Decision : Shapeshifter<br>
 
-SerialKiller's killcooldown is shorter than defalt Impostor.<br>
-If he can not kill on deadline, he will kill him.<br>
+SerialKiller has even shorter Kill cooldown.<br>
+Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 | Settings Name            |
 | ------------------------ |
@@ -200,8 +199,8 @@ Create and idea by しゅー<br>
 Team : Impostor<br>
 Decision : ShapeShifter<br>
 
-Shape Master ignores the cooldown after a transformation and can transform again.<br>
-Normally, the transformation lasts only 10 seconds, but the duration of the transformation can be changed through settings.<br>
+ShapeMaster has no Shapeshift cooldown.<br>
+On the other hand, their default Shapeshift duration is shorter (default: 10s).<br>
 
 #### Settings
 
