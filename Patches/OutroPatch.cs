@@ -281,11 +281,11 @@ namespace TownOfHost
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
-                    __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = "ホストから強制終了コマンドが入力されました";
-                    textRenderer.color = Color.gray;
-                    __instance.WinText.text = "廃村";
+                    __instance.WinText.text = GetString("ForceEnd");
                     __instance.WinText.color = Color.white;
+                    __instance.BackgroundBar.material.color = Color.gray;
+                    textRenderer.text = GetString("ForceEndText");
+                    textRenderer.color = Color.gray;
                     break;
             }
 
