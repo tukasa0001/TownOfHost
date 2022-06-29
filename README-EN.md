@@ -5,7 +5,7 @@
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
 
 この README は英語版です。<br>
-! We are not good at English, so if you have difficulty　in making out, please translate Japanese README into English. !<br>
+! We are not good at English, so if you have difficulty in making out, please translate Japanese README into English. !<br>
 
 ## Regarding this mod
 
@@ -477,13 +477,14 @@ Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Snitches complete their tasks, the name of the Impostors will change to red,can see the direction with the arrow.<br>
-However, when the number of their tasks are low, it will be notified to the Impostors.<br>
+When finishing all the tasks, the Snitches can see arrows that point to the Impostors and their name looks red (only visible to the Snitch) (depending on the options also to Neutral killer).<br>
+When the Snitches have one task left, they will be revealed to the Impostors (depending on the options also to Neutral killer) with an arrow pointing to the Snitches.<br>
 
 #### Settings
 
 | Settings Name                  |
 | ------------------------------ |
+| Snitch Can See Target Arrow    |
 | Snitch Can Get Arrow Color     |
 | Snitch Can Find Neutral Killer |
 
