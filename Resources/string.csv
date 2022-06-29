@@ -350,6 +350,8 @@ CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません
 
 ## その他
+ForceEnd,Force End,廃村
+ForceEndText,Force end command has been entered by the host,ホストから強制終了コマンドが入力されました
 HideGameCodes,Hide Game Codes,ゲームコードを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...
