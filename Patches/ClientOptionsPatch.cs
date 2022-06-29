@@ -9,7 +9,6 @@ namespace TownOfHost
     class OptionsMenuBehaviourStartPatch
     {
         private static Vector3? origin;
-        private static ToggleButtonBehaviour HideCodesButton;
         private static ToggleButtonBehaviour ForceJapanese;
         private static ToggleButtonBehaviour JapaneseRoleName;
         public static float xOffset = 1.75f;
@@ -60,18 +59,10 @@ namespace TownOfHost
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
-                __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.0f;
+                if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;// + Vector3.up * 0.075f;
+            __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.18f;
+            __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
-            if (HideCodesButton == null || HideCodesButton.gameObject == null)
-            {
-                HideCodesButton = CreateCustomToggle($"{GetString("HideGameCodes")}: ", Main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
-
-                void HideCodesButtonToggle()
-                {
-                    Main.HideCodes.Value = !Main.HideCodes.Value;
-                    UpdateToggle(HideCodesButton, $"{GetString("HideGameCodes")}: ", Main.HideCodes.Value);
-                }
-            }
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
                 ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);
