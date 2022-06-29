@@ -48,7 +48,7 @@ namespace TownOfHost
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
-                if (Main.HideCodes.Value)
+                if (SaveManager.StreamerMode)
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
                     GameStartManagerStartPatch.HideName.enabled = true;
