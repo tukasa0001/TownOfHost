@@ -255,7 +255,7 @@ Team : Impostors<br>
 Decision : Impostor<br>
 
 The Vampires can bite players instead of kill.<br>
-Bitten players die after a configurable amount of time or just before emegency meeting call.<br>
+Bitten players die after a configurable amount of time or just before emergency meeting call.<br>
 When biting the [Baits](#Bait), However, they take a no delay, normal kill and are forced to self report.<br>
 
 #### Settings
@@ -305,7 +305,7 @@ Team : Impostors<br>
 Decision : Crewmate<br>
 
 The MadGuardians belong to team Impostors, one type of Madmates.<br>
-Comoared with Madmates, MadGuardian cannot use vents, while they cannot be killed by Impostors after finishing all tasks.<br>
+Compared with Madmates, MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.<br>
 
 #### Settings
 
@@ -320,9 +320,9 @@ Create and idea by そうくん<br>
 Team : Impostors<br>
 Decision : Crewmate or Engineer<br>
 
-Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
-Impostors also doesn't know who MadSnitch is.<br>
-Once all tasks are completed, the impostor can be recognized from the MadSnitch.<br>
+The MadSnitches belong to team Impostors, one type of Madmates.<br>
+They can see who is the Impostor after finishing all their tasks.<br>
+Depending on option, they can use vents.<br>
 
 #### Settings
 
@@ -336,42 +336,42 @@ Once all tasks are completed, the impostor can be recognized from the MadSnitch.
 Create and idea by たんぽぽ<br>
 
 Team : Impostors<br>
-Decision : Change before Role<br>
+Decision : Undecided<br>
 
-This role is created when roles with the ability to shape-shift is shape-shifted.<br>
-Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
-Impostors also doesn't know who SidekickMadmate is.<br>
+The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.<br>
+Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
 
-There is also a common setting for Madmate type Roles.
+There is also common options for Madmate type Roles.
 
-| Settings Name                             |
-| ----------------------------------------- |
-| Madmate Can Fix Lights Out                |
-| Madmate Can Fix Comms                     |
-| Madmate vision is as long as Impostor one |
-| Madmate Vent Cooldown                     |
-| Madmate In Vent Max Time                  |
+| Settings Name               |
+| --------------------------- |
+| Madmate can fix lights out  |
+| Madmate can fix comms       |
+| Madmate has Impostor vision |
+| Madmate vent cooldown       |
+| Madmate max time in vents   |
 
 ### Watcher
 
 Team : Impostors or Crewmates<br>
 Decision : Impostor or Crewmates<br>
 
-The Watcher is a player capable of seeing everyone's votes during meetings.<br>
+The Watchers can see colored votes regardless of anonymous votes.<br>
+There are both Impostor Roles (EvilWatcher) and Crewmate Roles (NiceWatcher).<br>
 
 #### Settings
 
-| Settings Name     |
-| ----------------- |
-| EvilWatcherChance |
+| Settings Name      |
+| ------------------ |
+| EvilWatcher Chance |
 
 ### Bait
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When the Baits are killed, they can force the player who killed them to report their bodies.<br>
+When the Baits are killed, they force the killer to self report in no time.<br>
 
 ### Dictator
 
@@ -380,48 +380,50 @@ Create and idea by そうくん<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
-The dictator dies at the time of the vote.<br>
-
-#### Settings
-
-| Settings Name   |
-| --------------- |
-| Block Move Time |
+When you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.<br>
+After exercising the force, the Dictators die just after meeting.<br>
 
 ### Doctor
 
 Team : Crewmates<br>
 Decision : Scientist<br>
 
-You can know why players died.And you can use vitals anywhere with gadget charges.<br>
+The Doctors have a portable vitals panel just like the vanilla Role Scientists. In addtion, the Doctors can see all causes of death in meetings.<br>
 
 #### Settings
-| Settings Name                      |
-| ---------------------------------- |
-| Doctor TaskCompletedBattery Charge |
+| Settings Name           |
+| ----------------------- |
+| Doctor battery duration |
 
 ### Lighter
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-Upon completion of the task, one's field of vision expands and is no longer affected by the power outage's reduction in visibility.<br>
+After finishing all the task, The lighters have their vision expanded and ignore lights out.<br>
+
+#### Settings
+
+| Settings Name                 |
+| ----------------------------- |
+| Lighter expanded vision       |
+| Lighter gains Impostor vision |
 
 ### Mayor
 
 Team : Crewmates<br>
-Decision : Crewmate<br>
+Decision : Crewmate or Engineer<br>
 
-The Mayors have multiple votes, which can be grouped together and put into a single player or skip.<br>
+The Mayors' votes count twice or more.<br>
+Depending on the options, they can call emergency meeting by entering vents.<br>
 
 #### Settings
 
-| Settings Name                |
-| ---------------------------- |
-| Mayor Additional Votes Count |
-| Mayor Has Portable Button    |
-| Mayor Number Of Use Button   |
+| Settings Name                     |
+| --------------------------------- |
+| Mayor Additional Votes Count      |
+| Mayor Has Mobile Emergency Button |
+| Number Of Mobile Emergency Button |
 
 ### SabotageMaster
 
@@ -431,42 +433,44 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 The SabotageMasters can fix sabotage faster.<br>
-Communications in MIRA HQ, reactor and O2 can both be fixed by fixing one of them.<br>
+they can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.<br>
 Lights can be fixed by touching a single lever.<br>
-Opening a door in Polus or The Airship will open all the doors in that room.<br>
+Opening a door in Polus or The Airship will open all the linked doors.<br>
 
 #### Settings
 
-| Settings Name                                             |
-| --------------------------------------------------------- |
-| SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors) |
-| SabotageMaster Can Fixes Multiple Doors                   |
-| SabotageMaster Can Fixes Both Reactors                    |
-| SabotageMaster Can Fixes Both O2                          |
-| SabotageMaster Can Fixes Both Communications In MIRA HQ   |
-| SabotageMaster Can Fixes Lights Out All At Once           |
+| Settings Name                                          |
+| ------------------------------------------------------ |
+| SabotageMaster Fix Ability Limit(Except Opening Doors) |
+| SabotageMaster Can Open Multiple Doors                 |
+| SabotageMaster Can Fix Both Reactors                   |
+| SabotageMaster Can Fix Both O2                         |
+| SabotageMaster Can Fix Both Communications In MIRA HQ  |
+| SabotageMaster Can Fix Lights Out All At Once          |
 
 ### Sheriff
 
 Team : Crewmates<br>
-Decision : Crewmate(Only host is the Crewmate)<br>
+Decision : Impostor(Only host is the Crewmate)<br>
 
 The Sheriffs can kill Impostors.<br>
-However, if they kill the Crewmates, they will die.<br>
-They do not have tasks.<br>
+They don't have tasks.<br>
+If trying to kill the Crewmates, however, they will kill themselves instead.<br>
+Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 
 #### Settings
 
-| Settings Name                                |
-| -------------------------------------------- |
-| Sheriff Can Kill [Arsonist](#Arsonist)       |
-| Sheriff Can Kill [Madmate](#Madmate)         |
-| Sheriff Can Kill [Jester](#Jester)           |
-| Sheriff Can Kill [Terrorist](#Terrorist)     |
-| Sheriff Can Kill [Opportunist](#Opportunist) |
-| Sheriff Can Kill [Egoist](#Egoist)           |
-| Sheriff Can Kill Crewmates As It             |
-| Sheriff Shot Limit                           |
+| Settings Name                                                     |
+| ----------------------------------------------------------------- |
+| Sheriff Can Kill [Arsonist](#Arsonist)                            |
+| Sheriff Can Kill [Jester](#Jester)                                |
+| Sheriff Can Kill [Terrorist](#Terrorist)                          |
+| Sheriff Can Kill [Opportunist](#Opportunist)                      |
+| Sheriff Can Kill [Madmate](#Madmate)                              |
+| Sheriff Can Kill [Egoist](#Egoist)                                |
+| Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
+| Sheriff Can Kill Crewmates As It                                  |
+| Sheriff Shot Limit                                                |
 
 ### Snitch
 
@@ -507,6 +511,12 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
 
 ### Arsonist
 
