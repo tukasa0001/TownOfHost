@@ -125,59 +125,6 @@ namespace TownOfHost
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
             }
-            //CustomRpcSenderデバッグ用
-            if (Input.GetKey(KeyCode.RightControl))
-            {
-                // どちらも赤色から茶色までの計10個のSetColorRPCを送る処理です。
-                // コード上の送信順で処理された場合は最終的な色は茶色になります。
-                // 従来の方式の場合、ほぼ同時に大量の送信処理を行っているため、遅延以外の方法で順番の入れ替わりを回避できません。
-                // それに対してCustomRpcSenderを使用した方式は、一つのメッセージにすべてのRPCを入れているため、順番が入れ替わる心配がありません。
-
-                // CustomRpcSenderを使用した方式
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        var sender = CustomRpcSender.Create();
-                        sender.StartMessage();
-                        for (byte i = 0; i < 10; i++)
-                        {
-                            sender.StartRpc(targetPlayer.NetId, (byte)RpcCalls.SetColor);
-                            sender.Write(i);
-                            sender.EndRpc();
-                        }
-                        sender.EndMessage();
-                        sender.SendMessage();
-                    }
-                }
-
-                // Desyncのテスト
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    PlayerControl p0 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 0).FirstOrDefault();
-                    PlayerControl p1 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    PlayerControl p2 = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 2).FirstOrDefault();
-                    if (p0 != null && p1 != null && p2 != null)
-                    {
-                        var sender = CustomRpcSender.Create();
-
-                        sender.StartMessage(p1.GetClientId())
-                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
-                          .Write((byte)3)
-                          .EndRpc()
-                          .EndMessage();
-
-                        sender.StartMessage(p2.GetClientId())
-                          .StartRpc(p0.NetId, (byte)RpcCalls.SetColor)
-                          .Write((byte)4)
-                          .EndRpc()
-                          .EndMessage();
-
-                        sender.SendMessage();
-                    }
-                }
-            }
 
             //--以下フリープレイ用コマンド--//
             if (!GameStates.IsFreePlay) return;
