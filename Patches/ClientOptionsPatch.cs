@@ -42,24 +42,24 @@ namespace TownOfHost
         {
             if (__instance.CensorChatButton != null)
             {
-                if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;
                 __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f + Vector3.up * 0.2f;
                 __instance.CensorChatButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.EnableFriendInvitesButton != null)
             {
-                if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;
                 __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.2f;
                 __instance.EnableFriendInvitesButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.ColorBlindButton != null)
             {
-                if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;
                 __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.83f;
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
-                if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;
             __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.182f;
             __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
