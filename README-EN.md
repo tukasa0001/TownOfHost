@@ -285,7 +285,7 @@ The players spelled by Witches before a meeting are marked "cross" in the meetin
 Team : Impostors<br>
 Decision : Impostor<br>
 
-The Mafias can initially use vents and sabotage, but cannot kill.<br>
+The Mafias can initially use vents and sabotage, but cannot kill (still have a button).<br>
 They will be able to kill after Impostors except them are all gone.<br>
 
 ### Madmate
