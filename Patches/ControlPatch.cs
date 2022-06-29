@@ -125,15 +125,6 @@ namespace TownOfHost
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
             }
-            //RpcResetAbilityCooldownのテスト
-            if (Input.GetKey(KeyCode.R))
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha0)) PlayerControl.LocalPlayer.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha1)) Utils.GetPlayerById(1)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
-            }
             //CustomRpcSenderデバッグ用
             if (Input.GetKey(KeyCode.RightControl))
             {
@@ -161,21 +152,6 @@ namespace TownOfHost
                     }
                 }
 
-                // 従来の方式
-                if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        for (byte i = 0; i < 10; i++)
-                        {
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetColor, SendOption.None);
-                            writer.Write(i);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        }
-                    }
-                }
-
                 // Desyncのテスト
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
@@ -199,72 +175,6 @@ namespace TownOfHost
                           .EndMessage();
 
                         sender.SendMessage();
-                    }
-                }
-
-                // 負荷実験-new
-                if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        int clientId = targetPlayer.GetClientId();
-                        var sender = CustomRpcSender.Create();
-                        sender.StartMessage(clientId);
-
-                        for (int i = 0; i < 300; i++)
-                        {
-                            sender.AutoStartRpc(targetPlayer.NetId, (byte)RpcCalls.SetName, clientId)
-                                .Write($"負荷実験-new({i})")
-                                .EndRpc();
-                        }
-
-                        sender.EndMessage();
-                        sender.SendMessage();
-                    }
-                }
-
-                // 負荷実験-old
-                if (Input.GetKeyDown(KeyCode.Alpha5))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        int clientId = targetPlayer.GetClientId();
-                        for (int i = 0; i < 300; i++)
-                        {
-                            var writer = AmongUsClient.Instance.StartRpcImmediately(targetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.None, clientId);
-                            writer.Write($"負荷実験-old({i})");
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        }
-                    }
-                }
-
-                // GuardAndKill-new
-                if (Input.GetKeyDown(KeyCode.Alpha6))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 300; i1++)
-                        {
-                            targetPlayer.RpcGuardAndKill();
-                        }
-                    }
-                }
-                // GuardAndKill-old
-                if (Input.GetKeyDown(KeyCode.Alpha7))
-                {
-                    PlayerControl targetPlayer = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == 1).FirstOrDefault();
-                    if (targetPlayer != null)
-                    {
-                        int clientId = targetPlayer.GetClientId();
-                        for (int i1 = 0; i1 < 300; i1++)
-                        {
-                            targetPlayer.RpcProtectPlayer(targetPlayer, 0);
-                            targetPlayer.RpcMurderPlayer(targetPlayer);
-                        }
                     }
                 }
             }
