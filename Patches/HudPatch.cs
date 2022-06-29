@@ -256,7 +256,8 @@ namespace TownOfHost
         {
             if (PlayerControl.LocalPlayer == null ||
                AmongUsClient.Instance == null ||
-               !AmongUsClient.Instance.AmHost
+               !AmongUsClient.Instance.AmHost ||
+               !AmongUsClient.Instance.IsGameStarted
             ) return true;
 
             if (__instance.Player.Is(CustomRoles.Sheriff) || __instance.Player.Is(CustomRoles.Arsonist))
