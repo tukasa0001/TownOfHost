@@ -7,6 +7,11 @@ namespace TownOfHost
     class ChatControllerUpdatePatch
     {
         public static int CurrentHistorySelection = -1;
+        public static void Prefix()
+        {
+            if (AmongUsClient.Instance.AmHost && SaveManager.ChatModeType == InnerNet.QuickChatModes.QuickChatOnly)
+                SaveManager.ChatModeType = InnerNet.QuickChatModes.FreeChatOrQuickChat; //コマンドを打つためにホストのみ常時フリーチャット開放
+        }
         public static void Postfix(ChatController __instance)
         {
             if (!__instance.TextArea.hasFocus) return;
