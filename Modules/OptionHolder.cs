@@ -184,7 +184,6 @@ namespace TownOfHost
         public static CustomOption ColorNameMode;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
-
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
