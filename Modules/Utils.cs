@@ -320,7 +320,7 @@ namespace TownOfHost
             if (Options.LadderDeath.GetBool())
             {
                 text += String.Format("\n{0}:{1}", GetString("LadderDeath"), GetOnOff(Options.LadderDeath.GetBool()));
-                text += String.Format("\n{0}:{1}", GetString("DeathChance"), Options.DeathChance.GetString());
+                text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.DeathChance.GetString());
             }
             if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));

@@ -198,7 +198,7 @@ AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
 AddedPolus,Added Polus,Polusを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
 LadderDeath,Ladder Death,転落死
-DeathChance,Death Chance,転落する確率
+LadderDeathChance,Death Chance,転落する確率
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
 DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
