@@ -683,7 +683,7 @@ It is possible to disable certain tasks.<br>
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
 
-### LadderDeath
+### Fall from ladders
 
 There is a certain probability of death if you descend from the ladder.<br>
 
