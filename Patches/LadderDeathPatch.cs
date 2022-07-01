@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class LadderDeath
+    public class LadderDeathPatch
     {
         public static void Reset()
         {
@@ -23,8 +23,8 @@ namespace TownOfHost
                     player.Data.IsDead = true;
                     new LateTask(() => {
                         player.RpcMurderPlayerV2(player);
-                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.LadderDeath);
-                        RPC.SendDeathReason(player.PlayerId, PlayerState.DeathReason.LadderDeath);
+                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Fall);
+                        PlayerState.SetDead(player.PlayerId);
                     }, 0.05f);
                 }
             }
