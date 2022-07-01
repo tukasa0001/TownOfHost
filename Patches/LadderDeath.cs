@@ -32,7 +32,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
         class ladder
         {
-            static int Chance => (Options.DeathChance.GetSelection() + 1) * 10;
+            static int Chance => Options.DeathChance.GetSelection() + 1;
             public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
             {
                 if (!Options.LadderDeath.GetBool()) return;
@@ -41,8 +41,8 @@ namespace TownOfHost
                 //降りているのかを検知
                 if (sourcepos.y > targetpos.y)
                 {
-                    int chance = UnityEngine.Random.Range(1, 100);
-                    if (Chance > (100 - chance))
+                    int chance = UnityEngine.Random.Range(1, 10);
+                    if (Chance > (10 - chance))
                     {
                         TargetLadderDatas[__instance.myPlayer.PlayerId] = targetpos;
                     }
