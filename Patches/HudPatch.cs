@@ -260,7 +260,7 @@ namespace TownOfHost
                !AmongUsClient.Instance.IsGameStarted
             ) return true;
 
-            if (__instance.Player.Is(CustomRoles.Sheriff) || __instance.Player.Is(CustomRoles.Arsonist))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist))
             {
                 var targets = ((RoleBehaviour)__instance).GetPlayersInAbilityRangeSorted(RoleBehaviour.GetTempPlayerList());
                 __result = targets.Count <= 0 ? null : targets[0];
