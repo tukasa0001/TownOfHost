@@ -456,6 +456,10 @@ namespace TownOfHost
         {
             return Utils.GetRoleColorCode(player.GetCustomRole());
         }
+        public static Color GetRoleColor(this PlayerControl player)
+        {
+            return Utils.GetRoleColor(player.GetCustomRole());
+        }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
             if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;

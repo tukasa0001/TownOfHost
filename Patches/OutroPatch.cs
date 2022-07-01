@@ -292,16 +292,16 @@ namespace TownOfHost
             foreach (var additionalwinners in Main.additionalwinners)
             {
                 if (Main.additionalwinners.Contains(AdditionalWinners.Opportunist))
-                    AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.Opportunist)}>{Utils.GetRoleName(CustomRoles.Opportunist)}</color>";
+                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Opportunist), Utils.GetRoleName(CustomRoles.Opportunist));
 
                 if (Main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
-                    AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}>{Utils.GetRoleName(CustomRoles.SchrodingerCat)}</color>";
+                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.SchrodingerCat), Utils.GetRoleName(CustomRoles.SchrodingerCat));
 
                 if (Main.additionalwinners.Contains(AdditionalWinners.Executioner))
-                    AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>{Utils.GetRoleName(CustomRoles.Executioner)}</color>";
+                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), Utils.GetRoleName(CustomRoles.Executioner));
 
                 if (Main.additionalwinners.Contains(AdditionalWinners.HASFox))
-                    AdditionalWinnerText += $"＆<color={Utils.GetRoleColorCode(CustomRoles.HASFox)}>{Utils.GetRoleName(CustomRoles.HASFox)}</color>";
+                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.HASFox), Utils.GetRoleName(CustomRoles.HASFox));
             }
             if (Main.currentWinner != CustomWinner.Draw)
             {
@@ -324,13 +324,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {Main.AllPlayerNames[id]}<pos=25%><color={Utils.GetRoleColorCode(Main.AllPlayerCustomRoles[id])}>{Utils.GetRoleName(Main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {Main.AllPlayerNames[id]}<pos=25%><color={Utils.GetRoleColorCode(Main.AllPlayerCustomRoles[id])}>{Utils.GetRoleName(Main.AllPlayerCustomRoles[id])}{Utils.GetShowLastSubRolesText(id)}</color></pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n　 {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
