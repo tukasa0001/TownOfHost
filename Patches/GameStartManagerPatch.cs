@@ -72,7 +72,7 @@ namespace TownOfHost
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
-                if (timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
+                if (timer <= 60) suffix = Helpers.ColorString(Color.red, suffix);
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
