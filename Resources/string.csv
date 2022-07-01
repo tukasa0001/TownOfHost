@@ -197,6 +197,8 @@ AddedTheSkeld,Added TheSkeld,TheSkeldを追加
 AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
 AddedPolus,Added Polus,Polusを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+LadderDeath,Fall from ladders,ハシゴから転落
+LadderDeathChance,Chance of falling from ladders,転落する確率
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
 DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
@@ -321,6 +323,7 @@ DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
 DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
+DeathReason.Fell,Fell,転落
 DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win, Wins,勝利

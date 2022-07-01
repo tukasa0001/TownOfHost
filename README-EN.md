@@ -683,6 +683,14 @@ It is possible to disable certain tasks.<br>
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
 
+### Fall from ladders
+
+There is a certain probability of death if you descend from the ladder.<br>
+
+| Settings Name              |
+| -------------------------- |
+| Death Chance               |
+
 ### HideAndSeek
 
 Create and idea by 空き瓶/EmptyBottle<br>
