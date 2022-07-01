@@ -8,6 +8,7 @@ namespace TownOfHost
 {
     public class LadderDeathPatch
     {
+        public static Dictionary<byte, Vector3> TargetLadderDatas;
         public static void Reset()
         {
             TargetLadderDatas = new();
@@ -30,7 +31,6 @@ namespace TownOfHost
                 }
             }
         }
-        public static Dictionary<byte, Vector3> TargetLadderDatas;
         [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
         class LadderPatch
         {
