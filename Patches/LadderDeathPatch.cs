@@ -36,6 +36,8 @@ namespace TownOfHost
                                 .WriteNetObject(player)
                                 .EndRpc();
                         sender.SendMessage();
+                        player.NetTransform.SnapTo(targetpos);
+                        player.MurderPlayer(player);
                         PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Falled);
                         PlayerState.SetDead(player.PlayerId);
                     }, 0.05f);
