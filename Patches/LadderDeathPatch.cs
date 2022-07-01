@@ -24,7 +24,18 @@ namespace TownOfHost
                     //LateTaskを入れるため、先に死亡判定を入れておく
                     player.Data.IsDead = true;
                     new LateTask(() => {
-                        player.RpcMurderPlayerV2(player);
+                        Vector2 targetpos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
+                        ushort num = (ushort)(player.NetTransform.XRange.ReverseLerp(targetpos.x) * 65535f);
+                        ushort num2 = (ushort)(player.NetTransform.YRange.ReverseLerp(targetpos.y) * 65535f);
+                        CustomRpcSender sender = CustomRpcSender.Create(sendOption: Hazel.SendOption.None);
+                        sender.AutoStartRpc(player.NetTransform.NetId, (byte)RpcCalls.SnapTo)
+                        .Write(num)
+                        .Write(num2)
+                        .EndRpc();
+                        sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
+                                .WriteNetObject(player)
+                                .EndRpc();
+                        sender.SendMessage();
                         PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Falled);
                         PlayerState.SetDead(player.PlayerId);
                     }, 0.05f);
