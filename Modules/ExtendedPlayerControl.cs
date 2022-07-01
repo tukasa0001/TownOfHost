@@ -65,7 +65,11 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.Warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
