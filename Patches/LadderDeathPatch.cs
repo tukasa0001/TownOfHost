@@ -44,7 +44,7 @@ namespace TownOfHost
                 if (sourcepos.y > targetpos.y)
                 {
                     int chance = UnityEngine.Random.Range(1, 10);
-                    if (Chance <= chance)
+                    if (chance <= Chance)
                     {
                         TargetLadderData[__instance.myPlayer.PlayerId] = targetpos;
                     }
