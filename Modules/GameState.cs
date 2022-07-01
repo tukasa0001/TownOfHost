@@ -64,7 +64,7 @@ namespace TownOfHost
             Sniped,
             Execution,
             Disconnected,
-            Fall,
+            Falled,
             etc = -1
         }
     }

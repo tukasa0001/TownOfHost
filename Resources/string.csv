@@ -323,7 +323,7 @@ DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
 DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
-DeathReason.Fall,Fell,転落
+DeathReason.Falled,Fell,転落
 DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win, Wins,勝利
