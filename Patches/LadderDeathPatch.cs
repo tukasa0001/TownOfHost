@@ -20,6 +20,7 @@ namespace TownOfHost
                 if (Vector2.Distance(TargetLadderDatas[player.PlayerId], player.transform.position) < 0.5f)
                 {
                     if (player.Data.IsDead) return;
+                    //LateTaskを入れるため、先に死亡判定を入れておく
                     player.Data.IsDead = true;
                     new LateTask(() => {
                         player.RpcMurderPlayerV2(player);
@@ -31,7 +32,7 @@ namespace TownOfHost
         }
         public static Dictionary<byte, Vector3> TargetLadderDatas;
         [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
-        class ladder
+        class LadderPatch
         {
             static int Chance => Options.DeathChance.GetSelection() + 1;
             public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
