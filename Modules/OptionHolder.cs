@@ -159,7 +159,7 @@ namespace TownOfHost
 
         //転落死
         public static CustomOption LadderDeath;
-        public static CustomOption DeathChance;
+        public static CustomOption LadderDeathChance;
 
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
@@ -442,7 +442,7 @@ namespace TownOfHost
 
             // 転落死
             LadderDeath = CustomOption.Create(101100, Color.white, "LadderDeath", false, null, true);
-            DeathChance = CustomOption.Create(101110, Color.white, "DeathChance", rates[1..], rates[2], LadderDeath);
+            LadderDeathChance = CustomOption.Create(101110, Color.white, "LadderDeathChance", rates[1..], rates[2], LadderDeath);
 
             // 通常モードでかくれんぼ用
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)

@@ -34,7 +34,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
         class LadderPatch
         {
-            static int Chance => Options.DeathChance.GetSelection() + 1;
+            static int Chance => Options.LadderDeathChance.GetSelection() + 1;
             public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
             {
                 if (!Options.LadderDeath.GetBool()) return;
