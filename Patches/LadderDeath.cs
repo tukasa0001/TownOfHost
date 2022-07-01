@@ -22,8 +22,9 @@ namespace TownOfHost
                     if (player.Data.IsDead) return;
                     player.Data.IsDead = true;
                     new LateTask(() => {
-                        player.RpcMurderPlayer(player);
+                        player.RpcMurderPlayerV2(player);
                         PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.LadderDeath);
+                        RPC.SendDeathReason(player.PlayerId, PlayerState.DeathReason.LadderDeath);
                     }, 0.05f);
                 }
             }
