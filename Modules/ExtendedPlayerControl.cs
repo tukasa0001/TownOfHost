@@ -69,7 +69,7 @@ namespace TownOfHost
                 var callerMethod = caller.GetMethod();
                 string callerMethodName = callerMethod.Name;
                 string callerClassName = callerMethod.DeclaringType.FullName;
-                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
