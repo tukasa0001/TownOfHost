@@ -64,6 +64,7 @@ namespace TownOfHost
             Sniped,
             Execution,
             Disconnected,
+            LadderDeath,
             etc = -1
         }
     }
