@@ -11,6 +11,7 @@ namespace TownOfHost
     class DisableDevice
     {
         private static List<byte> OldDesyncCommsPlayers = new();
+        private static int Count = 0;
         public static float UsableDistance()
         {
             var Map = (MapNames)PlayerControl.GameOptions.MapId;
@@ -26,6 +27,9 @@ namespace TownOfHost
         }
         public static void FixedUpdate()
         {
+            Count--;
+            if (Count > 0) return;
+            Count = 3;
             var DisableDevices =
                 AdminPatch.DisableAdmin ||
                 Options.StandardHAS.GetBool(); //他に無効化するデバイスを設定する場合はここへ追加
