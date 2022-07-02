@@ -104,7 +104,7 @@ namespace TownOfHost
             {
                 canUse = true;
             }
-//            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
+            //            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
         public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
@@ -132,7 +132,7 @@ namespace TownOfHost
                 //一発消費して
                 bulletCount[pc.PlayerId]--;
                 SendRPC(pc.PlayerId);
-                Utils.NotifyRoles(SpecifySeer:pc);
+                Utils.NotifyRoles(SpecifySeer: pc);
 
                 //変身開始地点→解除地点のベクトル
                 var snipeBasePos = snipeBasePosition[pc.PlayerId];
@@ -212,7 +212,7 @@ namespace TownOfHost
         }
         public static string GetBulletCount(byte playerId)
         {
-            return $"<color=#ffff00>({bulletCount[playerId]})</color>";
+            return Helpers.ColorString(Color.yellow, $"({bulletCount[playerId]}");
         }
         public static byte GetSniper(byte target)
         {
@@ -225,7 +225,7 @@ namespace TownOfHost
                 var snList = shotNotify[sniper];
                 if (snList.Count() > 0 && snList.Contains(seer))
                 {
-                    return $"<color=#ff0000><size=200%>!</size></color>";
+                    return $"<size=200%>{Helpers.ColorString(Color.red, "!")}</size>";
                 }
             }
             return "";
