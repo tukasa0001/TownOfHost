@@ -206,7 +206,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Arsonist:
                     var doused = getDousedPlayerCount(playerId);
-                    ProgressText = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})")})";
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Helpers.ColorString(Color.yellow, Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
