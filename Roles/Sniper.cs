@@ -212,7 +212,7 @@ namespace TownOfHost
         }
         public static string GetBulletCount(byte playerId)
         {
-            return Helpers.ColorString(Color.yellow, $"({bulletCount[playerId]}");
+            return Helpers.ColorString(Color.yellow, $"({bulletCount[playerId]})");
         }
         public static byte GetSniper(byte target)
         {
