@@ -9,7 +9,6 @@ namespace TownOfHost
     class OptionsMenuBehaviourStartPatch
     {
         private static Vector3? origin;
-        private static ToggleButtonBehaviour HideCodesButton;
         private static ToggleButtonBehaviour ForceJapanese;
         private static ToggleButtonBehaviour JapaneseRoleName;
         public static float xOffset = 1.75f;
@@ -43,35 +42,27 @@ namespace TownOfHost
         {
             if (__instance.CensorChatButton != null)
             {
-                if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.CensorChatButton.transform.localPosition;
                 __instance.CensorChatButton.transform.localPosition = origin.Value + Vector3.left * 0.375f + Vector3.up * 0.2f;
                 __instance.CensorChatButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.EnableFriendInvitesButton != null)
             {
-                if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.EnableFriendInvitesButton.transform.localPosition;
                 __instance.EnableFriendInvitesButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.2f;
                 __instance.EnableFriendInvitesButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.ColorBlindButton != null)
             {
-                if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;// + Vector3.up * 0.075f;
+                if (origin == null) origin = __instance.ColorBlindButton.transform.localPosition;
                 __instance.ColorBlindButton.transform.localPosition = origin.Value + Vector3.right * 3.125f + Vector3.up * 0.83f;
                 __instance.ColorBlindButton.transform.localScale = Vector3.one * 0.7f;
             }
             if (__instance.StreamerModeButton != null)
-                __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.0f;
+                if (origin == null) origin = __instance.StreamerModeButton.transform.localPosition;
+            __instance.StreamerModeButton.transform.localPosition = origin.Value + Vector3.right * 1.375f + Vector3.up * 1.182f;
+            __instance.StreamerModeButton.transform.localScale = Vector3.one * 0.7f;
 
-            if (HideCodesButton == null || HideCodesButton.gameObject == null)
-            {
-                HideCodesButton = CreateCustomToggle($"{GetString("HideGameCodes")}: ", Main.HideCodes.Value, new Vector3(1.375f, 0.2f, 0), (UnityEngine.Events.UnityAction)HideCodesButtonToggle, __instance);
-
-                void HideCodesButtonToggle()
-                {
-                    Main.HideCodes.Value = !Main.HideCodes.Value;
-                    UpdateToggle(HideCodesButton, $"{GetString("HideGameCodes")}: ", Main.HideCodes.Value);
-                }
-            }
             if (ForceJapanese == null || ForceJapanese?.gameObject == null)
             {
                 ForceJapanese = CreateCustomToggle("Force Japanese: ", Main.ForceJapanese.Value, new Vector3(-0.375f, yOffset + 0.1f, 0), (UnityEngine.Events.UnityAction)ForceJapaneseButtonToggle, __instance);

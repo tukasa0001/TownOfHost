@@ -92,6 +92,7 @@ namespace TownOfHost
                 player?.RpcExileV2();
             });
             Main.AfterMeetingDeathPlayers.Clear();
+            LadderDeathPatch.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();

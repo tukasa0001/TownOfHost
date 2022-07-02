@@ -25,10 +25,10 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 //役職一覧
-                text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
+                text += $"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("LastImpostor"))}: {Options.EnableLastImpostor.GetString()}\n\n";
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
-                        text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                        text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 pages.Add(text + "\n\n");
                 text = "";
             }
@@ -38,7 +38,7 @@ namespace TownOfHost
             {
                 if (Options.EnableLastImpostor.GetBool())
                 {
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{GetString("LastImpostor")}:</color> {Options.EnableLastImpostor.GetString()}\n";
+                    text += $"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("LastImpostor"))}: {Options.EnableLastImpostor.GetString()}\n";
                     text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                 }
             }
@@ -46,7 +46,7 @@ namespace TownOfHost
             {
                 if (!kvp.Key.IsEnable()) continue;
                 if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                text += $"<color={Utils.GetRoleColorCode(kvp.Key)}>{Utils.GetRoleName(kvp.Key)}:</color> {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                 foreach (var c in kvp.Value.Children) //詳細設定をループする
                 {
                     if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
@@ -60,7 +60,7 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
                     text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                 }
-                if (kvp.Key is CustomRoles.Shapeshifter or CustomRoles.ShapeMaster or CustomRoles.Mafia or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
+                if (kvp.Key is CustomRoles.Shapeshifter or CustomRoles.ShapeMaster or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
                     text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                 }
@@ -97,6 +97,7 @@ namespace TownOfHost
                 nameAndValue(Options.IgnoreVent);
             }
             text += "\n";
+            listUp(Options.LadderDeath);
             listUp(Options.DisableTasks);
             listUp(Options.RandomMapsMode);
             nameAndValue(Options.NoGameEnd);

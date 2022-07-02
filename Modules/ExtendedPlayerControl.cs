@@ -65,7 +65,11 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.Warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -403,8 +407,11 @@ namespace TownOfHost
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            {
                 opt.ImpostorLightMod = 0f;
+                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
+            }
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
 
@@ -448,6 +455,10 @@ namespace TownOfHost
         public static string GetRoleColorCode(this PlayerControl player)
         {
             return Utils.GetRoleColorCode(player.GetCustomRole());
+        }
+        public static Color GetRoleColor(this PlayerControl player)
+        {
+            return Utils.GetRoleColor(player.GetCustomRole());
         }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
@@ -688,6 +699,8 @@ namespace TownOfHost
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
+            if (!Options.TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
+
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
                 Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化

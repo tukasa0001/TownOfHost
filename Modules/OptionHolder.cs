@@ -65,6 +65,7 @@ namespace TownOfHost
         public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
         public static CustomOption TimeThiefLowerLimitVotingTime;
+        public static CustomOption TimeThiefReturnStolenTimeUponDeath;
         public static CustomOption VampireKillDelay;
         public static CustomOption BlackOutMareSpeed;
         public static CustomOption ShapeMasterShapeshiftDuration;
@@ -122,7 +123,6 @@ namespace TownOfHost
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
-        public static float HideAndSeekImpVisionMin = 0.25f;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -157,8 +157,14 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        //転落死
+        public static CustomOption LadderDeath;
+        public static CustomOption LadderDeathChance;
+
         // 通常モードでかくれんぼ
+        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
         public static CustomOption StandardHAS;
+        public static CustomOption StandardHASWaitingTime;
 
         // リアクターの時間制御
         public static CustomOption SabotageTimeControl;
@@ -277,6 +283,7 @@ namespace TownOfHost
             SetupRoleOptions(2400, CustomRoles.TimeThief);
             TimeThiefDecreaseMeetingTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             TimeThiefLowerLimitVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            TimeThiefReturnStolenTimeUponDeath = CustomOption.Create(2412, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, CustomRoleSpawnChances[CustomRoles.TimeThief]);
 
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
             CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
@@ -285,12 +292,12 @@ namespace TownOfHost
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             //ID10120~10123を使用
+            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             //ID10220~10223を使用
+            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
@@ -332,8 +339,8 @@ namespace TownOfHost
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             //20520~20523を使用
+            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
@@ -350,8 +357,8 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
-            SnitchTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             //50220~50223を使用
+            TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
@@ -433,8 +440,14 @@ namespace TownOfHost
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
+            // 転落死
+            LadderDeath = CustomOption.Create(101100, Color.white, "LadderDeath", false, null, true);
+            LadderDeathChance = CustomOption.Create(101110, Color.white, "LadderDeathChance", rates[1..], rates[2], LadderDeath);
+
             // 通常モードでかくれんぼ用
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他

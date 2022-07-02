@@ -34,8 +34,8 @@ namespace TownOfHost
                 var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
                 textObj.transform.position = new Vector3(1f, -0.3f, 0);
                 textObj.name = "CanNotJoinPublic";
-                var message = ModUpdater.isBroken ? $"<size=2><color=#ff0000>{GetString("ModBrokenMessage")}</color></size>"
-                    : $"<size=2><color=#ff0000>{GetString("CanNotJoinPublicRoomNoLatest")}</color></size>";
+                var message = ModUpdater.isBroken ? $"<size=2>{Helpers.ColorString(Color.red, GetString("ModBrokenMessage"))}</size>"
+                    : $"<size=2>{Helpers.ColorString(Color.red, GetString("CanNotJoinPublicRoomNoLatest"))}</size>";
                 new LateTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
             }
         }
