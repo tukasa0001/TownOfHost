@@ -53,6 +53,7 @@ namespace TownOfHost
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId))
                 {
+                    data.Character.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveExecutionerKey(data.Character.PlayerId);
                 }

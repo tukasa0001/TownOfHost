@@ -254,9 +254,13 @@ namespace TownOfHost
     {
         public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
         {
-            if (PlayerControl.LocalPlayer == null || __instance == null || __instance.Player == null) return false;
-            if (!AmongUsClient.Instance.AmHost) return true;
-            if (__instance.Player.Is(CustomRoles.Sheriff) || __instance.Player.Is(CustomRoles.Arsonist))
+            if (PlayerControl.LocalPlayer == null ||
+               AmongUsClient.Instance == null ||
+               !AmongUsClient.Instance.AmHost ||
+               !AmongUsClient.Instance.IsGameStarted
+            ) return true;
+
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist))
             {
                 var targets = ((RoleBehaviour)__instance).GetPlayersInAbilityRangeSorted(RoleBehaviour.GetTempPlayerList());
                 __result = targets.Count <= 0 ? null : targets[0];

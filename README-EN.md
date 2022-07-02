@@ -296,12 +296,11 @@ The target will be given a special mark at the meeting and will die if the Witch
 ### Mafia
 
 Team : Impostors<br>
-Decision : Shapeshifter<br>
+Decision : Impostor<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
+The Mafias can not initially kill.<br>
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
-They can transform after becoming to able to kill.<br>
 
 ### Madmate
 
@@ -693,6 +692,14 @@ It is possible to disable certain tasks.<br>
 | Disable SwipeCard Tasks    |
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
+
+### Fall from ladders
+
+There is a certain probability of death if you descend from the ladder.<br>
+
+| Settings Name              |
+| -------------------------- |
+| Death Chance               |
 
 ### HideAndSeek
 
