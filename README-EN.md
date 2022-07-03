@@ -485,7 +485,7 @@ When the Snitches have one task left, they will be revealed to the Impostors (de
 | Settings Name                  |
 | ------------------------------ |
 | Snitch Can See Target Arrow    |
-| Snitch Can Get Arrow Color     |
+| Snitch Can See Colored Arrow   |
 | Snitch Can Find Neutral Killer |
 
 ### SpeedBooster
@@ -495,13 +495,13 @@ Create and idea by よっキング<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-Completing the task will make a random surviving player speed up.<br>
+Finishing all the tasks boosts the player speed of a random living player.<br>
 
 #### Settings
 
-| Settings Name     |
-| ----------------- |
-| Speed at speed up |
+| Settings Name        |
+| -------------------- |
+| Boosted Player Speed |
 
 ### Trapper
 
@@ -511,7 +511,7 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-When killed, it immobilizes the killed player for a few seconds.<br>
+The Trappers forbid the killer to move in the least for a configurable seconds.<br>
 
 #### Settings
 
