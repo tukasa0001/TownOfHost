@@ -224,6 +224,7 @@ namespace TownOfHost
             Main.introDestroyed = true;
             foreach (var pc in PlayerControl.AllPlayerControls)
                 pc.RpcSetRole(RoleTypes.Shapeshifter);
+            Logger.Info("OnDestroy", "IntroCutscene");
         }
     }
 }
