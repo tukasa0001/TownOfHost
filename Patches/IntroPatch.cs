@@ -222,6 +222,8 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance)
         {
             Main.introDestroyed = true;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                pc.RpcSetRole(RoleTypes.Shapeshifter);
         }
     }
 }

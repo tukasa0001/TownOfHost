@@ -479,18 +479,6 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
-
-            new LateTask(() =>
-            {
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    /*RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
-                        .Write((ushort)RoleTypes.Shapeshifter)
-                        .EndRpc();*/
-                    pc.RpcSetRole(RoleTypes.Shapeshifter);
-                }
-            }
-            , 3f, "SetImpostorForServer");
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
