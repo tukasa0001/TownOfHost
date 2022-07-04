@@ -16,6 +16,8 @@ namespace TownOfHost
 
             NameColorManager.Begin();
             Options.Load();
+            if (PlayerControl.GameOptions.killCooldown == 0.1f)
+                PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
