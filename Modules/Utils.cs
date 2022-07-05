@@ -122,12 +122,11 @@ namespace TownOfHost
         public static bool HasTasks(GameData.PlayerInfo p, bool ForRecompute = true)
         {
             //Tasksがnullの場合があるのでその場合タスク無しとする
-            if (p.Tasks == null) return false;
-            if (p.Role == null) return false;
+            if (p.Tasks == null || p.Role == null)
+                return false;
 
             var hasTasks = true;
-            if (p.Disconnected) hasTasks = false;
-            if (p.Role.IsImpostor)
+            if (p.Disconnected || p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
