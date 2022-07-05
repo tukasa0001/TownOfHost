@@ -66,7 +66,14 @@ namespace TownOfHost
 
                     case "/r":
                     case "/rename":
+                        bool ContainsMod = PlayerControl.LocalPlayer.Data.PlayerName.ToLower().Contains("mod");
                         canceled = true;
+                        if (ContainsMod)
+                        {
+                            HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString("ContainsMod"));
+                            cancelVal = "/rename ";
+                            break;
+                        }
                         if (args.Length > 1) { Main.nickName = args[1]; }
                         break;
 
