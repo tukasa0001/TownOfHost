@@ -661,6 +661,7 @@ namespace TownOfHost
                             {
                                 if (target.PlayerId == ExecutionerTarget.Value)
                                     TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            }
                         }
                         else
                         {
