@@ -794,6 +794,17 @@ namespace TownOfHost
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
             }
+            //LocalPlayer専用
+            if (__instance.AmOwner)
+            {
+                //キルターゲットの上書き処理
+                if ((__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist)) && !__instance.Data.IsDead)
+                {
+                    var players = __instance.GetPlayersInAbilityRangeSorted(false);
+                    PlayerControl closest = players.Count <= 0 ? null : players[0];
+                    HudManager.Instance.KillButton.SetTarget(closest);
+                }
+            }
 
             //役職テキストの表示
             var RoleTextTransform = __instance.cosmetics.nameText.transform.Find("RoleText");
