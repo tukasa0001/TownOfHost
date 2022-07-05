@@ -10,7 +10,8 @@ namespace TownOfHost
         public static bool Prefix(GameStartManager __instance)
         {
             bool ContainsMod = PlayerControl.LocalPlayer.Data.PlayerName.ToLower().Contains("mod");
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate || ContainsMod)
+            bool ContainsTOH = PlayerControl.LocalPlayer.Data.PlayerName.ToUpper().Contains("TOH");
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate || (ContainsMod && !ContainsTOH))
             {
                 var message = GetString("ContainsMod");
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");

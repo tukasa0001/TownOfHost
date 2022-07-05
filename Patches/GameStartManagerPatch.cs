@@ -40,7 +40,8 @@ namespace TownOfHost
 
                 // Make Public Button
                 bool ContainsMod = PlayerControl.LocalPlayer.Data.PlayerName.ToLower().Contains("mod");
-                if (ModUpdater.isBroken || ModUpdater.hasUpdate || ContainsMod)
+                bool ContainsTOH = PlayerControl.LocalPlayer.Data.PlayerName.ToUpper().Contains("TOH");
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (ContainsMod && !ContainsTOH))
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
