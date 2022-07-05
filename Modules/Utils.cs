@@ -548,7 +548,7 @@ namespace TownOfHost
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
 
-                if (seer.Is(CustomRoles.BountyHunter)
+                if (seer.Is(CustomRoles.BountyHunter))
                 {
                     if (seer.GetBountyTarget() != null)
                     {
