@@ -406,9 +406,7 @@ namespace TownOfHost
             List<PlayerControl> Impostors = new();
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                PlayerControl Winner = null;
-                if (p.PlayerId == winnerID) Winner = p;
-                if (p.Data.Role.IsImpostor)
+                if (p.PlayerId == winnerID && p.Data.Role.IsImpostor)
                 {
                     Impostors.Add(p);
                 }
