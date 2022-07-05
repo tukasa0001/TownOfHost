@@ -652,7 +652,7 @@ namespace TownOfHost
 
                         if (seer.Data.IsDead)
                         {
-                            if target.Is(CustomRoles.Lovers))
+                            if (target.Is(CustomRoles.Lovers))
                             {
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                             }
