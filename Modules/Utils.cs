@@ -128,7 +128,7 @@ namespace TownOfHost
             var hasTasks = true;
             if (p.Disconnected || p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
@@ -142,24 +142,30 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
-                    if (cRole == CustomRoles.Jester) hasTasks = false;
-                    if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Opportunist) hasTasks = false;
-                    if (cRole == CustomRoles.Sheriff) hasTasks = false;
-                    if (cRole == CustomRoles.Madmate) hasTasks = false;
-                    if (cRole == CustomRoles.SKMadmate) hasTasks = false;
-                    if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
-                    if (cRole == CustomRoles.Executioner) hasTasks = false;
-                    if (cRole == CustomRoles.Impostor) hasTasks = false;
-                    if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
-                    if (cRole == CustomRoles.Arsonist) hasTasks = false;
-                    if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
-                    if (cRole == CustomRoles.Egoist) hasTasks = false;
-
+                    if (cRole == CustomRoles.Jester ||
+                      cRole == CustomRoles.Opportunist ||
+                      cRole == CustomRoles.Sheriff ||
+                      cRole == CustomRoles.Madmate ||
+                      cRole == CustomRoles.SKMadmate ||
+                      cRole == CustomRoles.Executioner ||
+                      cRole == CustomRoles.Impostor ||
+                      cRole == CustomRoles.Shapeshifter ||
+                      cRole == CustomRoles.Arsonist ||
+                      cRole == CustomRoles.SchrodingerCat ||
+                      cRole == CustomRoles.CSchrodingerCat ||
+                      cRole == CustomRoles.MSchrodingerCat ||
+                      cRole == CustomRoles.EgoSchrodingerCat ||
+                      cRole == CustomRoles.Egoist)
+                    {
+                        hasTasks = false;
+                    }
+                    else if (ForRecompute)
+                    {
+                        if (cRole == CustomRoles.MadGuardian ||
+                          cRole == CustomRoles.MadSnitch ||
+                          cRole == CustomRoles.Terrorist)
+                            hasTasks = false;
+                    }
                     //foreach (var pc in PlayerControl.AllPlayerControls)
                     //{
                     //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
@@ -171,6 +177,7 @@ namespace TownOfHost
                     if (cSubRole == CustomRoles.Lovers)
                     {
                         //ラバーズがクルー陣営の場合タスクを付与しない
+                        // A Crew task win does not require Lovers tasks
                         if (cRole.GetRoleType() == RoleType.Crewmate)
                         {
                             hasTasks = false;
