@@ -357,7 +357,7 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomRoles[targetId] = role;
             }
-            else //if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
@@ -409,22 +409,20 @@ namespace TownOfHost
         }
         public static void CustomWinTrigger(byte winnerID)
         {
-            if (AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance.AmHost) return;
+
+            PlayerControl Winner = null;
+            foreach (var p in PlayerControl.AllPlayerControls)
             {
-                foreach (var p in PlayerControl.AllPlayerControls)
+                if (p.PlayerId == winnerID) Winner = p;
+                if (p.Data.Role.IsImpostor)
                 {
-                    if (p.PlayerId == winnerID)
-                    {
-                        p.RpcSetRole(RoleTypes.Impostor)
-                    }
-                    else if(p.Data.Role.IsImpostor)
-                    {
-                        p.RpcSetRole(RoleTypes.GuardianAngel);
-                    }
+                    p.RpcSetRole(RoleTypes.GuardianAngel);
                 }
-                new LateTask(() => Main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
             }
+
+            new LateTask(() => Main.CustomWinTrigger = true,
+              0.2f, "Custom Win Trigger Task");
         }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
