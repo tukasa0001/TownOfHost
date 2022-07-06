@@ -17,6 +17,9 @@ namespace TownOfHost
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
+            PlayerColors = new();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+                PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
@@ -208,6 +211,7 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
             }
         }
+        public static Dictionary<byte, Color32> PlayerColors = new();
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
     class SetEverythingUpPatch
@@ -324,13 +328,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color>" + Utils.SummaryTexts(id, disableColor: false);
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n　" + Utils.SummaryTexts(id, disableColor: false);
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
