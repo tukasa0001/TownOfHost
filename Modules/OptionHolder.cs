@@ -399,11 +399,11 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             //デバイス無効化
-            DisableDevices = CustomOption.Create(100200, Color.white, "DisableDevices", false, null, true)
+            DisableDevices = CustomOption.Create(100500, Color.white, "DisableDevices", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableAdmin = CustomOption.Create(100201, Color.white, "DisableAdmin", false, DisableDevices)
+            DisableAdmin = CustomOption.Create(100510, Color.white, "DisableAdmin", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            WhichDisableAdmin = CustomOption.Create(100501, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
+            WhichDisableAdmin = CustomOption.Create(100511, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
