@@ -213,25 +213,6 @@ namespace TownOfHost
                     ConsoleJoystick.SetMode_Task();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F3)) ShowDebugText = !ShowDebugText;
-            if (ShowDebugText)
-            {
-                string text = "==Debug State==\r\n";
-                text += "Frame Per Second: " + LastFPS + "\r\n";
-                text += "Call Notify Roles Per Second: " + LastCallNotifyRolesPerSecond + "\r\n";
-                text += "Last Set Name Desync Count: " + LastSetNameDesyncCount;
-                __instance.TaskText.text = text;
-            }
-            if (FrameRateTimer >= 1.0f)
-            {
-                FrameRateTimer = 0.0f;
-                LastFPS = NowFrameCount;
-                LastCallNotifyRolesPerSecond = NowCallNotifyRolesCount;
-                NowFrameCount = 0;
-                NowCallNotifyRolesCount = 0;
-            }
-            NowFrameCount++;
-            FrameRateTimer += Time.deltaTime;
 
             if (AmongUsClient.Instance.GameMode == GameModes.OnlineGame) RepairSender.enabled = false;
             if (Input.GetKeyDown(KeyCode.RightShift) && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
@@ -266,51 +247,6 @@ namespace TownOfHost
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
-        }
-    }
-    [HarmonyPatch(typeof(CrewmateRole), nameof(CrewmateRole.FindClosestTarget))]
-    class FindClosestTargetPatch
-    {
-        public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
-        {
-            var player = PlayerControl.LocalPlayer;
-            if (player == null || !player.AmOwner || !AmongUsClient.Instance.AmHost) return true;
-            if ((player.GetCustomRole() == CustomRoles.Sheriff || player.GetCustomRole() == CustomRoles.Arsonist) &&
-                __instance.Role != RoleTypes.GuardianAngel)
-            {
-                __result = OLD_FindClosestTarget(player);
-                return false;
-            }
-            return true;
-        }
-
-        private static PlayerControl OLD_FindClosestTarget(PlayerControl from)
-        {
-            PlayerControl closestTarget = null;
-            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
-            if (!(bool)(UnityEngine.Object)ShipStatus.Instance)
-                return (PlayerControl)null;
-            Vector2 truePosition = from.GetTruePosition();
-            GameData.PlayerInfo[] allPlayers = GameData.Instance.AllPlayers.ToArray();
-            for (int index = 0; index < allPlayers.Length; ++index)
-            {
-                GameData.PlayerInfo playerInfo = allPlayers[index];
-                if (playerInfo != null && !playerInfo.Disconnected && playerInfo.PlayerId != from.PlayerId && !playerInfo.IsDead && !playerInfo.Object.inVent)
-                {
-                    PlayerControl playerControl = playerInfo.Object;
-                    if ((bool)(UnityEngine.Object)playerControl && playerControl.Collider.enabled)
-                    {
-                        Vector2 vector2 = playerControl.GetTruePosition() - truePosition;
-                        float magnitude = vector2.magnitude;
-                        if ((double)magnitude <= (double)num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector2.normalized, magnitude, Constants.ShipAndObjectsMask))
-                        {
-                            closestTarget = playerControl;
-                            num = magnitude;
-                        }
-                    }
-                }
-            }
-            return closestTarget;
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]

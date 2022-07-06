@@ -25,7 +25,7 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-                if (CustomRoles.Mafia.IsEnable() || CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.BountyHunter.IsEnable() || CustomRoles.ShapeMaster.IsEnable()) forced = true;
+                if (CustomRoles.SerialKiller.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.BountyHunter.IsEnable() || CustomRoles.ShapeMaster.IsEnable()) forced = true;
             }
 
             if (forced)

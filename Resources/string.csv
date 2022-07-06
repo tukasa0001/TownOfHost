@@ -81,7 +81,7 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
-FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
+FireWorksInfo,Let's make it bloom last time,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
@@ -144,7 +144,7 @@ MareInfoLong,"(Impostors):\nYou can't only kill during a power outage.\nBut,when
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
-MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+MafiaInfoLong,"(Impostors):\nInitially, kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
 PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
 TimeThiefInfoLong,"(Impostors):\nEach kill decreases the meeting time.\nIf the time thief is exiled or killed, the lost meeting time is returned.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
@@ -197,6 +197,8 @@ AddedTheSkeld,Added TheSkeld,TheSkeldを追加
 AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
 AddedPolus,Added Polus,Polusを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+LadderDeath,Fall from ladders,ハシゴから転落
+LadderDeathChance,Chance of falling from ladders,転落する確率
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
 DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
@@ -225,7 +227,8 @@ SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
 
 ## モード説明
-HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nThe impostor's body will be changed to red and the crewmate to blue.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。
+StandardHASInfo,"HideAndSeek with Roles:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
@@ -298,6 +301,7 @@ SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モ
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
+TimeThiefReturnStolenTimeUponDeath,Return Stolen Time Upon Death,死亡後に盗んだ時間を返す
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
@@ -321,6 +325,7 @@ DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
 DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
+DeathReason.Fell,Fell,転落
 DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win, Wins,勝利
@@ -346,7 +351,12 @@ Command.h_args,Available Args (clipped),使用可能な引数 (略称)
 
 CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
 
+## 警告
+Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません
+
 ## その他
+ForceEnd,Force Terminated,廃村
+ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました
 HideGameCodes,Hide Game Codes,ゲームコードを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...
@@ -363,7 +373,8 @@ EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...
 FireworksReadyFirePhase,Redy To Fire!,打ち上げろ！
-StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
+StandardHAS,Hide And Seek with Roles,役職入りでかくれんぼ
+StandardHASWaitingTime,Waiting Time,待機時間
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン

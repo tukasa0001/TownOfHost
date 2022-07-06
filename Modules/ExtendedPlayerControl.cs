@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -65,7 +66,11 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.Warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -403,8 +408,11 @@ namespace TownOfHost
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.HideAndSeekKillDelayTimer > 0)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            {
                 opt.ImpostorLightMod = 0f;
+                if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
+            }
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
 
@@ -448,6 +456,10 @@ namespace TownOfHost
         public static string GetRoleColorCode(this PlayerControl player)
         {
             return Utils.GetRoleColorCode(player.GetCustomRole());
+        }
+        public static Color GetRoleColor(this PlayerControl player)
+        {
+            return Utils.GetRoleColor(player.GetCustomRole());
         }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
@@ -688,6 +700,8 @@ namespace TownOfHost
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
+            if (!Options.TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
+
             for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
                 Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
             Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
@@ -719,6 +733,29 @@ namespace TownOfHost
             reporter.RpcStartMeeting(target);
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
+        ///</summary>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, bool ignoreColliders = false) => GetPlayersInAbilityRangeSorted(player, pc => true, ignoreColliders);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、predicateの条件に合わないものを除外して返します。
+        ///</summary>
+        ///<param name="predicate">リストに入れるプレイヤーの条件 このpredicateに入れてfalseを返すプレイヤーは除外されます。</param>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値から条件に合わないプレイヤーを除外したもの。</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, Predicate<PlayerControl> predicate, bool ignoreColliders = false)
+        {
+            var rangePlayersIL = RoleBehaviour.GetTempPlayerList();
+            List<PlayerControl> rangePlayers = new();
+            player.Data.Role.GetPlayersInAbilityRangeSorted(rangePlayersIL, ignoreColliders);
+            foreach (var pc in rangePlayersIL)
+            {
+                if (predicate(pc)) rangePlayers.Add(pc);
+            }
+            return rangePlayers;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
