@@ -357,12 +357,18 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomRoles[targetId] = role;
             }
-            else if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
+            else //if (role >= CustomRoles.NoSubRoleAssigned)   //500:NoSubRole 501~:SubRole
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
-            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
+            if (role == CustomRoles.FireWorks)
+            {
+                FireWorks.Add(targetId);
+            }
+            else if (role == CustomRoles.Sniper)
+            {
+                Sniper.Add(targetId);
+            }
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
@@ -406,9 +412,7 @@ namespace TownOfHost
             List<PlayerControl> Impostors = new();
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                PlayerControl Winner = null;
-                if (p.PlayerId == winnerID) Winner = p;
-                if (p.Data.Role.IsImpostor)
+                if (p.PlayerId == winnerID && p.Data.Role.IsImpostor)
                 {
                     Impostors.Add(p);
                 }
