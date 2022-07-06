@@ -415,7 +415,7 @@ namespace TownOfHost
                 {
                     if (p.PlayerId == winnerID)
                     {
-                        p.RpcSetRole(RoleTypes.Imposter)
+                        p.RpcSetRole(RoleTypes.Impostor)
                     }
                     else if(p.Data.Role.IsImpostor)
                     {
