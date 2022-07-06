@@ -409,19 +409,18 @@ namespace TownOfHost
         }
         public static void CustomWinTrigger(byte winnerID)
         {
-            List<PlayerControl> Impostors = new();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                if (p.Data.Role.IsImpostor)
-                {
-                    Impostors.Add(p);
-                }
-            }
             if (AmongUsClient.Instance.AmHost)
             {
-                foreach (var imp in Impostors)
+                foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (p.PlayerId == winnerID)
+                    {
+                        p.RpcSetRole(RoleTypes.Imposter)
+                    }
+                    else if(p.Data.Role.IsImpostor)
+                    {
+                        p.RpcSetRole(RoleTypes.GuardianAngel);
+                    }
                 }
                 new LateTask(() => Main.CustomWinTrigger = true,
                 0.2f, "Custom Win Trigger Task");
