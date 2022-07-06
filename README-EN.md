@@ -495,7 +495,7 @@ Create and idea by よっキング<br>
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
-Finishing all the tasks boosts the player speed of a random living player.<br>
+Finishing all the tasks boosts the player speed of someone alive.<br>
 
 #### Settings
 
@@ -523,17 +523,18 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 Team : Neutral<br>
 Decision : Impostor<br>
-Victory Conditions : Douse all alive crewmates<br>
+Victory Conditions : Douse and ignite all the living players<br>
 
-When they use kill button and being close to target, they can douse oil to crewmate.<br>
-If they finish dousing to all alive crewmates and enter vents, they will win.<br>
+The Arsonists don't have any tasks, they have to win the game as a solo.
+They can douse other players by using the kill button and remaining next to the player for a few seconds.<br>
+After dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.<br>
 
 #### Settings
 
-| Settings Name |
-| ------------- |
-| Dousing time  |
-| Cooldown      |
+| Settings Name  |
+| -------------- |
+| Douse Duration |
+| Douse Cooldown |
 
 ### Egoist
 
