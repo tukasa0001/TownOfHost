@@ -278,13 +278,27 @@ namespace TownOfHost
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
 
+            CustomRoles role = player.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
+            switch (roleType)
+            {
+                case RoleType.Impostor:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    break;
+                case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    if (Options.MadmateHasImpostorVision.GetBool())
+                        opt.SetVision(player, true);
+                    break;
+            }
+
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                     break;
                 case CustomRoles.Warlock:
@@ -295,10 +309,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
-                    break;
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Mafia:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -375,17 +385,6 @@ namespace TownOfHost
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
-                    break;
-            }
-            CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
-            {
-                case RoleType.Madmate:
-                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
