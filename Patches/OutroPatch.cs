@@ -9,7 +9,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     class EndGamePatch
     {
-        public static Dictionary<byte, Color32> PlayerColors = new();
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,9 +17,6 @@ namespace TownOfHost
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
-            PlayerColors = new();
-            foreach (var pc in PlayerControl.AllPlayerControls)
-                PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
