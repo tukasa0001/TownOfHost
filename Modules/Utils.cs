@@ -346,13 +346,13 @@ namespace TownOfHost
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
-                text += $"\n★" + SummaryTexts(id);
+                text += $"\n★ " + SummaryTexts(id);
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　" + SummaryTexts(id);
+                text += $"\n　 " + SummaryTexts(id);
             }
             SendMessage(text, PlayerId);
         }
