@@ -9,6 +9,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     class EndGamePatch
     {
+        public static Dictionary<byte, Color32> PlayerColors = new();
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,7 +212,6 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
             }
         }
-        public static Dictionary<byte, Color32> PlayerColors = new();
     }
     [HarmonyPatch(typeof(EndGameManager), nameof(EndGameManager.SetEverythingUp))]
     class SetEverythingUpPatch
