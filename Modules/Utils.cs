@@ -126,9 +126,10 @@ namespace TownOfHost
                 return false;
 
             var hasTasks = true;
-            if (p.Disconnected)
+            if (p.Disconnected) hasTasks = false;
+            if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
@@ -137,8 +138,6 @@ namespace TownOfHost
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
                 }
             }
-            else if (p.Role.IsImpostor)
-                hasTasks = false;
             else
             {
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
