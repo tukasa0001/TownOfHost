@@ -39,9 +39,9 @@ namespace TownOfHost
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
 
                 // Make Public Button
-                bool ContainsMod = SaveManager.PlayerName.ToLower().Contains("mod");
-                bool ContainsTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
-                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (ContainsMod && !ContainsTOH))
+                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
+                bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH))
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
