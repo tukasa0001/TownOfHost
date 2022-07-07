@@ -625,7 +625,7 @@ namespace TownOfHost
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
-                        if (target == seer) continue;
+                        if (target == seer || target.Data.Disconnected) continue;
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         bool showToGhosts = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool();
