@@ -73,6 +73,7 @@ namespace TownOfHost
                     Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(Executioner);
                     RPC.RemoveExecutionerKey(Executioner);
+                    Utils.NotifyRoles();
                 }
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
