@@ -16,6 +16,11 @@ namespace TownOfHost
 
             NameColorManager.Begin();
             Options.Load();
+            if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
+            {
+                if (PlayerControl.GameOptions.killCooldown == 0.1f)
+                    PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
