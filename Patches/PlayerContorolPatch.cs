@@ -288,7 +288,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Ninja:
                         Ninja.KillCheck(killer,target);
-                        break;
+                        return false;
 
                     //==========マッドメイト系役職==========//
 

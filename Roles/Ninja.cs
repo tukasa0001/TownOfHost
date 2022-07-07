@@ -29,8 +29,8 @@ namespace TownOfHost
             if (Main.CheckShapeshift[killer.PlayerId])
             {
                 Logger.Info("Ninja ShapeShifting kill", "Ninja");
-                killer.RpcGuardAndKill(target);
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                killer.RpcGuardAndKill(target);
                 NinjaKillTarget.Add(target);
                 killer.CustomSyncSettings();//負荷軽減のため、killerだけがCustomSyncSettingsを実行
             }
