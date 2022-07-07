@@ -28,11 +28,14 @@ namespace TownOfHost
         {
             if (Main.CheckShapeshift[killer.PlayerId])
             {
-                Logger.Info("Ninja ShapeShifting kill", "Ninja");
                 Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
                 killer.RpcGuardAndKill(target);
                 NinjaKillTarget.Add(target);
-                killer.CustomSyncSettings();//負荷軽減のため、killerだけがCustomSyncSettingsを実行
+            }
+            else
+            {
+                killer.RpcMurderPlayerV2(target);
             }
         }
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
