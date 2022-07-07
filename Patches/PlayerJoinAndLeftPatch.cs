@@ -62,6 +62,19 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveExecutionerKey(data.Character.PlayerId);
                 }
+                if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
+                {
+                    byte Executioner = 0x73;
+                    Main.ExecutionerTarget.Do(x =>
+                    {
+                        if (x.Value == data.Character.PlayerId)
+                            Executioner = x.Key;
+                    });
+                    Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
+                    Main.ExecutionerTarget.Remove(Executioner);
+                    RPC.RemoveExecutionerKey(Executioner);
+                    Utils.NotifyRoles();
+                }
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
