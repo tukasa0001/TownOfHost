@@ -300,7 +300,7 @@ namespace TownOfHost
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
-                    opt.RoleOptions.ShapeMasterShapeshiftDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
