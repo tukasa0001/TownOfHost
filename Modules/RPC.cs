@@ -411,10 +411,8 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
 
-            PlayerControl Winner = null;
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                if (p.PlayerId == winnerID) Winner = p;
                 if (p.Data.Role.IsImpostor)
                 {
                     p.RpcSetRole(RoleTypes.GuardianAngel);
