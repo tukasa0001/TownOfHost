@@ -249,26 +249,6 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(CrewmateRole), nameof(CrewmateRole.FindClosestTarget))]
-    class FindClosestTarget_Crewmate
-    {
-        public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
-        {
-            if (PlayerControl.LocalPlayer == null ||
-               AmongUsClient.Instance == null ||
-               !AmongUsClient.Instance.AmHost ||
-               !AmongUsClient.Instance.IsGameStarted
-            ) return true;
-
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Arsonist))
-            {
-                var targets = ((RoleBehaviour)__instance).GetPlayersInAbilityRangeSorted(RoleBehaviour.GetTempPlayerList());
-                __result = targets.Count <= 0 ? null : targets[0];
-                return false;
-            }
-            return true;
-        }
-    }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
