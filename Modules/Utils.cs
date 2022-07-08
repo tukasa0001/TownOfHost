@@ -566,8 +566,7 @@ namespace TownOfHost
                         break;
                     //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                     case CustomRoles.Snitch:
-                        var TaskState = seer.GetPlayerTaskState();
-                        if (TaskState.IsTaskFinished)
+                        if (seer.GetPlayerTaskState().IsTaskFinished)
                         {
                             SeerKnowsImpostors = true;
                             //ミーティング以外では矢印表示
@@ -583,8 +582,7 @@ namespace TownOfHost
                         }
                         break;
                     case CustomRoles.MadSnitch:
-                        var TaskState = seer.GetPlayerTaskState();
-                        if (TaskState.IsTaskFinished)
+                        if (seer.GetPlayerTaskState().IsTaskFinished)
                             SeerKnowsImpostors = true;
                         break;
                 }
