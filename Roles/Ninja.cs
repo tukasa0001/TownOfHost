@@ -5,7 +5,7 @@ namespace TownOfHost
     public static class Ninja
     {
         static readonly int Id = 2600;
-        static readonly List<PlayerControl> NinjaKillTarget = new();
+        public static readonly List<PlayerControl> NinjaKillTarget = new();
         static List<byte> playerIdList = new();
 
         public static void SetupCustomOption()
