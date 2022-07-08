@@ -17,6 +17,7 @@ namespace TownOfHost
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
                 {
+                    __instance.YouAreText.color = Utils.GetRoleColor(role);
                     __instance.RoleText.text = Utils.GetRoleName(role);
                     __instance.RoleText.color = Utils.GetRoleColor(role);
                     __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
