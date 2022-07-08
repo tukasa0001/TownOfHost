@@ -80,6 +80,10 @@ namespace TownOfHost
         public static CustomOption MadmateVentMaxTime;
 
         public static CustomOption EvilWatcherChance;
+        public static CustomOption EvilGuesserChance;
+        public static CustomOption ConfirmedEvilGuesser;
+        public static CustomOption CanShootAsNomalCrewmate;
+        public static CustomOption GuesserShootLimit;
         public static CustomOption LighterTaskCompletedVision;
         public static CustomOption LighterTaskCompletedDisableLightOut;
         public static CustomOption MayorAdditionalVote;
@@ -207,6 +211,16 @@ namespace TownOfHost
             EvilWatcherRate = Options.EvilWatcherChance.GetFloat();
             IsEvilWatcher = UnityEngine.Random.Range(1, 100) < EvilWatcherRate;
         }
+        public static bool IsEvilGuesser = false;
+        public static void SetGuesserTeam(float EvilGuesserRate)
+        {
+            EvilGuesserRate = Options.EvilGuesserChance.GetFloat();
+            IsEvilGuesser = UnityEngine.Random.Range(1, 100) < EvilGuesserRate;
+        }
+        public static void SetEvilGuesser()
+        {
+            CustomRoleCounts.Add(CustomRoles.EvilGuesser, Options.ConfirmedEvilGuesser);
+        }
         private static bool IsLoaded = false;
 
         static Options()
@@ -307,6 +321,11 @@ namespace TownOfHost
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
+            SetupRoleOptions(30100, CustomRoles.Guesser);
+            EvilGuesserChance = CustomOption.Create(30110, Color.white, "EvilGuesserChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Guesser]);
+            ConfirmedEvilGuesser = CustomOption.Create(30120, Color.white, "ConfirmedEvilGuesser", 0, 0, 3, 1, CustomRoleSpawnChances[CustomRoles.Guesser]);
+            CanShootAsNomalCrewmate = CustomOption.Create(30130, Color.white, "CanShootAsNomalCrewmate", true, CustomRoleSpawnChances[CustomRoles.Guesser]);
+            GuesserShootLimit = CustomOption.Create(30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Guesser]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             SetupRoleOptions(20100, CustomRoles.Lighter);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -49,6 +49,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, float> GuesserShootLimit;
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
@@ -65,6 +66,7 @@ namespace TownOfHost
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
+        public static bool isEvilGuesserMeeting;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
@@ -177,6 +179,7 @@ namespace TownOfHost
                 //特殊インポスター役職
                 {CustomRoles.Vampire, "#ff0000"},
                 {CustomRoles.Mafia, "#ff0000"},
+                {CustomRoles.EvilGuesser, "#ff0000"},
                 {CustomRoles.EvilWatcher, "#ff0000"}, //ウォッチャーの派生
                 {CustomRoles.BountyHunter, "#ff0000"},
                 {CustomRoles.Witch, "#ff0000"},
@@ -195,8 +198,10 @@ namespace TownOfHost
                 {CustomRoles.MadSnitch, "#ff0000"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 //両陣営可能役職
+                {CustomRoles.Guesser, "#ffff00"},
                 {CustomRoles.Watcher, "#800080"},
                 //特殊クルー役職
+                {CustomRoles.NiceGuesser, "#ffff00"},
                 {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                 {CustomRoles.Bait, "#00f7ff"},
                 {CustomRoles.SabotageMaster, "#0000ff"},
@@ -264,6 +269,7 @@ namespace TownOfHost
         Shapeshifter,
         //Impostor
         BountyHunter,
+        EvilGuesser,
         EvilWatcher,
         FireWorks,
         Mafia,
@@ -283,6 +289,7 @@ namespace TownOfHost
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営
+        Guesser,
         Watcher,
         //Crewmate(Vanilla)
         Engineer,
@@ -292,6 +299,7 @@ namespace TownOfHost
         Bait,
         Lighter,
         Mayor,
+        NiceGuesser,
         NiceWatcher,
         SabotageMaster,
         Sheriff,

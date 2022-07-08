@@ -133,6 +133,12 @@ namespace TownOfHost
                     Logger.Info($"exileId: {exileId}, max: {max}票", "Vote");
                 }
 
+                if (Utils.GetPlayerById(exileId).GetCustomRole() == CustomRoles.EvilGuesser)
+                {
+                    MeetingHud.Instance.RpcClose();
+                    Main.isEvilGuesserMeeting = true;
+                    return false;
+                }
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 

@@ -91,6 +91,11 @@ namespace TownOfHost
                 PlayerState.SetDead(x.Key);
                 player?.RpcExileV2();
             });
+            if (Main.isEvilGuesserMeeting)
+            {
+                PlayerControl.LocalPlayer.CmdReportDeadBody(null);
+                Main.isEvilGuesserMeeting = false;
+            }
             Main.AfterMeetingDeathPlayers.Clear();
             LadderDeathPatch.Reset();
             Utils.CountAliveImpostors();

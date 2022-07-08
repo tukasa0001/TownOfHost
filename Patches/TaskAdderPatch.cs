@@ -104,6 +104,7 @@ namespace TownOfHost
             { CustomRoles.Madmate, RoleTypes.Engineer },
             { CustomRoles.Terrorist, RoleTypes.Engineer },
             { CustomRoles.EvilWatcher, RoleTypes.Impostor },
+            {CustomRoles.EvilGuesser,RoleTypes.Impostor},
             { CustomRoles.Mare, RoleTypes.Impostor },
             { CustomRoles.Doctor, RoleTypes.Scientist },
             { CustomRoles.TimeThief, RoleTypes.Impostor },

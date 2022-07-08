@@ -50,6 +50,35 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 Main.isChatCommand = true;
+                if ((PlayerControl.LocalPlayer.Is(CustomRoles.EvilGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceGuesser)) && args[0] == "/shoot" && !PlayerControl.LocalPlayer.Data.IsDead)
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        if (subArgs == $"{pc.name}" && Main.GuesserShootLimit[PlayerControl.LocalPlayer.PlayerId] != 0)
+                        {
+                            subArgs = args.Length < 3 ? "" : args[2];
+                            Logger.Info($"{subArgs}", "guesser");
+                            Logger.Info($"{pc.GetCustomRole()}", "guesser");
+                            if (subArgs == $"{pc.GetCustomRole()}")
+                            {
+                                if (pc.GetCustomRole() == CustomRoles.Crewmate && !Options.CanShootAsNomalCrewmate.GetBool()) return false;
+                                PlayerControl.LocalPlayer.RpcMurderPlayer(pc);
+                                Main.GuesserShootLimit[PlayerControl.LocalPlayer.PlayerId]--;
+                                Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Kill);
+                            }
+                            else
+                            {
+                                PlayerControl.LocalPlayer.RpcMurderPlayer(PlayerControl.LocalPlayer);
+                                Main.AfterMeetingDeathPlayers.TryAdd(PlayerControl.LocalPlayer.PlayerId, PlayerState.DeathReason.Misfire);
+                            }
+                        }
+                        else if (subArgs == "")
+                        {
+                            Utils.ShowActiveRoles();
+                        }
+                    }
+                }
                 switch (args[0])
                 {
                     case "/win":
@@ -222,6 +251,7 @@ namespace TownOfHost
                 __instance.TextArea.SetText(cancelVal);
                 __instance.quickChatMenu.ResetGlyphs();
             }
+
             return !canceled;
         }
 
@@ -252,6 +282,7 @@ namespace TownOfHost
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
+                {CustomRoles.Guesser, "gue"},
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, "ba" },
@@ -349,6 +380,35 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return;
             string[] args = text.Split(' ');
             string subArgs = "";
+            if ((player.Is(CustomRoles.EvilGuesser) || player.Is(CustomRoles.NiceGuesser)) && args[0] == "/shoot" && !player.Data.IsDead)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    if (subArgs == $"{pc.name}" && Main.GuesserShootLimit[player.PlayerId] != 0)
+                    {
+                        subArgs = args.Length < 3 ? "" : args[2];
+                        Logger.Info($"{subArgs}", "guesser");
+                        Logger.Info($"{pc.GetCustomRole()}", "guesser");
+                        if (subArgs == $"{pc.GetCustomRole()}")
+                        {
+                            if (pc.GetCustomRole() == CustomRoles.Crewmate && !Options.CanShootAsNomalCrewmate.GetBool()) return;
+                            Main.GuesserShootLimit[player.PlayerId]--;
+                            player.RpcMurderPlayer(pc);
+                            Main.AfterMeetingDeathPlayers.TryAdd(pc.PlayerId, PlayerState.DeathReason.Kill);
+                        }
+                        else
+                        {
+                            player.RpcMurderPlayer(player);
+                            Main.AfterMeetingDeathPlayers.TryAdd(player.PlayerId, PlayerState.DeathReason.Misfire);
+                        }
+                    }
+                    else if (subArgs == "")
+                    {
+                        Utils.ShowActiveRoles();
+                    }
+                }
+            }
             switch (args[0])
             {
                 case "/l":
