@@ -45,7 +45,7 @@ namespace TownOfHost
             {
                 foreach (var ni in NinjaKillTarget)
                 {
-                    if (!ni.Data.IsDead)
+                    if (!ni.Data.IsDead && !ni.Is(CustomRoles.Ninja))
                     {
                         Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown;
                         pc.RpcMurderPlayerV2(ni);
