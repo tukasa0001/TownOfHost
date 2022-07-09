@@ -202,10 +202,7 @@ namespace TownOfHost
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, ForceLoop: true);
             Main.witchMeeting = false;
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                Ninja.NinjaKillTarget.Remove(pc);//ニンジャの会議終了時キルの対策
-            }
+            Ninja.NewNinjaKillTarget();
         }
         public static void Postfix(MeetingHud __instance)
         {

@@ -5,7 +5,7 @@ namespace TownOfHost
     public static class Ninja
     {
         static readonly int Id = 2600;
-        public static readonly List<PlayerControl> NinjaKillTarget = new();
+        public static List<PlayerControl> NinjaKillTarget = new();
         static List<byte> playerIdList = new();
 
         public static void SetupCustomOption()
@@ -23,6 +23,10 @@ namespace TownOfHost
         public static bool IsEnable()
         {
             return playerIdList.Count > 0;
+        }
+        public static void NewNinjaKillTarget()
+        {
+            NinjaKillTarget = new();
         }
         public static void KillCheck(this PlayerControl killer, PlayerControl target)
         {
