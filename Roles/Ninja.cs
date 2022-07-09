@@ -49,7 +49,7 @@ namespace TownOfHost
             {
                 foreach (var ni in NinjaKillTarget)
                 {
-                    if (!ni.Data.IsDead && !ni.Is(CustomRoles.Ninja))
+                    if (!ni.Data.IsDead && !ni.Is(CustomRoles.Ninja))//まれに会議終了後にニンジャがニンジャキルで死亡してしまうのでニンジャ以外のみに限定
                     {
                         Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown;
                         pc.RpcMurderPlayerV2(ni);
