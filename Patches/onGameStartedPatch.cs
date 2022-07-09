@@ -240,17 +240,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
-            //サーバーの役職判定をだます
-            RpcSetRoleReplacer.sender.StartMessage(-1);
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
-                    .Write((ushort)RoleTypes.Shapeshifter)
-                    .EndRpc();
-            }
-            //RpcSetRoleReplacerの送信処理
-            RpcSetRoleReplacer.sender.EndMessage()
-                                    .SendMessage();
+            RpcSetRoleReplacer.sender.SendMessage();
 
             //Utils.ApplySuffix();
 
