@@ -32,7 +32,7 @@ namespace TownOfHost
             Count = 3;
             var DisableDevices =
                 AdminPatch.DisableAdmin ||
-                Options.StandardHAS.GetBool(); //他に無効化するデバイスを設定する場合はここへ追加
+                Options.IsStandardHAS; //他に無効化するデバイスを設定する場合はここへ追加
 
             if (DisableDevices)
             {
@@ -46,9 +46,9 @@ namespace TownOfHost
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
                             //アドミンチェック
-                            if (AdminPatch.DisableAdmin)
+                            if (AdminPatch.DisableAdmin || Options.IsStandardHAS)
                             {
-                                if (AdminPatch.DisableAllAdmins || Options.StandardHAS.GetBool())
+                                if (AdminPatch.DisableAllAdmins || Options.IsStandardHAS)
                                 {
                                     var AdminDistance = Vector2.Distance(PlayerPos, GetAdminTransform());
                                     IsGuard = AdminDistance <= UsableDistance();
@@ -59,7 +59,7 @@ namespace TownOfHost
                                         IsGuard = SecondaryPolusAdminDistance <= UsableDistance();
                                     }
                                 }
-                                if (!IsGuard && AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin || Options.StandardHAS.GetBool()) //憎きアーカイブのアドミンチェック
+                                if (!IsGuard && (AdminPatch.DisableAllAdmins || AdminPatch.DisableArchiveAdmin || Options.IsStandardHAS)) //憎きアーカイブのアドミンチェック
                                 {
                                     var ArchiveAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.ArchiveAdminPos);
                                     IsGuard = ArchiveAdminDistance <= UsableDistance();
