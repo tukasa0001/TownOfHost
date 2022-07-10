@@ -16,6 +16,11 @@ namespace TownOfHost
 
             NameColorManager.Begin();
             Options.Load();
+            if (AmongUsClient.Instance.AmHost) //以下、ホストのみ実行
+            {
+                if (PlayerControl.GameOptions.killCooldown == 0.1f)
+                    PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
+            }
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
@@ -56,6 +61,19 @@ namespace TownOfHost
                     data.Character.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveExecutionerKey(data.Character.PlayerId);
+                }
+                if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
+                {
+                    byte Executioner = 0x73;
+                    Main.ExecutionerTarget.Do(x =>
+                    {
+                        if (x.Value == data.Character.PlayerId)
+                            Executioner = x.Key;
+                    });
+                    Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
+                    Main.ExecutionerTarget.Remove(Executioner);
+                    RPC.RemoveExecutionerKey(Executioner);
+                    Utils.NotifyRoles();
                 }
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {
