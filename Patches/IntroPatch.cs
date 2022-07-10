@@ -17,6 +17,7 @@ namespace TownOfHost
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
                 if (!role.IsVanilla())
                 {
+                    __instance.YouAreText.color = Utils.GetRoleColor(role);
                     __instance.RoleText.text = Utils.GetRoleName(role);
                     __instance.RoleText.color = Utils.GetRoleColor(role);
                     __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
@@ -222,6 +223,12 @@ namespace TownOfHost
         public static void Postfix(IntroCutscene __instance)
         {
             Main.introDestroyed = true;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                    pc.RpcSetRole(RoleTypes.Shapeshifter);
+            }
+            Logger.Info("OnDestroy", "IntroCutscene");
         }
     }
 }

@@ -206,10 +206,10 @@ namespace TownOfHost
             {
                 case CustomRoles.Arsonist:
                     var doused = getDousedPlayerCount(playerId);
-                    ProgressText = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})")})";
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += $"({Helpers.ColorString(Color.yellow, Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? shotLimit.ToString() : "Invalid")})";
+                    ProgressText += Helpers.ColorString(Color.yellow, Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
@@ -623,7 +623,7 @@ namespace TownOfHost
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
-                        if (target == seer) continue;
+                        if (target == seer || target.Data.Disconnected) continue;
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
