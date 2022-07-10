@@ -22,7 +22,6 @@ namespace TownOfHost
                     DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
                 bool isGuard = false;
 
-                __instance.SabotageText.gameObject.SetActive(false);
                 DisabledText.gameObject.SetActive(false);
                 if (DisableAdmin)
                 {
@@ -51,6 +50,7 @@ namespace TownOfHost
                     __instance.SabotageText.gameObject.SetActive(false);
 
                     __instance.BackgroundColor.SetColor(Palette.DisabledGrey);
+                    __instance.SabotageText.gameObject.SetActive(false);
                     DisabledText.gameObject.SetActive(true);
                     DisabledText.text = GetString("DisabledBySettings");
                     return false;
