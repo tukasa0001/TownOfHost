@@ -12,12 +12,14 @@ namespace TownOfHost
         public static bool DisableArchiveAdmin => Options.DisableAdmin.GetBool() && PlayerControl.GameOptions.MapId == 4 && Options.WhichDisableAdmin.GetString() == GetString(Options.whichDisableAdmin[1]);
         public static Vector2 ArchiveAdminPos = new(20.0f, 12.3f);
         public static Vector2 SecondaryPolusAdminPos = new(24.66107f, -21.523f);
+        private static TMPro.TextMeshPro DisabledText;
         [HarmonyPatch(typeof(MapCountOverlay), nameof(MapCountOverlay.Update))]
         public static class MapCountOverlayUpdatePatch
         {
             public static bool Prefix(MapCountOverlay __instance)
             {
-                var DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
+                if (DisabledText == null)
+                    DisabledText = Object.Instantiate(__instance.SabotageText, __instance.SabotageText.transform.parent);
                 bool isGuard = false;
 
                 __instance.SabotageText.gameObject.SetActive(false);
