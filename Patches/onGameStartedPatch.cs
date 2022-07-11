@@ -64,6 +64,7 @@ namespace TownOfHost
             Main.LastNotifyNames = new();
 
             Main.currentDousingTarget = 255;
+            Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)
@@ -82,6 +83,7 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
                 Main.SelfGuard[pc.PlayerId] = false;
