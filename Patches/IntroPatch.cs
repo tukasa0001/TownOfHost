@@ -226,7 +226,10 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
+                {
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
+                    pc.RpcResetAbilityCooldown();
+                }
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }
