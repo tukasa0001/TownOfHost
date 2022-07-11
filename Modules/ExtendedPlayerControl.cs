@@ -696,7 +696,7 @@ namespace TownOfHost
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper);
+                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
