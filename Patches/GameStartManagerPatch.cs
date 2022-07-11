@@ -38,6 +38,15 @@ namespace TownOfHost
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
+
+                // Make Public Button
+                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
+                bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH))
+                {
+                    __instance.MakePublicButton.color = Palette.DisabledClear;
+                    __instance.privatePublicText.color = Palette.DisabledClear;
+                }
             }
         }
 
