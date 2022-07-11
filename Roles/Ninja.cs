@@ -54,7 +54,7 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown;
                         pc.RpcMurderPlayerV2(ni);
                         NinjaKillTarget.Remove(ni);
-                        pc.RpcRevertShapeshift(false);//他視点シェイプシフトが解除されないように見える場合があるため強制解除
+                        pc.RpcRevertShapeshift(true);//他視点シェイプシフトが解除されないように見える場合があるため強制解除。falseにするとホストとクライアントの挙動が違うようになるのでtrue
                         pc.CustomSyncSettings();//負荷軽減のため、pcだけがCustomSyncSettingsを実行
                     }
                 }
