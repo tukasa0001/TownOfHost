@@ -1,5 +1,5 @@
 using HarmonyLib;
-using UnhollowerBaseLib;
+using InnerNet;
 using UnityEngine;
 
 namespace TownOfHost
@@ -22,6 +22,7 @@ namespace TownOfHost
             public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
+                __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 // Reset lobby countdown timer
                 timer = 600f;
 
