@@ -218,7 +218,7 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-    class IntroCutsceneDestoryPatch
+    class IntroCutsceneDestroyPatch
     {
         public static void Postfix(IntroCutscene __instance)
         {
