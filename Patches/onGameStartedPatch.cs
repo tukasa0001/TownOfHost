@@ -64,6 +64,7 @@ namespace TownOfHost
             Main.LastNotifyNames = new();
 
             Main.currentDousingTarget = 255;
+            Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)
@@ -82,6 +83,7 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
                 Main.SelfGuard[pc.PlayerId] = false;
@@ -240,17 +242,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
-            //サーバーの役職判定をだます
-            RpcSetRoleReplacer.sender.StartMessage(-1);
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                RpcSetRoleReplacer.sender.StartRpc(pc.NetId, (byte)RpcCalls.SetRole)
-                    .Write((ushort)RoleTypes.Shapeshifter)
-                    .EndRpc();
-            }
-            //RpcSetRoleReplacerの送信処理
-            RpcSetRoleReplacer.sender.EndMessage()
-                                    .SendMessage();
+            RpcSetRoleReplacer.sender.SendMessage();
 
             //Utils.ApplySuffix();
 
