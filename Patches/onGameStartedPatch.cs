@@ -154,86 +154,8 @@ namespace TownOfHost
                     AllPlayers.Add(pc);
                 }
 
-                if (CustomRoles.Sheriff.IsEnable())
-                {
-                    for (var i = 0; i < CustomRoles.Sheriff.GetCount(); i++)
-                    {
-                        if (AllPlayers.Count <= 0) break;
-                        var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count)];
-                        AllPlayers.Remove(sheriff);
-                        Main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
-                        //ここからDesyncが始まる
-                        if (sheriff.PlayerId != 0)
-                        {
-                            int sheriffCID = sheriff.GetClientId();
-                            //ただしホスト、お前はDesyncするな。
-                            sender.RpcSetRole(sheriff, RoleTypes.Impostor, sheriffCID);
-                            //sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
-                            //シェリフ視点で他プレイヤーを科学者にするループ
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == sheriff) continue;
-                                sender.RpcSetRole(pc, RoleTypes.Scientist, sheriffCID);
-                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
-                            }
-                            //他視点でシェリフを科学者にするループ
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == sheriff) continue;
-                                if (pc.PlayerId == 0) sheriff.SetRole(RoleTypes.Scientist); //ホスト視点用
-                                else sender.RpcSetRole(sheriff, RoleTypes.Scientist, pc.GetClientId());
-                                //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                            }
-                        }
-                        else
-                        {
-                            //ホストは代わりに普通のクルーにする
-                            sheriff.SetRole(RoleTypes.Crewmate); //ホスト視点用
-                            sender.RpcSetRole(sheriff, RoleTypes.Crewmate);
-                        }
-                        sheriff.Data.IsDead = true;
-                    }
-                }
-                if (CustomRoles.Arsonist.IsEnable())
-                {
-                    for (var i = 0; i < CustomRoles.Arsonist.GetCount(); i++)
-                    {
-                        if (AllPlayers.Count <= 0) break;
-                        var arsonist = AllPlayers[rand.Next(0, AllPlayers.Count)];
-                        AllPlayers.Remove(arsonist);
-                        Main.AllPlayerCustomRoles[arsonist.PlayerId] = CustomRoles.Arsonist;
-                        //ここからDesyncが始まる
-                        if (arsonist.PlayerId != 0)
-                        {
-                            int arsonistCID = arsonist.GetClientId();
-                            //ただしホスト、お前はDesyncするな。
-                            sender.RpcSetRole(arsonist, RoleTypes.Impostor, arsonistCID);
-                            //arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
-                            //アーソニスト視点で他プレイヤーを科学者にするループ
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == arsonist) continue;
-                                sender.RpcSetRole(pc, RoleTypes.Scientist, arsonistCID);
-                                //pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
-                            }
-                            //他視点でアーソニストを科学者にするループ
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == arsonist) continue;
-                                if (pc.PlayerId == 0) arsonist.SetRole(RoleTypes.Scientist); //ホスト視点用
-                                else sender.RpcSetRole(arsonist, RoleTypes.Scientist, pc.GetClientId());
-                                //sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                            }
-                        }
-                        else
-                        {
-                            //ホストは代わりに普通のクルーにする
-                            arsonist.SetRole(RoleTypes.Crewmate); //ホスト視点用
-                            sender.RpcSetRole(arsonist, RoleTypes.Crewmate);
-                        }
-                        arsonist.Data.IsDead = true;
-                    }
-                }
+                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -470,6 +392,45 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
+        }
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        {
+            if (!role.IsEnable()) return;
+
+            for (var i = 0; i < role.GetCount(); i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                //ここからDesyncが始まる
+                if (player.PlayerId != 0)
+                {
+                    int playerCID = player.GetClientId();
+                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
+                    //他視点でDesyncする人の役職を科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
+                }
+                else
+                {
+                    //ホストは別の役職にする
+                    player.SetRole(hostBaseRole); //ホスト視点用
+                    sender.RpcSetRole(player, hostBaseRole);
+                }
+                player.Data.IsDead = true;
+            }
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
