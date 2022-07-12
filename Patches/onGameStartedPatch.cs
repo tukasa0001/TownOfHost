@@ -53,7 +53,6 @@ namespace TownOfHost
             Options.SabotageMasterUsedSkillCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             Main.BlockKilling = new Dictionary<byte, bool>();
-            Main.SelfGuard = new();
 
             Main.introDestroyed = false;
 
@@ -84,7 +83,6 @@ namespace TownOfHost
             {
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
-                Main.SelfGuard[pc.PlayerId] = false;
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
