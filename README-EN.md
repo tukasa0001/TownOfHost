@@ -134,9 +134,9 @@ If the BountyHunters kill their designated target, their next kill cooldown will
 Killing a player except their current target results in an increased kill cooldown.<br>
 The target swaps after a configurable amount of time.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                             |
+| Name                                     |
 | ---------------------------------------- |
 | Time To Swap Bounty(s)                   |
 | Kill Cooldown After Killing Bounty(s)    |
@@ -155,9 +155,9 @@ After they put all the fireworks and after the other impostors are all gone, the
 They can perform kills after setting off fireworks. <br>
 Even if they mistakenly bomb themselves, killing everyone results in Impostor win. <br>
 
-#### Settings
+#### Game Options
 
-| Game Options        |
+| Name                |
 | ------------------- |
 | FireWorks Max Count |
 | FireWorks Radius    |
@@ -173,9 +173,9 @@ Decision : Impostor<br>
 They can kill only in lights out, but next kill cooldown will be half.<br>
 While lights out they can move faster, and yet their name looks red by everyone.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                    |
+| Name                            |
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
 
@@ -195,9 +195,9 @@ Decision : Shapeshifter<br>
 SerialKiller has even shorter kill cooldown.<br>
 Unless taking a kill by deadline, they murder themselves instantly.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options             |
+| Name                     |
 | ------------------------ |
 | Kill Cooldown(s)         |
 | Time Limit To Suiside(s) |
@@ -212,9 +212,9 @@ Decision : ShapeShifter<br>
 ShapeMaster has no Shapeshift cooldown.<br>
 On the other hand, their default Shapeshift duration is shorter (default: 10s).<br>
 
-#### Settings
+#### Game Options
 
-| Game Options           |
+| Name                   |
 | ---------------------- |
 | Shapeshift Duration(s) |
 
@@ -235,9 +235,9 @@ Precision Shooting:OFF<BR>
 Precision Shooting:ON<BR>
 ![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
 
-#### Settings
+#### Game Options
 
-| Game Options            |
+| Name                    |
 | ----------------------- |
 | Sniper Bullet Count     |
 | Sniper Precise Shooting |
@@ -253,9 +253,9 @@ Decision : Impostor<br>
 Every kill cuts down discussion and voting time in meeting.<br>
 Depending on option, the lost time is returned after they die.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                      |
+| Name                              |
 | --------------------------------- |
 | TimeThief Decrease Time Length(s) |
 | Lower Limit For Voting Time       |
@@ -270,9 +270,9 @@ The Vampires can bite players instead of kill.<br>
 Bitten players die after a configurable amount of time or just before emergency meeting call.<br>
 When biting the [Baits](#Bait), However, they take a no delay, normal kill and are forced to self report.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options          |
+| Name                  |
 | --------------------- |
 | Vampire Kill Delay(s) |
 
@@ -320,9 +320,9 @@ Decision : Crewmate<br>
 The MadGuardians belong to team Impostors, one type of Madmates.<br>
 Compared with Madmates, MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                          |
+| Name                                  |
 | ------------------------------------- |
 | MadGuardian Can See Who Tried To Kill |
 
@@ -337,9 +337,9 @@ The MadSnitches belong to team Impostors, one type of Madmates.<br>
 They can see who is the Impostor after finishing all their tasks.<br>
 Depending on option, they can use vents.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options           |
+| Name                   |
 | ---------------------- |
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
@@ -357,7 +357,7 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 
 There are also common options for Madmate Roles.
 
-| Game Options                |
+| Name                        |
 | --------------------------- |
 | Madmate Can Fix Lights Out  |
 | Madmate Can Fix Comms       |
@@ -373,9 +373,9 @@ Decision : Impostor or Crewmates<br>
 The Watchers can see colored votes regardless of anonymous votes.<br>
 There are both Impostor Roles (EvilWatcher) and Crewmate Roles (NiceWatcher).<br>
 
-#### Settings
+#### Game Options
 
-| Game Options       |
+| Name               |
 | ------------------ |
 | EvilWatcher Chance |
 
@@ -403,8 +403,8 @@ Decision : Scientist<br>
 
 The Doctors have a portable vitals panel just like the vanilla Role Scientists. In addtion, the Doctors can see all causes of death in meetings.<br>
 
-#### Settings
-| Game Options            |
+#### Game Options
+| Name                    |
 | ----------------------- |
 | Doctor Battery Duration |
 
@@ -415,9 +415,9 @@ Decision : Crewmate<br>
 
 After finishing all the task, The lighters have their vision expanded and ignore lights out.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                  |
+| Name                          |
 | ----------------------------- |
 | Lighter Expanded Vision       |
 | Lighter Gains Impostor Vision |
@@ -430,9 +430,9 @@ Decision : Crewmate or Engineer<br>
 The Mayors' votes count twice or more.<br>
 Depending on the options, they can call emergency meeting by entering vents.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                      |
+| Name                              |
 | --------------------------------- |
 | Mayor Additional Votes Count      |
 | Mayor Has Mobile Emergency Button |
@@ -450,9 +450,9 @@ they can fix both of Comms in MIRA HQ, Reactor and O2 by fixing either.<br>
 Lights can be fixed by touching a single lever.<br>
 Opening a door in Polus or The Airship will open all the linked doors.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                                           |
+| Name                                                   |
 | ------------------------------------------------------ |
 | SabotageMaster Fix Ability Limit(Except Opening Doors) |
 | SabotageMaster Can Open Multiple Doors                 |
@@ -471,9 +471,9 @@ They don't have tasks.<br>
 If trying to kill the Crewmates, however, they will kill themselves instead.<br>
 Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                                                      |
+| Name                                                              |
 | ----------------------------------------------------------------- |
 | Sheriff Can Kill [Arsonist](#Arsonist)                            |
 | Sheriff Can Kill [Jester](#Jester)                                |
@@ -493,9 +493,9 @@ Decision : Crewmate<br>
 When finishing all the tasks, the Snitches can see arrows that point to the Impostors and their name looks red (only visible to the Snitch) (depending on the options also to Neutral killer).<br>
 When the Snitches have one task left, they will be revealed to the Impostors (depending on the options also to Neutral killer) with an arrow pointing to the Snitches.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                   |
+| Name                           |
 | ------------------------------ |
 | Snitch Can See Target Arrow    |
 | Snitch Can See Colored Arrow   |
@@ -510,9 +510,9 @@ Decision : Crewmate<br>
 
 Finishing all the tasks boosts the player speed of someone alive.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options         |
+| Name                 |
 | -------------------- |
 | Boosted Player Speed |
 
@@ -526,9 +526,9 @@ Decision : Crewmate<br>
 
 The Trappers forbid the killer to move in the least for a configurable seconds.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options       |
+| Name               |
 | ------------------ |
 | Block Move Time(s) |
 
@@ -542,9 +542,9 @@ The Arsonists don't have any tasks, they have to win the game as a solo.
 They can douse other players by using the kill button and remaining next to the player for a few seconds.<br>
 After dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options            |
+| Name                    |
 | ----------------------- |
 | Arsonist Douse Duration |
 | Arsonist Douse Cooldown |
@@ -582,9 +582,9 @@ They have to lead the target to be voted out, which results in Executioner win.<
 If the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.<br>
 If the target is the Jester, the Executioners can be an additional winner.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                    |
+| Name                            |
 | ------------------------------- |
 | Executioner Can Target Impostor |
 | Role After Target Dies          |
@@ -621,9 +621,9 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 4.If exiled, they die with the victory condition same as before.<br>
 5.If killed with special abilities of Impostors (except for Vampire), they die with the victory condition same as before.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options                                     |
+| Name                                             |
 | ------------------------------------------------ |
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
@@ -636,7 +636,7 @@ Team : Neutral<br>
 Decision : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
-The Terrorists are the Neutral RGame Options  ole where they win the game alone if they die with all their tasks completed.<br>
+The Terrorists are the Neutral RName          ole where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
@@ -650,7 +650,7 @@ An Attribute given to the last Impostor.<br>
 Your kill cooldown gets shorter than usual.<br>
 Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
-| Game Options               |
+| Name                       |
 | -------------------------- |
 | LastImpostor Kill Cooldown |
 
@@ -680,7 +680,7 @@ Example of overlapping Roles: <br>
 
 The time limit for some sabotage can be modified.
 
-| Game Options              |
+| Name                      |
 | ------------------------- |
 | Polus Reactor TimeLimit   |
 | Airship Reactor TimeLimit |
@@ -691,7 +691,7 @@ The time limit for some sabotage can be modified.
 
 It is possible to not assign certain tasks.<br>
 
-| Game Options               |
+| Name                       |
 | -------------------------- |
 | Disable StartReactor Tasks |
 | Disable SubmitScan Tasks   |
@@ -703,7 +703,7 @@ It is possible to not assign certain tasks.<br>
 
 There is a configurable probability of fall to death when you descend from the ladder.<br>
 
-| Game Options         |
+| Name                 |
 | -------------------- |
 | Fall To Death Chance |
 
@@ -743,9 +743,9 @@ Killed by Impostors.<br>
 ・Emergency meeting button<br>
 ・Sabotage<br>
 
-#### Settings
+#### Game Options
 
-| Game Options              |
+| Name                      |
 | ------------------------- |
 | Allow Closing Doors       |
 | Impostors Waiting Time(s) |
@@ -778,9 +778,9 @@ Created by つがる<br>
 
 The RandomMapsMode changes the maps at random.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options        |
+| Name                |
 | ------------------- |
 | Include The Skeld   |
 | Include MIRA HQ     |
@@ -791,15 +791,15 @@ The RandomMapsMode changes the maps at random.<br>
 
 This mode limits the maximum number of meetings that can be called in total.<br>
 
-#### Settings
+#### Game Options
 
-| Game Options     |
+| Name             |
 | ---------------- |
 | Max Button Count |
 
 ## OtherSettings
 
-| Game Options   |
+| Name           |
 | -------------- |
 | When Skip Vote |
 | When Non-Vote  |
