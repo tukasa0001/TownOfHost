@@ -839,7 +839,7 @@ namespace TownOfHost
                 if (!pc.Data.IsDead && role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
             }
 
-            return LivingImpostorsNum <= 1;
+            return LivingImpostorsNum <= 0;
         }
     }
 }
