@@ -138,10 +138,10 @@ The target swaps after a configurable amount of time.<br>
 
 | Game Options                             |
 | ---------------------------------------- |
-| Time to swap Bounty(s)                   |
-| Kill cooldown after killing Bounty(s)    |
-| Kill cooldown after killing others(s)    |
-| Kill cooldown other than BountyHunter(s) |
+| Time To Swap Bounty(s)                   |
+| Kill Cooldown After Killing Bounty(s)    |
+| Kill Cooldown After Killing Others(s)    |
+| Kill Cooldown Other Than BountyHunter(s) |
 
 ### FireWorks
 
