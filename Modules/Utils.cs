@@ -831,12 +831,12 @@ namespace TownOfHost
         public static bool CanMafiaKill()
         {
             if (Main.AllPlayerCustomRoles == null) return false;
-            //マフィアを除いたインポスターの人数  Number of Impostors excluding mafia
+            //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
             int LivingImpostorsNum = 0;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var role = pc.GetCustomRole();
-                if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
+                if (!pc.Data.IsDead && role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
             }
 
             return LivingImpostorsNum <= 1;
