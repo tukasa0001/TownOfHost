@@ -828,5 +828,18 @@ namespace TownOfHost
             return disableColor ? summary.RemoveHtmlTags() : Regex.Replace(summary, " ", "");
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
+        public static bool CanMafiaKill()
+        {
+            if (Main.AllPlayerCustomRoles == null) return false;
+            //マフィアを除いたインポスターの人数  Number of Impostors excluding mafia
+            int LivingImpostorsNum = 0;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                var role = pc.GetCustomRole();
+                if (role != CustomRoles.Mafia && role.IsImpostor()) LivingImpostorsNum++;
+            }
+
+            return LivingImpostorsNum <= 1;
+        }
     }
 }
