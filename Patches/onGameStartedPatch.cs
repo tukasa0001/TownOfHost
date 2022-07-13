@@ -39,7 +39,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.SheriffShotLimit = new Dictionary<byte, float>();
             Main.TimeThiefKillCount = new Dictionary<byte, int>();
 
             Main.SpelledPlayer = new List<PlayerControl>();
@@ -299,12 +298,7 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     pc.ResetKillCooldown();
-                    if (pc.Is(CustomRoles.Sheriff))
-                    {
-                        Main.SheriffShotLimit[pc.PlayerId] = Options.SheriffShotLimit.GetFloat();
-                        pc.RpcSetSheriffShotLimit();
-                        Logger.Info($"{pc.GetNameWithRole()} : 残り{Main.SheriffShotLimit[pc.PlayerId]}発", "Sheriff");
-                    }
+                    if (pc.Is(CustomRoles.Sheriff)) Sheriff.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
                         pc.ResetBountyTarget();
@@ -388,7 +382,7 @@ namespace TownOfHost
             }
 
             // ResetCamが必要なプレイヤーのリスト
-            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
+            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId).ToList();
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

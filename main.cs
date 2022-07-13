@@ -50,7 +50,6 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
-        public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
