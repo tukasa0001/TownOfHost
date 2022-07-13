@@ -580,7 +580,7 @@ If the target is the Jester, The Executioners can be an additional winner.<br>
 
 Team : Neutral<br>
 Decision : Crewmate<br>
-Victory Conditions : Get Voted Out<br>
+Victory Conditions : Get voted out<br>
 
 The Jesters don't have any tasks. They win the game as a solo, if they get voted out during a meeting.<br>
 Remaining alive until the game end or getting killed results Jester lose.<br>
@@ -605,7 +605,7 @@ The ShrodingerCats have no tasks and by default, no victory condition. Only afte
 1.If killed by Impostors, they prevent the kill and belong to team Impostors.<br>
 2.If killed by Sheriff, they prevent the kill and belong to team Crewmate.<br>
 3.If killed by Neutral, they prevent the kill and belong to the Neutral team.<br>
-4.If expelled, they die with the victory condition same as before.<br>
+4.If exiled, they die with the victory condition same as before.<br>
 5.If killed with special abilities of Impostors (except for Vampire), they die with the victory condition same as before.<br>
 
 #### Settings
@@ -613,7 +613,7 @@ The ShrodingerCats have no tasks and by default, no victory condition. Only afte
 | Game Options                                              |
 | --------------------------------------------------------- |
 | SchrodingerCat With No Belonging Can Win As Team Crewmate |
-| SchrodingerCat Team To Change After Exiled                |
+| SchrodingerCat Team To Change After exiled                |
 
 ### Terrorist
 
@@ -633,8 +633,9 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 Create and idea by そうくん<br>
 
-This is the attribute given to the last Impostor.<br>
-Not given to BountyHunter, SerialKiller, or Vampire.<br>
+An Attribute given to the last Impostor.<br>
+Your kill cooldown gets shorter than usual.<br>
+Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Game Options              |
 | ------------------------- |
@@ -648,24 +649,23 @@ Team : Neutral<br>
 Decision : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
-Two of all players will be cast. (Duplicate to other positions) <br>
-If a position with a crew camp task becomes a lover, the task will disappear. <br>
-There is a heart symbol after each other's name. <br>
-If one dies, the other will die afterwards. <br>
-If the lover dies in the vote, the other will also die and become an unreportable corpse. <br>
+The Lovers are additionally assigned to two of all players. <br>
+Crewmate Lover has no tasks. <br>
+There is a "Heart" sign next to each other's player name. <br>
+If one Lover dies, the other Lover suicides. <br>
 
-Example of overlapping job titles: <br>
-・ Terrorist lover: If you have a task and die after completing the task, you will win as a terrorist. <br>
-・ Mad Snitch Lover: Have a task, and if you complete the task, you can see the Impostor. <br>
-・ Snitch lover: No task, Impostor remains unknown. <br>
-・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on the position of the duplicate source. (Impostor lover can be killed. Crewmate lover cannot be killed) <br>
-・ Opportunist lover: Win if you survive. <br>
-・ Jester Lover: If Jester Lover is banished, you will win as Jester. If the lover is banished by voting, Jester's lover is defeated. <br>
-・ Bait lover: When the lover is killed and the bait lover dies afterwards, the lover immediately reports the bait lover. <br>
+Example of overlapping Roles: <br>
+・ Terrorist Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
+・ MadSnitch Lover: You have tasks, and you can see the Impostor after completing the task. <br>
+・ Snitch Lover: No tasks, Impostor remains unknown. <br>
+・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
+・ Opportunist Lover: Win if you survive. <br>
+・ Jester Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
+・ Bait Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
 ## SabotageTimeControl
 
-The time limit for some sabotage can be changed.
+The time limit for some sabotage can be modified.
 
 | Game Options              |
 | ------------------------- |
@@ -676,7 +676,7 @@ The time limit for some sabotage can be changed.
 
 ### DisableTasks
 
-It is possible to disable certain tasks.<br>
+It is possible to not assign certain tasks.<br>
 
 | Game Options               |
 | -------------------------- |
@@ -688,7 +688,7 @@ It is possible to disable certain tasks.<br>
 
 ### Fall from ladders
 
-There is a certain probability of death if you descend from the ladder.<br>
+There is a configurable probability of fall to death when you descend from the ladder.<br>
 
 | Game Options               |
 | -------------------------- |
@@ -701,33 +701,33 @@ Create and idea by 空き瓶/EmptyBottle<br>
 #### Crewmates Team (Blue) Victory Conditions
 
 Completing all tasks.<br>
-※Ghosts's tasks are not counted.<br>
+※Ghosts' tasks are not counted.<br>
 
 #### Impostor Team (Red) Victory Conditions
 
 Killing all Crewmates.<br>
-※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates have been wiped out.<br>
+※Even if there are equal numbers of Crewmates and Impostors, the match will not end unless all the Crewmates are killed.<br>
 
 #### Fox (Purple) Victory Conditions
 
-Aliving when one of the teams (Except Troll) wins.<br>
+Staying alive when one of the teams (Except Troll) wins.<br>
 
 #### Troll (Green) Victory Conditions
 
-Being killed by Impostors.<br>
+Killed by Impostors.<br>
 
 #### Prohibited items
 
 ・Sabotage<br>
 ・Admin<br>
 ・Camera<br>
-・The act of a ghosts giving its location to a survivor<br>
-・Ambush (This may make it impossible for the Crewmates to win with the tasks.)<br>
+・Exposing by ghosts<br>
+・Ambush (This may make it impossible for Crewmates to win with the tasks.)<br>
 
 #### What you can't do
 
 ・Reporting a dead bodies<br>
-・Emergency conference button<br>
+・Emergency meeting button<br>
 ・Sabotage<br>
 
 #### Settings
@@ -757,7 +757,7 @@ None<br>
 
 Exiting the game with anything other than host's SHIFT+L+Enter.<br>
 
-This is a debug mode where there is no win decision.<br>
+This is a debug mode with no win decision.<br>
 
 ### RandomMapsMode
 
@@ -767,16 +767,16 @@ The RandomMapsMode changes the maps at random.<br>
 
 #### Settings
 
-| Game Options      |
-| ----------------- |
-| Added The Skeld   |
-| Added MIRA HQ     |
-| Added Polus       |
-| Added The Airship |
+| Game Options        |
+| ------------------- |
+| Include The Skeld   |
+| Include MIRA HQ     |
+| Include Polus       |
+| Include The Airship |
 
 ### SyncButtonMode
 
-This is the mode in which all players' button counts are synchronised.<br>
+This mode limits the maximum number of meetings that can be called in total.<br>
 
 #### Settings
 
@@ -806,7 +806,7 @@ Activating forces the menu to be in Japanese, regardless of the language setting
 
 ## Japanese Role Name
 
-By activating, the job title can be displayed in Japanese.
+By activating, the Role name can be displayed in Japanese.
 If the client language is English, this setting is meaningless unless `Force Japanese` is enabled.
 
 ## Credits
