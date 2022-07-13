@@ -99,6 +99,10 @@ To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<b
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
+#### Welcome Message
+If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+For example: `welcome:This room is using TownOfHost.`
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutral                           |

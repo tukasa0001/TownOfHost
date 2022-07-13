@@ -346,18 +346,17 @@ namespace TownOfHost
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
-                text += $"\n★ {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
-                text += $" {GetVitalText(id)}";
+                text += $"\n★ " + SummaryTexts(id);
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 {Main.AllPlayerNames[id]}:{GetRoleName(Main.AllPlayerCustomRoles[id])}{GetShowLastSubRolesText(id, disableColor: true)}";
-                text += $" {GetVitalText(id)}";
+                text += $"\n　 " + SummaryTexts(id);
             }
             SendMessage(text, PlayerId);
         }
+
 
         public static string GetShowLastSubRolesText(byte id, bool disableColor = false)
         {
@@ -822,6 +821,11 @@ namespace TownOfHost
             }
 
             return (doused, all);
+        }
+        public static string SummaryTexts(byte id, bool disableColor = true)
+        {
+            string summary = $"{Helpers.ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=25%> {Helpers.ColorString(GetRoleColor(Main.AllPlayerCustomRoles[id]), GetRoleName(Main.AllPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos><pos=44%> {GetProgressText(id)}</pos><pos=51%> {GetVitalText(id)}</pos>";
+            return disableColor ? summary.RemoveHtmlTags() : Regex.Replace(summary, " ", "");
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
     }
