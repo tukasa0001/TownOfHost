@@ -132,7 +132,7 @@ The target swaps after a configurable amount of time.<br>
 
 #### Settings
 
-| Settings Name                            |
+| Game Options                             |
 | ---------------------------------------- |
 | Time to swap Bounty(s)                   |
 | Kill cooldown after killing Bounty(s)    |
@@ -154,7 +154,7 @@ Even if they mistakenly bomb themselves, killing everyone results in Impostor wi
 
 #### Settings
 
-| Settings Name       |
+| Game Options        |
 | ------------------- |
 | FireWorks Max Count |
 | FireWorks Radius    |
@@ -186,7 +186,7 @@ Decision : Shapeshifter<br>
 SerialKiller has even shorter kill cooldown.<br>
 Unless taking a kill by deadline, they murder themselves instantly.<br>
 
-| Settings Name            |
+| Game Options             |
 | ------------------------ |
 | Kill cooldown(s)         |
 | Time limit to suiside(s) |
@@ -203,7 +203,7 @@ On the other hand, their default Shapeshift duration is shorter (default: 10s).<
 
 #### Settings
 
-| Settings Name          |
+| Game Options           |
 | ---------------------- |
 | Shapeshift duration(s) |
 
@@ -226,7 +226,7 @@ Precision Shooting:ON<BR>
 
 #### Settings
 
-| Settings Name           |
+| Game Options            |
 | ----------------------- |
 | Sniper bullet count     |
 | Sniper precise shooting |
@@ -244,7 +244,7 @@ Depending on option, the lost time is returned after they die.<br>
 
 #### Settings
 
-| Settings Name                     |
+| Game Options                      |
 | --------------------------------- |
 | TimeThief Decrease Time Length(s) |
 | Return Stolen Time after death    |
@@ -260,7 +260,7 @@ When biting the [Baits](#Bait), However, they take a no delay, normal kill and a
 
 #### Settings
 
-| Settings Name         |
+| Game Options          |
 | --------------------- |
 | Vampire Kill Delay(s) |
 
@@ -309,7 +309,7 @@ Compared with Madmates, MadGuardian cannot use vents, while they can guard kills
 
 #### Settings
 
-| Settings Name                           |
+| Game Options                            |
 | --------------------------------------- |
 | MadGuardian Can See Own Cracked Barrier |
 
@@ -326,7 +326,7 @@ Depending on option, they can use vents.<br>
 
 #### Settings
 
-| Settings Name          |
+| Game Options           |
 | ---------------------- |
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
@@ -342,9 +342,9 @@ The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task ph
 Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
 
-There is also common options for Madmate type Roles.
+There are also common options for Madmate Roles.
 
-| Settings Name               |
+| Game Options                |
 | --------------------------- |
 | Madmate can fix lights out  |
 | Madmate can fix comms       |
@@ -362,7 +362,7 @@ There are both Impostor Roles (EvilWatcher) and Crewmate Roles (NiceWatcher).<br
 
 #### Settings
 
-| Settings Name      |
+| Game Options       |
 | ------------------ |
 | EvilWatcher Chance |
 
@@ -391,7 +391,7 @@ Decision : Scientist<br>
 The Doctors have a portable vitals panel just like the vanilla Role Scientists. In addtion, the Doctors can see all causes of death in meetings.<br>
 
 #### Settings
-| Settings Name           |
+| Game Options            |
 | ----------------------- |
 | Doctor battery duration |
 
@@ -404,7 +404,7 @@ After finishing all the task, The lighters have their vision expanded and ignore
 
 #### Settings
 
-| Settings Name                 |
+| Game Options                  |
 | ----------------------------- |
 | Lighter expanded vision       |
 | Lighter gains Impostor vision |
@@ -419,7 +419,7 @@ Depending on the options, they can call emergency meeting by entering vents.<br>
 
 #### Settings
 
-| Settings Name                     |
+| Game Options                      |
 | --------------------------------- |
 | Mayor Additional Votes Count      |
 | Mayor Has Mobile Emergency Button |
@@ -439,7 +439,7 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 
 #### Settings
 
-| Settings Name                                          |
+| Game Options                                           |
 | ------------------------------------------------------ |
 | SabotageMaster Fix Ability Limit(Except Opening Doors) |
 | SabotageMaster Can Open Multiple Doors                 |
@@ -460,7 +460,7 @@ Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 
 #### Settings
 
-| Settings Name                                                     |
+| Game Options                                                      |
 | ----------------------------------------------------------------- |
 | Sheriff Can Kill [Arsonist](#Arsonist)                            |
 | Sheriff Can Kill [Jester](#Jester)                                |
@@ -482,7 +482,7 @@ When the Snitches have one task left, they will be revealed to the Impostors (de
 
 #### Settings
 
-| Settings Name                  |
+| Game Options                   |
 | ------------------------------ |
 | Snitch Can See Target Arrow    |
 | Snitch Can See Colored Arrow   |
@@ -499,7 +499,7 @@ Finishing all the tasks boosts the player speed of someone alive.<br>
 
 #### Settings
 
-| Settings Name        |
+| Game Options         |
 | -------------------- |
 | Boosted Player Speed |
 
@@ -515,7 +515,7 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 #### Settings
 
-| Settings Name   |
+| Game Options    |
 | --------------- |
 | Block Move Time |
 
@@ -523,7 +523,7 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 Team : Neutral<br>
 Decision : Impostor<br>
-Victory Conditions : Douse and ignite all the living players<br>
+Victory Condition : Douse and ignite all the living players<br>
 
 The Arsonists don't have any tasks, they have to win the game as a solo.
 They can douse other players by using the kill button and remaining next to the player for a few seconds.<br>
@@ -531,7 +531,7 @@ After dousing everyone alive the Arsonists can enter the vents to ignite which r
 
 #### Settings
 
-| Settings Name  |
+| Game Options   |
 | -------------- |
 | Douse Duration |
 | Douse Cooldown |
@@ -543,31 +543,38 @@ Original idea by しゅー<br>
 
 Team : Neutral<br>
 Decision : Shapeshifter<br>
-Victory Conditions : Achieve the Impostor victory conditions after the Impostor annihilation.<br>
+Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
 
-Impostor knows the egoist.<br>
-Egoist also know Impostor.<br>
-Impostor and Egoist cannot kill each other.<br>
-You win when the other Impostor are wiped out.<br>
-If the Egoist wins, the Impostor will be defeated.<br>
+The Egoists are counted among the Impostors.<br>
+They have the same ability as Shapeshifters.<br>
+Impostors and Egoists can see but cannot kill each other.<br>
+The Egoists have to exile all Impostors before leading to Impostor win.<br>
+Egoist win means Impostor lose and vice versa.<br>
 
-The conditions for defeat are as follows.<br>
+The Egoist lose condition is the following:<br>
 
 1.Egoist dies.<br>
-2.Imposter victory with allies remaining.<br>
-3.Other Neutrals win.<br>
+2.Impostor win with some Impostors remained.<br>
+3.Crewmate or other Neutral win.<br>
 
 ### Executioner
 
 
 Team : Neutral<br>
 Decision : Crewmate<br>
-Victory Conditions : Target Voted Out<br>
+Victory Conditions : Have the target voted out<br>
 
-The target is marked with a diamond that is visible only from here.<br>
-If the vote expels the person with diamonds on his/her head, he/she wins alone.<br>
-If the target is killed, the position changes.<br>
-If the target is a jester, it wins an additional victory.<br>
+The Executioners are assigned their target with dark purple "Diamond" sign next to the player name.<br>
+They have to lead the target to be voted out, which results in Executioner win.<br>
+If the target dies before voted out, The Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.<br>
+If the target is the Jester, The Executioners can be an additional winner.<br>
+
+#### Settings
+
+| Game Options                    |
+| ------------------------------- |
+| Executioner Can Target Impostor |
+| Role After Target Dies          |
 
 ### Jester
 
@@ -575,17 +582,17 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : Get Voted Out<br>
 
-The Jesters are the neutral role which can win by getting voted out.<br>
-If the game ends without getting voted out., or if they are killed, they lose.<br>
+The Jesters don't have any tasks. They win the game as a solo, if they get voted out during a meeting.<br>
+Remaining alive until the game end or getting killed results Jester lose.<br>
 
 ### Opportunist
 
 Team : Neutral<br>
 Decision : Crewmate<br>
-Victory Conditions : Aliving when one of the teams wins<br>
+Victory Conditions : Remain alive until the game end<br>
 
-The Opportunists are the Neutral role, with an additional win if thay are still alive at the end of the game.<br>
-They do not have tasks.<br>
+The Opportunists are the Neutral Role with notasks.<br>
+They win the game with any other Roles, if they are alive at the game end.<br>
 
 ### SchrodingerCat
 
@@ -593,30 +600,20 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : None<br>
 
-By default, it has no victory condition, and only when the condition is met does it have a victory condition.<br>
+The ShrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
 
-1.If you are killed by an Imposter, you prevent a kill and become an Imposter.<br>
-2.If you are killed by a sheriff, you prevent a kill and become a crewmate.<br>
-3.If you are killed by a neutral, you prevent the kill and become a neutral.<br>
-4.If you are expelled, your position does not change and you die with the same victory conditions as before.<br>
-5.If you are killed by a warlock's ability, the victory condition remains the same and you die.<br>
-6.If a player is killed by suicide kills (except vampire kills), the victory condition remains the same and the player dies.<br>
-
-Also common to all Schrodinger's cats, there are no tasks.<br>
+1.If killed by Impostors, they prevent the kill and belong to team Impostors.<br>
+2.If killed by Sheriff, they prevent the kill and belong to team Crewmate.<br>
+3.If killed by Neutral, they prevent the kill and belong to the Neutral team.<br>
+4.If expelled, they die with the victory condition same as before.<br>
+5.If killed with special abilities of Impostors (except for Vampire), they die with the victory condition same as before.<br>
 
 #### Settings
 
-| Settings Name                                              |
-| ---------------------------------------------------------- |
-| SchrodingerCat Before The Change CanWin As A Crewmate Team |
-| SchrodingerCat Exiled Team Changes                         |
-
-#### Settings
-
-| Settings Name                               |
-| ------------------------------------------- |
-| Executioner Can be Target Impostor          |
-| Executioner Change Role After Target Killed |
+| Game Options                                              |
+| --------------------------------------------------------- |
+| SchrodingerCat With No Belonging Can Win As Team Crewmate |
+| SchrodingerCat Team To Change After Exiled                |
 
 ### Terrorist
 
@@ -626,7 +623,7 @@ Team : Neutral<br>
 Decision : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
-They are the Neutral role where they win the game alone if they die with all their tasks completed.<br>
+The Terrorists are the Neutral RGame Options  ole where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
 
@@ -639,7 +636,7 @@ Create and idea by そうくん<br>
 This is the attribute given to the last Impostor.<br>
 Not given to BountyHunter, SerialKiller, or Vampire.<br>
 
-| Settings Name             |
+| Game Options              |
 | ------------------------- |
 | LastImpostor KillCooldown |
 
@@ -670,7 +667,7 @@ Example of overlapping job titles: <br>
 
 The time limit for some sabotage can be changed.
 
-| Settings Name             |
+| Game Options              |
 | ------------------------- |
 | Polus Reactor TimeLimit   |
 | Airship Reactor TimeLimit |
@@ -681,7 +678,7 @@ The time limit for some sabotage can be changed.
 
 It is possible to disable certain tasks.<br>
 
-| Settings Name              |
+| Game Options               |
 | -------------------------- |
 | Disable StartReactor Tasks |
 | Disable SubmitScan Tasks   |
@@ -693,7 +690,7 @@ It is possible to disable certain tasks.<br>
 
 There is a certain probability of death if you descend from the ladder.<br>
 
-| Settings Name              |
+| Game Options               |
 | -------------------------- |
 | Death Chance               |
 
@@ -735,7 +732,7 @@ Being killed by Impostors.<br>
 
 #### Settings
 
-| Settings Name             |
+| Game Options              |
 | ------------------------- |
 | Allow Closing Doors       |
 | Impostors Waiting Time(s) |
@@ -770,7 +767,7 @@ The RandomMapsMode changes the maps at random.<br>
 
 #### Settings
 
-| Settings Name     |
+| Game Options      |
 | ----------------- |
 | Added The Skeld   |
 | Added MIRA HQ     |
@@ -783,13 +780,13 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 #### Settings
 
-| Settings Name    |
+| Game Options     |
 | ---------------- |
 | Max Button Count |
 
 ## OtherSettings
 
-| Settings Name  |
+| Game Options   |
 | -------------- |
 | When Skip Vote |
 | When Non-Vote  |
