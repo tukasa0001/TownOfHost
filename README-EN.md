@@ -151,8 +151,8 @@ Team : Impostors<br>
 Decision : Shapeshifter<br>
 
 The FireWorks can set off fireworks and kill all at once. <br>
-They can put a few fireworks by Shapeshift.  <br>
-After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks at once by Shapeshift.  <br>
+They can put a few fireworks by Shapeshift. <br>
+After they put all the fireworks and after the other impostors are all gone, they can ignite all fireworks at once by Shapeshift. <br>
 They can perform kills after setting off fireworks. <br>
 Even if they mistakenly bomb themselves, killing everyone results in Impostor win. <br>
 
@@ -174,6 +174,12 @@ Decision : Impostor<br>
 They can kill only in lights out, but next kill cooldown will be half.<br>
 While lights out they can move faster, and yet their name looks red by everyone.<br>
 
+#### Settings
+
+| Game Options                    |
+| ------------------------------- |
+| Mare Player Speed In Lights Out |
+
 ### Puppeteer
 
 Team : Impostors<br>
@@ -190,10 +196,12 @@ Decision : Shapeshifter<br>
 SerialKiller has even shorter kill cooldown.<br>
 Unless taking a kill by deadline, they murder themselves instantly.<br>
 
+#### Settings
+
 | Game Options             |
 | ------------------------ |
-| Kill cooldown(s)         |
-| Time limit to suiside(s) |
+| Kill Cooldown(s)         |
+| Time Limit To Suiside(s) |
 
 ### ShapeMaster
 
@@ -209,7 +217,7 @@ On the other hand, their default Shapeshift duration is shorter (default: 10s).<
 
 | Game Options           |
 | ---------------------- |
-| Shapeshift duration(s) |
+| Shapeshift Duration(s) |
 
 ### Sniper
 
@@ -232,8 +240,8 @@ Precision Shooting:ON<BR>
 
 | Game Options            |
 | ----------------------- |
-| Sniper bullet count     |
-| Sniper precise shooting |
+| Sniper Bullet Count     |
+| Sniper Precise Shooting |
 
 ### TimeThief
 
@@ -243,7 +251,7 @@ Idea by みぃー<br>
 Team : Impostors<br>
 Decision : Impostor<br>
 
-Every kill of another player cuts down discussion and voting time in meeting.<br>
+Every kill cuts down discussion and voting time in meeting.<br>
 Depending on option, the lost time is returned after they die.<br>
 
 #### Settings
@@ -251,7 +259,8 @@ Depending on option, the lost time is returned after they die.<br>
 | Game Options                      |
 | --------------------------------- |
 | TimeThief Decrease Time Length(s) |
-| Return Stolen Time after death    |
+| Lower Limit For Voting Time       |
+| Return Stolen Time After Death    |
 
 ### Vampire
 
@@ -275,6 +284,7 @@ Decision : Shapeshifter<br>
 
 The Warlocks can curse another players before Shapeshift.<br>
 When they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.<br>
+While Shpashifting, they can perform normal kills.<br>
 
 ### Witch
 
@@ -313,9 +323,9 @@ Compared with Madmates, MadGuardian cannot use vents, while they can guard kills
 
 #### Settings
 
-| Game Options                            |
-| --------------------------------------- |
-| MadGuardian Can See Own Cracked Barrier |
+| Game Options                          |
+| ------------------------------------- |
+| MadGuardian Can See Who Tried To Kill |
 
 ### MadSnitch
 
@@ -350,11 +360,11 @@ There are also common options for Madmate Roles.
 
 | Game Options                |
 | --------------------------- |
-| Madmate can fix lights out  |
-| Madmate can fix comms       |
-| Madmate has Impostor vision |
-| Madmate vent cooldown       |
-| Madmate max time in vents   |
+| Madmate Can Fix Lights Out  |
+| Madmate Can Fix Comms       |
+| Madmate Has Impostor Vision |
+| Madmate Vent Cooldown       |
+| Madmate Max Time In Vents   |
 
 ### Watcher
 
@@ -397,7 +407,7 @@ The Doctors have a portable vitals panel just like the vanilla Role Scientists. 
 #### Settings
 | Game Options            |
 | ----------------------- |
-| Doctor battery duration |
+| Doctor Battery Duration |
 
 ### Lighter
 
@@ -410,8 +420,8 @@ After finishing all the task, The lighters have their vision expanded and ignore
 
 | Game Options                  |
 | ----------------------------- |
-| Lighter expanded vision       |
-| Lighter gains Impostor vision |
+| Lighter Expanded Vision       |
+| Lighter Gains Impostor Vision |
 
 ### Mayor
 
@@ -437,7 +447,7 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 The SabotageMasters can fix sabotage faster.<br>
-they can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.<br>
+they can fix both of Comms in MIRA HQ, Reactor and O2 by fixing either.<br>
 Lights can be fixed by touching a single lever.<br>
 Opening a door in Polus or The Airship will open all the linked doors.<br>
 
@@ -449,7 +459,7 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 | SabotageMaster Can Open Multiple Doors                 |
 | SabotageMaster Can Fix Both Reactors                   |
 | SabotageMaster Can Fix Both O2                         |
-| SabotageMaster Can Fix Both Communications In MIRA HQ  |
+| SabotageMaster Can Fix Both Comms In MIRA HQ           |
 | SabotageMaster Can Fix Lights Out All At Once          |
 
 ### Sheriff
@@ -519,9 +529,9 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 #### Settings
 
-| Game Options    |
-| --------------- |
-| Block Move Time |
+| Game Options       |
+| ------------------ |
+| Block Move Time(s) |
 
 ### Arsonist
 
@@ -535,10 +545,10 @@ After dousing everyone alive the Arsonists can enter the vents to ignite which r
 
 #### Settings
 
-| Game Options   |
-| -------------- |
-| Douse Duration |
-| Douse Cooldown |
+| Game Options            |
+| ----------------------- |
+| Arsonist Douse Duration |
+| Arsonist Douse Cooldown |
 
 ### Egoist
 
@@ -570,8 +580,8 @@ Victory Conditions : Have the target voted out<br>
 
 The Executioners are assigned their target with dark purple "Diamond" sign next to the player name.<br>
 They have to lead the target to be voted out, which results in Executioner win.<br>
-If the target dies before voted out, The Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.<br>
-If the target is the Jester, The Executioners can be an additional winner.<br>
+If the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.<br>
+If the target is the Jester, the Executioners can be an additional winner.<br>
 
 #### Settings
 
@@ -614,10 +624,10 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 
 #### Settings
 
-| Game Options                                              |
-| --------------------------------------------------------- |
-| SchrodingerCat With No Belonging Can Win As Team Crewmate |
-| SchrodingerCat Team To Change After exiled                |
+| Game Options                                     |
+| ------------------------------------------------ |
+| SchrodingerCat In No Team Can Win With Crewmates |
+| Team To Change After Exiled                      |
 
 ### Terrorist
 
@@ -641,9 +651,9 @@ An Attribute given to the last Impostor.<br>
 Your kill cooldown gets shorter than usual.<br>
 Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
-| Game Options              |
-| ------------------------- |
-| LastImpostor KillCooldown |
+| Game Options               |
+| -------------------------- |
+| LastImpostor Kill Cooldown |
 
 ### Lovers
 
@@ -694,9 +704,9 @@ It is possible to not assign certain tasks.<br>
 
 There is a configurable probability of fall to death when you descend from the ladder.<br>
 
-| Game Options               |
-| -------------------------- |
-| Death Chance               |
+| Game Options         |
+| -------------------- |
+| Fall To Death Chance |
 
 ### HideAndSeek
 
@@ -741,7 +751,7 @@ Killed by Impostors.<br>
 | Allow Closing Doors       |
 | Impostors Waiting Time(s) |
 | Ignore Cosmetics          |
-| Ignore Using Vents        |
+| Disable Vents             |
 
 ### NoGameEnd
 
@@ -811,7 +821,7 @@ Activating forces the menu to be in Japanese, regardless of the language setting
 ## Japanese Role Name
 
 By activating, the Role name can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless `Force Japanese` is enabled.
+If the client language is English, this option is meaningless unless `Force Japanese` is enabled.
 
 ## Credits
 
