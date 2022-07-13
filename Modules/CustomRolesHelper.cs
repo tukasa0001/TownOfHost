@@ -46,6 +46,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)
         {
             return

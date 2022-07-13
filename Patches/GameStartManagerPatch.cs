@@ -1,5 +1,5 @@
 using HarmonyLib;
-using UnhollowerBaseLib;
+using InnerNet;
 using UnityEngine;
 
 namespace TownOfHost
@@ -16,12 +16,13 @@ namespace TownOfHost
     public class GameStartManagerPatch
     {
         private static float timer = 600f;
-        private static string lobbyCodehide = "";
         [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Start))]
         public class GameStartManagerStartPatch
         {
+            public static TMPro.TextMeshPro HideName;
             public static void Postfix(GameStartManager __instance)
             {
+                __instance.GameRoomNameCode.text = GameCode.IntToGameName(AmongUsClient.Instance.GameId);
                 // Reset lobby countdown timer
                 timer = 600f;
 
@@ -31,8 +32,20 @@ namespace TownOfHost
                     {
                         Main.isChatCommand = true;
                         Utils.ShowLastResult();
-                    }
-                        , 5f, "DisplayLastRoles");
+                    }, 5f, "DisplayLastRoles");
+                }
+                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
+                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
+                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
+
+                // Make Public Button
+                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
+                bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH))
+                {
+                    __instance.MakePublicButton.color = Palette.DisabledClear;
+                    __instance.privatePublicText.color = Palette.DisabledClear;
                 }
             }
         }
@@ -44,20 +57,22 @@ namespace TownOfHost
             private static string currentText = "";
             public static void Prefix(GameStartManager __instance)
             {
+                // Lobby code
+                if (SaveManager.StreamerMode)
+                {
+                    __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
+                    GameStartManagerStartPatch.HideName.enabled = true;
+                }
+                else
+                {
+                    __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
+                    GameStartManagerStartPatch.HideName.enabled = false;
+                }
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
             {
-                // Lobby code
-                string htmlValue = Main.HideColor.Value;
-                if (Main.HideCodes.Value)
-                    lobbyCodehide = ColorUtility.TryParseHtmlString(htmlValue, out Color newCol)
-                        ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
-                else
-                    lobbyCodehide = $"{DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.RoomCode, new Il2CppReferenceArray<Il2CppSystem.Object>(0)) + "\r\n" + InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId)}";
-                __instance.GameRoomNameCode.text = lobbyCodehide;
                 // Lobby timer
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance) return;
 
@@ -67,7 +82,7 @@ namespace TownOfHost
                 int minutes = (int)timer / 60;
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
-                if (timer <= 60) suffix = "<color=#ff0000>" + suffix + "</color>";
+                if (timer <= 60) suffix = Helpers.ColorString(Color.red, suffix);
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -88,6 +103,7 @@ namespace TownOfHost
         public static void Prefix()
         {
             Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
+            Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
             PlayerControl.GameOptions.KillCooldown = 0.1f;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);

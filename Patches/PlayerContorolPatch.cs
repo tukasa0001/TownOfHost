@@ -145,6 +145,8 @@ namespace TownOfHost
                             var sniperId = Sniper.GetSniper(target.PlayerId);
                             NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
                         }
+                        else if (killer.GetBountyTarget() == target)
+                            killer.ResetBountyTarget();//ターゲットの選びなおし
                         else
                         {
                             if (killer.Is(CustomRoles.SerialKiller))
@@ -674,6 +676,10 @@ namespace TownOfHost
                             Main.BountyTimer[player.PlayerId] += Time.fixedDeltaTime;
                     }
                 }
+                if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
+                {
+                    LadderDeathPatch.FixedUpdate(player);
+                }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
                     if (main.AirshipMeetingTimer[__instance.PlayerId] >= 9f && !main.AirshipMeetingCheck)
@@ -786,6 +792,17 @@ namespace TownOfHost
 
                 if (__instance.AmOwner) Utils.ApplySuffix();
             }
+            //LocalPlayer専用
+            if (__instance.AmOwner)
+            {
+                //キルターゲットの上書き処理
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist)) && !__instance.Data.IsDead)
+                {
+                    var players = __instance.GetPlayersInAbilityRangeSorted(false);
+                    PlayerControl closest = players.Count <= 0 ? null : players[0];
+                    HudManager.Instance.KillButton.SetTarget(closest);
+                }
+            }
 
             //役職テキストの表示
             var RoleTextTransform = __instance.cosmetics.nameText.transform.Find("RoleText");
@@ -837,16 +854,16 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        RealName = $"<color={target.GetRoleColorCode()}>{RealName}</color>"; //名前の色を変更
+                        RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
-                            RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>{GetString("EnterVentToWin")}</color>";
+                            RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
                     else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
                         target.GetCustomRole().IsImpostor() && //targetがインポスター
                         seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
                     {
-                        RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの名前を赤色で表示
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
                     }
                     //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
@@ -855,19 +872,19 @@ namespace TownOfHost
                         var targetCheck = __instance.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.Is(CustomRoles.Egoist));
                         if (targetCheck)//__instanceがターゲット
                         {
-                            RealName = $"<color={target.GetRoleColorCode()}>{RealName}</color>"; //targetの名前を役職色で表示
+                            RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前を役職色で表示
                         }
                     }
                     else if (seer.GetCustomRole().IsImpostor() && //seerがインポスター
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
                     )
-                        RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
                     else if (seer.Is(CustomRoles.EgoSchrodingerCat) && //seerがエゴイスト陣営のシュレディンガーの猫
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
                     )
-                        RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Egoist)}>{RealName}</color>"; //targetの名前をエゴイスト色で表示
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
-                        RealName = $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>{RealName}</color>"; //targetの赤色で表示
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
                     else if (seer != null)
                     {//NameColorManager準拠の処理
                         var ncd = NameColorManager.Instance.GetData(seer.PlayerId, target.PlayerId);
