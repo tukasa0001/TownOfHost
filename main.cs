@@ -6,6 +6,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
+using UnityEngine;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -17,7 +18,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.2.0";
+        public const string PluginVersion = "2.2.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -49,6 +50,7 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
