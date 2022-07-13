@@ -81,7 +81,7 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
-FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
+FireWorksInfo,Let's make it bloom last time,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
@@ -367,6 +367,7 @@ updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
+NameIncludeMod,"You cannot make a room public include "mod" in your name.\nThere is no problem if "TOH" is included.",""mod"が名前に含まれている状態では公開部屋にすることはできません。\n"TOH"が含まれていれば問題ありません。"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...

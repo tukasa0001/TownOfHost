@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -277,14 +278,29 @@ namespace TownOfHost
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
 
+            CustomRoles role = player.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
+            switch (roleType)
+            {
+                case RoleType.Impostor:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    break;
+                case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    if (Options.MadmateHasImpostorVision.GetBool())
+                        opt.SetVision(player, true);
+                    break;
+            }
+
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
@@ -294,10 +310,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
-                    break;
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Mafia:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -374,17 +386,6 @@ namespace TownOfHost
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
-                    break;
-            }
-            CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
-            {
-                case RoleType.Madmate:
-                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
@@ -695,7 +696,7 @@ namespace TownOfHost
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper);
+                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
@@ -732,6 +733,29 @@ namespace TownOfHost
             reporter.RpcStartMeeting(target);
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
+        ///</summary>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, bool ignoreColliders = false) => GetPlayersInAbilityRangeSorted(player, pc => true, ignoreColliders);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、predicateの条件に合わないものを除外して返します。
+        ///</summary>
+        ///<param name="predicate">リストに入れるプレイヤーの条件 このpredicateに入れてfalseを返すプレイヤーは除外されます。</param>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値から条件に合わないプレイヤーを除外したもの。</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, Predicate<PlayerControl> predicate, bool ignoreColliders = false)
+        {
+            var rangePlayersIL = RoleBehaviour.GetTempPlayerList();
+            List<PlayerControl> rangePlayers = new();
+            player.Data.Role.GetPlayersInAbilityRangeSorted(rangePlayersIL, ignoreColliders);
+            foreach (var pc in rangePlayersIL)
+            {
+                if (predicate(pc)) rangePlayers.Add(pc);
+            }
+            return rangePlayers;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>

@@ -6,6 +6,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
+using UnityEngine;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -17,7 +18,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.2.0";
+        public const string PluginVersion = "2.2.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -39,6 +40,7 @@ namespace TownOfHost
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
+        public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static CustomWinner currentWinner;
         public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
@@ -49,6 +51,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
@@ -154,6 +157,7 @@ namespace TownOfHost
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
+            LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
 
