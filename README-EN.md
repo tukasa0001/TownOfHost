@@ -604,7 +604,7 @@ Team : Neutral<br>
 Decision : Crewmate<br>
 Victory Conditions : None<br>
 
-The ShrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
+The SchrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
 
 1.If killed by Impostors, they prevent the kill and belong to team Impostors.<br>
 2.If killed by Sheriff, they prevent the kill and belong to team Crewmate.<br>

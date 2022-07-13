@@ -80,57 +80,57 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
-MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
-FireWorksInfo,Let's make it bloom last time,最後に一華咲かせよう
-SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
-ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
-VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
-WarlockInfo,Curse and kill your enemies,敵を呪い殺そう
-WitchInfo,Spell your enemies,敵に魔術をかけよう
+MareInfo,Kill in the dark,闇の世界で暗殺せよ
+FireWorksInfo,Bloom at the last,最後に一華咲かせよう
+SerialKillerInfo,You crave blood,殺人衝動が抑えられない
+ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう
+VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう
+WarlockInfo,Curse the Crewmates,敵を呪い殺そう
+WitchInfo,Spell the Crewmates,敵に魔術をかけよう
 MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう
-BeforeMafiaInfo,You can not kill now,今はキルをすることができない
-AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
-PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
-TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
-SniperInfo,I'll shoot,狙い撃つぜ
+BeforeMafiaInfo,You can't kill yet,今はキルをすることができない
+AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう
+PuppeteerInfo,Manipulate the Crewmate to kill all Crewmates,敵を操って皆殺しにしよう
+TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう
+SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
-SKMadmateInfo,You are Sidekick,サイドキックにされた
+SKMadmateInfo,You are now on Team Impostor,サイドキックにされた
 
 # 両陣営可能役職
-WatcherInfo,Pay close attention to the crew's votes,みんなの投票に目を光らせよう
+WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう
 
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう
-LighterInfo,Let's light it all up,すべてを照らそう
+LighterInfo,Light all over,すべてを照らそう
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
-SpeedBoosterInfo,Let's them run.,走らせろ
-DoctorInfo,Thus They Died,斯くして奴は死んだ
+SpeedBoosterInfo,Boost the players,走らせろ
+DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
-DictatorInfo,Let's have a dictatorship,独裁政治をしよう
+DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
 JesterInfo,Get voted out,追放されよう
-OpportunistInfo,Do whatever it takes to survive,とにかく生き残りましょう
-SchrodingerCatInfo,You belong to the team that got killed,殺された陣営に所属しろ
-CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方になった
-MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
-EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方になった
+OpportunistInfo,Stay alive,とにかく生き残りましょう
+SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ
+CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった
+MSchrodingerCatInfo,You are now on Team Impostor,インポスターの味方になった
+EgoSchrodingerCatInfo,You are now on Team Egoist,エゴイストの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
-EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
+EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
 
 # HideAndSeek
-HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
-HASTrollInfo,Die to win,自爆しよう
+HASFoxInfo,Stay alive,とにかく生き残りましょう
+HASTrollInfo,Get killed,自爆しよう
 
 
 ## 役職説明ロング
