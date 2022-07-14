@@ -192,15 +192,15 @@ Their direct kill is protected, but instead, the protected player forcibly kills
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-SerialKiller has even shorter kill cooldown.<br>
+The SerialKillers have even shorter kill cooldown.<br>
 Unless taking a kill by deadline, they murder themselves instantly.<br>
 
 #### Game Options
 
-| Name                     |
-| ------------------------ |
-| Kill Cooldown(s)         |
-| Time Limit To Suiside(s) |
+| Name                          |
+| ----------------------------- |
+| SerialKiller Kill Cooldown(s) |
+| Time Limit To Suiside(s)      |
 
 ### ShapeMaster
 
@@ -209,7 +209,7 @@ Create and idea by しゅー<br>
 Team : Impostors<br>
 Decision : ShapeShifter<br>
 
-ShapeMaster has no Shapeshift cooldown.<br>
+The ShapeMasters have no Shapeshift cooldown.<br>
 On the other hand, their default Shapeshift duration is shorter (default: 10s).<br>
 
 #### Game Options
@@ -230,9 +230,9 @@ they kill a player on the extension line from Shapeshift point to release point.
 Players on the line of bullet hear sound of a gunshot.<br>
 You can perform normal kills after all bullets run out.<br>
 
-Precision Shooting:OFF<BR>
+Precise Shooting:OFF<BR>
 ![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
-Precision Shooting:ON<BR>
+Precise Shooting:ON<BR>
 ![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
 
 #### Game Options
@@ -258,7 +258,7 @@ Depending on option, the lost time is returned after they die.<br>
 | Name                              |
 | --------------------------------- |
 | TimeThief Decrease Time Length(s) |
-| Lower Limit For Voting Time       |
+| Lower Limit For Voting Time(s)    |
 | Return Stolen Time After Death    |
 
 ### Vampire
@@ -281,9 +281,9 @@ When biting the [Baits](#Bait), However, they take a no delay, normal kill and a
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
-The Warlocks can curse another players before Shapeshift.<br>
+The Warlocks can curse another players before Shapeshifting.<br>
 When they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.<br>
-While Shpashifting, they can perform normal kills.<br>
+While Shapeshifting, they can perform normal kills.<br>
 
 ### Witch
 
@@ -371,7 +371,7 @@ Team : Impostors or Crewmates<br>
 Decision : Impostor or Crewmates<br>
 
 The Watchers can see colored votes regardless of anonymous votes.<br>
-There are both Impostor Roles (EvilWatcher) and Crewmate Roles (NiceWatcher).<br>
+There are both Impostor Roles (Evil Watcher) and Crewmate Roles (Nice Watcher).<br>
 
 #### Game Options
 
@@ -579,8 +579,8 @@ Victory Conditions : Have the target voted out<br>
 
 The Executioners are assigned their target with dark purple "Diamond" sign next to the player name.<br>
 They have to lead the target to be voted out, which results in Executioner win.<br>
-If the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.<br>
-If the target is the Jester, the Executioners can be an additional winner.<br>
+If the target dies before voted out, the Executioner changes their Role and become Crewmate, [Jester](#jester), or [Opportunist](#opportunist) according to a game option.<br>
+If the target is the [Jester](#jester), the Executioners can be an additional winner.<br>
 
 #### Game Options
 
@@ -616,10 +616,10 @@ Victory Conditions : None<br>
 The SchrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
 
 1.If killed by Impostors, they prevent the kill and belong to team Impostors.<br>
-2.If killed by Sheriff, they prevent the kill and belong to team Crewmate.<br>
+2.If killed by [Sheriff](#sheriff), they prevent the kill and belong to team Crewmate.<br>
 3.If killed by Neutral, they prevent the kill and belong to the Neutral team.<br>
 4.If exiled, they die with the victory condition same as before.<br>
-5.If killed with special abilities of Impostors (except for Vampire), they die with the victory condition same as before.<br>
+5.If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
 
 #### Game Options
 
@@ -636,9 +636,9 @@ Team : Neutral<br>
 Decision : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
-The Terrorists are the Neutral RName          ole where they win the game alone if they die with all their tasks completed.<br>
+The Terrorists are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
-If they die without completing their tasks, or if the game ends without they dying, they lose.<br>
+If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
 ## Attribute
 
@@ -647,8 +647,8 @@ If they die without completing their tasks, or if the game ends without they dyi
 Create and idea by そうくん<br>
 
 An Attribute given to the last Impostor.<br>
-Your kill cooldown gets shorter than usual.<br>
-Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
+kill cooldown gets shorter than usual.<br>
+Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 
 | Name                       |
 | -------------------------- |
@@ -668,13 +668,13 @@ There is a "Heart" sign next to each other's player name. <br>
 If one Lover dies, the other Lover suicides. <br>
 
 Example of overlapping Roles: <br>
-・ Terrorist Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
-・ MadSnitch Lover: You have tasks, and you can see the Impostor after completing the task. <br>
-・ Snitch Lover: No tasks, Impostor remains unknown. <br>
-・ Sheriff Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
-・ Opportunist Lover: Win if you survive. <br>
-・ Jester Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
-・ Bait Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
+・ [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
+・ [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
+・ [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
+・ [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
+・ [Opportunist](#opportunist) Lover: Win if you survive. <br>
+・ [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
+・ [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
 ## SabotageTimeControl
 
@@ -723,7 +723,7 @@ Killing all Crewmates.<br>
 
 #### Fox (Purple) Victory Conditions
 
-Staying alive when one of the teams (Except Troll) wins.<br>
+Staying alive when one of the teams (Except [Troll](#troll-green-victory-conditions)) wins.<br>
 
 #### Troll (Green) Victory Conditions
 
