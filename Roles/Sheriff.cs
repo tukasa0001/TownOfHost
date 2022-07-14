@@ -7,8 +7,8 @@ namespace TownOfHost
 {
     public static class Sheriff
     {
-        static readonly int Id = 20400;
-        static List<byte> playerIdList = new();
+        private static readonly int Id = 20400;
+        public static List<byte> playerIdList = new();
 
         public static CustomOption KillCooldown;
         public static CustomOption CanKillArsonist;
@@ -49,18 +49,10 @@ namespace TownOfHost
             playerIdList.Add(playerId);
             if (!Main.ResetCamPlayerList.Contains(playerId))
                 Main.ResetCamPlayerList.Add(playerId);
-            RoleInit(playerId);
-        }
-        private static void RoleInit(byte id)
-        {
-            var sheriff = Utils.GetPlayerById(id);
-            if (sheriff == null) return;
-            if (sheriff.Is(CustomRoles.Sheriff))
-            {
-                ShotLimit[id] = ShotLimitOpt.GetFloat();
-                SendRPC(id);
-                Logger.Info($"{sheriff.GetNameWithRole()} : 残り{ShotLimit[id]}発", "Sheriff");
-            }
+
+            ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
+            SendRPC(playerId);
+            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
         }
         public static bool IsEnable()
         {
