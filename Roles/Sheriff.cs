@@ -22,7 +22,7 @@ namespace TownOfHost
         public static CustomOption CanKillCrewmatesAsIt;
         public static CustomOption ShotLimitOpt;
 
-        public static Dictionary<byte, float> ShotLimit;
+        public static Dictionary<byte, float> ShotLimit = new();
 
         public static void SetupCustomOption()
         {

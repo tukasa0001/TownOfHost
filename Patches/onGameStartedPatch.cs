@@ -104,6 +104,7 @@ namespace TownOfHost
             LadderDeathPatch.Reset();
             FireWorks.Init();
             Sniper.Init();
+            Sheriff.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
