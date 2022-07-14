@@ -109,7 +109,9 @@ namespace TownOfHost
 
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
-                        return Sheriff.CanUseKillButton(killer);
+                        if (!Sheriff.CanUseKillButton(killer))
+                            return false;
+                        break;
                 }
             }
 
