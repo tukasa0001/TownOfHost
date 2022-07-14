@@ -309,7 +309,7 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
+                    BountyHunter.ApplyGameOptions(opt);
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -508,52 +508,6 @@ namespace TownOfHost
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)
         {
             return isMeeting ? player?.Data?.PlayerName : player?.name;
-        }
-
-        public static PlayerControl GetBountyTarget(this PlayerControl player)
-        {
-            if (player == null) return null;
-            if (Main.BountyTargets == null) Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-
-            if (!Main.BountyTargets.TryGetValue(player.PlayerId, out var target))
-            {
-                target = player.ResetBountyTarget();
-            }
-            return target;
-        }
-        public static PlayerControl ResetBountyTarget(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            List<PlayerControl> cTargets = new();
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                // 死者/切断者/インポスターを除外
-                if (!pc.Data.IsDead &&
-                    !pc.Data.Disconnected &&
-                    !pc.GetCustomRole().IsImpostor()
-                )
-                {
-                    cTargets.Add(pc);
-                }
-            }
-            if (cTargets.Count >= 2 && Main.BountyTargets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId);
-
-            var rand = new System.Random();
-            if (cTargets.Count <= 0)
-            {
-                Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
-                return null;
-            }
-            var target = cTargets[rand.Next(0, cTargets.Count)];
-            Main.BountyTargets[player.PlayerId] = target;
-            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
-
-            //RPCによる同期
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(target.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            return target;
         }
         public static bool IsSpellMode(this PlayerControl player)
         {

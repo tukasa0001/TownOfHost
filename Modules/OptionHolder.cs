@@ -57,9 +57,6 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
-        public static CustomOption BountyTargetChangeTime;
-        public static CustomOption BountySuccessKillCooldown;
-        public static CustomOption BountyFailureKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption SerialKillerCooldown;
         public static CustomOption SerialKillerLimit;
@@ -261,10 +258,7 @@ namespace TownOfHost
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
-            SetupRoleOptions(1000, CustomRoles.BountyHunter);
-            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyHunter.SetupCustomOption();
             SetupRoleOptions(1100, CustomRoles.SerialKiller);
             SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20f, 2.5f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
             SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);

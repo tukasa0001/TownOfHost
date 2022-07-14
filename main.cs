@@ -72,10 +72,7 @@ namespace TownOfHost
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> SerialKillerTimer = new();
-        public static Dictionary<byte, float> BountyTimer = new();
         public static Dictionary<byte, float> WarlockTimer = new();
-        public static Dictionary<byte, PlayerControl> BountyTargets;
-        public static Dictionary<byte, bool> isTargetKilled = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static List<PlayerControl> SpelledPlayer = new();
         public static Dictionary<byte, bool> KillOrSpell = new();
@@ -138,9 +135,7 @@ namespace TownOfHost
             CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             SerialKillerTimer = new Dictionary<byte, float>();
-            BountyTimer = new Dictionary<byte, float>();
             WarlockTimer = new Dictionary<byte, float>();
-            BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();

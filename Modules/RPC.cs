@@ -121,10 +121,7 @@ namespace TownOfHost
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
                 case CustomRPC.SetBountyTarget:
-                    byte HunterId = reader.ReadByte();
-                    byte TargetId = reader.ReadByte();
-                    var target = Utils.GetPlayerById(TargetId);
-                    if (target != null) Main.BountyTargets[HunterId] = target;
+                    BountyHunter.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetKillOrSpell:
                     byte playerId = reader.ReadByte();

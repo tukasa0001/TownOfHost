@@ -23,11 +23,8 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.SerialKillerTimer = new Dictionary<byte, float>();
             Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.BountyTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-            Main.isTargetKilled = new Dictionary<byte, bool>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
@@ -105,6 +102,7 @@ namespace TownOfHost
             LadderDeathPatch.Reset();
             FireWorks.Init();
             Sniper.Init();
+            BountyHunter.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -293,9 +291,6 @@ namespace TownOfHost
 
                 HudManager.Instance.SetHudActive(true);
                 Main.KillOrSpell = new Dictionary<byte, bool>();
-                //BountyHunterのターゲットを初期化
-                Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-                Main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     pc.ResetKillCooldown();
@@ -305,12 +300,7 @@ namespace TownOfHost
                         pc.RpcSetSheriffShotLimit();
                         Logger.Info($"{pc.GetNameWithRole()} : 残り{Main.SheriffShotLimit[pc.PlayerId]}発", "Sheriff");
                     }
-                    if (pc.Is(CustomRoles.BountyHunter))
-                    {
-                        pc.ResetBountyTarget();
-                        Main.isTargetKilled.Add(pc.PlayerId, false);
-                        Main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
-                    }
+                    if (pc.Is(CustomRoles.BountyHunter)) BountyHunter.Add(pc);
                     if (pc.Is(CustomRoles.Witch)) Main.KillOrSpell.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Warlock))
                     {
