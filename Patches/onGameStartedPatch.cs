@@ -67,11 +67,6 @@ namespace TownOfHost
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) p.RpcSetName(Palette.GetColorName(p.Data.DefaultOutfit.ColorId));
-                Main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
-            }
 
             foreach (var target in PlayerControl.AllPlayerControls)
             {
@@ -83,6 +78,9 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
+
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
