@@ -644,8 +644,9 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 Create and idea by そうくん<br>
 
-This is the attribute given to the last Impostor.<br>
-Not given to BountyHunter, SerialKiller, or Vampire.<br>
+An attribute given to the last Impostor.<br>
+Kill cooldown gets shorter than usual.<br>
+Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
 | ------------------------- |

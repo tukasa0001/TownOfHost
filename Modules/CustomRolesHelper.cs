@@ -20,7 +20,8 @@ namespace TownOfHost
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                CustomRoles.Ninja;
+                CustomRoles.Ninja or
+                CustomRoles.LastImpostor;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
