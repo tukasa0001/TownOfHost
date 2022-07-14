@@ -742,12 +742,8 @@ namespace TownOfHost
                     pc.RpcResetAbilityCooldown();
                     Main.SerialKillerTimer.TryAdd(pc.PlayerId, 0f);
                 }
-                if (pc.Is(CustomRoles.BountyHunter))
-                {
-                    pc.RpcResetAbilityCooldown();
-                    BountyHunter.ChangeTimer.TryAdd(pc.PlayerId, 0f);
-                }
             }
+            BountyHunter.AfterMeetingTasks();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)

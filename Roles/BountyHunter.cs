@@ -155,5 +155,13 @@ namespace TownOfHost
             LowerInfoText.text = target == null ? "null" : $"{GetString("BountyCurrentTarget")}:{GetTarget(bounty).name}";
             LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
         }
+        public static void AfterMeetingTasks()
+        {
+            foreach (var id in playerIdList)
+            {
+                Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
+                ChangeTimer[id] = 0f;
+            }
+        }
     }
 }
