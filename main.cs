@@ -199,12 +199,14 @@ namespace TownOfHost
                     {CustomRoles.Executioner, "#611c3a"},
                     {CustomRoles.Opportunist, "#00ff00"},
                     {CustomRoles.SchrodingerCat, "#696969"},
+                    {CustomRoles.Egoist, "#5600ff"},
+                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
                     //サブ役職
                     {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    {CustomRoles.Lovers, "#ffaaaa"},
+                    {CustomRoles.Lovers, "#ffaaaa"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -217,13 +219,6 @@ namespace TownOfHost
                             roleColors.Add(role, "#ff0000");
                             break;
                         default:
-                            switch (role)
-                            {
-                                case CustomRoles.Egoist:
-                                case CustomRoles.EgoSchrodingerCat:
-                                    roleColors.Add(role, "#5600ff");
-                                    break;
-                            }
                             break;
                     }
                 }
