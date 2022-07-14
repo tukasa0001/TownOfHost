@@ -101,7 +101,7 @@ namespace TownOfHost
                     SendRPC(killer.PlayerId);
                     break;
                 case "Suicide":
-                    if (target.CanBeKilledBySheriff())
+                    if (!target.CanBeKilledBySheriff())
                     {
                         PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
                         killer.RpcMurderPlayerV2(killer);
