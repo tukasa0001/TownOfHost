@@ -229,7 +229,7 @@ Skip,Skip,スキップ
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。
 StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Crewmates can win only by completing tasks\nand Impostors can win only by killing all the Crewmates.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。
-NoGameEndInfo,"NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.",ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
+NoGameEndInfo,"NoGameEnd:\nA mode for debugging in which there is no win Basis.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.",ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,"SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.",ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 SabotageTimeControlInfo,"Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings)",サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
 RandomMapsModeInfo,"RandomMapsMode:\nA mode in which the map changes randomly. (with settings)",ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
@@ -270,7 +270,7 @@ SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターを�
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる
-SheriffCanKillMadmate,Sheriff Can Kill Madmate,シェリフがマッドメイトをキルできる
+SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
