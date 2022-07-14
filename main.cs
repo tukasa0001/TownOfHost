@@ -177,6 +177,10 @@ namespace TownOfHost
                     {CustomRoles.Engineer, "#b6f0ff"},
                     {CustomRoles.Scientist, "#b6f0ff"},
                     {CustomRoles.GuardianAngel, "#ffffff"},
+                    //インポスター、シェイプシフター
+                    //特殊インポスター役職
+                    //マッドメイト系役職
+                        //後で追加
                     //両陣営可能役職
                     {CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
