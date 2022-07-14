@@ -293,11 +293,8 @@ namespace TownOfHost
                     case CustomRoles.Sheriff:
                         Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
 
-                        if (!target.CanBeKilledBySheriff())
-                        {
-                            Sheriff.OnCheckMurder(killer, target, Process: "Suicide");
+                        if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
                             return false;
-                        }
                         break;
                 }
             }

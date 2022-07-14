@@ -99,7 +99,7 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
+        public static bool OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
         {
             switch (Process)
             {
@@ -109,12 +109,17 @@ namespace TownOfHost
                     SendRPC(killer.PlayerId);
                     break;
                 case "Suicide":
-                    PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                    killer.RpcMurderPlayerV2(killer);
-                    if (CanKillCrewmatesAsIt.GetBool())
-                        killer.RpcMurderPlayerV2(target);
+                    if (target.CanBeKilledBySheriff())
+                    {
+                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
+                        killer.RpcMurderPlayerV2(killer);
+                        if (CanKillCrewmatesAsIt.GetBool())
+                            killer.RpcMurderPlayerV2(target);
+                        return false;
+                    }
                     break;
             }
+            return true;
         }
         public static string GetShotLimit(byte playerId) => Helpers.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)
