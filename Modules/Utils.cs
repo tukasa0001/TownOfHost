@@ -146,6 +146,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.MadScientist && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
@@ -575,7 +576,7 @@ namespace TownOfHost
                     }
                 }
 
-                if (seer.Is(CustomRoles.MadSnitch))
+                if (seer.Is(CustomRoles.MadSnitch) || seer.Is(CustomRoles.MadScientist))
                 {
                     var TaskState = seer.GetPlayerTaskState();
                     if (TaskState.IsTaskFinished)
@@ -609,6 +610,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || seer.Is(CustomRoles.MadScientist)
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
                     || ForceLoop
@@ -704,7 +706,7 @@ namespace TownOfHost
                         }
 
                         string TargetDeathReason = "";
-                        if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
+                        if ((seer.Is(CustomRoles.Doctor) || seer.Is(CustomRoles.MadScientist)) && //seerがDoctor
                         target.Data.IsDead //変更対象が死人
                         )
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";

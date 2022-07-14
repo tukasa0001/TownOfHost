@@ -11,7 +11,7 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Scientist)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Scientist);
-                if (CustomRoles.Doctor.IsEnable()) forced = true;
+                if (CustomRoles.Doctor.IsEnable() || CustomRoles.MadScientist.IsEnable()) forced = true;
             }
             if (__instance.Role.Role == RoleTypes.Engineer)
             {

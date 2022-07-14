@@ -197,6 +197,7 @@ namespace TownOfHost
                 {CustomRoles.SKMadmate, "#ff0000"},
                 {CustomRoles.MadGuardian, "#ff0000"},
                 {CustomRoles.MadSnitch, "#ff0000"},
+                {CustomRoles.MadScientist, "#ff0000"},
                 {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
                 //両陣営可能役職
                 {CustomRoles.Watcher, "#800080"},
@@ -284,6 +285,7 @@ namespace TownOfHost
         MadGuardian,
         Madmate,
         MadSnitch,
+        MadScientist,
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
         //両陣営

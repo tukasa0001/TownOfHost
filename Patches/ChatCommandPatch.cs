@@ -248,6 +248,7 @@ namespace TownOfHost
                 { CustomRoles.MadGuardian, "mg" },
                 { CustomRoles.Madmate, "mm" },
                 { CustomRoles.MadSnitch, "msn" },
+                { CustomRoles.MadScientist, "msc" },
                 { CustomRoles.SKMadmate, "sm" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用

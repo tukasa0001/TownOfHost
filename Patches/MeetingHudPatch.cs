@@ -253,7 +253,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                if ((seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch)) && //seerがSnitch/MadSnitch
+                if ((seer.Is(CustomRoles.Snitch) || seer.Is(CustomRoles.MadSnitch) || seer.Is(CustomRoles.MadScientist)) && //seerがSnitch/MadSnitch
                     seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                 {
                     LocalPlayerKnowsImpostor = true;
@@ -322,7 +322,7 @@ namespace TownOfHost
                     target.PlayerId == ExecutionerTarget.Value) //targetがValue
                         pva.NameText.text += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                 }
-                if (seer.Is(CustomRoles.Doctor) && //LocalPlayerがDoctor
+                if ((seer.Is(CustomRoles.Doctor) || seer.Is(CustomRoles.MadScientist)) && //LocalPlayerがDoctor
                 target.Data.IsDead) //変更対象が死人
                     pva.NameText.text = $"{pva.NameText.text}(<color={Utils.GetRoleColorCode(CustomRoles.Doctor)}>{Utils.GetVitalText(target.PlayerId)}</color>)";
             }

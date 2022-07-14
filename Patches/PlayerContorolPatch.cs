@@ -859,7 +859,7 @@ namespace TownOfHost
                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
-                    else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
+                    else if ((seer.Is(CustomRoles.MadSnitch) || seer.Is(CustomRoles.MadScientist)) && //seerがMadSnitch
                         target.GetCustomRole().IsImpostor() && //targetがインポスター
                         seer.GetPlayerTaskState().IsTaskFinished) //seerのタスクが終わっている
                     {

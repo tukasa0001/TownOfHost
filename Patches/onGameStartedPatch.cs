@@ -126,7 +126,7 @@ namespace TownOfHost
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
+                int AdditionalScientistNum = CustomRoles.Doctor.GetCount() + CustomRoles.MadScientist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
@@ -246,6 +246,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
+                AssignCustomRolesFromList(CustomRoles.MadScientist, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
@@ -365,7 +366,7 @@ namespace TownOfHost
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                 int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum -= CustomRoles.Doctor.GetCount();
+                ScientistNum -= CustomRoles.Doctor.GetCount() + CustomRoles.MadScientist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
                 int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);

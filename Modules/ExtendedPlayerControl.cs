@@ -381,6 +381,10 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown / 2;//Mareのキルクールを÷2する
                     }
                     break;
+                case CustomRoles.MadScientist:
+                    opt.RoleOptions.ScientistCooldown = 0f;
+                    opt.RoleOptions.ScientistBatteryCharge = 300f;
+                    break;
 
 
                 InfinityVent:

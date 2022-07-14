@@ -33,6 +33,7 @@ Sniper,Sniper,スナイパー
 Madmate,Madmate,マッドメイト
 MadGuardian,MadGuardian,マッドガーディアン
 MadSnitch,MadSnitch,マッドスニッチ
+MadScientist,MadScientist,マッドサイエンティスト
 SKMadmate,SideKickMadmate,サイドキックマッドメイト
 
 # 両陣営可能役職
@@ -98,6 +99,7 @@ SniperInfo,I'll shoot,狙い撃つぜ
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
+MadScientistInfo,Help the Impostors,インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
 
 # 両陣営可能役職
@@ -153,6 +155,7 @@ SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the ex
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
 MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nOnce all tasks are completed, the impostor can be recognized from the Mad Snitch.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。
+MadScientistInfoLong,"(Impostors):\n",(インポスター陣営):\n
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 
 # 両陣営可能役職
@@ -250,6 +253,8 @@ SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Door
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
+MadScientistNoticeImpostor,MadScientist Can See Impostor,インポスターが分かる
+MadScientistTasks,MadScientist Tasks,マッドサイエンティストのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイト系役職が停電を直すことができる
 MadmateCanFixComms,Madmate Can Fix Comms,マッドメイト系役職が通信障害を直すことができる

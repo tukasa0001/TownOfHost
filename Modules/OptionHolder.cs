@@ -73,6 +73,7 @@ namespace TownOfHost
         public static CustomOption CanMakeMadmateCount;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
         public static CustomOption MadSnitchCanVent;
+        public static CustomOption MadScientistNoticeImpostor;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -176,6 +177,7 @@ namespace TownOfHost
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData MadScientistTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -298,6 +300,9 @@ namespace TownOfHost
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
+            SetupRoleOptions(10300, CustomRoles.MadScientist);
+            MadScientistNoticeImpostor = CustomOption.Create(10310, Color.white, "MadScientistNoticeImpostor", false, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistTasks = OverrideTasksData.Create(10320, CustomRoles.MadScientist);
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
