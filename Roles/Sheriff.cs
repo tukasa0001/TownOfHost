@@ -10,17 +10,17 @@ namespace TownOfHost
         private static readonly int Id = 20400;
         public static List<byte> playerIdList = new();
 
-        public static CustomOption KillCooldown;
-        public static CustomOption CanKillArsonist;
-        public static CustomOption CanKillMadmate;
-        public static CustomOption CanKillJester;
-        public static CustomOption CanKillTerrorist;
-        public static CustomOption CanKillOpportunist;
-        public static CustomOption CanKillEgoist;
-        public static CustomOption CanKillEgoShrodingerCat;
-        public static CustomOption CanKillExecutioner;
-        public static CustomOption CanKillCrewmatesAsIt;
-        public static CustomOption ShotLimitOpt;
+        private static CustomOption KillCooldown;
+        private static CustomOption CanKillArsonist;
+        private static CustomOption CanKillMadmate;
+        private static CustomOption CanKillJester;
+        private static CustomOption CanKillTerrorist;
+        private static CustomOption CanKillOpportunist;
+        private static CustomOption CanKillEgoist;
+        private static CustomOption CanKillEgoShrodingerCat;
+        private static CustomOption CanKillExecutioner;
+        private static CustomOption CanKillCrewmatesAsIt;
+        private static CustomOption ShotLimitOpt;
 
         public static Dictionary<byte, float> ShotLimit = new();
 
@@ -58,7 +58,7 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void SendRPC(byte playerId)
+        private static void SendRPC(byte playerId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
             writer.Write(playerId);
