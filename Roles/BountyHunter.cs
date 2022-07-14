@@ -11,9 +11,9 @@ namespace TownOfHost
         private static readonly int Id = 1000;
         public static List<byte> playerIdList = new();
 
-        public static CustomOption TargetChangeTime;
-        public static CustomOption SuccessKillCooldown;
-        public static CustomOption FailureKillCooldown;
+        private static CustomOption TargetChangeTime;
+        private static CustomOption SuccessKillCooldown;
+        private static CustomOption FailureKillCooldown;
 
         public static Dictionary<byte, PlayerControl> Targets = new();
         public static Dictionary<byte, float> ChangeTimer = new();
@@ -41,7 +41,7 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void SendRPC(byte bountyId, byte targetId)
+        private static void SendRPC(byte bountyId, byte targetId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
             writer.Write(bountyId);
