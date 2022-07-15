@@ -40,6 +40,7 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((int)CustomWinner.Draw);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.ForceEndGame();
             }

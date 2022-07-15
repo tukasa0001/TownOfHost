@@ -36,12 +36,6 @@ namespace TownOfHost
             var killer = __instance; //読み替え変数
             killer.ResetKillCooldown();
 
-            //RPCGuardAndKillによるガードは外す
-            if (Main.SelfGuard[target.PlayerId])
-            {
-                Main.SelfGuard[target.PlayerId] = false;
-                target.RpcMurderPlayerV2(target);
-            }
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
 
