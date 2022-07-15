@@ -10,10 +10,10 @@ namespace TownOfHost
         private static readonly int Id = 1100;
         public static List<byte> playerIdList = new();
 
-        public static CustomOption KillCooldown;
-        public static CustomOption TimeLimit;
+        private static CustomOption KillCooldown;
+        private static CustomOption TimeLimit;
 
-        public static Dictionary<byte, float> SuicideTimer = new();
+        private static Dictionary<byte, float> SuicideTimer = new();
 
         public static void SetupCustomOption()
         {
