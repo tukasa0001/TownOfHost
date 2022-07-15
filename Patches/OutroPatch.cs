@@ -263,8 +263,8 @@ namespace TownOfHost
 
             foreach (var additionalwinners in Main.additionalwinners)
             {
-                var addiWinnerRole = (CustomRoles)additionalwinners;
-                AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addiWinnerRole), Utils.GetRoleName(addiWinnerRole));
+                var addWinnerRole = (CustomRoles)additionalwinners;
+                AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
             if (Main.currentWinner != CustomWinner.Draw)
             {
