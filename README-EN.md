@@ -555,6 +555,12 @@ The conditions for defeat are as follows.<br>
 2.Imposter victory with allies remaining.<br>
 3.Other Neutrals win.<br>
 
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| Egoist KillCooldown |
+
 ### Executioner
 
 
