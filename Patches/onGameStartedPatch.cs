@@ -305,6 +305,7 @@ namespace TownOfHost
                         pc.RpcSetSheriffShotLimit();
                         Logger.Info($"{pc.GetNameWithRole()} : 残り{Main.SheriffShotLimit[pc.PlayerId]}発", "Sheriff");
                     }
+                    if (pc.Is(CustomRoles.SerialKiller)) SerialKiller.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.BountyHunter))
                     {
                         pc.ResetBountyTarget();
