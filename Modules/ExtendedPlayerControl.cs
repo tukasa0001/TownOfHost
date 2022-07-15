@@ -695,7 +695,7 @@ namespace TownOfHost
         public static bool IsDouseDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
-            var count = Utils.getDousedPlayerCount(player.PlayerId);
+            var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
         public static bool CanMakeMadmate(this PlayerControl player)

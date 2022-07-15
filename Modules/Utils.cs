@@ -205,7 +205,7 @@ namespace TownOfHost
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    var doused = getDousedPlayerCount(playerId);
+                    var doused = GetDousedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
@@ -819,7 +819,7 @@ namespace TownOfHost
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
-        public static (int, int) getDousedPlayerCount(byte playerId)
+        public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
             //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
