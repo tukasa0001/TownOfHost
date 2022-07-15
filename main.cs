@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -48,7 +48,6 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
         public static Dictionary<byte, Color32> PlayerColors = new();
@@ -192,6 +191,7 @@ namespace TownOfHost
                 {CustomRoles.FireWorks, "#ff0000"},
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
+                {CustomRoles.LastImpostor, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -280,6 +280,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -324,25 +325,25 @@ namespace TownOfHost
     //WinData
     public enum CustomWinner
     {
-        Draw = 0,
-        Default,
-        Impostor,
-        Crewmate,
-        Jester,
-        Terrorist,
-        Lovers,
-        Executioner,
-        Arsonist,
-        Egoist,
-        HASTroll
+        Draw = -1,
+        Default = -2,
+        Impostor = CustomRoles.Impostor,
+        Crewmate = CustomRoles.Crewmate,
+        Jester = CustomRoles.Jester,
+        Terrorist = CustomRoles.Terrorist,
+        Lovers = CustomRoles.Lovers,
+        Executioner = CustomRoles.Executioner,
+        Arsonist = CustomRoles.Arsonist,
+        Egoist = CustomRoles.Egoist,
+        HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
     {
-        None = 0,
-        Opportunist,
-        SchrodingerCat,
-        Executioner,
-        HASFox
+        None = -1,
+        Opportunist = CustomRoles.Opportunist,
+        SchrodingerCat = CustomRoles.SchrodingerCat,
+        Executioner = CustomRoles.Executioner,
+        HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte
     {

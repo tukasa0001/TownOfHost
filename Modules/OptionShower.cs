@@ -25,7 +25,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.Standard)
             {
                 //役職一覧
-                text += $"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("LastImpostor"))}: {Options.EnableLastImpostor.GetString()}\n\n";
+                text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                     if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                         text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
@@ -38,7 +38,7 @@ namespace TownOfHost
             {
                 if (Options.EnableLastImpostor.GetBool())
                 {
-                    text += $"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), GetString("LastImpostor"))}: {Options.EnableLastImpostor.GetString()}\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
                     text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                 }
             }

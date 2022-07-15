@@ -90,9 +90,10 @@ WitchInfo,Spell the Crewmates,敵に魔術をかけよう
 MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう
 BeforeMafiaInfo,You can't kill yet,今はキルをすることができない
 AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう
-PuppeteerInfo,Manipulate the Crewmate to kill all Crewmates,敵を操って皆殺しにしよう
+PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう
 TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ
+LastImpostorInfo,You are the last one,残ったのはあなただけ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -185,7 +186,7 @@ HASFoxInfoLong,"(HideAndSeek):\nThey win the game with other Roles (except Troll
 HASTrollInfoLong,"(HideAndSeek):\nThe Trolls win alone if killed.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
-LastImpostorInfo,"(Attributes):\n\nAn Attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ

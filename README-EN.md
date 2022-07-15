@@ -650,6 +650,8 @@ An Attribute given to the last Impostor.<br>
 kill cooldown gets shorter than usual.<br>
 Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
 
+#### Game Options
+
 | Name                       |
 | -------------------------- |
 | LastImpostor Kill Cooldown |
