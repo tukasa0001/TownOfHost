@@ -44,9 +44,8 @@ namespace TownOfHost
                     if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
-                    if (Main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && noLivingImposter)
-                        Main.currentWinner = CustomWinner.Egoist;
                 }
+                Egoist.OverrideCustomWinner(noLivingImposter);
             }
 
             //廃村時の処理など
@@ -117,17 +116,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Main.currentWinner == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable())
-            { //Egoist横取り勝利
-                winner = new();
-                foreach (var p in PlayerControl.AllPlayerControls)
-                {
-                    if ((p.Is(CustomRoles.Egoist) && !p.Data.IsDead) || p.Is(CustomRoles.EgoSchrodingerCat))
-                    {
-                        winner.Add(p);
-                    }
-                }
-            }
+            TeamEgoist.SoloWin(winner);
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)

@@ -659,6 +659,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
                     break;
+                case CustomRoles.Egoist:
+                    Egoist.ApplyKillCooldown(player.PlayerId);
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
