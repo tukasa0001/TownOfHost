@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -25,20 +24,13 @@ namespace TownOfHost
             playerIdList.Add(ego);
             TeamEgoist.Add(ego);
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
+        public static bool IsEnable => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void OverrideCustomWinner(bool noLivingImposter)
+        public static void OverrideCustomWinner()
         {
             foreach (var id in playerIdList)
-            {
-                var egoist = Utils.GetPlayerById(id);
-                if (egoist == null) return;
-                if (Main.currentWinner == CustomWinner.Impostor && egoist.Is(CustomRoles.Egoist) && !PlayerState.isDead[id] && noLivingImposter)
+                if (TeamEgoist.CompleteWinCondition(id))
                     Main.currentWinner = CustomWinner.Egoist;
-            }
         }
     }
 }
