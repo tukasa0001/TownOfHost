@@ -18,17 +18,17 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.SerialKiller);
-            KillCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            TimeLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SerialKillerCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            TimeLimit = CustomOption.Create(Id + 11, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, Options.CustomRoleSpawnChances[CustomRoles.SerialKiller]);
         }
         public static void Init()
         {
             playerIdList = new();
             SuicideTimer = new();
         }
-        public static void Add(PlayerControl bounty)
+        public static void Add(byte serial)
         {
-            playerIdList.Add(bounty.PlayerId);
+            playerIdList.Add(serial);
         }
         public static bool IsEnable()
         {
