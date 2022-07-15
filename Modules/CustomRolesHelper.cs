@@ -20,7 +20,8 @@ namespace TownOfHost
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                CustomRoles.GBomber;
+                CustomRoles.GBomber or
+                CustomRoles.LastImpostor;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -46,6 +47,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -84,6 +86,26 @@ namespace TownOfHost
             else
             {
                 return Options.GetRoleCount(role);
+            }
+        }
+        public static float GetChance(this CustomRoles role)
+        {
+            if (role.IsVanilla())
+            {
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                return role switch
+                {
+                    CustomRoles.Engineer => roleOpt.GetChancePerGame(RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetChancePerGame(RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetChancePerGame(RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
+                    _ => 0
+                } / 100f;
+            }
+            else
+            {
+                return Options.GetRoleChance(role);
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;

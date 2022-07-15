@@ -9,9 +9,15 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            if (ModUpdater.hasUpdate)
+            bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
+            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH))
             {
-                Logger.Info(GetString("onSetPublicNoLatest"), "MakePublicPatch");
+                var message = GetString("NameIncludeMod");
+                if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
+                if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
                 return false;
             }
             return true;
@@ -22,7 +28,7 @@ namespace TownOfHost
     {
         public static void Postfix(MMOnlineManager __instance)
         {
-            if (!ModUpdater.hasUpdate) return;
+            if (!(ModUpdater.hasUpdate || ModUpdater.isBroken)) return;
             var obj = GameObject.Find("FindGameButton");
             if (obj)
             {
@@ -31,7 +37,9 @@ namespace TownOfHost
                 var textObj = Object.Instantiate<TMPro.TextMeshPro>(obj.transform.FindChild("Text_TMP").GetComponent<TMPro.TextMeshPro>());
                 textObj.transform.position = new Vector3(1f, -0.3f, 0);
                 textObj.name = "CanNotJoinPublic";
-                new LateTask(() => { textObj.text = $"<size=2><color=#ff0000>{GetString("CanNotJoinPublicRoomNoLatest")}</color></size>"; }, 0.01f, "CanNotJoinPublic");
+                var message = ModUpdater.isBroken ? $"<size=2>{Helpers.ColorString(Color.red, GetString("ModBrokenMessage"))}</size>"
+                    : $"<size=2>{Helpers.ColorString(Color.red, GetString("CanNotJoinPublicRoomNoLatest"))}</size>";
+                new LateTask(() => { textObj.text = message; }, 0.01f, "CanNotJoinPublic");
             }
         }
     }

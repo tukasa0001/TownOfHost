@@ -18,12 +18,13 @@ namespace TownOfHost
     {
         private static void Prefix(MainMenuManager __instance)
         {
+            SaveManager.CensorChat = false;
             ModUpdater.LaunchUpdater();
             var template = GameObject.Find("ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
             var discordButton = UnityEngine.Object.Instantiate(template, null);
-            discordButton.transform.localPosition = new Vector3(discordButton.transform.localPosition.x, discordButton.transform.localPosition.y + 0.6f, discordButton.transform.localPosition.z);
+            discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
 
             PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
             passiveDiscordButton.OnClick = new Button.ButtonClickedEvent();
@@ -46,7 +47,7 @@ namespace TownOfHost
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
             var updateButton = UnityEngine.Object.Instantiate(template, null);
-            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 1.2f, updateButton.transform.localPosition.z);
+            updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 0.6f, updateButton.transform.localPosition.z);
 
             PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
             passiveUpdateButton.OnClick = new Button.ButtonClickedEvent();
@@ -92,6 +93,7 @@ namespace TownOfHost
     {
         public static bool running = false;
         public static bool hasUpdate = false;
+        public static bool isBroken = false;
         public static string updateURI = null;
         private static Task updateTask = null;
         public static string announcement = "";
@@ -194,6 +196,7 @@ namespace TownOfHost
             catch (System.Exception ex)
             {
                 Logger.Error(ex.ToString(), "ModUpdater");
+                isBroken = true;
             }
             return false;
         }

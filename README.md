@@ -13,22 +13,9 @@
 
 ## リリース
 
-| Among Us バージョン | Mod バージョン | リンク                                                                                                  |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s          | v2.0.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s          | v1.4.0         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s          | v1.4b#5        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#4        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s         | v1.4b#3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s         | v1.4b#2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s         | v1.4b#1        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s         | v1.3.4         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s         | v1.3.3         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s         | v1.3.2         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s         | v1.3.1         | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s         | v1.3           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s         | v1.2           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s        | v1.0           | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## 特徴
 
@@ -38,7 +25,6 @@
 しかし、以下の制限が発生することにご注意ください。<br>
 
 - ホストが途中抜けをするなどの要因でホストが変更された場合、追加役職に関する処理が正常に動作しない可能性がある。
-- 特殊役職を使用した場合、その特殊役職の設定を書き換える。(例 : 通気口のクールダウンをなくすなど)
 
 なお、ホスト以外のプレイヤーがこの Mod を導入した状態でプレイすると、以下のような変更が行われます。<br>
 
@@ -47,26 +33,94 @@
 - 設定項目の追加
 - その他
 
+## 機能
+### ホットキー
+
+#### ホストのみ
+| キー                | 機能                         | 使えるシーン     |
+| ------------------- | ---------------------------- | ---------------- |
+| `Shift`+`L`+`Enter` | 廃村                         | ゲーム内         |
+| `Shift`+`M`+`Enter` | ミーティングをスキップで終了 | ゲーム内         |
+| `Ctrl`+`N`          | 有効な役職の説明を表示       | ロビー&ゲーム内  |
+| `C`                 | ゲーム開始を中断             | カウントダウン中 |
+| `Shift`             | ゲームを即開始               | カウントダウン中 |
+| `Ctrl`+`Delete`     | 全てデフォルト値に設定       | TOH設定画面      |
+| `Ctrl`+`右クリック`     | クリックしたプレイヤーを処刑       | 会議画面      |
+
+#### MODクライアントのみ
+| キー        | 機能                                                              | 使えるシーン |
+| ----------- | ----------------------------------------------------------------- | ------------ |
+| `Tab`       | オプション一覧のページ送り                                        | ロビー       |
+| `Ctrl`+`F1` | ログをデスクトップに出力                                          | どこでも     |
+| `F11`       | 解像度を変更<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | どこでも     |
+| `Ctrl`+`C`  | 文章をコピー                                                      | チャット     |
+| `Ctrl`+`V`  | 文章を貼り付け                                                    | チャット     |
+| `Ctrl`+`X`  | 文章を切り取り                                                    | チャット     |
+| `↑`         | チャット送信履歴を過去に遡る                                      | チャット     |
+| `↓`         | チャット送信履歴を未来に遡る                                      | チャット     |
+
+### チャットコマンド
+チャットコマンドはチャットで入力して使用できるコマンドです。
+
+#### ホストのみ
+| コマンド                                    | 機能                                                |
+| ------------------------------------------- | --------------------------------------------------- |
+| /winner<br>/win                             | 勝者を表示                                          |
+| /rename <名前><br>/r <名前>                 | 名前を変更                                          |
+| /dis <crewmate/impostor>                    | 試合をクルーメイト/インポスターの切断として終了する |
+| /messagewait <秒><br>/mw <秒>               | メッセージの表示間隔の秒数を設定                    |
+| /help<br>/h                                 | コマンドの説明を表示                                |
+| /help roles <役職><br>/help r <役職>        | 役職の説明を表示                                    |
+| /help attributes <属性><br>/help att <属性> | 属性の説明を表示                                    |
+| /help modes <モード><br>/help m <モード>    | モードの説明を表示                                  |
+| /help now<br>/help n                        | 有効な設定の説明を表示                              |
+
+#### MODクライアントのみ
+| コマンド       | 機能                                |
+| -------------- | ----------------------------------- |
+| /dump          | ログをダンプ                        |
+| /version<br>/v | 全MODクライアントのバージョンを表示 |
+
+#### 全クライアント
+| コマンド                      | 機能                       |
+| ----------------------------- | -------------------------- |
+| /lastresult<br>/l             | 試合結果を表示             |
+| /now<br>/n                    | 現在の設定を表示           |
+| /now roles<br>/n r            | 現在の役職設定を表示       |
+| /template <タグ><br>/t <タグ> | タグに対応した定型文を表示 |
+
+### テンプレート
+定型文を送信できる機能です。<br>
+`/template <タグ>`もしくは`/t <タグ>`で呼び出すことができます。<br>
+定型文を設定するにはAmongUs.exeと同じフォルダの`template.txt`を編集します。<br>
+`タグ:内容`のようにコロンで区切って記載します。<br>
+また、`タグ:こんなふうに\n改行できます`のように文章中に`\n`を書くと改行できます。<br>
+
+#### ウェルカムメッセージ
+テンプレート機能でタグを「welcome」に設定するとプレイヤー参加時に自動で送信されます。<br>
+例: `welcome:この部屋はTownOfHostを使用しています。`
+
 ## 役職
 
-| インポスター陣営                                                   | クルーメイト陣営                                                           | 第三陣営                                                                   |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター) | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
-| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)            | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
-| [FireWorks/花火職人](#FireWorks花火職人)                           | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
-| [Mare/メアー](#Mareメアー)                                         | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
-| [Puppeteer/パペッティア](#Puppeteerパペッティア)                   | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
-| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)         | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)       | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                             | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                   | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                       | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                       | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                           |                                                                            |                                                                            |
-| [Mafia/マフィア](#Mafiaマフィア)                                   |                                                                            |                                                                            |
-| [Madmate/マッドメイト](#Madmateマッドメイト)                       |                                                                            |                                                                            |
-| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)   |                                                                            |                                                                            |
-| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)               |                                                                            |                                                                            |
+| インポスター陣営                                                                     | クルーメイト陣営                                                           | 第三陣営                                                                   |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [BountyHunter/バウンティハンター](#BountyHunterバウンティハンター)                   | [Bait/ベイト](#Baitベイト)                                                 | [Arsonist/アーソニスト](#Arsonistアーソニスト)                             |
+| [Evil Watcher/イビルウォッチャー](#Watcherウォッチャー)                              | [Dictator/ディクテーター](#Dictatorディクテーター)                         | [Egoist/エゴイスト](#Egoistエゴイスト)                                     |
+| [FireWorks/花火職人](#FireWorks花火職人)                                             | [Doctor/ドクター](#Doctorドクター)                                         | [Executioner/エクスキューショナー](#Executionerエクスキューショナー)       |
+| [Mare/メアー](#Mareメアー)                                                           | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
+| [Puppeteer/パペッティア](#Puppeteerパペッティア)                                     | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
+| [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
+| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)                         | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
+| [Sniper/スナイパー](#Sniperスナイパー)                                               | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
+| [Witch/魔女](#Witch魔女)                                                             |                                                                            |                                                                            |
+| [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
+| [Madmate/マッドメイト](#Madmateマッドメイト)                                         |                                                                            |                                                                            |
+| [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)                     |                                                                            |                                                                            |
+| [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
+| [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
 ### BountyHunter/バウンティハンター
 
@@ -75,7 +129,7 @@
 
 表示されたターゲットをキルした場合、次のキルクールがとても短くなります。<br>
 ターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまいます。<br>
-また、設定でキルクールを 2.5 秒に設定する必要があります。<br>
+<!--また、設定でキルクールを 2.5 秒に設定する必要があります。<br>-->
 ターゲットは一定時間ごとに変更されます。<br>
 
 #### 設定
@@ -88,6 +142,8 @@
 | バウンティハンター以外のキルクールダウン(s)                     |
 
 ### FireWorks/花火職人
+
+制作・考案者 : こう。<br>
 
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
@@ -107,6 +163,9 @@
 
 ### Mare/メアー
 
+制作者 : Kihi,ゆりの,そうくん,しゅー
+考案者 : Kihi<br>
+
 陣営 : インポスター<br>
 判定 : インポスター<br>
 
@@ -118,7 +177,7 @@
 陣営 : インポスター<br>
 判定 : インポスター<br>
 
-キルした対象に、対象が次に近づいたクルーをキルさせます。<br>
+パペッティアのキルはキャンセルされ、キル対象に次に近づいたプレイヤー（インポスターを除く）をキルさせます。<br>
 対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映されます。<br>
 普通のキルを行うことはできません。<br>
 
@@ -139,6 +198,8 @@
 
 ### ShapeMaster/シェイプマスター
 
+制作・考案者 : しゅー<br>
+
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
 
@@ -153,6 +214,8 @@
 
 ### Sniper/スナイパー
 
+制作・考案者 : こう。<br>
+
 陣営 : インポスター<br>
 判定 : シェイプシフター<br>
 
@@ -162,9 +225,9 @@
 弾丸を打ち切るまで通常キルは出来ません。<br>
 
 精密射撃モードOFF<BR>
-![off](https://user-images.githubusercontent.com/96226646/167415213-b2291123-b2f8-4821-84a9-79d72dc62d22.png)<BR>
+![off](https://user-images.githubusercontent.com/96226646/172194283-5482db76-faab-4185-9898-ac741b132112.png)<br>
 精密射撃モードON<BR>
-![on](https://user-images.githubusercontent.com/96226646/167415233-97882c76-fcde-4bac-8fdd-1641e43e6efe.png)<BR>
+![on](https://user-images.githubusercontent.com/96226646/172194317-6c47b711-a870-4ec0-9062-2abbf953418b.png)<br>
 
 #### 設定
 
@@ -175,6 +238,9 @@
 
 ### TimeThief/タイムシーフ
 
+考案者 : みぃー<br>
+制作者 : integral, しゅー, そうくん, ゆりの<br>
+
 陣営 : インポスター<br>
 判定 : インポスター<br>
 
@@ -183,10 +249,10 @@
 
 #### 設定
 
-| 設定名                |
-| --------------------- |
-| 減少する議論タイム(s) |
-| 減少する投票タイム(s) |
+| 設定名              |
+| ------------------- |
+| 減少する会議時間(s) |
+| 投票時間の下限(s)   |
 
 ### Vampire/ヴァンパイア
 
@@ -210,7 +276,7 @@
 判定 : シェイプシフター<br>
 
 ウォーロックが変身する前にキルすると相手に呪いがかかります。<br>
-そして次変身すると、呪った人に一番近い人が死にます。<br>
+そして次変身すると、呪った人に一番近い人をキルさせます。<br>
 呪いキルの成功または会議を挟むと呪いはリセットされます。<br>
 
 ### Witch/魔女
@@ -224,12 +290,11 @@
 ### Mafia/マフィア
 
 陣営 : インポスター<br>
-判定 : シェイプシフター<br>
+判定 : インポスター<br>
 
-初期状態で通気口やサボタージュ、変身は可能ですが、キルをすることはできません。<br>
+初期状態でキルをすることはできません。<br>
 マフィアではないインポスターが全員死亡すると、マフィアもキルすることができるようになります。<br>
 キルができない状態でもキルボタンはありますが、キルをすることはできません。<br>
-キルが可能になった後でも変身は継続して行うことができます。<br>
 
 ### Madmate/マッドメイト
 
@@ -241,6 +306,8 @@
 キルやサボタージュはできませんが、通気口に入ることができます。<br>
 
 ### MadGuardian/マッドガーディアン
+
+制作・考案者 : 空き瓶/EmptyBottle<br>
 
 陣営 : インポスター<br>
 判定 : クルーメイト<br>
@@ -258,12 +325,14 @@
 
 ### MadSnitch/マッドスニッチ
 
+制作・考案者 : そうくん<br>
+
 陣営 : インポスター<br>
 判定 : クルーメイトorエンジニア<br>
 
 インポスター陣営に属しますが、マッドスニッチからはインポスターが誰なのかはわかりません。<br>
 インポスターからもマッドスニッチが誰なのかはわかりません。<br>
-しかし、自身のタスクを一定数完了させるとインポスターの名前が赤色に変化します。<br>
+タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになります。<br>
 
 #### 設定
 
@@ -271,6 +340,18 @@
 | ------------------------------ |
 | マッドスニッチがベントを使える |
 | マッドスニッチのタスク数       |
+
+### SidekickMadmate/サイドキックマッドメイト
+
+制作・考案者 : たんぽぽ<br>
+
+陣営 : インポスター<br>
+判定 : 変化前の役職<br>
+
+この役職はシェイプシフトの能力を持つ役職がシェイプシフトした際に最も近いプレイヤー（インポスター陣営を除く）がなります。<br>
+インポスター陣営に属しますが、サイドキックマッドメイトからはインポスターが誰なのかはわかりません。<br>
+インポスターからもサイドキックマッドメイトが誰なのかはわかりません。<br>
+
 
 また、マッドメイト系役職共通の設定があります。
 
@@ -303,6 +384,8 @@
 キルされたときに、自分をキルしたプレイヤーに強制的に自分の死体を通報させることができる役職です。<br>
 
 ### Dictator/ディクテーター
+
+制作・考案者 : そうくん<br>
 
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
@@ -342,9 +425,11 @@
 | -------------------------------------- |
 | メイヤーの追加投票数                   |
 | メイヤーがポータブルボタンを持っている |
-| メイヤーが使えるボタンの回数   |
+| メイヤーが使えるボタンの回数           |
 
 ### SabotageMaster/サボタージュマスター
+
+制作・考案者 : 空き瓶/EmptyBottle<br>
 
 陣営 : クルーメイト<br>
 判定 : クルーメイト<br>
@@ -404,6 +489,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### SpeedBooster/スピードブースター
 
+制作・考案者 : よっキング<br>
+
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
 
@@ -416,6 +503,9 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | スピードアップ時の速さ |
 
 ### Trapper/トラッパー
+
+考案者 : 宿主ランニング<br>
+制作者 : そうくん<br>
 
 陣営 ：クルーメイト<br>
 判定 ：クルーメイト<br>
@@ -445,6 +535,9 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 塗るためのクールダウン   |
 
 ### Egoist/エゴイスト
+
+考案者 : しゅー<br>
+制作者 : そうくん<br>
 
 陣営 : 第三<br>
 判定 : シェイプシフター<br>
@@ -504,7 +597,12 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 デフォルトでは勝利条件を持たず、条件を満たすと初めて勝利条件を持ちます。<br>
 
-1.インポスターにキルされるとキルを防いでインポスター陣営となる<br> 2.シェリフにキルされるとキルを防いでクルー陣営となる<br> 3.第三陣営にキルされるとキルを防いで第三陣営となる<br> 4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br> 5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br> 6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
+1.インポスターにキルされるとキルを防いでインポスター陣営となる<br>
+2.シェリフにキルされるとキルを防いでクルー陣営となる<br>
+3.第三陣営にキルされるとキルを防いで第三陣営となる<br>
+4.追放された場合は役職が変化せず、そのまま勝利条件が変わらず死亡する<br>
+5.ウォーロックの能力でキルされると、そのまま勝利条件が変わらず死亡する<br>
+6.自殺系キル(ヴァンパイア除く)でキルされると、そのまま勝利条件が変わらず死亡する<br>
 
 また、全シュレディンガーの猫共通でタスクがありません。
 
@@ -517,6 +615,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### Terrorist/テロリスト
 
+制作・考案者 : 空き瓶/EmptyBottle<br>
+
 陣営 : 第三<br>
 判定 : エンジニア<br>
 勝利条件 : 全てのタスクを完了させた状態で死亡すること。<br>
@@ -528,7 +628,10 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### LastImpostor/ラストインポスター
 
+制作・考案者 : そうくん<br>
+
 最後のインポスターに付与される属性です。<br>
+キルクールが設定した時間まで短くなります。<br>
 ヴァンパイア、バウンティハンター、シリアルキラーには付与されません。<br>
 
 | 設定名                         |
@@ -536,6 +639,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | ラストインポスターのキルクール |
 
 ### Lovers/恋人
+
+制作・考案者 : ゆりの<br>
 
 陣営 : 第三<br>
 判定 : -<br>
@@ -554,7 +659,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ・シェリフ恋人：通常通りインポスター等をキルことが出来る。重複元の役職によってキルできるかどうか決まる。(インポスター恋人 キル可能.クルーメイト恋人 キル不可能)<br>
 ・オポチュニスト恋人：生き残れば勝利。<br>
 ・ジェスター恋人：ジェスター恋人が追放されればジェスターとして勝利。恋人が投票で追放された場合はジェスター恋人は敗北。<br>
-・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、恋人がベイト恋人を即通報を行う。<br>
+・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、通報は行われない。<br>
 
 ## SabotageTimeControl/サボタージュの時間制御
 
@@ -578,7 +683,17 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 | 金庫タスクを無効化する             |
 | ダウンロードタスクを無効化する     |
 
+### LadderDeath/転落死
+
+ハシゴから下ると、一定確率で死亡します。<br>
+
+| 設定名                             |
+| ---------------------------------- |
+| 転落死する確率　　　　　　　       |
+
 ### HideAndSeek/かくれんぼモード
+
+制作・考案者 : 空き瓶/EmptyBottle<br>
 
 #### クルーメイト陣営(青色)勝利条件
 
@@ -643,6 +758,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ### RandomMapsMode/ランダムマップモード
 
+制作者 : つがる<br>
+
 ランダムにマップが変わるモードです。<br>
 
 #### 設定
@@ -673,25 +790,30 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 #### クライアント設定
 
-## HideCodes/コード隠し
+## Hide Game Codes/コード隠し
 
 有効化することで、ロビーコードを非表示にすることができます。
 
 コンフィグファイル(BepInEx\config\com.emptybottle.townofhost.cfg)の`Hide Game Code Name`を書き換えることによって、HideCodes を有効にしたときに好きな文字を表示させることができます。
 また、`Hide Game Code Color`を書き換えることによって文字の色も好きなように変更できます。
 
-## JapaneseRoleName/役職名日本語化
+## Force Japanese/強制日本語化
+
+有効化することで言語設定にかかわらず、メニューを強制的に日本語にします。
+
+## Japanese Role Name/役職名日本語化
 
 有効化することで、役職名を日本語で表示させることができます。
-クライアントの言語を英語にしている場合、`ForceJapanese`を有効にしていないとこの設定は意味のないものとなります。
+クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
 
 ## 参考など
 
-[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター)の役職と Mod の作成方法の参考 : https://github.com/Eisbison/TheOtherRoles<br>
-[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー)の役職 : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫)の役職 : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[ドクター](#Doctor/ドクター) の役職 : https://github.com/Dolly1016/Nebula<br>
-[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト)の役職 : https://au.libhalt.net<br>
-[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+[バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[オポチュニスト](#Opportunist/オポチュニスト)、[ウォッチャー](#Watcher/ウォッチャー) のアイデア元 : [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[シュレディンガーの猫](#SchrodingerCat/シュレディンガーの猫) のアイデア元 : [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[ドクター](#Doctor/ドクター) のアイデア元 : [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
+[テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
 作者の Twitter : https://twitter.com/XenonBottle<br>

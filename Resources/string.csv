@@ -2,6 +2,8 @@ id,0,11
 
 
 ## 役職
+Neutral,Neutral,第三陣営
+SubRole,Sub Role,サブ役職
 
 # バニラ役職
 
@@ -75,11 +77,12 @@ TeamImpostor,Team Impostor,インポスター陣営
 
 
 ## 役職説明ショート
+NeutralInfo,A solitary teams that does not belong to any other teams,他のどの陣営にも属さない孤高の陣営
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
-FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
+FireWorksInfo,Let's make it bloom last time,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
@@ -92,6 +95,7 @@ PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆�
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
 GBomberInfo,CountDown...,命の音
+LastImpostorInfo,You are the last one,残ったのはあなただけ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -135,15 +139,15 @@ HASTrollInfo,Die to win,自爆しよう
 ## 役職説明ロング
 
 # 特殊インポスター役職
-BountyHunterInfoLong,"(Impostors):\nThe first time you try to kill someone, a target is displayed.\nWhen you kill the displayed target, your killcool is halved.\nIf you kill someone else, your killcool is keep standard.",(インポスター陣営):\n標的をキルすると次のｷﾙｸｰﾙが半分になる。\n標的以外をキルするとｷﾙｸｰﾙは通常になる。
+BountyHunterInfoLong,"(Impostors):\nIf you kill the indicated target, the next KillCooldown will be very short.\nIf you kill a player who is not the target, the KillCooldown will be extended.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nターゲットは一定時間ごとに変更される。
 FireWorksInfoLong,"(Impostors):\nFireworks can be set in up to 3 places by shapeshift.\n After setting everything, you can detonate all at once by shapeshift when you are the last impostor.\nYou can't kill while the fireworks are set.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。
 SerialKillerInfoLong,"(Impostors):\nThe kill cool time is shorter than that of other Impostors,\nbut if the kill is not made before the shapeshift's cool time expires, will suicide.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。
-ShapeMasterInfoLong,"(Impostors):\nImpostors specializing in shape-shifting.\nThere is no cooldown, but the transformation lasts only 10 seconds.",(インポスター陣営):\nシェイプシフトに特化したｲﾝﾎﾟｽﾀ-。\nクールダウンはないが変身は10秒間しかできない。
+ShapeMasterInfoLong,"(Impostors):\nAn impostor specialized in Shapeshift.\nWhile the transformation duration is shorter than that of a regular Shapeshifter, there is no cooldown after the transformation is released, and the shapeshifter can transform indefinitely.\nThe transformation duration can be changed in the settings.",(インポスター陣営):\nシェイプシフトに特化したインポスター。\n変身持続時間が通常のシェイプシフターよりも短い半面、変身解除後のクールダウンがなく無限に変身することができる。\n変身継続時間は設定で変更が可能。
 MareInfoLong,"(Impostors):\nYou can't only kill during a power outage.\nBut,when killed,the next kill cool is halved.\nand,The movement speed will also be faster. And name is displayed in red",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。
 VampireInfoLong,"(Impostors):\nDelayed kills are possible by biting the player.\n(The player dies when the time elapses OR the meeting starts.)\nIn the case of baits, the player dies immediately and is forced to call the meeting.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。
 WarlockInfoLong,"(Impostors):\nWhen he tries to kill, the target is cursed by warlock.\nThe next time you press the transform button, the cursed person kills the nearest person. \nIf you transforms, you can get a normal kill.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nKills toggle between 'Kill' and 'Spell', kills on the Spell display can be cursed.\nThe cursed person will suffix a '†' at the meeting\nand will die after the meeting if the witch is not expelled.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
-MafiaInfoLong,"(Impostors):\nInitially, the kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
+MafiaInfoLong,"(Impostors):\nInitially, kill is blocked.\nAfter all of his friends are dead, he himself becomes killable.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
 PuppeteerInfoLong,"(Impostors):\nIt allows the target of the kill to kill the next Crewmate that the target approaches.\nIf the target is the one that is triggered at the moment the target is killed, the effect is reflected on the target.\nIt is not possible to perform a normal kill.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
 TimeThiefInfoLong,"(Impostors):\nEach kill decreases the meeting time.\nIf the time thief is exiled or killed, the lost meeting time is returned.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper distant enemies.\nShoot one enemy on the extension of the point released from the shapeshifted point.\nYou can't kill until you shoot all bullet.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
@@ -152,7 +156,7 @@ GBomberInfoLong,"(Impostors):\nTODO.",(インポスター陣営):\n爆弾を取�
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they take the side of the Impostor.\nUnrecognizable to the Impostor and each other.\nShields are granted when all tasks are completed.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。
-MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nbut they can recognize each other when they complete all of their tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させると互いに認識できるようになる。
+MadSnitchInfoLong,"(Impostors):\nCrew, but they side with the Impostor.\nThey cannot recognize the Impostor and each other,\nOnce all tasks are completed, the impostor can be recognized from the Mad Snitch.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。
 SKMadmateInfoLong,(Impostors):\nThe role that can be held by the person\nwho was closest to the person when impostor transformed.\nThere is no task.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。
 
 # 両陣営可能役職
@@ -185,7 +189,7 @@ HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive 
 HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
-LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
@@ -197,6 +201,8 @@ AddedTheSkeld,Added TheSkeld,TheSkeldを追加
 AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
 AddedPolus,Added Polus,Polusを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+LadderDeath,Fall from ladders,ハシゴから転落
+LadderDeathChance,Chance of falling from ladders,転落する確率
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
 DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
@@ -209,6 +215,7 @@ SuffixMode.None,None,なし
 SuffixMode.Version,Version,バージョン
 SuffixMode.Streaming,Streaming,配信中
 SuffixMode.Recording,Recording,録画中
+ColorNameMode,Color Name Mode,色名前モード
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる
 RoleOptions,Role Options,役職設定
@@ -224,7 +231,8 @@ SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
 
 ## モード説明
-HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nSabotage, admins, cameras, ambushes, etc. are prohibited. (with settings)",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。サボタージュ、アドミン、カメラ、待ち伏せなどは禁止事項である。(設定有)
+HideAndSeekInfo,"HideAndSeek:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.\nThe impostor's body will be changed to red and the crewmate to blue.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。
+StandardHASInfo,"HideAndSeek with Roles:\nNo meetings can be held, Crewmates can only complete tasks\nand Impostors can only win by killing the entire crew.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win decision.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。
 SyncButtonModeInfo,SyncButtonMode:\nA mode in which all players' button counts are synchronized. (with settings),ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
@@ -234,12 +242,11 @@ RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (w
 AdvancedRoleOptions,Advanced Options,詳細設定
 AdvancedImpostorRoleOptions,Advanced Impostor Role Options,インポスター役職の詳細設定
 AdvancedCrewmateRoleOptions,Advanced Crewmate Role Options,クルーメイト役職の詳細設定
-BountyTargetChangeTime,Bounty Target Change Time\n(Added to Bounty Failure Kill Cooldown),バウンティハンターのターゲット変更時間\n(ターゲット以外殺害時のキルクールダウンにプラス)
+BountyTargetChangeTime,Bounty Target Change Time,バウンティハンターのターゲット変更時間
 EnableLastImpostor,Enable LastImpostor,ラストインポスターの有効化
 LastImpostorKillCooldown,LastImpostor KillCooldown,ラストインポスターのキルクール
 BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンターのターゲット殺害時のキルクール
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
-BHDefaultKillCooldown,Default Kill Cooldown,デフォルトのキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
 BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
@@ -254,6 +261,8 @@ MadmateHasImpostorVision,Madmate vision is as long as Impostor one,マッドメ�
 MadmateVentCooldown,Madmate Vent Cooldown,マッドメイト系役職のベントクールダウン
 MadmateVentMaxTime,Madmate In Vent Max Time,マッドメイト系役職のベント内での最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
+LighterTaskCompletedVision,Lighter TaskCompleted Vision,ライターのタスク完了時の視界
+LighterTaskCompletedDisableLightOut,Lighter TaskCompleted Disable Light Out,タスク完了時に停電を無効にする
 SabotageMasterFixesDoors,SabotageMaster Can Fixes Multiple Doors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが1度に複数のﾄﾞｱを開けることを許可する
 SabotageMasterFixesReactors,SabotageMaster Can Fixes Both Reactors,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を
 SabotageMasterFixesOxygens,SabotageMaster Can Fixes Both O2,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが酸素妨害に対して能力を使える
@@ -292,8 +301,9 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
-TimeThiefDecreaseDiscussionTime,TimeThief Decrease DiscussionTime,減少する議論タイム
-TimeThiefDecreaseVotingTime,TimeThief Decrease VotingTime,減少する投票タイム
+TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
+TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
+TimeThiefReturnStolenTimeUponDeath,Return Stolen Time Upon Death,死亡後に盗んだ時間を返す
 GBomberKillCooldown,GBomber KillCooldownTime,GBomberのキルクールタイム
 GBomberKillCountReductionValue,GBomber KillCountReductionValue,キルボタンでのカウント減少値
 GBomberMeetingCountReductionValue,GBomber MeetingCountReductionValue,議論中1秒当たりのカウントダウンスピード
@@ -318,10 +328,12 @@ DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
 DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
+DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
+DeathReason.Fell,Fell,転落
 DeathReason.etc,etc,その他
 Alive,Alive,生存
-Win,Wins,勝利
+Win, Wins,勝利
 Last,Last,ラスト
 
 ## リアクターの時間制御
@@ -332,7 +344,7 @@ AirshipReactorTimeLimit,Airship Reactor TimeLimit,エアシップのリアクタ
 ## ヘルプテキスト
 CommandList,Command List:,コマンド一覧:
 Command.winner,Display Winners,勝者を表示
-Command.lastroles,Display Last Role Assignment,最後の役職割り当てを表示
+Command.lastresult,Display Match Result,試合結果を表示
 Command.rename,Change Host Name,ホストの名前を変更
 Command.now,Display ActiveSettings,現在有効な設定を表示
 Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
@@ -342,9 +354,15 @@ Command.h_modes,<ModeName> - Display About Mode,<モード名> - モードの説
 Command.dump,Output Log to Desktop,デスクトップにログを出力
 Command.h_args,Available Args (clipped),使用可能な引数 (略称)
 
-CantUse/lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
+CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。
+
+## 警告
+Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません
 
 ## その他
+ForceEnd,Force Terminated,廃村
+ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました
+HideGameCodes,Hide Game Codes,ゲームコードを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
 updatePleaseWait,Please Wait...,しばらくお待ちください...
 updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。
@@ -355,11 +373,14 @@ updateRestart,Update Finished!\nPlease restart the game.,アップデートが�
 updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
+NameIncludeMod,"You cannot make a room public include "mod" in your name.\nThere is no problem if "TOH" is included.",""mod"が名前に含まれている状態では公開部屋にすることはできません。\n"TOH"が含まれていれば問題ありません。"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...
 FireworksReadyFirePhase,Redy To Fire!,打ち上げろ！
-StandardHAS,Standard Hide And Seek,スタンダードモードでかくれんぼ
+StandardHAS,Hide And Seek with Roles,役職入りでかくれんぼ
+StandardHASWaitingTime,Waiting Time,待機時間
 commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
@@ -400,3 +421,14 @@ doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
 assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
 roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
 roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+KillButtonText,Kill,キル
+SniperSnipeButtonText,Snipe,狙撃
+FireWorksExplosionButtonText,Explosion,爆破
+FireWorksInstallAtionButtonText,Installation,設置
+SerialKillerSuicideButtonText,Suicide,自殺まで
+WarlockCurseButtonText,Curse,呪う
+WitchSpellButtonText,Spell,スペル
+VampireBiteButtonText,Bite,噛む
+ArsonistDouseButtonText,Douse,塗る
+PuppeteerOperateButtonText,Operate,操る
+BountyHunterChangeButtonText,Change,変更

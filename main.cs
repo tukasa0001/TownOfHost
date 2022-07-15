@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,6 +7,7 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using System.Threading;
+using UnityEngine;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -18,7 +19,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.0.0";
+        public const string PluginVersion = "2.2.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -27,19 +28,20 @@ namespace TownOfHost
         public static bool ExceptionMessageIsShown = false;
         public static string credentialsText;
         //Client Options
-        public static ConfigEntry<bool> HideCodes { get; private set; }
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
+        public static ConfigEntry<int> MessageWait { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
+        public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static CustomWinner currentWinner;
         public static HashSet<AdditionalWinners> additionalwinners = new();
         public static GameOptionsData RealOptionsData;
@@ -50,13 +52,15 @@ namespace TownOfHost
         public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
         public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, Color32> PlayerColors = new();
+        public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#00bfff";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
-        public static List<byte> IgnoreReportPlayers;
+        public static List<byte> ResetCamPlayerList;
         public static List<byte> winnerList;
         public static List<(string, byte)> MessagesToSend;
         public static bool isChatCommand = false;
@@ -78,8 +82,6 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
-        public static Dictionary<byte, (int, int)> DousedPlayerCount = new();
-        public static Dictionary<byte, bool> isDeadDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
@@ -105,6 +107,7 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int DiscussionTime;
         public static int VotingTime;
+        public static byte currentDousingTarget;
 
         public static TimerCallback GBomberTimerDelegate;
 
@@ -118,11 +121,10 @@ namespace TownOfHost
             TextCursorVisible = true;
 
             //Client Options
-            HideCodes = Config.Bind("Client Options", "Hide Game Codes", false);
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{Main.modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
-            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
@@ -145,19 +147,20 @@ namespace TownOfHost
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
-            DousedPlayerCount = new Dictionary<byte, (int, int)>();
-            isDeadDoused = new Dictionary<byte, bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
+            currentDousingTarget = 255;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
+            MessageWait = Config.Bind("Other", "MessageWait", 1);
+            LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
 
@@ -167,16 +170,14 @@ namespace TownOfHost
 
             hasArgumentException = false;
             ExceptionMessage = "";
-
-            Main.IgnoreReportPlayers = new List<byte>();
             try
             {
 
                 roleColors = new Dictionary<CustomRoles, string>(){
                 //バニラ役職
                 {CustomRoles.Crewmate, "#ffffff"},
-                {CustomRoles.Engineer, "#00ffff"},
-                {CustomRoles.Scientist, "#00ffff"},
+                {CustomRoles.Engineer, "#b6f0ff"},
+                {CustomRoles.Scientist, "#b6f0ff"},
                 {CustomRoles.GuardianAngel, "#ffffff"},
                 {CustomRoles.Impostor, "#ff0000"},
                 {CustomRoles.Shapeshifter, "#ff0000"},
@@ -195,6 +196,7 @@ namespace TownOfHost
                 {CustomRoles.TimeThief, "#ff0000"},
                 {CustomRoles.Sniper, "#ff0000"},
                 {CustomRoles.GBomber, "#ff0000"},
+                {CustomRoles.LastImpostor, "#ff0000"},
                 //マッドメイト系役職
                 {CustomRoles.Madmate, "#ff0000"},
                 {CustomRoles.SKMadmate, "#ff0000"},
@@ -284,6 +286,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         GBomber,
+        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -328,25 +331,25 @@ namespace TownOfHost
     //WinData
     public enum CustomWinner
     {
-        Draw = 0,
-        Default,
-        Impostor,
-        Crewmate,
-        Jester,
-        Terrorist,
-        Lovers,
-        Executioner,
-        Arsonist,
-        Egoist,
-        HASTroll
+        Draw = -1,
+        Default = -2,
+        Impostor = CustomRoles.Impostor,
+        Crewmate = CustomRoles.Crewmate,
+        Jester = CustomRoles.Jester,
+        Terrorist = CustomRoles.Terrorist,
+        Lovers = CustomRoles.Lovers,
+        Executioner = CustomRoles.Executioner,
+        Arsonist = CustomRoles.Arsonist,
+        Egoist = CustomRoles.Egoist,
+        HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
     {
-        None = 0,
-        Opportunist,
-        SchrodingerCat,
-        Executioner,
-        HASFox
+        None = -1,
+        Opportunist = CustomRoles.Opportunist,
+        SchrodingerCat = CustomRoles.SchrodingerCat,
+        Executioner = CustomRoles.Executioner,
+        HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte
     {

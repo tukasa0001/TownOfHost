@@ -15,15 +15,17 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-                if (role.IsVanilla()) return;
-                __instance.RoleText.text = Utils.GetRoleName(role);
-                __instance.RoleText.color = Utils.GetRoleColor(role);
-                __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
-                __instance.YouAreText.color = Utils.GetRoleColor(role);
+                if (!role.IsVanilla())
+                {
+                    __instance.YouAreText.color = Utils.GetRoleColor(role);
+                    __instance.RoleText.text = Utils.GetRoleName(role);
+                    __instance.RoleText.color = Utils.GetRoleColor(role);
+                    __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
 
-                __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
-                    ? GetString("WatcherInfo")
-                    : GetString(role.ToString() + "Info");
+                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
+                        ? GetString("WatcherInfo")
+                        : GetString(role.ToString() + "Info");
+                }
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
@@ -39,19 +41,19 @@ namespace TownOfHost
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info(string.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, Utils.PadRightV2(pc.name, 20), pc.nameText.text), "Info");
-                pc.nameText.text = pc.name;
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}", "Info");
+                pc.cosmetics.nameText.text = pc.name;
             }
             Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info(String.Format("{0,-3}{1,-2}:{2}:{3}", pc.AmOwner ? "[*]" : "", pc.PlayerId, pc?.Data?.PlayerName?.PadRight(20), pc.GetAllRoleName()), "Info");
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc?.Data?.PlayerName?.PadRightV2(20)}:{pc.GetAllRoleName()}", "Info");
             }
             Logger.Info("--------------環境--------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var text = pc.AmOwner ? "[*]" : "   ";
-                text += String.Format("{0,-2}:{1}:{2,-11}", pc.PlayerId, pc.Data?.PlayerName?.PadRight(20), pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""));
+                text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""),-11}";
                 if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
                     text += $":Mod({pv.version}:{pv.tag})";
                 else text += ":Vanilla";
@@ -63,9 +65,12 @@ namespace TownOfHost
             Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in CustomOption.Options)
                 if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
-                    Logger.Info(string.Format("{0}:{1}", o.Parent == null ? Utils.PadRightV2(o.Name, 40) : Utils.PadRightV2($"┗ {o.Name}", 41), o.GetString()), "Info");
+                    Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+            PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
+
+            Utils.NotifyRoles();
 
             GameStates.InGame = true;
         }
@@ -95,6 +100,8 @@ namespace TownOfHost
                 case RoleType.Neutral:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = GetString("NeutralInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
@@ -211,11 +218,20 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-    class IntroCutsceneDestoryPatch
+    class IntroCutsceneDestroyPatch
     {
         public static void Postfix(IntroCutscene __instance)
         {
             Main.introDestroyed = true;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    pc.RpcSetRole(RoleTypes.Shapeshifter);
+                    pc.RpcResetAbilityCooldown();
+                }
+            }
+            Logger.Info("OnDestroy", "IntroCutscene");
         }
     }
 }

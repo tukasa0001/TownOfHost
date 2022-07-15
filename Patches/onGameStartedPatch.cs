@@ -1,6 +1,8 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -23,8 +25,6 @@ namespace TownOfHost
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.DousedPlayerCount = new Dictionary<byte, (int, int)>();
-            Main.isDeadDoused = new Dictionary<byte, bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.BountyTargets = new Dictionary<byte, PlayerControl>();
             Main.isTargetKilled = new Dictionary<byte, bool>();
@@ -36,7 +36,8 @@ namespace TownOfHost
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
-            Main.IgnoreReportPlayers = new List<byte>();
+            Main.AfterMeetingDeathPlayers = new();
+            Main.ResetCamPlayerList = new();
 
             Main.SheriffShotLimit = new Dictionary<byte, float>();
             Main.TimeThiefKillCount = new Dictionary<byte, int>();
@@ -61,10 +62,16 @@ namespace TownOfHost
 
             NameColorManager.Instance.RpcReset();
             Main.LastNotifyNames = new();
+
+            Main.currentDousingTarget = 255;
+            Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
             foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) p.RpcSetName(Palette.GetColorName(p.Data.DefaultOutfit.ColorId));
                 Main.AllPlayerNames[p.PlayerId] = p?.Data?.PlayerName;
+            }
 
             foreach (var target in PlayerControl.AllPlayerControls)
             {
@@ -76,8 +83,9 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                pc.nameText.text = pc.name;
+                pc.cosmetics.nameText.text = pc.name;
                 Main.SelfGuard[pc.PlayerId] = false;
             }
             Main.VisibleTasksCount = true;
@@ -88,9 +96,13 @@ namespace TownOfHost
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
-                    Options.HideAndSeekImpVisionMin = PlayerControl.GameOptions.ImpostorLightMod;
+                }
+                if (Options.IsStandardHAS)
+                {
+                    Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
+            LadderDeathPatch.Reset();
             FireWorks.Init();
             Sniper.Init();
             GBomber.Init();
@@ -102,6 +114,9 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            //CustomRpcSenderとRpcSetRoleReplacerの初期化
+            CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
+            RpcSetRoleReplacer.StartReplace(sender);
 
             //ウォッチャーの陣営抽選
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -128,7 +143,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.Mafia.GetCount() + CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.ShapeMaster.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.ShapeMaster.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();//- ShapeshifterNum;
                 if (Main.RealOptionsData.NumImpostors > 1)
                     AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
@@ -140,67 +155,18 @@ namespace TownOfHost
                     AllPlayers.Add(pc);
                 }
 
-                if (CustomRoles.Sheriff.IsEnable())
-                {
-                    for (var i = 0; i < CustomRoles.Sheriff.GetCount(); i++)
-                    {
-                        if (AllPlayers.Count <= 0) break;
-                        var sheriff = AllPlayers[rand.Next(0, AllPlayers.Count)];
-                        AllPlayers.Remove(sheriff);
-                        Main.AllPlayerCustomRoles[sheriff.PlayerId] = CustomRoles.Sheriff;
-                        //ここからDesyncが始まる
-                        if (sheriff.PlayerId != 0)
-                        {
-                            //ただしホスト、お前はDesyncするな。
-                            sheriff.RpcSetRoleDesync(RoleTypes.Impostor);
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == sheriff) continue;
-                                sheriff.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, sheriff);
-                            }
-                        }
-                        else
-                        {
-                            //ホストは代わりに普通のクルーにする
-                            sheriff.RpcSetRole(RoleTypes.Crewmate);
-                        }
-                        sheriff.Data.IsDead = true;
-                    }
-                }
-                if (CustomRoles.Arsonist.IsEnable())
-                {
-                    for (var i = 0; i < CustomRoles.Arsonist.GetCount(); i++)
-                    {
-                        if (AllPlayers.Count <= 0) break;
-                        var arsonist = AllPlayers[rand.Next(0, AllPlayers.Count)];
-                        AllPlayers.Remove(arsonist);
-                        Main.AllPlayerCustomRoles[arsonist.PlayerId] = CustomRoles.Arsonist;
-                        //ここからDesyncが始まる
-                        if (arsonist.PlayerId != 0)
-                        {
-                            //ただしホスト、お前はDesyncするな。
-                            arsonist.RpcSetRoleDesync(RoleTypes.Impostor);
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == arsonist) continue;
-                                arsonist.RpcSetRoleDesync(RoleTypes.Scientist, pc);
-                                pc.RpcSetRoleDesync(RoleTypes.Scientist, arsonist);
-                            }
-                        }
-                        else
-                        {
-                            //ホストは代わりに普通のクルーにする
-                            arsonist.RpcSetRole(RoleTypes.Crewmate);
-                        }
-                        arsonist.Data.IsDead = true;
-                    }
-                }
+                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
+            if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
+            //以下、バニラ側の役職割り当てが入る
         }
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
+            RpcSetRoleReplacer.sender.SendMessage();
+
             //Utils.ApplySuffix();
 
             var rand = new System.Random();
@@ -285,7 +251,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
@@ -334,7 +300,6 @@ namespace TownOfHost
                 Main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    Main.isDeadDoused[pc.PlayerId] = false;
                     pc.ResetKillCooldown();
                     if (pc.Is(CustomRoles.Sheriff))
                     {
@@ -358,9 +323,6 @@ namespace TownOfHost
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
-                        var targetPlayerCount = PlayerControl.AllPlayerControls.Count - 1;
-                        Main.DousedPlayerCount[pc.PlayerId] = (0, targetPlayerCount);
-                        pc.RpcSendDousedPlayerCount();
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
                             Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
@@ -372,7 +334,7 @@ namespace TownOfHost
                         pc.RpcSetTimeThiefKillCount();
                     }
                     //通常モードでかくれんぼをする人用
-                    if (Options.StandardHAS.GetBool())
+                    if (Options.IsStandardHAS)
                     {
                         foreach (var seer in PlayerControl.AllPlayerControls)
                         {
@@ -421,24 +383,56 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.Mafia.GetCount() + CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.ShapeMaster.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();
+                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount() + CustomRoles.ShapeMaster.GetCount() + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();
                 if (Main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
 
-            //サーバーの役職判定をだます
-            new LateTask(() =>
-            {
-                if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        pc.RpcSetRole(RoleTypes.Shapeshifter);
-                    }
-            }, 3f, "SetImpostorForServer");
+            // ResetCamが必要なプレイヤーのリスト
+            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Sheriff).Select(p => p.PlayerId).ToList();
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
+        }
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        {
+            if (!role.IsEnable()) return;
+
+            for (var i = 0; i < role.GetCount(); i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                //ここからDesyncが始まる
+                if (player.PlayerId != 0)
+                {
+                    int playerCID = player.GetClientId();
+                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
+                    //他視点でDesyncする人の役職を科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
+                }
+                else
+                {
+                    //ホストは別の役職にする
+                    player.SetRole(hostBaseRole); //ホスト視点用
+                    sender.RpcSetRole(player, hostBaseRole);
+                }
+                player.Data.IsDead = true;
+            }
         }
         private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {
@@ -499,6 +493,42 @@ namespace TownOfHost
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
+        }
+
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
+        class RpcSetRoleReplacer
+        {
+            public static bool doReplace = false;
+            public static CustomRpcSender sender;
+            public static List<(PlayerControl, RoleTypes)> StoragedData = new();
+            public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] RoleTypes roleType)
+            {
+                if (doReplace && sender != null)
+                {
+                    StoragedData.Add((__instance, roleType));
+                    return false;
+                }
+                else return true;
+            }
+            public static void Release()
+            {
+                sender.StartMessage(-1);
+                foreach (var pair in StoragedData)
+                {
+                    pair.Item1.SetRole(pair.Item2);
+                    sender.StartRpc(pair.Item1.NetId, RpcCalls.SetRole)
+                        .Write((ushort)pair.Item2)
+                        .EndRpc();
+                }
+                sender.EndMessage();
+                doReplace = false;
+            }
+            public static void StartReplace(CustomRpcSender sender)
+            {
+                RpcSetRoleReplacer.sender = sender;
+                StoragedData = new();
+                doReplace = true;
+            }
         }
     }
 }

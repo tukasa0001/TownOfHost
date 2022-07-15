@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
@@ -39,8 +40,9 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((int)CustomWinner.Draw);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.EndGame();
+                RPC.ForceEndGame();
             }
             //ミーティングを強制終了
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
@@ -60,9 +62,14 @@ namespace TownOfHost
                 GameStartManager.Instance.ResetStartState();
             }
             //現在の有効な設定を表示
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
             {
-                Utils.ShowActiveRoles();
+                Utils.ShowActiveSettingsHelp();
+            }
+            //TOHオプションをデフォルトに設定
+            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+            {
+                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
             }
 
             //--以下デバッグモード用コマンド--//
@@ -106,7 +113,7 @@ namespace TownOfHost
             //自分自身の死体をレポート
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.RightShift) && GameStates.IsInGame)
             {
-                PlayerControl.LocalPlayer.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+                PlayerControl.LocalPlayer.NoCheckStartMeeting(PlayerControl.LocalPlayer.Data);
             }
             //自分自身を追放
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
@@ -118,15 +125,6 @@ namespace TownOfHost
             {
                 Logger.isAlsoInGame = !Logger.isAlsoInGame;
                 Logger.SendInGame($"ログのゲーム内出力: {Logger.isAlsoInGame}");
-            }
-            //RpcResetAbilityCooldownのテスト
-            if (Input.GetKey(KeyCode.R))
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha0)) PlayerControl.LocalPlayer.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha1)) Utils.GetPlayerById(1)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha2)) Utils.GetPlayerById(2)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha3)) Utils.GetPlayerById(3)?.RpcResetAbilityCooldown();
-                if (Input.GetKeyDown(KeyCode.Alpha4)) Utils.GetPlayerById(4)?.RpcResetAbilityCooldown();
             }
 
             //--以下フリープレイ用コマンド--//

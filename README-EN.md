@@ -16,22 +16,9 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
-| Among Us - Version | Mod Version | Link                                                                                                    |
-| ------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
-| 2022.3.29s         | v2.0.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v2.0.0/TownOfHost-v2.0.0.zip)     |
-| 2022.3.29s         | v1.4.0      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4.0/TownOfHost-v1.4.0.zip)     |
-| 2022.2.23s         | v1.4b#5     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#4     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%234/TownOfHost-v1.4b.4.zip) |
-| 2021.12.15s        | v1.4b#3     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%233/TownOfHost-v1.4b.3.zip) |
-| 2021.12.15s        | v1.4b#2     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%232/TownOfHost-v1.4v.2.zip) |
-| 2021.12.15s        | v1.4b#1     | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.4b%231/TownOfHost-v1.4b-1.zip) |
-| 2021.12.15s        | v1.3.4      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.4/TownOfHost-v1.3.4.zip)     |
-| 2021.12.15s        | v1.3.3      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.3/TownOfHost-v1.3.3.zip)     |
-| 2021.12.15s        | v1.3.2      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.2/TownOfHost-v1.3.2.zip)     |
-| 2021.12.15s        | v1.3.1      | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/v1.3.1/TownOfHost-v1.3.1.zip)     |
-| 2021.12.15s        | v1.3        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.3/TownOfHost-v1.3.zip)          |
-| 2021.12.14s        | v1.2        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.2/TownOfHost-v1.2.zip)          |
-| 2021.11.9.5s       | v1.0        | [Download](https://github.com/tukasa0001/TownOfHost/releases/download/1.0/TownOfHost.dll)               |
+**Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+
+Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
 
 ## Features
 
@@ -41,7 +28,6 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 However, please note that the following restrictions apply.<br>
 
 - If the host changes due to factors such as a host leaving in the middle of a session, the processing related to the additional role may not work properly.
-- If a special role is used, the settings for that special role will be rewritten. (Example : Remove cooldown for vent, etc.)
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
@@ -50,26 +36,95 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Add additional settings.
 - etc.
 
+## Features
+### Hotkeys
+
+#### Host Only
+| HotKey              | Function                       | Usable Scene    |
+| ------------------- | ------------------------------ | --------------- |
+| `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
+| `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
+| `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
+| `C`                 | Abort game start               | In Countdown    |
+| `Shift`             | Start the game immediately     | In Countdown    |
+| `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
+| `Ctrl`+`RMB`        | Execute the player who clicked | In Meeting      |
+
+#### MOD Client Only
+| HotKey      | Function                                                               | Usable Scene |
+| ----------- | ---------------------------------------------------------------------- | ------------ |
+| `Tab`       | Option list page feed                                                  | Lobby        |
+| `Ctrl`+`F1` | Output log to desktop                                                  | Anywhere     |
+| `F11`       | Change resolution<br>480x270 → 640x360 → 800x450 → 1280x720 → 1600x900 | Anywhere     |
+| `Ctrl`+`C`  | Copy the text                                                          | Chat         |
+| `Ctrl`+`V`  | Paste the text                                                         | Chat         |
+| `Ctrl`+`X`  | Cut the text                                                           | Chat         |
+| `↑`         | Go back in time of chat send history                                   | Chat         |
+| `↓`         | Go future in time of chat send history                                 | Chat         |
+
+### Chat Commands
+Chat commands are commands that can be typed in chat.
+
+#### Host Only
+| Command                                               | Function                                          |
+| ----------------------------------------------------- | ------------------------------------------------- |
+| /winner<br>/win                                       | Show winner                                       |
+| /rename <string><br>/r <string>                       | Change my name                                    |
+| /dis <crewmate/impostor>                              | Ending the match as a Crewmate/Impostor severance |
+| /messagewait <sec><br>/mw <sec>                       | Set message send interval                         |
+| /help<br>/h                                           | Show command description                          |
+| /help roles <role><br>/help r <role>                  | Display role description                          |
+| /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
+| /help modes <mode><br>/help m <mode>                  | Display mode description                          |
+| /help now<br>/help n                                  | Show active setting descriptions                  |
+
+#### MOD Client Only
+| Command        | Function                    |
+| -------------- | --------------------------- |
+| /dump          | Dump log                    |
+| /version<br>/v | Show version of MOD clients |
+
+#### All Clients
+| Command                     | Function                                     |
+| --------------------------- | -------------------------------------------- |
+| /lastresult<br>/l           | Show game result                             |
+| /now<br>/n                  | Show active settings                         |
+| /now roles<br>/n r          | Show active roles settings                   |
+| /template <tag><br>/t <tag> | Display the canned text corresponding to tag |
+
+### Template
+This function allows you to send canned messages.<br>
+It can be called on typing `/template <tag>` or `/t <tag>`.<br>
+To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<br>
+Separate each entry with a colon, such as `tag:content`.<br>
+Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
+
+#### Welcome Message
+If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+For example: `welcome:This room is using TownOfHost.`
+
 ## Roles
 
-| Impostors                     | Crewmates                         | Neutral                           |
-| ----------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#BountyHunter) | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
-| [Evil Watcher](#Watcher)      | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
-| [FireWorks](#FireWorks)       | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
-| [Mare](#Mare)                 | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)       | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller) | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [ShapeMaster](#ShapeMaster)   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [Sniper](#Sniper)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)       | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)           | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)           | [Trapper](#Trapper)               |                                   |
-| [Witch](#Witch)               |                                   |                                   |
-| [Mafia](#Mafia)               |                                   |                                   |
-| [Madmate](#Madmate)           |                                   |                                   |
-| [MadGuardian](#MadGuardian)   |                                   |                                   |
-| [MadSnitch](#MadSnitch)       |                                   |                                   |
+| Impostors                           | Crewmates                         | Neutral                           |
+| ----------------------------------- | --------------------------------- | --------------------------------- |
+| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
+| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
+| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
+| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
+| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
+| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
+| [ShapeMaster](#ShapeMaster)         | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Warlock](#Warlock)                 | [Trapper](#Trapper)               |                                   |
+| [Witch](#Witch)                     |                                   |                                   |
+| [Mafia](#Mafia)                     |                                   |                                   |
+| [Madmate](#Madmate)                 |                                   |                                   |
+| [MadGuardian](#MadGuardian)         |                                   |                                   |
+| [MadSnitch](#MadSnitch)             |                                   |                                   |
+| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
+
 
 ### BountyHunter
 
@@ -90,6 +145,8 @@ If they kill the player who is not their target, they will keep their next kill 
 
 ### FireWorks
 
+Create and idea by こう。<br>
+
 Team : Impostors<br>
 Decision : Shapeshifter<br>
 
@@ -107,6 +164,9 @@ Even if you get caught up in fireworks, you win if you annihilate the enemy. <br
 | FireWorks Radius    |
 
 ### Mare
+
+Create by Kihi, しゅー, そうくん, ゆりの<br>
+Idea by Kihi
 
 Team : Impostor<br>
 Decision : Impostor<br>
@@ -139,6 +199,8 @@ If he can not kill on deadline, he will kill him.<br>
 
 ### ShapeMaster
 
+Create and idea by しゅー<br>
+
 Team : Impostor<br>
 Decision : ShapeShifter<br>
 
@@ -152,6 +214,8 @@ Normally, the transformation lasts only 10 seconds, but the duration of the tran
 | Transformable time(s) |
 
 ### Sniper
+
+Create and idea by こう。<br>
 
 Team : Impostors<br>
 Decision : Shapeshifter<br>
@@ -174,6 +238,9 @@ Precision Shooting:ON<BR>
 | Sniper Precision Shooting |
 
 ### TimeThief
+
+Created by integral, しゅー, そうくん, ゆりの<br>
+Idea by みぃー<br>
 
 Team : Impostors<br>
 Decision : Impostor<br>
@@ -223,12 +290,11 @@ The target will be given a special mark at the meeting and will die if the Witch
 ### Mafia
 
 Team : Impostors<br>
-Decision : Shapeshifter<br>
+Decision : Impostor<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
+The Mafias can not initially kill.<br>
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
-They can transform after becoming to able to kill.<br>
 
 ### Madmate
 
@@ -240,6 +306,8 @@ The Impostors do not know who the they are too.<br>
 They can not kill or sabotage, but they can use vents.<br>
 
 ### MadGuardian
+
+Create and idea by 空き瓶/EmptyBottle<br>
 
 Team : Impostors<br>
 Decision : Crewmate<br>
@@ -257,12 +325,14 @@ They can not kill, sabotage, and using vents.<br>
 
 ### MadSnitch
 
+Create and idea by そうくん<br>
+
 Team : Impostor<br>
 Decision : Crewmate or Engineer<br>
 
 Belongs to the Impostor team, but MadSnitch does not know who the Impostor is.<br>
 Impostors also doesn't know who MadSnitch is.<br>
-However, if they complete some of their own tasks, the name of the evildoer will change to red.<br>
+Once all tasks are completed, the impostor can be recognized from the MadSnitch.<br>
 
 #### Settings
 
@@ -270,6 +340,18 @@ However, if they complete some of their own tasks, the name of the evildoer will
 | ---------------------- |
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
+
+### SidekickMadmate
+
+Create and idea by たんぽぽ<br>
+
+Team : Impostor<br>
+Decision : Change before Role<br>
+
+This role is created when roles with the ability to shape-shift is shape-shifted.<br>
+Belongs to the Impostor team, but SidekickMadmate does not know who the Impostor is.<br>
+Impostors also doesn't know who SidekickMadmate is.<br>
+
 
 There is also a common setting for Madmate type Roles.
 
@@ -302,6 +384,8 @@ Decision : Crewmate<br>
 When the Baits are killed, they can force the player who killed them to report their bodies.<br>
 
 ### Dictator
+
+Create and idea by そうくん<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -343,13 +427,15 @@ The Mayors have multiple votes, which can be grouped together and put into a sin
 
 #### Settings
 
-| Settings Name                       |
-| ----------------------------------- |
-| Mayor Additional Votes Count        |
-| Mayor Has Portable Button           |
-| Mayor Number Of Use Button |
+| Settings Name                |
+| ---------------------------- |
+| Mayor Additional Votes Count |
+| Mayor Has Portable Button    |
+| Mayor Number Of Use Button   |
 
 ### SabotageMaster
+
+Create and idea by 空き瓶/EmptyBottle<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -409,6 +495,8 @@ However, when the number of their tasks are low, it will be notified to the Impo
 
 ### SpeedBooster
 
+Create and idea by よっキング<br>
+
 Team : Crewmates<br>
 Decision : Crewmate<br>
 
@@ -421,6 +509,9 @@ Completing the task will make a random surviving player speed up.<br>
 | Speed at speed up |
 
 ### Trapper
+
+Created by そうくん<br>
+Original idea by 宿主ランニング<br>
 
 Team : Crewmates<br>
 Decision : Crewmate<br>
@@ -444,6 +535,9 @@ If they finish dousing to all alive crewmates and enter vents, they will win.<br
 | Cooldown      |
 
 ### Egoist
+
+Create by そうくん<br>
+Original idea by しゅー<br>
 
 Team : Neutral<br>
 Decision : Shapeshifter<br>
@@ -524,6 +618,8 @@ Also common to all Schrodinger's cats, there are no tasks.<br>
 
 ### Terrorist
 
+Create and original idea by 空き瓶/EmptyBottle<br>
+
 Team : Neutral<br>
 Decision : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
@@ -536,14 +632,19 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 ### LastImpostor
 
-This is the attribute given to the last Impostor.<br>
-Not given to BountyHunter, SerialKiller, or Vampire.<br>
+Create and idea by そうくん<br>
+
+An attribute given to the last Impostor.<br>
+Kill cooldown gets shorter than usual.<br>
+Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
 | ------------------------- |
 | LastImpostor KillCooldown |
 
 ### Lovers
+
+Create and idea by ゆりの<br>
 
 Team : Neutral<br>
 Decision : -<br>
@@ -587,7 +688,17 @@ It is possible to disable certain tasks.<br>
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
 
+### Fall from ladders
+
+There is a certain probability of death if you descend from the ladder.<br>
+
+| Settings Name              |
+| -------------------------- |
+| Death Chance               |
+
 ### HideAndSeek
+
+Create and idea by 空き瓶/EmptyBottle<br>
 
 #### Crewmates Team (Blue) Victory Conditions
 
@@ -652,6 +763,8 @@ This is a debug mode where there is no win decision.<br>
 
 ### RandomMapsMode
 
+Created by つがる<br>
+
 The RandomMapsMode changes the maps at random.<br>
 
 #### Settings
@@ -682,26 +795,31 @@ This is the mode in which all players' button counts are synchronised.<br>
 
 #### Client Settings
 
-## HideCodes
+## Hide Codes
 
 By activating, you can hide the lobby code.
 
 You can rewrite the`Hide Game Code Name`in the config file (BepInEx\config\com.emptybottle.townofhost.cfg) to display any character you like when HideCodes are enabled.
 You can also change the text color as you like by rewriting`Hide Game Code Color`.
 
-## JapaneseRoleName
+## Force Japanese
+
+Activating forces the menu to be in Japanese, regardless of the language setting.
+
+## Japanese Role Name
 
 By activating, the job title can be displayed in Japanese.
-If the client language is English, this setting is meaningless unless `ForceJapanese` is enabled.
+If the client language is English, this setting is meaningless unless `Force Japanese` is enabled.
 
 ## Credits
 
-[BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter)roles and more tips to modding : https://github.com/Eisbison/TheOtherRoles<br>
-[Opportunist](#Opportunist),[Watcher](#Watcher) roles : https://github.com/yukinogatari/TheOtherRoles-GM<br>
-[SchrodingerCat](#SchrodingerCat) role : https://github.com/haoming37/TheOtherRoles-GM-Haoming<br>
-[Doctor](#Doctor) role : https://github.com/Dolly1016/Nebula<br>
-[Jester](#Jester) and [Madmate](#Madmate) roles : https://au.libhalt.net<br>
-[Terrorist](#Terrorist)(Trickstar + Joker) : https://github.com/MengTube/Foolers-Mod<br>
+More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+[Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+[SchrodingerCat](#SchrodingerCat) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+[Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+[Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
+[Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+[Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 
