@@ -16,17 +16,17 @@ namespace TownOfHost
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class ModUpdaterButton
     {
-        private static GameObject template = GameObject.Find("ExitGameButton");
-        public static GameObject discordButton = Object.Instantiate(template, null);
-        public static GameObject updateButton = Object.Instantiate(template, null);
+        private static GameObject template;
+        public static GameObject discordButton;
+        public static GameObject updateButton;
         private static void Prefix(MainMenuManager __instance)
         {
             SaveManager.CensorChat = false;
             ModUpdater.LaunchUpdater();
-            template = GameObject.Find("ExitGameButton");
+            template ??= GameObject.Find("ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
-            discordButton = Object.Instantiate(template, null);
+            discordButton ??= Object.Instantiate(template, null);
             discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
 
             PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
@@ -49,7 +49,7 @@ namespace TownOfHost
             //以下アップデートがあれば実行
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
-            updateButton = Object.Instantiate(template, null);
+            updateButton ??= Object.Instantiate(template, null);
             updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 0.6f, updateButton.transform.localPosition.z);
 
             PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
@@ -261,7 +261,8 @@ namespace TownOfHost
         public static void Postfix()
         {
             ModUpdaterButton.discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
-            ModUpdaterButton.updateButton.transform.localPosition = new Vector3(ModUpdaterButton.updateButton.transform.localPosition.x, ModUpdaterButton.updateButton.transform.localPosition.y + 0.6f, ModUpdaterButton.updateButton.transform.localPosition.z);
+            if (ModUpdater.hasUpdate)
+                ModUpdaterButton.updateButton.transform.localPosition = new Vector3(ModUpdaterButton.updateButton.transform.localPosition.x, ModUpdaterButton.updateButton.transform.localPosition.y + 0.6f, ModUpdaterButton.updateButton.transform.localPosition.z);
         }
     }
 }
