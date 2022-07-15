@@ -74,8 +74,11 @@ namespace TownOfHost
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
         public static CustomOption MadSnitchCanVent;
         public static CustomOption MadScientistBatteryDuration;
+        public static CustomOption MadScientistCanSeeDeathReason;
         public static CustomOption MadScientistCanSeeKillFlash;
         public static CustomOption MadScientistNoticeImpostor;
+        public static CustomOption MadScientistGuardImpostorKill;
+        public static CustomOption MadScientistCanSeeWhoTriedToKill;
         public static CustomOption MadmateCanFixLightsOut; // TODO:mii-47 マッド役職統一
         public static CustomOption MadmateCanFixComms;
         public static CustomOption MadmateHasImpostorVision;
@@ -303,10 +306,13 @@ namespace TownOfHost
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             SetupRoleOptions(10300, CustomRoles.MadScientist);
-            MadScientistBatteryDuration = CustomOption.Create(10310, Color.white, "MadScientistBatteryDuration", 15, 0, 40, 1, CustomRoleSpawnChances[CustomRoles.MadScientist]);
-            MadScientistCanSeeKillFlash = CustomOption.Create(10310, Color.white, "MadScientistCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.MadScientist]);
-            MadScientistNoticeImpostor = CustomOption.Create(10310, Color.white, "MadScientistNoticeImpostor", false, CustomRoleSpawnChances[CustomRoles.MadScientist]);
-            MadScientistTasks = OverrideTasksData.Create(10320, CustomRoles.MadScientist);
+            MadScientistBatteryDuration = CustomOption.Create(10310, Color.white, "MadScientistBatteryDuration", 20, 0, 43, 1, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistCanSeeDeathReason = CustomOption.Create(10320, Color.white, "MadScientistCanSeeDeathReason", true, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistCanSeeKillFlash = CustomOption.Create(10330, Color.white, "MadScientistCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistNoticeImpostor = CustomOption.Create(10340, Color.white, "MadScientistNoticeImpostor", true, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistGuardImpostorKill = CustomOption.Create(10350, Color.white, "MadScientistGuardImpostorKill", true, CustomRoleSpawnChances[CustomRoles.MadScientist]);
+            MadScientistCanSeeWhoTriedToKill = CustomOption.Create(10360, Color.white, "MadScientistCanSeeWhoTriedToKill", true, MadScientistGuardImpostorKill);
+            MadScientistTasks = OverrideTasksData.Create(10370, CustomRoles.MadScientist);
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);

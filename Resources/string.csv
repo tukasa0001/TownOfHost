@@ -254,7 +254,12 @@ SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Door
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
-MadScientistNoticeImpostor,MadScientist Can See Impostor,インポスターが分かる
+MadScientistBatteryDuration,MadScientist Battery Duration,充電持続時間
+MadScientistCanSeeDeathReason,MadScientist Can See Cause Of Death,死因が分かる
+MadScientistCanSeeKillFlash,MadScientist Can See Kill Flash,キルフラッシュが見える
+MadScientistNoticeImpostor,Show Impostors After MadScientist Finishes Tasks,インポスターが分かる
+MadScientistGuardImpostorKill,Guard Impostor Kill After Madmate Finishes Tasks,インポスターによるキルをガードする
+MadScientistCanSeeWhoTriedToKill,MadScientist Can See Who Tried To Kill,自身の殺害未遂者を知ることができる
 MadScientistTasks,MadScientist Tasks,マッドサイエンティストのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
 MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイト系役職が停電を直すことができる

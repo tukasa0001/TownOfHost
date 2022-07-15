@@ -710,7 +710,7 @@ namespace TownOfHost
                         }
 
                         string TargetDeathReason = "";
-                        if ((seer.Is(CustomRoles.Doctor) || seer.Is(CustomRoles.MadScientist)) && //seerがDoctor
+                        if ((seer.Is(CustomRoles.Doctor) || (seer.Is(CustomRoles.MadScientist) && Options.MadScientistCanSeeDeathReason.GetBool())) && //seerがDoctor
                         target.Data.IsDead //変更対象が死人
                         )
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
