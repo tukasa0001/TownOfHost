@@ -368,7 +368,7 @@ updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
-NameIncludeMod,"You cannot make a room public include "mod" in your name.\nThere is no problem if "TOH" is included.",""mod"が名前に含まれている状態では公開部屋にすることはできません。\n"TOH"が含まれていれば問題ありません。"
+NameIncludeTOH,"You cannot make a room public not include "TOH" in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...
