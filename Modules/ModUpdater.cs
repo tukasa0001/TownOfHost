@@ -26,7 +26,7 @@ namespace TownOfHost
             template ??= GameObject.Find("ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
-            discordButton ??= Object.Instantiate(template, null);
+            if (discordButton == null) discordButton = Object.Instantiate(template, null);
             discordButton.transform.localPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)) + new Vector3(-0.6f, 0.4f, 0);
 
             PassiveButton passiveDiscordButton = discordButton.GetComponent<PassiveButton>();
@@ -49,7 +49,7 @@ namespace TownOfHost
             //以下アップデートがあれば実行
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
-            updateButton ??= Object.Instantiate(template, null);
+            if (updateButton == null) updateButton = Object.Instantiate(template, null);
             updateButton.transform.localPosition = new Vector3(updateButton.transform.localPosition.x, updateButton.transform.localPosition.y + 0.6f, updateButton.transform.localPosition.z);
 
             PassiveButton passiveUpdateButton = updateButton.GetComponent<PassiveButton>();
