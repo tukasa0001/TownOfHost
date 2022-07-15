@@ -151,15 +151,20 @@ namespace TownOfHost
             killer.ProtectPlayer(target, colorId);
             killer.MurderPlayer(target);
             // Other Clients
-            var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                  .WriteNetObject((InnerNetObject)target)
-                  .Write(colorId)
-                  .EndRpc();
-            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                  .WriteNetObject((InnerNetObject)target)
-                  .EndRpc();
-            sender.SendMessage();
+            if (killer.PlayerId != 0)
+            {
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.Reliable);
+                sender.StartMessage(killer.GetClientId());
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+                    .WriteNetObject((InnerNetObject)target)
+                    .Write(colorId)
+                    .EndRpc();
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+                    .WriteNetObject((InnerNetObject)target)
+                    .EndRpc();
+                sender.EndMessage();
+                sender.SendMessage();
+            }
             Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
