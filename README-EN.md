@@ -17,8 +17,10 @@ Please do not contact the official team regarding any issues with this mod.<br>
 ## Releases
 
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
+AmongUs Version: 2022.7.12
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
+AmongUs Version: 2022.7.12
 
 ## Features
 
