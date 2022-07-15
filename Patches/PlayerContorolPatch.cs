@@ -149,11 +149,7 @@ namespace TownOfHost
                             killer.ResetBountyTarget();//ターゲットの選びなおし
                         else
                         {
-                            if (killer.Is(CustomRoles.SerialKiller))
-                            {
-                                killer.RpcResetAbilityCooldown();
-                                Main.SerialKillerTimer[killer.PlayerId] = 0f;
-                            }
+                            SerialKiller.OnCheckMurder(killer, isKilledSchrodingerCat: true);
                             if (killer.GetCustomRole().IsImpostor())
                                 target.RpcSetCustomRole(CustomRoles.MSchrodingerCat);
                             if (killer.Is(CustomRoles.Sheriff))
@@ -222,10 +218,7 @@ namespace TownOfHost
                         }
                         break;
                     case CustomRoles.SerialKiller:
-                        killer.RpcResetAbilityCooldown();
-                        Main.SerialKillerTimer[killer.PlayerId] = 0f;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.SerialKillerCooldown.GetFloat();
-                        killer.CustomSyncSettings();
+                        SerialKiller.OnCheckMurder(killer);
                         break;
                     case CustomRoles.Vampire:
                         if (!target.Is(CustomRoles.Bait))
@@ -497,7 +490,7 @@ namespace TownOfHost
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
             Main.BountyTimer.Clear();
-            Main.SerialKillerTimer.Clear();
+            SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
             {
@@ -615,23 +608,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.IsInTask && Main.SerialKillerTimer.ContainsKey(player.PlayerId))
-                {
-                    if (!player.IsAlive())
-                    {
-                        Main.SerialKillerTimer.Remove(player.PlayerId);
-                    }
-                    else if (Main.SerialKillerTimer[player.PlayerId] >= Options.SerialKillerLimit.GetFloat())
-                    {
-                        //自滅時間が来たとき
-                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自滅
-                        player.RpcMurderPlayerV2(player);//自滅させる
-                    }
-                    else
-                    {
-                        Main.SerialKillerTimer[player.PlayerId] += Time.fixedDeltaTime;//時間をカウント
-                    }
-                }
+                SerialKiller.FixedUpdate(player);
                 if (GameStates.IsInTask && Main.WarlockTimer.ContainsKey(player.PlayerId))//処理を1秒遅らせる
                 {
                     if (player.IsAlive())

@@ -737,17 +737,13 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Is(CustomRoles.SerialKiller))
-                {
-                    pc.RpcResetAbilityCooldown();
-                    Main.SerialKillerTimer.TryAdd(pc.PlayerId, 0f);
-                }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
                     pc.RpcResetAbilityCooldown();
                     Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
                 }
             }
+            SerialKiller.AfterMeetingTasks();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)
