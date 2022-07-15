@@ -23,7 +23,7 @@ namespace TownOfHost
         {
             SaveManager.CensorChat = false;
             ModUpdater.LaunchUpdater();
-            template ??= GameObject.Find("ExitGameButton");
+            if (template == null) template = GameObject.Find("ExitGameButton");
             if (template == null) return;
             //Discordボタンを生成
             if (discordButton == null) discordButton = Object.Instantiate(template, null);
