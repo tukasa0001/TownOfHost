@@ -30,10 +30,7 @@ namespace TownOfHost
         {
             playerIdList.Add(serial);
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
+        public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
         public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TimeLimit.GetFloat();
 
