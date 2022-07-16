@@ -13,11 +13,10 @@
 
 ## リリース
 
-**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 AmongUsバージョン : **2022.7.12**
+**最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
-AmongUsバージョン : **2022.7.12**
 
 ## 特徴
 
