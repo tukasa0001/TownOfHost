@@ -141,16 +141,18 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = $"<color={player.GetRoleColorCode()}>{player.GetRoleName()}\r\n";
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
                 {
                     if (!player.CanUseKillButton())
-                        TaskTextPrefix += $"{GetString("BeforeMafiaInfo")}";
+                        TaskTextPrefix += GetString("BeforeMafiaInfo");
                     else
-                        TaskTextPrefix += $"{GetString("AfterMafiaInfo")}";
+                        TaskTextPrefix += GetString("AfterMafiaInfo");
                 }
+                else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
+                    TaskTextPrefix += GetString("WatcherInfo");
                 else
-                    TaskTextPrefix += $"{GetString(player.GetCustomRole() + "Info")}";
+                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
                 TaskTextPrefix += "</color>\r\n";
             }
             switch (player.GetCustomRole())
