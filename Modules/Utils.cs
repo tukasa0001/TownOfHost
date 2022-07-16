@@ -580,7 +580,7 @@ namespace TownOfHost
                     }
                 }
 
-                if (seer.Is(CustomRoles.MadSnitch) || seer.Is(CustomRoles.MadScientist))
+                if (seer.Is(CustomRoles.MadSnitch) || (seer.Is(CustomRoles.MadScientist) && Options.MadScientistNoticeImpostor.GetBool()))
                 {
                     var TaskState = seer.GetPlayerTaskState();
                     if (TaskState.IsTaskFinished)
