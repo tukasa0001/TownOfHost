@@ -104,7 +104,7 @@ For example: `welcome:This room is using TownOfHost.`
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutral                           |
+| Impostors                           | Crewmates                         | Neutrals                          |
 | ----------------------------------- | --------------------------------- | --------------------------------- |
 | [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
 | [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
@@ -124,6 +124,8 @@ For example: `welcome:This room is using TownOfHost.`
 | [MadSnitch](#MadSnitch)             |                                   |                                   |
 | [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
 
+
+## Impostor
 
 ### BountyHunter
 
@@ -301,6 +303,20 @@ Basis : Impostor<br>
 The Mafias can initially use vents and sabotage, but cannot kill (still have a button).<br>
 They will be able to kill after Impostors except them are all gone.<br>
 
+
+## Madmate
+
+There are common options for Madmates.
+#### Game Options
+
+| Name                          |
+| ----------------------------- |
+| Madmates Can Fix Lights Out   |
+| Madmates Can Fix Comms        |
+| Madmates Have Impostor Vision |
+| Madmates Vent Cooldown        |
+| Madmates Max Time In Vents    |
+
 ### Madmate
 
 Team : Impostors<br>
@@ -355,19 +371,10 @@ The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task ph
 Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
 **NOTE:**
-- The "nearest" Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
+- The **"nearest"** Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
 
-There are also common options for Madmates.
-#### Game Options
-
-| Name                          |
-| ----------------------------- |
-| Madmates Can Fix Lights Out   |
-| Madmates Can Fix Comms        |
-| Madmates Have Impostor Vision |
-| Madmates Vent Cooldown        |
-| Madmates Max Time In Vents    |
+## Impostor/Crewmate
 
 ### Watcher
 
@@ -382,6 +389,9 @@ There are both Impostor Roles (Evil Watcher) and Crewmate Roles (Nice Watcher).<
 | Name               |
 | ------------------ |
 | EvilWatcher Chance |
+
+
+## Crewmate
 
 ### Bait
 
@@ -536,6 +546,9 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 | ------------------ |
 | Block Move Time(s) |
 
+
+## Neutral
+
 ### Arsonist
 
 Team : Neutral<br>
@@ -608,7 +621,7 @@ Team : Neutral<br>
 Basis : Crewmate<br>
 Victory Conditions : Remain alive until the game end<br>
 
-The Opportunists are the Neutral Role with notasks.<br>
+The Opportunists are the Neutral Role with no tasks.<br>
 They win the game with any other Roles, if they are just alive at the game end.<br>
 
 ### SchrodingerCat
