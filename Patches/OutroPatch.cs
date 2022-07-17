@@ -177,8 +177,10 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                     {
                         //トロールが殺されていれば単独勝ち
-                        winner = new();
-                        winner.Add(pc);
+                        winner = new()
+                        {
+                            pc
+                        };
                         break;
                     }
                     else if (role == CustomRoles.HASFox && Main.currentWinner != CustomWinner.HASTroll && !pc.Data.IsDead)
