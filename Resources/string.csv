@@ -81,7 +81,7 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう
 MareInfo,Kill in the dark world.,闇の世界で暗殺せよ
-FireWorksInfo,FireWorksInfo,最後に一華咲かせよう
+FireWorksInfo,Let's make it bloom last time,最後に一華咲かせよう
 SerialKillerInfo,Keep killng to win,殺人衝動が抑えられない
 ShapeMasterInfo,Shapeshift and confuse your enemies,変身して敵を混乱させよう
 VampireInfo,Kill the Crewmates with your bites,クルーを噛んで全滅させよう
@@ -93,6 +93,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
+LastImpostorInfo,You are the last one,残ったのはあなただけ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -185,7 +186,7 @@ HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive 
 HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
-LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
@@ -197,6 +198,8 @@ AddedTheSkeld,Added TheSkeld,TheSkeldを追加
 AddedMIRAHQ,Added MIRAHQ,MIRAHQを追加
 AddedPolus,Added Polus,Polusを追加
 AddedTheAirShip,Added TheAirShip,TheAirShipを追加
+LadderDeath,Fall from ladders,ハシゴから転落
+LadderDeathChance,Chance of falling from ladders,転落する確率
 DisableTasks,Disable Tasks,タスクを無効化する
 DisableSwipeCardTask,Disable SwipeCard Tasks,カードタスクを無効化する
 DisableSubmitScanTask,Disable SubmitScan Tasks,医務室のスキャンタスクを無効化する
@@ -321,6 +324,7 @@ DeathReason.Torched,Torched,焼殺
 DeathReason.Sniped,Sniped,狙撃
 DeathReason.Execution,Executed,処刑
 DeathReason.Disconnected,Disconnected,回線切断
+DeathReason.Fell,Fell,転落
 DeathReason.etc,etc,その他
 Alive,Alive,生存
 Win, Wins,勝利
@@ -364,6 +368,7 @@ updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
+NameIncludeMod,"You cannot make a room public include "mod" in your name.\nThere is no problem if "TOH" is included.",""mod"が名前に含まれている状態では公開部屋にすることはできません。\n"TOH"が含まれていれば問題ありません。"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...

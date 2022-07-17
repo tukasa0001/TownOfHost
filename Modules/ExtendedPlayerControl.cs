@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hazel;
@@ -65,7 +66,11 @@ namespace TownOfHost
             var cRole = CustomRoles.Crewmate;
             if (player == null)
             {
-                Logger.Warn("CustomRoleを取得しようとしましたが、対象がnullでした。", "getCustomRole");
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetCustomRole");
                 return cRole;
             }
             var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(player.PlayerId, out cRole);
@@ -146,15 +151,20 @@ namespace TownOfHost
             killer.ProtectPlayer(target, colorId);
             killer.MurderPlayer(target);
             // Other Clients
-            var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                  .WriteNetObject((InnerNetObject)target)
-                  .Write(colorId)
-                  .EndRpc();
-            sender.AutoStartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                  .WriteNetObject((InnerNetObject)target)
-                  .EndRpc();
-            sender.SendMessage();
+            if (killer.PlayerId != 0)
+            {
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.Reliable);
+                sender.StartMessage(killer.GetClientId());
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+                    .WriteNetObject((InnerNetObject)target)
+                    .Write(colorId)
+                    .EndRpc();
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+                    .WriteNetObject((InnerNetObject)target)
+                    .EndRpc();
+                sender.EndMessage();
+                sender.SendMessage();
+            }
             Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
@@ -273,14 +283,29 @@ namespace TownOfHost
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
 
+            CustomRoles role = player.GetCustomRole();
+            RoleType roleType = role.GetRoleType();
+            switch (roleType)
+            {
+                case RoleType.Impostor:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    break;
+                case RoleType.Madmate:
+                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
+                    if (Options.MadmateHasImpostorVision.GetBool())
+                        opt.SetVision(player, true);
+                    break;
+            }
+
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 case CustomRoles.ShapeMaster:
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                     break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
@@ -290,10 +315,6 @@ namespace TownOfHost
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
-                    break;
-                case CustomRoles.Shapeshifter:
-                case CustomRoles.Mafia:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -372,17 +393,6 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
                     break;
             }
-            CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            switch (roleType)
-            {
-                case RoleType.Madmate:
-                    opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
-                    opt.RoleOptions.EngineerInVentMaxTime = Options.MadmateVentMaxTime.GetFloat();
-                    if (Options.MadmateHasImpostorVision.GetBool())
-                        opt.SetVision(player, true);
-                    break;
-            }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
                 foreach (var kc in Main.AllPlayerKillCooldown)
@@ -451,6 +461,10 @@ namespace TownOfHost
         public static string GetRoleColorCode(this PlayerControl player)
         {
             return Utils.GetRoleColorCode(player.GetCustomRole());
+        }
+        public static Color GetRoleColor(this PlayerControl player)
+        {
+            return Utils.GetRoleColor(player.GetCustomRole());
         }
         public static void ResetPlayerCam(this PlayerControl pc, float delay = 0f)
         {
@@ -585,7 +599,7 @@ namespace TownOfHost
 
             return pc.GetCustomRole() switch
             {
-                CustomRoles.Mafia => Main.AliveImpostorCount <= 1 && canUse,
+                CustomRoles.Mafia => Utils.CanMafiaKill() && canUse,
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
@@ -622,9 +636,11 @@ namespace TownOfHost
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
         {
             var rand = new System.Random();
-            System.Collections.Generic.List<CustomRoles> RandSchrodinger = new();
-            RandSchrodinger.Add(CustomRoles.CSchrodingerCat);
-            RandSchrodinger.Add(CustomRoles.MSchrodingerCat);
+            List<CustomRoles> RandSchrodinger = new()
+            {
+                CustomRoles.CSchrodingerCat,
+                CustomRoles.MSchrodingerCat
+            };
             foreach (var pc in PlayerControl.AllPlayerControls)
                 if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
@@ -679,7 +695,7 @@ namespace TownOfHost
         public static bool IsDouseDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
-            var count = Utils.getDousedPlayerCount(player.PlayerId);
+            var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
         public static bool CanMakeMadmate(this PlayerControl player)
@@ -687,7 +703,7 @@ namespace TownOfHost
             return Options.CanMakeMadmateCount.GetInt() > Main.SKMadmateNowCount
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
-                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper);
+                    && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
@@ -724,6 +740,29 @@ namespace TownOfHost
             reporter.RpcStartMeeting(target);
         }
         public static bool IsModClient(this PlayerControl player) => Main.playerVersion.ContainsKey(player.PlayerId);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、戻り値を返します。
+        ///</summary>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, bool ignoreColliders = false) => GetPlayersInAbilityRangeSorted(player, pc => true, ignoreColliders);
+        ///<summary>
+        ///プレイヤーのRoleBehaviourのGetPlayersInAbilityRangeSortedを実行し、predicateの条件に合わないものを除外して返します。
+        ///</summary>
+        ///<param name="predicate">リストに入れるプレイヤーの条件 このpredicateに入れてfalseを返すプレイヤーは除外されます。</param>
+        ///<param name="ignoreColliders">trueにすると、壁の向こう側のプレイヤーが含まれるようになります。守護天使用</param>
+        ///<returns>GetPlayersInAbilityRangeSortedの戻り値から条件に合わないプレイヤーを除外したもの。</returns>
+        public static List<PlayerControl> GetPlayersInAbilityRangeSorted(this PlayerControl player, Predicate<PlayerControl> predicate, bool ignoreColliders = false)
+        {
+            var rangePlayersIL = RoleBehaviour.GetTempPlayerList();
+            List<PlayerControl> rangePlayers = new();
+            player.Data.Role.GetPlayersInAbilityRangeSorted(rangePlayersIL, ignoreColliders);
+            foreach (var pc in rangePlayersIL)
+            {
+                if (predicate(pc)) rangePlayers.Add(pc);
+            }
+            return rangePlayers;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
