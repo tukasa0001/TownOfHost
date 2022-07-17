@@ -185,7 +185,7 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 They can perform secondhand kills but cannot kill like other Impostors.<br>
-Their direct kill is protected, but instead, the protected player forcibly kills another player first getting in kill range.<br>
+Their direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.<br>
 
 ### SerialKiller
 
@@ -354,16 +354,20 @@ Basis : Undecided<br>
 The SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.<br>
 Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.<br>
 
+**NOTE:**
+- The "nearest" Crewmate becomes SidekickMadmate no matter to whom the Impostors Shapeshift.
 
-There are also common options for Madmate Roles.
 
-| Name                        |
-| --------------------------- |
-| Madmate Can Fix Lights Out  |
-| Madmate Can Fix Comms       |
-| Madmate Has Impostor Vision |
-| Madmate Vent Cooldown       |
-| Madmate Max Time In Vents   |
+There are also common options for Madmates.
+#### Game Options
+
+| Name                          |
+| ----------------------------- |
+| Madmates Can Fix Lights Out   |
+| Madmates Can Fix Comms        |
+| Madmates Have Impostor Vision |
+| Madmates Vent Cooldown        |
+| Madmates Max Time In Vents    |
 
 ### Watcher
 
@@ -564,11 +568,11 @@ Impostors and Egoists can see but cannot kill each other.<br>
 The Egoists have to exile all Impostors before leading to Impostor win.<br>
 Egoist win means Impostor lose and vice versa.<br>
 
-The Egoist lose condition is the following:<br>
-
-1.Egoist dies.<br>
-2.Impostor win with some Impostors remained.<br>
-3.Crewmate or other Neutral win.<br>
+**NOTE:**
+- The Egoists lose in the following condition:<br>
+    1. Egoist dies.<br>
+    2. Impostor win with some Impostors remained.<br>
+    3. Crewmate or other Neutral win.<br>
 
 ### Executioner
 
@@ -579,7 +583,7 @@ Victory Conditions : Have the target voted out<br>
 
 The Executioners are assigned their target with dark purple "Diamond" sign next to the player name.<br>
 They have to lead the target to be voted out, which results in Executioner win.<br>
-If the target dies before voted out, the Executioner changes their Role and become Crewmate, [Jester](#jester), or [Opportunist](#opportunist) according to a game option.<br>
+If the target dies before voted out, the Executioner changes their Role and become **Crewmate**, [Jester](#jester), or [Opportunist](#opportunist) according to a game option.<br>
 If the target is the [Jester](#jester), the Executioners can be an additional winner.<br>
 
 #### Game Options
@@ -605,7 +609,7 @@ Basis : Crewmate<br>
 Victory Conditions : Remain alive until the game end<br>
 
 The Opportunists are the Neutral Role with notasks.<br>
-They win the game with any other Roles, if they are alive at the game end.<br>
+They win the game with any other Roles, if they are just alive at the game end.<br>
 
 ### SchrodingerCat
 
@@ -615,11 +619,11 @@ Victory Conditions : None<br>
 
 The SchrodingerCats have no tasks and by default, no victory condition. Only after fulfiling the following condition they obtain victory conditions.<br>
 
-1.If killed by Impostors, they prevent the kill and belong to team Impostors.<br>
-2.If killed by [Sheriff](#sheriff), they prevent the kill and belong to team Crewmate.<br>
-3.If killed by Neutral, they prevent the kill and belong to the Neutral team.<br>
-4.If exiled, they die with the victory condition same as before.<br>
-5.If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
+1. If killed by **Impostors**, they prevent the kill and belong to **team Impostors**.<br>
+2. If killed by [Sheriff](#sheriff), they prevent the kill and belong to **team Crewmate**.<br>
+3. If killed by **Neutral**, they prevent the kill and belong to the **Neutra team**.<br>
+4. If exiled, they die with the victory condition same as before.<br>
+5. If killed with special abilities of Impostors (except for [Vampire](#vampire)), they die with the victory condition same as before.<br>
 
 #### Game Options
 

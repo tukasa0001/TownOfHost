@@ -146,7 +146,7 @@ VampireInfoLong,"(Impostors):\nThe Vampires can bite players instead of kill.\nB
 WarlockInfoLong,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。
 WitchInfoLong,"(Impostors):\nThe Witches can perform kills or spells by turns.\nThe players spelled by Witches before a meeting are marked 'cross' in the meeting,\nand unless exiling Witches, They all die just after the meeting.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。
 MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a button).\nThey will be able to kill after Impostors except them are all gone.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。
-PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is protected, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
+PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。
 SniperInfoLong,"(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.",(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。
 
@@ -178,7 +178,7 @@ JesterInfoLong,"(Neutrals):\nThey win the game as a solo if they get voted out d
 TerroristInfoLong,"(Neutrals):\nThe Terrorists win alone when killed or exiled with all of his tasks completed.",(第三陣営):\n自身のタスクを全て完了させた状態で\nキル・追放された時に単独勝利する。
 ExecutionerInfoLong,"(Neutrals):\nThe Executioners are assigned their target with dark purple 'Diamond' sign next to the player name.\nThey win if the target is voted out.\nIf the target dies before voted out, the Executioner changes their Role and become Crewmate, Jester, or Opportunist according to a game option.\nIf the target is the Jester, the Executioners can be an additional winner.",(第三陣営):\nターゲットに対してこちらからのみ視認できるダイヤのマークがついている。\n投票でダイヤが付いている人を追放すれば単独勝利。ターゲットがキルされた場合は役職が変化する。\nターゲットがジェスターの場合は追加勝利する。
 SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and belongs to the killer's team.",(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
-OpportunistInfoLong,"(Neutrals):\nThey win the game with any other Roles only if they are alive at the game end.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
+OpportunistInfoLong,"(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
 
 # HideAndSeek
@@ -252,11 +252,11 @@ CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる
-MadmateCanFixLightsOut,Madmate Can Fix Lights Out,マッドメイト系役職が停電を直すことができる
-MadmateCanFixComms,Madmate Can Fix Comms,マッドメイト系役職が通信障害を直すことができる
-MadmateHasImpostorVision,Madmate Has Impostor Vision,マッドメイト系役職の視野がインポスターと同じ
-MadmateVentCooldown,Madmate Vent Cooldown,マッドメイト系役職のベントクールダウン
-MadmateVentMaxTime,Madmate Max Time In Vents(s),マッドメイト系役職のベント内での最大時間
+MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる
+MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる
+MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職の視野がインポスターと同じ
+MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン
+MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率
 LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする
