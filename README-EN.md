@@ -542,9 +542,9 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 #### Game Options
 
-| Name               |
-| ------------------ |
-| Block Move Time(s) |
+| Name            |
+| --------------- |
+| Freeze Duration |
 
 
 ## Neutral
@@ -583,9 +583,9 @@ Egoist win means Impostor lose and vice versa.<br>
 
 **NOTE:**
 - The Egoists lose in the following condition:<br>
-    1. Egoist dies.<br>
-    2. Impostor win with some Impostors remained.<br>
-    3. Crewmate or other Neutral win.<br>
+1. Egoist dies.<br>
+2. Impostor win with some Impostors remained.<br>
+3. Crewmate or other Neutral win.<br>
 
 ### Executioner
 
@@ -687,13 +687,13 @@ There is a "Heart" sign next to each other's player name. <br>
 If one Lover dies, the other Lover suicides. <br>
 
 Example of overlapping Roles: <br>
-・ [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
-・ [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
-・ [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
-・ [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
-・ [Opportunist](#opportunist) Lover: Win if you survive. <br>
-・ [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
-・ [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
+- [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
+- [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
+- [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
+- [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
+- [Opportunist](#opportunist) Lover: Win if you survive. <br>
+- [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
+- [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
 ## SabotageTimeControl
 

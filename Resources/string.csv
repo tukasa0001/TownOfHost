@@ -306,7 +306,7 @@ TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に�
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する
 SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ
-TrapperBlockMoveTime,Block Move Time(s),移動を封じる時間
+TrapperBlockMoveTime,Freeze Duration,移動を封じる時間
 HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒)
 IgnoreVent,Disable Vents,通気口の使用を禁止する
 HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職
