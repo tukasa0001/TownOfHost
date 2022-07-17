@@ -217,10 +217,10 @@ namespace TownOfHost
                     switch (role.GetRoleType())
                     {
                         case RoleType.Impostor:
-                            roleColors.Add(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff0000");
                             break;
                         case RoleType.Madmate:
-                            roleColors.Add(role, "#ff0000");
+                            roleColors.TryAdd(role, "#ff0000");
                             break;
                         default:
                             break;
