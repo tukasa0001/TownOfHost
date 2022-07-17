@@ -750,17 +750,17 @@ Killed by Impostors.<br>
 
 #### Prohibited items
 
-・Sabotage<br>
-・Admin<br>
-・Camera<br>
-・Exposing by ghosts<br>
-・Ambush (This may make it impossible for Crewmates to win with the tasks.)<br>
+- Sabotage<br>
+- Admin<br>
+- Camera<br>
+- Exposing by ghosts<br>
+- Ambush (This may make it impossible for Crewmates to win with the tasks.)<br>
 
 #### What you can't do
 
-・Reporting a dead bodies<br>
-・Emergency meeting button<br>
-・Sabotage<br>
+- Reporting a dead bodies<br>
+- Emergency meeting button<br>
+- Sabotage<br>
 
 #### Game Options
 
