@@ -127,7 +127,7 @@ For example: `welcome:This room is using TownOfHost.`
 
 ## Impostor
 
-### BountyHunter
+### __BountyHunter__
 
 Team : Impostors<br>
 Basis : Impostor<br>
@@ -144,7 +144,7 @@ The target swaps after a configurable amount of time.<br>
 | Kill Cooldown After Killing Bounty(s)    |
 | Kill Cooldown After Killing Others(s)    |
 
-### FireWorks
+### __FireWorks__
 
 Create and idea by こう。<br>
 
@@ -164,7 +164,7 @@ Even if they mistakenly bomb themselves, killing everyone results in Impostor wi
 | FireWorks Max Count |
 | FireWorks Radius    |
 
-### Mare
+### __Mare__
 
 Create by Kihi, しゅー, そうくん, ゆりの<br>
 Idea by Kihi
@@ -181,7 +181,7 @@ While lights out they can move faster, and yet their name looks red by everyone.
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
 
-### Puppeteer
+### __Puppeteer__
 
 Team : Impostors<br>
 Basis : Impostor<br>
@@ -189,7 +189,7 @@ Basis : Impostor<br>
 They can perform secondhand kills but cannot kill like other Impostors.<br>
 Their direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.<br>
 
-### SerialKiller
+### __SerialKiller__
 
 Team : Impostors<br>
 Basis : Shapeshifter<br>
@@ -204,7 +204,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 | SerialKiller Kill Cooldown(s) |
 | Time Limit To Suiside(s)      |
 
-### ShapeMaster
+### __ShapeMaster__
 
 Create and idea by しゅー<br>
 
@@ -220,7 +220,7 @@ On the other hand, their default Shapeshift duration is shorter (default: 10s).<
 | ---------------------- |
 | Shapeshift Duration(s) |
 
-### Sniper
+### __Sniper__
 
 Create and idea by こう。<br>
 
@@ -244,7 +244,7 @@ Precise Shooting:ON<BR>
 | Sniper Bullet Count     |
 | Sniper Precise Shooting |
 
-### TimeThief
+### __TimeThief__
 
 Created by integral, しゅー, そうくん, ゆりの<br>
 Idea by みぃー<br>
@@ -263,7 +263,7 @@ Depending on option, the lost time is returned after they die.<br>
 | Lower Limit For Voting Time(s)    |
 | Return Stolen Time After Death    |
 
-### Vampire
+### __Vampire__
 
 Team : Impostors<br>
 Basis : Impostor<br>
@@ -278,7 +278,7 @@ When biting [Bait](#Bait), However, they take a no delay, normal kill and are fo
 | --------------------- |
 | Vampire Kill Delay(s) |
 
-### Warlock
+### __Warlock__
 
 Team : Impostors<br>
 Basis : Shapeshifter<br>
@@ -287,7 +287,7 @@ The Warlocks can curse another players before Shapeshifting.<br>
 When they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.<br>
 While Shapeshifting, they can perform normal kills.<br>
 
-### Witch
+### __Witch__
 
 Team : Impostors<br>
 Basis : Impostor<br>
@@ -295,7 +295,7 @@ Basis : Impostor<br>
 The Witches can perform kills or spells by turns.<br>
 The players spelled by Witches before a meeting are marked "cross" in the meeting, and unless exiling Witches, They all die just after the meeting.<br>
 
-### Mafia
+### __Mafia__
 
 Team : Impostors<br>
 Basis : Impostor<br>
@@ -317,7 +317,7 @@ There are common options for Madmates.
 | Madmates Vent Cooldown        |
 | Madmates Max Time In Vents    |
 
-### Madmate
+### __Madmate__
 
 Team : Impostors<br>
 Basis : Engineer<br>
@@ -326,7 +326,7 @@ The Madmates belong to team Impostors, but they don't know who are Impostors.<br
 Impostors don't know Madmates either.<br>
 They cannot kill or sabotage, but they can use vents.<br>
 
-### MadGuardian
+### __MadGuardian__
 
 Create and idea by 空き瓶/EmptyBottle<br>
 
@@ -342,7 +342,7 @@ Compared with Madmates, MadGuardian cannot use vents, while they can guard kills
 | ------------------------------------- |
 | MadGuardian Can See Who Tried To Kill |
 
-### MadSnitch
+### __MadSnitch__
 
 Create and idea by そうくん<br>
 
@@ -360,7 +360,7 @@ Depending on option, they can use vents.<br>
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
 
-### SidekickMadmate
+### __SidekickMadmate__
 
 Create and idea by たんぽぽ<br>
 
@@ -376,7 +376,7 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 
 ## Impostor/Crewmate
 
-### Watcher
+### __Watcher__
 
 Team : Impostors or Crewmates<br>
 Basis : Impostor or Crewmates<br>
@@ -393,14 +393,14 @@ There are both Impostor Roles (Evil Watcher) and Crewmate Roles (Nice Watcher).<
 
 ## Crewmate
 
-### Bait
+### __Bait__
 
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
 When the Baits are killed, they force the killer to self report in no time.<br>
 
-### Dictator
+### __Dictator__
 
 Create and idea by そうくん<br>
 
@@ -410,7 +410,7 @@ Basis : Crewmate<br>
 When you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.<br>
 After exercising the force, the Dictators die just after meeting.<br>
 
-### Doctor
+### __Doctor__
 
 Team : Crewmates<br>
 Basis : Scientist<br>
@@ -422,7 +422,7 @@ The Doctors have a portable vitals panel just like the vanilla Role Scientists. 
 | ----------------------- |
 | Doctor Battery Duration |
 
-### Lighter
+### __Lighter__
 
 Team : Crewmates<br>
 Basis : Crewmate<br>
@@ -436,7 +436,7 @@ After finishing all the task, The lighters have their vision expanded and ignore
 | Lighter Expanded Vision       |
 | Lighter Gains Impostor Vision |
 
-### Mayor
+### __Mayor__
 
 Team : Crewmates<br>
 Basis : Crewmate or Engineer<br>
@@ -452,7 +452,7 @@ Depending on the options, they can call emergency meeting by entering vents.<br>
 | Mayor Has Mobile Emergency Button |
 | Number Of Mobile Emergency Button |
 
-### SabotageMaster
+### __SabotageMaster__
 
 Create and idea by 空き瓶/EmptyBottle<br>
 
@@ -475,7 +475,7 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 | SabotageMaster Can Fix Both Comms In MIRA HQ           |
 | SabotageMaster Can Fix Lights Out All At Once          |
 
-### Sheriff
+### __Sheriff__
 
 Team : Crewmates<br>
 Basis : Impostor(Only host is the Crewmate)<br>
@@ -499,7 +499,7 @@ Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 | Sheriff Can Kill Crewmates As It                                  |
 | Sheriff Shot Limit                                                |
 
-### Snitch
+### __Snitch__
 
 Team : Crewmates<br>
 Basis : Crewmate<br>
@@ -515,7 +515,7 @@ When the Snitches have one task left, they will be revealed to the Impostors (de
 | Snitch Can See Colored Arrow   |
 | Snitch Can Find Neutral Killer |
 
-### SpeedBooster
+### __SpeedBooster__
 
 Create and idea by よっキング<br>
 
@@ -530,7 +530,7 @@ Finishing all the tasks boosts the player speed of someone alive.<br>
 | -------------------- |
 | Boosted Player Speed |
 
-### Trapper
+### __Trapper__
 
 Created by そうくん<br>
 Original idea by 宿主ランニング<br>
@@ -549,7 +549,7 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 ## Neutral
 
-### Arsonist
+### __Arsonist__
 
 Team : Neutral<br>
 Basis : Impostor<br>
@@ -566,7 +566,7 @@ After dousing everyone alive the Arsonists can enter the vents to ignite which r
 | Arsonist Douse Duration |
 | Arsonist Douse Cooldown |
 
-### Egoist
+### __Egoist__
 
 Create by そうくん<br>
 Original idea by しゅー<br>
@@ -587,7 +587,7 @@ Egoist win means Impostor lose and vice versa.<br>
     2. Impostor win with some Impostors remained.<br>
     3. Crewmate or other Neutral win.<br>
 
-### Executioner
+### __Executioner__
 
 
 Team : Neutral<br>
@@ -606,7 +606,7 @@ If the target is the [Jester](#jester), the Executioners can be an additional wi
 | Executioner Can Target Impostor |
 | Role After Target Dies          |
 
-### Jester
+### __Jester__
 
 Team : Neutral<br>
 Basis : Crewmate<br>
@@ -615,7 +615,7 @@ Victory Conditions : Get voted out<br>
 The Jesters don't have any tasks. They win the game as a solo, if they get voted out during a meeting.<br>
 Remaining alive until the game end or getting killed results Jester lose.<br>
 
-### Opportunist
+### __Opportunist__
 
 Team : Neutral<br>
 Basis : Crewmate<br>
@@ -624,7 +624,7 @@ Victory Conditions : Remain alive until the game end<br>
 The Opportunists are the Neutral Role with no tasks.<br>
 They win the game with any other Roles, if they are just alive at the game end.<br>
 
-### SchrodingerCat
+### __SchrodingerCat__
 
 Team : Neutral<br>
 Basis : Crewmate<br>
@@ -645,7 +645,7 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
 
-### Terrorist
+### __Terrorist__
 
 Create and original idea by 空き瓶/EmptyBottle<br>
 
@@ -659,7 +659,7 @@ If they die before completing their tasks, or if they survive at the game end, t
 
 ## Attribute
 
-### LastImpostor
+### __LastImpostor__
 
 Create and idea by そうくん<br>
 
@@ -673,7 +673,7 @@ Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or
 | -------------------------- |
 | LastImpostor Kill Cooldown |
 
-### Lovers
+### __Lovers__
 
 Create and idea by ゆりの<br>
 
