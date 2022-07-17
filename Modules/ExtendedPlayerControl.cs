@@ -358,7 +358,7 @@ namespace TownOfHost
                                 if (targetplayers.Count >= 1)
                                 {
                                     PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                    //Logger.SendInGame("スピードブースターの相手:"+target.cosmetics.nameText.text);
+                                    Logger.SendInGame("スピードブースト先:" + target.cosmetics.nameText.text);
                                     Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
                                 }
                                 else
