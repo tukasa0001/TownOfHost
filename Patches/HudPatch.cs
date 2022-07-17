@@ -143,12 +143,7 @@ namespace TownOfHost
             {
                 TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
-                {
-                    if (!player.CanUseKillButton())
-                        TaskTextPrefix += GetString("BeforeMafiaInfo");
-                    else
-                        TaskTextPrefix += GetString("AfterMafiaInfo");
-                }
+                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
                 else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
                     TaskTextPrefix += GetString("WatcherInfo");
                 else
