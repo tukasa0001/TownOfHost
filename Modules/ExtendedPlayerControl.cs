@@ -358,12 +358,14 @@ namespace TownOfHost
                                 if (targetplayers.Count >= 1)
                                 {
                                     PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                    //Logger.SendInGame("スピードブースターの相手:"+target.cosmetics.nameText.text);
+                                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
                                     Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
                                 }
                                 else
                                 {
                                     Main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                                    Logger.SendInGame("スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。");
+                                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
                                 }
                             }
                             if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
