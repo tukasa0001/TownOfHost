@@ -395,7 +395,13 @@ namespace TownOfHost
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
-                        if (PlayerState.GetDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Vote)
+                        {
+                            //追放された場合は生存扱い
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.etc);
+                            //生存扱いのためSetDeadは必要なし
+                        }
+                        else
                         {
                             //キルされた場合は自爆扱い
                             PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide, Override: true);
