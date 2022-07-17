@@ -398,7 +398,7 @@ namespace TownOfHost
                         if (PlayerState.GetDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
                         {
                             //キルされた場合は自爆扱い
-                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide, Override: true);
                         }
                     }
                     else if (!pc.Data.IsDead)
