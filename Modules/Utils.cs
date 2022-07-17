@@ -404,7 +404,7 @@ namespace TownOfHost
                         else
                         {
                             //キルされた場合は自爆扱い
-                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide, Override: true);
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         }
                     }
                     else if (!pc.Data.IsDead)
