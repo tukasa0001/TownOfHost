@@ -358,6 +358,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Mayor))
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                    if (pc.Is(CustomRoles.SabotageMaster)) SabotageMaster.Add(pc.PlayerId);
                 }
 
                 //役職の人数を戻す
