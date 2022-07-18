@@ -39,7 +39,7 @@ namespace TownOfHost
             }
             else
             {
-                killer.RpcMurderPlayerV2(target);
+                killer.RpcMurderPlayer(target);
             }
         }
         public static void ShapeShiftCheck(this PlayerControl pc, bool shapeshifting)
