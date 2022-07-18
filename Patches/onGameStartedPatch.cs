@@ -50,7 +50,6 @@ namespace TownOfHost
             Main.targetArrows = new();
 
             Options.UsedButtonCount = 0;
-            Options.SabotageMasterUsedSkillCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             Main.BlockKilling = new Dictionary<byte, bool>();
 
@@ -103,6 +102,7 @@ namespace TownOfHost
             LadderDeathPatch.Reset();
             FireWorks.Init();
             Sniper.Init();
+            SabotageMaster.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -358,6 +358,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Mayor))
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                    if (pc.Is(CustomRoles.SabotageMaster)) SabotageMaster.Add(pc.PlayerId);
                 }
 
                 //役職の人数を戻す
