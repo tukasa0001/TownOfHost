@@ -235,6 +235,7 @@ namespace TownOfHost
                 { CustomRoles.FireWorks, "fw" },
                 { CustomRoles.Mare, "ma" },
                 { CustomRoles.Mafia, "mf" },
+                { CustomRoles.NekoKabocha, "nk" },
                 { CustomRoles.SerialKiller, "sk" },
                 { CustomRoles.ShapeMaster, "sha" },
                 { CustomRoles.TimeThief, "tt"},

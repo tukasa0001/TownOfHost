@@ -276,6 +276,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        NekoKabocha,
         LastImpostor,
         //Madmate
         MadGuardian,
