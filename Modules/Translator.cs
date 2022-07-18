@@ -37,6 +37,13 @@ namespace TownOfHost
                     {
                         while (fields[i].TrimEnd()[^1] != '"')
                         {
+                            if (fields.Count <= i + 1)
+                            {
+                                var err = $"翻訳用CSVファイルにダブルクォーテーションの閉じ忘れがあります。\n{currentLine}行目:";
+                                foreach (var c in fields) err += $" [{c}]";
+                                Logger.Warn(err, "Translator");
+                                goto AllContinue; //26行目のwhile文をcontinueする
+                            }
                             fields[i] = fields[i] + "," + fields[i + 1];
                             fields.RemoveAt(i + 1);
                         }
@@ -56,6 +63,8 @@ namespace TownOfHost
                 }
                 if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。\n{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
                 tr.Add(fields[0], tmp);
+
+            AllContinue:;
             }
         }
 
