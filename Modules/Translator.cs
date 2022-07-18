@@ -31,31 +31,34 @@ namespace TownOfHost
                 string[] values = line.Split(',');
                 List<string> fields = new(values);
                 Dictionary<int, string> tmp = new();
-                for (var i = 1; i < fields.Count; ++i)
+                try
                 {
-                    if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
+                    for (var i = 1; i < fields.Count; ++i)
                     {
-                        while (fields[i].TrimEnd()[^1] != '"')
+                        if (fields[i] != string.Empty && fields[i].TrimStart()[0] == '"')
                         {
-                            fields[i] = fields[i] + "," + fields[i + 1];
-                            fields.RemoveAt(i + 1);
+                            while (fields[i].TrimEnd()[^1] != '"')
+                            {
+                                fields[i] = fields[i] + "," + fields[i + 1];
+                                fields.RemoveAt(i + 1);
+                            }
                         }
                     }
+                    for (var i = 1; i < fields.Count; i++)
+                    {
+                        var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
+                        tmp.Add(Int32.Parse(header[i]), tmp_str);
+                    }
+                    if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
+                    tr.Add(fields[0], tmp);
                 }
-                if (fields.Count != header.Length)
+                catch
                 {
-                    var err = $"翻訳用CSVファイルに誤りがあります。\n{currentLine}行目:";
+                    var err = $"翻訳用CSVファイルに誤りがあります。{currentLine}行目:";
                     foreach (var c in fields) err += $" [{c}]";
-                    Logger.Warn(err, "Translator");
+                    Logger.Error(err, "Translator");
                     continue;
                 }
-                for (var i = 1; i < fields.Count; i++)
-                {
-                    var tmp_str = fields[i].Replace("\\n", "\n").Trim('"');
-                    tmp.Add(Int32.Parse(header[i]), tmp_str);
-                }
-                if (tr.ContainsKey(fields[0])) { Logger.Warn($"翻訳用CSVに重複があります。\n{currentLine}行目: \"{fields[0]}\"", "Translator"); continue; }
-                tr.Add(fields[0], tmp);
             }
         }
 
