@@ -16,6 +16,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
+AmongUs Version: **2022.7.12**
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
@@ -98,6 +99,10 @@ It can be called on typing `/template <tag>` or `/t <tag>`.<br>
 To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
+
+#### Welcome Message
+If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+For example: `welcome:This room is using TownOfHost.`
 
 ## Roles
 
@@ -302,12 +307,11 @@ The target will be given a special mark at the meeting and will die if the Witch
 ### Mafia
 
 Team : Impostors<br>
-Decision : Shapeshifter<br>
+Decision : Impostor<br>
 
-The Mafias can initially use vents, sabotage, and transformations, but they can not kill.<br>
+The Mafias can not initially kill.<br>
 Once all Impostors who are not them are dead, they will be able to kill.<br>
 If they can not kill, they will still have a kill button, but they can not kill.<br>
-They can transform after becoming to able to kill.<br>
 
 ### Madmate
 
@@ -662,8 +666,9 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 Create and idea by そうくん<br>
 
-This is the attribute given to the last Impostor.<br>
-Not given to BountyHunter, SerialKiller, or Vampire.<br>
+An attribute given to the last Impostor.<br>
+Kill cooldown gets shorter than usual.<br>
+Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
 | ------------------------- |
@@ -714,6 +719,14 @@ It is possible to disable certain tasks.<br>
 | Disable SwipeCard Tasks    |
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
+
+### Fall from ladders
+
+There is a certain probability of death if you descend from the ladder.<br>
+
+| Settings Name              |
+| -------------------------- |
+| Death Chance               |
 
 ### HideAndSeek
 

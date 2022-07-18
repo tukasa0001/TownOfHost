@@ -20,7 +20,8 @@ namespace TownOfHost
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
-                CustomRoles.EvilTracker;
+                CustomRoles.EvilTracker or
+                CustomRoles.LastImpostor;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -46,6 +47,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)
         {
             return

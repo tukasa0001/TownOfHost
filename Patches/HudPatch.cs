@@ -141,16 +141,13 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = $"<color={player.GetRoleColorCode()}>{player.GetRoleName()}\r\n";
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
-                {
-                    if (!player.CanUseKillButton())
-                        TaskTextPrefix += $"{GetString("BeforeMafiaInfo")}";
-                    else
-                        TaskTextPrefix += $"{GetString("AfterMafiaInfo")}";
-                }
+                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
+                else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
+                    TaskTextPrefix += GetString("WatcherInfo");
                 else
-                    TaskTextPrefix += $"{GetString(player.GetCustomRole() + "Info")}";
+                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
                 TaskTextPrefix += "</color>\r\n";
             }
             switch (player.GetCustomRole())
@@ -247,22 +244,6 @@ namespace TownOfHost
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));
             }
-        }
-    }
-    [HarmonyPatch(typeof(CrewmateRole), nameof(CrewmateRole.FindClosestTarget))]
-    class FindClosestTarget_Crewmate
-    {
-        public static bool Prefix(CrewmateRole __instance, ref PlayerControl __result)
-        {
-            if (PlayerControl.LocalPlayer == null || __instance == null || __instance.Player == null) return false;
-            if (!AmongUsClient.Instance.AmHost) return true;
-            if (__instance.Player.Is(CustomRoles.Sheriff) || __instance.Player.Is(CustomRoles.Arsonist))
-            {
-                var targets = ((RoleBehaviour)__instance).GetPlayersInAbilityRangeSorted(RoleBehaviour.GetTempPlayerList());
-                __result = targets.Count <= 0 ? null : targets[0];
-                return false;
-            }
-            return true;
         }
     }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]

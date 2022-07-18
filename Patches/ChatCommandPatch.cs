@@ -128,7 +128,7 @@ namespace TownOfHost
                                 {
                                     case "lastimpostor":
                                     case "limp":
-                                        Utils.SendMessage(GetString("LastImpostor") + GetString("LastImpostorInfo"));
+                                        Utils.SendMessage(Utils.GetRoleName(CustomRoles.LastImpostor) + GetString("LastImpostorInfoLong"));
                                         break;
 
                                     default:
@@ -316,7 +316,7 @@ namespace TownOfHost
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
-        public static void SendTemplate(string str = "", byte playerId = 0xff)
+        public static void SendTemplate(string str = "", byte playerId = 0xff, bool noErr = false)
         {
             if (!File.Exists("template.txt"))
             {
@@ -338,7 +338,7 @@ namespace TownOfHost
                     if (tmp[0] == str) sendList.Add(tmp.Skip(1).Join(delimiter: "").Replace("\\n", "\n"));
                 }
             }
-            if (sendList.Count == 0)
+            if (sendList.Count == 0 && !noErr)
             {
                 if (playerId == 0xff)
                     HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}");
