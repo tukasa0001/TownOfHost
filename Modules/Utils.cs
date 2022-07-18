@@ -205,7 +205,7 @@ namespace TownOfHost
             switch (role)
             {
                 case CustomRoles.Arsonist:
-                    var doused = getDousedPlayerCount(playerId);
+                    var doused = GetDousedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
@@ -395,7 +395,13 @@ namespace TownOfHost
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
-                        if (PlayerState.GetDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Vote)
+                        {
+                            //追放された場合は生存扱い
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.etc);
+                            //生存扱いのためSetDeadは必要なし
+                        }
+                        else
                         {
                             //キルされた場合は自爆扱い
                             PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
@@ -404,7 +410,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
-                        pc.RpcMurderPlayerV2(pc);
+                        pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
                     }
@@ -819,7 +825,7 @@ namespace TownOfHost
             if (PlayerControl.LocalPlayer != null)
                 HudManager.Instance?.Chat?.AddChat(PlayerControl.LocalPlayer, "デスクトップにログを保存しました。バグ報告チケットを作成してこのファイルを添付してください。");
         }
-        public static (int, int) getDousedPlayerCount(byte playerId)
+        public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
             //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
