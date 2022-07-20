@@ -146,6 +146,7 @@ namespace TownOfHost
                 {
                     CustomRoles.Mafia => GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"),
                     CustomRoles.EvilWatcher or CustomRoles.NiceWatcher => GetString("WatcherInfo"),
+                    CustomRoles.MadSnitch or CustomRoles.MadGuardian => GetString(player.GetPlayerTaskState().IsTaskFinished ? "MadmateInfo" : "BeforeMadmateInfo"),
                     _ => GetString(player.GetCustomRole() + "Info")
                 };
                 RoleWithInfo += "</color>";

@@ -97,6 +97,7 @@ LastImpostorInfo,You are the last one,残ったのはあなただけ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
+BeforeMadmateInfo,Finish your tasks,タスクを済ませろ
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう
 SKMadmateInfo,You are Sidekick,サイドキックにされた
