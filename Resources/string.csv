@@ -45,6 +45,7 @@ Lighter,Lighter,ライター
 Mayor,Mayor,メイヤー
 SabotageMaster,SabotageMaster,サボタージュマスター
 Sheriff,Sheriff,シェリフ
+Deputy,Deputy,デピュティ
 Arsonist,Arsonist,アーソニスト
 Snitch,Snitch,スニッチ
 SpeedBooster,SpeedBooster,スピードブースター
@@ -110,6 +111,7 @@ LighterInfo,Let's light it all up,すべてを照らそう
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け
+DeputyInfo,Help your sheriff,シェリフの援助をしよう
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう
 SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
@@ -276,6 +278,9 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数
+DeputyChangeOption,Deputy change option,デピュティが変える設定
+DeputyDecreaseKillCooldown,Deputy decrease killcooldown,デピュティが減らすキルクール
+DeputyIncreaseShotLimit,Deputy increase shot limit,デピュティが増やすキル可能回数
 DoctorTaskCompletedBatteryCharge,Doctor TaskCompletedBattery Charge,ドクターがタスクを終わらせたときにセットされるバイタルの秒数
 SnitchEnableTargetArrow,Snitch Can View Target Arrow,ターゲットを示す矢印が見える
 SnitchCanGetArrowColor,Snitch Can Get Arrow Color,矢印の色で陣営がわかる
