@@ -40,13 +40,13 @@ namespace TownOfHost
                 {
                     try
                     {
-                        if (pc.IsAlive() && !pc.IsModClient())
+                        if (!pc.IsModClient())
                         {
                             var clientId = pc.GetClientId();
                             bool IsGuard = false;
                             Vector2 PlayerPos = pc.GetTruePosition();
                             //アドミンチェック
-                            if (AdminPatch.DisableAdmin || Options.IsStandardHAS)
+                            if ((AdminPatch.DisableAdmin || Options.IsStandardHAS) && pc.IsAlive())
                             {
                                 if (AdminPatch.DisableAllAdmins || Options.IsStandardHAS)
                                 {
