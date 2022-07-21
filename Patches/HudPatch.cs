@@ -150,7 +150,7 @@ namespace TownOfHost
                     _ => GetString(player.GetCustomRole() + "Info")
                 };
                 RoleWithInfo += "</color>";
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), RoleWithInfo);
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), TaskTextPrefix);
             }
             switch (player.GetCustomRole())
             {
