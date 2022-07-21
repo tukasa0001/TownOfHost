@@ -303,6 +303,11 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
+                        var removecolortag = new Dictionary<string, string>() {
+                            { "ColoredOn", "On" },
+                            { "ColoredOff", "Off" }
+                            };
+                        foreach (var coloredstring in removecolortag) text = text.Replace(GetString(coloredstring.Key), GetString(coloredstring.Value));
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
@@ -395,7 +400,13 @@ namespace TownOfHost
                 {
                     if (pc.Is(CustomRoles.Terrorist))
                     {
-                        if (PlayerState.GetDeathReason(pc.PlayerId) != PlayerState.DeathReason.Vote)
+                        if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Vote)
+                        {
+                            //追放された場合は生存扱い
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.etc);
+                            //生存扱いのためSetDeadは必要なし
+                        }
+                        else
                         {
                             //キルされた場合は自爆扱い
                             PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
@@ -404,7 +415,7 @@ namespace TownOfHost
                     else if (!pc.Data.IsDead)
                     {
                         //生存者は爆死
-                        pc.RpcMurderPlayerV2(pc);
+                        pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
                     }
