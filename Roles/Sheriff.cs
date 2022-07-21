@@ -53,10 +53,7 @@ namespace TownOfHost
             SendRPC(playerId);
             Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
         }
-        public static bool IsEnable()
-        {
-            return playerIdList.Count > 0;
-        }
+        public static bool IsEnable => playerIdList.Count > 0;
         private static void SendRPC(byte playerId)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, SendOption.Reliable, -1);
@@ -64,7 +61,6 @@ namespace TownOfHost
             writer.Write(ShotLimit[playerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-
         public static void ReceiveRPC(MessageReader reader)
         {
             byte SheriffId = reader.ReadByte();
