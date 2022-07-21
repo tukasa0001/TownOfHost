@@ -45,23 +45,23 @@ namespace TownOfHost
                 }
             }
         }
-        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
-        class LadderPatch
+    }
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
+    class LadderPatch
+    {
+        static int Chance => Options.LadderDeathChance.GetSelection() + 1;
+        public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
         {
-            static int Chance => Options.LadderDeathChance.GetSelection() + 1;
-            public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
+            if (!Options.LadderDeath.GetBool()) return;
+            var sourcepos = source.transform.position;
+            var targetpos = source.Destination.transform.position;
+            //降りているのかを検知
+            if (sourcepos.y > targetpos.y)
             {
-                if (!Options.LadderDeath.GetBool()) return;
-                var sourcepos = source.transform.position;
-                var targetpos = source.Destination.transform.position;
-                //降りているのかを検知
-                if (sourcepos.y > targetpos.y)
+                int chance = UnityEngine.Random.Range(1, 10);
+                if (chance <= Chance)
                 {
-                    int chance = UnityEngine.Random.Range(1, 10);
-                    if (chance <= Chance)
-                    {
-                        TargetLadderData[__instance.myPlayer.PlayerId] = targetpos;
-                    }
+                    LadderDeathPatch.TargetLadderData[__instance.myPlayer.PlayerId] = targetpos;
                 }
             }
         }
