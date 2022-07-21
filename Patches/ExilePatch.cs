@@ -94,7 +94,7 @@ namespace TownOfHost
                     player?.ResetThiefVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
-            LadderDeathPatch.Reset();
+            FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();

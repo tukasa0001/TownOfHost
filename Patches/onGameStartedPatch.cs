@@ -100,7 +100,7 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
-            LadderDeathPatch.Reset();
+            FallFromLadder.Reset();
             FireWorks.Init();
             Sniper.Init();
         }

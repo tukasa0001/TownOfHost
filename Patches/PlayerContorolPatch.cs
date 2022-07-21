@@ -675,7 +675,7 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
-                    LadderDeathPatch.FixedUpdate(player);
+                    FallFromLadder.FixedUpdate(player);
                 }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class LadderDeathPatch
+    public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
         private static int Chance => Options.LadderDeathChance.GetSelection() + 1;
@@ -67,7 +67,7 @@ namespace TownOfHost
     {
         public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
         {
-            LadderDeathPatch.OnClimbLadder(__instance, source);
+            FallFromLadder.OnClimbLadder(__instance, source);
         }
     }
 }
