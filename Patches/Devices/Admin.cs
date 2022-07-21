@@ -23,7 +23,7 @@ namespace TownOfHost
                 bool isGuard = false;
 
                 DisabledText.gameObject.SetActive(false);
-                if (!PlayerControl.LocalPlayer.Data.IsDead)
+                if (!PlayerControl.LocalPlayer.IsAlive())
                 {
                     if (DisableAdmin)
                     {
