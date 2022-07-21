@@ -23,6 +23,7 @@ namespace TownOfHost
 
         public static Dictionary<byte, float> ShotLimit = new();
 
+        public static float CurrentKillCooldown;
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Sheriff);
@@ -42,6 +43,8 @@ namespace TownOfHost
         {
             playerIdList = new();
             ShotLimit = new();
+
+            CurrentKillCooldown = KillCooldown.GetFloat();
         }
         public static void Add(byte playerId)
         {
@@ -70,7 +73,7 @@ namespace TownOfHost
             else
                 ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown;
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
