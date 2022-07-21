@@ -65,6 +65,8 @@ namespace TownOfHost
                                     IsGuard = ArchiveAdminDistance <= UsableDistance();
                                 }
                             }
+                            if (PlayerState.isDead[pc.PlayerId] && IsGuard)
+                                IsGuard = false;
                             if (IsGuard && !pc.inVent)
                             {
                                 if (!OldDesyncCommsPlayers.Contains(pc.PlayerId))
