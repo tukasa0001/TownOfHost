@@ -22,8 +22,7 @@ namespace TownOfHost
         private static CustomOption ShotLimitOpt;
 
         public static Dictionary<byte, float> ShotLimit = new();
-
-        public static float CurrentKillCooldown;
+        public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Sheriff);
@@ -43,17 +42,17 @@ namespace TownOfHost
         {
             playerIdList = new();
             ShotLimit = new();
-
-            CurrentKillCooldown = KillCooldown.GetFloat();
+            CurrentKillCooldown = new();
         }
         public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
+            CurrentKillCooldown.Add(playerId, KillCooldown.GetFloat());
+
             if (!Main.ResetCamPlayerList.Contains(playerId))
                 Main.ResetCamPlayerList.Add(playerId);
 
             ShotLimit.TryAdd(playerId, ShotLimitOpt.GetFloat());
-            SendRPC(playerId);
             Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()} : 残り{ShotLimit[playerId]}発", "Sheriff");
         }
         public static bool IsEnable => playerIdList.Count > 0;
@@ -73,7 +72,7 @@ namespace TownOfHost
             else
                 ShotLimit.Add(SheriffId, ShotLimitOpt.GetFloat());
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown;
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
