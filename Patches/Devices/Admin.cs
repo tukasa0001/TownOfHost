@@ -23,28 +23,31 @@ namespace TownOfHost
                 bool isGuard = false;
 
                 DisabledText.gameObject.SetActive(false);
-                if (DisableAdmin)
+                if (!PlayerControl.LocalPlayer.Data.IsDead)
                 {
-                    var PlayerPos = PlayerControl.LocalPlayer.GetTruePosition();
-                    if (DisableAllAdmins)
+                    if (DisableAdmin)
                     {
-                        var AdminDistance = Vector2.Distance(PlayerPos, DisableDevice.GetAdminTransform());
-                        isGuard = AdminDistance <= DisableDevice.UsableDistance();
-
-                        if (!isGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
+                        var PlayerPos = PlayerControl.LocalPlayer.GetTruePosition();
+                        if (DisableAllAdmins)
                         {
-                            var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, SecondaryPolusAdminPos);
-                            isGuard = SecondaryPolusAdminDistance <= DisableDevice.UsableDistance();
+                            var AdminDistance = Vector2.Distance(PlayerPos, DisableDevice.GetAdminTransform());
+                            isGuard = AdminDistance <= DisableDevice.UsableDistance();
+
+                            if (!isGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
+                            {
+                                var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, SecondaryPolusAdminPos);
+                                isGuard = SecondaryPolusAdminDistance <= DisableDevice.UsableDistance();
+                            }
+                        }
+
+                        if (!isGuard && (DisableAllAdmins || DisableArchiveAdmin)) //憎きアーカイブのアドミンチェック
+                        {
+                            var ArchiveAdminDistance = Vector2.Distance(PlayerPos, ArchiveAdminPos);
+                            isGuard = ArchiveAdminDistance <= DisableDevice.UsableDistance();
                         }
                     }
-
-                    if (!isGuard && (DisableAllAdmins || DisableArchiveAdmin)) //憎きアーカイブのアドミンチェック
-                    {
-                        var ArchiveAdminDistance = Vector2.Distance(PlayerPos, ArchiveAdminPos);
-                        isGuard = ArchiveAdminDistance <= DisableDevice.UsableDistance();
-                    }
+                    if (Options.StandardHAS.GetBool()) isGuard = true;
                 }
-                if (Options.StandardHAS.GetBool()) isGuard = true;
                 if (isGuard)
                 {
                     __instance.SabotageText.gameObject.SetActive(false);
