@@ -766,3 +766,4 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 - [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
 - [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
