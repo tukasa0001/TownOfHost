@@ -270,15 +270,7 @@ namespace TownOfHost
                         killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.TimeThief:
-                        Main.TimeThiefKillCount[killer.PlayerId]++;
-                        killer.RpcSetTimeThiefKillCount();
-                        Main.DiscussionTime -= Options.TimeThiefDecreaseMeetingTime.GetInt();
-                        if (Main.DiscussionTime < 0)
-                        {
-                            Main.VotingTime += Main.DiscussionTime;
-                            Main.DiscussionTime = 0;
-                        }
-                        Utils.CustomSyncAllSettings();
+                        TimeThief.OnCheckMurder(killer);
                         break;
 
                     //==========マッドメイト系役職==========//
