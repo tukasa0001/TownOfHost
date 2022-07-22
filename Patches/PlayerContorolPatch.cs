@@ -103,19 +103,8 @@ namespace TownOfHost
 
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
-                        if (killer.Data.IsDead)
-                        {
+                        if (!Sheriff.CanUseKillButton(killer))
                             return false;
-                        }
-
-                        if (Main.SheriffShotLimit[killer.PlayerId] == 0)
-                        {
-                            //Logger.info($"{killer.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
-                            //killer.RpcSetRoleDesync(RoleTypes.GuardianAngel);
-                            //Utils.hasTasks(killer.Data, false);
-                            //Utils.NotifyRoles();
-                            return false;
-                        }
                         break;
                 }
             }
@@ -277,19 +266,10 @@ namespace TownOfHost
 
                     //==========クルー役職==========//
                     case CustomRoles.Sheriff:
-                        Main.SheriffShotLimit[killer.PlayerId]--;
-                        Logger.Info($"{killer.GetNameWithRole()} : 残り{Main.SheriffShotLimit[killer.PlayerId]}発", "Sheriff");
-                        killer.RpcSetSheriffShotLimit();
+                        Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
 
-                        if (!target.CanBeKilledBySheriff())
-                        {
-                            PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                            killer.RpcMurderPlayer(killer);
-                            if (Options.SheriffCanKillCrewmatesAsIt.GetBool())
-                                killer.RpcMurderPlayer(target);
-
+                        if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
                             return false;
-                        }
                         break;
                 }
             }

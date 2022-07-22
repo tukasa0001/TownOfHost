@@ -46,7 +46,7 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sniper:
-                    __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
+                    __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                     break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
@@ -170,7 +170,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
-                    if (Main.SheriffShotLimit[player.PlayerId] == 0)
+                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);

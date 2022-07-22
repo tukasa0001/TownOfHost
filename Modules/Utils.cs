@@ -160,11 +160,6 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
-
-                    //foreach (var pc in PlayerControl.AllPlayerControls)
-                    //{
-                    //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
-                    //}
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -209,7 +204,7 @@ namespace TownOfHost
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += Helpers.ColorString(Color.yellow, Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+                    ProgressText += Sheriff.GetShotLimit(playerId);
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
