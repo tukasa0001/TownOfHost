@@ -362,8 +362,14 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
-            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
+            if (role == CustomRoles.FireWorks)
+            {
+                FireWorks.Add(targetId);
+            }
+            else if (role == CustomRoles.Sniper)
+            {
+                Sniper.Add(targetId);
+            }
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
@@ -404,25 +410,18 @@ namespace TownOfHost
         }
         public static void CustomWinTrigger(byte winnerID)
         {
-            List<PlayerControl> Impostors = new();
+            if (!AmongUsClient.Instance.AmHost) return;
+
             foreach (var p in PlayerControl.AllPlayerControls)
             {
-                PlayerControl Winner = null;
-                if (p.PlayerId == winnerID) Winner = p;
                 if (p.Data.Role.IsImpostor)
                 {
-                    Impostors.Add(p);
+                    p.RpcSetRole(RoleTypes.GuardianAngel);
                 }
             }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => Main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
+
+            new LateTask(() => Main.CustomWinTrigger = true,
+              0.2f, "Custom Win Trigger Task");
         }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
