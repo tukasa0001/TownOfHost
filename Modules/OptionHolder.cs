@@ -61,8 +61,6 @@ namespace TownOfHost
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-        public static CustomOption SerialKillerCooldown;
-        public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
         public static CustomOption TimeThiefLowerLimitVotingTime;
         public static CustomOption TimeThiefReturnStolenTimeUponDeath;
@@ -265,9 +263,7 @@ namespace TownOfHost
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
             BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            SetupRoleOptions(1100, CustomRoles.SerialKiller);
-            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20f, 2.5f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
+            SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);

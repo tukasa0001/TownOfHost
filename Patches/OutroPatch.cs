@@ -199,7 +199,6 @@ namespace TownOfHost
 
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.SerialKillerTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
