@@ -74,14 +74,14 @@ namespace TownOfHost
 
         public static bool CanUseKillButton(PlayerControl pc)
         {
-//            Logger.Info($"FireWorks CanUseKillButton", "FireWorks");
+            //            Logger.Info($"FireWorks CanUseKillButton", "FireWorks");
             if (pc.Data.IsDead) return false;
             var canUse = false;
             if ((state[pc.PlayerId] & FireWorksState.CanUseKill) != 0)
             {
                 canUse = true;
             }
-//            Logger.Info($"CanUseKillButton:{canUse}", "FireWorks");
+            //            Logger.Info($"CanUseKillButton:{canUse}", "FireWorks");
             return canUse;
         }
 
@@ -121,14 +121,14 @@ namespace TownOfHost
                             else
                             {
                                 PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
-                                target.RpcMurderPlayerV2(target);
+                                target.RpcMurderPlayer(target);
                             }
                         }
                     }
                     if (suicide)
                     {
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
-                        pc.RpcMurderPlayerV2(pc);
+                        pc.RpcMurderPlayer(pc);
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;
                     break;

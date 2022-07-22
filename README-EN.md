@@ -16,6 +16,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
+AmongUs Version: **2022.7.12**
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
@@ -198,6 +199,9 @@ If he can not kill on deadline, he will kill him.<br>
 | Time to self-destruct(s) |
 
 ### ShapeMaster
+
+**Warning**
+Unavailable.
 
 Create and idea by しゅー<br>
 

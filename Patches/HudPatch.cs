@@ -46,7 +46,7 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sniper:
-                    __instance.AbilityButton.OverrideText($"{GetString("SniperSnipeButtonText")}");
+                    __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                     break;
                 case CustomRoles.FireWorks:
                     if (FireWorks.nowFireWorksCount[player.PlayerId] == 0)
@@ -55,7 +55,7 @@ namespace TownOfHost
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                     break;
                 case CustomRoles.SerialKiller:
-                    __instance.AbilityButton.OverrideText($"{GetString("SerialKillerSuicideButtonText")}");
+                    SerialKiller.GetAbilityButtonText(__instance);
                     break;
                 case CustomRoles.Warlock:
                     if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
@@ -141,16 +141,13 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = $"<color={player.GetRoleColorCode()}>{player.GetRoleName()}\r\n";
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
-                {
-                    if (!player.CanUseKillButton())
-                        TaskTextPrefix += $"{GetString("BeforeMafiaInfo")}";
-                    else
-                        TaskTextPrefix += $"{GetString("AfterMafiaInfo")}";
-                }
+                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
+                else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
+                    TaskTextPrefix += GetString("WatcherInfo");
                 else
-                    TaskTextPrefix += $"{GetString(player.GetCustomRole() + "Info")}";
+                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
                 TaskTextPrefix += "</color>\r\n";
             }
             switch (player.GetCustomRole())
@@ -179,7 +176,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sheriff:
-                    if (Main.SheriffShotLimit[player.PlayerId] == 0)
+                    if (Sheriff.ShotLimit.TryGetValue(player.PlayerId, out var count) && count == 0)
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);

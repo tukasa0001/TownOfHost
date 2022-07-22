@@ -13,6 +13,7 @@
 
 ## リリース
 
+AmongUsバージョン : **2022.7.12**
 **最新版は[こちら](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 過去バージョンは[こちら](https://github.com/tukasa0001/TownOfHost/releases)
@@ -197,6 +198,9 @@
 | シリアルキラーが自爆する時間(s) |
 
 ### ShapeMaster/シェイプマスター
+
+**Warning**
+使用不可です
 
 制作・考案者 : しゅー<br>
 
