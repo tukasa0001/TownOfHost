@@ -261,7 +261,7 @@ namespace TownOfHost
             try
             {
                 List<byte> winner = new();
-                Main.currentWinner = (CustomWinner)reader.ReadByte();
+                Main.currentWinner = (CustomWinner)reader.ReadInt32();
                 while (reader.BytesRemaining > 0) winner.Add(reader.ReadByte());
                 switch (Main.currentWinner)
                 {
@@ -284,7 +284,8 @@ namespace TownOfHost
                         TrollWin(winner[0]);
                         break;
                     default:
-                        Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
+                        if (Main.currentWinner != CustomWinner.Default)
+                            Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
                         break;
                 }
             }

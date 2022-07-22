@@ -58,14 +58,12 @@ namespace TownOfHost
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-        public static CustomOption SerialKillerCooldown;
-        public static CustomOption SerialKillerLimit;
         public static CustomOption TimeThiefDecreaseMeetingTime;
         public static CustomOption TimeThiefLowerLimitVotingTime;
         public static CustomOption TimeThiefReturnStolenTimeUponDeath;
         public static CustomOption VampireKillDelay;
         public static CustomOption BlackOutMareSpeed;
-        public static CustomOption ShapeMasterShapeshiftDuration;
+        //public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
@@ -259,11 +257,9 @@ namespace TownOfHost
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
             BountyHunter.SetupCustomOption();
-            SetupRoleOptions(1100, CustomRoles.SerialKiller);
-            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20f, 2.5f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60f, 5f, 900f, 5f, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SetupRoleOptions(1200, CustomRoles.ShapeMaster);
-            ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
+            SerialKiller.SetupCustomOption();
+            // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
+            // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
