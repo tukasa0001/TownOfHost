@@ -158,8 +158,11 @@ namespace TownOfHost
         {
             foreach (var id in playerIdList)
             {
-                Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
-                ChangeTimer[id] = 0f;
+                if (!PlayerState.isDead[id])
+                {
+                    Utils.GetPlayerById(id)?.RpcResetAbilityCooldown();
+                    ChangeTimer[id] = 0f;
+                }
             }
         }
     }
