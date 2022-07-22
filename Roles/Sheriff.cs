@@ -101,9 +101,9 @@ namespace TownOfHost
                     if (!target.CanBeKilledBySheriff())
                     {
                         PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
-                        killer.RpcMurderPlayerV2(killer);
+                        killer.RpcMurderPlayer(killer);
                         if (CanKillCrewmatesAsIt.GetBool())
-                            killer.RpcMurderPlayerV2(target);
+                            killer.RpcMurderPlayer(target);
                         return false;
                     }
                     break;
