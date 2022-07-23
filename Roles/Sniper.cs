@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -230,5 +231,6 @@ namespace TownOfHost
             }
             return "";
         }
+        public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
     }
 }
