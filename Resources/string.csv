@@ -51,6 +51,7 @@ SpeedBooster,SpeedBooster,スピードブースター
 Doctor,Doctor,ドクター
 Trapper,Trapper,トラッパー
 Dictator,Dictator,ディクテーター
+Medium,Medium,霊媒師
 
 # 第三陣営役職
 Jester,Jester,ジェスター
@@ -115,6 +116,7 @@ SpeedBoosterInfo,Let's them run.,走らせろ
 DoctorInfo,Thus They Died,斯くして奴は死んだ
 TrapperInfo,Trap your enemies,敵を罠にはめよう
 DictatorInfo,Let's have a dictatorship,独裁政治をしよう
+MediumInfo,Pay close attention to the exiled player,追放者に目を光らせよう
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ
@@ -171,7 +173,7 @@ SpeedBoosterInfoLong,"(Crewmates):Finishing the task can speed up a random alive
 DoctorInfoLong,"(Crewmates):\nYou can know why players died.\nAnd you can use vitals anywhere with gadget charges.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。
 TrapperInfoLong,"(Crewmates):\nIf you killed, the killed player can be immobile for a few seconds. (with settings)",(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)
 DictatorInfoLong,"(Crewmates):\nIf you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.\nThe dictator dies at the time of the vote.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。
-
+MediumInfoLong,"(Crewmates):\nWhen a player is exiled, you can see Impostor or not.",(クルーメイト陣営):\n誰かが吊られた時に、その人がインポスターかそうでないかを見ることができる。
 # 第三陣営役職
 ArsonistInfoLong,"(Neutrals):\nWhen Arsonist tries to use kill button, he varnish oil to crewmates. \nWhen he finish varnishing to all crewmates, he burn the ship and win.",(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。
 JesterInfoLong,(Impostors):\nYou can win when you are exiled.\nDefeated when the match ends without being exiled or is killed.,(第三陣営):\n会議で追放された時に単独勝利できる。\n追放されず試合が終了orキルされると敗北。

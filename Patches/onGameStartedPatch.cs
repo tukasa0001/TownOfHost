@@ -262,6 +262,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Medium, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
                 if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);

@@ -194,6 +194,7 @@ namespace TownOfHost
                     {CustomRoles.Doctor, "#80ffdd"},
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
+                    {CustomRoles.Medium, "#1da4ff"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
@@ -300,6 +301,7 @@ namespace TownOfHost
         SpeedBooster,
         Trapper,
         Dictator,
+        Medium,
         Doctor,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
         //Neutral

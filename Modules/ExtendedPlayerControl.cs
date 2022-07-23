@@ -321,6 +321,10 @@ namespace TownOfHost
                     if (opt.AnonymousVotes)
                         opt.AnonymousVotes = false;
                     break;
+                case CustomRoles.Medium:
+                if(!opt.ConfirmImpostor)
+                opt.ConfirmImpostor=true;
+                break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
                     opt.SetVision(player, false);
