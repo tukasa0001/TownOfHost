@@ -102,6 +102,7 @@ namespace TownOfHost
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
+            Egoist.Init();
             Sheriff.Init();
         }
     }
@@ -353,6 +354,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Mayor))
                         Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                    if (pc.Is(CustomRoles.Egoist)) Egoist.Add(pc.PlayerId);
 
                     pc.ResetKillCooldown();
                 }
