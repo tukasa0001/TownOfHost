@@ -397,12 +397,6 @@ Decision : Crewmate<br>
 If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
 The dictator dies at the time of the vote.<br>
 
-#### Settings
-
-| Settings Name   |
-| --------------- |
-| Block Move Time |
-
 ### Doctor
 
 Team : Crewmates<br>
@@ -521,6 +515,12 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
 
 ### Arsonist
 
