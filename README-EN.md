@@ -394,6 +394,16 @@ Decision : Crewmate<br>
 If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
 The dictator dies at the time of the vote.<br>
 
+### Medium
+
+制作者 : syaochan<br>
+考案者 : そうくん<br>
+
+Team : Crewmates<br>
+Decision : Crewmate<br>
+
+When a player is exiled, you can see Impostor or not.<br>
+
 #### Settings
 
 | Settings Name   |
