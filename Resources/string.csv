@@ -379,6 +379,8 @@ commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
 Off,OFF,オフ
+ColoredOn,<color=#33ffcc>ON</color>,<color=#33ffcc>オン</color>
+ColoredOff,<color=#ff3366>OFF</color>,<color=#ff3366>オフ</color>
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 WitchCurrentMode,Current Mode,現在のモード
 WitchModeKill,Kill,キル
@@ -426,3 +428,4 @@ VampireBiteButtonText,Bite,噛む
 ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
 BountyHunterChangeButtonText,Change,変更
+DefaultShapeshiftText,SHIFT,変身

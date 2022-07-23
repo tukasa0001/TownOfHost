@@ -200,6 +200,9 @@ If he can not kill on deadline, he will kill him.<br>
 
 ### ShapeMaster
 
+**Warning**
+Unavailable.
+
 Create and idea by しゅー<br>
 
 Team : Impostor<br>
