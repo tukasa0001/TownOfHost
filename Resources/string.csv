@@ -246,7 +246,8 @@ BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンタ�
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
-BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
+MareSpeedInLightsOut,Mare speed midtime in lights out,停電時のメアーの移動速度
+MareKillCooldownInLightsOut,Mare killcooldown in lights out,停電時のメアーのキルクール
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
