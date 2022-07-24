@@ -38,8 +38,6 @@ namespace TownOfHost
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
 
-            Main.TimeThiefKillCount = new Dictionary<byte, int>();
-
             Main.SpelledPlayer = new List<PlayerControl>();
             Main.witchMeeting = false;
             Main.CheckShapeshift = new Dictionary<byte, bool>();
@@ -102,6 +100,7 @@ namespace TownOfHost
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
+            TimeThief.Init();
             Sheriff.Init();
         }
     }
@@ -321,8 +320,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.TimeThief))
                     {
-                        Main.TimeThiefKillCount[pc.PlayerId] = 0;
-                        pc.RpcSetTimeThiefKillCount();
+                        TimeThief.Add(pc,pc.PlayerId);
                     }
                     //通常モードでかくれんぼをする人用
                     if (Options.IsStandardHAS)

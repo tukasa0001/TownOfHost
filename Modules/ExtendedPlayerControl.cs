@@ -389,7 +389,7 @@ namespace TownOfHost
                 if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
             }
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
-            opt.VotingTime = Mathf.Clamp(Main.VotingTime, Options.TimeThiefLowerLimitVotingTime.GetInt(), 300);
+            opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
 
@@ -546,13 +546,6 @@ namespace TownOfHost
             writer.Write(player.IsSpellMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetTimeThiefKillCount(this PlayerControl player)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(Main.TimeThiefKillCount[player.PlayerId]);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static bool CanUseKillButton(this PlayerControl pc)
         {
             bool canUse =
@@ -624,6 +617,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
+                case CustomRoles.TimeThief:
+                    TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
@@ -667,14 +663,6 @@ namespace TownOfHost
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
                     && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
-        }
-        public static void ResetThiefVotingTime(this PlayerControl thief)
-        {
-            if (!Options.TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
-
-            for (var i = 0; i < Main.TimeThiefKillCount[thief.PlayerId]; i++)
-                Main.VotingTime += Options.TimeThiefDecreaseMeetingTime.GetInt();
-            Main.TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void RpcExileV2(this PlayerControl player)
         {
