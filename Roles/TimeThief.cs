@@ -33,6 +33,7 @@ namespace TownOfHost
             TimeThiefKillCount[playerId] = 0;
             pc.RpcSetKillCount();
         }
+        public static bool IsEnable() => playerIdList.Count > 0;
         public static void ReceiveRPC(MessageReader msg)
         {
             byte TimeThiefId = msg.ReadByte();
