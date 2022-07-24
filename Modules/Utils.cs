@@ -160,11 +160,6 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
-
-                    //foreach (var pc in PlayerControl.AllPlayerControls)
-                    //{
-                    //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
-                    //}
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -209,7 +204,7 @@ namespace TownOfHost
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.Sheriff:
-                    ProgressText += Helpers.ColorString(Color.yellow, Main.SheriffShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+                    ProgressText += Sheriff.GetShotLimit(playerId);
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
@@ -303,6 +298,11 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
+                        var removecolortag = new Dictionary<string, string>() {
+                            { "ColoredOn", "On" },
+                            { "ColoredOff", "Off" }
+                            };
+                        foreach (var coloredstring in removecolortag) text = text.Replace(GetString(coloredstring.Key), GetString(coloredstring.Value));
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
@@ -743,17 +743,13 @@ namespace TownOfHost
         {
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Is(CustomRoles.SerialKiller))
-                {
-                    pc.RpcResetAbilityCooldown();
-                    Main.SerialKillerTimer.TryAdd(pc.PlayerId, 0f);
-                }
                 if (pc.Is(CustomRoles.BountyHunter))
                 {
                     pc.RpcResetAbilityCooldown();
                     Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
                 }
             }
+            SerialKiller.AfterMeetingTasks();
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)

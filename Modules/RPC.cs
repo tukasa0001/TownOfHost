@@ -132,12 +132,7 @@ namespace TownOfHost
                     Main.KillOrSpell[playerId] = KoS;
                     break;
                 case CustomRPC.SetSheriffShotLimit:
-                    byte SheriffId = reader.ReadByte();
-                    float Limit = reader.ReadSingle();
-                    if (Main.SheriffShotLimit.ContainsKey(SheriffId))
-                        Main.SheriffShotLimit[SheriffId] = Limit;
-                    else
-                        Main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
+                    Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetTimeThiefKillCount:
                     byte TimeThiefId = reader.ReadByte();
@@ -362,8 +357,18 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
-            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
+            switch (role)
+            {
+                case CustomRoles.FireWorks:
+                    FireWorks.Add(targetId);
+                    break;
+                case CustomRoles.Sniper:
+                    Sniper.Add(targetId);
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.Add(targetId);
+                    break;
+            }
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)

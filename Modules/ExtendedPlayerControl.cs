@@ -220,38 +220,6 @@ namespace TownOfHost
             return dic[role];
         }
 
-        public static bool CanBeKilledBySheriff(this PlayerControl player)
-        {
-            var cRole = player.GetCustomRole();
-            switch (cRole)
-            {
-                case CustomRoles.Jester:
-                    return Options.SheriffCanKillJester.GetBool();
-                case CustomRoles.Terrorist:
-                    return Options.SheriffCanKillTerrorist.GetBool();
-                case CustomRoles.Executioner:
-                    return Options.SheriffCanKillExecutioner.GetBool();
-                case CustomRoles.Opportunist:
-                    return Options.SheriffCanKillOpportunist.GetBool();
-                case CustomRoles.Arsonist:
-                    return Options.SheriffCanKillArsonist.GetBool();
-                case CustomRoles.Egoist:
-                    return Options.SheriffCanKillEgoist.GetBool();
-                case CustomRoles.EgoSchrodingerCat:
-                    return Options.SheriffCanKillEgoShrodingerCat.GetBool();
-                case CustomRoles.SchrodingerCat:
-                    return true;
-            }
-            CustomRoles role = player.GetCustomRole();
-            RoleType roleType = role.GetRoleType();
-            return roleType switch
-            {
-                RoleType.Impostor => true,
-                RoleType.Madmate => Options.SheriffCanKillMadmate.GetBool(),
-                _ => false,
-            };
-        }
-
         public static void SendDM(this PlayerControl target, string text)
         {
             Utils.SendMessage(text, target.PlayerId);
@@ -302,16 +270,16 @@ namespace TownOfHost
             {
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
-                case CustomRoles.ShapeMaster:
-                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
-                    opt.RoleOptions.ShapeshifterLeaveSkin = false;
-                    opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
-                    break;
+                // case CustomRoles.ShapeMaster:
+                //     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                //     opt.RoleOptions.ShapeshifterLeaveSkin = false;
+                //     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
+                //     break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
                 case CustomRoles.SerialKiller:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.SerialKillerLimit.GetFloat();
+                    SerialKiller.ApplyGameOptions(opt);
                     break;
                 case CustomRoles.BountyHunter:
                     opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
@@ -582,13 +550,6 @@ namespace TownOfHost
             writer.Write(player.IsSpellMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void RpcSetSheriffShotLimit(this PlayerControl player)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetSheriffShotLimit, Hazel.SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(Main.SheriffShotLimit[player.PlayerId]);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
         public static void RpcSetTimeThiefKillCount(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
@@ -600,7 +561,6 @@ namespace TownOfHost
         {
             bool canUse =
                 pc.GetCustomRole().IsImpostor() ||
-                pc.Is(CustomRoles.Sheriff) ||
                 pc.Is(CustomRoles.Arsonist);
 
             return pc.GetCustomRole() switch
@@ -609,6 +569,7 @@ namespace TownOfHost
                 CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
+                CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
                 _ => canUse,
             };
         }
@@ -659,13 +620,13 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.SerialKillerCooldown.GetFloat(); //シリアルキラーはシリアルキラーのキルクールに。
+                    SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Sheriff:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.SheriffKillCooldown.GetFloat(); //シェリフはシェリフのキルクールに。
+                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
             if (player.IsLastImpostor())

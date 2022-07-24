@@ -200,6 +200,9 @@ If he can not kill on deadline, he will kill him.<br>
 
 ### ShapeMaster
 
+**Warning**
+Unavailable.
+
 Create and idea by しゅー<br>
 
 Team : Impostor<br>
@@ -404,12 +407,6 @@ Decision : Crewmate<br>
 
 When a player is exiled, you can see Impostor or not.<br>
 
-#### Settings
-
-| Settings Name   |
-| --------------- |
-| Block Move Time |
-
 ### Doctor
 
 Team : Crewmates<br>
@@ -528,6 +525,12 @@ Team : Crewmates<br>
 Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
 
 ### Arsonist
 
