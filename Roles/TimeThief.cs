@@ -31,7 +31,7 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
             TimeThiefKillCount[playerId] = 0;
-            pc.RpcSetTimeThiefKillCount();
+            pc.RpcSetKillCount();
         }
         public static void ReceiveRPC(MessageReader msg)
         {
@@ -43,14 +43,14 @@ namespace TownOfHost
                 TimeThief.TimeThiefKillCount.Add(TimeThiefId, 0);
             Logger.Info($"Player{TimeThiefId}:ReceiveRPC", "TimeThief");
         }
-        public static void RpcSetTimeThiefKillCount(this PlayerControl player)
+        public static void RpcSetKillCount(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTimeThiefKillCount, Hazel.SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(TimeThiefKillCount[player.PlayerId]);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void ResetThiefVotingTime(this PlayerControl thief)
+        public static void ResetVotingTime(this PlayerControl thief)
         {
             if (!ReturnStolenTimeUponDeath.GetBool()) return;
 
@@ -62,7 +62,7 @@ namespace TownOfHost
         public static void OnCheckMurder(PlayerControl killer)
         {
             TimeThiefKillCount[killer.PlayerId]++;
-            killer.RpcSetTimeThiefKillCount();
+            killer.RpcSetKillCount();
             Main.DiscussionTime -= DecreaseMeetingTime.GetInt();
             if (Main.DiscussionTime < 0)
             {
