@@ -101,6 +101,7 @@ namespace TownOfHost
             FireWorks.Init();
             Sniper.Init();
             TimeThief.Init();
+            Mare.Init();
             Sheriff.Init();
         }
     }
@@ -310,6 +311,7 @@ namespace TownOfHost
                         Main.isCurseAndKill.Add(pc.PlayerId, false);
                     }
                     if (pc.Is(CustomRoles.FireWorks)) FireWorks.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Mare)) Mare.Add(pc.PlayerId);
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
@@ -320,7 +322,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.TimeThief))
                     {
-                        TimeThief.Add(pc,pc.PlayerId);
+                        TimeThief.Add(pc, pc.PlayerId);
                     }
                     //通常モードでかくれんぼをする人用
                     if (Options.IsStandardHAS)
