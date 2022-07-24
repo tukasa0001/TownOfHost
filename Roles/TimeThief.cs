@@ -10,17 +10,17 @@ namespace TownOfHost
         static List<byte> playerIdList = new();
         public static Dictionary<byte, int> TimeThiefKillCount = new();
         public static CustomOption KillCooldown;
-        public static CustomOption TimeThiefDecreaseMeetingTime;
-        public static CustomOption TimeThiefLowerLimitVotingTime;
-        public static CustomOption TimeThiefReturnStolenTimeUponDeath;
+        public static CustomOption DecreaseMeetingTime;
+        public static CustomOption LowerLimitVotingTime;
+        public static CustomOption ReturnStolenTimeUponDeath;
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.TimeThief);
             KillCooldown = CustomOption.Create(Id + 10, Color.white, "TimeThiefKillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefDecreaseMeetingTime = CustomOption.Create(Id + 11, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefLowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            DecreaseMeetingTime = CustomOption.Create(Id + 11, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            LowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()
         {
@@ -52,10 +52,10 @@ namespace TownOfHost
         }
         public static void ResetThiefVotingTime(this PlayerControl thief)
         {
-            if (!TimeThiefReturnStolenTimeUponDeath.GetBool()) return;
+            if (!ReturnStolenTimeUponDeath.GetBool()) return;
 
             for (var i = 0; i < TimeThiefKillCount[thief.PlayerId]; i++)
-                Main.VotingTime += TimeThiefDecreaseMeetingTime.GetInt();
+                Main.VotingTime += DecreaseMeetingTime.GetInt();
             TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
@@ -63,7 +63,7 @@ namespace TownOfHost
         {
             TimeThiefKillCount[killer.PlayerId]++;
             killer.RpcSetTimeThiefKillCount();
-            Main.DiscussionTime -= TimeThiefDecreaseMeetingTime.GetInt();
+            Main.DiscussionTime -= DecreaseMeetingTime.GetInt();
             if (Main.DiscussionTime < 0)
             {
                 Main.VotingTime += Main.DiscussionTime;
