@@ -30,6 +30,13 @@ namespace TownOfHost
     class CheckMurderPatch
     {
         public static Dictionary<byte, float> TimeSinceLastKill = new();
+        public static void Update()
+        {
+            foreach (var kvp in TimeSinceLastKill)
+            {
+                TimeSinceLastKill[kvp.Key] += kvp.Value;
+            }
+        }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
