@@ -29,6 +29,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
+        public static Dictionary<byte, float> TimeSinceLastKill = new();
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
@@ -38,12 +39,13 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-
-            if (false)
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間が1秒以上
+            if (!TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) || 1f < time)
             {
-                Logger.Info("キルをブロックしました。", "CheckMurder");
+                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
                 return false;
             }
+            TimeSinceLastKill[killer.PlayerId] = 0f;
 
             //キルボタンを使えない場合の判定
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
