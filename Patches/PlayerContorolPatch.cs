@@ -46,7 +46,6 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return false;
 
             var killer = __instance; //読み替え変数
-            killer.ResetKillCooldown();
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
@@ -59,6 +58,8 @@ namespace TownOfHost
                 return false;
             }
             TimeSinceLastKill[killer.PlayerId] = 0f;
+
+            killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
