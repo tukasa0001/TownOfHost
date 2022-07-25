@@ -32,9 +32,10 @@ namespace TownOfHost
         public static Dictionary<byte, float> TimeSinceLastKill = new();
         public static void Update()
         {
-            foreach (var kvp in TimeSinceLastKill)
+            for (byte i = 0; i < 15; i++)
             {
-                TimeSinceLastKill[kvp.Key] += Time.deltaTime;
+                if (TimeSinceLastKill.ContainsKey(i))
+                    TimeSinceLastKill[i] += Time.deltaTime;
             }
         }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
