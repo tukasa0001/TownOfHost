@@ -39,8 +39,9 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間が1秒以上
-            if (!TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) || 1f < time)
+            int minTime = AmongUsClient.Instance.Ping * 6;
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上
+            if (!TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) || minTime < time)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
                 return false;
