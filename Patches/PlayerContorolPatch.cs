@@ -48,7 +48,7 @@ namespace TownOfHost
 
             float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
             //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上
-            if (!TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) || minTime < time)
+            if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
                 return false;
