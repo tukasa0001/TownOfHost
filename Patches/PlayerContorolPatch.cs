@@ -84,14 +84,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Mare:
                         if (!killer.CanUseKillButton())
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "のキルは停電中ではなかったので、キルはキャンセルされました。", "Mare");
                             return false;
-                        }
-                        else
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "はMareですが、停電中だったのでキルが許可されました。", "Mare");
-                        }
                         break;
 
                     //==========マッドメイト系役職==========//

@@ -349,12 +349,7 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Mare:
-                    Main.AllPlayerSpeed[player.PlayerId] = Main.RealOptionsData.PlayerSpeedMod;
-                    if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
-                    {
-                        Main.AllPlayerSpeed[player.PlayerId] = Options.BlackOutMareSpeed.GetFloat();//Mareの速度を設定した値にする
-                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown / 2;//Mareのキルクールを÷2する
-                    }
+                    Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
 
 
@@ -619,6 +614,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
+                    break;
+                case CustomRoles.Mare:
+                    Mare.SetKillCooldown(player.PlayerId);
                     break;
             }
             if (player.IsLastImpostor())
