@@ -48,7 +48,6 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            Main.BlockKilling = new Dictionary<byte, bool>();
 
             Main.introDestroyed = false;
 
@@ -320,7 +319,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.TimeThief))
                     {
-                        TimeThief.Add(pc,pc.PlayerId);
+                        TimeThief.Add(pc, pc.PlayerId);
                     }
                     //通常モードでかくれんぼをする人用
                     if (Options.IsStandardHAS)

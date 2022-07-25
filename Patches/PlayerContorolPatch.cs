@@ -39,7 +39,7 @@ namespace TownOfHost
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
 
-            if (Main.BlockKilling.TryGetValue(killer.PlayerId, out bool isBlocked) && isBlocked)
+            if (false)
             {
                 Logger.Info("キルをブロックしました。", "CheckMurder");
                 return false;
@@ -165,16 +165,12 @@ namespace TownOfHost
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
 
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                             Utils.NotifyRoles();
                         return false;
                     }
                     break;
             }
-
-            //以下キルが発生しうるのでブロック処理
-            Main.BlockKilling[killer.PlayerId] = true;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -261,7 +257,6 @@ namespace TownOfHost
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
@@ -488,8 +483,7 @@ namespace TownOfHost
             {
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
-                //vampireのキルブロック解除
-                Main.BlockKilling[vampireID] = false;
+
                 if (!bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
@@ -549,8 +543,6 @@ namespace TownOfHost
                         if (killTimer >= Options.VampireKillDelay.GetFloat())
                         {
                             var bitten = player;
-                            //vampireのキルブロック解除
-                            Main.BlockKilling[vampireID] = false;
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
