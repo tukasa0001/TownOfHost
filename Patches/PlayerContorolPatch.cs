@@ -35,7 +35,10 @@ namespace TownOfHost
             for (byte i = 0; i < 15; i++)
             {
                 if (TimeSinceLastKill.ContainsKey(i))
+                {
                     TimeSinceLastKill[i] += Time.deltaTime;
+                    if (15f < TimeSinceLastKill[i]) TimeSinceLastKill.Remove(i);
+                }
             }
         }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
