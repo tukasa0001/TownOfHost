@@ -34,7 +34,7 @@ namespace TownOfHost
         {
             foreach (var kvp in TimeSinceLastKill)
             {
-                TimeSinceLastKill[kvp.Key] += kvp.Value;
+                TimeSinceLastKill[kvp.Key] += Time.deltaTime;
             }
         }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
@@ -47,7 +47,8 @@ namespace TownOfHost
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
             float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
+            //↓許可されない場合
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
