@@ -39,7 +39,7 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-            int minTime = AmongUsClient.Instance.Ping * 6;
+            int minTime = AmongUsClient.Instance.Ping / 1000 * 6; //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
             //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上
             if (!TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) || minTime < time)
             {
