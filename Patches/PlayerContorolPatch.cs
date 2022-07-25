@@ -49,6 +49,20 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
+            //不正キル防止処理
+            if (target.Data == null || //PlayerDataがnullじゃないか確認
+                target.inVent || target.inMovingPlat //targetの状態をチェック
+            )
+            {
+                Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
+                return false;
+            }
+            if (MeetingHud.Instance != null) //会議中でないかの判定
+            {
+                Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
+
             float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
             //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
             //↓許可されない場合
