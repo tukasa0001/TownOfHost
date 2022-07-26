@@ -14,7 +14,7 @@ namespace TownOfHost
     {
         private static Dictionary<byte, bool> isDeadCache = new();
 
-        public static void SetIsDead()
+        public static void SetIsDead(bool doSend = true)
         {
             isDeadCache.Clear();
             foreach (var info in GameData.Instance.AllPlayers)
@@ -23,9 +23,9 @@ namespace TownOfHost
                 isDeadCache[info.PlayerId] = info.IsDead;
                 info.IsDead = false;
             }
-            SendGameData();
+            if (doSend) SendGameData();
         }
-        public static void RestoreIsDead()
+        public static void RestoreIsDead(bool doSend = true)
         {
             foreach (var info in GameData.Instance.AllPlayers)
             {
@@ -33,7 +33,7 @@ namespace TownOfHost
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
             isDeadCache.Clear();
-            SendGameData();
+            if (doSend) SendGameData();
         }
 
         public static void SendGameData()
