@@ -647,6 +647,10 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
                     return;
+                case CustomRoles.Jackal:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
+                    return;
             }
         }
         public static bool IsDouseDone(this PlayerControl player)
