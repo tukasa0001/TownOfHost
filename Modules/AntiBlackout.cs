@@ -36,6 +36,15 @@ namespace TownOfHost
             GameDataSerializePatch.hasUpdate = true;
         }
 
+        public static void SendGameData()
+        {
+            MessageWriter writer = AmongUsClient.Instance.Streams[(int)SendOption.Reliable];
+            writer.StartMessage(1);
+            writer.WritePacked(GameData.Instance.NetId);
+            GameData.Instance.Serialize(writer, true);
+            writer.EndMessage();
+        }
+
         [HarmonyPatch(typeof(GameData), nameof(GameData.Serialize))]
         public static class GameDataSerializePatch
         {
