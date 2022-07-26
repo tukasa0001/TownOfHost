@@ -618,6 +618,9 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     Mare.SetKillCooldown(player.PlayerId);
                     break;
+                case CustomRoles.Jackal:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
