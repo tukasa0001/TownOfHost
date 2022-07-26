@@ -5,6 +5,7 @@ namespace TownOfHost
 {
     class ExileControllerWrapUpPatch
     {
+        public static GameData.PlayerInfo AntiBlackout_LastExiled;
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
         class BaseExileControllerPatch
         {
@@ -24,6 +25,8 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
+            if (AntiBlackout.OverrideExiledPlayer) exiled = AntiBlackout_LastExiled;
+
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
