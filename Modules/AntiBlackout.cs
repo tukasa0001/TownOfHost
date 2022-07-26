@@ -23,7 +23,8 @@ namespace TownOfHost
                 isDeadCache[info.PlayerId] = info.IsDead;
                 info.IsDead = false;
             }
-            GameDataSerializePatch.hasUpdate = true;
+            //GameDataSerializePatch.hasUpdate = true;
+            SendGameData();
         }
         public static void RestoreIsDead()
         {
@@ -33,7 +34,8 @@ namespace TownOfHost
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
             isDeadCache.Clear();
-            GameDataSerializePatch.hasUpdate = true;
+            //GameDataSerializePatch.hasUpdate = true;
+            SendGameData();
         }
 
         public static void SendGameData()
