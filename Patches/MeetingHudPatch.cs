@@ -136,7 +136,15 @@ namespace TownOfHost
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                //RPC
+                if (AntiBlackout.IsSingleImpostor && AntiBlackout.IsRequred)
+                {
+                    __instance.RpcVotingComplete(states, null, true);
+                    exiledPlayer.Object?.RpcExileV2();
+                    exiledPlayer.IsDead = true;
+                    AntiBlackout.SendGameData();
+                }
+                else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
