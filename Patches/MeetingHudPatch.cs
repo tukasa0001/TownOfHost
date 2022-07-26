@@ -137,7 +137,7 @@ namespace TownOfHost
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 //RPC
-                if (AntiBlackout.IsSingleImpostor && AntiBlackout.IsRequred)
+                if (AntiBlackout.OverrideExiledPlayer)
                 {
                     __instance.RpcVotingComplete(states, null, true);
                     exiledPlayer.Object?.RpcExileV2();
@@ -159,7 +159,7 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                if (!(AntiBlackout.IsSingleImpostor && AntiBlackout.IsRequred))
+                if (!AntiBlackout.OverrideExiledPlayer)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
