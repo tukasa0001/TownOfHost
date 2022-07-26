@@ -84,7 +84,7 @@ namespace TownOfHost
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&
-                statistics.TeamImpostorsAlive <= 0)
+                statistics.TeamJackalAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamImpostorsAlive != 0) return false;
                 __instance.enabled = false;
