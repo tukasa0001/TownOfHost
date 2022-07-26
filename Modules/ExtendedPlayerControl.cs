@@ -351,6 +351,9 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
+                case CustomRoles.Jackal:
+                    opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
+                    break;
 
 
                 InfinityVent:
