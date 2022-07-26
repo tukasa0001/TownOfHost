@@ -459,6 +459,19 @@ namespace TownOfHost
             CustomRoleSpawnChances.Add(role, spawnOption);
             CustomRoleCounts.Add(role, countOption);
         }
+        public static void SetupSingleRoleOptions(int id, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+                .HiddenOnDisplay(true)
+                .SetGameMode(customGameMode);
+            // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", count, count, count, count, spawnOption, false, true)
+                .HiddenOnDisplay(false)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
         public class OverrideTasksData
         {
             public static Dictionary<CustomRoles, OverrideTasksData> AllData = new();
