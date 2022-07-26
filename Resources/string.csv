@@ -63,6 +63,7 @@ EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
 Egoist,Egoist,エゴイスト
 Lovers,Lovers,恋人
+Jackal,Jackal,ジャッカル
 
 # HideAndSeek
 HASFox,Fox,狐
@@ -128,6 +129,7 @@ TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆し�
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう
+JackalInfo,Kill Everyone,すべてを殺せ
 
 # HideAndSeek
 HASFoxInfo,Do whatever it takes to survive,とにかく生き残りましょう
@@ -180,6 +182,7 @@ ExecutionerInfoLong,"(Neutrals):\nThe target is marked with a diamond that is vi
 SchrodingerCatInfoLong,(Neutrals):\nWhen a kill is made the player prevents the kill and belongs to the team that made the kill.,(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。
 OpportunistInfoLong,"(Neutrals):\nIf the player is alive at the end of the match, he or she wins additional victory.",(第三陣営):\n試合終了時に生存していれば追加勝利となる。
 EgoistInfoLong,"(Neutrals):\nIf the Impostor wins with all allies dead, you win alone.\nThe Impostors knows the Egoist. Egoists also know the Impostors.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。
+JackalInfoLong,"(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJackal can win when living players are only 1 jackal and 1 crew.","(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。"
 
 # HideAndSeek
 HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive the victory,\nthey can win an additional victory for the winning camp.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。

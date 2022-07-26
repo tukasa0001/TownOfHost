@@ -200,6 +200,7 @@ namespace TownOfHost
                     {CustomRoles.SchrodingerCat, "#696969"},
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                    {CustomRoles.Jackal, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
@@ -307,6 +308,7 @@ namespace TownOfHost
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
+        Jackal,
         //HideAndSeek
         HASFox,
         HASTroll,
