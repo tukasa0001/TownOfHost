@@ -99,6 +99,10 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
+        public static CustomOption JackalKillCooldown;
+        public static CustomOption JackalCanVent;
+        public static CustomOption JackalCanUseSabotage;
+        public static CustomOption JackalHasImpostorVision;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -336,6 +340,10 @@ namespace TownOfHost
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
             //Jackalは1人固定
             SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1);
+            JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", 30, 2.5f, 60, 0.25f, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
