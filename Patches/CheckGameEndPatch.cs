@@ -209,6 +209,7 @@ namespace TownOfHost
         {
             public int TeamImpostorsAlive { get; set; }
             public int TotalAlive { get; set; }
+            public int TeamJackalAlive { get; set; }
 
             public PlayerStatistics(ShipStatus __instance)
             {
@@ -219,6 +220,7 @@ namespace TownOfHost
             {
                 int numImpostorsAlive = 0;
                 int numTotalAlive = 0;
+                int numJackalsAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
@@ -243,12 +245,14 @@ namespace TownOfHost
                             {
                                 numImpostorsAlive++;
                             }
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
                         }
                     }
                 }
 
                 TeamImpostorsAlive = numImpostorsAlive;
                 TotalAlive = numTotalAlive;
+                TeamJackalAlive = numJackalsAlive;
             }
         }
     }
