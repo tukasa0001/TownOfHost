@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Hazel;
+using HarmonyLib;
 using UnityEngine;
 
 namespace TownOfHost
@@ -28,6 +29,15 @@ namespace TownOfHost
             {
                 if (info == null) continue;
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
+            }
+        }
+
+        [HarmonyPatch(typeof(GameData), nameof(GameData.Serialize))]
+        public static class GameDataSerializePatch
+        {
+            public static void Postfix(GameData __instance, ref bool __result)
+            {
+                if (__result) Logger.Info("GameDataが送信されました。", "GameDataSerializePatch");
             }
         }
     }
