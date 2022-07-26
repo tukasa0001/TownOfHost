@@ -112,6 +112,12 @@ namespace TownOfHost
                     DeathReason.Kill => GameOverReason.ImpostorByKill,
                     _ => GameOverReason.ImpostorByVote,
                 };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Jackal);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.JackalWin();
+
                 ResetRoleAndEndGame(endReason, false);
                 return true;
             }
