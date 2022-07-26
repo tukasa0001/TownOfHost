@@ -12,10 +12,11 @@ namespace TownOfHost
 {
     public static class AntiBlackout
     {
-        private static Dictionary<byte, bool> isDeadCache;
+        private static Dictionary<byte, bool> isDeadCache = new();
 
         public static void SetIsDead()
         {
+            isDeadCache.Clear();
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
@@ -30,6 +31,7 @@ namespace TownOfHost
                 if (info == null) continue;
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
+            isDeadCache.Clear();
         }
 
         [HarmonyPatch(typeof(GameData), nameof(GameData.Serialize))]
