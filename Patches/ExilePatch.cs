@@ -27,6 +27,7 @@ namespace TownOfHost
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
@@ -99,7 +100,7 @@ namespace TownOfHost
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            new LateTask(() => AntiBlackout.RestoreIsDead(), 0.5f, "Restore IsDead Task");
+            new LateTask(() => AntiBlackout.SendGameData(), 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
