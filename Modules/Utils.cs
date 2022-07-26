@@ -160,6 +160,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.EgoSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
+                    if (cRole == CustomRoles.Jackal) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)

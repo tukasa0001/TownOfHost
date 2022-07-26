@@ -43,6 +43,7 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Jackal or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
