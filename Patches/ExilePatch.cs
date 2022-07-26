@@ -99,6 +99,7 @@ namespace TownOfHost
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            new LateTask(() => AntiBlackout.RestoreIsDead(), 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
