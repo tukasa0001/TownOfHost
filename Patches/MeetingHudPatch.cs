@@ -136,7 +136,15 @@ namespace TownOfHost
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                //RPC
+                if (AntiBlackout.OverrideExiledPlayer)
+                {
+                    __instance.RpcVotingComplete(states, null, true);
+                    exiledPlayer.Object?.RpcExileV2();
+                    exiledPlayer.IsDead = true;
+                    AntiBlackout.SendGameData();
+                }
+                else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
@@ -151,10 +159,11 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-                }
+                if (!AntiBlackout.OverrideExiledPlayer)
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
+                    }
 
                 return false;
             }

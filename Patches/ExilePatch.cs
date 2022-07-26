@@ -30,6 +30,7 @@ namespace TownOfHost
             AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
+                exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
