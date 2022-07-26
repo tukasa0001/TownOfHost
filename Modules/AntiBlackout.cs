@@ -23,6 +23,7 @@ namespace TownOfHost
                 isDeadCache[info.PlayerId] = info.IsDead;
                 info.IsDead = false;
             }
+            GameDataSerializePatch.hasUpdate = true;
         }
         public static void RestoreIsDead()
         {
@@ -32,11 +33,18 @@ namespace TownOfHost
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
             isDeadCache.Clear();
+            GameDataSerializePatch.hasUpdate = true;
         }
 
         [HarmonyPatch(typeof(GameData), nameof(GameData.Serialize))]
         public static class GameDataSerializePatch
         {
+            public static bool hasUpdate = false;
+            public static void Prefix(GameData __instance, [HarmonyArgument(0)] MessageWriter writer, [HarmonyArgument(1)] ref bool initialState)
+            {
+                if (hasUpdate) initialState = true;
+                hasUpdate = false;
+            }
             public static void Postfix(GameData __instance, ref bool __result)
             {
                 if (__result) Logger.Info("GameDataが送信されました。", "GameDataSerializePatch");
