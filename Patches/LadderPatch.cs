@@ -6,12 +6,28 @@ using UnityEngine;
 
 namespace TownOfHost
 {
-    public class LadderDeathPatch
+    public class FallFromLadder
     {
         public static Dictionary<byte, Vector3> TargetLadderData;
+        private static int Chance => Options.LadderDeathChance.GetSelection() + 1;
         public static void Reset()
         {
             TargetLadderData = new();
+        }
+        public static void OnClimbLadder(PlayerPhysics player, Ladder source)
+        {
+            if (!Options.LadderDeath.GetBool()) return;
+            var sourcepos = source.transform.position;
+            var targetpos = source.Destination.transform.position;
+            //降りているのかを検知
+            if (sourcepos.y > targetpos.y)
+            {
+                int chance = UnityEngine.Random.Range(1, 10);
+                if (chance <= Chance)
+                {
+                    TargetLadderData[player.myPlayer.PlayerId] = targetpos;
+                }
+            }
         }
         public static void FixedUpdate(PlayerControl player)
         {
@@ -45,25 +61,13 @@ namespace TownOfHost
                 }
             }
         }
-        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
-        class LadderPatch
+    }
+    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
+    class LadderPatch
+    {
+        public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
         {
-            static int Chance => Options.LadderDeathChance.GetSelection() + 1;
-            public static void Postfix(PlayerPhysics __instance, Ladder source, byte climbLadderSid)
-            {
-                if (!Options.LadderDeath.GetBool()) return;
-                var sourcepos = source.transform.position;
-                var targetpos = source.Destination.transform.position;
-                //降りているのかを検知
-                if (sourcepos.y > targetpos.y)
-                {
-                    int chance = UnityEngine.Random.Range(1, 10);
-                    if (chance <= Chance)
-                    {
-                        TargetLadderData[__instance.myPlayer.PlayerId] = targetpos;
-                    }
-                }
-            }
+            FallFromLadder.OnClimbLadder(__instance, source);
         }
     }
 }
