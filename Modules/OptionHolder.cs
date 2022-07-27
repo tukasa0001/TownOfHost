@@ -61,11 +61,7 @@ namespace TownOfHost
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-        public static CustomOption TimeThiefDecreaseMeetingTime;
-        public static CustomOption TimeThiefLowerLimitVotingTime;
-        public static CustomOption TimeThiefReturnStolenTimeUponDeath;
         public static CustomOption VampireKillDelay;
-        public static CustomOption BlackOutMareSpeed;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
@@ -266,13 +262,9 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
-            SetupRoleOptions(2300, CustomRoles.Mare);
-            BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
-            SetupRoleOptions(2400, CustomRoles.TimeThief);
-            TimeThiefDecreaseMeetingTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefLowerLimitVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefReturnStolenTimeUponDeath = CustomOption.Create(2412, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, CustomRoleSpawnChances[CustomRoles.TimeThief]);
             SetupRoleOptions(2900, CustomRoles.EvilTracker);
+            Mare.SetupCustomOption();
+            TimeThief.SetupCustomOption();
             EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2911, Color.white, "EvilTrackerCanResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
 

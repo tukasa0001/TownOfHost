@@ -62,7 +62,7 @@ namespace TownOfHost
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
-                    exiled.Object.ResetThiefVotingTime();
+                    exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
@@ -95,7 +95,7 @@ namespace TownOfHost
                 PlayerState.SetDead(x.Key);
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
-                    player?.ResetThiefVotingTime();
+                    player?.ResetVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
             LadderDeathPatch.Reset();
