@@ -170,8 +170,37 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void Postfix(ShipStatus __instance)
+        public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player)
         {
+            if (!player.Data.IsDead && player.Is(CustomRoles.BlackHat))
+            {
+                Logger.Info("Powered Sabotage", "BlackHat");
+                bool HasImpVision = player.GetCustomRole().IsImpostor()
+                                || (player.GetCustomRole().IsMadmate() && Options.MadmateHasImpostorVision.GetBool())
+                                || player.Is(CustomRoles.EgoSchrodingerCat)
+                                || (player.Is(CustomRoles.Lighter) && player.GetPlayerTaskState().IsTaskFinished
+                                && Options.LighterTaskCompletedDisableLightOut.GetBool());
+                int mapId = PlayerControl.GameOptions.MapId;
+
+                switch (systemType)
+                {
+                    case SystemTypes.Electrical:
+                        Logger.Info("Powered Lights Out", "BlackHat");
+                        break;
+                    case SystemTypes.Comms:
+                        if (mapId == 3) break;
+                        Logger.Info("Powered Comms", "BlackHat");
+                        break;
+                    case SystemTypes.Reactor:
+                    case SystemTypes.Laboratory:
+                        if (!(systemType == SystemTypes.Laboratory && mapId == 2)
+                            && !(systemType == SystemTypes.Reactor && mapId == 4)) break;
+                        Logger.Info("Powered Reactor", "BlackHat");
+                        break;
+                    default:
+                        break;
+                }
+            }
             Utils.CustomSyncAllSettings();
             new LateTask(
                 () =>

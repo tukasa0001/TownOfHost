@@ -28,6 +28,7 @@ EvilWatcher,Evil Watcher,イビルウォッチャー
 Puppeteer,Puppeteer,パペッティア
 TimeThief,TimeThief,タイムシーフ
 Sniper,Sniper,スナイパー
+BlackHat,BlackHat,ブラックハット
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト
@@ -94,6 +95,7 @@ PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆�
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
 LastImpostorInfo,You are the last one,残ったのはあなただけ
+BlackHatInfo,Commit powered sabotage to kill the Crewmates,強力なサボタージュを駆使しよう
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
