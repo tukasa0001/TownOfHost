@@ -52,7 +52,7 @@ namespace TownOfHost
             if (GameStates.IsInGame)
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetThiefVotingTime();
+                    data.Character.ResetVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {

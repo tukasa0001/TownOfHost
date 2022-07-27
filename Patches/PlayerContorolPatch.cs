@@ -84,14 +84,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Mare:
                         if (!killer.CanUseKillButton())
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "のキルは停電中ではなかったので、キルはキャンセルされました。", "Mare");
                             return false;
-                        }
-                        else
-                        {
-                            Logger.Info(killer?.Data?.PlayerName + "はMareですが、停電中だったのでキルが許可されました。", "Mare");
-                        }
                         break;
 
                     //==========マッドメイト系役職==========//
@@ -252,15 +245,7 @@ namespace TownOfHost
                         killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.TimeThief:
-                        Main.TimeThiefKillCount[killer.PlayerId]++;
-                        killer.RpcSetTimeThiefKillCount();
-                        Main.DiscussionTime -= Options.TimeThiefDecreaseMeetingTime.GetInt();
-                        if (Main.DiscussionTime < 0)
-                        {
-                            Main.VotingTime += Main.DiscussionTime;
-                            Main.DiscussionTime = 0;
-                        }
-                        Utils.CustomSyncAllSettings();
+                        TimeThief.OnCheckMurder(killer);
                         break;
 
                     //==========マッドメイト系役職==========//
@@ -359,7 +344,7 @@ namespace TownOfHost
                 RPC.RemoveExecutionerKey(target.PlayerId);
             }
             if (target.Is(CustomRoles.TimeThief))
-                target.ResetThiefVotingTime();
+                target.ResetVotingTime();
 
 
             foreach (var pc in PlayerControl.AllPlayerControls)

@@ -246,7 +246,8 @@ BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,バウンティハ�
 BountyFailureKillCooldown,Kill Cooldown After Killing Others,バウンティハンターのターゲット以外殺害時のキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
-BlackOutMareSpeed,Mare Player Speed In Lights Out,停電時のメアーの移動速度
+MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移動速度
+MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
@@ -298,6 +299,7 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
+TimeThiefKillCooldown,TimeThief Kill Cooldown,タイムシーフのキルクール
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間
 TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),投票時間の下限
 TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,死亡後に盗んだ時間を返す
@@ -317,7 +319,7 @@ DeathReason.Vote,Exiled,追放
 DeathReason.Suicide,Suicide,自爆
 DeathReason.Spell,Spelled,呪殺
 DeathReason.Bite,Bitten,噛殺
-DeathReason.LoversSuicide,LoversSuicide,恋人心中
+DeathReason.LoversSuicide,Copycat Suicide,恋人心中
 DeathReason.Bombed,Bombed,爆死
 DeathReason.Misfire,Misfire,誤爆
 DeathReason.Torched,Torched,焼殺
@@ -331,7 +333,7 @@ Win, Wins,勝利
 Last,Last,ラスト
 
 ## リアクターの時間制御
-SabotageTimeControl,Replacement Sabotage TimeLimit(s),サボタージュの時間制御
+SabotageTimeControl,Modify Sabotage TimeLimit,サボタージュの時間制御
 PolusReactorTimeLimit,Polus Reactor TimeLimit(s),ポーラスのリアクター制限時間
 AirshipReactorTimeLimit,Airship Reactor TimeLimit(s),エアシップのリアクター制限時間
 
@@ -340,8 +342,8 @@ CommandList,Command List:,コマンド一覧:
 Command.winner,Display Winners,勝者を表示
 Command.lastresult,Display Match Result,試合結果を表示
 Command.rename,Change Host Name,ホストの名前を変更
-Command.now,Display ActiveSettings,現在有効な設定を表示
-Command.h_now,Display CurrentActiveSettingsHelp,現在有効な設定の説明を表示
+Command.now,Display Active Settings,現在有効な設定を表示
+Command.h_now,Display Current Active Settings Description,現在有効な設定の説明を表示
 Command.h_roles,<RoleName> - Display Role Description,<役職名> - 役職の説明を表示
 Command.h_attributes,<AttributeName> - Display Attribute Description,<属性名> - 属性の説明を表示
 Command.h_modes,<ModeName> - Display Mode Description,<モード名> - モードの説明を表示
@@ -354,7 +356,7 @@ CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません
 
 ## その他
-ForceEnd,Force Terminated,廃村
+ForceEnd,No Contest,廃村
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました
 HideGameCodes,Hide Game Codes,ゲームコードを隠す
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>
@@ -365,10 +367,10 @@ announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート 
 announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1}
 updateRestart,Update Finished!\nPlease restart the game.,アップデートが完了しました。\nゲームを再起動してください。
 updateFailed,Update failed.,アップデートに失敗しました。
-onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
-CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
-ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
-NameIncludeTOH,"You cannot make a room public not include "TOH" in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。"
+onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
+CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
+ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
+NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for time...,時を待て...
@@ -414,18 +416,18 @@ GameMode,GameMode,ゲームモード
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...
 RoleSummaryText,"Players and roles at the end of the game:",ゲーム終了時の役職一覧:
 doOverride,Override %role%'s Tasks,%role%のタスクを上書きする
-assignCommonTasks,Assign Common Tasks For %role%,%role%に通常タスクを割り当てる
-roleLongTasksNum,Amount Of Long Tasks For %role%,%role%のロングタスクの数
-roleShortTasksNum,Amount Of Short Tasks For %role%,%role%のショートタスクの数
+assignCommonTasks,%role% has Common Tasks,%role%に通常タスクを割り当てる
+roleLongTasksNum,%role% Long Tasks,%role%のロングタスクの数
+roleShortTasksNum,%role% Short Tasks,%role%のショートタスクの数
 KillButtonText,Kill,キル
 SniperSnipeButtonText,Snipe,狙撃
-FireWorksExplosionButtonText,Explosion,爆破
-FireWorksInstallAtionButtonText,Installation,設置
-SerialKillerSuicideButtonText,Suicide,自殺まで
+FireWorksExplosionButtonText,Fire,爆破
+FireWorksInstallAtionButtonText,Set,設置
+SerialKillerSuicideButtonText,Until Suicide,自殺まで
 WarlockCurseButtonText,Curse,呪う
 WitchSpellButtonText,Spell,スペル
 VampireBiteButtonText,Bite,噛む
 ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
-BountyHunterChangeButtonText,Change,変更
+BountyHunterChangeButtonText,Swap,変更
 DefaultShapeshiftText,SHIFT,変身

@@ -135,12 +135,7 @@ namespace TownOfHost
                     Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetTimeThiefKillCount:
-                    byte TimeThiefId = reader.ReadByte();
-                    int TimeThiefKillCount = reader.ReadInt32();
-                    if (Main.TimeThiefKillCount.ContainsKey(TimeThiefId))
-                        Main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
-                    else
-                        Main.TimeThiefKillCount.Add(TimeThiefId, 0);
+                    TimeThief.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();

@@ -411,7 +411,7 @@ Create and idea by そうくん<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.<br>
+When voting for someone in a meeting, the Dictators forcibly break that meeting and exile the player they vote for.<br>
 After exercising the force, the Dictators die just after meeting.<br>
 
 ### Doctor
@@ -552,6 +552,12 @@ The Trappers forbid the killer to move in the least for a configurable seconds.<
 
 
 ## Neutral
+
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
 
 ### Arsonist
 
