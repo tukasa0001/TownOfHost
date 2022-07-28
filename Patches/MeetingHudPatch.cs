@@ -309,8 +309,8 @@ namespace TownOfHost
                     (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
                 )
                 {
-                    //変更対象の名前をエゴイスト色にする
-                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), pva.NameText.text);
+                    //変更対象の名前をtargetの役職の色にする
+                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(target.GetCustomRole()), pva.NameText.text);
                 }
 
                 if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
