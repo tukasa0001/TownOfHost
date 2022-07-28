@@ -277,6 +277,8 @@ namespace TownOfHost
                         TrollWin(winner[0]);
                         break;
                     case CustomWinner.Jackal:
+                        JackalWin();
+                        break;
 
                     default:
                         if (Main.currentWinner != CustomWinner.Default)
