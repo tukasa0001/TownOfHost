@@ -196,6 +196,7 @@ namespace TownOfHost
                         if (!(systemType == SystemTypes.Laboratory && mapId == 2)
                             && !(systemType == SystemTypes.Reactor && mapId == 4)) break;
                         Logger.Info("Powered Reactor", "BlackHat");
+                        CheckAndCloseAllDoors(mapId);
                         break;
                     default:
                         break;
@@ -224,6 +225,41 @@ namespace TownOfHost
                 {
                     __instance.RpcRepairSystem(SystemTypes.Doors, id);
                 }
+        }
+        private static void CheckAndCloseAllDoors(int mapId)
+        {
+            if (mapId == 3) return;
+            SystemTypes[] SkeldDoorRooms =
+            {SystemTypes.Cafeteria,
+            SystemTypes.Electrical,
+            SystemTypes.LowerEngine,
+            SystemTypes.MedBay,
+            SystemTypes.Security,
+            SystemTypes.Storage,
+            SystemTypes.UpperEngine};
+
+            SystemTypes[] PolusDoorRooms =
+            {SystemTypes.Comms,
+            SystemTypes.Electrical,
+            SystemTypes.Laboratory,
+            SystemTypes.LifeSupp,
+            SystemTypes.Office,
+            SystemTypes.Storage,
+            SystemTypes.Weapons};
+
+            SystemTypes[] AirShipDoorRooms =
+            {SystemTypes.Brig,
+            SystemTypes.Comms,
+            SystemTypes.Kitchen,
+            SystemTypes.MainHall,
+            SystemTypes.Medical,
+            SystemTypes.Records};
+
+            SystemTypes[][] Doors = { SkeldDoorRooms, PolusDoorRooms, null, AirShipDoorRooms };
+            foreach (var doorRoom in Doors[mapId - 1])
+            {
+                ShipStatus.Instance.CloseDoorsOfType(doorRoom);
+            }
         }
         private static bool DoorsProgressing = false;
     }
