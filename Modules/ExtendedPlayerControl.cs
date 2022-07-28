@@ -728,6 +728,13 @@ namespace TownOfHost
             }
             return rangePlayers;
         }
+        public static bool IsNeutralKiller(this PlayerControl player)
+        {
+            return
+                player.GetCustomRole() is
+                CustomRoles.Egoist or
+                CustomRoles.Jackal;
+        }
 
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
