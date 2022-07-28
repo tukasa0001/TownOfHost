@@ -172,35 +172,7 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player)
         {
-            if (!player.Data.IsDead && player.Is(CustomRoles.Cracker))
-            {
-                Logger.Info("Powered Sabotage", "Cracker");
-                bool HasImpVision = player.GetCustomRole().IsImpostor()
-                                || (player.GetCustomRole().IsMadmate() && Options.MadmateHasImpostorVision.GetBool())
-                                || player.Is(CustomRoles.EgoSchrodingerCat)
-                                || (player.Is(CustomRoles.Lighter) && player.GetPlayerTaskState().IsTaskFinished
-                                && Options.LighterTaskCompletedDisableLightOut.GetBool());
-                int mapId = PlayerControl.GameOptions.MapId;
-
-                switch (systemType)
-                {
-                    case SystemTypes.Electrical:
-                        Logger.Info("Powered Lights Out", "Cracker");
-                        break;
-                    case SystemTypes.Comms:
-                        Logger.Info("Powered Comms", "Cracker");
-                        break;
-                    case SystemTypes.Reactor:
-                    case SystemTypes.Laboratory:
-                        if (!(systemType == SystemTypes.Laboratory && mapId == 2)
-                            && !(systemType == SystemTypes.Reactor && mapId == 4)) break;
-                        Logger.Info("Powered Reactor", "Cracker");
-                        CheckAndCloseAllDoors(mapId);
-                        break;
-                    default:
-                        break;
-                }
-            }
+            if (!player.Data.IsDead && player.Is(CustomRoles.Cracker)) Cracker.PoweredSabotage(systemType, player);
             Utils.CustomSyncAllSettings();
             new LateTask(
                 () =>
@@ -224,41 +196,6 @@ namespace TownOfHost
                 {
                     __instance.RpcRepairSystem(SystemTypes.Doors, id);
                 }
-        }
-        private static void CheckAndCloseAllDoors(int mapId)
-        {
-            if (mapId == 3) return;
-            SystemTypes[] SkeldDoorRooms =
-            {SystemTypes.Cafeteria,
-            SystemTypes.Electrical,
-            SystemTypes.LowerEngine,
-            SystemTypes.MedBay,
-            SystemTypes.Security,
-            SystemTypes.Storage,
-            SystemTypes.UpperEngine};
-
-            SystemTypes[] PolusDoorRooms =
-            {SystemTypes.Comms,
-            SystemTypes.Electrical,
-            SystemTypes.Laboratory,
-            SystemTypes.LifeSupp,
-            SystemTypes.Office,
-            SystemTypes.Storage,
-            SystemTypes.Weapons};
-
-            SystemTypes[] AirShipDoorRooms =
-            {SystemTypes.Brig,
-            SystemTypes.Comms,
-            SystemTypes.Kitchen,
-            SystemTypes.MainHall,
-            SystemTypes.Medical,
-            SystemTypes.Records};
-
-            SystemTypes[][] Doors = { SkeldDoorRooms, PolusDoorRooms, null, AirShipDoorRooms };
-            foreach (var doorRoom in Doors[mapId - 1])
-            {
-                ShipStatus.Instance.CloseDoorsOfType(doorRoom);
-            }
         }
         private static bool DoorsProgressing = false;
     }

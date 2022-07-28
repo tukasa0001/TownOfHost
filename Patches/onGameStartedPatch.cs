@@ -103,6 +103,7 @@ namespace TownOfHost
             TimeThief.Init();
             Mare.Init();
             Sheriff.Init();
+            Cracker.Init();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -313,6 +314,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.FireWorks)) FireWorks.Add(pc.PlayerId);
                     if (pc.Is(CustomRoles.Mare)) Mare.Add(pc.PlayerId);
+                    if (pc.Is(CustomRoles.Cracker)) Cracker.Add(pc.PlayerId);
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     if (pc.Is(CustomRoles.Arsonist))
                     {
