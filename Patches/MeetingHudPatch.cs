@@ -136,7 +136,13 @@ namespace TownOfHost
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                //RPC
+                if (AntiBlackout.OverrideExiledPlayer)
+                {
+                    __instance.RpcVotingComplete(states, null, true);
+                    ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
+                }
+                else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
@@ -151,10 +157,8 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-                }
+                if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
+                    exiledPlayer.Object?.ResetPlayerCam(19f);
 
                 return false;
             }
@@ -228,6 +232,10 @@ namespace TownOfHost
                 Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
+            }
 
             if (AmongUsClient.Instance.AmHost)
             {
@@ -295,12 +303,12 @@ namespace TownOfHost
                     //変更対象の名前をエゴイスト色にする
                     pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), pva.NameText.text);
                 }
-                if (seer.Is(CustomRoles.EgoSchrodingerCat) && //LocalPlayerがEgoSchrodingerCat
-                    target.Is(CustomRoles.Egoist) //変更対象がEgoist
+                if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) ||//エゴ猫 --> エゴイスト
+                    (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
                 )
                 {
-                    //変更対象の名前をエゴイスト色にする
-                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), pva.NameText.text);
+                    //変更対象の名前をtargetの役職の色にする
+                    pva.NameText.text = Helpers.ColorString(target.GetRoleColor(), pva.NameText.text);
                 }
 
                 if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
@@ -365,6 +373,8 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.Info("------------会議終了------------", "Phase");
+            if (AmongUsClient.Instance.AmHost)
+                AntiBlackout.SetIsDead();
         }
     }
 }
