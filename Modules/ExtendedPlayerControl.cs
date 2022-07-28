@@ -660,8 +660,9 @@ namespace TownOfHost
                     player.Data.Role.CanVent = CanUse;
                     return;
                 case CustomRoles.Jackal:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(!player.Data.IsDead);
-                    player.Data.Role.CanVent = true;
+                    bool jackal_canUse = Options.JackalCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = jackal_canUse;
                     return;
             }
         }
