@@ -351,6 +351,10 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
+                case CustomRoles.Jackal:
+                case CustomRoles.JSchrodingerCat:
+                    opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
+                    break;
 
 
                 InfinityVent:
@@ -593,8 +597,13 @@ namespace TownOfHost
                 CustomRoles.MSchrodingerCat
             };
             foreach (var pc in PlayerControl.AllPlayerControls)
+            {
                 if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+
+                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
+                    RandSchrodinger.Add(CustomRoles.JSchrodingerCat);
+            }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }
@@ -617,6 +626,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Mare:
                     Mare.SetKillCooldown(player.PlayerId);
+                    break;
+                case CustomRoles.Jackal:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
                     break;
             }
             if (player.IsLastImpostor())
@@ -646,6 +658,11 @@ namespace TownOfHost
                     bool CanUse = player.IsDouseDone();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
+                    return;
+                case CustomRoles.Jackal:
+                    bool jackal_canUse = Options.JackalCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = jackal_canUse;
                     return;
             }
         }
@@ -711,6 +728,13 @@ namespace TownOfHost
                 if (predicate(pc)) rangePlayers.Add(pc);
             }
             return rangePlayers;
+        }
+        public static bool IsNeutralKiller(this PlayerControl player)
+        {
+            return
+                player.GetCustomRole() is
+                CustomRoles.Egoist or
+                CustomRoles.Jackal;
         }
 
         //汎用

@@ -15,7 +15,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
-            if (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Mayor))
+            if (__instance.Is(CustomRoles.Sheriff))
             {
                 if (__instance.Data.IsDead)
                 {
@@ -132,6 +132,8 @@ namespace TownOfHost
                                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                             if (killer.Is(CustomRoles.Egoist))
                                 target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
+                            if (killer.Is(CustomRoles.Jackal))
+                                target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
 
                             NameColorManager.Instance.RpcAdd(killer.PlayerId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
                         }
@@ -735,7 +737,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -808,7 +810,7 @@ namespace TownOfHost
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
                         PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
                     {
-                        var targetCheck = __instance.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && __instance.Is(CustomRoles.Egoist));
+                        var targetCheck = target.GetCustomRole().IsImpostor() || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller());
                         if (targetCheck)//__instanceがターゲット
                         {
                             RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前を役職色で表示
@@ -818,10 +820,11 @@ namespace TownOfHost
                         target.Is(CustomRoles.Egoist) //targetがエゴイスト
                     )
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
-                    else if (seer.Is(CustomRoles.EgoSchrodingerCat) && //seerがエゴイスト陣営のシュレディンガーの猫
-                        target.Is(CustomRoles.Egoist) //targetがエゴイスト
+
+                    else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
+                             (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
                     )
-                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
+                        RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前をtargetの役職の色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの赤色で表示
                     else if (seer != null)
@@ -832,7 +835,7 @@ namespace TownOfHost
 
                     //インポスター/キル可能な第三陣営がタスクが終わりそうなSnitchを確認できる
                     var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
-                        (Options.SnitchCanFindNeutralKiller.GetBool() && seer.Is(CustomRoles.Egoist));//or エゴイスト
+                        (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or キル可能な第三陣営
 
                     if (canFindSnitchRole && target.Is(CustomRoles.Snitch) && target.GetPlayerTaskState().DoExpose //targetがタスクが終わりそうなSnitch
                     )
@@ -874,7 +877,7 @@ namespace TownOfHost
                     }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
-                        || (Options.SnitchCanFindNeutralKiller.GetBool() && target.Is(CustomRoles.Egoist)))
+                        || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller()))
                     { //targetがインポスターかつ自分自身
                         var found = false;
                         var update = false;
@@ -922,7 +925,7 @@ namespace TownOfHost
                             {
                                 var foundCheck =
                                     pc.GetCustomRole().IsImpostor() ||
-                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.Is(CustomRoles.Egoist));
+                                    (Options.SnitchCanFindNeutralKiller.GetBool() && pc.IsNeutralKiller());
 
                                 //発見対象じゃ無ければ次
                                 if (!foundCheck) continue;
@@ -1125,7 +1128,8 @@ namespace TownOfHost
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
-                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt())
+                (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
+                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool())
                 )
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
