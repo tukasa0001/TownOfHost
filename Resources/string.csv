@@ -354,6 +354,7 @@ CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません
+Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。
 
 ## その他
 ForceEnd,Force Terminated,廃村
