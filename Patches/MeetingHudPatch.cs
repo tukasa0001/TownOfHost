@@ -157,11 +157,8 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer)
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-                    }
+                if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
+                    exiledPlayer.Object?.ResetPlayerCam(19f);
 
                 return false;
             }
