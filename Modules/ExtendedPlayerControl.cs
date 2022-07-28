@@ -352,6 +352,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.Jackal:
+                case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
 
@@ -596,8 +597,13 @@ namespace TownOfHost
                 CustomRoles.MSchrodingerCat
             };
             foreach (var pc in PlayerControl.AllPlayerControls)
+            {
                 if (CustomRoles.Egoist.IsEnable() && pc.Is(CustomRoles.Egoist) && !pc.Data.IsDead)
                     RandSchrodinger.Add(CustomRoles.EgoSchrodingerCat);
+
+                if (CustomRoles.Jackal.IsEnable() && pc.Is(CustomRoles.Jackal) && !pc.Data.IsDead)
+                    RandSchrodinger.Add(CustomRoles.JSchrodingerCat);
+            }
             var SchrodingerTeam = RandSchrodinger[rand.Next(RandSchrodinger.Count)];
             player.RpcSetCustomRole(SchrodingerTeam);
         }

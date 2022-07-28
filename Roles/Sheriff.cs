@@ -126,6 +126,7 @@ namespace TownOfHost
                 CustomRoles.Egoist => CanKillEgoist.GetBool(),
                 CustomRoles.EgoSchrodingerCat => CanKillEgoShrodingerCat.GetBool(),
                 CustomRoles.Jackal => CanKillJackal.GetBool(),
+                CustomRoles.JSchrodingerCat => true,//TODO: オプション化
                 CustomRoles.SchrodingerCat => true,
                 _ => cRole.GetRoleType() switch
                 {
