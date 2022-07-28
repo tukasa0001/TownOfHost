@@ -488,6 +488,8 @@ They don't have tasks.<br>
 If trying to kill the Crewmates, however, they will kill themselves instead.<br>
 Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 
+* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
 #### Game Options
 
 | Name                                                              |
@@ -567,6 +569,8 @@ Victory Condition : Douse and ignite all the living players<br>
 The Arsonists don't have any tasks, they have to win the game as a solo.
 They can douse other players by using the kill button and remaining next to the player for a few seconds.<br>
 After dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.<br>
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
