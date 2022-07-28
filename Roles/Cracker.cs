@@ -29,7 +29,7 @@ namespace TownOfHost
             playerIdList.Add(playerId);
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void PoweredSabotage(SystemTypes systemType, PlayerControl player)
+        public static void PoweredSabotage(SystemTypes systemType, PlayerControl player, byte amount)
         {
             Logger.Info("Powered Sabotage", "Cracker");
             bool HasImpVision = player.GetCustomRole().IsImpostor()
@@ -42,17 +42,20 @@ namespace TownOfHost
             switch (systemType)
             {
                 case SystemTypes.Electrical:
+                    byte[] amounts = { 150, 148, 134, 142 };
+                    if (amount != amounts[mapId - 1]) break;
                     if (!PoweredLightsOut.GetBool() && LightsOutMinimum.GetFloat() == 0) break;
                     Logger.Info("Powered Lights Out", "Cracker");
                     break;
                 case SystemTypes.Comms:
+                    if (amount != 128) break;
                     if (!PoweredComms.GetBool()) break;
                     Logger.Info("Powered Comms", "Cracker");
                     break;
                 case SystemTypes.Reactor:
                 case SystemTypes.Laboratory:
-                    if (!(systemType == SystemTypes.Laboratory && mapId == 2)
-                        && !(systemType == SystemTypes.Reactor && mapId == 4)) break;
+                    if (!(systemType == SystemTypes.Laboratory && mapId == 2 && amount == 128)
+                        && !(systemType == SystemTypes.Reactor && mapId == 4 && amount == 128)) break;
                     if (!PoweredReactor.GetBool()) break;
                     Logger.Info("Powered Reactor", "Cracker");
                     CheckAndCloseAllDoors(mapId);

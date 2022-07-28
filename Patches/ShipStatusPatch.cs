@@ -170,9 +170,9 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player)
+        public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player, [HarmonyArgument(2)] byte amount)
         {
-            if (!player.Data.IsDead && player.Is(CustomRoles.Cracker)) Cracker.PoweredSabotage(systemType, player);
+            if (!player.Data.IsDead && player.Is(CustomRoles.Cracker)) Cracker.PoweredSabotage(systemType, player, amount);
             Utils.CustomSyncAllSettings();
             new LateTask(
                 () =>
