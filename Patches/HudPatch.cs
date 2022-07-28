@@ -252,6 +252,17 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(Vent), nameof(Vent.SetOutline))]
+    class SetVentOutlinePatch
+    {
+        public static void Postfix(Vent __instance, [HarmonyArgument(1)] ref bool mainTarget)
+        {
+            var player = PlayerControl.LocalPlayer;
+            Color color = PlayerControl.LocalPlayer.GetRoleColor();
+            ((Renderer)__instance.myRend).material.SetColor("_OutlineColor", color);
+            ((Renderer)__instance.myRend).material.SetColor("_AddColor", mainTarget ? color : Color.clear);
+        }
+    }
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
