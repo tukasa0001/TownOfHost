@@ -132,20 +132,10 @@ namespace TownOfHost
                     Main.KillOrSpell[playerId] = KoS;
                     break;
                 case CustomRPC.SetSheriffShotLimit:
-                    byte SheriffId = reader.ReadByte();
-                    float Limit = reader.ReadSingle();
-                    if (Main.SheriffShotLimit.ContainsKey(SheriffId))
-                        Main.SheriffShotLimit[SheriffId] = Limit;
-                    else
-                        Main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
+                    Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetTimeThiefKillCount:
-                    byte TimeThiefId = reader.ReadByte();
-                    int TimeThiefKillCount = reader.ReadInt32();
-                    if (Main.TimeThiefKillCount.ContainsKey(TimeThiefId))
-                        Main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
-                    else
-                        Main.TimeThiefKillCount.Add(TimeThiefId, 0);
+                    TimeThief.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -286,6 +276,10 @@ namespace TownOfHost
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);
                         break;
+                    case CustomWinner.Jackal:
+                        JackalWin();
+                        break;
+
                     default:
                         if (Main.currentWinner != CustomWinner.Default)
                             Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
@@ -327,6 +321,11 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
         }
+        public static void JackalWin()
+        {
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
         public static void ForceEndGame()
         {
             if (ShipStatus.Instance == null) return;
@@ -362,8 +361,18 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
-            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
+            switch (role)
+            {
+                case CustomRoles.FireWorks:
+                    FireWorks.Add(targetId);
+                    break;
+                case CustomRoles.Sniper:
+                    Sniper.Add(targetId);
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.Add(targetId);
+                    break;
+            }
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)

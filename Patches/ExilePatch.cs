@@ -5,6 +5,7 @@ namespace TownOfHost
 {
     class ExileControllerWrapUpPatch
     {
+        public static GameData.PlayerInfo AntiBlackout_LastExiled;
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
         class BaseExileControllerPatch
         {
@@ -24,11 +25,18 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                exiled = AntiBlackout_LastExiled;
+            }
+
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
+                exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
@@ -62,7 +70,7 @@ namespace TownOfHost
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))
-                    exiled.Object.ResetThiefVotingTime();
+                    exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
@@ -91,7 +99,7 @@ namespace TownOfHost
                 PlayerState.SetDead(x.Key);
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
-                    player?.ResetThiefVotingTime();
+                    player?.ResetVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
             LadderDeathPatch.Reset();
@@ -99,6 +107,11 @@ namespace TownOfHost
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            new LateTask(() =>
+            {
+                AntiBlackout.SendGameData();
+                exiled.Object?.RpcExileV2();
+            }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
