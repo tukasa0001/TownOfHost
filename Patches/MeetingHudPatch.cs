@@ -140,9 +140,6 @@ namespace TownOfHost
                 if (AntiBlackout.OverrideExiledPlayer)
                 {
                     __instance.RpcVotingComplete(states, null, true);
-                    exiledPlayer.Object?.RpcExileV2();
-                    exiledPlayer.IsDead = true;
-                    AntiBlackout.SendGameData();
                     ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
                 }
                 else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
