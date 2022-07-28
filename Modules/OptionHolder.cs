@@ -262,9 +262,9 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
-            SetupRoleOptions(2900, CustomRoles.EvilTracker);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
+            SetupRoleOptions(2900, CustomRoles.EvilTracker);
             EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
             EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2911, Color.white, "EvilTrackerCanResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
 
