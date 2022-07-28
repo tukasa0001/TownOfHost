@@ -60,6 +60,7 @@ SchrodingerCat,SchrodingerCat,シュレディンガーの猫
 CSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 MSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 EgoSchrodingerCat,SchrodingerCat,シュレディンガーの猫
+JSchrodingerCat,SchrodingerCat,シュレディンガーの猫
 Opportunist,Opportunist,オポチュニスト
 Egoist,Egoist,エゴイスト
 Lovers,Lovers,恋人
@@ -125,6 +126,7 @@ SchrodingerCatInfo,You belong to the team that got killed,殺された陣営に�
 CSchrodingerCatInfo,I became an ally of my crewmates,クルーメイトの味方になった
 MSchrodingerCatInfo,I became an ally of my Impostors,インポスターの味方になった
 EgoSchrodingerCatInfo,I became an ally of my Egoist,エゴイストの味方になった
+JSchrodingerCatInfo,I became an ally of my Jackal,ジャッカルの味方になった
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう
 EgoistInfo,Let's dominate the Imposter victory,インポスター勝利を独占しよう
