@@ -16,7 +16,7 @@ namespace TownOfHost
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequred => Options.NoGameEnd.GetBool();
+        public static bool IsRequred => Options.NoGameEnd.GetBool() || CustomRoles.Jackal.IsEnable();
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>

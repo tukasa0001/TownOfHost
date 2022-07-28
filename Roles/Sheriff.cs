@@ -18,6 +18,8 @@ namespace TownOfHost
         private static CustomOption CanKillEgoist;
         private static CustomOption CanKillEgoShrodingerCat;
         private static CustomOption CanKillExecutioner;
+        private static CustomOption CanKillJackal;
+        private static CustomOption CanKillJShrodingerCat;
         private static CustomOption CanKillCrewmatesAsIt;
         private static CustomOption ShotLimitOpt;
 
@@ -35,6 +37,8 @@ namespace TownOfHost
             CanKillEgoist = CustomOption.Create(Id + 18, Color.white, "SheriffCanKillEgoist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillEgoShrodingerCat = CustomOption.Create(Id + 19, Color.white, "SheriffCanKillEgoShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillExecutioner = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillExecutioner", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJackal = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillJackal", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJShrodingerCat = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillJShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillCrewmatesAsIt = CustomOption.Create(Id + 15, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 16, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         }
@@ -123,6 +127,8 @@ namespace TownOfHost
                 CustomRoles.Arsonist => CanKillArsonist.GetBool(),
                 CustomRoles.Egoist => CanKillEgoist.GetBool(),
                 CustomRoles.EgoSchrodingerCat => CanKillEgoShrodingerCat.GetBool(),
+                CustomRoles.Jackal => CanKillJackal.GetBool(),
+                CustomRoles.JSchrodingerCat => CanKillJShrodingerCat.GetBool(),
                 CustomRoles.SchrodingerCat => true,
                 _ => cRole.GetRoleType() switch
                 {
