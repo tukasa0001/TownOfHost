@@ -140,9 +140,6 @@ namespace TownOfHost
                 if (AntiBlackout.OverrideExiledPlayer)
                 {
                     __instance.RpcVotingComplete(states, null, true);
-                    exiledPlayer.Object?.RpcExileV2();
-                    exiledPlayer.IsDead = true;
-                    AntiBlackout.SendGameData();
                     ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
                 }
                 else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
@@ -160,11 +157,8 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer)
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-                    }
+                if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
+                    exiledPlayer.Object?.ResetPlayerCam(19f);
 
                 return false;
             }

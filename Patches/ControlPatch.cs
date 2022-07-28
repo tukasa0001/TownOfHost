@@ -15,8 +15,6 @@ namespace TownOfHost
         static int resolutionIndex = 0;
         public static void Postfix(ControllerManager __instance)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) AntiBlackout.SetIsDead();
-            if (Input.GetKeyDown(KeyCode.Alpha2)) AntiBlackout.RestoreIsDead();
             //カスタム設定切り替え
             if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
             {

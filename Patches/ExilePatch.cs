@@ -25,7 +25,10 @@ namespace TownOfHost
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
-            if (AntiBlackout.OverrideExiledPlayer) exiled = AntiBlackout_LastExiled;
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                exiled = AntiBlackout_LastExiled;
+            }
 
             Main.witchMeeting = false;
             bool DecidedWinner = false;
@@ -104,7 +107,11 @@ namespace TownOfHost
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            new LateTask(() => AntiBlackout.SendGameData(), 0.5f, "Restore IsDead Task");
+            new LateTask(() =>
+            {
+                AntiBlackout.SendGameData();
+                exiled.Object?.RpcExileV2();
+            }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
