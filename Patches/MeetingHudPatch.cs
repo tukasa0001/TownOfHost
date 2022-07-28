@@ -238,6 +238,10 @@ namespace TownOfHost
                 Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
+            }
 
             if (AmongUsClient.Instance.AmHost)
             {
