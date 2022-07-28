@@ -273,7 +273,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         LastImpostor,
-        BlackHat,
+        Cracker,
         //Madmate
         MadGuardian,
         Madmate,

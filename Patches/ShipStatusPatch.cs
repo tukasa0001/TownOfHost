@@ -172,9 +172,9 @@ namespace TownOfHost
         }
         public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType, [HarmonyArgument(1)] PlayerControl player)
         {
-            if (!player.Data.IsDead && player.Is(CustomRoles.BlackHat))
+            if (!player.Data.IsDead && player.Is(CustomRoles.Cracker))
             {
-                Logger.Info("Powered Sabotage", "BlackHat");
+                Logger.Info("Powered Sabotage", "Cracker");
                 bool HasImpVision = player.GetCustomRole().IsImpostor()
                                 || (player.GetCustomRole().IsMadmate() && Options.MadmateHasImpostorVision.GetBool())
                                 || player.Is(CustomRoles.EgoSchrodingerCat)
@@ -185,17 +185,16 @@ namespace TownOfHost
                 switch (systemType)
                 {
                     case SystemTypes.Electrical:
-                        Logger.Info("Powered Lights Out", "BlackHat");
+                        Logger.Info("Powered Lights Out", "Cracker");
                         break;
                     case SystemTypes.Comms:
-                        if (mapId == 3) break;
-                        Logger.Info("Powered Comms", "BlackHat");
+                        Logger.Info("Powered Comms", "Cracker");
                         break;
                     case SystemTypes.Reactor:
                     case SystemTypes.Laboratory:
                         if (!(systemType == SystemTypes.Laboratory && mapId == 2)
                             && !(systemType == SystemTypes.Reactor && mapId == 4)) break;
-                        Logger.Info("Powered Reactor", "BlackHat");
+                        Logger.Info("Powered Reactor", "Cracker");
                         CheckAndCloseAllDoors(mapId);
                         break;
                     default:
