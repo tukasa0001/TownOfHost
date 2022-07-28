@@ -111,12 +111,11 @@ AmongUsバージョン : **2022.7.12**
 | [Mare/メアー](#Mareメアー)                                                           | [Lighter/ライター](#Lighterライター)                                       | [Jester/ジェスター](#Jesterジェスター)                                     |
 | [Puppeteer/パペッティア](#Puppeteerパペッティア)                                     | [Mayor/メイヤー](#Mayorメイヤー)                                           | [Lovers/恋人](#Lovers恋人)                                                 |
 | [SerialKiller/シリアルキラー](#SerialKillerシリアルキラー)                           | [Nice Watcher/ナイスウォッチャー](#Watcherウォッチャー)                    | [Opportunist/オポチュニスト](#Opportunistオポチュニスト)                   |
-| [ShapeMaster/シェイプマスター](#ShapeMasterシェイプマスター)                         | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
-| [Sniper/スナイパー](#Sniperスナイパー)                                               | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
-| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
-| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
-| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
-| [Witch/魔女](#Witch魔女)                                                             |                                                                            |                                                                            |
+| [Sniper/スナイパー](#Sniperスナイパー)                                               | [SabotageMaster/サボタージュマスター](#SabotageMasterサボタージュマスター) | [Terrorist/テロリスト](#Terroristテロリスト)                               |
+| [TimeThief/タイムシーフ](#TimeThiefタイムシーフ)                                     | [Sheriff/シェリフ](#Sheriffシェリフ)                                       | [SchrodingerCat/シュレディンガーの猫](#SchrodingerCatシュレディンガーの猫) |
+| [Vampire/ヴァンパイア](#Vampireヴァンパイア)                                         | [Snitch/スニッチ](#Snitchスニッチ)                                         |                                                                            |
+| [Warlock/ウォーロック](#Warlockウォーロック)                                         | [SpeedBooster/スピードブースター](#SpeedBoosterスピードブースター)         |                                                                            |
+| [Witch/魔女](#Witch魔女)                                                             | [Trapper/トラッパー](#Trapperトラッパー)                                   |                                                                            |
 | [Mafia/マフィア](#Mafiaマフィア)                                                     |                                                                            |                                                                            |
 | [Madmate/マッドメイト](#Madmateマッドメイト)                                         |                                                                            |                                                                            |
 | [MadGuardian/マッドガーディアン](#MadGuardianマッドガーディアン)                     |                                                                            |                                                                            |
@@ -809,6 +808,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 有効化することで、役職名を日本語で表示させることができます。
 クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
+
+## 
 
 ## 参考など
 
