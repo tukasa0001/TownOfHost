@@ -310,7 +310,7 @@ TimeThiefKillCooldown,TimeThief KillCooldown,タイムシーフのキルクー�
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 TimeThiefReturnStolenTimeUponDeath,Return Stolen Time Upon Death,死亡後に盗んだ時間を返す
-JackalKillCooldown,Jackal Kill Cooldown
+JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール
 JackalCanVent,Jackal Can Use Vents,ジャッカルがベントを使用できる
 JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージュを使用できる
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ
