@@ -308,7 +308,7 @@ namespace TownOfHost
                 )
                 {
                     //変更対象の名前をtargetの役職の色にする
-                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(target.GetCustomRole()), pva.NameText.text);
+                    pva.NameText.text = Helpers.ColorString(target.GetRoleColor(), pva.NameText.text);
                 }
 
                 if (seer.Is(CustomRoles.Arsonist) && //seerがアーソニストの時
