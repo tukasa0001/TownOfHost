@@ -36,6 +36,10 @@ namespace TownOfHost
             }
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
+            new LateTask(() =>
+            {
+                if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
+            }, 1f, "Welcome Message");
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerLeft))]
@@ -48,7 +52,7 @@ namespace TownOfHost
             if (GameStates.IsInGame)
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
-                    data.Character.ResetThiefVotingTime();
+                    data.Character.ResetVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {

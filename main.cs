@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,6 +6,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
+using UnityEngine;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -17,7 +18,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.2.0";
+        public const string PluginVersion = "2.2.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -47,9 +48,8 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
-        public static Dictionary<byte, bool> SelfGuard;
         public static Dictionary<byte, bool> BlockKilling;
-        public static Dictionary<byte, float> SheriffShotLimit;
+        public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
@@ -69,7 +69,6 @@ namespace TownOfHost
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
-        public static Dictionary<byte, float> SerialKillerTimer = new();
         public static Dictionary<byte, float> BountyTimer = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> BountyTargets;
@@ -85,7 +84,6 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
-        public static Dictionary<byte, int> TimeThiefKillCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -135,7 +133,6 @@ namespace TownOfHost
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
-            SerialKillerTimer = new Dictionary<byte, float>();
             BountyTimer = new Dictionary<byte, float>();
             WarlockTimer = new Dictionary<byte, float>();
             BountyTargets = new Dictionary<byte, PlayerControl>();
@@ -168,65 +165,62 @@ namespace TownOfHost
             try
             {
 
-                roleColors = new Dictionary<CustomRoles, string>(){
-                //バニラ役職
-                {CustomRoles.Crewmate, "#ffffff"},
-                {CustomRoles.Engineer, "#b6f0ff"},
-                {CustomRoles.Scientist, "#b6f0ff"},
-                {CustomRoles.GuardianAngel, "#ffffff"},
-                {CustomRoles.Impostor, "#ff0000"},
-                {CustomRoles.Shapeshifter, "#ff0000"},
-                //特殊インポスター役職
-                {CustomRoles.Vampire, "#ff0000"},
-                {CustomRoles.Mafia, "#ff0000"},
-                {CustomRoles.EvilWatcher, "#ff0000"}, //ウォッチャーの派生
-                {CustomRoles.BountyHunter, "#ff0000"},
-                {CustomRoles.Witch, "#ff0000"},
-                {CustomRoles.ShapeMaster, "#ff0000"},
-                {CustomRoles.Warlock, "#ff0000"},
-                {CustomRoles.SerialKiller, "#ff0000"},
-                {CustomRoles.Mare, "#ff0000"},
-                {CustomRoles.Puppeteer, "#ff0000"},
-                {CustomRoles.FireWorks, "#ff0000"},
-                {CustomRoles.TimeThief, "#ff0000"},
-                {CustomRoles.Sniper, "#ff0000"},
-                //マッドメイト系役職
-                {CustomRoles.Madmate, "#ff0000"},
-                {CustomRoles.SKMadmate, "#ff0000"},
-                {CustomRoles.MadGuardian, "#ff0000"},
-                {CustomRoles.MadSnitch, "#ff0000"},
-                {CustomRoles.MSchrodingerCat, "#ff0000"}, //シュレディンガーの猫の派生
-                //両陣営可能役職
-                {CustomRoles.Watcher, "#800080"},
-                //特殊クルー役職
-                {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
-                {CustomRoles.Bait, "#00f7ff"},
-                {CustomRoles.SabotageMaster, "#0000ff"},
-                {CustomRoles.Snitch, "#b8fb4f"},
-                {CustomRoles.Mayor, "#204d42"},
-                {CustomRoles.Sheriff, "#f8cd46"},
-                {CustomRoles.Lighter, "#eee5be"},
-                {CustomRoles.SpeedBooster, "#00ffff"},
-                {CustomRoles.Doctor, "#80ffdd"},
-                {CustomRoles.Trapper, "#5a8fd0"},
-                {CustomRoles.Dictator, "#df9b00"},
-                {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                //第三陣営役職
-                {CustomRoles.Arsonist, "#ff6633"},
-                {CustomRoles.Jester, "#ec62a5"},
-                {CustomRoles.Terrorist, "#00ff00"},
-                {CustomRoles.Executioner, "#611c3a"},
-                {CustomRoles.Opportunist, "#00ff00"},
-                {CustomRoles.SchrodingerCat, "#696969"},
-                {CustomRoles.EgoSchrodingerCat, "#5600ff"}, //シュレディンガーの猫の派生
-                {CustomRoles.Egoist, "#5600ff"},
-                //HideAndSeek
-                {CustomRoles.HASFox, "#e478ff"},
-                {CustomRoles.HASTroll, "#00ff00"},
-                //サブ役職
-                {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                {CustomRoles.Lovers, "#ffaaaa"},
-            };
+                roleColors = new Dictionary<CustomRoles, string>()
+                {
+                    //バニラ役職
+                    {CustomRoles.Crewmate, "#ffffff"},
+                    {CustomRoles.Engineer, "#b6f0ff"},
+                    {CustomRoles.Scientist, "#b6f0ff"},
+                    {CustomRoles.GuardianAngel, "#ffffff"},
+                    //インポスター、シェイプシフター
+                    //特殊インポスター役職
+                    //マッドメイト系役職
+                        //後で追加
+                    //両陣営可能役職
+                    {CustomRoles.Watcher, "#800080"},
+                    //特殊クルー役職
+                    {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
+                    {CustomRoles.Bait, "#00f7ff"},
+                    {CustomRoles.SabotageMaster, "#0000ff"},
+                    {CustomRoles.Snitch, "#b8fb4f"},
+                    {CustomRoles.Mayor, "#204d42"},
+                    {CustomRoles.Sheriff, "#f8cd46"},
+                    {CustomRoles.Lighter, "#eee5be"},
+                    {CustomRoles.SpeedBooster, "#00ffff"},
+                    {CustomRoles.Doctor, "#80ffdd"},
+                    {CustomRoles.Trapper, "#5a8fd0"},
+                    {CustomRoles.Dictator, "#df9b00"},
+                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                    //第三陣営役職
+                    {CustomRoles.Arsonist, "#ff6633"},
+                    {CustomRoles.Jester, "#ec62a5"},
+                    {CustomRoles.Terrorist, "#00ff00"},
+                    {CustomRoles.Executioner, "#611c3a"},
+                    {CustomRoles.Opportunist, "#00ff00"},
+                    {CustomRoles.SchrodingerCat, "#696969"},
+                    {CustomRoles.Egoist, "#5600ff"},
+                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                    //HideAndSeek
+                    {CustomRoles.HASFox, "#e478ff"},
+                    {CustomRoles.HASTroll, "#00ff00"},
+                    //サブ役職
+                    {CustomRoles.NoSubRoleAssigned, "#ffffff"},
+                    {CustomRoles.Lovers, "#ffaaaa"}
+                };
+                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                {
+                    switch (role.GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                            roleColors.TryAdd(role, "#ff0000");
+                            break;
+                        case RoleType.Madmate:
+                            roleColors.TryAdd(role, "#ff0000");
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             catch (ArgumentException ex)
             {
@@ -270,7 +264,7 @@ namespace TownOfHost
         FireWorks,
         Mafia,
         SerialKiller,
-        ShapeMaster,
+        //ShapeMaster,
         Sniper,
         Vampire,
         Witch,
@@ -278,6 +272,7 @@ namespace TownOfHost
         Mare,
         Puppeteer,
         TimeThief,
+        LastImpostor,
         //Madmate
         MadGuardian,
         Madmate,
@@ -322,25 +317,25 @@ namespace TownOfHost
     //WinData
     public enum CustomWinner
     {
-        Draw = 0,
-        Default,
-        Impostor,
-        Crewmate,
-        Jester,
-        Terrorist,
-        Lovers,
-        Executioner,
-        Arsonist,
-        Egoist,
-        HASTroll
+        Draw = -1,
+        Default = -2,
+        Impostor = CustomRoles.Impostor,
+        Crewmate = CustomRoles.Crewmate,
+        Jester = CustomRoles.Jester,
+        Terrorist = CustomRoles.Terrorist,
+        Lovers = CustomRoles.Lovers,
+        Executioner = CustomRoles.Executioner,
+        Arsonist = CustomRoles.Arsonist,
+        Egoist = CustomRoles.Egoist,
+        HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
     {
-        None = 0,
-        Opportunist,
-        SchrodingerCat,
-        Executioner,
-        HASFox
+        None = -1,
+        Opportunist = CustomRoles.Opportunist,
+        SchrodingerCat = CustomRoles.SchrodingerCat,
+        Executioner = CustomRoles.Executioner,
+        HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte
     {

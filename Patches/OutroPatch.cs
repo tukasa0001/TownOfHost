@@ -177,8 +177,10 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                     {
                         //トロールが殺されていれば単独勝ち
-                        winner = new();
-                        winner.Add(pc);
+                        winner = new()
+                        {
+                            pc
+                        };
                         break;
                     }
                     else if (role == CustomRoles.HASFox && Main.currentWinner != CustomWinner.HASTroll && !pc.Data.IsDead)
@@ -197,7 +199,6 @@ namespace TownOfHost
 
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.SerialKillerTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();
@@ -231,53 +232,25 @@ namespace TownOfHost
             string AdditionalWinnerText = "";
             string CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Crewmate);
 
+            var winnerRole = (CustomRoles)Main.currentWinner;
+            if (winnerRole >= 0)
+            {
+                CustomWinnerText = Utils.GetRoleName(winnerRole);
+                CustomWinnerColor = Utils.GetRoleColorCode(winnerRole);
+                if (winnerRole.IsNeutral())
+                {
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
+                }
+            }
             switch (Main.currentWinner)
             {
                 //通常勝利
-                case CustomWinner.Impostor:
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Impostor);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Impostor);
-                    break;
                 case CustomWinner.Crewmate:
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Crewmate);
                     CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Engineer);
                     break;
                 //特殊勝利
-                case CustomWinner.Jester:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Jester);
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Jester);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Jester);
-                    break;
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
-                    __instance.BackgroundBar.material.color = Color.green;
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Terrorist);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Terrorist);
-                    break;
-                case CustomWinner.Lovers:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Lovers);
-                    CustomWinnerText = $"{Utils.GetRoleName(CustomRoles.Lovers)}";
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Lovers);
-                    break;
-                case CustomWinner.Executioner:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Executioner);
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Executioner);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Executioner);
-                    break;
-                case CustomWinner.Arsonist:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Arsonist);
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Arsonist);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Arsonist);
-                    break;
-                case CustomWinner.Egoist:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Egoist);
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.Egoist);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Egoist);
-                    break;
-                case CustomWinner.HASTroll:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.HASTroll);
-                    CustomWinnerText = Utils.GetRoleName(CustomRoles.HASTroll);
-                    CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.HASTroll);
                     break;
                 //引き分け処理
                 case CustomWinner.Draw:
@@ -291,17 +264,8 @@ namespace TownOfHost
 
             foreach (var additionalwinners in Main.additionalwinners)
             {
-                if (Main.additionalwinners.Contains(AdditionalWinners.Opportunist))
-                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Opportunist), Utils.GetRoleName(CustomRoles.Opportunist));
-
-                if (Main.additionalwinners.Contains(AdditionalWinners.SchrodingerCat))
-                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.SchrodingerCat), Utils.GetRoleName(CustomRoles.SchrodingerCat));
-
-                if (Main.additionalwinners.Contains(AdditionalWinners.Executioner))
-                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), Utils.GetRoleName(CustomRoles.Executioner));
-
-                if (Main.additionalwinners.Contains(AdditionalWinners.HASFox))
-                    AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(CustomRoles.HASFox), Utils.GetRoleName(CustomRoles.HASFox));
+                var addWinnerRole = (CustomRoles)additionalwinners;
+                AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
             if (Main.currentWinner != CustomWinner.Draw)
             {
@@ -324,13 +288,13 @@ namespace TownOfHost
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             foreach (var id in Main.winnerList)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + Utils.SummaryTexts(id, disableColor: false);
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 {Main.AllPlayerNames[id]}<pos=25%>{Helpers.ColorString(Utils.GetRoleColor(Main.AllPlayerCustomRoles[id]), Utils.GetRoleName(Main.AllPlayerCustomRoles[id]))}{Utils.GetShowLastSubRolesText(id)}</pos><pos=44%>{Utils.GetProgressText(id)}</pos><pos=51%>{Utils.GetVitalText(id)}</pos>";
+                roleSummaryText += $"\n　 " + Utils.SummaryTexts(id, disableColor: false);
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;

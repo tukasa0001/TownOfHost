@@ -9,10 +9,12 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            if (ModUpdater.isBroken || ModUpdater.hasUpdate)
+            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+            if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
-                var message = GetString("CanNotJoinPublicRoomNoLatest");
+                var message = GetString("NameIncludeTOH");
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
+                if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
                 Logger.Info(message, "MakePublicPatch");
                 Logger.SendInGame(message);
                 return false;

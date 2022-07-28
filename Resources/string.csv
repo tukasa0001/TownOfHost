@@ -93,6 +93,7 @@ AfterMafiaInfo,Kill all Crewmates,サボを活用して皆殺しにしよう
 PuppeteerInfo,Manipulate your enemies and kill all Crewmates,敵を操って皆殺しにしよう
 TimeThiefInfo,Let's kill the enemies and take away meeting time,敵を殺し、会議時間を奪おう
 SniperInfo,I'll shoot,狙い撃つぜ
+LastImpostorInfo,You are the last one,残ったのはあなただけ
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう
@@ -185,7 +186,7 @@ HASFoxInfoLong,"(HideAndSeek):\nIf any of the camps, except the trolls, survive 
 HASTrollInfoLong,"(HideAndSeek):\nWhen killed, it is the sole winner.\nIn this case, the fox is defeated even if the fox survives.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # 属性
-LastImpostorInfo,"(Attributes):\nAttributes given to the last Impostor.Not given to BountyHunter, SerialKiller, or Vampire. (with settings)",(属性):\n最後のインポスターに付与される属性。バウンティハンター、シリアルキラー、ヴァンパイアには付与されない。(設定有)
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nYour kill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ
@@ -249,7 +250,8 @@ BountySuccessKillCooldown,Bounty Success Kill Cooldown,バウンティハンタ�
 BountyFailureKillCooldown,Bounty Failure Kill Cool Down,バウンティハンターのターゲット以外殺害時のキルクール
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒)
-BlackOutMareSpeed,BlackOut MareSpeed,停電時のメアーの移動速度
+MareSpeedInLightsOut,Mare speed midtime in lights out,停電時のメアーの移動速度
+MareKillCooldownInLightsOut,Mare killcooldown in lights out,停電時のメアーのキルクール
 SabotageMasterSkillLimit,SabotageMaster Fixes Sabotage Limit(Ignore Closing Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く)
 CanMakeMadmateCount,Shapeshifter Can Make Madmate limit,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える
@@ -301,6 +303,7 @@ FireWorksRadius,FireWorks Radius,花火の爆発半径
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数
 SniperPrecisionShooting,Sniper Precision Shooting,スナイパー精密射撃モード
 NumberOfLovers,"Number Of Lovers(x2members)",ラバーズの組数(x2人数)
+TimeThiefKillCooldown,TimeThief KillCooldown,タイムシーフのキルクール
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Meeting Time,減少する会議時間
 TimeThiefLowerLimitVotingTime,TimeThief Lower Limit Voting Time,投票時間の下限
 TimeThiefReturnStolenTimeUponDeath,Return Stolen Time Upon Death,死亡後に盗んだ時間を返す
@@ -371,6 +374,7 @@ updateFailed,Update failed.,アップデートに失敗しました。
 onSetPublicNoLatest,Public rooms cannot be made except for the latest version.\nPlease update.,最新版以外で公開ルームにはできません。\nアップデートをしてください。
 CanNotJoinPublicRoomNoLatest,Public rooms cannot join except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。
 ModBrokenMessage,The files comprising the MOD are corrupt.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。
+NameIncludeTOH,"You cannot make a room public not include "TOH" in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け
 FireworksWaitPhase,Wait for that time...,時を待て...
@@ -381,6 +385,8 @@ commandError,Error:%1$,エラー:%1$
 InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
 Off,OFF,オフ
+ColoredOn,<color=#33ffcc>ON</color>,<color=#33ffcc>オン</color>
+ColoredOff,<color=#ff3366>OFF</color>,<color=#ff3366>オフ</color>
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 WitchCurrentMode,Current Mode,現在のモード
 WitchModeKill,Kill,キル
@@ -428,6 +434,7 @@ VampireBiteButtonText,Bite,噛む
 ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
 BountyHunterChangeButtonText,Change,変更
+DefaultShapeshiftText,SHIFT,変身
 All,All,すべて
 Archive,Archive,アーカイブ
 DisabledBySettings,Disabled by setting,設定で無効化されています

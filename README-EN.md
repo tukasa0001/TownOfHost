@@ -16,6 +16,7 @@ Please do not contact the official team regarding any issues with this mod.<br>
 
 ## Releases
 
+AmongUs Version: **2022.7.12**
 **Latest Version: [Here](https://github.com/tukasa0001/TownOfHost/releases/latest)**
 
 Old Versions: [Here](https://github.com/tukasa0001/TownOfHost/releases)
@@ -98,6 +99,10 @@ It can be called on typing `/template <tag>` or `/t <tag>`.<br>
 To set the canned text, edit `template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
+
+#### Welcome Message
+If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
+For example: `welcome:This room is using TownOfHost.`
 
 ## Roles
 
@@ -194,6 +199,9 @@ If he can not kill on deadline, he will kill him.<br>
 | Time to self-destruct(s) |
 
 ### ShapeMaster
+
+**Warning**
+Unavailable.
 
 Create and idea by しゅー<br>
 
@@ -389,12 +397,6 @@ Decision : Crewmate<br>
 If you vote for someone during the meeting, you can force the meeting to end and hang the person you are voting for.<br>
 The dictator dies at the time of the vote.<br>
 
-#### Settings
-
-| Settings Name   |
-| --------------- |
-| Block Move Time |
-
 ### Doctor
 
 Team : Crewmates<br>
@@ -514,6 +516,12 @@ Decision : Crewmate<br>
 
 When killed, it immobilizes the killed player for a few seconds.<br>
 
+#### Settings
+
+| Settings Name   |
+| --------------- |
+| Block Move Time |
+
 ### Arsonist
 
 Team : Neutral<br>
@@ -630,8 +638,9 @@ If they die without completing their tasks, or if the game ends without they dyi
 
 Create and idea by そうくん<br>
 
-This is the attribute given to the last Impostor.<br>
-Not given to BountyHunter, SerialKiller, or Vampire.<br>
+An attribute given to the last Impostor.<br>
+Kill cooldown gets shorter than usual.<br>
+Not assigned to BountyHunter, SerialKiller, or Vampire.<br>
 
 | Settings Name             |
 | ------------------------- |
