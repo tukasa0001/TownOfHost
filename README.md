@@ -809,8 +809,6 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 有効化することで、役職名を日本語で表示させることができます。
 クライアントの言語を英語にしている場合、`Force Japanese`を有効にしていないとこの設定は意味のないものとなります。
 
-## 
-
 ## 参考など
 
 [バウンティーハンター](#BountyHunter/バンティーハンター)や[マフィア](#Mafia/マフィア)、[ヴァンパイア](#Vampire/ヴァンパイア)、[魔女](#Witch/魔女)、[ベイト](#Bait/ベイト)、[メイヤー](#Mayor/メイヤー)、[シェリフ](#Sheriff/シェリフ)、[スニッチ](#Snitch/スニッチ)、[ライター](#Lighter/ライター) のアイデア元であり、 Mod の作成方法の参考元 : [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
