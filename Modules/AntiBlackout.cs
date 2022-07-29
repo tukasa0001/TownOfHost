@@ -8,7 +8,7 @@ namespace TownOfHost
         ///<summary>
         ///追放処理を上書きするかどうか
         ///</summary>
-        public static bool OverrideExiledPlayer => IsRequred && (IsSingleImpostor || Diff_CrewImp == 1);
+        public static bool OverrideExiledPlayer => IsRequired && (IsSingleImpostor || Diff_CrewImp == 1);
         ///<summary>
         ///インポスターが一人しか存在しない設定かどうか
         ///</summary>
@@ -16,7 +16,7 @@ namespace TownOfHost
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequred => Options.NoGameEnd.GetBool() || CustomRoles.Jackal.IsEnable();
+        public static bool IsRequired => Options.NoGameEnd.GetBool() || CustomRoles.Jackal.IsEnable();
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>
