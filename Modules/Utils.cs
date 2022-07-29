@@ -156,7 +156,8 @@ namespace TownOfHost
                       cRole == CustomRoles.CSchrodingerCat ||
                       cRole == CustomRoles.MSchrodingerCat ||
                       cRole == CustomRoles.EgoSchrodingerCat ||
-                      cRole == CustomRoles.Egoist)
+                      cRole == CustomRoles.Egoist ||
+                      cRole == CustomRoles.Jackal)
                     {
                         hasTasks = false;
                     }
@@ -512,7 +513,7 @@ namespace TownOfHost
 
                 //インポスター/キル可能な第三陣営に対するSnitch警告
                 var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
-                    (Options.SnitchCanFindNeutralKiller.GetBool() && seer.Is(CustomRoles.Egoist));//or エゴイスト
+                    (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
 
                 if (canFindSnitchRole && ShowSnitchWarning && !isMeeting)
                 {
@@ -720,8 +721,11 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
-                        else if (target.Is(CustomRoles.Egoist) && (seer.GetCustomRole().IsImpostor() || seer.Is(CustomRoles.EgoSchrodingerCat)))
+                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
+                        else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
+                                 (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal))) // J猫 --> ジャッカル
+                            TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示
                         else
