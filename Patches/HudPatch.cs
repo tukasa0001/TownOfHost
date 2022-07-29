@@ -87,7 +87,7 @@ namespace TownOfHost
                     __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                     break;
                 case CustomRoles.BountyHunter:
-                    __instance.AbilityButton.OverrideText($"{GetString("BountyHunterChangeButtonText")}");
+                    BountyHunter.GetAbilityButtonText(__instance);
                     break;
             }
 
@@ -110,13 +110,7 @@ namespace TownOfHost
                 LowerInfoText.fontSizeMax = 2.0f;
             }
 
-            if (player.Is(CustomRoles.BountyHunter))
-            {
-                //バウンティハンター用処理
-                var target = player.GetBountyTarget();
-                LowerInfoText.text = target == null ? "null" : GetString("BountyCurrentTarget") + ":" + player.GetBountyTarget().name;
-                LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
-            }
+            if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理

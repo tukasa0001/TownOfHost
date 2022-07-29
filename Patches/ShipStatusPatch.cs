@@ -37,24 +37,6 @@ namespace TownOfHost
                     Logger.Info("キル能力解禁", "HideAndSeek");
                 }
             }
-            //BountyHunterのターゲットが無効な場合にリセット
-            if (CustomRoles.BountyHunter.IsEnable())
-            {
-                bool DoNotifyRoles = false;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (!pc.Is(CustomRoles.BountyHunter)) continue; //BountyHunter以外おことわり
-                    var target = pc.GetBountyTarget();
-                    //BountyHunterのターゲット更新
-                    if (target.Data.IsDead || target.Data.Disconnected)
-                    {
-                        pc.ResetBountyTarget();
-                        Logger.Info($"{pc.GetNameWithRole()}のターゲットが無効だったため、ターゲットを更新しました", "BountyHunter");
-                        DoNotifyRoles = true;
-                    }
-                }
-                if (DoNotifyRoles) Utils.NotifyRoles();
-            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.RepairSystem))]
