@@ -71,6 +71,9 @@ Jackal,Jackal,ジャッカル
 HASFox,Fox,狐
 HASTroll,Troll,トロール
 
+# GM
+GM,GM,GM
+
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
 
@@ -139,6 +142,8 @@ JackalInfo,Kill Everyone,すべてを殺せ
 HASFoxInfo,Stay alive,とにかく生き残りましょう
 HASTrollInfo,Get killed,自爆しよう
 
+# GM
+GMInfo,You're the Game Master,ゲームマスターだ
 
 ## 役職説明ロング
 
