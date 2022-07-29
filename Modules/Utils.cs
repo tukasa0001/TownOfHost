@@ -168,10 +168,6 @@ namespace TownOfHost
                           cRole == CustomRoles.Terrorist)
                             hasTasks = false;
                     }
-                    //foreach (var pc in PlayerControl.AllPlayerControls)
-                    //{
-                    //if (cRole == CustomRoles.Sheriff && main.SheriffShotLimit[pc.PlayerId] == 0) hasTasks = true;
-                    //}
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
