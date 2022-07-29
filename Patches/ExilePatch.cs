@@ -122,16 +122,16 @@ namespace TownOfHost
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            new LateTask(() =>
-            {
-                AntiBlackout.SendGameData();
-                exiled?.Object?.RpcExileV2();
-            }, 0.5f, "Restore IsDead Task");
         }
 
         static void WrapUpFinalizer(GameData.PlayerInfo exiled)
         {
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
+            new LateTask(() =>
+            {
+                AntiBlackout.SendGameData();
+                exiled?.Object?.RpcExileV2();
+            }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
