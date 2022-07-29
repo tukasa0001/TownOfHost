@@ -361,13 +361,17 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks)
+            switch (role)
             {
-                FireWorks.Add(targetId);
-            }
-            else if (role == CustomRoles.Sniper)
-            {
-                Sniper.Add(targetId);
+                case CustomRoles.FireWorks:
+                    FireWorks.Add(targetId);
+                    break;
+                case CustomRoles.Sniper:
+                    Sniper.Add(targetId);
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
         }
