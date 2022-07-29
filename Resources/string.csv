@@ -231,6 +231,9 @@ Default,Default,デフォルト
 Suicide,Suicide,切腹
 SelfVote,SelfVote,自投票
 Skip,Skip,スキップ
+DisableDevices,Disable Devices,デバイスを無効化
+DisableAdmin,Disable Admin,アドミン無効化
+WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。
@@ -239,6 +242,7 @@ NoGameEndInfo,"NoGameEnd:\nA mode for debugging in which there is no win Basis.\
 SyncButtonModeInfo,"SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.",ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有)
 SabotageTimeControlInfo,"Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings)",サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有)
 RandomMapsModeInfo,"RandomMapsMode:\nA mode in which the map changes randomly. (with settings)",ランダムマップモード:\nランダムにマップが変わるモード。(設定有)
+DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応)
 
 ## 詳細設定
 AdvancedRoleOptions,Advanced Options,詳細設定
@@ -443,3 +447,6 @@ ArsonistDouseButtonText,Douse,塗る
 PuppeteerOperateButtonText,Operate,操る
 BountyHunterChangeButtonText,Swap,変更
 DefaultShapeshiftText,SHIFT,変身
+All,All,すべて
+Archive,Archive,アーカイブ
+DisabledBySettings,Disabled by setting,設定で無効化されています
