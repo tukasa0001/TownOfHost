@@ -48,7 +48,6 @@ namespace TownOfHost
             Options.UsedButtonCount = 0;
             Options.SabotageMasterUsedSkillCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            Main.BlockKilling = new Dictionary<byte, bool>();
 
             Main.introDestroyed = false;
 

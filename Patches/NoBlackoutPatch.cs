@@ -8,7 +8,6 @@ namespace TownOfHost
         public static void Postfix(PlayerControl __instance)
         {
             Utils.NotifyRoles();
-            Main.BlockKilling[__instance.PlayerId] = false;
         }
     }
 

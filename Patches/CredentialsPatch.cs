@@ -72,6 +72,7 @@ namespace TownOfHost
             {
                 __instance.ShowModStamp();
                 LateTask.Update(Time.deltaTime);
+                CheckMurderPatch.Update();
             }
         }
 
