@@ -110,7 +110,7 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 AntiBlackout.SendGameData();
-                exiled.Object?.RpcExileV2();
+                exiled?.Object?.RpcExileV2();
             }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
