@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Hazel;
 
@@ -34,10 +35,17 @@ namespace TownOfHost
                 return numCrewmates - numImpostors;
             }
         }
+        public static bool IsCached { get; private set; } = false;
         private static Dictionary<byte, bool> isDeadCache = new();
 
-        public static void SetIsDead(bool doSend = true)
+        public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
+            Logger.Info($"SetIsDead is called from {callerMethodName}", "AntiBlackout");
+            if (IsCached)
+            {
+                Logger.Info("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。", "AntiBlackout.Error");
+                return;
+            }
             isDeadCache.Clear();
             foreach (var info in GameData.Instance.AllPlayers)
             {
@@ -45,21 +53,25 @@ namespace TownOfHost
                 isDeadCache[info.PlayerId] = info.IsDead;
                 info.IsDead = false;
             }
+            IsCached = true;
             if (doSend) SendGameData();
         }
-        public static void RestoreIsDead(bool doSend = true)
+        public static void RestoreIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
+            Logger.Info($"RestoreIsDead is called from {callerMethodName}", "AntiBlackout");
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
             isDeadCache.Clear();
+            IsCached = false;
             if (doSend) SendGameData();
         }
 
-        public static void SendGameData()
+        public static void SendGameData([CallerMemberName] string callerMethodName = "")
         {
+            Logger.Info($"SendGameData is called from {callerMethodName}", "AntiBlackout");
             MessageWriter writer = AmongUsClient.Instance.Streams[(int)SendOption.Reliable];
             writer.StartMessage(1);
             writer.WritePacked(GameData.Instance.NetId);
