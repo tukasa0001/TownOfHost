@@ -13,7 +13,6 @@ namespace TownOfHost
         public static CustomOption DecreaseMeetingTime;
         public static CustomOption LowerLimitVotingTime;
         public static CustomOption ReturnStolenTimeUponDeath;
-        public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.TimeThief);
@@ -59,7 +58,7 @@ namespace TownOfHost
                 Main.VotingTime += DecreaseMeetingTime.GetInt();
             TimeThiefKillCount[thief.PlayerId] = 0; //初期化
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
         public static void OnCheckMurder(PlayerControl killer)
         {
             TimeThiefKillCount[killer.PlayerId]++;
