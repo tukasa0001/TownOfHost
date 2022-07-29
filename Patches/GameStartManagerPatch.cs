@@ -40,9 +40,7 @@ namespace TownOfHost
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
 
                 // Make Public Button
-                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
-                bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
-                if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOH))
+                if (ModUpdater.isBroken || ModUpdater.hasUpdate)
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
@@ -70,6 +68,16 @@ namespace TownOfHost
                 }
                 if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
+
+                string playerName = SaveManager.PlayerName;
+                if (AmongUsClient.Instance.AmHost && AmongUsClient.Instance.IsGamePublic)
+                {
+                    if (!playerName.ToUpper().Contains("TOH")) SaveManager.PlayerName = "〔TOH〕" + playerName;
+                }
+                else if (SaveManager.PlayerName.StartsWith("〔TOH〕"))
+                {
+                    SaveManager.PlayerName = playerName[5..];
+                }
             }
             public static void Postfix(GameStartManager __instance)
             {
