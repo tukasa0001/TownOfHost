@@ -34,12 +34,12 @@ namespace TownOfHost
                 return numCrewmates - numImpostors;
             }
         }
+        public static bool IsCached { get; private set; } = false;
         private static Dictionary<byte, bool> isDeadCache = new();
-        private static bool isCached = false;
 
         public static void SetIsDead(bool doSend = true)
         {
-            if (isCached)
+            if (IsCached)
             {
                 Logger.Info("再度SetIsDeadを実行する前に、RestoreIsDeadを実行してください。", "AntiBlackout.Error");
                 return;
@@ -51,7 +51,7 @@ namespace TownOfHost
                 isDeadCache[info.PlayerId] = info.IsDead;
                 info.IsDead = false;
             }
-            isCached = true;
+            IsCached = true;
             if (doSend) SendGameData();
         }
         public static void RestoreIsDead(bool doSend = true)
@@ -62,7 +62,7 @@ namespace TownOfHost
                 if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
             }
             isDeadCache.Clear();
-            isCached = false;
+            IsCached = false;
             if (doSend) SendGameData();
         }
 
