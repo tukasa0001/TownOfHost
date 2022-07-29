@@ -72,11 +72,23 @@ namespace TownOfHost
         public static void SendGameData([CallerMemberName] string callerMethodName = "")
         {
             Logger.Info($"SendGameData is called from {callerMethodName}", "AntiBlackout");
-            MessageWriter writer = AmongUsClient.Instance.Streams[(int)SendOption.Reliable];
-            writer.StartMessage(1);
-            writer.WritePacked(GameData.Instance.NetId);
-            GameData.Instance.Serialize(writer, true);
+            MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+            // 書き込み {}は読みやすさのためです。
+            writer.StartMessage(5); //0x05 GameData
+            {
+                writer.Write(AmongUsClient.Instance.GameId);
+                writer.StartMessage(1); //0x01 Data
+                {
+                    writer.WritePacked(GameData.Instance.NetId);
+                    GameData.Instance.Serialize(writer, true);
+
+                }
+                writer.EndMessage();
+            }
             writer.EndMessage();
+
+            AmongUsClient.Instance.SendOrDisconnect(writer);
+            writer.Recycle();
         }
     }
 }
