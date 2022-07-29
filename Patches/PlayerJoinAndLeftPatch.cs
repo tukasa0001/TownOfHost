@@ -41,7 +41,7 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-                }, 1f, "Welcome Message");
+                }, 3f, "Welcome Message");
             }
         }
     }
