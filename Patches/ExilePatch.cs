@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using Hazel;
 
@@ -11,7 +12,14 @@ namespace TownOfHost
         {
             public static void Postfix(ExileController __instance)
             {
-                WrapUpPostfix(__instance.exiled);
+                try
+                {
+                    WrapUpPostfix(__instance.exiled);
+                }
+                finally
+                {
+                    WrapUpFinalizer(__instance.exiled);
+                }
             }
         }
 
@@ -20,7 +28,14 @@ namespace TownOfHost
         {
             public static void Postfix(AirshipExileController __instance)
             {
-                WrapUpPostfix(__instance.exiled);
+                try
+                {
+                    WrapUpPostfix(__instance.exiled);
+                }
+                finally
+                {
+                    WrapUpFinalizer(__instance.exiled);
+                }
             }
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
@@ -112,6 +127,11 @@ namespace TownOfHost
                 AntiBlackout.SendGameData();
                 exiled?.Object?.RpcExileV2();
             }, 0.5f, "Restore IsDead Task");
+        }
+
+        static void WrapUpFinalizer(GameData.PlayerInfo exiled)
+        {
+            //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
