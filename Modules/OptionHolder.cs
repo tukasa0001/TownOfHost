@@ -247,6 +247,9 @@ namespace TownOfHost
             #region 役職・詳細設定
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
+            // GM
+            EnableLastImpostor = CustomOption.Create(100, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
             BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
