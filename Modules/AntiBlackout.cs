@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Hazel;
@@ -89,6 +90,29 @@ namespace TownOfHost
 
             AmongUsClient.Instance.SendOrDisconnect(writer);
             writer.Recycle();
+        }
+
+        ///<summary>
+        ///一時的にIsDeadを本来のものに戻した状態でコードを実行します
+        ///<param name="action">実行内容</param>
+        ///</summary>
+        public static void TempRestore(Action action)
+        {
+            Logger.Info("==Temp Restore==", "AntiBlackout");
+            try
+            {
+                RestoreIsDead(doSend: false);
+                action();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
+            }
+            finally
+            {
+                SetIsDead(doSend: false);
+            }
+            Logger.Info("==/Temp Restore==", "AntiBlackout");
         }
     }
 }
