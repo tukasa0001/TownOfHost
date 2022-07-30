@@ -230,6 +230,7 @@ namespace TownOfHost
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
                 }
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) PlayerControl.LocalPlayer.RpcExile();
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

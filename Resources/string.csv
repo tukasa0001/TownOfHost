@@ -70,6 +70,9 @@ Jackal,Jackal,ジャッカル
 HASFox,Fox,狐
 HASTroll,Troll,トロール
 
+# GM
+GM,GM,GM
+
 # 属性
 LastImpostor,Last Impostor,ラストインポスター
 
@@ -137,6 +140,9 @@ JackalInfo,Kill Everyone,すべてを殺せ
 HASFoxInfo,Stay alive,とにかく生き残りましょう
 HASTrollInfo,Get killed,自爆しよう
 
+# GM
+GMInfo,You're the Game Master,ゲームマスターだ
+
 
 ## 役職説明ロング
 
@@ -189,6 +195,9 @@ JackalInfoLong,"(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJac
 # HideAndSeek
 HASFoxInfoLong,"(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。
 HASTrollInfoLong,"(HideAndSeek):\nThe Trolls win alone if killed.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
+
+# GM
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。
 
 # 属性
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。

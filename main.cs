@@ -205,6 +205,8 @@ namespace TownOfHost
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
+                    // GM
+                    {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     {CustomRoles.Lovers, "#ffaaaa"}
@@ -314,6 +316,8 @@ namespace TownOfHost
         //HideAndSeek
         HASFox,
         HASTroll,
+        //GM
+        GM,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
         Lovers,
