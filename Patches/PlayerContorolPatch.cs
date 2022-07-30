@@ -723,6 +723,8 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
+                    DisableDevice.FixedUpdate();
 
                 if (GameStates.IsInGame && Main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
