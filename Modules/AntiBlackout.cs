@@ -99,9 +99,11 @@ namespace TownOfHost
         public static void TempRestore(Action action)
         {
             Logger.Info("==Temp Restore==", "AntiBlackout");
+            //IsDeadが上書きされた状態でTempRestoreが実行されたかどうか
+            bool before_IsCached = IsCached;
             try
             {
-                RestoreIsDead(doSend: false);
+                if (before_IsCached) RestoreIsDead(doSend: false);
                 action();
             }
             catch (Exception ex)
@@ -110,7 +112,7 @@ namespace TownOfHost
             }
             finally
             {
-                SetIsDead(doSend: false);
+                if (before_IsCached) SetIsDead(doSend: false);
             }
             Logger.Info("==/Temp Restore==", "AntiBlackout");
         }
