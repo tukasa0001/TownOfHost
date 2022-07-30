@@ -55,6 +55,7 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
+        public static CustomOption EnableGM;
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
         public static CustomOption BountyTargetChangeTime;
@@ -248,7 +249,7 @@ namespace TownOfHost
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // GM
-            EnableLastImpostor = CustomOption.Create(100, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
+            EnableGM = CustomOption.Create(100, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
