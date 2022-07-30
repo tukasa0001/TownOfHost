@@ -197,7 +197,7 @@ HASFoxInfoLong,"(HideAndSeek):\nThey win the game with other Roles (except Troll
 HASTrollInfoLong,"(HideAndSeek):\nThe Trolls win alone if killed.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。
 
 # GM
-GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。
 
 # 属性
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。
