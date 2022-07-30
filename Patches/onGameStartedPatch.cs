@@ -152,7 +152,7 @@ namespace TownOfHost
                     AllPlayers.Add(pc);
                 }
 
-                if (CustomRoles.GM.IsEnable())
+                if (Options.EnableGM.GetBool())
                 {
                     AllPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
                     PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
