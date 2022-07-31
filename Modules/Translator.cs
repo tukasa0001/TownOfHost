@@ -75,12 +75,12 @@ namespace TownOfHost
             return str;
         }
 
-        public static string GetString(string s, SupportedLangs langId)
+        public static string GetString(string str, SupportedLangs langId)
         {
             var res = "";
-            if (tr.TryGetValue(s, out var dic))
+            if (tr.TryGetValue(str, out var dic))
             {
-                if (dic.TryGetValue((int)langId, out res))
+                if (dic.TryGetValue((int)langId, out res) && res != "")
                 {
                     return res;
                 }
@@ -93,13 +93,13 @@ namespace TownOfHost
                     }
                     else
                     {
-                        return $"<INVALID:{s}>";
+                        return $"<INVALID:{str}>";
                     }
                 }
             }
             else
             {
-                return $"<INVALID:{s}>";
+                return $"<INVALID:{str}>";
             }
         }
     }
