@@ -288,6 +288,10 @@ namespace TownOfHost
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);
                         break;
+                    case CustomWinner.Jackal:
+                        JackalWin();
+                        break;
+
                     default:
                         if (Main.currentWinner != CustomWinner.Default)
                             Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
@@ -328,6 +332,11 @@ namespace TownOfHost
             Main.WonArsonistID = arsonistID;
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
+        }
+        public static void JackalWin()
+        {
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
         }
         public static void ForceEndGame()
         {
