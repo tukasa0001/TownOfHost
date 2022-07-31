@@ -135,12 +135,7 @@ namespace TownOfHost
                     Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetTimeThiefKillCount:
-                    byte TimeThiefId = reader.ReadByte();
-                    int TimeThiefKillCount = reader.ReadInt32();
-                    if (Main.TimeThiefKillCount.ContainsKey(TimeThiefId))
-                        Main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
-                    else
-                        Main.TimeThiefKillCount.Add(TimeThiefId, 0);
+                    TimeThief.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
@@ -281,6 +276,10 @@ namespace TownOfHost
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);
                         break;
+                    case CustomWinner.Jackal:
+                        JackalWin();
+                        break;
+
                     default:
                         if (Main.currentWinner != CustomWinner.Default)
                             Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
@@ -321,6 +320,11 @@ namespace TownOfHost
             Main.WonArsonistID = arsonistID;
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
+        }
+        public static void JackalWin()
+        {
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
         }
         public static void ForceEndGame()
         {
