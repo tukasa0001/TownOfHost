@@ -77,30 +77,12 @@ namespace TownOfHost
 
         public static string GetString(string str, SupportedLangs langId)
         {
-            var res = "";
-            if (tr.TryGetValue(str, out var dic))
+            var res = $"<INVALID:{str}>";
+            if (tr.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                if (dic.TryGetValue((int)langId, out res) && res != "")
-                {
-                    return res;
-                }
-                else
-                {
-                    if (dic.TryGetValue(0, out res))
-                    {
-                        Logger.Info($"Redirect to English: {res}", "Translator");
-                        return res;
-                    }
-                    else
-                    {
-                        return $"<INVALID:{str}>";
-                    }
-                }
+                res = $"*{dic[0]}";
             }
-            else
-            {
-                return $"<INVALID:{str}>";
-            }
+            return res;
         }
     }
 }
