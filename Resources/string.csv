@@ -394,7 +394,7 @@ InvalidArgs,Invalid Args,無効な引数
 On,ON,オン
 Off,OFF,オフ
 ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>
-ColoredOff,<color=#fe0030>OFF</color>,<color=#fe0030>オフ</color>
+ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明
 WitchCurrentMode,Current Mode,現在のモード
 WitchModeKill,Kill,キル
