@@ -300,11 +300,7 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
-                        var removecolortag = new Dictionary<string, string>() {
-                            { "ColoredOn", "On" },
-                            { "ColoredOff", "Off" }
-                            };
-                        foreach (var coloredstring in removecolortag) text = text.Replace(GetString(coloredstring.Key), GetString(coloredstring.Value));
+                        text = text.RemoveHtmlTags();
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
