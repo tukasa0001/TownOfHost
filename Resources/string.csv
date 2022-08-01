@@ -392,8 +392,8 @@ commandError,Error:%1$,エラー:%1$,错误:%1$
 InvalidArgs,Invalid Args,無効な引数,无效参数
 On,ON,オン,开启
 Off,OFF,オフ,关闭
-ColoredOn,<color=#33ffcc>ON</color>,<color=#33ffcc>オン</color>,<color=#33ffcc>开启</color>
-ColoredOff,<color=#ff3366>OFF</color>,<color=#ff3366>オフ</color>,<color=#ff3366>关闭</color>
+ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>
+ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明,当前启用设置及帮助
 WitchCurrentMode,Current Mode,現在のモード,当前游戏模式:
 WitchModeKill,Kill,キル,击杀
