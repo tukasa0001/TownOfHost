@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -164,7 +165,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                Logger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message), true);
                 throw;
             }
         }
