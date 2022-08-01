@@ -4,6 +4,7 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -332,7 +333,7 @@ namespace TownOfHost
                                 else
                                 {
                                     Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                                    Logger.SendInGame("スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。");
+                                    Logger.SendInGame(GetString("Error.SpeedBoosterNullException"));
                                     Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
                                 }
                             }
