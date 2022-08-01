@@ -364,11 +364,26 @@ Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参
 
 CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
 
+## メッセージ
+Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,,
+Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,,
+Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},,
+Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,
+Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,
+Message.Executed,{0} was executed,{0}を処刑しました,,
+
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,,
+
+## エラー
+Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,,
+Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),,
+Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,,
 
 ## その他
+ForExample,For Example,使用例,,
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
