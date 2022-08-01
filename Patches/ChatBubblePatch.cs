@@ -16,7 +16,7 @@ namespace TownOfHost.Patches
     {
         public static void Postfix(ChatBubble __instance)
         {
-            if (GameStates.IsInGame)
+            if (GameStates.IsInGame && __instance.playerInfo.PlayerId == PlayerControl.LocalPlayer.PlayerId)
                 __instance.NameText.color = PlayerControl.LocalPlayer.GetRoleColor();
         }
     }
