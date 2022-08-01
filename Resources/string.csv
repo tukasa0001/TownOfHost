@@ -72,7 +72,7 @@ HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,诱捕者,誘捕者
 
 # 属性
-LastImpostor,Last Impostor,ラストインポスター,绝境者,最後一隻狼
+LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
 
 # その他
 TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
@@ -123,7 +123,7 @@ DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,世�
 ArsonistInfo,Let them burn,燃やせ,用火焰净化一切,"燒吧,燒吧,燃燒吧"
 JesterInfo,Get voted out,追放されよう,想办法被投出去,想個辦法讓你被投出去
 OpportunistInfo,Stay alive,とにかく生き残りましょう,苟且偷生,做點什麼事來讓你存活
-SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,成为杀害你的玩家的仆从,成為殺害你的人的陣營的跟班
+SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,成为杀害你的玩家的仆从,成為殺害你的人的跟班
 CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你是船员的仆从,"你是船員的跟班"
 MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你是内鬼的仆从,"你是狼人的跟班"
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你是野心家的仆从,"你是利己主義者的跟班"
