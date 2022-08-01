@@ -48,6 +48,14 @@ namespace TownOfHost
                         Main.currentWinner = CustomWinner.Egoist;
                 }
             }
+            if (Main.currentWinner == CustomWinner.Jackal)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.Jackal) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
+                }
+            }
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -85,7 +93,7 @@ namespace TownOfHost
                 }
             }
             if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
-            && (Main.currentWinner == CustomWinner.Impostor
+            && (Main.currentWinner == CustomWinner.Impostor || Main.currentWinner == CustomWinner.Jackal
             || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
                 winner = new();
@@ -177,8 +185,10 @@ namespace TownOfHost
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
                     {
                         //トロールが殺されていれば単独勝ち
-                        winner = new();
-                        winner.Add(pc);
+                        winner = new()
+                        {
+                            pc
+                        };
                         break;
                     }
                     else if (role == CustomRoles.HASFox && Main.currentWinner != CustomWinner.HASTroll && !pc.Data.IsDead)
@@ -197,7 +207,6 @@ namespace TownOfHost
 
             Main.BountyTimer = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.SerialKillerTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 
             NameColorManager.Instance.RpcReset();

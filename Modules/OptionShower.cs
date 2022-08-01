@@ -16,9 +16,11 @@ namespace TownOfHost
         {
             //初期化
             string text = "";
-            pages = new();
-            //1ページに基本ゲーム設定を格納
-            pages.Add(PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n");
+            pages = new()
+            {
+                //1ページに基本ゲーム設定を格納
+                PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
+            };
             //ゲームモードの表示
             text += $"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n";
             //Standardの時のみ実行
@@ -60,7 +62,7 @@ namespace TownOfHost
                     text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
                     text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
                 }
-                if (kvp.Key is CustomRoles.Shapeshifter or CustomRoles.ShapeMaster or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
+                if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                 {
                     text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
                 }
