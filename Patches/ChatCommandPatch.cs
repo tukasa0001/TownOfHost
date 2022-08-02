@@ -67,7 +67,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if (args.Length > 1) { Main.nickName = args[1]; }
+                        Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
                         break;
 
                     case "/n":
