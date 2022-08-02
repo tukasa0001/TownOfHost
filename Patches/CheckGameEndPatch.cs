@@ -31,6 +31,7 @@ namespace TownOfHost
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                 }
             }
@@ -82,7 +83,8 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive)
+            if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&
+                statistics.TeamJackalAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamImpostorsAlive != 0) return false;
                 __instance.enabled = false;
@@ -97,10 +99,34 @@ namespace TownOfHost
             }
             return false;
         }
+        private static bool CheckAndEndGameForJackalWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive &&
+                statistics.TeamImpostorsAlive <= 0)
+            {
+                if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamJackalAlive != 0) return false;
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Jackal);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.JackalWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
 
         private static bool CheckAndEndGameForCrewmateWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TeamImpostorsAlive == 0)
+            if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
@@ -194,7 +220,10 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
-                if (pc.Is(CustomRoles.Sheriff) || (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || LoseImpostorRole)
+                if (pc.Is(CustomRoles.Sheriff) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
+                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
+                    LoseImpostorRole)
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
@@ -209,6 +238,7 @@ namespace TownOfHost
         {
             public int TeamImpostorsAlive { get; set; }
             public int TotalAlive { get; set; }
+            public int TeamJackalAlive { get; set; }
 
             public PlayerStatistics(ShipStatus __instance)
             {
@@ -219,6 +249,7 @@ namespace TownOfHost
             {
                 int numImpostorsAlive = 0;
                 int numTotalAlive = 0;
+                int numJackalsAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
@@ -243,12 +274,14 @@ namespace TownOfHost
                             {
                                 numImpostorsAlive++;
                             }
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
                         }
                     }
                 }
 
                 TeamImpostorsAlive = numImpostorsAlive;
                 TotalAlive = numTotalAlive;
+                TeamJackalAlive = numJackalsAlive;
             }
         }
     }
