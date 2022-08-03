@@ -255,6 +255,11 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = "";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -328,6 +333,11 @@ namespace TownOfHost
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = GetString("Roles") + ":";
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {

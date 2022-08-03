@@ -221,6 +221,7 @@ SuffixMode.Recording,Recording,録画中,录像中,錄影中
 ColorNameMode,Color Name Mode,色名前モード,显示颜色,七彩名字模式
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
+HideGameSettings,Hide Game Settings,ゲーム設定を隠す,,
 RoleOptions,Role Options,役職設定,职业设置,職業設定
 ModeOptions,Mode Options,モード設定,模组设置,模式設定
 ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用日語
@@ -371,6 +372,7 @@ Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add
 Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,沒有找到與「{0}」相關的訊息
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0} was executed,{0}を処刑しました,,
+Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
