@@ -10,7 +10,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                CustomRoles.ShapeMaster or
+                //CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
@@ -43,6 +43,8 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Jackal or
+                CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
