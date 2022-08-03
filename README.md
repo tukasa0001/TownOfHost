@@ -822,7 +822,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 ## 開発者
 <!--
-開発者になった順番で記載する
+開発者用チャンネルでの一番最初の発言が早い順に記載する。
 - [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
 - [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
 - [何もなくていい場合は消してOK](https://github.com/)
