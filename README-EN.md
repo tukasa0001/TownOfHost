@@ -868,8 +868,6 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 
-Twitter : https://twitter.com/XenonBottle<br>
-
 Translated with https://www.deepl.com<br>
 
 ## Developers
