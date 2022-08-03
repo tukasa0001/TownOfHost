@@ -85,7 +85,12 @@ namespace TownOfHost
                     {
                         text += $"{o.GetName()}: {o.GetString()}\n";
                         foreach (var c in o.Children)
+                        {
                             text += $"\t{c.GetName_v()}: {c.GetString()}\n";
+                            if (c.Children != null)
+                                foreach (var c2 in c.Children)
+                                    text += $"\t\t{c2.GetName_v()}: {c2.GetString()}\n";
+                        }
                         text += "\n";
                     }
                 }
