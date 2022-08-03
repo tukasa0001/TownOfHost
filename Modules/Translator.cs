@@ -75,32 +75,14 @@ namespace TownOfHost
             return str;
         }
 
-        public static string GetString(string s, SupportedLangs langId)
+        public static string GetString(string str, SupportedLangs langId)
         {
-            var res = "";
-            if (tr.TryGetValue(s, out var dic))
+            var res = $"<INVALID:{str}>";
+            if (tr.TryGetValue(str, out var dic) && (!dic.TryGetValue((int)langId, out res) || res == "")) //strに該当する&無効なlangIdかresが空
             {
-                if (dic.TryGetValue((int)langId, out res))
-                {
-                    return res;
-                }
-                else
-                {
-                    if (dic.TryGetValue(0, out res))
-                    {
-                        Logger.Info($"Redirect to English: {res}", "Translator");
-                        return res;
-                    }
-                    else
-                    {
-                        return $"<INVALID:{s}>";
-                    }
-                }
+                res = $"*{dic[0]}";
             }
-            else
-            {
-                return $"<INVALID:{s}>";
-            }
+            return res;
         }
     }
 }
