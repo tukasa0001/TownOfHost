@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -136,7 +137,13 @@ namespace TownOfHost
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
-                __instance.RpcVotingComplete(states, exiledPlayer, tie); //RPC
+                //RPC
+                if (AntiBlackout.OverrideExiledPlayer)
+                {
+                    __instance.RpcVotingComplete(states, null, true);
+                    ExileControllerWrapUpPatch.AntiBlackout_LastExiled = exiledPlayer;
+                }
+                else __instance.RpcVotingComplete(states, exiledPlayer, tie); //通常処理
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
@@ -151,16 +158,14 @@ namespace TownOfHost
                 }
 
                 //霊界用暗転バグ対処
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (Main.ResetCamPlayerList.Contains(pc.PlayerId) && (pc.Data.IsDead || pc.PlayerId == exiledPlayer?.PlayerId)) pc.ResetPlayerCam(19f);
-                }
+                if (!AntiBlackout.OverrideExiledPlayer && exiledPlayer != null && Main.ResetCamPlayerList.Contains(exiledPlayer.PlayerId))
+                    exiledPlayer.Object?.ResetPlayerCam(19f);
 
                 return false;
             }
             catch (Exception ex)
             {
-                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                Logger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message), true);
                 throw;
             }
         }
@@ -225,8 +230,12 @@ namespace TownOfHost
             if (Options.SyncButtonMode.GetBool())
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
+                Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
+            }
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                Utils.SendMessage(Translator.GetString("Warning.OverrideExiledPlayer"));
             }
 
             if (AmongUsClient.Instance.AmHost)
@@ -293,6 +302,10 @@ namespace TownOfHost
                         seer.Is(CustomRoles.EgoSchrodingerCat)) //またはEgoSchrodingerCat
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);//変更対象の名前をエゴイスト色にする
                         break;
+                    case CustomRoles.Jackal:
+                        if (seer.Is(CustomRoles.JSchrodingerCat))
+                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
+                        break;
                     case CustomRoles.Lovers:
                         if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
@@ -326,7 +339,7 @@ namespace TownOfHost
                     player.RpcExileV2();
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
-                    Utils.SendMessage($"{player.Data.PlayerName}を処刑しました");
+                    Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
             }
@@ -349,6 +362,8 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.Info("------------会議終了------------", "Phase");
+            if (AmongUsClient.Instance.AmHost)
+                AntiBlackout.SetIsDead();
         }
     }
 }
