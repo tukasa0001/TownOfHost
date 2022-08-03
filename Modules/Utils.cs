@@ -839,7 +839,7 @@ namespace TownOfHost
         public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
-                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||
