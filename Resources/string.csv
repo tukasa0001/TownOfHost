@@ -221,6 +221,7 @@ SuffixMode.Recording,Recording,録画中,录像中,錄影中
 ColorNameMode,Color Name Mode,色名前モード,显示颜色,七彩名字模式
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
+HideGameSettings,Hide Game Settings,ゲーム設定を隠す,,
 RoleOptions,Role Options,役職設定,职业设置,職業設定
 ModeOptions,Mode Options,モード設定,模组设置,模式設定
 ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用日語
@@ -309,7 +310,7 @@ ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変
 FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花爆破手可放置烟花的最大数量,煙火工匠可設定煙火最大數量
 FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花爆破手烟花爆炸半径,煙火工匠的煙火爆炸半徑
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数,狙击手最大狙击次数,狙擊手子彈最大數量
-SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手有瞄準輔助
+SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手精準射擊模式
 NumberOfLovers,Number Of Lovers(x2members),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
 TimeThiefKillCooldown,TimeThief Kill Cooldown,タイムシーフのキルクール,蚀时者击杀冷却,時間小偷殺人冷卻時間
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
@@ -324,7 +325,7 @@ JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポ�
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
 SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ,飞毛腿加速时的移动速度,被加速器加速的玩家的移動速度
-TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,机关师技能封锁凶手移动时长,設限者禁止移動時間
+TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,机关师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
 HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
 IgnoreVent,Disable Vents,通気口の使用を禁止する,禁止使用管道,禁止使用管道
 HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職,躲猫猫职业,躲貓貓職業
@@ -364,21 +365,37 @@ Command.h_roles,<RoleName> - Display Role Description,<役職名> - 役職の説
 Command.h_attributes,<AttributeName> - Display Attribute Description,<属性名> - 属性の説明を表示,<属性名> - 显示属性介绍,<屬性名> - 顯示關於該屬性的介紹
 Command.h_modes,<ModeName> - Display Mode Description,<モード名> - モードの説明を表示,<模式名> - 显示模式介绍,<模式名> - 顯示關於該模式的介紹
 Command.dump,Output Log to Desktop,デスクトップにログを出力,将游戏运行日志输出到桌面,在桌面上建立遊戲輸出日誌
-Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参数（简写）,可用的參數(略稱)
+Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参数（简写）,可用的參數(簡稱)
 
 CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
+
+## メッセージ
+Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,,訊息發送冷卻已設定為{0}秒
+Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,,在指令後方指定一個數字來設定秒數
+Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},,"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
+Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,沒有找到與「{0}」相關的訊息
+Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
+Message.Executed,{0} was executed,{0}を処刑しました,,
+Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,,"因為收到無效的RPC,所以踢出了{0}\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
+
+## エラー
+Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
+Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),,錯誤:發現玩家{0}持有無效職業
+Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
+ForExample,For Example,使用例,,
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
-updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>模組中
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
 updatePleaseWait,Please Wait...,しばらくお待ちください...,请稍候……,請稍後...
-updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"自動更新失敗,\n請嘗試手動更新"
+updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"更新失敗,\n請嘗試手動更新"
 updateInProgress,Updating...,アップデート中...,更新中……,更新中...
 announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1},<size=3f>更新到v{0}</size>\n{1},<size=3f>更新v{0}</size>\n{1}
 announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1},<size=3f>更新日志 v{0}</size>\n{1},<size=3f>更新內容v{0}</size>\n{1}
@@ -401,7 +418,7 @@ Off,OFF,オフ,关闭,關閉
 ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>
 ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>
 CurrentActiveSettingsHelp,Current active settings help,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
-WitchCurrentMode,Current Mode,現在のモード,当前游戏模式:,現在模式
+WitchCurrentMode,Current Mode,現在のモード,当前游戏模式,現在模式
 WitchModeKill,Kill,キル,击杀,殺人
 WitchModeSpell,Spell,スペル,下咒,下咒
 BountyCurrentTarget,Current Target,現在のターゲット,当前目标,目標
@@ -428,7 +445,7 @@ Preset_2,Preset 2,プリセット2,预设2,設定檔 2
 Preset_3,Preset 3,プリセット3,预设3,設定檔 3
 Preset_4,Preset 4,プリセット4,预设4,設定檔 4
 Preset_5,Preset 5,プリセット5,预设5,設定檔 5
-Standard,Standard,スタンダード,标准,標準
+Standard,Standard,スタンダード,标准,普通
 GameMode,GameMode,ゲームモード,游戏模式,遊戲模式
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...
 RoleSummaryText,Players and roles at the end of the game:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:
@@ -438,7 +455,7 @@ roleLongTasksNum,%role% Long Tasks,%role%のロングタスクの数,%role%的�
 roleShortTasksNum,%role% Short Tasks,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
 KillButtonText,Kill,キル,击杀,殺死
 SniperSnipeButtonText,Snipe,狙撃,击杀,狙擊
-FireWorksExplosionButtonText,Fire,爆破,狙击,爆破
+FireWorksExplosionButtonText,Fire,爆破,狙击,引爆
 FireWorksInstallAtionButtonText,Set,設置,引爆,安裝
 SerialKillerSuicideButtonText,Until Suicide,自殺まで,安置,自殺倒數
 WarlockCurseButtonText,Curse,呪う,自杀倒计时,詛咒
