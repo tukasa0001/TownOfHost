@@ -67,7 +67,7 @@ namespace TownOfHost
                     case "/r":
                     case "/rename":
                         canceled = true;
-                        if (args.Length > 1) { Main.nickName = args[1]; }
+                        Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
                         break;
 
                     case "/n":
@@ -184,7 +184,7 @@ namespace TownOfHost
                     case "/template":
                         canceled = true;
                         if (args.Length > 1) SendTemplate(args[1]);
-                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"使用例:\n{args[0]} test");
+                        else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"{GetString("ForExample")}:\n{args[0]} test");
                         break;
 
                     case "/mw":
@@ -193,9 +193,9 @@ namespace TownOfHost
                         if (args.Length > 1 && int.TryParse(args[1], out int sec))
                         {
                             Main.MessageWait.Value = sec;
-                            Utils.SendMessage($"{sec}秒に設定されました", 0);
+                            Utils.SendMessage(string.Format(GetString("Message.SetToSeconds"), sec), 0);
                         }
-                        else Utils.SendMessage($"第一引数を秒数で指定します。\n使用例:\n{args[0]} 3", 0);
+                        else Utils.SendMessage($"{GetString("Message.MessageWaitHelp")}\n{GetString("ForExample")}:\n{args[0]} 3", 0);
                         break;
 
                     case "/exile":
@@ -340,8 +340,8 @@ namespace TownOfHost
             if (sendList.Count == 0 && !noErr)
             {
                 if (playerId == 0xff)
-                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"「{str}」に該当するメッセージが見つかりませんでした。\n{str}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}");
-                else Utils.SendMessage($"「{str}」に該当するメッセージが見つかりませんでした。\n\n定義されているタグ:\n{tags.Join(delimiter: ", ")}", playerId);
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, string.Format(GetString("Message.TemplateNotFoundHost"), str, tags.Join(delimiter: ", ")));
+                else Utils.SendMessage(string.Format(GetString("Message.TemplateNotFoundClient"), str), playerId);
             }
             else for (int i = 0; i < sendList.Count; i++) Utils.SendMessage(sendList[i], playerId);
         }
@@ -376,7 +376,7 @@ namespace TownOfHost
                 case "/t":
                 case "/template":
                     if (args.Length > 1) SendTemplate(args[1], player.PlayerId);
-                    else Utils.SendMessage($"使用例:\n{args[0]} test", player.PlayerId);
+                    else Utils.SendMessage($"{GetString("ForExample")}:\n{args[0]} test", player.PlayerId);
                     break;
 
                 default:

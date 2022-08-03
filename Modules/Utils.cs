@@ -241,6 +241,7 @@ namespace TownOfHost
             }
             else
             {
+                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo")); }
                 if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo")); }
                 if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
@@ -257,6 +258,11 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = "";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -306,6 +312,10 @@ namespace TownOfHost
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
+                if (Options.DisableDevices.GetBool())
+                {
+                    if (Options.DisableDevices.GetBool()) text += String.Format("\n{0}:{1}", Options.DisableAdmin.GetName(disableColor: true), Options.WhichDisableAdmin.GetString());
+                }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())
                 {
@@ -330,6 +340,11 @@ namespace TownOfHost
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = GetString("Roles") + ":";
             text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))

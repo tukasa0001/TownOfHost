@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -216,7 +217,7 @@ namespace TownOfHost
                         Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                         break;
                     default:
-                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc?.Data?.PlayerName + ")");
+                        Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                         break;
                 }
             }
