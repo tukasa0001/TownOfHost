@@ -360,7 +360,7 @@ Command.h_roles,<RoleName> - Display Role Description,<役職名> - 役職の説
 Command.h_attributes,<AttributeName> - Display Attribute Description,<属性名> - 属性の説明を表示,<属性名> - 显示属性介绍,<屬性名> - 顯示關於該屬性的介紹
 Command.h_modes,<ModeName> - Display Mode Description,<モード名> - モードの説明を表示,<模式名> - 显示模式介绍,<模式名> - 顯示關於該模式的介紹
 Command.dump,Output Log to Desktop,デスクトップにログを出力,将游戏运行日志输出到桌面,在桌面上建立遊戲輸出日誌
-Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参数（简写）,可用的參數(略稱)
+Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参数（简写）,可用的參數(簡稱)
 
 CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
 
