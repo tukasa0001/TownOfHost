@@ -47,8 +47,8 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
-            "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
-            "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
+            "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
+            "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
         public static readonly string[] ExecutionerChangeRoles =
         {
