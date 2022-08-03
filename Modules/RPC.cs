@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -12,11 +13,6 @@ namespace TownOfHost
         VersionCheck = 60,
         SyncCustomSettings = 80,
         SetDeathReason,
-        TrollWin,
-        JesterExiled,
-        TerroristWin,
-        ExecutionerWin,
-        ArsonistWin,
         EndGame,
         PlaySound,
         SetCustomRole,
@@ -25,7 +21,6 @@ namespace TownOfHost
         SetSheriffShotLimit,
         SetTimeThiefKillCount,
         SetDousedPlayer,
-        SendDousedPlayerCount,
         AddNameColorData,
         RemoveNameColorData,
         ResetNameColorData,
@@ -54,13 +49,29 @@ namespace TownOfHost
             {
                 case RpcCalls.SetName: //SetNameRPC
                     string name = subReader.ReadString();
-                    Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
                     if (subReader.BytesRemaining > 0 && subReader.ReadBoolean()) return false;
+                    Logger.Info("名前変更:" + __instance.GetNameWithRole() + " => " + name, "SetName");
+                    break;
+                case RpcCalls.SendChat:
+                    var text = subReader.ReadString();
+                    Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
+                    ChatCommands.OnReceiveChat(__instance, text);
                     break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
+            }
+            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            {
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                if (AmongUsClient.Instance.AmHost)
+                {
+                    AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                    Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
+                    Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
+                }
+                return false;
             }
             return true;
         }
@@ -83,7 +94,7 @@ namespace TownOfHost
                         {
                             AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
                             Logger.Info($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
-                            Logger.SendInGame($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。\nTOH以外のMODが入っていないか確認してください。");
+                            Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
                         }
                     }
                     break;
@@ -97,28 +108,8 @@ namespace TownOfHost
                 case CustomRPC.SetDeathReason:
                     RPC.GetDeathReason(reader);
                     break;
-                case CustomRPC.TrollWin:
-                    byte wonTroll = reader.ReadByte();
-                    RPC.TrollWin(wonTroll);
-                    break;
-                case CustomRPC.JesterExiled:
-                    byte exiledJester = reader.ReadByte();
-                    RPC.JesterExiled(exiledJester);
-                    break;
-                case CustomRPC.TerroristWin:
-                    byte wonTerrorist = reader.ReadByte();
-                    RPC.TerroristWin(wonTerrorist);
-                    break;
-                case CustomRPC.ExecutionerWin:
-                    byte wonExecutioner = reader.ReadByte();
-                    RPC.ExecutionerWin(wonExecutioner);
-                    break;
-                case CustomRPC.ArsonistWin:
-                    byte wonArsonist = reader.ReadByte();
-                    RPC.ArsonistWin(wonArsonist);
-                    break;
                 case CustomRPC.EndGame:
-                    RPC.EndGame();
+                    RPC.EndGame(reader);
                     break;
                 case CustomRPC.PlaySound:
                     byte playerID = reader.ReadByte();
@@ -142,33 +133,16 @@ namespace TownOfHost
                     Main.KillOrSpell[playerId] = KoS;
                     break;
                 case CustomRPC.SetSheriffShotLimit:
-                    byte SheriffId = reader.ReadByte();
-                    float Limit = reader.ReadSingle();
-                    if (Main.SheriffShotLimit.ContainsKey(SheriffId))
-                        Main.SheriffShotLimit[SheriffId] = Limit;
-                    else
-                        Main.SheriffShotLimit.Add(SheriffId, Options.SheriffShotLimit.GetFloat());
+                    Sheriff.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetTimeThiefKillCount:
-                    byte TimeThiefId = reader.ReadByte();
-                    int TimeThiefKillCount = reader.ReadInt32();
-                    if (Main.TimeThiefKillCount.ContainsKey(TimeThiefId))
-                        Main.TimeThiefKillCount[TimeThiefId] = TimeThiefKillCount;
-                    else
-                        Main.TimeThiefKillCount.Add(TimeThiefId, 0);
+                    TimeThief.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetDousedPlayer:
                     byte ArsonistId = reader.ReadByte();
                     byte DousedId = reader.ReadByte();
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
-                    Main.isDeadDoused[DousedId] = true;
-                    break;
-                case CustomRPC.SendDousedPlayerCount:
-                    ArsonistId = reader.ReadByte();
-                    int DousePlayer = reader.ReadInt32();
-                    int AllTargets = reader.ReadInt32();
-                    Main.DousedPlayerCount[ArsonistId] = (DousePlayer, AllTargets);
                     break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
@@ -254,7 +228,7 @@ namespace TownOfHost
         }
         public static async void RpcVersionCheck()
         {
-            while (PlayerControl.LocalPlayer == null) await Task.Delay(1);
+            while (PlayerControl.LocalPlayer == null) await Task.Delay(500);
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
@@ -276,6 +250,48 @@ namespace TownOfHost
             PlayerState.isDead[playerId] = true;
         }
 
+        public static void EndGame(MessageReader reader)
+        {
+            try
+            {
+                List<byte> winner = new();
+                Main.currentWinner = (CustomWinner)reader.ReadInt32();
+                while (reader.BytesRemaining > 0) winner.Add(reader.ReadByte());
+                switch (Main.currentWinner)
+                {
+                    case CustomWinner.Draw:
+                        ForceEndGame();
+                        break;
+                    case CustomWinner.Jester:
+                        JesterExiled(winner[0]);
+                        break;
+                    case CustomWinner.Terrorist:
+                        TerroristWin(winner[0]);
+                        break;
+                    case CustomWinner.Executioner:
+                        ExecutionerWin(winner[0]);
+                        break;
+                    case CustomWinner.Arsonist:
+                        ArsonistWin(winner[0]);
+                        break;
+                    case CustomWinner.HASTroll:
+                        TrollWin(winner[0]);
+                        break;
+                    case CustomWinner.Jackal:
+                        JackalWin();
+                        break;
+
+                    default:
+                        if (Main.currentWinner != CustomWinner.Default)
+                            Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
+            }
+        }
         public static void TrollWin(byte trollID)
         {
             Main.WonTrollID = trollID;
@@ -306,7 +322,12 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
         }
-        public static void EndGame()
+        public static void JackalWin()
+        {
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void ForceEndGame()
         {
             if (ShipStatus.Instance == null) return;
             Main.currentWinner = CustomWinner.Draw;
@@ -341,8 +362,18 @@ namespace TownOfHost
             {
                 Main.AllPlayerCustomSubRoles[targetId] = role;
             }
-            if (role == CustomRoles.FireWorks) FireWorks.Add(targetId);
-            if (role == CustomRoles.Sniper) Sniper.Add(targetId);
+            switch (role)
+            {
+                case CustomRoles.FireWorks:
+                    FireWorks.Add(targetId);
+                    break;
+                case CustomRoles.Sniper:
+                    Sniper.Add(targetId);
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.Add(targetId);
+                    break;
+            }
             HudManager.Instance.SetHudActive(true);
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)

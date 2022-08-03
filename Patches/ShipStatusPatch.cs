@@ -24,7 +24,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Main.introDestroyed)
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -71,7 +71,7 @@ namespace TownOfHost
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
             if (!AmongUsClient.Instance.AmHost) return true;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && systemType == SystemTypes.Sabotage) return false;
+            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
 
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
@@ -164,7 +164,7 @@ namespace TownOfHost
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
@@ -177,7 +177,7 @@ namespace TownOfHost
                 () =>
                 {
                     if (!GameStates.IsMeeting)
-                        Utils.NotifyRoles();
+                        Utils.NotifyRoles(ForceLoop: true);
                 }, 0.1f, "RepairSystem NotifyRoles");
         }
         private static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
@@ -203,7 +203,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            return Options.CurrentGameMode != CustomGameMode.HideAndSeek || Options.AllowCloseDoors.GetBool();
+            return !(Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) || Options.AllowCloseDoors.GetBool();
         }
     }
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]
@@ -237,16 +237,7 @@ namespace TownOfHost
             Logger.CurrentMethod();
             Logger.Info("-----------ゲーム開始-----------", "Phase");
 
-            if (!AmongUsClient.Instance.AmHost)
-            {
-                //クライアントの役職初期設定はここで行う
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    PlayerState.InitTask(pc);
-                }
-                Utils.CountAliveImpostors();
-                Utils.NotifyRoles();
-            }
+            Utils.CountAliveImpostors();
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]
@@ -257,12 +248,6 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                PlayerState.InitTask(pc);
-            }
-
-            Utils.NotifyRoles();
         }
     }
 }

@@ -60,14 +60,9 @@ namespace TownOfHost
         public static CustomOption BountyTargetChangeTime;
         public static CustomOption BountySuccessKillCooldown;
         public static CustomOption BountyFailureKillCooldown;
-        public static CustomOption BHDefaultKillCooldown;
-        public static CustomOption SerialKillerCooldown;
-        public static CustomOption SerialKillerLimit;
-        public static CustomOption TimeThiefDecreaseDiscussionTime;
-        public static CustomOption TimeThiefDecreaseVotingTime;
+        public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption VampireKillDelay;
-        public static CustomOption BlackOutMareSpeed;
-        public static CustomOption ShapeMasterShapeshiftDuration;
+        //public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
         public static CustomOption MadGuardianCanSeeWhoTriedToKill;
@@ -92,17 +87,6 @@ namespace TownOfHost
         public static CustomOption SabotageMasterFixesElectrical;
         public static int SabotageMasterUsedSkillCount;
         public static CustomOption DoctorTaskCompletedBatteryCharge;
-        public static CustomOption SheriffKillCooldown;
-        public static CustomOption SheriffCanKillArsonist;
-        public static CustomOption SheriffCanKillMadmate;
-        public static CustomOption SheriffCanKillJester;
-        public static CustomOption SheriffCanKillTerrorist;
-        public static CustomOption SheriffCanKillOpportunist;
-        public static CustomOption SheriffCanKillEgoist;
-        public static CustomOption SheriffCanKillEgoShrodingerCat;
-        public static CustomOption SheriffCanKillExecutioner;
-        public static CustomOption SheriffCanKillCrewmatesAsIt;
-        public static CustomOption SheriffShotLimit;
         public static CustomOption SnitchEnableTargetArrow;
         public static CustomOption SnitchCanGetArrowColor;
         public static CustomOption SnitchCanFindNeutralKiller;
@@ -115,6 +99,10 @@ namespace TownOfHost
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
+        public static CustomOption JackalKillCooldown;
+        public static CustomOption JackalCanVent;
+        public static CustomOption JackalCanUseSabotage;
+        public static CustomOption JackalHasImpostorVision;
 
         // HideAndSeek
         public static CustomOption AllowCloseDoors;
@@ -122,7 +110,6 @@ namespace TownOfHost
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
-        public static float HideAndSeekImpVisionMin = 0.25f;
 
         // ボタン回数
         public static CustomOption SyncButtonMode;
@@ -157,8 +144,14 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        //転落死
+        public static CustomOption LadderDeath;
+        public static CustomOption LadderDeathChance;
+
         // 通常モードでかくれんぼ
+        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
         public static CustomOption StandardHAS;
+        public static CustomOption StandardHASWaitingTime;
 
         // リアクターの時間制御
         public static CustomOption SabotageTimeControl;
@@ -175,8 +168,10 @@ namespace TownOfHost
         public static CustomOption NoGameEnd;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
+        public static CustomOption ColorNameMode;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
+        public static CustomOption HideGameSettings;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -233,6 +228,11 @@ namespace TownOfHost
             var chance = CustomRoleSpawnChances.TryGetValue(role, out var sc) ? sc.GetSelection() : 0;
             return chance == 0 ? 0 : CustomRoleCounts.TryGetValue(role, out var option) ? (int)option.GetFloat() : roleCounts[role];
         }
+
+        public static float GetRoleChance(CustomRoles role)
+        {
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10f : roleSpawnChances[role];
+        }
         public static void Load()
         {
             if (IsLoaded) return;
@@ -250,14 +250,12 @@ namespace TownOfHost
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
             SetupRoleOptions(1000, CustomRoles.BountyHunter);
-            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 10, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 5, 5, 999, 1, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50, 5, 999, 5, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            SetupRoleOptions(1100, CustomRoles.SerialKiller);
-            SerialKillerCooldown = CustomOption.Create(1110, Color.white, "SerialKillerCooldown", 20, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SerialKillerLimit = CustomOption.Create(1111, Color.white, "SerialKillerLimit", 60, 5, 1000, 5, CustomRoleSpawnChances[CustomRoles.SerialKiller]);
-            SetupRoleOptions(1200, CustomRoles.ShapeMaster);
-            ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
+            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            SerialKiller.SetupCustomOption();
+            // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
+            // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
@@ -266,13 +264,9 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
-            SetupRoleOptions(2300, CustomRoles.Mare);
-            BlackOutMareSpeed = CustomOption.Create(2310, Color.white, "BlackOutMareSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Mare]);
-            SetupRoleOptions(2400, CustomRoles.TimeThief);
-            TimeThiefDecreaseDiscussionTime = CustomOption.Create(2410, Color.white, "TimeThiefDecreaseDiscussionTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            TimeThiefDecreaseVotingTime = CustomOption.Create(2411, Color.white, "TimeThiefDecreaseVotingTime", 1, 0, 100, 1, CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            Mare.SetupCustomOption();
+            TimeThief.SetupCustomOption();
 
-            BHDefaultKillCooldown = CustomOption.Create(5010, Color.white, "BHDefaultKillCooldown", 30, 1, 999, 1, null, true);
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
             CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
 
@@ -280,12 +274,12 @@ namespace TownOfHost
             SetupRoleOptions(10000, CustomRoles.Madmate);
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
-            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             //ID10120~10123を使用
+            MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
-            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             //ID10220~10223を使用
+            MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
@@ -311,24 +305,13 @@ namespace TownOfHost
             SabotageMasterFixesOxygens = CustomOption.Create(20313, Color.white, "SabotageMasterFixesOxygens", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesComms = CustomOption.Create(20314, Color.white, "SabotageMasterFixesCommunications", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
             SabotageMasterFixesElectrical = CustomOption.Create(20315, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SetupRoleOptions(20400, CustomRoles.Sheriff);
-            SheriffKillCooldown = CustomOption.Create(20410, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillArsonist = CustomOption.Create(20417, Color.white, "SheriffCanKillArsonist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillMadmate = CustomOption.Create(20411, Color.white, "SheriffCanKillMadmate", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillJester = CustomOption.Create(20412, Color.white, "SheriffCanKillJester", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillTerrorist = CustomOption.Create(20413, Color.white, "SheriffCanKillTerrorist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillOpportunist = CustomOption.Create(20414, Color.white, "SheriffCanKillOpportunist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillEgoist = CustomOption.Create(20418, Color.white, "SheriffCanKillEgoist", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillEgoShrodingerCat = CustomOption.Create(20419, Color.white, "SheriffCanKillEgoShrodingerCat", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillExecutioner = CustomOption.Create(20419, Color.white, "SheriffCanKillExecutioner", true, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillCrewmatesAsIt = CustomOption.Create(20415, Color.white, "SheriffCanKillCrewmatesAsIt", false, CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffShotLimit = CustomOption.Create(20416, Color.white, "SheriffShotLimit", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            Sheriff.SetupCustomOption();
             SetupRoleOptions(20500, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
-            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             //20520~20523を使用
+            SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
@@ -345,8 +328,8 @@ namespace TownOfHost
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
-            SnitchTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             //50220~50223を使用
+            TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
@@ -356,6 +339,12 @@ namespace TownOfHost
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            //Jackalは1人固定
+            SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1);
+            JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
             // Attribute
             EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
@@ -428,8 +417,14 @@ namespace TownOfHost
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
+            // 転落死
+            LadderDeath = CustomOption.Create(101100, Color.white, "LadderDeath", false, null, true);
+            LadderDeathChance = CustomOption.Create(101110, Color.white, "LadderDeathChance", rates[1..], rates[2], LadderDeath);
+
             // 通常モードでかくれんぼ用
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
@@ -439,9 +434,13 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             SuffixMode = CustomOption.Create(100602, Color.white, "SuffixMode", suffixModes, suffixModes[0])
                 .SetGameMode(CustomGameMode.All);
+            ColorNameMode = CustomOption.Create(100605, Color.white, "ColorNameMode", false)
+                .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = CustomOption.Create(100603, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
+                .SetGameMode(CustomGameMode.All);
+            HideGameSettings = CustomOption.Create(100606, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;
@@ -467,6 +466,19 @@ namespace TownOfHost
                 .SetGameMode(customGameMode);
 
             var countOption = CustomOption.Create(id + 1, Color.white, "NumberOfLovers", 2, 1, 15, 1, spawnOption, false, true)
+                .HiddenOnDisplay(false)
+                .SetGameMode(customGameMode);
+
+            CustomRoleSpawnChances.Add(role, spawnOption);
+            CustomRoleCounts.Add(role, countOption);
+        }
+        public static void SetupSingleRoleOptions(int id, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
+        {
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+                .HiddenOnDisplay(true)
+                .SetGameMode(customGameMode);
+            // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
+            var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", count, count, count, count, spawnOption, false, true)
                 .HiddenOnDisplay(false)
                 .SetGameMode(customGameMode);
 

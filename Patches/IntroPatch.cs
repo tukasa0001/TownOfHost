@@ -15,15 +15,17 @@ namespace TownOfHost
             new LateTask(() =>
             {
                 CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
-                if (role.IsVanilla()) return;
-                __instance.RoleText.text = Utils.GetRoleName(role);
-                __instance.RoleText.color = Utils.GetRoleColor(role);
-                __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
-                __instance.YouAreText.color = Utils.GetRoleColor(role);
+                if (!role.IsVanilla())
+                {
+                    __instance.YouAreText.color = Utils.GetRoleColor(role);
+                    __instance.RoleText.text = Utils.GetRoleName(role);
+                    __instance.RoleText.color = Utils.GetRoleColor(role);
+                    __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
 
-                __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
-                    ? GetString("WatcherInfo")
-                    : GetString(role.ToString() + "Info");
+                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
+                        ? GetString("WatcherInfo")
+                        : GetString(role.ToString() + "Info");
+                }
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
 
@@ -39,8 +41,8 @@ namespace TownOfHost
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.nameText.text}", "Info");
-                pc.nameText.text = pc.name;
+                Logger.Info($"{(pc.AmOwner ? "[*]" : ""),-3}{pc.PlayerId,-2}:{pc.name.PadRightV2(20)}:{pc.cosmetics.nameText.text}", "Info");
+                pc.cosmetics.nameText.text = pc.name;
             }
             Logger.Info("----------役職割り当て----------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
@@ -63,9 +65,12 @@ namespace TownOfHost
             Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in CustomOption.Options)
                 if (!o.IsHidden(Options.CurrentGameMode) && (o.Parent == null ? !o.GetString().Equals("0%") : o.Parent.Enabled))
-                    Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString()}", "Info");
+                    Logger.Info($"{(o.Parent == null ? o.Name.PadRightV2(40) : $"┗ {o.Name}".PadRightV2(41))}:{o.GetString().RemoveHtmlTags()}", "Info");
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
+            PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
+
+            Utils.NotifyRoles();
 
             GameStates.InGame = true;
         }
@@ -213,11 +218,20 @@ namespace TownOfHost
         }
     }
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
-    class IntroCutsceneDestoryPatch
+    class IntroCutsceneDestroyPatch
     {
         public static void Postfix(IntroCutscene __instance)
         {
             Main.introDestroyed = true;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    pc.RpcSetRole(RoleTypes.Shapeshifter);
+                    pc.RpcResetAbilityCooldown();
+                }
+            }
+            Logger.Info("OnDestroy", "IntroCutscene");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Witch or
-                CustomRoles.ShapeMaster or
+                //CustomRoles.ShapeMaster or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
@@ -19,7 +19,8 @@ namespace TownOfHost
                 CustomRoles.TimeThief or
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
-                CustomRoles.Sniper;
+                CustomRoles.Sniper or
+                CustomRoles.LastImpostor;
         }
         public static bool IsMadmate(this CustomRoles role)
         {
@@ -42,9 +43,12 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Jackal or
+                CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
         public static bool IsVanilla(this CustomRoles role)
         {
             return
@@ -83,6 +87,26 @@ namespace TownOfHost
             else
             {
                 return Options.GetRoleCount(role);
+            }
+        }
+        public static float GetChance(this CustomRoles role)
+        {
+            if (role.IsVanilla())
+            {
+                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                return role switch
+                {
+                    CustomRoles.Engineer => roleOpt.GetChancePerGame(RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetChancePerGame(RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetChancePerGame(RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
+                    _ => 0
+                } / 100f;
+            }
+            else
+            {
+                return Options.GetRoleChance(role);
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
