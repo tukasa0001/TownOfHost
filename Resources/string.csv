@@ -305,7 +305,7 @@ ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変
 FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花爆破手可放置烟花的最大数量,煙火工匠可設定煙火最大數量
 FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花爆破手烟花爆炸半径,煙火工匠的煙火爆炸半徑
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数,狙击手最大狙击次数,狙擊手子彈最大數量
-SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手有瞄準輔助
+SniperPrecisionShooting,Sniper Precise Shooting,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手精準射擊模式
 NumberOfLovers,Number Of Lovers(x2members),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
 TimeThiefKillCooldown,TimeThief Kill Cooldown,タイムシーフのキルクール,蚀时者击杀冷却,時間小偷殺人冷卻時間
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
@@ -320,7 +320,7 @@ JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポ�
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
 SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ,飞毛腿加速时的移动速度,被加速器加速的玩家的移動速度
-TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,机关师技能封锁凶手移动时长,設限者禁止移動時間
+TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,机关师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
 HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
 IgnoreVent,Disable Vents,通気口の使用を禁止する,禁止使用管道,禁止使用管道
 HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職,躲猫猫职业,躲貓貓職業
@@ -365,31 +365,31 @@ Command.h_args,Available Args (clipped),使用可能な引数 (略称),可用参
 CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使用することはできません。,不可以在游戏中使用/lastroles命令,不可以在遊戲中使用/lastroles指令
 
 ## メッセージ
-Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,,
-Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,,
-Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},,
-Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,
-Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,
+Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,,訊息發送冷卻已設定為{0}秒
+Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,,在指令後方指定一個數字來設定秒數
+Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},,"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
+Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,沒有找到與「{0}」相關的訊息
+Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0} was executed,{0}を処刑しました,,
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,野心家无法获胜,利己主義者無法獲勝
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
-Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,,
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,,"因為收到無效的RPC,所以踢出了{0}\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
 
 ## エラー
-Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,,
-Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),,
-Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,,
+Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
+Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),,錯誤:發現玩家{0}持有無效職業
+Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
 ForExample,For Example,使用例,,
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
-updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>模組中
+updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
 updatePleaseWait,Please Wait...,しばらくお待ちください...,请稍候……,請稍後...
-updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"自動更新失敗,\n請嘗試手動更新"
+updateManually,Update failed.\nPlease Update Manually.,アップデートに失敗しました。\n手動でアップデートをしてください。,更新失败。\n请尝试手动更新。,"更新失敗,\n請嘗試手動更新"
 updateInProgress,Updating...,アップデート中...,更新中……,更新中...
 announcementUpdate,<size=3f>Update v{0}</size>\n{1},<size=3f>アップデート v{0}</size>\n{1},<size=3f>更新到v{0}</size>\n{1},<size=3f>更新v{0}</size>\n{1}
 announcementChangelog,<size=3f>ChangeLogs v{0}</size>\n{1},<size=3f>更新内容 v{0}</size>\n{1},<size=3f>更新日志 v{0}</size>\n{1},<size=3f>更新內容v{0}</size>\n{1}
