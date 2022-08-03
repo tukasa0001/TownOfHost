@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -37,8 +38,6 @@ namespace TownOfHost
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
-
-            Main.TimeThiefKillCount = new Dictionary<byte, int>();
 
             Main.SpelledPlayer = new List<PlayerControl>();
             Main.witchMeeting = false;
@@ -100,6 +99,8 @@ namespace TownOfHost
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
+            TimeThief.Init();
+            Mare.Init();
             Sheriff.Init();
         }
     }
@@ -152,6 +153,7 @@ namespace TownOfHost
 
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -205,7 +207,7 @@ namespace TownOfHost
                         Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
                         break;
                     default:
-                        Logger.SendInGame("エラー:役職設定中に無効な役職のプレイヤーを発見しました(" + pc?.Data?.PlayerName + ")");
+                        Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
                         break;
                 }
             }
@@ -302,6 +304,9 @@ namespace TownOfHost
                             Main.isTargetKilled.Add(pc.PlayerId, false);
                             Main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
                             break;
+                        case CustomRoles.SerialKiller:
+                            SerialKiller.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.Witch:
                             Main.KillOrSpell.Add(pc.PlayerId, false);
                             break;
@@ -313,11 +318,13 @@ namespace TownOfHost
                             FireWorks.Add(pc.PlayerId);
                             break;
                         case CustomRoles.TimeThief:
-                            Main.TimeThiefKillCount[pc.PlayerId] = 0;
-                            pc.RpcSetTimeThiefKillCount();
+                            TimeThief.Add(pc, pc.PlayerId);
                             break;
                         case CustomRoles.Sniper:
                             Sniper.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Mare:
+                            Mare.Add(pc.PlayerId);
                             break;
 
                         case CustomRoles.Arsonist:
@@ -385,8 +392,8 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
 
-            // ResetCamが必要なプレイヤーのリスト
-            Main.ResetCamPlayerList = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist).Select(p => p.PlayerId).ToList();
+            // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
+            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Jackal).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
