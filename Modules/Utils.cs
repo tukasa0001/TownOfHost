@@ -255,6 +255,11 @@ namespace TownOfHost
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = "";
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
@@ -300,11 +305,7 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
-                        var removecolortag = new Dictionary<string, string>() {
-                            { "ColoredOn", "On" },
-                            { "ColoredOff", "Off" }
-                            };
-                        foreach (var coloredstring in removecolortag) text = text.Replace(GetString(coloredstring.Key), GetString(coloredstring.Value));
+                        text = text.RemoveHtmlTags();
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
@@ -332,6 +333,11 @@ namespace TownOfHost
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
             var text = GetString("Roles") + ":";
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {

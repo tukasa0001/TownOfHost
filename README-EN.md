@@ -113,12 +113,11 @@ For example: `welcome:This room is using TownOfHost.`
 | [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
 | [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [ShapeMaster](#ShapeMaster)         | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [Sniper](#Sniper)                   | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [TimeThief](#TimeThief)             | [Snitch](#Snitch)                 |                                   |
-| [Vampire](#Vampire)                 | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Warlock](#Warlock)                 | [Trapper](#Trapper)               |                                   |
-| [Witch](#Witch)                     |                                   |                                   |
+| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
+| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
+| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
 | [Mafia](#Mafia)                     |                                   |                                   |
 | [Madmate](#Madmate)                 |                                   |                                   |
 | [MadGuardian](#MadGuardian)         |                                   |                                   |
@@ -187,8 +186,9 @@ While lights out they can move faster, and yet their name looks red by everyone.
 Team : Impostors<br>
 Basis : Impostor<br>
 
-They can perform secondhand kills but cannot kill like other Impostors.<br>
-Their direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.<br>
+The puppeteer can curse a crewmate and force them to kill the next non-impostor they come near.<br>
+The cursed crewmate can kill a mad role also.<br>
+It is not possible for puppeteer to perform a normal kill.<br>
 
 ### SerialKiller
 
@@ -272,9 +272,8 @@ Depending on option, the lost time is returned after they die.<br>
 Team : Impostors<br>
 Basis : Impostor<br>
 
-The Vampires can bite players instead of kill.<br>
-Bitten players die after a configurable amount of time or just before emergency meeting call.<br>
-When biting [Bait](#Bait), However, they take a no delay, normal kill and are forced to self report.<br>
+When the vampire kills, the kill is delayed (the bitten player will die in a set time based on settings or when the next meeting is called).<br>
+If the vampire butes [Bait](#Bait), the player will die immediately and a self-report will be forced.<br>
 
 #### Game Options
 
@@ -287,9 +286,10 @@ When biting [Bait](#Bait), However, they take a no delay, normal kill and are fo
 Team : Impostors<br>
 Basis : Shapeshifter<br>
 
-The Warlocks can curse another players before Shapeshifting.<br>
-When they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.<br>
-While Shapeshifting, they can perform normal kills.<br>
+When a warlock presses kill, the target is cursed. <br>
+The next time the warlock shifts, the cursed player will kill the nearest person.<br>
+If you shapeshift as Warlock, you can make a regular kill. <br>
+Beware, if you or another impostor are the nearest to the player you have cursed when you shift you will be killed.<br>
 
 ### Witch
 
@@ -385,8 +385,7 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 Team : Impostors or Crewmates<br>
 Basis : Impostor or Crewmates<br>
 
-The Watchers can see colored votes regardless of anonymous votes.<br>
-There are both Impostor Roles (Evil Watcher) and Crewmate Roles (Nice Watcher).<br>
+The watcher can see who each player has voted during every meeting. <br>
 
 #### Game Options
 
@@ -402,7 +401,8 @@ There are both Impostor Roles (Evil Watcher) and Crewmate Roles (Nice Watcher).<
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When the Baits are killed, they force the killer to self report in no time.<br>
+When Bait is killed, the imposter will automatically self report.<br>
+This also applies to delayed kills- Once the kill button is pressed, the report will be immediate.<br>
 
 ### Dictator
 
@@ -419,7 +419,8 @@ After exercising the force, the Dictators die just after meeting.<br>
 Team : Crewmates<br>
 Basis : Scientist<br>
 
-The Doctors have a portable vitals panel just like the vanilla Role Scientists. In addtion, the Doctors can see all causes of death in meetings.<br>
+The doctor can see when Crewmates die using vitals anywhere in the map.<br>
+By closing the chat, the doctor can see the dead players cause of death next to their name in all meetings.<br>
 
 #### Game Options
 | Name                    |
@@ -484,10 +485,10 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 Team : Crewmates<br>
 Basis : Impostor(Only host is the Crewmate)<br>
 
-The Sheriffs can kill Impostors.<br>
-They don't have tasks.<br>
-If trying to kill the Crewmates, however, they will kill themselves instead.<br>
-Whether or not they can kill Madmates or Neutrals is up to each option.<br>
+Sheriff can kill imposters always.<br>
+Depending on settings, Sheriff may also kill neutrals.<br>
+The sheriff has no tasks.<br>
+Killing Crewmates will result in suicide. <br>
 
 #### Game Options
 
@@ -508,8 +509,10 @@ Whether or not they can kill Madmates or Neutrals is up to each option.<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When finishing all the tasks, the Snitches can see arrows that point to the Impostors and their name looks red (only visible to the Snitch) (depending on the options also to Neutral killer).<br>
-When the Snitches have one task left, they will be revealed to the Impostors (depending on the options also to Neutral killer) with an arrow pointing to the Snitches.<br>
+Once all of the snitch's tasks are completed, the imposters names will be displayed in red.<br>
+Dependent on the settings, the snitch may also see arrows pointed in the remaining impostors directions when their tasks are completed.<br>
+When the snitch has 0 or 1 tasks remaining, the impostors will be able to see a star next to the name of the snitch and that there is an alive snitch who has 0 or 1 tasks left.<br>
+The imposters also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
 
 #### Game Options
 
@@ -542,7 +545,8 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-The Trappers forbid the killer to move in the least for a configurable seconds.<br>
+When killed, the trapper will hold the killer in place.<br>
+The time held in place on the body is decided by host in settings.<br>
 
 #### Game Options
 
@@ -565,9 +569,9 @@ Team : Neutral<br>
 Basis : Impostor<br>
 Victory Condition : Douse and ignite all the living players<br>
 
-The Arsonists don't have any tasks, they have to win the game as a solo.
-They can douse other players by using the kill button and remaining next to the player for a few seconds.<br>
-After dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.<br>
+When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
+To win as Arsonist, you must douse all fellow players and vent to win.<br>
+To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
 #### Game Options
 
@@ -604,10 +608,9 @@ Team : Neutral<br>
 Basis : Crewmate<br>
 Victory Conditions : Have the target voted out<br>
 
-The Executioners are assigned their target with dark purple "Diamond" sign next to the player name.<br>
-They have to lead the target to be voted out, which results in Executioner win.<br>
-If the target dies before voted out, the Executioner changes their Role and become **Crewmate**, [Jester](#jester), or [Opportunist](#opportunist) according to a game option.<br>
-If the target is the [Jester](#jester), the Executioners can be an additional winner.<br>
+Executioner’s target is is marked with a diamond which only they can see.<br>
+If the executioner’s target is voted off, they win alone.<br>
+If the target is a [Jester](#jester), they will win an additional victory with the executioner.<br>
 
 #### Game Options
 
@@ -631,8 +634,7 @@ Team : Neutral<br>
 Basis : Crewmate<br>
 Victory Conditions : Remain alive until the game end<br>
 
-The Opportunists are the Neutral Role with no tasks.<br>
-They win the game with any other Roles, if they are just alive at the game end.<br>
+Regardless of the games outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
 
 ### SchrodingerCat
 
@@ -691,10 +693,14 @@ Team : Neutral<br>
 Basis : -<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
-The Lovers are additionally assigned to two of all players. <br>
-Crewmate Lover has no tasks. <br>
-There is a "Heart" sign next to each other's player name. <br>
-If one Lover dies, the other Lover suicides. <br>
+Randomly assigned to two players (regardless of camp).<br>
+This is a third camp in which both players win or die alongside one another.<br>
+If your lover wins, you win.<br>
+If your lover dies, you die.<br>
+If the crewmates win by tasks, the lovers lose.<br>
+The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
+If the lovers win, everyone else loses.<br>
+Crewmate lovers do not have tasks assigned. <br>
 
 Example of overlapping Roles: <br>
 - [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
@@ -860,6 +866,7 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
 [Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+Translate-Chinese : fivefirex, ZeMingOH233<br>
 
 Twitter : https://twitter.com/XenonBottle<br>
 
