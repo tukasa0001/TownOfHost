@@ -311,6 +311,88 @@ namespace TownOfHost
             }
         }
     }
+    // This class is taken from Town of Us Reactivated, https://github.com/eDonnes124/Town-Of-Us-R/blob/master/source/Patches/CustomOption/Patches.cs, Licensed under GPLv3
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    public class HudManagerUpdate
+    {
+        public static float
+            MinX,/*-5.3F*/
+            OriginalY = 2.9F,
+            MinY = 2.9F;
+
+
+        public static Scroller Scroller;
+        private static Vector3 LastPosition;
+        private static float lastAspect;
+        private static bool setLastPosition = false;
+
+        public static void Prefix(HudManager __instance)
+        {
+            if (__instance.GameSettings != null) __instance.GameSettings.fontSize = 1.2f;
+
+            if (__instance.GameSettings?.transform == null) return;
+
+            // Sets the MinX position to the left edge of the screen + 0.1 units
+            Rect safeArea = Screen.safeArea;
+            float aspect = Mathf.Min((Camera.main).aspect, safeArea.width / safeArea.height);
+            float safeOrthographicSize = CameraSafeArea.GetSafeOrthographicSize(Camera.main);
+            MinX = 0.1f - safeOrthographicSize * aspect;
+
+            if (!setLastPosition || aspect != lastAspect)
+            {
+                LastPosition = new Vector3(MinX, MinY);
+                lastAspect = aspect;
+                setLastPosition = true;
+                if (Scroller != null) Scroller.ContentXBounds = new FloatRange(MinX, MinX);
+            }
+
+            CreateScroller(__instance);
+
+            Scroller.gameObject.SetActive(__instance.GameSettings.gameObject.activeSelf);
+
+            if (!Scroller.gameObject.active) return;
+
+            var rows = __instance.GameSettings.text.Count(c => c == '\n');
+            float LobbyTextRowHeight = 0.06F;
+            var maxY = Mathf.Max(MinY, rows * LobbyTextRowHeight + (rows - 38) * LobbyTextRowHeight);
+
+            Scroller.ContentYBounds = new FloatRange(MinY, maxY);
+
+            // Prevent scrolling when the player is interacting with a menu
+            if (PlayerControl.LocalPlayer.CanMove != true)
+            {
+                __instance.GameSettings.transform.localPosition = LastPosition;
+
+                return;
+            }
+
+            if (__instance.GameSettings.transform.localPosition.x != MinX ||
+                __instance.GameSettings.transform.localPosition.y < MinY) return;
+
+            LastPosition = __instance.GameSettings.transform.localPosition;
+        }
+
+        private static void CreateScroller(HudManager __instance)
+        {
+            if (Scroller != null) return;
+
+            Scroller = new GameObject("SettingsScroller").AddComponent<Scroller>();
+            Scroller.transform.SetParent(__instance.GameSettings.transform.parent);
+            Scroller.gameObject.layer = 5;
+
+            Scroller.transform.localScale = Vector3.one;
+            Scroller.allowX = false;
+            Scroller.allowY = true;
+            Scroller.active = true;
+            Scroller.velocity = new Vector2(0, 0);
+            Scroller.ScrollbarYBounds = new FloatRange(0, 0);
+            Scroller.ContentXBounds = new FloatRange(MinX, MinX);
+            Scroller.enabled = true;
+
+            Scroller.Inner = __instance.GameSettings.transform;
+            __instance.GameSettings.transform.SetParent(Scroller.transform);
+        }
+    }
     class RepairSender
     {
         public static bool enabled = false;

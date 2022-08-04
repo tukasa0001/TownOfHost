@@ -25,9 +25,9 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Sniper);
-            SniperBulletCount = CustomOption.Create(Id + 10, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
-            SniperPrecisionShooting = CustomOption.Create(Id + 11, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            Options.SetupRoleOptions(Id, CustomOption.CustomOptionType.Impostor, CustomRoles.Sniper);
+            SniperBulletCount = CustomOption.Create(Id + 10, CustomOption.CustomOptionType.Impostor, Color.white, "SniperBulletCount", 5f, 1f, 3f, 1f, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
+            SniperPrecisionShooting = CustomOption.Create(Id + 11, CustomOption.CustomOptionType.Impostor, Color.white, "SniperPrecisionShooting", false, Options.CustomRoleSpawnChances[CustomRoles.Sniper]);
         }
         public static void Init()
         {

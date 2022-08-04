@@ -14,9 +14,9 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Mare);
-            SpeedInLightsOut = CustomOption.Create(Id + 10, Color.white, "MareSpeedInLightsOut", 2f, 0.25f, 3f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            KillCooldownInLightsOut = CustomOption.Create(Id + 11, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            Options.SetupRoleOptions(Id, CustomOption.CustomOptionType.Impostor, CustomRoles.Mare);
+            SpeedInLightsOut = CustomOption.Create(Id + 10, CustomOption.CustomOptionType.Impostor, Color.white, "MareSpeedInLightsOut", 2f, 0.25f, 3f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            KillCooldownInLightsOut = CustomOption.Create(Id + 11, CustomOption.CustomOptionType.Impostor, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
         }
         public static void Init()
         {

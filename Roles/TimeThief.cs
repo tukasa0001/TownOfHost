@@ -15,11 +15,11 @@ namespace TownOfHost
         public static CustomOption ReturnStolenTimeUponDeath;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.TimeThief);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "TimeThiefKillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            DecreaseMeetingTime = CustomOption.Create(Id + 11, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            LowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            Options.SetupRoleOptions(Id, CustomOption.CustomOptionType.Impostor, CustomRoles.TimeThief);
+            KillCooldown = CustomOption.Create(Id + 10, CustomOption.CustomOptionType.Impostor, Color.white, "TimeThiefKillCooldown", 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            DecreaseMeetingTime = CustomOption.Create(Id + 11, CustomOption.CustomOptionType.Impostor, Color.white, "TimeThiefDecreaseMeetingTime", 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            LowerLimitVotingTime = CustomOption.Create(Id + 12, CustomOption.CustomOptionType.Impostor, Color.white, "TimeThiefLowerLimitVotingTime", 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, CustomOption.CustomOptionType.Impostor, Color.white, "TimeThiefReturnStolenTimeUponDeath", true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()
         {

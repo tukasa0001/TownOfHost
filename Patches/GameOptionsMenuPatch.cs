@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnhollowerBaseLib;
@@ -26,6 +27,34 @@ namespace TownOfHost
 
         public static void Postfix(GameOptionsMenu __instance)
         {
+            if (GameObject.Find("TOHSettings") != null)
+            { // Settings setup has already been performed, fixing the title of the tab and returning
+                GameObject.Find("TOHSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Town Of Host Settings");
+                return;
+            }
+            if (GameObject.Find("ImpostorSettings") != null)
+            {
+                GameObject.Find("ImpostorSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Impostor Roles Settings");
+                return;
+            }
+            if (GameObject.Find("NeutralSettings") != null)
+            {
+                GameObject.Find("NeutralSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Neutral Roles Settings");
+                return;
+            }
+            if (GameObject.Find("CrewmateSettings") != null)
+            {
+                GameObject.Find("CrewmateSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Crewmate Roles Settings");
+                return;
+            }
+            if (GameObject.Find("ModifierSettings") != null)
+            {
+                GameObject.Find("ModifierSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Modifier Settings");
+                return;
+            }
+
+
+
             foreach (var ob in __instance.Children)
             {
                 switch (ob.Title)
@@ -69,6 +98,34 @@ namespace TownOfHost
                 .GetComponent<GameOptionsMenu>();
             tohSettings.name = TownOfHostObjectName;
 
+            var impostorSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var impostorMenu = impostorSettings.transform
+                .FindChild("GameGroup")
+                .FindChild("SliderInner")
+                .GetComponent<GameOptionsMenu>();
+            impostorSettings.name = "ImpostorSettings";
+
+            var neutralSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var neutralMenu = neutralSettings.transform
+                .FindChild("GameGroup")
+                .FindChild("SliderInner")
+                .GetComponent<GameOptionsMenu>();
+            neutralSettings.name = "NeutralSettings";
+
+            var crewmateSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var crewmateMenu = crewmateSettings.transform
+                .FindChild("GameGroup")
+                .FindChild("SliderInner")
+                .GetComponent<GameOptionsMenu>();
+            crewmateSettings.name = "CrewmateSettings";
+
+            var modifierSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var modifierMenu = modifierSettings.transform
+                .FindChild("GameGroup")
+                .FindChild("SliderInner")
+                .GetComponent<GameOptionsMenu>();
+            modifierSettings.name = "ModifierSettings";
+
             var roleTab = GameObject.Find("RoleTab");
             var gameTab = GameObject.Find("GameTab");
 
@@ -77,11 +134,39 @@ namespace TownOfHost
                 .GetComponent<SpriteRenderer>();
             tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
 
+            var impostorTab = UnityEngine.Object.Instantiate(roleTab, tohTab.transform);
+            var impostorTabHighlight = impostorTab.transform.FindChild("Hat Button").FindChild("Tab Background")
+                .GetComponent<SpriteRenderer>();
+            impostorTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
+            impostorTab.name = "ImpostorTab";
+
+            var neutralTab = UnityEngine.Object.Instantiate(roleTab, impostorTab.transform);
+            var neutralTabHighlight = neutralTab.transform.FindChild("Hat Button").FindChild("Tab Background")
+                .GetComponent<SpriteRenderer>();
+            neutralTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
+            neutralTab.name = "NeutralTab";
+
+            var crewmateTab = UnityEngine.Object.Instantiate(roleTab, neutralTab.transform);
+            var crewmateTabHighlight = crewmateTab.transform.FindChild("Hat Button").FindChild("Tab Background")
+                .GetComponent<SpriteRenderer>();
+            crewmateTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
+            crewmateTab.name = "CrewmateTab";
+
+            var modifierTab = UnityEngine.Object.Instantiate(roleTab, crewmateTab.transform);
+            var modifierTabHighlight = modifierTab.transform.FindChild("Hat Button").FindChild("Tab Background")
+                .GetComponent<SpriteRenderer>();
+            modifierTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TabIcon.png", 100f);
+            modifierTab.name = "ModifierTab";
+
             gameTab.transform.position += Vector3.left * 0.5f;
             tohTab.transform.position += Vector3.right * 0.5f;
             roleTab.transform.position += Vector3.left * 0.5f;
+            impostorTab.transform.localPosition = Vector3.right * 1f;
+            neutralTab.transform.localPosition = Vector3.right * 1f;
+            crewmateTab.transform.localPosition = Vector3.right * 1f;
+            modifierTab.transform.localPosition = Vector3.right * 1f;
 
-            var tabs = new[] { gameTab, roleTab, tohTab };
+            var tabs = new[] { gameTab, roleTab, tohTab, impostorTab, neutralTab, crewmateTab, modifierTab };
             for (var i = 0; i < tabs.Length; i++)
             {
                 var button = tabs[i].GetComponentInChildren<PassiveButton>();
@@ -89,39 +174,81 @@ namespace TownOfHost
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
                 button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
-               {
-                   gameSettingMenu.RegularGameSettings.SetActive(false);
-                   gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                   tohSettings.gameObject.SetActive(false);
-                   gameSettingMenu.GameSettingsHightlight.enabled = false;
-                   gameSettingMenu.RolesSettingsHightlight.enabled = false;
-                   tohTabHighlight.enabled = false;
+                {
+                    gameSettingMenu.RegularGameSettings.SetActive(false);
+                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
+                    tohSettings.gameObject.SetActive(false);
+                    impostorSettings.gameObject.SetActive(false);
+                    neutralSettings.gameObject.SetActive(false);
+                    crewmateSettings.gameObject.SetActive(false);
+                    modifierSettings.gameObject.SetActive(false);
+                    gameSettingMenu.GameSettingsHightlight.enabled = false;
+                    gameSettingMenu.RolesSettingsHightlight.enabled = false;
+                    tohTabHighlight.enabled = false;
+                    impostorTabHighlight.enabled = false;
+                    neutralTabHighlight.enabled = false;
+                    crewmateTabHighlight.enabled = false;
+                    modifierTabHighlight.enabled = false;
 
-                   switch (copiedIndex)
-                   {
-                       case 0:
-                           gameSettingMenu.RegularGameSettings.SetActive(true);
-                           gameSettingMenu.GameSettingsHightlight.enabled = true;
-                           break;
-                       case 1:
-                           gameSettingMenu.RolesSettings.gameObject.SetActive(true);
-                           gameSettingMenu.RolesSettingsHightlight.enabled = true;
-                           break;
-                       case 2:
-                           tohSettings.gameObject.SetActive(true);
-                           tohTabHighlight.enabled = true;
-                           break;
-                   }
-               }));
+                    switch (copiedIndex)
+                    {
+                        case 0:
+                            gameSettingMenu.RegularGameSettings.SetActive(true);
+                            gameSettingMenu.GameSettingsHightlight.enabled = true;
+                            break;
+                        case 1:
+                            gameSettingMenu.RolesSettings.gameObject.SetActive(true);
+                            gameSettingMenu.RolesSettingsHightlight.enabled = true;
+                            break;
+                        case 2:
+                            tohSettings.gameObject.SetActive(true);
+                            tohTabHighlight.enabled = true;
+                            break;
+                        case 3:
+                            impostorSettings.gameObject.SetActive(true);
+                            impostorTabHighlight.enabled = true;
+                            break;
+                        case 4:
+                            neutralSettings.gameObject.SetActive(true);
+                            neutralTabHighlight.enabled = true;
+                            break;
+                        case 5:
+                            crewmateSettings.gameObject.SetActive(true);
+                            crewmateTabHighlight.enabled = true;
+                            break;
+                        case 6:
+                            modifierSettings.gameObject.SetActive(true);
+                            modifierTabHighlight.enabled = true;
+                            break;
+
+                    }
+                }));
             }
 
             foreach (var option in tohMenu.GetComponentsInChildren<OptionBehaviour>())
-            {
                 Object.Destroy(option.gameObject);
-            }
+            var scOptions = new List<OptionBehaviour>();
+
+            foreach (OptionBehaviour option in impostorMenu.GetComponentsInChildren<OptionBehaviour>())
+                UnityEngine.Object.Destroy(option.gameObject);
+            var impostorOptions = new List<OptionBehaviour>();
+
+            foreach (OptionBehaviour option in neutralMenu.GetComponentsInChildren<OptionBehaviour>())
+                UnityEngine.Object.Destroy(option.gameObject);
+            var neutralOptions = new List<OptionBehaviour>();
+
+            foreach (OptionBehaviour option in crewmateMenu.GetComponentsInChildren<OptionBehaviour>())
+                UnityEngine.Object.Destroy(option.gameObject);
+            var crewmateOptions = new List<OptionBehaviour>();
+
+            foreach (OptionBehaviour option in modifierMenu.GetComponentsInChildren<OptionBehaviour>())
+                UnityEngine.Object.Destroy(option.gameObject);
+            var modifierOptions = new List<OptionBehaviour>();
+
+            var menus = new List<Transform>() { tohMenu.transform, impostorMenu.transform, neutralMenu.transform, crewmateMenu.transform, modifierMenu.transform };
+            var optionBehaviours = new List<List<OptionBehaviour>>() { scOptions, impostorOptions, neutralOptions, crewmateOptions, modifierOptions };
 
 
-            var scOptions = new System.Collections.Generic.List<OptionBehaviour>();
             foreach (var option in CustomOption.Options)
             {
                 if (option.OptionBehaviour == null)
@@ -141,6 +268,18 @@ namespace TownOfHost
 
             tohMenu.Children = scOptions.ToArray();
             tohSettings.gameObject.SetActive(false);
+
+            impostorMenu.Children = impostorOptions.ToArray();
+            impostorSettings.gameObject.SetActive(false);
+
+            neutralMenu.Children = neutralOptions.ToArray();
+            neutralSettings.gameObject.SetActive(false);
+
+            crewmateMenu.Children = crewmateOptions.ToArray();
+            crewmateSettings.gameObject.SetActive(false);
+
+            modifierMenu.Children = modifierOptions.ToArray();
+            modifierSettings.gameObject.SetActive(false);
         }
     }
 
@@ -165,6 +304,16 @@ namespace TownOfHost
 
             foreach (var option in CustomOption.Options)
             {
+                if (GameObject.Find("TOHSettings") && option.type != CustomOption.CustomOptionType.General)
+                    continue;
+                if (GameObject.Find("ImpostorSettings") && option.type != CustomOption.CustomOptionType.Impostor)
+                    continue;
+                if (GameObject.Find("NeutralSettings") && option.type != CustomOption.CustomOptionType.Neutral)
+                    continue;
+                if (GameObject.Find("CrewmateSettings") && option.type != CustomOption.CustomOptionType.Crewmate)
+                    continue;
+                if (GameObject.Find("ModifierSettings") && option.type != CustomOption.CustomOptionType.Modifier)
+                    continue;
                 if (option?.OptionBehaviour == null || option.OptionBehaviour.gameObject == null) continue;
 
                 var enabled = true;
