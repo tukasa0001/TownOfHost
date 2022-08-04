@@ -240,6 +240,7 @@ namespace TownOfHost
             }
             else
             {
+                if (Options.DisableDevices.GetBool()) { SendMessage(GetString("DisableDevicesInfo")); }
                 if (Options.SyncButtonMode.GetBool()) { SendMessage(GetString("SyncButtonModeInfo")); }
                 if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
@@ -309,6 +310,10 @@ namespace TownOfHost
                     }
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
+                if (Options.DisableDevices.GetBool())
+                {
+                    if (Options.DisableDevices.GetBool()) text += String.Format("\n{0}:{1}", Options.DisableAdmin.GetName(disableColor: true), Options.WhichDisableAdmin.GetString());
+                }
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())
                 {
