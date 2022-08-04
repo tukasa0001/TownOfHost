@@ -836,4 +836,22 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 
-作者の Twitter : https://twitter.com/XenonBottle<br>
+## 開発者
+<!--
+開発者用チャンネルでの一番最初の発言が早い順に記載する。
+- [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
+- [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
+- [何もなくていい場合は消してOK](https://github.com/)
+注：README-ENへの追記を忘れないでください。
+-->
+- [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [しゅー](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [そうくん](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->

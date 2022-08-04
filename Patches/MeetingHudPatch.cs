@@ -376,7 +376,7 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.Info("------------会議終了------------", "Phase");
-            if (AmongUsClient.Instance.AmHost)
+            if (AmongUsClient.Instance.AmHost && !AntiBlackout.IsCached)
                 AntiBlackout.SetIsDead();
         }
     }
