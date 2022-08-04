@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using Hazel;
 
@@ -5,12 +6,20 @@ namespace TownOfHost
 {
     class ExileControllerWrapUpPatch
     {
+        public static GameData.PlayerInfo AntiBlackout_LastExiled;
         [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
         class BaseExileControllerPatch
         {
             public static void Postfix(ExileController __instance)
             {
-                WrapUpPostfix(__instance.exiled);
+                try
+                {
+                    WrapUpPostfix(__instance.exiled);
+                }
+                finally
+                {
+                    WrapUpFinalizer(__instance.exiled);
+                }
             }
         }
 
@@ -19,16 +28,30 @@ namespace TownOfHost
         {
             public static void Postfix(AirshipExileController __instance)
             {
-                WrapUpPostfix(__instance.exiled);
+                try
+                {
+                    WrapUpPostfix(__instance.exiled);
+                }
+                finally
+                {
+                    WrapUpFinalizer(__instance.exiled);
+                }
             }
         }
         static void WrapUpPostfix(GameData.PlayerInfo exiled)
         {
+            if (AntiBlackout.OverrideExiledPlayer)
+            {
+                exiled = AntiBlackout_LastExiled;
+            }
+
             Main.witchMeeting = false;
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
+                exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
@@ -94,11 +117,22 @@ namespace TownOfHost
                     player?.ResetVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
-            LadderDeathPatch.Reset();
+            FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+        }
+
+        static void WrapUpFinalizer(GameData.PlayerInfo exiled)
+        {
+            //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
+            if (AmongUsClient.Instance.AmHost)
+                new LateTask(() =>
+                {
+                    AntiBlackout.SendGameData();
+                    exiled?.Object?.RpcExileV2();
+                }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
