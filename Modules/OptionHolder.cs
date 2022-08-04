@@ -47,6 +47,11 @@ namespace TownOfHost
         public static Dictionary<CustomRoles, CustomOption> CustomRoleSpawnChances;
         public static readonly string[] rates =
         {
+            "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
+            "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
+        };
+        public static readonly string[] rates1 =
+        {
             "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
         };
@@ -466,7 +471,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates1, rates1[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
@@ -479,7 +484,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates1, rates1[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
@@ -492,7 +497,7 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates1, rates1[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
