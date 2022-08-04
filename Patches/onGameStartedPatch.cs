@@ -104,6 +104,7 @@ namespace TownOfHost
             TimeThief.Init();
             Mare.Init();
             Sheriff.Init();
+            AntiBlackout.Reset();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
