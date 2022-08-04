@@ -117,7 +117,7 @@ namespace TownOfHost
                     player?.ResetVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
-            LadderDeathPatch.Reset();
+            FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
             Utils.CustomSyncAllSettings();
@@ -127,11 +127,12 @@ namespace TownOfHost
         static void WrapUpFinalizer(GameData.PlayerInfo exiled)
         {
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
-            new LateTask(() =>
-            {
-                AntiBlackout.SendGameData();
-                exiled?.Object?.RpcExileV2();
-            }, 0.5f, "Restore IsDead Task");
+            if (AmongUsClient.Instance.AmHost)
+                new LateTask(() =>
+                {
+                    AntiBlackout.SendGameData();
+                    exiled?.Object?.RpcExileV2();
+                }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }
     }
