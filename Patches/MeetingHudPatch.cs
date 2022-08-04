@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -164,7 +165,7 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
-                Logger.SendInGame("エラー:" + ex.Message + "\r\nSHIFT+M+ENTERで会議を強制終了してください", true);
+                Logger.SendInGame(string.Format(GetString("Error.MeetingException"), ex.Message), true);
                 throw;
             }
         }
@@ -229,7 +230,7 @@ namespace TownOfHost
             if (Options.SyncButtonMode.GetBool())
             {
                 if (AmongUsClient.Instance.AmHost) PlayerControl.LocalPlayer.RpcSetName("test");
-                Utils.SendMessage("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。");
+                Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
                 Logger.Info("緊急会議ボタンはあと" + (Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount) + "回使用可能です。", "SyncButtonMode");
             }
             if (AntiBlackout.OverrideExiledPlayer)
@@ -350,7 +351,7 @@ namespace TownOfHost
                     player.RpcExileV2();
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
-                    Utils.SendMessage($"{player.Data.PlayerName}を処刑しました");
+                    Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
             }

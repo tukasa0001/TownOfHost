@@ -35,6 +35,11 @@ namespace TownOfHost
             "Standard", "HideAndSeek",
         };
 
+        public static readonly string[] whichDisableAdmin =
+        {
+            "All", "Archive",
+        };
+
         // 役職数・確率
         public static Dictionary<CustomRoles, int> roleCounts;
         public static Dictionary<CustomRoles, float> roleSpawnChances;
@@ -111,6 +116,11 @@ namespace TownOfHost
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
 
+        //デバイスブロック
+        public static CustomOption DisableDevices;
+        public static CustomOption DisableAdmin;
+        public static CustomOption WhichDisableAdmin;
+
         // ボタン回数
         public static CustomOption SyncButtonMode;
         public static CustomOption SyncedButtonCount;
@@ -171,6 +181,7 @@ namespace TownOfHost
         public static CustomOption ColorNameMode;
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
+        public static CustomOption HideGameSettings;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -364,6 +375,14 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
+            //デバイス無効化
+            DisableDevices = CustomOption.Create(100500, Color.white, "DisableDevices", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            DisableAdmin = CustomOption.Create(100510, Color.white, "DisableAdmin", false, DisableDevices)
+                .SetGameMode(CustomGameMode.Standard);
+            WhichDisableAdmin = CustomOption.Create(100511, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
+                .SetGameMode(CustomGameMode.Standard);
+
             // ボタン回数同期
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -438,6 +457,8 @@ namespace TownOfHost
             GhostCanSeeOtherRoles = CustomOption.Create(100603, Color.white, "GhostCanSeeOtherRoles", true)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
+                .SetGameMode(CustomGameMode.All);
+            HideGameSettings = CustomOption.Create(100606, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
 
             IsLoaded = true;
