@@ -91,8 +91,8 @@ VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう,吸干他
 WarlockInfo,Curse the Crewmates,敵を呪い殺そう,给你的敌人下咒,詛咒並殺光你的敵人
 WitchInfo,Spell the Crewmates,敵に魔術をかけよう,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
 MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう,帮助其他内鬼杀掉所有人,幫助狼人殺死所有人
-BeforeMafiaInfo,You can't kill yet,今はキルをすることができない,潜伏以等候时机,"你現在不能殺人,因為你沒有刀"
-AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀光所有人,殺死所有船員和中立陣營吧
+BeforeMafiaInfo,You can't kill yet,今はキルをすることができない,潜伏以等候时机,潛伏以等待時機
+AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀光所有人,殺光所有人吧
 PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう,操纵别人，杀光船员,操控對象並殺光所有船員
 TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう,Too young too simple,殺光你的敵人並將會議時間縮短
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,拿起你的大狙,讓你的敵人在你的狙擊下死亡
@@ -108,8 +108,8 @@ SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,谁�
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,窥探他人的投票,注意所有人的投票
 
 # 特殊クルー役職
-BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人,誘拐你的敵人
-LighterInfo,Light all over,すべてを照らそう,夜空中最亮的星,照亮一切吧
+BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人,"犧牲小我,完成大我"
+LighterInfo,Light all over,すべてを照らそう,夜空中最亮的星,照亮黑暗中的一切吧
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,你的票數更有料
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,快速修理飞船,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼毙了,執法狼人們
@@ -129,7 +129,7 @@ MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方に
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你是野心家的仆从,"你是利己主義者的跟班"
 JSchrodingerCatInfo,I became an ally of my Jackal,ジャッカルの味方になった,你是豺狼的仆从,"你是豺狼的跟班"
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう,都别想活着！,"一個一個來,都別想給我活!"
-ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,想办法放逐你的目标,"想盡一切辦法來投出你的目標"
+ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,想办法放逐你的目标,"想出一切辦法來投出你的目標"
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我要……成为王！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河,你墜入了愛河(心理)
 JackalInfo,Kill Everyone,すべてを殺せ,杀光所有人,殺光所有人不留活口
@@ -375,7 +375,7 @@ Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を�
 Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},,"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
 Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,,沒有找到與「{0}」相關的訊息
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
-Message.Executed,{0} was executed,{0}を処刑しました,,
+Message.Executed,{0} was executed,{0}を処刑しました,,{0}被處刑了
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,,
 
 ## 警告
@@ -389,7 +389,7 @@ Error.InvalidRoleAssignment,Error: Invalid role found for a player during role a
 Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
-ForExample,For Example,使用例,,
+ForExample,For Example,使用例,,舉個例子:
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
