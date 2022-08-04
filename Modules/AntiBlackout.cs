@@ -116,5 +116,13 @@ namespace TownOfHost
             }
             Logger.Info("==/Temp Restore==", "AntiBlackout");
         }
+
+        public static void Reset()
+        {
+            Logger.Info("==Reset==", "AntiBlackout");
+            if (isDeadCache == null) isDeadCache = new();
+            isDeadCache.Clear();
+            IsCached = false;
+        }
     }
 }
