@@ -136,7 +136,7 @@ JackalInfo,Kill Everyone,すべてを殺せ,杀光所有人,殺光所有人不�
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活到最后就是胜利,活到最後就是屬於你和贏家的一片天
-HASTrollInfo,Get killed,自爆しよう,开门，查水表,自殘大師
+HASTrollInfo,Get killed,自爆しよう,开门，查水表,"讓狼人砍你 偷襲!"
 
 
 ## 役職説明ロング
@@ -233,9 +233,9 @@ Default,Default,デフォルト,默认,預設
 Suicide,Suicide,切腹,自杀,自殺
 SelfVote,SelfVote,自投票,自票,投自己
 Skip,Skip,スキップ,跳过,跳過
-DisableDevices,Disable Devices,デバイスを無効化
-DisableAdmin,Disable Admin,アドミン無効化
-WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか
+DisableDevices,Disable Devices,デバイスを無効化,,禁用裝置
+DisableAdmin,Disable Admin,アドミン無効化,,禁用管理室地圖
+WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか,,管理室地圖分區禁用
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色"
