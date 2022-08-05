@@ -60,6 +60,7 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
+        public static CustomOption EnableGM;
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
@@ -248,6 +249,9 @@ namespace TownOfHost
             #region 役職・詳細設定
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
+            // GM
+            EnableGM = CustomOption.Create(100, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
