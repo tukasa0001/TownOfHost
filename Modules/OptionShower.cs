@@ -50,40 +50,35 @@ namespace TownOfHost
                         text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
                         text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                     }
-                }
-                foreach (var kvp in Options.CustomRoleSpawnChances)
-                {
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
-                    text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
-                }
-                nameAndValue(Options.EnableGM);
-                foreach (var kvp in Options.CustomRoleSpawnChances)
-                {
-                    if (!kvp.Key.IsEnable()) continue;
-                    if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
-                    text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
-                    foreach (var c in kvp.Value.Children) //詳細設定をループする
+                    nameAndValue(Options.EnableGM);
+                    foreach (var kvp in Options.CustomRoleSpawnChances)
                     {
-                        if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
-                        text += $"\t{c.GetName()}: {c.GetString()}\n";
+                        if (!kvp.Key.IsEnable()) continue;
+                        if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
+                        text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
+                        foreach (var c in kvp.Value.Children) //詳細設定をループする
+                        {
+                            if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                            text += $"\t{c.GetName()}: {c.GetString()}\n";
+                        }
+                        if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
+                        {
+                            text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
+                            text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
+                            text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
+                            text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
+                            text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
+                        }
+                        if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
+                        {
+                            text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
+                        }
+                        if (kvp.Key == CustomRoles.Mayor && Options.MayorHasPortableButton.GetBool())
+                        {
+                            text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
+                        }
+                        text += "\n";
                     }
-                    if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
-                    {
-                        text += $"\t{Options.MadmateCanFixLightsOut.GetName()}: {Options.MadmateCanFixLightsOut.GetString()}\n";
-                        text += $"\t{Options.MadmateCanFixComms.GetName()}: {Options.MadmateCanFixComms.GetString()}\n";
-                        text += $"\t{Options.MadmateHasImpostorVision.GetName()}: {Options.MadmateHasImpostorVision.GetString()}\n";
-                        text += $"\t{Options.MadmateVentCooldown.GetName()}: {Options.MadmateVentCooldown.GetString()}\n";
-                        text += $"\t{Options.MadmateVentMaxTime.GetName()}: {Options.MadmateVentMaxTime.GetString()}\n";
-                    }
-                    if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
-                    {
-                        text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
-                    }
-                    if (kvp.Key == CustomRoles.Mayor && Options.MayorHasPortableButton.GetBool())
-                    {
-                        text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
-                    }
-                    text += "\n";
                 }
                 //Onの時に子要素まで表示するメソッド
                 void listUp(CustomOption o)
