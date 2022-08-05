@@ -5,6 +5,7 @@ using System.Linq;
 using HarmonyLib;
 using System.Reflection;
 using System.Text;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -19,7 +20,7 @@ namespace TownOfHost
 
         private static string BuildRoleOptions()
         {
-            var impRoles = GameOptionsDataPatch.BuildOptionsOfType(CustomOption.CustomOptionType.Impostor, true) + "\n";
+            var impRoles = BuildOptionsOfType(CustomOption.CustomOptionType.Impostor, true) + "\n";
             var neutralRoles = BuildOptionsOfType(CustomOption.CustomOptionType.Neutral, true) + "\n";
             var crewRoles = BuildOptionsOfType(CustomOption.CustomOptionType.Crewmate, true) + "\n";
             var modifiers = BuildOptionsOfType(CustomOption.CustomOptionType.Modifier, true);
@@ -34,16 +35,14 @@ namespace TownOfHost
             {
                 if (option.Parent == null)
                 {
-                    sb.AppendLine($"{option.Name}: {option.Selections[option.Selection]}");
+                    /*if ((float)option.Selections[option.Selection] == option.GetFloat() || (int)(float)option.Selections[option.Selection] == option.GetInt())
+                        sb.AppendLine($"{GetString(option.Name)}: {option.Selections[option.Selection]}");
+                    else*/
+                    sb.AppendLine($"{GetString(option.Name)}: {GetString(option.Selections[option.Selection].ToString())}");
                 }
             }
             if (headerOnly) return sb.ToString();
             else sb = new StringBuilder();
-
-            sb.AppendLine(Helpers.ColorString(new Color(204f / 255f, 204f / 255f, 0, 1f), "Crewmate Roles"));
-            sb.AppendLine(Helpers.ColorString(new Color(204f / 255f, 204f / 255f, 0, 1f), "Neutral Roles"));
-            sb.AppendLine(Helpers.ColorString(new Color(204f / 255f, 204f / 255f, 0, 1f), "Impostor Roles"));
-            sb.AppendLine(Helpers.ColorString(new Color(204f / 255f, 204f / 255f, 0, 1f), "Modifiers"));
 
             foreach (var option in options)
             {
@@ -53,11 +52,11 @@ namespace TownOfHost
 
                     Color c = isIrrelevant ? Color.grey : Color.white;  // No use for now
                     if (isIrrelevant) continue;
-                    sb.AppendLine(Helpers.ColorString(c, $"{option.Name}: {option.Selections[option.Selection]}"));
+                    sb.AppendLine(Helpers.ColorString(c, $"{GetString(option.Name)}: {GetString(option.Selections[option.Selection].ToString())}"));
                 }
                 else
                 {
-                    sb.AppendLine($"\n{option.Name}: {option.Selections[option.Selection].ToString()}");
+                    sb.AppendLine($"\n{GetString(option.Name)}: {GetString(option.Selections[option.Selection].ToString())}");
                 }
             }
             return sb.ToString();
