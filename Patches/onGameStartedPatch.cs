@@ -23,11 +23,8 @@ namespace TownOfHost
             Main.AllPlayerSpeed = new Dictionary<byte, float>();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.BountyTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-            Main.isTargetKilled = new Dictionary<byte, bool>();
             Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
@@ -96,6 +93,7 @@ namespace TownOfHost
                 }
             }
             FallFromLadder.Reset();
+            BountyHunter.Init();
             SerialKiller.Init();
             FireWorks.Init();
             Sniper.Init();
@@ -291,18 +289,13 @@ namespace TownOfHost
 
                 HudManager.Instance.SetHudActive(true);
                 Main.KillOrSpell = new Dictionary<byte, bool>();
-                //BountyHunterのターゲットを初期化
-                Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-                Main.BountyTimer = new Dictionary<byte, float>();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
                     switch (pc.GetCustomRole())
                     {
                         case CustomRoles.BountyHunter:
-                            pc.ResetBountyTarget();
-                            Main.isTargetKilled.Add(pc.PlayerId, false);
-                            Main.BountyTimer.Add(pc.PlayerId, 0f); //BountyTimerにBountyHunterのデータを入力
+                            BountyHunter.Add(pc);
                             break;
                         case CustomRoles.SerialKiller:
                             SerialKiller.Add(pc.PlayerId);
