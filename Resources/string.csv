@@ -1,6 +1,6 @@
 id,0,11,13,14
 ## Translators
-#13 SChinese fivefirex&ZeMingOH233 (Edit: Tanakanira)
+#13 SChinese fivefirex&ZeMingOH233 lgsn&MC-AS-Huier (Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
 
 ## 役職
@@ -33,8 +33,8 @@ Sniper,Sniper,スナイパー,狙击手,狙擊手
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
 MadGuardian,MadGuardian,マッドガーディアン,叛徒守卫,背叛的天使
-MadSnitch,MadSnitch,マッドスニッチ,狂信徒,背叛的告密者
-SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒朋友,叛徒跟班
+MadSnitch,MadSnitch,マッドスニッチ,叛徒告密者,背叛的告密者
+SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
 
 # 両陣営可能役職
 Watcher,Watcher,ウォッチャー,窥视者,觀察者
@@ -158,7 +158,7 @@ SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n叛徒守卫不可以击杀、破坏或使用管道。\n叛徒守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
-MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n狂信徒与内鬼不互认，不可以击杀、破坏或者使用管道。\n狂信徒完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
+MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n叛徒告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n叛徒告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
 SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
 
 # 両陣営可能役職
@@ -261,8 +261,8 @@ MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時母馬的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数,变形者可以招募叛徒的数量,變形者招募叛徒最大人數
-MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,狂信徒可以使用管道,背叛的告密者可以使用管道
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,狂信徒任务数,背叛告密者任務數量
+MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,叛徒告密者可以使用管道,背叛的告密者可以使用管道
+MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,叛徒告密者任务数,背叛告密者任務數量
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,叛徒守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
