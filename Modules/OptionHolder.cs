@@ -81,13 +81,6 @@ namespace TownOfHost
         public static CustomOption MayorAdditionalVote;
         public static CustomOption MayorHasPortableButton;
         public static CustomOption MayorNumOfUseButton;
-        public static CustomOption SabotageMasterSkillLimit;
-        public static CustomOption SabotageMasterFixesDoors;
-        public static CustomOption SabotageMasterFixesReactors;
-        public static CustomOption SabotageMasterFixesOxygens;
-        public static CustomOption SabotageMasterFixesComms;
-        public static CustomOption SabotageMasterFixesElectrical;
-        public static int SabotageMasterUsedSkillCount;
         public static CustomOption DoctorTaskCompletedBatteryCharge;
         public static CustomOption SnitchEnableTargetArrow;
         public static CustomOption SnitchCanGetArrowColor;
@@ -302,13 +295,7 @@ namespace TownOfHost
             MayorAdditionalVote = CustomOption.Create(20210, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorHasPortableButton = CustomOption.Create(20211, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = CustomOption.Create(20212, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
-            SetupRoleOptions(20300, CustomRoles.SabotageMaster);
-            SabotageMasterSkillLimit = CustomOption.Create(20310, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesDoors = CustomOption.Create(20311, Color.white, "SabotageMasterFixesDoors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesReactors = CustomOption.Create(20312, Color.white, "SabotageMasterFixesReactors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesOxygens = CustomOption.Create(20313, Color.white, "SabotageMasterFixesOxygens", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesComms = CustomOption.Create(20314, Color.white, "SabotageMasterFixesCommunications", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesElectrical = CustomOption.Create(20315, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
             SetupRoleOptions(20500, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);

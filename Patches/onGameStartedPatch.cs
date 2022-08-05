@@ -44,7 +44,6 @@ namespace TownOfHost
             Main.targetArrows = new();
 
             Options.UsedButtonCount = 0;
-            Options.SabotageMasterUsedSkillCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             Main.BlockKilling = new Dictionary<byte, bool>();
 
@@ -99,6 +98,7 @@ namespace TownOfHost
             Sniper.Init();
             TimeThief.Init();
             Mare.Init();
+            SabotageMaster.Init();
             Sheriff.Init();
         }
     }
@@ -345,6 +345,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.SabotageMaster:
+                            SabotageMaster.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();
