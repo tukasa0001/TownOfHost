@@ -27,31 +27,20 @@ namespace TownOfHost
 
         public static void Postfix(GameOptionsMenu __instance)
         {
-            if (GameObject.Find("TOHSettings") != null)
-            { // Settings setup has already been performed, fixing the title of the tab and returning
+            if (GameObject.Find("TOHSettings") != null) // Settings setup has already been performed, fixing the title of the tab and returning
                 GameObject.Find("TOHSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Town Of Host Settings");
-                return;
-            }
+
             if (GameObject.Find("ImpostorSettings") != null)
-            {
                 GameObject.Find("ImpostorSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Impostor Roles Settings");
-                return;
-            }
+
             if (GameObject.Find("NeutralSettings") != null)
-            {
                 GameObject.Find("NeutralSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Neutral Roles Settings");
-                return;
-            }
+
             if (GameObject.Find("CrewmateSettings") != null)
-            {
                 GameObject.Find("CrewmateSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Crewmate Roles Settings");
-                return;
-            }
+
             if (GameObject.Find("ModifierSettings") != null)
-            {
                 GameObject.Find("ModifierSettings").transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("Modifier Settings");
-                return;
-            }
 
 
 
