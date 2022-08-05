@@ -136,7 +136,7 @@ JackalInfo,Kill Everyone,すべてを殺せ,杀光所有人,殺光所有人不�
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
-HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,自殘大師
+HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,"讓狼人砍你 偷襲!"
 
 
 ## 役職説明ロング
@@ -233,9 +233,9 @@ Default,Default,デフォルト,默认,預設
 Suicide,Suicide,切腹,自杀,自殺
 SelfVote,SelfVote,自投票,自票,投自己
 Skip,Skip,スキップ,跳过,跳過
-DisableDevices,Disable Devices,デバイスを無効化,禁用设备
-DisableAdmin,Disable Admin,アドミン無効化,禁用管理员
-WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか,禁用哪个管理员
+DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
+DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
+WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか,禁用哪个管理员,管理室地圖分區禁用
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色"
@@ -244,7 +244,7 @@ NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\n
 SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步(可以設定拍桌數)"
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定 (可以設定)"
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖 (可以設定)"
-DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部)
+DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),
 
 ## 詳細設定
 AdvancedRoleOptions,Advanced Options,詳細設定,详细设置,進階設定
