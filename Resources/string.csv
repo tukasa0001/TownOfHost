@@ -1,7 +1,7 @@
 id,0,11,13,14
 ## Translators
 #13 SChinese fivefirex&ZeMingOH233 lgsn&MC-AS-Huier (Edit: Tanakanira)
-#14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
+#14 TChinese: NetherDragon_Tw MC-AS-Huier (Edit: Soukunsandesu)
 
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營
@@ -72,7 +72,7 @@ HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,诱捕者,誘捕者
 
 # GM
-GM,GM,GM
+GM,GM,GM,GM,GM
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
@@ -142,7 +142,7 @@ HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到
 HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,"讓狼人砍你 偷襲!"
 
 # GM
-GMInfo,You're the Game Master,ゲームマスターだ
+GMInfo,You're the Game Master,ゲームマスターだ,游戏大师,遊戲大師
 
 
 ## 役職説明ロング
@@ -198,7 +198,7 @@ HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll)
 HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱捕者被抓则诱捕者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗"
 
 # GM
-GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（游戏大师）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态。,（無）：\nGM（遊戲大師）是觀察者角色。 \nGM對遊戲本身沒有影響，所有玩家都知道GM是誰。它總是分配給一名玩家，從一開始就處於幽靈狀態。
 
 # 属性
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、连环杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
@@ -209,9 +209,9 @@ NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束�
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
-AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,增加The Skeld選項
-AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,增加Mira HQ選項
-AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,增加Polus選項
+AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,添加骷髏艦地圖
+AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,添加米拉總部地圖
+AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,添加波魯斯地圖
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,增加The AirShip選項
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
@@ -253,7 +253,7 @@ NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\n
 SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步(可以設定拍桌數)"
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定 (可以設定)"
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖 (可以設定)"
-DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),
+DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理员，不支持米拉总部),禁用設備:\n可以禁用各種設備。 (目前只支持管理員，不支持米拉總部)
 
 ## 詳細設定
 AdvancedRoleOptions,Advanced Options,詳細設定,详细设置,進階設定
@@ -386,7 +386,7 @@ Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add
 Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,未找到与“{0}”相关的消息。,沒有找到與「{0}」相關的訊息
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,您可以多次使用紧急会议按钮 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0} was executed,{0}を処刑しました,,{0}被處刑了
-Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被主机隐藏。,
+Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設置被房主隱藏。
 
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,自私者无法获胜,利己主義者無法獲勝
@@ -475,7 +475,7 @@ ArsonistDouseButtonText,Douse,塗る,涂油,澆油
 PuppeteerOperateButtonText,Operate,操る,操控,操控
 BountyHunterChangeButtonText,Swap,変更,变更,變更
 DefaultShapeshiftText,SHIFT,変身,变身,變身
-All,All,すべて,全部
-Archive,Archive,アーカイブ,文件
-DisabledBySettings,Disabled by setting,設定で無効化されています,在设置中禁用
+All,All,すべて,全部,全部
+Archive,Archive,アーカイブ,档案,檔案
+DisabledBySettings,Disabled by setting,設定で無効化されています,在设置中禁用,在設置中禁用
 
