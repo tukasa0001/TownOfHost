@@ -23,6 +23,7 @@ namespace TownOfHost
         public Color Color;
         public string Name;
         public Dictionary<string, string> ReplacementDictionary;
+        public string Format;
         public System.Object[] Selections;
 
         public int DefaultSelection;
@@ -33,7 +34,6 @@ namespace TownOfHost
         public List<CustomOption> Children;
         public bool isHeader;
         public bool isHidden;
-        public string Format;
         private bool isHiddenOnDisplay;
         public CustomOptionType type;
         public CustomGameMode GameMode;
