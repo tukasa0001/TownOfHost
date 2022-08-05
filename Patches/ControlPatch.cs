@@ -18,7 +18,7 @@ namespace TownOfHost
             //カスタム設定切り替え
             if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
             {
-                OptionShower.Next();
+                //    OptionShower.Next();
             }
             //解像度変更
             if (Input.GetKeyDown(KeyCode.F11))
@@ -224,6 +224,57 @@ namespace TownOfHost
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
+            }
+        }
+    }
+    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.Update))]
+    public static class GameOptionsNextPagePatch
+    {
+        public static void Postfix()
+        {
+            if (GameStates.IsLobby)
+            {
+                int page = Options.OptionsPage;
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    Options.OptionsPage = (Options.OptionsPage + 1) % 7;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    Options.OptionsPage = 0;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    Options.OptionsPage = 1;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    Options.OptionsPage = 2;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    Options.OptionsPage = 3;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    Options.OptionsPage = 4;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    Options.OptionsPage = 5;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                {
+                    Options.OptionsPage = 6;
+                }
+                if (page != Options.OptionsPage)
+                {
+                    Vector3 position = (Vector3)DestroyableSingleton<HudManager>.Instance?.GameSettings?.transform.localPosition;
+                    if (position != null)
+                    {
+                        DestroyableSingleton<HudManager>.Instance.GameSettings.transform.localPosition = new Vector3(position.x, 2.9f, position.z);
+                    }
+                }
             }
         }
     }
