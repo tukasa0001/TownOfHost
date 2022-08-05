@@ -229,6 +229,8 @@ namespace TownOfHost
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
+                //GM
+                { CustomRoles.GM, "gm" },
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },

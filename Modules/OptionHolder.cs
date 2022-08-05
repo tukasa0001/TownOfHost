@@ -61,11 +61,9 @@ namespace TownOfHost
         public static int OptionsPage;
 
         // 各役職の詳細設定
+        public static CustomOption EnableGM;
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
-        public static CustomOption BountyTargetChangeTime;
-        public static CustomOption BountySuccessKillCooldown;
-        public static CustomOption BountyFailureKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
@@ -85,13 +83,6 @@ namespace TownOfHost
         public static CustomOption MayorAdditionalVote;
         public static CustomOption MayorHasPortableButton;
         public static CustomOption MayorNumOfUseButton;
-        public static CustomOption SabotageMasterSkillLimit;
-        public static CustomOption SabotageMasterFixesDoors;
-        public static CustomOption SabotageMasterFixesReactors;
-        public static CustomOption SabotageMasterFixesOxygens;
-        public static CustomOption SabotageMasterFixesComms;
-        public static CustomOption SabotageMasterFixesElectrical;
-        public static int SabotageMasterUsedSkillCount;
         public static CustomOption DoctorTaskCompletedBatteryCharge;
         public static CustomOption SnitchEnableTargetArrow;
         public static CustomOption SnitchCanGetArrowColor;
@@ -259,11 +250,11 @@ namespace TownOfHost
             #region 役職・詳細設定
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
+            // GM
+            EnableGM = CustomOption.Create(100, CustomOption.CustomOptionType.Modifier, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
             // Impostor
-            SetupRoleOptions(1000, CustomOption.CustomOptionType.Impostor, CustomRoles.BountyHunter);
-            BountyTargetChangeTime = CustomOption.Create(1010, CustomOption.CustomOptionType.Impostor, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, CustomOption.CustomOptionType.Impostor, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, CustomOption.CustomOptionType.Impostor, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
@@ -309,13 +300,7 @@ namespace TownOfHost
             MayorAdditionalVote = CustomOption.Create(20210, CustomOption.CustomOptionType.Crewmate, Color.white, "MayorAdditionalVote", 1, 1, 99, 1, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorHasPortableButton = CustomOption.Create(20211, CustomOption.CustomOptionType.Crewmate, Color.white, "MayorHasPortableButton", false, CustomRoleSpawnChances[CustomRoles.Mayor]);
             MayorNumOfUseButton = CustomOption.Create(20212, CustomOption.CustomOptionType.Crewmate, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
-            SetupRoleOptions(20300, CustomOption.CustomOptionType.Crewmate, CustomRoles.SabotageMaster);
-            SabotageMasterSkillLimit = CustomOption.Create(20310, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesDoors = CustomOption.Create(20311, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesDoors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesReactors = CustomOption.Create(20312, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesReactors", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesOxygens = CustomOption.Create(20313, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesOxygens", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesComms = CustomOption.Create(20314, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesCommunications", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            SabotageMasterFixesElectrical = CustomOption.Create(20315, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesElectrical", false, CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
             SetupRoleOptions(20500, CustomOption.CustomOptionType.Crewmate, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, CustomOption.CustomOptionType.Crewmate, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
