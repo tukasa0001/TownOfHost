@@ -62,9 +62,6 @@ namespace TownOfHost
         // 各役職の詳細設定
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
-        public static CustomOption BountyTargetChangeTime;
-        public static CustomOption BountySuccessKillCooldown;
-        public static CustomOption BountyFailureKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption VampireKillDelay;
         //public static CustomOption ShapeMasterShapeshiftDuration;
@@ -259,10 +256,7 @@ namespace TownOfHost
             CustomRoleCounts = new Dictionary<CustomRoles, CustomOption>();
             CustomRoleSpawnChances = new Dictionary<CustomRoles, CustomOption>();
             // Impostor
-            SetupRoleOptions(1000, CustomRoles.BountyHunter);
-            BountyTargetChangeTime = CustomOption.Create(1010, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountySuccessKillCooldown = CustomOption.Create(1011, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            BountyFailureKillCooldown = CustomOption.Create(1012, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
