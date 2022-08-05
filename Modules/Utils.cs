@@ -563,9 +563,9 @@ namespace TownOfHost
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
-                if (seer.Is(CustomRoles.BountyHunter) && seer.GetBountyTarget() != null)
+                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
                 {
-                    string BountyTargetName = seer.GetBountyTarget().GetRealName(isMeeting);
+                    string BountyTargetName = BountyHunter.GetTarget(seer).GetRealName(isMeeting);
                     SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
                 }
                 if (seer.Is(CustomRoles.FireWorks))
@@ -762,14 +762,7 @@ namespace TownOfHost
         }
         public static void AfterMeetingTasks()
         {
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.BountyHunter))
-                {
-                    pc.RpcResetAbilityCooldown();
-                    Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
-                }
-            }
+            BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
         }
 
