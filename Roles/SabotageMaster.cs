@@ -22,13 +22,13 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.SabotageMaster);
-            SkillLimit = CustomOption.Create(Id + 10, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesDoors = CustomOption.Create(Id + 11, Color.white, "SabotageMasterFixesDoors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesReactors = CustomOption.Create(Id + 12, Color.white, "SabotageMasterFixesReactors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesOxygens = CustomOption.Create(Id + 13, Color.white, "SabotageMasterFixesOxygens", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesComms = CustomOption.Create(Id + 14, Color.white, "SabotageMasterFixesCommunications", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
-            FixesElectrical = CustomOption.Create(Id + 15, Color.white, "SabotageMasterFixesElectrical", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            Options.SetupRoleOptions(Id, CustomOption.CustomOptionType.Crewmate, CustomRoles.SabotageMaster);
+            SkillLimit = CustomOption.Create(Id + 10, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterSkillLimit", 1, 0, 99, 1, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesDoors = CustomOption.Create(Id + 11, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesDoors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesReactors = CustomOption.Create(Id + 12, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesReactors", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesOxygens = CustomOption.Create(Id + 13, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesOxygens", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesComms = CustomOption.Create(Id + 14, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesCommunications", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
+            FixesElectrical = CustomOption.Create(Id + 15, CustomOption.CustomOptionType.Crewmate, Color.white, "SabotageMasterFixesElectrical", false, Options.CustomRoleSpawnChances[CustomRoles.SabotageMaster]);
         }
         public static void Init()
         {
