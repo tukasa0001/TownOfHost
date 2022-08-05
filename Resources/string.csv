@@ -71,6 +71,9 @@ Jackal,Jackal,ジャッカル,豺狼,豺狼
 HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,诱捕者,誘捕者
 
+# GM
+GM,GM,GM
+
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
 
@@ -138,6 +141,9 @@ JackalInfo,Kill Everyone,すべてを殺せ,杀光所有人,殺光所有人不�
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
 HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,"讓狼人砍你 偷襲!"
 
+# GM
+GMInfo,You're the Game Master,ゲームマスターだ
+
 
 ## 役職説明ロング
 
@@ -190,6 +196,9 @@ JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJack
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝"
 HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱捕者被抓则诱捕者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗"
+
+# GM
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。
 
 # 属性
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、连环杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"

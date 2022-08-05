@@ -148,6 +148,13 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
+                case CustomRoles.GM:
+                    __instance.TeamTitle.text = Utils.GetRoleName(role);
+                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    __instance.ImpostorText.gameObject.SetActive(false);
+                    break;
+
             }
 
             if (Input.GetKey(KeyCode.RightShift))
@@ -230,6 +237,7 @@ namespace TownOfHost
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
                 }
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) PlayerControl.LocalPlayer.RpcExile();
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }
