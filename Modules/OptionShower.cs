@@ -34,6 +34,7 @@ namespace TownOfHost
                 {
                     //役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
@@ -50,6 +51,7 @@ namespace TownOfHost
                         text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                     }
                 }
+                nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
                     if (!kvp.Key.IsEnable()) continue;
@@ -85,7 +87,12 @@ namespace TownOfHost
                     {
                         text += $"{o.GetName()}: {o.GetString()}\n";
                         foreach (var c in o.Children)
+                        {
                             text += $"\t{c.GetName_v()}: {c.GetString()}\n";
+                            if (c.Children != null)
+                                foreach (var c2 in c.Children)
+                                    text += $"\t\t{c2.GetName_v()}: {c2.GetString()}\n";
+                        }
                         text += "\n";
                     }
                 }
@@ -108,6 +115,7 @@ namespace TownOfHost
                 listUp(Options.LadderDeath);
                 listUp(Options.DisableTasks);
                 listUp(Options.RandomMapsMode);
+                listUp(Options.DisableDevices);
                 nameAndValue(Options.NoGameEnd);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
                 nameAndValue(Options.HideGameSettings);

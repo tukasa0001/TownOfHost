@@ -12,7 +12,7 @@
   <ItemGroup>
       <Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
       <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll" />
-      <Reference Include="$(AmongUs)\BepInEx\unity-libs\*.dll" />
+      <!--<Reference Include="$(AmongUs)\BepInEx\unity-libs\*.dll" />-->
       <EmbeddedResource Include=".\Resources\*.png" />
       <EmbeddedResource Include=".\Resources\string.csv" />
   </ItemGroup>

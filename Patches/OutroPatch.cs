@@ -193,7 +193,7 @@ namespace TownOfHost
                 Main.winnerList.Add(pc.PlayerId);
             }
 
-            Main.BountyTimer = new Dictionary<byte, float>();
+            BountyHunter.ChangeTimer = new();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
 

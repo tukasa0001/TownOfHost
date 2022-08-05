@@ -19,7 +19,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.2.1";
+        public const string PluginVersion = "3.0.0";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -70,10 +70,7 @@ namespace TownOfHost
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
-        public static Dictionary<byte, float> BountyTimer = new();
         public static Dictionary<byte, float> WarlockTimer = new();
-        public static Dictionary<byte, PlayerControl> BountyTargets;
-        public static Dictionary<byte, bool> isTargetKilled = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static List<PlayerControl> SpelledPlayer = new();
         public static Dictionary<byte, bool> KillOrSpell = new();
@@ -134,9 +131,7 @@ namespace TownOfHost
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
-            BountyTimer = new Dictionary<byte, float>();
             WarlockTimer = new Dictionary<byte, float>();
-            BountyTargets = new Dictionary<byte, PlayerControl>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
@@ -206,6 +201,8 @@ namespace TownOfHost
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
+                    // GM
+                    {CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     {CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     {CustomRoles.Lovers, "#ffaaaa"}
@@ -328,6 +325,8 @@ namespace TownOfHost
         //HideAndSeek
         HASFox,
         HASTroll,
+        //GM
+        GM,
         // Sub-roll after 500
         NoSubRoleAssigned = 500,
         Lovers,
