@@ -46,7 +46,7 @@ namespace TownOfHost
         public static string GetRoleName(CustomRoles role)
         {
             var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) &&
-                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : TranslationController.Instance.currentLanguage.languageID;
 
             return GetRoleName(role, lang);
         }
