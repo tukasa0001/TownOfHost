@@ -336,8 +336,8 @@ namespace TownOfHost
                                     Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
                                 }
                             }
-                            if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-                                Main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
+                            if (Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+                                Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] = Options.SpeedBoosterUpSpeed.GetFloat();
                         }
                     }
                     break;
