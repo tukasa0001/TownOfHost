@@ -144,7 +144,6 @@ HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,"讓狼人砍你 �
 # GM
 GMInfo,You're the Game Master,ゲームマスターだ,你是管理员，在旁边看戏吧,你是管理員，在旁邊看戲吧
 
-
 ## 役職説明ロング
 
 # 特殊インポスター役職
@@ -227,10 +226,10 @@ SuffixMode.None,None,なし,无,無
 SuffixMode.Version,Version,バージョン,版本,版本
 SuffixMode.Streaming,Streaming,配信中,直播中,直播中
 SuffixMode.Recording,Recording,録画中,录制中,錄影中
-ColorNameMode,Color Name Mode,色名前モード,显示颜色名称,七彩名字模式
+ColorNameMode,Color Name Mode,色名前モード,显示颜色名称,名字將被顏色名稱替換
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
-HideGameSettings,Hide Game Settings,ゲーム設定を隠す,隐藏游戏设置,
+HideGameSettings,Hide Game Settings,ゲーム設定を隠す,隐藏游戏设置,隱藏遊戲設定
 RoleOptions,Role Options,役職設定,职业设置,職業設定
 ModeOptions,Mode Options,モード設定,模组设置,模式設定
 ForceJapanese,Force Japanese,日本語に強制,强制使用日语,強制使用日語
@@ -459,7 +458,7 @@ GameMode,GameMode,ゲームモード,游戏模式,遊戲模式
 PressTabToNextPage,Press Tab To Next Page...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...
 RoleSummaryText,Players and roles at the end of the game:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:
 doOverride,Override %role%'s Tasks,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務
-assignCommonTasks,%role% has Common Tasks,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%的普通任務數量
+assignCommonTasks,%role% has Common Tasks,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務
 roleLongTasksNum,%role% Long Tasks,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量
 roleShortTasksNum,%role% Short Tasks,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
 KillButtonText,Kill,キル,击杀,殺死
