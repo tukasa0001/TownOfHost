@@ -33,7 +33,7 @@ Sniper,Sniper,スナイパー,狙击手,狙擊手
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
 MadGuardian,MadGuardian,マッドガーディアン,叛徒守卫,背叛的天使
-MadSnitch,MadSnitch,マッドスニッチ,叛徒告密者,背叛的告密者
+MadSnitch,MadSnitch,マッドスニッチ,背叛的告密者,背叛的告密者
 SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
 
 # 両陣営可能役職
@@ -69,10 +69,10 @@ Jackal,Jackal,ジャッカル,豺狼,豺狼
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
-HASTroll,Troll,トロール,诱捕者,誘捕者
+HASTroll,Troll,トロール,猎人,誘捕者
 
 # GM
-GM,GM,GM,GM,GM
+GM,GM,GM,管理员,管理員
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
@@ -142,7 +142,7 @@ HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到
 HASTrollInfo,Get killed,自爆しよう,轰！你自爆了！,"讓狼人砍你 偷襲!"
 
 # GM
-GMInfo,You're the Game Master,ゲームマスターだ,游戏大师,遊戲大師
+GMInfo,You're the Game Master,ゲームマスターだ,你是管理员，在旁边看戏吧,你是管理員，在旁邊看戲吧
 
 
 ## 役職説明ロング
@@ -164,7 +164,7 @@ SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n叛徒守卫不可以击杀、破坏或使用管道。\n叛徒守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
-MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n叛徒告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n叛徒告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
+MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
 SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
 
 # 両陣営可能役職
@@ -195,7 +195,7 @@ JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJack
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝"
-HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱捕者被抓则诱捕者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗"
+HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n猎人被抓则猎人单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗"
 
 # GM
 GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（游戏大师）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态。,（無）：\nGM（遊戲大師）是觀察者角色。 \nGM對遊戲本身沒有影響，所有玩家都知道GM是誰。它總是分配給一名玩家，從一開始就處於幽靈狀態。
@@ -270,8 +270,8 @@ MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時母馬的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数,变形者可以招募叛徒的数量,變形者招募叛徒最大人數
-MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,叛徒告密者可以使用管道,背叛的告密者可以使用管道
-MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,叛徒告密者任务数,背叛告密者任務數量
+MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
+MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,叛徒守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
@@ -419,7 +419,7 @@ FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...
 FireworksReadyFirePhase,Fire!,打ち上げろ！,烟花来咯，大型烟花秀开始！,煙火秀開始!
 StandardHAS,Hide And Seek with Roles,役職入りでかくれんぼ,在躲猫猫模式中加入职业,在躲貓貓中加入多職業模式中的職業
-StandardHASWaitingTime,Waiting Time,待機時間,躲猫猫寻找者等待时间,躲貓貓狼人等待時間
+StandardHASWaitingTime,Waiting Time,待機時間,躲猫猫猎人等待时间,躲貓貓狼人等待時間
 commandError,Error:%1$,エラー:%1$,错误:%1$,錯誤:%1$
 InvalidArgs,Invalid Args,無効な引数,无效参数,無效的參數
 On,ON,オン,开启,開啟
