@@ -78,7 +78,7 @@ GM,GM,GM,管理员,GM（遊戲大師）
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
 
 # その他
-TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
+TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,幫助狼人
 
 
 ## 役職説明ショート
@@ -87,7 +87,7 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
 MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
-FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻點燃一次煙火吧
+FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
 SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
 ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
 VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう,吸干他人的血,使用你的牙齒吸乾所有人的血吧
@@ -102,10 +102,10 @@ SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，�
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
 
 # マッドメイト系役職
-MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人殺死所有人
+MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
-SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,你是叛徒的跟班
+SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,"你現在是狼人的夥伴了,盡你所能幫助他們"
 
 # 両陣営可能役職
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
