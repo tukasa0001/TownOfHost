@@ -89,7 +89,7 @@ BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀�
 MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
 FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻點燃一次煙火吧
 SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
-ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變形來混淆你的敵人
+ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
 VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう,吸干他人的血,使用你的牙齒吸乾所有人的血吧
 WarlockInfo,Curse the Crewmates,敵を呪い殺そう,给你的敌人下咒,詛咒並殺光你的敵人
 WitchInfo,Spell the Crewmates,敵に魔術をかけよう,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
@@ -120,7 +120,7 @@ SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませ�
 SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其他人跑得更快
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
-DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,船上最強大的政治體系存在
+DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
@@ -208,10 +208,10 @@ NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束�
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
-AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,添加骷髏艦地圖
-AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,添加米拉總部地圖
-AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,添加波魯斯地圖
-AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,增加The AirShip選項
+AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Skeld地圖列入選項
+AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ地圖列入選項
+AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項
+AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務
@@ -296,12 +296,12 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
-SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる,警长尝试执法船员时会和被执法者同归于尽,警長走火時會讓嘗試槍的船員一起死
+SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる,警长尝试执法船员时会和被执法者同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
-SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,告密者對不同陣營的目標使用不同顏色的箭頭標示
-SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互相認識
+SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
+SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,メイヤーがポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
@@ -389,15 +389,15 @@ Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定�
 ## 警告
 Warning.EgoistCannotWin,Egoist cannot win!,エゴイストが勝利できません,自私者无法获胜,利己主義者無法獲勝
 Warning.OverrideExiledPlayer,All ejects will be displayed as tie because the total number of impostors is 1.,合計インポスター数が1のため、追放はすべて同数投票として表示されます。,由于场上仅剩一名内鬼，放逐投票将显示为平票,"由於場上只剩一名狼人,所有逐出訊息都將顯示為平票"
-Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因为它收到了无效的 RPC。 \n请确保没有除 TOH 以外的模组。,"因為收到無效的RPC,所以踢出了{0}\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
+Warning.InvalidRpc,Kicked {0} because an invalid RPC was received.\nPlease make sure that there are no other mods in the system other than TOH.,不正なRPCを受信したため{0}をキックしました。\nTOH以外のMODが入っていないか確認してください。,{0} 被踢出，因为它收到了无效的 RPC。 \n请确保没有除 TOH 以外的模组。,"{0}因為收到無效的RPC,所以踢出了他,\n請確保遊戲除了TOH之外沒有其他模組系統被載入"
 
 ## エラー
 Error.MeetingException,Error: {0}\r\nPlease use SHIFT+M+ENTER to force the meeting to end,エラー: {0}\r\nSHIFT+M+ENTERで会議を強制終了してください,错误: {0}\r\n使用 SHIFT+M+ENTER 来中止会议,錯誤: {0}\r\n按下SHIFT+M+ENTER來結束會議
-Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在设置角色时发现角色无效的玩家 ({0}),錯誤:發現玩家{0}持有無效職業
+Error.InvalidRoleAssignment,Error: Invalid role found for a player during role assignment({0}),エラー: 役職設定中に無効な役職のプレイヤーを発見しました({0}),错误：在设置角色时发现角色无效的玩家 ({0}),錯誤:在設定職業時發現{0}持有無效職業
 Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPlease save the log and create a bug report ticket.,エラー: スピードブースト先がnullです。\nログを保存し、バグ報告チケットを作成してください。,错误：Speedboost 目标为空。 \n请保存日志并创建错误报告票。,"錯誤:加速器加速的對象無效,\n請將遊戲輸出記錄保存並在TOH官方DC群組開啟一張支援票"
 
 ## その他
-ForExample,For Example,使用例,使用例子,舉個例子:
+ForExample,For Example,使用例,使用例子,使用例子
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
@@ -416,7 +416,7 @@ NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your na
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...
-FireworksReadyFirePhase,Fire!,打ち上げろ！,烟花来咯，大型烟花秀开始！,煙火秀開始!
+FireworksReadyFirePhase,Fire!,打ち上げろ！,烟花来咯，大型烟花秀开始！,"準備就緒,煙火秀開始!"
 StandardHAS,Hide And Seek with Roles,役職入りでかくれんぼ,在躲猫猫模式中加入职业,在躲貓貓中加入多職業模式中的職業
 StandardHASWaitingTime,Waiting Time,待機時間,躲猫猫猎人等待时间,躲貓貓狼人等待時間
 commandError,Error:%1$,エラー:%1$,错误:%1$,錯誤:%1$
@@ -475,5 +475,5 @@ BountyHunterChangeButtonText,Swap,変更,变更,變更
 DefaultShapeshiftText,SHIFT,変身,变身,變身
 All,All,すべて,全部,全部
 Archive,Archive,アーカイブ,档案,檔案
-DisabledBySettings,Disabled by setting,設定で無効化されています,在设置中禁用,在設置中禁用
+DisabledBySettings,Disabled by setting,設定で無効化されています,在设置中禁用,在設定中被禁用
 
