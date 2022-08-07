@@ -72,7 +72,7 @@ HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,猎人,誘捕者
 
 # GM
-GM,GM,GM,管理员,管理員
+GM,GM,GM,管理员,GM（遊戲大師）
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
@@ -86,7 +86,7 @@ NeutralInfo,A solitary teams that does not belong to any other teams,他のど�
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
-MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中殺人
+MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
 FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻點燃一次煙火吧
 SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
 ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變形來混淆你的敵人
@@ -113,7 +113,7 @@ WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光ら
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
-MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,你的票數更有料
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,你的票數更多
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
