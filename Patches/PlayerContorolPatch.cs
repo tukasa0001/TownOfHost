@@ -29,21 +29,51 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
+        public static Dictionary<byte, float> TimeSinceLastKill = new();
+        public static void Update()
+        {
+            for (byte i = 0; i < 15; i++)
+            {
+                if (TimeSinceLastKill.ContainsKey(i))
+                {
+                    TimeSinceLastKill[i] += Time.deltaTime;
+                    if (15f < TimeSinceLastKill[i]) TimeSinceLastKill.Remove(i);
+                }
+            }
+        }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
 
             var killer = __instance; //読み替え変数
-            killer.ResetKillCooldown();
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-
-            if (Main.BlockKilling.TryGetValue(killer.PlayerId, out bool isBlocked) && isBlocked)
+            //不正キル防止処理
+            if (target.Data == null || //PlayerDataがnullじゃないか確認
+                target.inVent || target.inMovingPlat //targetの状態をチェック
+            )
             {
-                Logger.Info("キルをブロックしました。", "CheckMurder");
+                Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
             }
+            if (MeetingHud.Instance != null) //会議中でないかの判定
+            {
+                Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
+
+            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
+            //↓許可されない場合
+            if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
+            {
+                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
+                return false;
+            }
+            TimeSinceLastKill[killer.PlayerId] = 0f;
+
+            killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
@@ -160,16 +190,12 @@ namespace TownOfHost
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
 
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                             Utils.NotifyRoles();
                         return false;
                     }
                     break;
             }
-
-            //以下キルが発生しうるのでブロック処理
-            Main.BlockKilling[killer.PlayerId] = true;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -242,7 +268,6 @@ namespace TownOfHost
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
@@ -469,8 +494,7 @@ namespace TownOfHost
             {
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
-                //vampireのキルブロック解除
-                Main.BlockKilling[vampireID] = false;
+
                 if (!bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
@@ -530,8 +554,6 @@ namespace TownOfHost
                         if (killTimer >= Options.VampireKillDelay.GetFloat())
                         {
                             var bitten = player;
-                            //vampireのキルブロック解除
-                            Main.BlockKilling[vampireID] = false;
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
