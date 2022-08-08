@@ -484,6 +484,7 @@ namespace TownOfHost
         {
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls) allPlayers.Add(player);
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) allPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
             var loversRole = CustomRoles.Lovers;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
