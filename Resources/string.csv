@@ -5,7 +5,7 @@ id,0,11,13,14
 
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營
-SubRole,Sub Role,サブ役職,附加职业,附加職業
+SubRole,Sub Role,サブ役職,附加职业,附加效果
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員
@@ -17,7 +17,7 @@ Shapeshifter,Shapeshifter,シェイプシフター,变形者,變形者
 
 # 特殊インポスター役職
 BountyHunter,BountyHunter,バウンティハンター,赏金猎人,賞金獵人
-Mare,Mare,メアー,梦魇,母馬
+Mare,Mare,メアー,梦魇,黑暗博士
 FireWorks,FireWorks,花火職人,烟花商人,煙火工匠
 SerialKiller,SerialKiller,シリアルキラー,连环杀手,連環殺手
 ShapeMaster,ShapeMaster,シェイプマスター,千面鬼,變形大師
@@ -72,13 +72,13 @@ HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,猎人,誘捕者
 
 # GM
-GM,GM,GM,管理员,GM（遊戲大師）
+GM,GM,GM,管理员,GM(遊戲大師)
 
 # 属性
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
 
 # その他
-TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,幫助狼人
+TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
 
 
 ## 役職説明ショート
@@ -113,7 +113,7 @@ WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光ら
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
-MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,你的票數更多
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
 SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
@@ -126,11 +126,11 @@ DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让�
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
 JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
 OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
-SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,加入击杀你的阵营,成為殺害你的人的跟班
-CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你是船員的跟班"
-MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你是狼人的跟班"
+SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,加入击杀你的阵营,打不過就加入
+CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
+MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你成为了自私者的同伴,"你是利己主義者的跟班"
-JSchrodingerCatInfo,I became an ally of my Jackal,ジャッカルの味方になった,你是豺狼的跟班，没有问题,"你是豺狼的跟班"
+JSchrodingerCatInfo,I became an ally of my Jackal,ジャッカルの味方になった,你是豺狼的跟班，没有问题,"你是豺狼的跟班,盡量幫助他"
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう,都别想活着，和我一起同归于尽！,"一個一個來,都別想給我活!"
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
@@ -148,12 +148,12 @@ GMInfo,You're the Game Master,ゲームマスターだ,你是管理员，在旁�
 
 # 特殊インポスター役職
 BountyHunterInfoLong,"(Impostors):\nIf the BountyHunters kill their designated target, their next kill cooldown will be much less than usual.\nKilling a player except their current target results in an increased kill cooldown.\nTargets are changed at regular intervals.",(インポスター陣営):\n表示されたターゲットをキルした場合、次のキルクールがとても短くなる。\nターゲットではないプレイヤーをキルした場合は、キルクールが伸びてしまう。\nターゲットは一定時間ごとに変更される。,(内鬼阵营):\n如果赏金猎人击杀了正确的目标，冷却将缩短。\n如果击杀了错误的目标，则冷却保持不变。,"(狼人陣營):\n如果賞金獵人殺了賞金目標,下一次的殺人冷卻會變得非常的短\n如果賞金獵人殺了非賞金目標,下一次的殺人冷卻將會被延長或不變\n目標將會重置在時間結束或殺死賞金目標後。"
-FireWorksInfoLong,"(Impostors):\nThey can put a few fireworks by Shapeshift.\n After setting everything, you can ignite all at once by shapeshift when you are the last Impostor.\nOnly after that you can kill.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。\n烟花商人在变形状态下可以安放至多三个烟花炸弹。\n当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以在变形状态下引爆炸弹。\n直到安放并引爆所有烟花炸弹，烟花商人不可以进行击杀。\n烟花炸弹可以炸死烟花商人。\n如果烟花炸弹的爆炸导致所有存活玩家被炸死，内鬼阵营获胜。,"(狼人陣營):\n煙火工匠可以放置3個煙火在不同的地方.\n當煙火工匠設定好所有東西且煙火工匠是最後一隻狼時,煙火工匠可以將所有人引到你放置煙火的地方並使用變形來讓煙火爆炸.\n但是煙火工匠不能殺人在他還沒放置完所有煙火前。"
+FireWorksInfoLong,"(Impostors):\nThey can put a few fireworks by Shapeshift.\n After setting everything, you can ignite all at once by shapeshift when you are the last Impostor.\nOnly after that you can kill.",(インポスター陣営):\n変身することで花火を最大3か所に設置可能。\nすべて設置した後、インポスター最後の生き残りになった時に再度変身することで一斉起爆できる。\n花火が設置されている間はキルできない。,(内鬼阵营):\n烟花商人可以安放烟花炸弹，造成范围性杀伤。\n烟花商人在变形状态下可以安放至多三个烟花炸弹。\n当存活的内鬼阵营玩家仅剩烟花商人且烟花炸弹安置完毕时，烟花商人可以在变形状态下引爆炸弹。\n直到安放并引爆所有烟花炸弹，烟花商人不可以进行击杀。\n烟花炸弹可以炸死烟花商人。\n如果烟花炸弹的爆炸导致所有存活玩家被炸死，内鬼阵营获胜。,"(狼人陣營):\n煙火工匠可以放置最多3個煙火在不同的地方.\n當煙火工匠設定好所有東西且煙火工匠是最後一隻狼時,煙火工匠可以將所有人引到你放置煙火的地方並使用變形來讓煙火爆炸.\n但是煙火工匠在他還沒放置完所有煙火前不能殺人,\n如果爆炸讓所有存活的玩家死亡,則狼人陣營獲勝。"
 SerialKillerInfoLong,"(Impostors):\nSerialKiller has even shorter kill cooldown.\nUnless taking a kill by deadline, they murder themselves instantly.",(インポスター陣営):\nキルクールが他のインポスターに比べて短い反面、変身のクールタイムが明ける前にキルしないと自爆する。,(内鬼阵营):\n连环杀手的冷却相较于其他内鬼有所减少。\n连环杀手若不在一定时间内进行击杀，则其自杀。,"(狼人陣營):\n連環殺手的殺人冷卻是所有狼人中最短的一個,\n但是如果連環殺手沒有在自殺倒數時間前殺人,連環殺手將會自殺"
 ShapeMasterInfoLong,"(Impostors):\nShapeMaster has no Shapeshift cooldown.\nOn the other hand, their default Shapeshift duration is shorter (default: 10s).",(インポスター陣営):\nシェイプシフトに特化したインポスター。\n変身持続時間が通常のシェイプシフターよりも短い半面、変身解除後のクールダウンがなく無限に変身することができる。\n変身継続時間は設定で変更が可能。,(内鬼阵营):\n千面鬼变形持续时间短于普通变形者。\n千面鬼没有变形冷却与次数限制。\n千面鬼变形的持续时间根据房间设置的改变而改变。,"(狼人陣營):\n變形大師是一隻在變形事業上有成的一隻狼\n變形大師的變形冷卻會比一般的變形者還要短上許多,變形大師的變形技能沒有冷卻,這意味著變形大師可以在變形結束後立刻變形\n變形大師的變形冷卻可以在設定中更改。"
-MareInfoLong,"(Impostors):\nThey can kill only in lights out, but next kill cooldown will be half.\nWhile lights out they can move faster, and yet their name looks red by everyone.",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。,(内鬼阵营):\n梦魇不在照明破坏持续时间内不能击杀。\n若夜魇击杀成功，夜魇的击杀冷却变成原来的一半。\n此外，照明破坏持续时间内夜魇的移动速度也会增加，\n并且，这段时间内所有玩家都能看到夜魇的名字为红色。,"(狼人陣營):\n母馬不能殺人在燈還沒關閉前\n但是當燈關閉時,母馬的冷卻會變很短\n並且母馬的移動速度會變快,但是母馬的名字會變成紅色且所有玩家可見。"
+MareInfoLong,"(Impostors):\nThey can kill only in lights out, but next kill cooldown will be half.\nWhile lights out they can move faster, and yet their name looks red by everyone.",(インポスター陣営):\n停電の時だけキルができるインポスター。\nキルに成功すると次のキルクールが半分になる。\n移動速度も停電中は早くなるが名前が赤くなる。,(内鬼阵营):\n梦魇不在照明破坏持续时间内不能击杀。\n若夜魇击杀成功，夜魇的击杀冷却变成原来的一半。\n此外，照明破坏持续时间内夜魇的移动速度也会增加，\n并且，这段时间内所有玩家都能看到夜魇的名字为红色。,"(狼人陣營):\n黑暗博士在燈還沒關閉前不能殺人\n但是當燈關閉時,如果他殺人,他的冷卻會減少一半\n並且他的的移動速度會變快,但是他的的名字會變成紅色且所有玩家可見。"
 VampireInfoLong,"(Impostors):\nThe Vampires can bite players instead of kill.\nBitten players die after a configurable amount of time or just before emergency meeting call.\nWhen biting the [Baits](#Bait), However, they take a no delaykill and are forced to self report.",(インポスター陣営):\nプレイヤーを噛む事で遅延キルが可能。\n(時間が経過or会議が始まると死亡する。)\nベイトの場合即死亡し、強制的に通報が入る。,(内鬼阵营):\n在吸血鬼尝试击杀时，击杀不会立即发生，而是延迟一段时间执行。\n吸血鬼的击杀没有击杀动画。\n若这段时间内游戏进入会议阶段，被击杀目标立即死亡。\n被击杀目标为诱饵时，吸血鬼的击杀被视为普通击杀。,"(狼人陣營):\n通過咬玩家的方式來讓延遲殺人變成可能.\n(被咬的玩家將會死亡在時間結束或會議開始時.)\n若嘗試吸血的對象為誘餌,則會顯示正常殺人。"
-WarlockInfoLong,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。,(内鬼阵营):\n术士在不变形状态下击杀时，目标会被诅咒。\n当术士变形，最靠近被诅咒玩家的船员会被击杀。,"(狼人陣營):\n當術士嘗試殺人時會轉變會下咒.\n當術士下一次變形成其他人時,被詛咒的玩家將會殺死一個離他最近的人(可以穿牆砍) \n如果術士變形在殺人,術士就可以正常殺人。"
+WarlockInfoLong,"(Impostors):\nThe Warlocks can curse another players before Shapeshift.\nWhen they Shapeshift after cursing, the player next to the cursed is killed no matter how far away they are.\nWhile Shpashifting, you can perform normal kills.",(インポスター陣営):\nキルをすると一番近くの人に呪いがかかる。\n次から変身ボタンを押すと、呪われた人が一番近い人をキルする。\n変身した場合、普通のキルになる。\nまた、１ターンに１人しか呪うことはできない。,(内鬼阵营):\n术士在不变形状态下击杀时，目标会被诅咒。\n当术士变形，最靠近被诅咒玩家的船员会被击杀。,"(狼人陣營):\n當術士嘗試殺人時會轉變會下咒.\n當術士下一次變形成其他人時,被詛咒的玩家將會殺死一個離他最近的人(可以穿牆砍) \n如果術士變形再殺人,術士就可以正常殺人。"
 WitchInfoLong,"(Impostors):\nThe Witches can perform kills or spells by turns.\nThe players spelled by Witches before a meeting are marked 'cross' in the meeting,\nand unless exiling Witches, They all die just after the meeting.",(インポスター陣営):\nキルをすると「Kill」と「Spell」が切り変わる。\nSpellの表示でキルすると呪うことが出来る。\n呪いをかけられた人は会議で「†」が付き魔女を追放しなければ会議後に死亡する。,(内鬼阵营):\n通过点击击杀按钮，女巫可以在击杀模式与法术模式间切换，在法术模式下击杀可以对目标施法。\n被施法的目标会在会议上得到对全员可见的施法标记。如果直到会议结束女巫仍然存活，被施法的目标死亡。,"(狼人陣營):\n殺人按鍵會在'殺人'和'下咒'這兩個模式間切換,當顯示下咒模式時按下按鍵可以下咒一個離你最近的人\n被下咒的對象在會議上的名字會有一個'†'標記\n如果女巫在會議沒有被投出,則被下咒對象將死於會議後。"
 MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a button).\nThey will be able to kill after Impostors except them are all gone.",(インポスター陣営):\n初期状態ではキルが封じられている。\n仲間が全員死亡後、自身もキルが可能になる。,(内鬼阵营):\n黑手党在游戏中有其他内鬼存活时不可以进行击杀。,"(狼人陣營):\n在遊戲開始時,黑手黨沒有刀\n但是當他所有的隊友死亡後,他就可以開始殺人。"
 PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的击杀对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。"
@@ -197,10 +197,10 @@ HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll)
 HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n猎人被抓则猎人单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
 
 # GM
-GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（游戏大师）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态。,"（不屬於任何陣營）：\nGM（遊戲大師）是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
+GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（游戏大师）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态。,"（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
 
 # 属性
-LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、连环杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
+LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、连环杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
@@ -265,8 +265,8 @@ BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,バウンティハ�
 BountyFailureKillCooldown,Kill Cooldown After Killing Others,バウンティハンターのターゲット以外殺害時のキルクール,赏金猎人击杀悬赏目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン,变形者变形冷却,預設變身時間
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒),吸血鬼延迟的击杀时间,吸血鬼殺人延遲
-MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移動速度,梦魇熄灯时的移动速度,關燈時母馬的移動速度
-MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時母馬的殺人冷卻
+MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移動速度,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
+MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数,变形者可以招募叛徒的数量,變形者招募叛徒最大人數
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
