@@ -353,7 +353,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterCooldown = 5f;
                     opt.RoleOptions.ShapeshifterDuration = 1f;
                     break;
                 case CustomRoles.Jackal:
@@ -689,10 +689,10 @@ namespace TownOfHost
         public static PlayerControl RemoveEvilTrackerTarget(this PlayerControl player)
         {
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            Main.BountyTargets[player.PlayerId] = null;
+            Main.EvilTrackerTarget[player.PlayerId] = null;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
             RPC.RemoveEvilTrackerKey(player.PlayerId);
-            return Main.BountyTargets[player.PlayerId];
+            return Main.EvilTrackerTarget[player.PlayerId];
         }
         public static void RpcExileV2(this PlayerControl player)
         {
