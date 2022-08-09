@@ -29,21 +29,51 @@ namespace TownOfHost
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckMurder))]
     class CheckMurderPatch
     {
+        public static Dictionary<byte, float> TimeSinceLastKill = new();
+        public static void Update()
+        {
+            for (byte i = 0; i < 15; i++)
+            {
+                if (TimeSinceLastKill.ContainsKey(i))
+                {
+                    TimeSinceLastKill[i] += Time.deltaTime;
+                    if (15f < TimeSinceLastKill[i]) TimeSinceLastKill.Remove(i);
+                }
+            }
+        }
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
             if (!AmongUsClient.Instance.AmHost) return false;
 
             var killer = __instance; //読み替え変数
-            killer.ResetKillCooldown();
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
-
-            if (Main.BlockKilling.TryGetValue(killer.PlayerId, out bool isBlocked) && isBlocked)
+            //不正キル防止処理
+            if (target.Data == null || //PlayerDataがnullじゃないか確認
+                target.inVent || target.inMovingPlat //targetの状態をチェック
+            )
             {
-                Logger.Info("キルをブロックしました。", "CheckMurder");
+                Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
             }
+            if (MeetingHud.Instance != null) //会議中でないかの判定
+            {
+                Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
+
+            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
+            //↓許可されない場合
+            if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
+            {
+                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
+                return false;
+            }
+            TimeSinceLastKill[killer.PlayerId] = 0f;
+
+            killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
@@ -121,8 +151,8 @@ namespace TownOfHost
                             var sniperId = Sniper.GetSniper(target.PlayerId);
                             NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
                         }
-                        else if (killer.GetBountyTarget() == target)
-                            killer.ResetBountyTarget();//ターゲットの選びなおし
+                        else if (BountyHunter.GetTarget(killer) == target)
+                            BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
                         else
                         {
                             SerialKiller.OnCheckMurder(killer, isKilledSchrodingerCat: true);
@@ -160,16 +190,12 @@ namespace TownOfHost
                         if (Options.MadGuardianCanSeeWhoTriedToKill.GetBool())
                             NameColorManager.Instance.RpcAdd(target.PlayerId, killer.PlayerId, "#ff0000");
 
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (dataCountBefore != NameColorManager.Instance.NameColors.Count)
                             Utils.NotifyRoles();
                         return false;
                     }
                     break;
             }
-
-            //以下キルが発生しうるのでブロック処理
-            Main.BlockKilling[killer.PlayerId] = true;
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -179,21 +205,7 @@ namespace TownOfHost
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
-                        if (target == killer.GetBountyTarget())
-                        {//ターゲットをキルした場合
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountySuccessKillCooldown.GetFloat();
-                            killer.RpcResetAbilityCooldown();
-                            killer.CustomSyncSettings();//キルクール処理を同期
-                            Main.isTargetKilled[killer.PlayerId] = true;
-                            Logger.Info($"{killer?.Data?.PlayerName}:ターゲットをキル", "BountyHunter");
-                            Main.BountyTimer[killer.PlayerId] = 0f; //タイマーリセット
-                        }
-                        else
-                        {
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.BountyFailureKillCooldown.GetFloat();
-                            Logger.Info($"{killer?.Data?.PlayerName}:ターゲット以外をキル", "BountyHunter");
-                            killer.CustomSyncSettings();//キルクール処理を同期
-                        }
+                        BountyHunter.OnCheckMurder(killer, target);
                         break;
                     case CustomRoles.SerialKiller:
                         SerialKiller.OnCheckMurder(killer);
@@ -256,7 +268,6 @@ namespace TownOfHost
                     case CustomRoles.Arsonist:
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
-                        Main.BlockKilling[killer.PlayerId] = false;
                         if (!Main.isDoused[(killer.PlayerId, target.PlayerId)] && !Main.ArsonistTimer.ContainsKey(killer.PlayerId))
                         {
                             Main.ArsonistTimer.Add(killer.PlayerId, (target, 0f));
@@ -470,7 +481,7 @@ namespace TownOfHost
             if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
-            Main.BountyTimer.Clear();
+            BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             if (target == null) //ボタン
@@ -500,8 +511,7 @@ namespace TownOfHost
             {
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
-                //vampireのキルブロック解除
-                Main.BlockKilling[vampireID] = false;
+
                 if (!bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
@@ -561,8 +571,6 @@ namespace TownOfHost
                         if (killTimer >= Options.VampireKillDelay.GetFloat())
                         {
                             var bitten = player;
-                            //vampireのキルブロック解除
-                            Main.BlockKilling[vampireID] = false;
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
@@ -609,34 +617,10 @@ namespace TownOfHost
                     }
                 }
                 //ターゲットのリセット
-                if (GameStates.IsInTask && Main.BountyTimer.ContainsKey(player.PlayerId))
-                {
-                    if (!player.IsAlive())
-                    {
-                        Main.BountyTimer.Remove(player.PlayerId);
-                    }
-                    else
-                    {
-                        if (Main.BountyTimer[player.PlayerId] >= Options.BountyTargetChangeTime.GetFloat() || Main.isTargetKilled[player.PlayerId])//時間経過でターゲットをリセットする処理
-                        {
-                            Main.BountyTimer[player.PlayerId] = 0f;
-                            Logger.Info($"{player.GetNameWithRole()}:ターゲットリセット", "BountyHunter");
-                            player.CustomSyncSettings();//ここでの処理をキルクールの変更の処理と同期
-                            player.RpcResetAbilityCooldown(); ;//タイマー（変身クールダウン）のリセットと
-                            player.ResetBountyTarget();//ターゲットの選びなおし
-                            Utils.NotifyRoles();
-                        }
-                        if (Main.isTargetKilled[player.PlayerId])//ターゲットをキルした場合
-                        {
-                            Main.isTargetKilled[player.PlayerId] = false;
-                        }
-                        if (Main.BountyTimer[player.PlayerId] >= 0)
-                            Main.BountyTimer[player.PlayerId] += Time.fixedDeltaTime;
-                    }
-                }
+                BountyHunter.FixedUpdate(player);
                 if (GameStates.IsInTask && player.IsAlive() && Options.LadderDeath.GetBool())
                 {
-                    LadderDeathPatch.FixedUpdate(player);
+                    FallFromLadder.FixedUpdate(player);
                 }
                 /*if (GameStates.isInGame && main.AirshipMeetingTimer.ContainsKey(__instance.PlayerId)) //会議後すぐにここの処理をするため不要になったコードです。今後#465で変更した仕様がバグって、ここの処理が必要になった時のために残してコメントアウトしています
                 {
@@ -740,6 +724,8 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
+                    DisableDevice.FixedUpdate();
 
                 if (GameStates.IsInGame && Main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)

@@ -124,10 +124,7 @@ namespace TownOfHost
                     RPC.SetCustomRole(CustomRoleTargetId, role);
                     break;
                 case CustomRPC.SetBountyTarget:
-                    byte HunterId = reader.ReadByte();
-                    byte TargetId = reader.ReadByte();
-                    var target = Utils.GetPlayerById(TargetId);
-                    if (target != null) Main.BountyTargets[HunterId] = target;
+                    BountyHunter.ReceiveRPC(reader);
                     break;
                 case CustomRPC.SetKillOrSpell:
                     byte playerId = reader.ReadByte();
@@ -470,6 +467,7 @@ namespace TownOfHost
         }
         public static void RemoveExecutionerKey(byte Key)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);

@@ -124,6 +124,11 @@ For example: `welcome:This room is using TownOfHost.`
 | [MadSnitch](#MadSnitch)             |                                   |                                   |
 | [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
 
+### GM
+
+The GM (Game Master) is an observer role.<br>
+Their presence has no effect on the game itself, and all players know who the GM is at all times.<br>
+Always assigned to a host and is ghosted from the start.<br>
 
 ## Impostor
 
@@ -521,6 +526,8 @@ Depending on settings, Sheriff may also kill neutrals.<br>
 The sheriff has no tasks.<br>
 Killing Crewmates will result in suicide. <br>
 
+* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
 #### Game Options
 
 | Name                                                              |
@@ -603,6 +610,8 @@ Victory Condition : Douse and ignite all the living players<br>
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
 To win as Arsonist, you must douse all fellow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -742,6 +751,16 @@ Example of overlapping Roles: <br>
 - [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
 - [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
+## DisableDevice
+
+Reference source : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+
+Various devices can be disabled (currently admin only, MiraHQ not supported)
+
+| Settings Name         |
+| --------------------- |
+| Disable Admin         |
+| ・ Which Disable admin |
 ## SabotageTimeControl
 
 The time limit for some sabotage can be modified.
@@ -899,6 +918,19 @@ More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire]
 [Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 Translate-Chinese : fivefirex, ZeMingOH233<br>
 
-Twitter : https://twitter.com/XenonBottle<br>
+Translated with https://www.deepl.com<br>
+
+## Developers
+- [EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [Shu-](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [Soukun](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [Mii](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [Tampopo](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>

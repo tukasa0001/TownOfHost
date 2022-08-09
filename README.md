@@ -122,6 +122,12 @@ AmongUsバージョン : **2022.7.12**
 | [MadSnitch/マッドスニッチ](#MadSnitchマッドスニッチ)                                 |                                                                            |                                                                            |
 | [SidekickMadmate/サイドキックマッドメイト](#SidekickMadmateサイドキックマッドメイト) |                                                                            |                                                                            |
 
+### GM
+
+GM(ゲームマスター)はオブザーバー役職です。<br>
+GMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかります。<br>
+必ずホストに割り当てられ、始めから幽霊状態です。<br>
+
 ### BountyHunter/バウンティハンター
 
 陣営 : インポスター<br>
@@ -493,6 +499,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 しかし、クルーメイトをキルした場合、自分が死亡してしまいます。<br>
 タスクはありません。<br>
 
+*暗転対策の為、死亡後のシェリフは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
+
 #### 設定
 
 | 設定名                                                              |
@@ -560,6 +568,8 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 
 キルボタンを押して、一定時間近くに居ると、相手にオイルが塗れます。<br>
 生存者全員にオイルを塗り、ベントに入ると単独勝利します。それ以外では敗北します。<br>
+
+*暗転対策の為、死亡後のアーソニストは会議毎に自殺するモーションが本人にだけ見えます。死体は出ません。<br>
 
 #### 設定
 
@@ -695,9 +705,19 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 ・ジェスター恋人：ジェスター恋人が追放されればジェスターとして勝利。恋人が投票で追放された場合はジェスター恋人は敗北。<br>
 ・ベイト恋人：恋人がキルされてベイト恋人が後追い死亡した時は、通報は行われない。<br>
 
+## DisableDevice/デバイスを無効化
+
+参考元 : [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles), [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+
+各種機器を無効化することができます。(現在はアドミンのみ、MiraHQ非対応)<br>
+
+| 設定名                     |
+| -------------------------- |
+| アドミン無効化              |
+| ・ どのアドミンを無効化するか |
 ## SabotageTimeControl/サボタージュの時間制御
 
-一部サボタージュの制限時間を変更することができます。
+一部サボタージュの制限時間を変更することができます。<br>
 
 | 設定名                         |
 | ------------------------------ |
@@ -851,4 +871,22 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
 中国語翻訳 : fivefirex、ZeMingOH233<br>
 
-作者の Twitter : https://twitter.com/XenonBottle<br>
+## 開発者
+<!--
+開発者用チャンネルでの一番最初の発言が早い順に記載する。
+- [テンプレ](https://github.com/) ([Twitter](https://twitter.com/))
+- [Twitter以外のページでも可](https://github.com/) ([Twitter](https://twitter.com/), [TheOtherPages](https://example.com/))
+- [何もなくていい場合は消してOK](https://github.com/)
+注：README-ENへの追記を忘れないでください。
+-->
+- [空き瓶/EmptyBottle](https://github.com/tukasa0001) ([Twitter](https://twitter.com/XenonBottle))
+- [Tanakarina](https://github.com/tanakanira0118) <!--([Twitter](https://twitter.com/))-->
+- [しゅー](https://github.com/shu-TownofHost) ([Twitter](https://twitter.com/Shu_kundayo))
+- [kihi](https://github.com/Kihi1120) <!--([Twitter](https://twitter.com/))-->
+- [TAKU_GG](https://github.com/TAKUGG) ([Twitter](https://twitter.com/TAKUGGYouTube1), [Youtube](https://www.youtube.com/c/TAKUGG))
+- [そうくん](https://github.com/soukunsandesu) ([Twitter](https://twitter.com/Soukun_Dev), [Youtube](https://www.youtube.com/channel/UCsCOqxmXBVT-BD_UKaXpUPw))
+- [みぃー](https://github.com/mii-47) <!--([Twitter](https://twitter.com/))-->
+- [たんぽぽ](https://github.com/tampopo-dandelion)([Twitter](https://twitter.com/2nomotokaicho),  [Youtube](https://www.youtube.com/channel/UC8EwQ5gu-qyxVxek0jZw1Tg), [ニコニコ](https://www.nicovideo.jp/user/124305243))
+- [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
+- [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
+- [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
