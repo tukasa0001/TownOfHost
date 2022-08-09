@@ -838,7 +838,7 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 [ジェスター](#Jester/ジェスター)(てるてる)と[マッドメイト](#Madmate/マッドメイト) のアイデア元 : [au.libhalt.net](https://au.libhalt.net)<br>
 [テロリスト](#Terrorist/テロリスト)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 [恋人](#lovers/恋人) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-中国語翻訳 : fivefirex、ZeMingOH233<br>
+中国語翻訳 : fivefirex、ZeMingOH233  2GSN,MC-AS-Huier<br>
 
 ## 開発者
 <!--
