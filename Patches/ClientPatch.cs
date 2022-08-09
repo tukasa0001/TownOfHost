@@ -58,7 +58,7 @@ namespace TownOfHost
     [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
     class RunLoginPatch
     {
-        public static void Prefix(EOSManager __instance, ref bool canOnline)
+        public static void Prefix(ref bool canOnline)
         {
             if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
         }
