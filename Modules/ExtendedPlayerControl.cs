@@ -308,39 +308,6 @@ namespace TownOfHost
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
-                case CustomRoles.SpeedBooster:
-                    if (!player.Data.IsDead)
-                    {
-                        if (player.GetPlayerTaskState().IsTaskFinished)
-                        {
-                            if (!Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-                            {
-                                var rand = new System.Random();
-                                List<PlayerControl> targetplayers = new();
-                                //切断者と死亡者を除外
-                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                                {
-                                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
-                                }
-                                //ターゲットが0ならアップ先をプレイヤーをnullに
-                                if (targetplayers.Count >= 1)
-                                {
-                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                                }
-                                else
-                                {
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                                    Logger.SendInGame(GetString("Error.SpeedBoosterNullException"));
-                                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                                }
-                            }
-                            if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-                                Main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
-                        }
-                    }
-                    break;
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
