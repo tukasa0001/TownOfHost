@@ -302,6 +302,8 @@ DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタス�
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
+SpeedBoosterUpSpeed,Boosted Player Add Speed,加速値,速度控制者加速时的移动速度,被加速器加速的玩家的移動速度
+SpeedBoosterTaskTrigger,Boosted Trigger Tasks,効果を発動するタスク数,,
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,メイヤーがポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
@@ -332,7 +334,6 @@ JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポ�
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
-SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ,速度控制者加速时的移动速度,被加速器加速的玩家的移動速度
 TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
 HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
 IgnoreVent,Disable Vents,通気口の使用を禁止する,禁止使用管道,禁止使用管道
