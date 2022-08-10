@@ -182,6 +182,12 @@ While lights out they can move faster, and yet their name looks red by everyone.
 
 #### Game Options
 
+| Name                 |
+| -------------------- |
+| acceleration valued  |
+
+#### Game Options
+
 | Name                            |
 | ------------------------------- |
 | Mare Player Speed In Lights Out |
@@ -536,13 +542,14 @@ Create and idea by よっキング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-Finishing all the tasks boosts the player speed of someone alive.<br>
+Defined amount of tasks boosts the player speed of someone alive.<br>
 
 #### Game Options
 
 | Name                 |
 | -------------------- |
-| Boosted Player Speed |
+| Acceleration valued  |
+| Tasks that trigger   |
 
 ### Trapper
 
