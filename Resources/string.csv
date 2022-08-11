@@ -251,7 +251,7 @@ StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Cre
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。,"遊戲不會結束模式:\n該模式僅限用來測試,這裡沒有勝利條件\n該模式無法通過正常勝利條件結束,僅能讓房主使用SHIFT+L+ENTER或指令/dis來結束遊戲。"
 SyncButtonModeInfo,"SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.",ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。有相关设置。,全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。有相关设置。,控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)
-RandomMapsModeInfo,"RandomMapsMode:\nA mode in which the map changes randomly. (with settings)",ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。有相关设置。,隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)
+RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。有相关设置。,隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)
 DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用地图设备：\n可选择禁用各种地图设备。\n(目前只能禁用管理室地图，且不支持禁用米拉总部的管理室地图。）,"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
 
 ## 詳細設定
@@ -381,7 +381,7 @@ CantUse.lastroles,Can't use /lastroles in the game.,試合中に/lastrolesを使
 Message.SetToSeconds,Set to {0} seconds.,{0}秒に設定されました,该参数已设置为{0}秒。,訊息發送冷卻已設定為{0}秒
 Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を秒数で指定します。,请以秒为单位指定第一个参数。,在指令後方指定一個數字來設定秒數
 Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},找不到与「{0}」匹配的信息。\n请将需要的信息以如下格式加入template.txt：\n{0}（内容）：{1}（定义标签）,"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
-Message.TemplateNotFoundClient,No messages matching {0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,找不到与「{0}」匹配的信息。,沒有找到與「{0}」相關的訊息
+Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,找不到与「{0}」匹配的信息。,沒有找到與「{0}」相關的訊息
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,还可以召开{0}次紧急会议,"全場拍桌數量還剩下{0}次,請謹慎拍桌"
 Message.Executed,{0} was executed,{0}を処刑しました,{0}被处刑了,{0}被處刑了
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置已被房主隐藏。,遊戲設置被房主隱藏。
