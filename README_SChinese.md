@@ -4,7 +4,8 @@
 
 <p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
 
-本自述文件由两个少年汉化组进行翻译
+本自述文件由两个少年汉化组进行翻译，开发者们不对本自述文件进行支持，如有错误请向两个少年汉化组进行说明或者修改后说明。
+English translation:This readme file is translated by the 2T translation team. The developers do not support this readme file. If there are any errors, please point them out to the 2T translation team, or explain after modification.
 
 ## 关于这个模组
 
