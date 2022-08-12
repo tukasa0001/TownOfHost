@@ -166,7 +166,6 @@ namespace TownOfHost
                 sender.EndMessage();
                 sender.SendMessage();
             }
-            Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void RpcSpecificMurderPlayer(this PlayerControl killer, PlayerControl target = null)
         {
@@ -283,7 +282,7 @@ namespace TownOfHost
                     SerialKiller.ApplyGameOptions(opt);
                     break;
                 case CustomRoles.BountyHunter:
-                    opt.RoleOptions.ShapeshifterCooldown = Options.BountyTargetChangeTime.GetFloat();
+                    BountyHunter.ApplyGameOptions(opt);
                     break;
                 case CustomRoles.EvilWatcher:
                 case CustomRoles.NiceWatcher:
@@ -308,39 +307,6 @@ namespace TownOfHost
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
-                    break;
-                case CustomRoles.SpeedBooster:
-                    if (!player.Data.IsDead)
-                    {
-                        if (player.GetPlayerTaskState().IsTaskFinished)
-                        {
-                            if (!Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-                            {
-                                var rand = new System.Random();
-                                List<PlayerControl> targetplayers = new();
-                                //切断者と死亡者を除外
-                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                                {
-                                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
-                                }
-                                //ターゲットが0ならアップ先をプレイヤーをnullに
-                                if (targetplayers.Count >= 1)
-                                {
-                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                                }
-                                else
-                                {
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                                    Logger.SendInGame(GetString("Error.SpeedBoosterNullException"));
-                                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                                }
-                            }
-                            if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-                                Main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
-                        }
-                    }
                     break;
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
@@ -483,52 +449,6 @@ namespace TownOfHost
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)
         {
             return isMeeting ? player?.Data?.PlayerName : player?.name;
-        }
-
-        public static PlayerControl GetBountyTarget(this PlayerControl player)
-        {
-            if (player == null) return null;
-            if (Main.BountyTargets == null) Main.BountyTargets = new Dictionary<byte, PlayerControl>();
-
-            if (!Main.BountyTargets.TryGetValue(player.PlayerId, out var target))
-            {
-                target = player.ResetBountyTarget();
-            }
-            return target;
-        }
-        public static PlayerControl ResetBountyTarget(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            List<PlayerControl> cTargets = new();
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                // 死者/切断者/インポスターを除外
-                if (!pc.Data.IsDead &&
-                    !pc.Data.Disconnected &&
-                    !pc.GetCustomRole().IsImpostor()
-                )
-                {
-                    cTargets.Add(pc);
-                }
-            }
-            if (cTargets.Count >= 2 && Main.BountyTargets.TryGetValue(player.PlayerId, out var p)) cTargets.RemoveAll(x => x.PlayerId == p.PlayerId);
-
-            var rand = new System.Random();
-            if (cTargets.Count <= 0)
-            {
-                Logger.Error("ターゲットの指定に失敗しました:ターゲット候補が存在しません", "BountyHunter");
-                return null;
-            }
-            var target = cTargets[rand.Next(0, cTargets.Count)];
-            Main.BountyTargets[player.PlayerId] = target;
-            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを{target.GetNameWithRole()}に変更", "BountyHunter");
-
-            //RPCによる同期
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetBountyTarget, SendOption.Reliable, -1);
-            writer.Write(player.PlayerId);
-            writer.Write(target.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            return target;
         }
         public static bool IsSpellMode(this PlayerControl player)
         {
@@ -697,7 +617,6 @@ namespace TownOfHost
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
-            Main.BlockKilling[killer.PlayerId] = false;
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド

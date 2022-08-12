@@ -46,7 +46,7 @@ namespace TownOfHost
         public static string GetRoleName(CustomRoles role)
         {
             var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) &&
-                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
+                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : TranslationController.Instance.currentLanguage.languageID;
 
             return GetRoleName(role, lang);
         }
@@ -143,6 +143,7 @@ namespace TownOfHost
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
+                    if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
@@ -245,6 +246,7 @@ namespace TownOfHost
                 if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo")); }
+                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
@@ -344,6 +346,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
+            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
@@ -560,9 +563,9 @@ namespace TownOfHost
                 //Markとは違い、改行してから追記されます。
                 string SelfSuffix = "";
 
-                if (seer.Is(CustomRoles.BountyHunter) && seer.GetBountyTarget() != null)
+                if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
                 {
-                    string BountyTargetName = seer.GetBountyTarget().GetRealName(isMeeting);
+                    string BountyTargetName = BountyHunter.GetTarget(seer).GetRealName(isMeeting);
                     SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
                 }
                 if (seer.Is(CustomRoles.FireWorks))
@@ -696,6 +699,9 @@ namespace TownOfHost
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";
 
+                        if (target.Is(CustomRoles.GM))
+                            TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
 
@@ -756,14 +762,7 @@ namespace TownOfHost
         }
         public static void AfterMeetingTasks()
         {
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (pc.Is(CustomRoles.BountyHunter))
-                {
-                    pc.RpcResetAbilityCooldown();
-                    Main.BountyTimer.TryAdd(pc.PlayerId, 0f);
-                }
-            }
+            BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
         }
 
