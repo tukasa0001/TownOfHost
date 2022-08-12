@@ -31,7 +31,11 @@ namespace TownOfHost
         public static Dictionary<byte, bool> isDead = new();
         public static Dictionary<byte, DeathReason> deathReasons = new();
         public static Dictionary<byte, TaskState> taskState = new();
-        public static void SetDeathReason(byte p, DeathReason reason) { deathReasons[p] = reason; }
+        public static void SetDeathReason(byte p, DeathReason reason)
+        {
+            deathReasons[p] = reason;
+            Logger.Info($"{Utils.GetNameWithRole(p)}: Set to \"{Enum.GetName(typeof(DeathReason), reason)}\"", "DeathReason");
+        }
         public static DeathReason GetDeathReason(byte p) { return deathReasons.TryGetValue(p, out var reason) ? reason : DeathReason.etc; }
         public static void SetDead(byte p)
         {
