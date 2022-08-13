@@ -99,6 +99,7 @@ namespace TownOfHost
             Mare.Init();
             SabotageMaster.Init();
             Sheriff.Init();
+            AntiBlackout.Reset();
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
