@@ -49,6 +49,13 @@ namespace TownOfHost
 
             Logger.Info($"{killer.GetNameWithRole()} => {target.GetNameWithRole()}", "CheckMurder");
 
+            //死人はキルできない
+            if (killer.Data.IsDead)
+            {
+                Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
+                return false;
+            }
+
             //不正キル防止処理
             if (target.Data == null || //PlayerDataがnullじゃないか確認
                 target.inVent || target.inMovingPlat //targetの状態をチェック
