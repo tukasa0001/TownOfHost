@@ -364,6 +364,7 @@ namespace TownOfHost
             var text = GetString("LastResult") + ":";
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
+            if (Main.winnerList.Count == 0) text += GetString("None");
             foreach (var id in Main.winnerList)
             {
                 text += $"\n★ " + SummaryTexts(id);
