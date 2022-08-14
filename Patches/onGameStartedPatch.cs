@@ -486,7 +486,7 @@ namespace TownOfHost
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) continue;
+                if (player.Is(CustomRoles.GM)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.Lovers;
