@@ -15,6 +15,7 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
+            int mapId = PlayerControl.GameOptions.MapId;
             switch (type)
             {
                 case SystemTypes.Electrical:
@@ -25,7 +26,8 @@ namespace TownOfHost
                     }
                 case SystemTypes.Reactor:
                     {
-                        if (PlayerControl.GameOptions.MapId == 4)
+                        if (mapId == 2) return false;
+                        else if (mapId == 4)
                         {
                             var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
                             Logger.Info($"HeliSabotageSystem:{type}", "HeliSabotageSystem");
@@ -40,12 +42,14 @@ namespace TownOfHost
                     }
                 case SystemTypes.Laboratory:
                     {
+                        if (mapId != 2) return false;
                         var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
                         Logger.Info($"SystemTypes:{type}", "ReactorSystemType");
                         return ReactorSystemType != null && ReactorSystemType.IsActive;
                     }
                 case SystemTypes.LifeSupp:
                     {
+                        if (mapId is 2 or 4) return false;
                         var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
                         Logger.Info($"SystemTypes:{type}", "LifeSuppSystemType");
                         return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
