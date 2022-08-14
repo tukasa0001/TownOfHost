@@ -90,7 +90,7 @@ namespace TownOfHost
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
 
-                PlayerState.SetDead(exiled.PlayerId);
+                if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
