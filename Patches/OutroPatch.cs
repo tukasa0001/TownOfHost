@@ -38,15 +38,13 @@ namespace TownOfHost
             {
                 if (Main.currentWinner == CustomWinner.Default)
                     Main.currentWinner = CustomWinner.Impostor;
-                var noLivingImposter = !PlayerControl.AllPlayerControls.ToArray().Any(p => p.GetCustomRole().IsImpostor() && !p.Data.IsDead);
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
                     if (canWin) winner.Add(p);
-                    if (Main.currentWinner == CustomWinner.Impostor && p.Is(CustomRoles.Egoist) && !p.Data.IsDead && noLivingImposter)
-                        Main.currentWinner = CustomWinner.Egoist;
                 }
+                Egoist.OverrideCustomWinner();
             }
             if (Main.currentWinner == CustomWinner.Jackal)
             {
@@ -129,17 +127,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Main.currentWinner == CustomWinner.Egoist && CustomRoles.Egoist.IsEnable())
-            { //Egoist横取り勝利
-                winner = new();
-                foreach (var p in PlayerControl.AllPlayerControls)
-                {
-                    if ((p.Is(CustomRoles.Egoist) && !p.Data.IsDead) || p.Is(CustomRoles.EgoSchrodingerCat))
-                    {
-                        winner.Add(p);
-                    }
-                }
-            }
+            TeamEgoist.SoloWin(winner);
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)

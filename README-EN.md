@@ -610,6 +610,12 @@ Egoist win means Impostor lose and vice versa.<br>
 2. Impostor win with some Impostors remained.<br>
 3. Crewmate or other Neutral win.<br>
 
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| Egoist KillCooldown |
+
 ### Executioner
 
 
