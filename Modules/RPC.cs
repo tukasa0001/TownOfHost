@@ -271,6 +271,9 @@ namespace TownOfHost
                     case CustomWinner.Draw:
                         ForceEndGame();
                         break;
+                    case CustomWinner.None:
+                        EveryoneDied();
+                        break;
                     case CustomWinner.Jester:
                         JesterExiled(winner[0]);
                         break;
@@ -334,6 +337,11 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void EveryoneDied()
+        {
+            Main.currentWinner = CustomWinner.None;
             CustomWinTrigger(0);
         }
         public static void ForceEndGame()
