@@ -56,6 +56,10 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Jackal) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.None)
+            {
+                winner.Clear();
+            }
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -140,6 +144,7 @@ namespace TownOfHost
             //Opportunist
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (Main.currentWinner == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist)
                 {
                     winner.Add(pc);
@@ -165,7 +170,7 @@ namespace TownOfHost
 
             //HideAndSeek専用
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
-                Main.currentWinner != CustomWinner.Draw)
+                Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None)
             {
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -268,6 +273,14 @@ namespace TownOfHost
                     textRenderer.text = GetString("ForceEndText");
                     textRenderer.color = Color.gray;
                     break;
+                //全滅
+                case CustomWinner.None:
+                    __instance.WinText.text = "";
+                    __instance.WinText.color = Color.black;
+                    __instance.BackgroundBar.material.color = Color.gray;
+                    textRenderer.text = GetString("EveryoneDied");
+                    textRenderer.color = Color.gray;
+                    break;
             }
 
             foreach (var additionalwinners in Main.additionalwinners)
@@ -275,7 +288,7 @@ namespace TownOfHost
                 var addWinnerRole = (CustomRoles)additionalwinners;
                 AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
-            if (Main.currentWinner != CustomWinner.Draw)
+            if (Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None)
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }
