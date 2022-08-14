@@ -578,20 +578,23 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
-                case CustomRoles.Arsonist:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
-                    break;
-                case CustomRoles.Sheriff:
-                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
-                    break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
                     break;
                 case CustomRoles.Mare:
                     Mare.SetKillCooldown(player.PlayerId);
                     break;
+                case CustomRoles.Arsonist:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Egoist:
+                    Egoist.ApplyKillCooldown(player.PlayerId);
+                    break;
                 case CustomRoles.Jackal:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
             if (player.IsLastImpostor())

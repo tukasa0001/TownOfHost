@@ -334,6 +334,7 @@ JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール,豺狼
 JackalCanVent,Jackal Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
+EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール
 EvilTrackerCanSeeKillFlash,EvilTracker Can See Kill Flash(Only Impostor Kills),インポスターキル時にフラッシュが見える,当内鬼进行击杀时邪恶的追踪者可以看到闪光
 EvilTrackerResetTargetAfterMeeting,EvilTracker Reset Target After Meeting,会議後に再度ターゲットを設定できる,会议后重置邪恶的追踪者追踪目标
 KillFlashDuration,Kill Flash Duration(s),キルフラッシュの長さ(秒)
