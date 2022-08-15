@@ -64,6 +64,11 @@ namespace TownOfHost
                 Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
             }
+            if (target.Data.IsDead) //同じtargetへの同時キルをブロック
+            {
+                Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
             if (MeetingHud.Instance != null) //会議中でないかの判定
             {
                 Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
