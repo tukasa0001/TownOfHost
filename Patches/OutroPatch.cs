@@ -249,6 +249,7 @@ namespace TownOfHost
             {
                 __instance.WinText.text = "Game Over";
                 __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
+                __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.GM);
             }
             switch (Main.currentWinner)
             {
