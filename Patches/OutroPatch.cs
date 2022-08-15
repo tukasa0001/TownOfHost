@@ -194,7 +194,7 @@ namespace TownOfHost
             Main.winnerList = new();
             foreach (var pc in winner)
             {
-                if (pc.Is(CustomRoles.GM)) continue;
+                if (Main.currentWinner is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
 
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
                 Main.winnerList.Add(pc.PlayerId);
