@@ -247,7 +247,7 @@ namespace TownOfHost
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     __instance.WinText.text = "Game Over";
-                    __instance.WinText.color = Color.white;
+                    __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
                 }
             }
             switch (Main.currentWinner)
