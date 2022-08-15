@@ -244,11 +244,11 @@ namespace TownOfHost
                 {
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
-                {
-                    __instance.WinText.text = "Game Over";
-                    __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
-                }
+            }
+            if (Main.AllPlayerCustomRoles[0] == CustomRoles.GM)
+            {
+                __instance.WinText.text = "Game Over";
+                __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
             }
             switch (Main.currentWinner)
             {
