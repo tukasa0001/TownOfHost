@@ -14,9 +14,48 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
-            Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-            return SwitchSystem != null && SwitchSystem.IsActive;
+            int mapId = PlayerControl.GameOptions.MapId;
+            switch (type)
+            {
+                case SystemTypes.Electrical:
+                    {
+                        var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+                        Logger.Info($"SystemTypes:{type}", "SwitchSystem");
+                        return SwitchSystem != null && SwitchSystem.IsActive;
+                    }
+                case SystemTypes.Reactor:
+                    {
+                        if (mapId == 2) return false;
+                        else if (mapId == 4)
+                        {
+                            var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
+                            Logger.Info($"HeliSabotageSystem:{type}", "HeliSabotageSystem");
+                            return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                        }
+                        else
+                        {
+                            var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                            Logger.Info($"ReactorSystemType:{type}", "ReactorSystemType");
+                            return ReactorSystemType != null && ReactorSystemType.IsActive;
+                        }
+                    }
+                case SystemTypes.Laboratory:
+                    {
+                        if (mapId != 2) return false;
+                        var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                        Logger.Info($"SystemTypes:{type}", "ReactorSystemType");
+                        return ReactorSystemType != null && ReactorSystemType.IsActive;
+                    }
+                case SystemTypes.LifeSupp:
+                    {
+                        if (mapId is 2 or 4) return false;
+                        var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
+                        Logger.Info($"SystemTypes:{type}", "LifeSuppSystemType");
+                        return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
+                    }
+                default:
+                    return false;
+            }
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
