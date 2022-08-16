@@ -14,9 +14,44 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
-            Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-            return SwitchSystem != null && SwitchSystem.IsActive;
+            Logger.Info($"SystemTypes:{type}", "IsActive");
+            int mapId = PlayerControl.GameOptions.MapId;
+            switch (type)
+            {
+                case SystemTypes.Electrical:
+                    {
+                        var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+                        return SwitchSystem != null && SwitchSystem.IsActive;
+                    }
+                case SystemTypes.Reactor:
+                    {
+                        if (mapId == 2) return false;
+                        else if (mapId == 4)
+                        {
+                            var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
+                            return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                        }
+                        else
+                        {
+                            var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                            return ReactorSystemType != null && ReactorSystemType.IsActive;
+                        }
+                    }
+                case SystemTypes.Laboratory:
+                    {
+                        if (mapId != 2) return false;
+                        var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                        return ReactorSystemType != null && ReactorSystemType.IsActive;
+                    }
+                case SystemTypes.LifeSupp:
+                    {
+                        if (mapId is 2 or 4) return false;
+                        var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
+                        return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
+                    }
+                default:
+                    return false;
+            }
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
