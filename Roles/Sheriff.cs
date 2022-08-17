@@ -20,7 +20,7 @@ namespace TownOfHost
         private static CustomOption CanKillExecutioner;
         private static CustomOption CanKillJackal;
         private static CustomOption CanKillJShrodingerCat;
-        private static CustomOption CanKillCrewmatesAsIt;
+        private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
 
         public static Dictionary<byte, float> ShotLimit = new();
@@ -39,7 +39,7 @@ namespace TownOfHost
             CanKillExecutioner = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillExecutioner", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJackal = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillJackal", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJShrodingerCat = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillJShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillCrewmatesAsIt = CustomOption.Create(Id + 15, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            MisfireKillsTarget = CustomOption.Create(Id + 15, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 16, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         }
         public static void Init()
@@ -106,7 +106,7 @@ namespace TownOfHost
                     {
                         PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Misfire);
                         killer.RpcMurderPlayer(killer);
-                        if (CanKillCrewmatesAsIt.GetBool())
+                        if (MisfireKillsTarget.GetBool())
                             killer.RpcMurderPlayer(target);
                         return false;
                     }
