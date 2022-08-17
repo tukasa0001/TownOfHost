@@ -78,7 +78,10 @@ namespace TownOfHost
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
-        public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
+        /// <summary>
+        /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
+        /// </summary>
+        public static Dictionary<byte, byte> PuppeteerList = new();
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static int AliveImpostorCount;
