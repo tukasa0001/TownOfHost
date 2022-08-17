@@ -32,41 +32,41 @@ namespace TownOfHost
             playerIdList.Add(pc.PlayerId);
             Target.Add(pc.PlayerId, null);
             CanSetTarget.Add(pc.PlayerId, true);
-            RemoveTargetKey(pc.PlayerId);
+            // RemoveTargetKey(pc.PlayerId);
         }
         public static bool IsEnable()
         {
             return playerIdList.Count > 0;
         }
-        public static void RPCSetTarget(MessageReader reader)
-        {
-            byte TrackingId = reader.ReadByte();
-            var tracking = Utils.GetPlayerById(TrackingId);
-            if (tracking != null) Target[TrackingId] = tracking;
-        }
+        // public static void RPCSetTarget(MessageReader reader)
+        // {
+        //     byte TrackingId = reader.ReadByte();
+        //     var tracking = Utils.GetPlayerById(TrackingId);
+        //     if (tracking != null) Target[TrackingId] = tracking;
+        // }
 
-        public static void RPCRemoveTarget(MessageReader reader)
-        {
-            byte TrackerId = reader.ReadByte();
-            Target.Remove(TrackerId);
-        }
+        // public static void RPCRemoveTarget(MessageReader reader)
+        // {
+        //     byte TrackerId = reader.ReadByte();
+        //     Target.Remove(TrackerId);
+        // }
         public static void ApplyGameOptions(GameOptionsData opt)
         {
             opt.RoleOptions.ShapeshifterCooldown = 5f;
             opt.RoleOptions.ShapeshifterDuration = 1f;
         }
-        public static void SendTarget(byte EvilTrackerId, byte targetId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(targetId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
-        public static void RemoveTargetKey(byte EvilTrackerId)
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
-            writer.Write(EvilTrackerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-        }
+        // public static void SendTarget(byte EvilTrackerId, byte targetId)
+        // {
+        //     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+        //     writer.Write(targetId);
+        //     AmongUsClient.Instance.FinishRpcImmediately(writer);
+        // }
+        // public static void RemoveTargetKey(byte EvilTrackerId)
+        // {
+        //     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+        //     writer.Write(EvilTrackerId);
+        //     AmongUsClient.Instance.FinishRpcImmediately(writer);
+        // }
         public static PlayerControl GetTarget(this PlayerControl player)
         {
             if (player == null) return null;
@@ -83,7 +83,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
             Target[player.PlayerId] = null;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
-            RemoveTargetKey(player.PlayerId);
+            // RemoveTargetKey(player.PlayerId);
             return Target[player.PlayerId];
         }
         public static bool KillFlashCheck(PlayerControl killer, PlayerState.DeathReason deathReason)
