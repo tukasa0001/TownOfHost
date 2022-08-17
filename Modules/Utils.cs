@@ -91,25 +91,7 @@ namespace TownOfHost
             switch (seer.GetCustomRole())
             {
                 case CustomRoles.EvilTracker:
-                    if (!Options.EvilTrackerCanSeeKillFlash.GetBool()) return false;
-                    else //インポスターによるキルかどうかの判別
-                    {
-                        switch (deathReason) //死因での判別
-                        {
-                            case PlayerState.DeathReason.Bite
-                                or PlayerState.DeathReason.Sniped
-                                or PlayerState.DeathReason.Bombed:
-                                return true;
-                            case PlayerState.DeathReason.Suicide
-                                or PlayerState.DeathReason.LoversSuicide
-                                or PlayerState.DeathReason.Misfire
-                                or PlayerState.DeathReason.Torched:
-                                return false;
-                            default:
-                                bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
-                                return killer.GetCustomRole().IsImpostor() || PuppeteerCheck; //インポスターのノーマルキル || パペッティアキル
-                        }
-                    }
+                    return EvilTracker.KillFlashCheck(killer, deathReason);
                 case CustomRoles.Seer:
                     return true;
                 default:
@@ -331,7 +313,7 @@ namespace TownOfHost
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
                 case CustomRoles.EvilTracker:
-                    if (Main.EvilTrackerCanSetTarget[playerId]) ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>◁</color>";
+                    ProgressText += EvilTracker.GetMarker(playerId);
                     break;
                 default:
                     //タスクテキスト
@@ -730,21 +712,7 @@ namespace TownOfHost
                         SeerKnowsImpostors = true;
                 }
 
-                if (seer.Is(CustomRoles.EvilTracker))
-                {
-                    //ミーティング以外では矢印表示
-                    if (!isMeeting)
-                    {
-                        foreach (var arrow in Main.targetArrows)
-                        {
-                            var target = GetPlayerById(arrow.Key.Item2);
-                            bool EvilTrackerTarget = Main.EvilTrackerTarget[seer.PlayerId] == target;
-                            if (arrow.Key.Item1 == seer.PlayerId && !target.Data.IsDead && (target.GetCustomRole().IsImpostor() || EvilTrackerTarget))
-                                if (EvilTrackerTarget) SelfSuffix += $"<color={Utils.GetRoleColorCode(CustomRoles.Crewmate)}>{arrow.Value}</color>";
-                                else SelfSuffix += arrow.Value;
-                        }
-                    }
-                }
+                if (seer.Is(CustomRoles.EvilTracker)) SelfSuffix += EvilTracker.UtilsGetTargetArrow(isMeeting, seer);
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -833,9 +801,8 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
-                        if (seer.Is(CustomRoles.EvilTracker) &&
-                            Main.EvilTrackerTarget[seer.PlayerId] == target)
-                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◀</color>";
+                        if (seer.Is(CustomRoles.EvilTracker))
+                            TargetMark += EvilTracker.GetTargetMark(seer, target);
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";

@@ -320,8 +320,7 @@ namespace TownOfHost
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
                 case CustomRoles.EvilTracker:
-                    opt.RoleOptions.ShapeshifterCooldown = 5f;
-                    opt.RoleOptions.ShapeshifterDuration = 1f;
+                    EvilTracker.ApplyGameOptions(opt);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
@@ -644,25 +643,6 @@ namespace TownOfHost
                     && player != null
                     && player.Data.Role.Role == RoleTypes.Shapeshifter
                     && !player.Is(CustomRoles.Warlock) && !player.Is(CustomRoles.FireWorks) && !player.Is(CustomRoles.Sniper) && !player.Is(CustomRoles.BountyHunter);
-        }
-        public static PlayerControl GetEvilTrackerTarget(this PlayerControl player)
-        {
-            if (player == null) return null;
-            if (Main.EvilTrackerTarget == null) Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
-            if (!Main.EvilTrackerTarget.TryGetValue(player.PlayerId, out var target))
-            {
-                Main.EvilTrackerTarget.Add(player.PlayerId, null);
-                target = player.RemoveEvilTrackerTarget();
-            }
-            return target;
-        }
-        public static PlayerControl RemoveEvilTrackerTarget(this PlayerControl player)
-        {
-            if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
-            Main.EvilTrackerTarget[player.PlayerId] = null;
-            Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
-            RPC.RemoveEvilTrackerKey(player.PlayerId);
-            return Main.EvilTrackerTarget[player.PlayerId];
         }
         public static void RpcExileV2(this PlayerControl player)
         {

@@ -42,8 +42,6 @@ namespace TownOfHost
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.targetArrows = new();
-            Main.EvilTrackerTarget = new Dictionary<byte, PlayerControl>();
-            Main.EvilTrackerCanSetTarget = new Dictionary<byte, bool>();
 
             Options.UsedButtonCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -103,6 +101,7 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Sheriff.Init();
+            EvilTracker.Init();
             AntiBlackout.Reset();
         }
     }
@@ -367,9 +366,7 @@ namespace TownOfHost
                             SabotageMaster.Add(pc.PlayerId);
                             break;
                         case CustomRoles.EvilTracker:
-                            Main.EvilTrackerTarget.Add(pc.PlayerId, null);
-                            Main.EvilTrackerCanSetTarget.Add(pc.PlayerId, true);
-                            RPC.RemoveEvilTrackerKey(pc.PlayerId);
+                            EvilTracker.Add(pc);
                             break;
                     }
                     pc.ResetKillCooldown();

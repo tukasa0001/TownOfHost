@@ -426,21 +426,7 @@ namespace TownOfHost
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
-            if (shapeshifter.Is(CustomRoles.EvilTracker))
-            {
-                if (Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] && shapeshifting)
-                {
-                    if (!target.Data.IsDead && !target.GetCustomRole().IsImpostor())
-                    {
-                        Main.EvilTrackerTarget[shapeshifter.PlayerId] = target;
-                        Main.EvilTrackerCanSetTarget[shapeshifter.PlayerId] = false;
-                        RPC.SendEvilTrackerTarget(shapeshifter.PlayerId, target.PlayerId);
-                        Logger.Info($"{shapeshifter.GetNameWithRole()}のターゲットを{Main.EvilTrackerTarget[shapeshifter.PlayerId].GetNameWithRole()}に設定", "EvilTrackerTarget");
-                    }
-                    Utils.CustomSyncAllSettings();
-                    Utils.NotifyRoles();
-                }
-            }
+            if (shapeshifter.Is(CustomRoles.EvilTracker)) EvilTracker.Shapeshift(shapeshifter, target, shapeshifting);
 
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
@@ -887,12 +873,7 @@ namespace TownOfHost
                         Mark += Sniper.GetShotNotify(target.PlayerId);
 
                     }
-                    if (seer.Is(CustomRoles.EvilTracker))
-                    {
-                        if (seer.Is(CustomRoles.EvilTracker) &&
-                        Main.EvilTrackerTarget[seer.PlayerId] == target)
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◀</color>";
-                    }
+                    if (seer.Is(CustomRoles.EvilTracker)) Mark += EvilTracker.GetTargetMark(seer, target);
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
                     if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller()))
@@ -963,34 +944,7 @@ namespace TownOfHost
                             }
                         }
                     }
-                    if (!GameStates.IsMeeting && target.Is(CustomRoles.EvilTracker))
-                    {
-                        var update = false;
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            bool EvilTrackerTarget = Main.EvilTrackerTarget[target.PlayerId] == pc;
-                            bool foundCheck =
-                                pc != target && (pc.GetCustomRole().IsImpostor() || EvilTrackerTarget);
-
-                            //発見対象じゃ無ければ次
-                            if (!foundCheck) continue;
-
-                            update = CheckArrowUpdate(target, pc, update, pc.GetCustomRole().IsImpostor());
-                            var key = (target.PlayerId, pc.PlayerId);
-                            var arrow = Main.targetArrows[key];
-                            if (EvilTrackerTarget) arrow = $"<color={Utils.GetRoleColorCode(CustomRoles.Crewmate)}>{arrow}</color>";
-                            if (target.AmOwner)
-                            {
-                                //MODなら矢印表示
-                                Suffix += arrow;
-                            }
-                        }
-                        if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
-                        {
-                            //更新があったら非Modに通知
-                            Utils.NotifyRoles(SpecifySeer: target);
-                        }
-                    }
+                    if (!GameStates.IsMeeting && target.Is(CustomRoles.EvilTracker)) Suffix += EvilTracker.PCGetTargetArrow(seer, target);
 
                     /*if(main.AmDebugger.Value && main.BlockKilling.TryGetValue(target.PlayerId, out var isBlocked)) {
                         Mark = isBlocked ? "(true)" : "(false)";

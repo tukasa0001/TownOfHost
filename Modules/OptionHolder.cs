@@ -104,8 +104,6 @@ namespace TownOfHost
         public static CustomOption JackalCanVent;
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
-        public static CustomOption EvilTrackerCanSeeKillFlash;
-        public static CustomOption EvilTrackerCanResetTargetAfterMeeting;
         public static CustomOption KillFlashDuration;
 
         // HideAndSeek
@@ -275,9 +273,7 @@ namespace TownOfHost
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
-            SetupRoleOptions(2900, CustomRoles.EvilTracker);
-            EvilTrackerCanSeeKillFlash = CustomOption.Create(2910, Color.white, "EvilTrackerCanSeeKillFlash", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
-            EvilTrackerCanResetTargetAfterMeeting = CustomOption.Create(2911, Color.white, "EvilTrackerResetTargetAfterMeeting", true, CustomRoleSpawnChances[CustomRoles.EvilTracker]);
+            EvilTracker.SetupCustomOption();
 
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
             CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 0, 0, 15, 1, null, true);

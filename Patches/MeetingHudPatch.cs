@@ -311,8 +311,7 @@ namespace TownOfHost
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
                         break;
                     case CustomRoles.EvilTracker:
-                        if (Main.EvilTrackerTarget[seer.PlayerId] == target)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "◀");
+                        pva.NameText.text += EvilTracker.GetTargetMark(seer, target);
                         break;
                 }
 
