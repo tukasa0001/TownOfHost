@@ -357,6 +357,12 @@ namespace TownOfHost
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
+            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead))
+            {
+                opt.DiscussionTime = 0;
+                opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
+            }
+
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
