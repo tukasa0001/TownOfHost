@@ -93,14 +93,14 @@ namespace TownOfHost
             {
                 switch (deathReason) //死因での判別
                 {
-                    case PlayerState.DeathReason.Bite
-                        or PlayerState.DeathReason.Sniped
-                        or PlayerState.DeathReason.Bombed:
+                    case PlayerState.DeathReason.Bite:
+                    case PlayerState.DeathReason.Sniped:
+                    case PlayerState.DeathReason.Bombed:
                         return true;
-                    case PlayerState.DeathReason.Suicide
-                        or PlayerState.DeathReason.LoversSuicide
-                        or PlayerState.DeathReason.Misfire
-                        or PlayerState.DeathReason.Torched:
+                    case PlayerState.DeathReason.Suicide:
+                    case PlayerState.DeathReason.LoversSuicide:
+                    case PlayerState.DeathReason.Misfire:
+                    case PlayerState.DeathReason.Torched:
                         return false;
                     default:
                         bool PuppeteerCheck = CustomRoles.Puppeteer.IsEnable() && !killer.GetCustomRole().IsImpostor() && Main.PuppeteerList.ContainsKey(killer.PlayerId);
