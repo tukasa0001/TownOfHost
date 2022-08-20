@@ -212,8 +212,8 @@ AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Sk
 AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ地圖列入選項
 AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
-AllAliveMeeting,All Alive Meeting,全員生存時の会議,,
-AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,,
+AllAliveMeeting,All Alive Meeting,全員生存時の会議,所有人都在的会议,所有人都存活的會議
+AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,所有人都存活时的会议时间,所有人都存活時的會議時間
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務
@@ -298,7 +298,7 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
-SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
+SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长走火时会和目标同归于尽,警長走火時會讓嘗試槍擊的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
@@ -330,7 +330,7 @@ JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール,豺狼
 JackalCanVent,Jackal Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
-EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール
+EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,野心家的击杀冷却时间,利己主義者的冷卻時間
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
@@ -402,7 +402,7 @@ Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPle
 ## その他
 ForExample,For Example,使用例,使用例子,使用例子
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
-EveryoneDied,Everyone Died,誰もいなくなった
+EveryoneDied,Everyone Died,誰もいなくなった,所有人都离开了,所有人都離開了
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
