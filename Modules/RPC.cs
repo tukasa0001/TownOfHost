@@ -259,6 +259,9 @@ namespace TownOfHost
                     case CustomWinner.Draw:
                         ForceEndGame();
                         break;
+                    case CustomWinner.None:
+                        EveryoneDied();
+                        break;
                     case CustomWinner.Jester:
                         JesterExiled(winner[0]);
                         break;
@@ -322,6 +325,11 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void EveryoneDied()
+        {
+            Main.currentWinner = CustomWinner.None;
             CustomWinTrigger(0);
         }
         public static void ForceEndGame()
@@ -455,6 +463,7 @@ namespace TownOfHost
         }
         public static void RemoveExecutionerKey(byte Key)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);

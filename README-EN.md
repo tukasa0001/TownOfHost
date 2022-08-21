@@ -495,6 +495,8 @@ Depending on settings, Sheriff may also kill neutrals.<br>
 The sheriff has no tasks.<br>
 Killing Crewmates will result in suicide. <br>
 
+* As a measure against blackout, after death, the Sheriff can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
 #### Game Options
 
 | Name                                                              |
@@ -578,6 +580,8 @@ When an arsonist tries to use the kill button, they douse oil onto the crewmates
 To win as Arsonist, you must douse all fellow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
 #### Game Options
 
 | Name                    |
@@ -605,6 +609,12 @@ Egoist win means Impostor lose and vice versa.<br>
 1. Egoist dies.<br>
 2. Impostor win with some Impostors remained.<br>
 3. Crewmate or other Neutral win.<br>
+
+#### Settings
+
+| Settings Name       |
+| ------------------- |
+| Egoist KillCooldown |
 
 ### Executioner
 

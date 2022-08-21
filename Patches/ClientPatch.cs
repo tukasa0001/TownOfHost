@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using System.Globalization;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -52,6 +53,14 @@ namespace TownOfHost
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;
             }
+        }
+    }
+    [HarmonyPatch(typeof(EOSManager), nameof(EOSManager.IsAllowedOnline))]
+    class RunLoginPatch
+    {
+        public static void Prefix(ref bool canOnline)
+        {
+            if (ThisAssembly.Git.Branch != "main" && CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
         }
     }
 }

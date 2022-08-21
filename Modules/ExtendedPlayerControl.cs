@@ -308,39 +308,6 @@ namespace TownOfHost
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
-                case CustomRoles.SpeedBooster:
-                    if (!player.Data.IsDead)
-                    {
-                        if (player.GetPlayerTaskState().IsTaskFinished)
-                        {
-                            if (!Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-                            {
-                                var rand = new System.Random();
-                                List<PlayerControl> targetplayers = new();
-                                //切断者と死亡者を除外
-                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                                {
-                                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
-                                }
-                                //ターゲットが0ならアップ先をプレイヤーをnullに
-                                if (targetplayers.Count >= 1)
-                                {
-                                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                                }
-                                else
-                                {
-                                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                                    Logger.SendInGame(GetString("Error.SpeedBoosterNullException"));
-                                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                                }
-                            }
-                            if (Main.SpeedBoostTarget.ContainsValue(player.PlayerId))
-                                Main.AllPlayerSpeed[player.PlayerId] = Options.SpeedBoosterUpSpeed.GetFloat();
-                        }
-                    }
-                    break;
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
@@ -389,6 +356,12 @@ namespace TownOfHost
             }
             opt.DiscussionTime = Mathf.Clamp(Main.DiscussionTime, 0, 300);
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
+
+            if (Options.AllAliveMeeting.GetBool() && PlayerControl.AllPlayerControls.ToArray().All(x => !x.Data.IsDead))
+            {
+                opt.DiscussionTime = 0;
+                opt.VotingTime = Options.AllAliveMeetingTime.GetInt();
+            }
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
 
@@ -569,20 +542,23 @@ namespace TownOfHost
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
-                case CustomRoles.Arsonist:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
-                    break;
-                case CustomRoles.Sheriff:
-                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
-                    break;
                 case CustomRoles.TimeThief:
                     TimeThief.SetKillCooldown(player.PlayerId); //タイムシーフはタイムシーフのキルクールに。
                     break;
                 case CustomRoles.Mare:
                     Mare.SetKillCooldown(player.PlayerId);
                     break;
+                case CustomRoles.Arsonist:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Egoist:
+                    Egoist.ApplyKillCooldown(player.PlayerId);
+                    break;
                 case CustomRoles.Jackal:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
+                    break;
+                case CustomRoles.Sheriff:
+                    Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
             }
             if (player.IsLastImpostor())

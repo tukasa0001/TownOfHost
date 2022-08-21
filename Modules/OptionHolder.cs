@@ -50,6 +50,11 @@ namespace TownOfHost
             "Rate0", "Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
             "Rate60", "Rate70", "Rate80", "Rate90", "Rate100",
         };
+        public static readonly string[] ratesZeroOne =
+        {
+            "Rate0", /*"Rate10", "Rate20", "Rate30", "Rate40", "Rate50",
+            "Rate60", "Rate70", "Rate80", "Rate90", */"Rate100",
+        };
         public static readonly string[] ExecutionerChangeRoles =
         {
             CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
@@ -144,6 +149,10 @@ namespace TownOfHost
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
+
+        // 全員生存時の会議時間
+        public static CustomOption AllAliveMeeting;
+        public static CustomOption AllAliveMeetingTime;
 
         //転落死
         public static CustomOption LadderDeath;
@@ -330,7 +339,7 @@ namespace TownOfHost
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
-            SetupRoleOptions(50600, CustomRoles.Egoist);
+            Egoist.SetupCustomOption();
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
@@ -361,11 +370,11 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             //デバイス無効化
-            DisableDevices = CustomOption.Create(100500, Color.white, "DisableDevices", false, null, true)
+            DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            DisableAdmin = CustomOption.Create(100510, Color.white, "DisableAdmin", false, DisableDevices)
+            DisableAdmin = CustomOption.Create(101210, Color.white, "DisableAdmin", false, DisableDevices)
                 .SetGameMode(CustomGameMode.Standard);
-            WhichDisableAdmin = CustomOption.Create(100511, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
+            WhichDisableAdmin = CustomOption.Create(101211, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
 
             // ボタン回数同期
@@ -420,6 +429,10 @@ namespace TownOfHost
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
+            // 全員生存時の会議時間
+            AllAliveMeeting = CustomOption.Create(100900, Color.white, "AllAliveMeeting", false, null, true);
+            AllAliveMeetingTime = CustomOption.Create(100901, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting);
+
             // 転落死
             LadderDeath = CustomOption.Create(101100, Color.white, "LadderDeath", false, null, true);
             LadderDeathChance = CustomOption.Create(101110, Color.white, "LadderDeathChance", rates[1..], rates[2], LadderDeath);
@@ -451,7 +464,7 @@ namespace TownOfHost
 
         public static void SetupRoleOptions(int id, CustomRoles role, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             var countOption = CustomOption.Create(id + 1, Color.white, "Maximum", 1, 1, 15, 1, spawnOption, false)
@@ -464,7 +477,7 @@ namespace TownOfHost
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
             var role = CustomRoles.Lovers;
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
 
@@ -477,7 +490,7 @@ namespace TownOfHost
         }
         public static void SetupSingleRoleOptions(int id, CustomRoles role, int count, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
+            var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), ratesZeroOne, ratesZeroOne[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
             // 初期値,最大値,最小値が同じで、stepが0のどうやっても変えることができない個数オプション
