@@ -898,4 +898,6 @@ Translate-Chinese : 四个憨批汉化组:氢氧则名；两个少年汉化组:�
 - [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
+
 翻译来自https://www.deepl.com
