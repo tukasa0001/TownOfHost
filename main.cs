@@ -186,7 +186,7 @@ namespace TownOfHost
                     {CustomRoles.Trapper, "#5a8fd0"},
                     {CustomRoles.Dictator, "#df9b00"},
                     {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    {CustomRoles.Seer, "#3CB564"},
+                    {CustomRoles.Seer, "#61b26c"},
                     //第三陣営役職
                     {CustomRoles.Arsonist, "#ff6633"},
                     {CustomRoles.Jester, "#ec62a5"},
