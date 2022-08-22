@@ -865,3 +865,4 @@ Polus や The Airship のドアを開けるとその部屋の全てのドアが�
 - [こう。](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [よっキング](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [ゆりの](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
