@@ -288,16 +288,19 @@ SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,ｻﾎﾞﾀｰｼﾞ�
 SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール,警长执法冷却,警長執法冷卻
+SheriffCanKillEnemies,Sheriff Can kill Madmates and Neutrals,シェリフがマッドメイトや第三陣営をキルできる
+SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>
+SheriffCanKillSeparately,Each Option,個別に設定
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる,警长可以执法纵火犯,警長可以槍死縱火犯
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
-SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
+Madmates,Madmates,マッドメイト系役職,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
-SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
+SheriffCanKillEgoShrodingerCat,ShrodingerCat (Team Egoist),シュレディンガーの猫(エゴイスト陣営),警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
-SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
+SheriffCanKillJShrodingerCat,ShrodingerCat (Team Jackal),シュレディンガーの猫(ジャッカル陣営),警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
 SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
