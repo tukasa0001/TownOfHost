@@ -218,6 +218,8 @@ AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Sk
 AddedMIRAHQ,Include MIRAHQ,MIRAHQを追加,添加米拉总部地图,將MIRA HQ地圖列入選項
 AddedPolus,Include Polus,Polusを追加,添加波鲁斯地图,將Polus地圖列入選項
 AddedTheAirShip,Include TheAirShip,TheAirShipを追加,添加飞艇地图,將The AirShip列入選項
+AllAliveMeeting,All Alive Meeting,全員生存時の会議,,
+AllAliveMeetingTime,All Alive Meeting Time,全員生存時の会議時間,,
 LadderDeath,Fall From Ladders,ハシゴから転落,从梯子上下滑时有可能摔死,從梯子上下滑時可能會摔死
 LadderDeathChance,Fall To Death Chance,転落する確率,从梯子上摔死的概率,從梯子上下滑摔死機率
 DisableTasks,Disable Tasks,タスクを無効化する,禁用某些任务,禁用某些特定的任務

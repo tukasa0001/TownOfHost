@@ -151,6 +151,10 @@ namespace TownOfHost
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
 
+        // 全員生存時の会議時間
+        public static CustomOption AllAliveMeeting;
+        public static CustomOption AllAliveMeetingTime;
+
         //転落死
         public static CustomOption LadderDeath;
         public static CustomOption LadderDeathChance;
@@ -429,6 +433,10 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
+
+            // 全員生存時の会議時間
+            AllAliveMeeting = CustomOption.Create(100900, Color.white, "AllAliveMeeting", false, null, true);
+            AllAliveMeetingTime = CustomOption.Create(100901, Color.white, "AllAliveMeetingTime", 10, 1, 300, 1, AllAliveMeeting);
 
             // 転落死
             LadderDeath = CustomOption.Create(101100, Color.white, "LadderDeath", false, null, true);
