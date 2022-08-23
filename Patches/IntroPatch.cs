@@ -246,6 +246,7 @@ namespace TownOfHost
                 {
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
+                    if (pc.Is(CustomRoles.Jackal)) pc.Data.Role.TeamType = RoleTeamTypes.Impostor;
                 }
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
