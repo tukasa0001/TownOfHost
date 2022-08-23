@@ -310,6 +310,9 @@ namespace TownOfHost
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
                         break;
+                    case CustomRoles.Jackal:
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Crewmate); //インポスターも含めて名前を白くする
+                        break;
                 }
 
                 switch (target.GetCustomRole())
@@ -331,7 +334,14 @@ namespace TownOfHost
 
                 if (LocalPlayerKnowsImpostor)
                 {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
+                    if (Options.SnitchCanFindNeutralKiller.GetBool())
+                    {
+                        if (target.Is(CustomRoles.Jackal))
+                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);
+                        if (target.Is(CustomRoles.Egoist))
+                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);
+                    }
+                    if (target.GetCustomRole().IsImpostor()) //変更先がインポスター
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
                 }
                 //呪われている場合
