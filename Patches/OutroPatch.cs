@@ -16,6 +16,14 @@ namespace TownOfHost
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
+            foreach (var p in PlayerControl.AllPlayerControls)
+            {
+                if (p.Is(CustomRoles.Jackal))
+                {
+                    p.Data.Role.TeamType = RoleTeamTypes.Crewmate;
+                }
+            }
+
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
