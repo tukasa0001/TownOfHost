@@ -907,5 +907,6 @@ Translated with https://www.deepl.com<br>
 - [Kou](https://github.com/kou-hetare) <!--([Twitter](https://twitter.com/))-->
 - [Ykundesu](https://github.com/ykundesu) <!--([Twitter](https://twitter.com/))-->
 - [Yurino](https://github.com/yurinakira) <!--([Twitter](https://twitter.com/))-->
+- [Masami](https://github.com/Masami4711) <!--([Twitter](https://twitter.com/))-->
 
 Translated with https://www.deepl.com<br>

@@ -267,7 +267,8 @@ namespace TownOfHost
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                        killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                        killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
+                        Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.TimeThief:
@@ -504,7 +505,7 @@ namespace TownOfHost
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
 
-                if (!bitten.Data.IsDead)
+                if (bitten!=null && !bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす
