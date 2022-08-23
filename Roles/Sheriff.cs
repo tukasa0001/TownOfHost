@@ -11,19 +11,19 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         private static CustomOption KillCooldown;
-        private static CustomOption CanKillEnemies;
-        private static CustomOption CanKillArsonist;
-        private static CustomOption CanKillMadmate;
-        private static CustomOption CanKillJester;
-        private static CustomOption CanKillTerrorist;
-        private static CustomOption CanKillOpportunist;
-        private static CustomOption CanKillEgoist;
-        private static CustomOption CanKillEgoShrodingerCat;
-        private static CustomOption CanKillExecutioner;
-        private static CustomOption CanKillJackal;
-        private static CustomOption CanKillJShrodingerCat;
         private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
+        public static CustomOption CanKillEnemies;
+        public static CustomOption CanKillMadmates;
+        public static CustomOption CanKillJester;
+        public static CustomOption CanKillTerrorist;
+        public static CustomOption CanKillOpportunist;
+        public static CustomOption CanKillArsonist;
+        public static CustomOption CanKillEgoist;
+        public static CustomOption CanKillEgoShrodingerCat;
+        public static CustomOption CanKillExecutioner;
+        public static CustomOption CanKillJackal;
+        public static CustomOption CanKillJShrodingerCat;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
@@ -38,7 +38,7 @@ namespace TownOfHost
             MisfireKillsTarget = CustomOption.Create(Id + 11, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 12, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillEnemies = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillEnemies", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillMadmate = CustomOption.Create(Id + 14, Utils.GetRoleColor(CustomRoles.Madmate), "Madmates", true, CanKillEnemies);
+            CanKillMadmates = CustomOption.Create(Id + 14, Utils.GetRoleColor(CustomRoles.Madmate), "SheriffCanKillMadmates", true, CanKillEnemies);
             CanKillJester = CustomOption.Create(Id + 15, Utils.GetRoleColor(CustomRoles.Jester), "Jester", true, CanKillEnemies);
             CanKillTerrorist = CustomOption.Create(Id + 16, Utils.GetRoleColor(CustomRoles.Terrorist), "Terrorist", true, CanKillEnemies);
             CanKillOpportunist = CustomOption.Create(Id + 17, Utils.GetRoleColor(CustomRoles.Opportunist), "Opportunist", true, CanKillEnemies);
@@ -141,7 +141,7 @@ namespace TownOfHost
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,
-                    RoleType.Madmate => CanKillMadmate.GetBool(),
+                    RoleType.Madmate => CanKillMadmates.GetBool(),
                     _ => false,
                 }
             };
