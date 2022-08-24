@@ -78,7 +78,9 @@ GM,GM,GM,GM(管理员),GM(遊戲大師)
 LastImpostor,Last Impostor,ラストインポスター,绝境者,絕境者
 
 # その他
-TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
+TeamImpostor,Team Impostor,インポスター陣営,内鬼阵营,狼人陣營
+TeamEgoist,Team Egoist,エゴイスト陣営,野心家阵营,利己主義者陣營
+TeamJackal,Team Jackal,ジャッカル陣営,豺狼阵营,豺狼陣營
 
 
 ## 役職説明ショート
@@ -126,7 +128,7 @@ DictatorInfo,Hang your enemy on your own judgement,独裁政治をしよう,让�
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
 JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
 OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
-SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,加入击杀你的阵营,打不過就加入
+SchrodingerCatInfo,Get killed and join killer team,殺されて陣営に所属しろ,加入击杀你的阵营,打不過就加入
 CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
 MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你成为了野心家的伙伴,"你是利己主義者的跟班"
