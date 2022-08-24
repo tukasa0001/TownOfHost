@@ -17,6 +17,11 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
+        // == 定数設定 / Constant Config ==
+        // 公開ルームを許可する / Allow Public Room (Default: true)
+        public const bool AllowPublicRoom = true;
+        // ==========
+
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.0.0";
