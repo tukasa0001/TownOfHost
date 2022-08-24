@@ -13,6 +13,9 @@ namespace TownOfHost
             // 定数設定による公開ルームブロック
             if (!Main.AllowPublicRoom)
             {
+                var message = GetString("DisabledBySettings");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
                 return false;
             }
             // 名前確認による公開ルームブロック
