@@ -24,8 +24,10 @@ namespace TownOfHost
         public static readonly string ModColor = "#00bfff";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
+        // フォークID / ForkId (Default: OriginalTOH)
+        public static readonly string ForkId = "OriginalTOH";
         // ==========
-
+        public const string OriginalForkId = "OriginalTOH";
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.0.0";
