@@ -18,6 +18,8 @@ namespace TownOfHost
     public class Main : BasePlugin
     {
         // == 定数設定 / Constant Config == <=名前募集中
+        // modの名前 / Mod Name (Default: Town Of Host)
+        public static readonly string modName = "Town Of Host";
         // modの色 / Mod Color (Default: #00bfff)
         public static readonly string modColor = "#00bfff";
         // 公開ルームを許可する / Allow Public Room (Default: true)
