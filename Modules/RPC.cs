@@ -86,7 +86,7 @@ namespace TownOfHost
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
                         string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, Main.ForkId);
                     }
                     catch
                     {
