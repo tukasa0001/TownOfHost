@@ -78,18 +78,9 @@ namespace TownOfHost
                     {
                         text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
                     }
-                    if (kvp.Key == CustomRoles.Sheriff && Sheriff.CanKillEnemies.GetSelection() == 1)
+                    if (kvp.Key == CustomRoles.Sheriff && Sheriff.CanKillNeutrals.GetSelection() == 1)
                     {
-                        text += $"\t{Sheriff.CanKillMadmates.GetName()}: {Sheriff.CanKillMadmates.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillJester.GetName()}: {Sheriff.CanKillJester.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillTerrorist.GetName()}: {Sheriff.CanKillTerrorist.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillOpportunist.GetName()}: {Sheriff.CanKillOpportunist.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillArsonist.GetName()}: {Sheriff.CanKillArsonist.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillEgoist.GetName()}: {Sheriff.CanKillEgoist.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillEgoShrodingerCat.GetName()}: {Sheriff.CanKillEgoShrodingerCat.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillExecutioner.GetName()}: {Sheriff.CanKillExecutioner.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillJackal.GetName()}: {Sheriff.CanKillJackal.GetString()}\n";
-                        text += $"\t{Sheriff.CanKillJShrodingerCat.GetName()}: {Sheriff.CanKillJShrodingerCat.GetString()}\n";
+                        foreach (var option in Sheriff.CanKillNeutrals.Children) text += $"\t{option.GetName()}: {option.GetString()}\n";
                     }
                     text += "\n";
                 }

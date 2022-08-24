@@ -13,8 +13,8 @@ namespace TownOfHost
         private static CustomOption KillCooldown;
         private static CustomOption MisfireKillsTarget;
         private static CustomOption ShotLimitOpt;
-        public static CustomOption CanKillEnemies;
         public static CustomOption CanKillMadmates;
+        public static CustomOption CanKillNeutrals;
         public static CustomOption CanKillJester;
         public static CustomOption CanKillTerrorist;
         public static CustomOption CanKillOpportunist;
@@ -37,17 +37,17 @@ namespace TownOfHost
             KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             MisfireKillsTarget = CustomOption.Create(Id + 11, Color.white, "SheriffMisfireKillsTarget", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 12, Color.white, "SheriffShotLimit", 15, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillEnemies = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillEnemies", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillMadmates = CustomOption.Create(Id + 14, Utils.GetRoleColor(CustomRoles.Madmate), "SheriffCanKillMadmates", true, CanKillEnemies);
-            CanKillJester = CustomOption.Create(Id + 15, Utils.GetRoleColor(CustomRoles.Jester), "Jester", true, CanKillEnemies);
-            CanKillTerrorist = CustomOption.Create(Id + 16, Utils.GetRoleColor(CustomRoles.Terrorist), "Terrorist", true, CanKillEnemies);
-            CanKillOpportunist = CustomOption.Create(Id + 17, Utils.GetRoleColor(CustomRoles.Opportunist), "Opportunist", true, CanKillEnemies);
-            CanKillArsonist = CustomOption.Create(Id + 18, Utils.GetRoleColor(CustomRoles.Arsonist), "Arsonist", true, CanKillEnemies);
-            CanKillEgoist = CustomOption.Create(Id + 19, Utils.GetRoleColor(CustomRoles.Egoist), "Egoist", true, CanKillEnemies);
-            CanKillEgoShrodingerCat = CustomOption.Create(Id + 20, Utils.GetRoleColor(CustomRoles.EgoSchrodingerCat), "SheriffCanKillEgoShrodingerCat", true, CanKillEnemies);
-            CanKillExecutioner = CustomOption.Create(Id + 21, Utils.GetRoleColor(CustomRoles.Executioner), "Executioner", true, CanKillEnemies);
-            CanKillJackal = CustomOption.Create(Id + 22, Utils.GetRoleColor(CustomRoles.Jackal), "Jackal", true, CanKillEnemies);
-            CanKillJShrodingerCat = CustomOption.Create(Id + 23, Utils.GetRoleColor(CustomRoles.JSchrodingerCat), "SheriffCanKillJShrodingerCat", true, CanKillEnemies);
+            CanKillMadmates = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillMadmates", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillNeutrals = CustomOption.Create(Id + 14, Color.white, "SheriffCanKillNeutrals", KillOption, KillOption[0], Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJester = CustomOption.Create(Id + 15, Utils.GetRoleColor(CustomRoles.Jester), "Jester", true, CanKillNeutrals);
+            CanKillTerrorist = CustomOption.Create(Id + 16, Utils.GetRoleColor(CustomRoles.Terrorist), "Terrorist", true, CanKillNeutrals);
+            CanKillOpportunist = CustomOption.Create(Id + 17, Utils.GetRoleColor(CustomRoles.Opportunist), "Opportunist", true, CanKillNeutrals);
+            CanKillArsonist = CustomOption.Create(Id + 18, Utils.GetRoleColor(CustomRoles.Arsonist), "Arsonist", true, CanKillNeutrals);
+            CanKillEgoist = CustomOption.Create(Id + 19, Utils.GetRoleColor(CustomRoles.Egoist), "Egoist", true, CanKillNeutrals);
+            CanKillEgoShrodingerCat = CustomOption.Create(Id + 20, Utils.GetRoleColor(CustomRoles.EgoSchrodingerCat), "SheriffCanKillEgoShrodingerCat", true, CanKillNeutrals);
+            CanKillExecutioner = CustomOption.Create(Id + 21, Utils.GetRoleColor(CustomRoles.Executioner), "Executioner", true, CanKillNeutrals);
+            CanKillJackal = CustomOption.Create(Id + 22, Utils.GetRoleColor(CustomRoles.Jackal), "Jackal", true, CanKillNeutrals);
+            CanKillJShrodingerCat = CustomOption.Create(Id + 23, Utils.GetRoleColor(CustomRoles.JSchrodingerCat), "SheriffCanKillJShrodingerCat", true, CanKillNeutrals);
         }
         public static void Init()
         {
@@ -125,7 +125,7 @@ namespace TownOfHost
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();
-            if (CanKillEnemies.GetSelection() == 0 && !cRole.IsCrewmate()) return true;
+            if (CanKillNeutrals.GetSelection() == 0 && cRole.IsNeutral()) return true;
             return cRole switch
             {
                 CustomRoles.Jester => CanKillJester.GetBool(),
