@@ -13,7 +13,7 @@ namespace TownOfHost
             // 定数設定による公開ルームブロック
             if (!Main.AllowPublicRoom)
             {
-                var message = GetString("DisabledBySettings");
+                var message = GetString("DisabledByProgram");
                 Logger.Info(message, "MakePublicPatch");
                 Logger.SendInGame(message);
                 return false;
