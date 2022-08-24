@@ -17,7 +17,7 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-        // == 定数設定 / Constant Config == <=名前募集中
+        // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
         public static readonly string ModName = "Town Of Host";
         // modの色 / Mod Color (Default: #00bfff)
