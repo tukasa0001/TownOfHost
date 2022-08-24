@@ -37,7 +37,7 @@ namespace TownOfHost
                 HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
-                        : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
+                        : $"<color={Main.ModColor}>{Main.HideName.Value}</color>";
 
                 // Make Public Button
                 bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");

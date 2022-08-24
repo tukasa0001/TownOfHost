@@ -19,9 +19,9 @@ namespace TownOfHost
     {
         // == 定数設定 / Constant Config == <=名前募集中
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string modName = "Town Of Host";
+        public static readonly string ModName = "Town Of Host";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string modColor = "#00bfff";
+        public static readonly string ModColor = "#00bfff";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // ==========
@@ -122,7 +122,7 @@ namespace TownOfHost
 
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
