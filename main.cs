@@ -17,7 +17,7 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-        // == 定数設定 / Constant Config ==
+        // == 定数設定 / Constant Config == <=名前募集中
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // ==========
