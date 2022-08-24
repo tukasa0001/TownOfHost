@@ -15,7 +15,7 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            Logger.Info($"SystemTypes:{type}", "IsActive");
+            //Logger.Info($"SystemTypes:{type}", "IsActive");
             int mapId = PlayerControl.GameOptions.MapId;
             switch (type)
             {
