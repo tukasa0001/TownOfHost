@@ -18,6 +18,8 @@ namespace TownOfHost
     public class Main : BasePlugin
     {
         // == 定数設定 / Constant Config == <=名前募集中
+        // modの色 / Mod Color (Default: #00bfff)
+        public static readonly string modColor = "#00bfff";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // ==========
@@ -57,8 +59,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        //これ変えたらmod名とかの色が変わる
-        public static string modColor = "#00bfff";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
