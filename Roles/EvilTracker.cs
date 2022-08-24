@@ -80,7 +80,7 @@ namespace TownOfHost
         }
         public static PlayerControl RemoveTarget(this PlayerControl player)
         {
-            if (!AmongUsClient.Instance.AmHost/* && AmongUsClient.Instance.GameMode != GameModes.FreePlay*/) return null;
+            if (!AmongUsClient.Instance.AmHost) return null;
             Target[player.PlayerId] = null;
             Logger.Info($"プレイヤー{player.GetNameWithRole()}のターゲットを削除", "EvilTracker");
             RemoveTargetKey(player.PlayerId);
