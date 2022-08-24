@@ -232,7 +232,7 @@ namespace TownOfHost
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
             writer.Write(Main.ForkId);
             writer.EndMessage();
-            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
         {
