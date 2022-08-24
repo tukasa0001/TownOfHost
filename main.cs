@@ -19,7 +19,7 @@ namespace TownOfHost
     {
         // == 定数設定 / Constant Config ==
         // 公開ルームを許可する / Allow Public Room (Default: true)
-        public const bool AllowPublicRoom = true;
+        public static readonly bool AllowPublicRoom = true;
         // ==========
 
         //Sorry for many Japanese comments.
