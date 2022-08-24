@@ -283,7 +283,7 @@ EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,
 LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界,执灯人完成任务后的视野,小燈人做完任務的視野
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
 SabotageMasterFixesDoors,SabotageMaster Can Open Multiple Doors,1度に複数のﾄﾞｱを開けられる,修理大师可以一次打开房间内所有被关闭的门,破壞大師可以修理多扇門
-SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,原子炉ﾒﾙﾄﾀﾞｳﾝに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
+SabotageMasterFixesReactors,SabotageMaster Can Fix Both Reactors,リアクターに対して能力を使える,修理大师可以一人修理核反应堆,破壞大師可以一個人同時修理兩邊的反應堆
 SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,酸素妨害に対して能力を使える,修理大师修理氧气破坏时另一边的氧气破坏同时被修理,破壞大師可以一個人同時修理兩邊的氧氣
 SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,MIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
@@ -312,7 +312,7 @@ SchrodingerCatExiledTeamChanges,Team To Change After Exiled,吊られた際、�
 ExecutionerCanTargetImpostor,Executioner Can Target Impostor,インポスターもターゲットにできる,内鬼阵营玩家可以成为处刑人的目标,劊子手的目標可以是狼人陣營的玩家
 ExecutionerChangeRolesAfterTargetKilled,Role After Target Dies,ターゲットがキルされた後に変化する役職,处刑人目标死亡后将变为的职业,劊子手的目標被殺後轉變的職業
 SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキルクール,嗜血杀手击杀冷却,連環殺手殺人冷卻
-SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自殺する時間,嗜血杀手自杀倒计时,連環殺手自殺倒數
+SerialKillerLimit,Time Limit To Suiside(s),自殺までの秒数,嗜血杀手自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
