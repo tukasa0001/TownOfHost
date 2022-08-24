@@ -72,10 +72,15 @@ namespace TownOfHost
     {
         public readonly Version version;
         public readonly string tag;
-        public PlayerVersion(string ver, string tag_str)
+        public readonly string forkId;
+        public PlayerVersion(string ver, string tag_str) => new PlayerVersion(Version.Parse(ver), tag_str, "");
+        public PlayerVersion(Version ver, string tag_str) => new PlayerVersion(ver, tag_str, "");
+        public PlayerVersion(string ver, string tag_str, string forkId) => new PlayerVersion(Version.Parse(ver), tag_str, forkId);
+        public PlayerVersion(Version ver, string tag_str, string forkId)
         {
-            version = Version.Parse(ver);
+            version = ver;
             tag = tag_str;
+            this.forkId = forkId;
         }
         public bool IsEqual(PlayerVersion pv)
         {
