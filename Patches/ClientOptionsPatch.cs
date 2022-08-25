@@ -1,7 +1,11 @@
+/*
+* This software is released under the GNU General Public License v3.0.
+* Copyright (c) 2022 空き瓶/EmptyBottle
+*/
+
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
-using static TownOfHost.Translator;
 
 namespace TownOfHost
 {

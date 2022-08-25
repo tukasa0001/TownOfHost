@@ -1,3 +1,8 @@
+/*
+* This software is released under the GNU General Public License v3.0.
+* Copyright (c) 2022 空き瓶/EmptyBottle
+*/
+
 using System.Collections.Generic;
 using Hazel;
 using UnityEngine;

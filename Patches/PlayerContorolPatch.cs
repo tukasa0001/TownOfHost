@@ -1,3 +1,8 @@
+/*
+* This software is released under the GNU General Public License v3.0.
+* Copyright (c) 2022 空き瓶/EmptyBottle
+*/
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -505,7 +510,7 @@ namespace TownOfHost
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
 
-                if (bitten!=null && !bitten.Data.IsDead)
+                if (bitten != null && !bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす

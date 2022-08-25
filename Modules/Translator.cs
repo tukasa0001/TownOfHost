@@ -1,3 +1,8 @@
+/*
+* This software is released under the GNU General Public License v3.0.
+* Copyright (c) 2022 空き瓶/EmptyBottle
+*/
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +26,7 @@ namespace TownOfHost
 
             string[] header = sr.ReadLine().Split(',');
 
-            int currentLine = 1;
+            int currentLine = 4;
 
             while (!sr.EndOfStream)
             {
