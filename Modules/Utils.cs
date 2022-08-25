@@ -346,6 +346,11 @@ namespace TownOfHost
                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
                             }
                         }
+                        if (c.Name == "SheriffCanKillNeutrals" && c.GetSelection() == 1)
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                            }
                         text = text.RemoveHtmlTags();
                     }
                 }
