@@ -288,12 +288,11 @@ SabotageMasterFixesOxygens,SabotageMaster Can Fix Both O2,ｻﾎﾞﾀｰｼﾞ�
 SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがMIRA HQの通信妨害に対して能力を使える,修理大师在米拉总部地图修理通信破坏时另一边的通信破坏同时被修理,破壞大師可以一個人同時修理兩邊的通訊(Mira HQ)
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール,警长执法冷却,警長執法冷卻
-SheriffCanKillMadmates,Sheriff Can kill Madmates,マッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
-SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる
+SheriffCanKill%role%,Sheriff Can kill %role%,%role%をキルできる,警长可以执法%role%,警長可以槍死%role%
+SheriffCanKillNeutrals,Sheriff Can kill Neutrals,第三陣営をキルできる,警长可以执法独立阵营,警長可以槍死中立
 SheriffCanKillAll,<color=#00fefe>All ON</color>,<color=#00fefe>全てオン</color>
 SheriffCanKillSeparately,Each Option,個別に設定
-SheriffCanKillEgoShrodingerCat,ShrodingerCat (Team Egoist),シュレディンガーの猫(エゴイスト陣営),警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
-SheriffCanKillJShrodingerCat,ShrodingerCat (Team Jackal),シュレディンガーの猫(ジャッカル陣営),警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
+In%team%,(Team %team%),(%team%陣営),(%team%阵营),(%team%方)
 SheriffMisfireKillsTarget,Misfire Kills Target,誤爆時、ターゲットも死ぬ,警长误杀好人会同时击杀目标,警長誤殺好人會同時擊殺目標
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
