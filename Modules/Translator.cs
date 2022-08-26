@@ -26,7 +26,7 @@ namespace TownOfHost
 
             string[] header = sr.ReadLine().Split(',');
 
-            int currentLine = 4;
+            int currentLine = 1;
 
             while (!sr.EndOfStream)
             {
