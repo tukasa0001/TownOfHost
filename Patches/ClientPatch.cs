@@ -10,6 +10,15 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
+            // 定数設定による公開ルームブロック
+            if (!Main.AllowPublicRoom)
+            {
+                var message = GetString("DisabledByProgram");
+                Logger.Info(message, "MakePublicPatch");
+                Logger.SendInGame(message);
+                return false;
+            }
+            // 名前確認による公開ルームブロック
             bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
