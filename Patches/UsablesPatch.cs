@@ -42,22 +42,22 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            else
-                switch (pc.GetCustomRole())
-                {
-                    case CustomRoles.Sheriff:
-                        return false;
-                    case CustomRoles.Arsonist:
-                        canUse = couldUse = VentForTrigger = pc.Object.IsDouseDone();
-                        break;
-                    case CustomRoles.Jackal:
-                        canUse = couldUse = Options.JackalCanVent.GetBool();
-                        break;
-                    default:
-                        if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
-                            canUse = couldUse = true;
-                        break;
-                }
+
+            switch (pc.GetCustomRole())
+            {
+                case CustomRoles.Sheriff:
+                    return false;
+                case CustomRoles.Arsonist:
+                    canUse = couldUse = VentForTrigger = pc.Object.IsDouseDone();
+                    break;
+                case CustomRoles.Jackal:
+                    canUse = couldUse = Options.JackalCanVent.GetBool();
+                    break;
+                default:
+                    if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
+                        canUse = couldUse = true;
+                    break;
+            }
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
 
