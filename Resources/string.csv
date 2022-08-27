@@ -267,7 +267,7 @@ BountySuccessKillCooldown,Kill Cooldown After Killing Bounty,ターゲット殺�
 BountyFailureKillCooldown,Kill Cooldown After Killing Others,ターゲット以外殺害時のキルクール,赏金猎人击杀悬赏目标以外玩家的惩罚冷却时间,賞金獵人殺死非賞金目標冷卻
 DefaultShapeshiftCooldown,Default Shapeshift Cooldown,デフォルトの変身クールダウン,变形者变形冷却,預設變身時間
 VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時間(秒),吸血鬼延迟的击杀时间,吸血鬼殺人延遲
-MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移動速度,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
+MareSpeedInLightsOut,Mare Player Add Speed In Lights Out,停電時のメアーの加速値,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
 CanMakeMadmateCount,SidekickMadmate Maximum,サイドキックマッドメイト(人),变形者可以招募叛徒的数量,變形者招募叛徒最大人數
@@ -304,6 +304,8 @@ DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,充電持続時間,科�
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
+SpeedBoosterUpSpeed,Boosted Player Add Speed,加速値,增速者加速时的移动速度,被加速器加速的玩家的移動速度
+SpeedBoosterTaskTrigger,Boosted Trigger Tasks,効果を発動するタスク数,,
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,ポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
@@ -335,7 +337,6 @@ EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
 AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
-SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ,增速者加速时的移动速度,被加速器加速的玩家的移動速度
 TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
 HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
 IgnoreVent,Disable Vents,ベントの使用を禁止する,禁止使用管道,禁止使用管道
@@ -417,6 +418,7 @@ onSetPublicNoLatest,Public rooms is prohibited except for the latest version.\nP
 CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest version.\nPlease update.,最新版以外で公開ルームには参加できません。\nアップデートをしてください。,不可以在未安装最新模组的前提下进入公开房间。\n请更新本模组。,"無法在未安裝最新版本的前提下進入公開房間\n請更新本模組"
 ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
 NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
+DisabledByProgram,"Making room public is disabled by program.","公開ルームはプログラムによって無効化されています"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...

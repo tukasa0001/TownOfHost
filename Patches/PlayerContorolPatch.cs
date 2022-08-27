@@ -267,7 +267,8 @@ namespace TownOfHost
                     case CustomRoles.Puppeteer:
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
                         Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                        killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                        killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettings,NotifyRolesを実行
+                        Utils.NotifyRoles(SpecifySeer: killer);
                         killer.RpcGuardAndKill(target);
                         return false;
                     case CustomRoles.TimeThief:
@@ -504,7 +505,7 @@ namespace TownOfHost
                 var vampireID = bp.Value.Item1;
                 var bitten = Utils.GetPlayerById(bp.Key);
 
-                if (bitten!=null && !bitten.Data.IsDead)
+                if (bitten != null && !bitten.Data.IsDead)
                 {
                     PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                     //Protectは強制的にはがす
@@ -547,7 +548,7 @@ namespace TownOfHost
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
-                if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken) && AmongUsClient.Instance.IsGamePublic)
+                if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
 
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
@@ -748,9 +749,13 @@ namespace TownOfHost
                 if (GameStates.IsLobby)
                 {
                     if (Main.playerVersion.TryGetValue(__instance.PlayerId, out var ver))
-                        if (Main.version.CompareTo(ver.version) == 0)
+                    {
+                        if (Main.ForkId != ver.forkId) // フォークIDが違う場合
+                            __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>{ver.forkId}</size>\n{__instance?.name}</color>";
+                        else if (Main.version.CompareTo(ver.version) == 0)
                             __instance.cosmetics.nameText.text = ver.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})" ? $"<color=#87cefa>{__instance.name}</color>" : $"<color=#ffff00><size=1.2>{ver.tag}</size>\n{__instance?.name}</color>";
                         else __instance.cosmetics.nameText.text = $"<color=#ff0000><size=1.2>v{ver.version}</size>\n{__instance?.name}</color>";
+                    }
                     else __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                 }
                 if (GameStates.IsInGame)
@@ -1160,8 +1165,9 @@ namespace TownOfHost
             Logger.Info($"TaskComplete:{pc.PlayerId}", "CompleteTask");
             PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
-            if (pc.GetPlayerTaskState().IsTaskFinished &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor)
+            if ((pc.GetPlayerTaskState().IsTaskFinished &&
+                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.Doctor) ||
+                pc.GetCustomRole() is CustomRoles.SpeedBooster)
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
                 Utils.CustomSyncAllSettings();

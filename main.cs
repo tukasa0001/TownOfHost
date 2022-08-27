@@ -17,6 +17,21 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
+        // == プログラム設定 / Program Config ==
+        // modの名前 / Mod Name (Default: Town Of Host)
+        public static readonly string ModName = "Town Of Host";
+        // modの色 / Mod Color (Default: #00bfff)
+        public static readonly string ModColor = "#00bfff";
+        // 公開ルームを許可する / Allow Public Room (Default: true)
+        public static readonly bool AllowPublicRoom = true;
+        // フォークID / ForkId (Default: OriginalTOH)
+        public static readonly string ForkId = "OriginalTOH";
+        // Discordボタンを表示するか / Show Discord Buttan (Default: true)
+        public static readonly bool ShowDiscordButton = true;
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
+        // ==========
+        public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.0.0";
@@ -52,8 +67,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        //これ変えたらmod名とかの色が変わる
-        public static string modColor = "#00bfff";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -67,7 +80,12 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
+
+        /// <summary>
+        /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
+        /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
+        public const float MinSpeed = 0.0001f;
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
@@ -78,7 +96,10 @@ namespace TownOfHost
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
-        public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
+        /// <summary>
+        /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
+        /// </summary>
+        public static Dictionary<byte, byte> PuppeteerList = new();
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static int AliveImpostorCount;
@@ -112,7 +133,7 @@ namespace TownOfHost
 
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
