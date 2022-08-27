@@ -67,7 +67,11 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
-        public static Dictionary<byte, float> AllPlayerSpeed = new();   //基本的に速度の代入は禁止.スピードは増減で対応してください.
+
+        /// <summary>
+        /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
+        /// </summary>
+        public static Dictionary<byte, float> AllPlayerSpeed = new();
         public const float MinSpeed = 0.0001f;
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
