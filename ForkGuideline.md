@@ -32,7 +32,7 @@
 [プライベートフォークのみ]
 [パブリックフォークのみ]
 - タイトル画面にあるDiscordサーバーへの招待リンクの変更・削除
-- modタイトルの変更 (例: Town Of Host ~~~ Edition)
+- `Main.ModName`の変更 (例: Town Of Host ~~~ Edition)
 
 ## 禁止事項
 当modのフォークの作成・使用において、以下のことを禁止します。
