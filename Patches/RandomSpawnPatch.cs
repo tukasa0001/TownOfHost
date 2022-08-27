@@ -40,29 +40,26 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         class CustomNetworkTransformPatch
         {
-            public static bool Prefix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
+            public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
-                Logger.SendInGame("TP！");
-                if (!AmongUsClient.Instance.AmHost) return true;
+                if (!AmongUsClient.Instance.AmHost) return;
 
                 PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
-                if (player == null) return true;
+                if (player == null) return;
 
-                if (GameStates.IsInTask)// && !Spawned[player.PlayerId])
+                if (GameStates.IsInTask && !Spawned[player.PlayerId])
                 {
                     Spawned[player.PlayerId] = true;
                     if (Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)
                     {
                         Logger.SendInGame("とどいてるよぉ！");
                         var Location = SelectSpawnLocation();
-                        TP(__instance, Location, player);
-                        return false;
+                        TP(__instance, Location);
                     }
                 }
-                return true;
             }
         }
-        private static void TP(CustomNetworkTransform __instance, Vector2 Location, PlayerControl player)
+        private static void TP(CustomNetworkTransform __instance, Vector2 Location)
         {
             ushort num1 = (ushort)(__instance.XRange.ReverseLerp(Location.x) * (double)ushort.MaxValue);
             ushort num2 = (ushort)(__instance.YRange.ReverseLerp(Location.y) * (double)ushort.MaxValue);
@@ -72,8 +69,6 @@ namespace TownOfHost
             writer.Write(num1);
             writer.Write(num2);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            //if (player.GetTruePosition() != Location)
-            //  TP(__instance, Location, player); //RPCが届かなかったときにやり直す処理
         }
         private static Vector2 SelectSpawnLocation()
         {
@@ -101,6 +96,14 @@ namespace TownOfHost
             };
             var SpawnLocation = Locations[rand.Next(0, Locations.Count)];
             return SpawnLocation;
+        }
+        [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
+        class SpawnInMinigamePatch
+        {
+            public static void Postfix()
+            {
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => Spawned[pc.PlayerId] = false), 0.1f, "");
+            }
         }
     }
 }
