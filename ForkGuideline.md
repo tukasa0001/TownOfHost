@@ -29,10 +29,11 @@
 当modのフォークには以下の要素を含めてください
 [共通]
 - README内のDiscordサーバーへの招待リンクの変更・削除
+- `Main.ForkId`の変更 (例: "`~~~Edition`")
 [プライベートフォークのみ]
 [パブリックフォークのみ]
 - タイトル画面にあるDiscordサーバーへの招待リンクの変更・削除
-- `Main.ModName`の変更 (例: Town Of Host ~~~ Edition)
+- `Main.ModName`の変更 (例: "`Town Of Host ~~~ Edition`")
 
 ## 禁止事項
 当modのフォークの作成・使用において、以下のことを禁止します。
