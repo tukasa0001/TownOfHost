@@ -214,7 +214,7 @@ Unless taking a kill by deadline, they murder themselves instantly.<br>
 | Name                          |
 | ----------------------------- |
 | SerialKiller Kill Cooldown(s) |
-| Time Limit To Suiside(s)      |
+| Time Limit To Suicide(s)      |
 
 ### ShapeMaster
 
