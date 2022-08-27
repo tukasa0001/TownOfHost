@@ -40,7 +40,7 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         class CustomNetworkTransformPatch
         {
-            public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
+            public static void Postfix(CustomNetworkTransform __instance)
             {
                 if (!AmongUsClient.Instance.AmHost) return;
 
