@@ -169,6 +169,10 @@ namespace TownOfHost
             Preset = newPreset;
             foreach (var option in Options)
             {
+                if (option.Id == 0)
+                {
+
+                }
                 if (option.Id <= 0) continue;
 
                 option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
