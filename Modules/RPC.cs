@@ -83,9 +83,10 @@ namespace TownOfHost
                 case CustomRPC.VersionCheck:
                     try
                     {
-                        string version = reader.ReadString();
+                        Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
                     {
@@ -229,8 +230,9 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            writer.Write(Main.ForkId);
             writer.EndMessage();
-            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
         {
