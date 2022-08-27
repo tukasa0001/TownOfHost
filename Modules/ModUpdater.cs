@@ -46,6 +46,7 @@ namespace TownOfHost
             {
                 buttonSpriteDiscord.color = discordText.color = discordColor;
             });
+            discordButton.gameObject.SetActive(Main.ShowDiscordButton);
             //以下アップデートがあれば実行
             if (!ModUpdater.hasUpdate) return;
             //アップデートボタンを生成
