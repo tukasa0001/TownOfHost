@@ -105,8 +105,6 @@ namespace TownOfHost
                     Main.CursedPlayers[pc.PlayerId] = null;
                     Main.isCurseAndKill[pc.PlayerId] = false;
                 }
-                if (RandomSpawnPatch.Spawned[pc.PlayerId])
-                    RandomSpawnPatch.Spawned[pc.PlayerId] = false;
             }
             Main.AfterMeetingDeathPlayers.Do(x =>
             {
