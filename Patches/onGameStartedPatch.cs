@@ -48,6 +48,8 @@ namespace TownOfHost
 
             Main.introDestroyed = false;
 
+            RandomSpawnPatch.Spawned = new();
+
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
 
@@ -75,6 +77,8 @@ namespace TownOfHost
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
+
+                RandomSpawnPatch.Spawned[pc.PlayerId] = false;
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
