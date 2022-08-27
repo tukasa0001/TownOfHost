@@ -45,10 +45,15 @@ namespace TownOfHost
                 if (!AmongUsClient.Instance.AmHost) return;
 
                 PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
-                if (player == null) return;
+                if (player == null)
+                {
+                    Logger.SendInGame("プレイヤーがnullだよぉ！");
+                    return;
+                }
 
                 if (GameStates.IsInTask && !Spawned[player.PlayerId])
                 {
+                    Logger.SendInGame("とどいてるかもよぉ！");
                     Spawned[player.PlayerId] = true;
                     if (Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)
                     {
