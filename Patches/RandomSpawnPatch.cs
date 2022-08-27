@@ -42,6 +42,7 @@ namespace TownOfHost
         {
             public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
+                Logger.SendInGame("処理が始まるよぉ！");
                 if (!AmongUsClient.Instance.AmHost) return;
 
                 PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
@@ -62,6 +63,7 @@ namespace TownOfHost
                         TP(__instance, Location);
                     }
                 }
+                Logger.SendInGame("処理が終わったよぉ！");
             }
         }
         private static void TP(CustomNetworkTransform __instance, Vector2 Location)
