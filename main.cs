@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +18,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "2.2.1";
+        public const string PluginVersion = "2.2.2";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
