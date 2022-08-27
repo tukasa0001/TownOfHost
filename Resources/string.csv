@@ -354,7 +354,7 @@ DeathReason.Torched,Torched,焼殺,烧死,燒死
 DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
 DeathReason.Execution,Executed,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
-DeathReason.Fell,Fall,転落,摔死,摔死
+DeathReason.Fall,Fall,転落,摔死,摔死
 DeathReason.etc,etc,その他,其他,其他
 Alive,Alive,生存,存活,存活
 Win," Wins",勝利,胜利,勝利

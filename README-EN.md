@@ -577,7 +577,7 @@ Basis : Impostor<br>
 Victory Condition : Douse and ignite all the living players<br>
 
 When an arsonist tries to use the kill button, they douse oil onto the crewmates.<br>
-To win as Arsonist, you must douse all fellow players and vent to win.<br>
+To win as Arsonist, you must douse all Fallow players and vent to win.<br>
 To douse, you must stand next to a player after pressing kill until the orange triangle is filled in.<br>
 
 * As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
