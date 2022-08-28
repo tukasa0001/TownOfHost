@@ -115,7 +115,7 @@ For example: `welcome:This room is using TownOfHost.`
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 | [Jackal](#Jackal)                 |
 | [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
 | [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
 | [Mafia](#Mafia)                     |                                   |                                   |
@@ -678,6 +678,73 @@ The SchrodingerCats have no tasks and by default, no victory condition. Only aft
 | ------------------------------------------------ |
 | SchrodingerCat In No Team Can Win With Crewmates |
 | Team To Change After Exiled                      |
+
+## Jackal
+
+Create by そうくん<br>
+Original idea by the other roles<br>
+### **Team: Jackal**
+The Jackal is part of an extra team, that tries to eliminate all the other players.\
+The Jackal has no tasks and can kill Impostors, Crewmates and Neutrals.\
+The Jackal (if allowed by the options) can select another player to be their Sidekick.
+Creating a Sidekick removes all tasks of the Sidekick and adds them to the team Jackal. The Sidekick loses their current role (except if they're a Lover, then they play in two teams).
+The "Create Sidekick Action" may only be used once per Jackal or once per game (depending on the options).
+The Jackal can also promote Impostors to be their Sidekick, but depending on the options the Impostor will either really turn into the Sidekick and leave the team Impostors or they will just look like the Sidekick to the Jackal and remain as they were.\
+Also if a Spy or Impostor gets sidekicked, they still will appear red to the Impostors.
+
+The team Jackal enables multiple new outcomes of the game, listing some examples here:
+- The Impostors could be eliminated and then the crew plays against the team Jackal.
+- The Crew could be eliminated, then the Team Jackal fight against the Impostors (The Crew can still make a task win in this scenario)
+
+The priority of the win conditions is the following:
+1. Crewmate Mini lose by vote
+2. Jester wins by vote
+3. Arsonist win
+4. Team Impostor wins by sabotage
+5. Team Crew wins by tasks (also possible if the whole Crew is dead)
+6. Lovers among the last three players win
+7. Team Jackal wins by outnumbering (When the team Jackal contains an equal or greater amount of players than the Crew and there are 0 Impostors left and team Jackal contains no Lover)
+8. Team Impostor wins by outnumbering (When the team Impostors contains an equal or greater amount of players than the Crew and there are 0 players of the team Jackal left and team Impostors contains no Lover)
+9. Team Crew wins by outnumbering (When there is no player of the team Jackal and the team Impostors left)
+
+**NOTE:**
+- The Jackal (and their Sidekick) may be killed by a Sheriff.
+- A Jackal cannot target the Mini, while it's growing up. After that they can kill it or select it as its Sidekick.
+- The Crew can still win, even if all of their members are dead, if they finish their tasks fast enough (That's why converting the last Crewmate with tasks left into a Sidekick results in a task win for the crew.)
+
+If both Impostors and Jackals are in the game, the game continues even if all Crewmates are dead. Crewmates may still win in this case by completing their tasks. Jackal and Impostor have to kill each other.
+
+### Game Options
+| Name | Description
+|----------|:-------------:|
+| Jackal Spawn Chance | - |
+| Jackal/Sidekick Kill Cooldown | Kill cooldown |
+| Jackal Create Sidekick Cooldown | Cooldown before a Sidekick can be created |
+| Jackal can use vents | Yes/No |
+| Jackal can create a Sidekick | Yes/No |
+| Jackals promoted from Sidekick can create a Sidekick | Yes/No (to prevent the Jackal team from growing) |
+| Jackals can make an Impostor to their Sidekick | Yes/No (to prevent a Jackal from turning an Impostor into a Sidekick, if they use the ability on an Impostor they see the Impostor as Sidekick, but the Impostor isn't converted to Sidekick. If this option is set to "No" Jackal and Sidekick can kill each other.) |
+| Jackal and Sidekick have Impostor vision | - |
+-----------------------
+
+## Sidekick
+### **Team: Jackal**
+Gets assigned to a player during the game by the "Create Sidekick Action" of the Jackal and joins the Jackal in their quest to eliminate all other players.\
+Upon the death of the Jackal (depending on the options), they might get promoted to Jackal themself and potentially even assign a Sidekick of their own.\
+\
+**NOTE:**
+- A player that converts into a Sidekick loses their previous role and tasks (if they had one).
+- The Sidekick may be killed by a Sheriff.
+- The Sidekick cannot target the Mini, while it's growing up.
+
+### Game Options
+| Name | Description
+|----------|:-------------:|
+| Jackal/Sidekick Kill Cooldown | Uses the same kill cooldown setting as the Jackal |
+| Sidekick gets promoted to Jackal on Jackal death |  Yes/No |
+| Sidekick can kill | Yes/No |
+| Sidekick can use vents | Yes/No |
+-----------------------
 
 ### Terrorist
 
