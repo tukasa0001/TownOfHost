@@ -101,13 +101,5 @@ namespace TownOfHost
             var SpawnLocation = Locations[rand.Next(0, Locations.Count)];
             return SpawnLocation;
         }
-        [HarmonyPatch(typeof(SpawnInMinigame), nameof(SpawnInMinigame.Begin))]
-        class SpawnInMinigamePatch
-        {
-            public static void Postfix()
-            {
-                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => NumOfTP[pc.PlayerId] = 0), 0.3f, "RebirthNumOfTP");
-            }
-        }
     }
 }
