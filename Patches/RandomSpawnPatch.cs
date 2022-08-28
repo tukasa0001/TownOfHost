@@ -1,5 +1,5 @@
 /*
-* RandomSpawnPatch.cs created on Sat Aug 27 2022
+* AirshipRandomSpawnPatch.cs created on Sat Aug 27 2022
 * This software is released under the GNU General Public License v3.0.
 * Copyright (c) 2022 空き瓶/EmptyBottle
 */
@@ -12,7 +12,7 @@ using Hazel;
 
 namespace TownOfHost
 {
-    public class RandomSpawnPatch
+    public class AirshipRandomSpawnPatch
     {
         public static Dictionary<byte, int> NumOfTP = new();
 
@@ -43,7 +43,7 @@ namespace TownOfHost
             public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
                 if (!AmongUsClient.Instance.AmHost) return;
-                if (!(Options.RandomSpawn.GetBool() || PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
+                if (!(Options.AirshipRandomSpawn.GetBool() || PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
                 if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
 
                 if (GameStates.IsInTask)
@@ -51,7 +51,7 @@ namespace TownOfHost
                     var player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
                     if (player == null)
                     {
-                        Logger.Warn("プレイヤーがnullだよぉ！", "RandomSpawn");
+                        Logger.Warn("プレイヤーがnullだよぉ！", "AirshipRandomSpawn");
                         return;
                     }
                     NumOfTP[player.PlayerId]++;
@@ -61,7 +61,7 @@ namespace TownOfHost
                         NumOfTP[player.PlayerId] = 3;
                         var Location = SelectSpawnLocation();
                         TP(player.NetTransform, Location);
-                        Logger.Info(player.Data.PlayerName + " : " + Location.ToString(), "RandomSpawn");
+                        Logger.Info(player.Data.PlayerName + " : " + Location.ToString(), "AirshipRandomSpawn");
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace TownOfHost
                 Records,
                 MainHall
             };
-            if (!Options.OnlyDefaultLocation.GetBool()) //デフォルト位置のみじゃなかったら
+            if (!Options.AirshipAdditionalSpawn.GetBool()) //デフォルト位置のみじゃなかったら
             {
                 var AdditionalLocations = new Vector2[]
                 {

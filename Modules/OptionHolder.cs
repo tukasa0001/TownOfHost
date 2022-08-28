@@ -182,8 +182,8 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption HideGameSettings;
-        public static CustomOption RandomSpawn;
-        public static CustomOption OnlyDefaultLocation;
+        public static CustomOption AirshipRandomSpawn;
+        public static CustomOption AirshipAdditionalSpawn;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -458,9 +458,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
-            RandomSpawn = CustomOption.Create(100607, Color.white, "RandomSpawn", false)
+            AirshipRandomSpawn = CustomOption.Create(100607, Color.white, "AirshipRandomSpawn", false)
                 .SetGameMode(CustomGameMode.All);
-            OnlyDefaultLocation = CustomOption.Create(100608, Color.white, "OnlyDefaultLocation", false, RandomSpawn)
+            AirshipAdditionalSpawn = CustomOption.Create(100608, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);
