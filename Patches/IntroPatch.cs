@@ -246,7 +246,6 @@ namespace TownOfHost
                 {
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
-                    RandomSpawnPatch.Spawned[pc.PlayerId] = false;
                 }
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
