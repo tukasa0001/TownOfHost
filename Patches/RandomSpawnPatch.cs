@@ -46,7 +46,7 @@ namespace TownOfHost
                 if (!(Options.RandomSpawn.GetBool() || PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
                 if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
 
-                if (!GameStates.IsInTask)
+                if (GameStates.IsInTask)
                 {
                     var player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
                     if (player == null)
@@ -106,7 +106,7 @@ namespace TownOfHost
         {
             public static void Postfix()
             {
-                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => Spawned[pc.PlayerId] = false), 0.1f, "RebirthSpawned");
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => Spawned[pc.PlayerId] = false), 0.3f, "RebirthSpawned");
             }
         }
     }
