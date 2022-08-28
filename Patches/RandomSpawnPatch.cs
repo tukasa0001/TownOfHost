@@ -40,25 +40,27 @@ namespace TownOfHost
         [HarmonyPatch(typeof(CustomNetworkTransform), nameof(CustomNetworkTransform.SnapTo), typeof(Vector2), typeof(ushort))]
         class CustomNetworkTransformPatch
         {
-            public static void Postfix(CustomNetworkTransform __instance)
+            public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
-                if (!AmongUsClient.Instance.AmHost || !GameStates.IsInTask) return;
+                if (!AmongUsClient.Instance.AmHost) return;
+                if (!(Options.RandomSpawn.GetBool() || PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
+                if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
 
-                PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
-                if (player == null)
+                if (!GameStates.IsInTask)
                 {
-                    Logger.SendInGame("プレイヤーがnullだよぉ！");
-                    return;
-                }
-
-                if (!Spawned[player.PlayerId])
-                {
-                    Spawned[player.PlayerId] = true;
-                    if (Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)
+                    var player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
+                    if (player == null)
                     {
-                        Logger.SendInGame("とどいてるよぉ！");
+                        Logger.Warn("プレイヤーがnullだよぉ！", "RandomSpawn");
+                        return;
+                    }
+
+                    if (Spawned.TryGetValue(player.PlayerId, out var spawned) && !spawned)
+                    {
+                        Spawned[player.PlayerId] = true;
                         var Location = SelectSpawnLocation();
                         TP(player.NetTransform, Location);
+                        Logger.Info(player.Data.PlayerName + " : " + Location.ToString(), "RandomSpawn");
                     }
                 }
             }
@@ -66,7 +68,7 @@ namespace TownOfHost
         private static void TP(CustomNetworkTransform __instance, Vector2 Location)
         {
             if (AmongUsClient.Instance.AmHost)
-                PlayerControl.LocalPlayer.NetTransform.SnapTo(Location);
+                __instance.SnapTo(Location);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
             __instance.WriteVector2(Location, writer);
             writer.Write(__instance.lastSequenceId);
