@@ -183,6 +183,7 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption HideGameSettings;
         public static CustomOption RandomSpawn;
+        public static CustomOption OnlyDefaultLocation;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -458,6 +459,8 @@ namespace TownOfHost
             GhostCanSeeOtherVotes = CustomOption.Create(100604, Color.white, "GhostCanSeeOtherVotes", true)
                 .SetGameMode(CustomGameMode.All);
             RandomSpawn = CustomOption.Create(100607, Color.white, "RandomSpawn", false)
+                .SetGameMode(CustomGameMode.All);
+            OnlyDefaultLocation = CustomOption.Create(100608, Color.white, "OnlyDefaultLocation", false, RandomSpawn)
                 .SetGameMode(CustomGameMode.All);
             HideGameSettings = CustomOption.Create(100606, Color.white, "HideGameSettings", false)
                 .SetGameMode(CustomGameMode.All);

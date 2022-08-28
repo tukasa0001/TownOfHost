@@ -80,25 +80,32 @@ namespace TownOfHost
             var rand = new System.Random();
             var Locations = new List<Vector2>()
             {
-                MeetingRoom,
-                GapRoom,
                 Brig,
-                Vault,
                 Engine,
-                Communications,
-                Cockpit,
-                Armory,
                 Kitchin,
-                ViewingDeck,
-                Security,
-                Electrical,
-                Medical,
                 CargoBay,
-                Lounge,
                 Records,
-                Showers,
                 MainHall
             };
+            if (!Options.OnlyDefaultLocation.GetBool()) //デフォルト位置のみじゃなかったら
+            {
+                var AdditionalLocations = new Vector2[]
+                {
+                    MeetingRoom,
+                    GapRoom,
+                    Vault,
+                    Communications,
+                    Cockpit,
+                    Armory,
+                    ViewingDeck,
+                    Security,
+                    Electrical,
+                    Medical,
+                    Lounge,
+                    Showers,
+                };
+                Locations.AddRange(AdditionalLocations); //湧き位置リストに追加位置を入れる
+            }
             var SpawnLocation = Locations[rand.Next(0, Locations.Count)];
             return SpawnLocation;
         }
