@@ -42,8 +42,7 @@ namespace TownOfHost
         {
             public static void Postfix(CustomNetworkTransform __instance)
             {
-                Logger.SendInGame("処理が始まるよぉ！");
-                if (!AmongUsClient.Instance.AmHost) return;
+                if (!AmongUsClient.Instance.AmHost || !GameStates.IsInTask) return;
 
                 PlayerControl player = PlayerControl.AllPlayerControls.ToArray().Where(p => p.NetTransform == __instance).FirstOrDefault();
                 if (player == null)
@@ -52,29 +51,25 @@ namespace TownOfHost
                     return;
                 }
 
-                if (GameStates.IsInTask && !Spawned[player.PlayerId])
+                if (!Spawned[player.PlayerId])
                 {
-                    Logger.SendInGame("とどいてるかもよぉ！");
                     Spawned[player.PlayerId] = true;
                     if (Options.RandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)
                     {
                         Logger.SendInGame("とどいてるよぉ！");
                         var Location = SelectSpawnLocation();
-                        TP(__instance, Location);
+                        TP(player.NetTransform, Location);
                     }
                 }
-                Logger.SendInGame("処理が終わったよぉ！");
             }
         }
         private static void TP(CustomNetworkTransform __instance, Vector2 Location)
         {
-            ushort num1 = (ushort)(__instance.XRange.ReverseLerp(Location.x) * (double)ushort.MaxValue);
-            ushort num2 = (ushort)(__instance.YRange.ReverseLerp(Location.y) * (double)ushort.MaxValue);
             if (AmongUsClient.Instance.AmHost)
                 PlayerControl.LocalPlayer.NetTransform.SnapTo(Location);
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.SnapTo, SendOption.None, -1);
-            writer.Write(num1);
-            writer.Write(num2);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
+            __instance.WriteVector2(Location, writer);
+            writer.Write(__instance.lastSequenceId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         private static Vector2 SelectSpawnLocation()
@@ -109,7 +104,7 @@ namespace TownOfHost
         {
             public static void Postfix()
             {
-                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => Spawned[pc.PlayerId] = false), 0.1f, "");
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => Spawned[pc.PlayerId] = false), 0.1f, "RebirthSpawned");
             }
         }
     }
