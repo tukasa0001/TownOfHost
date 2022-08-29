@@ -279,7 +279,7 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
 
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
-            CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
+            CanMakeMadmateCount = CustomOption.Create(5012, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
 
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
