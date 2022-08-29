@@ -61,6 +61,16 @@ namespace TownOfHost
                     {
                         if (c.Name == "Maximum") continue; //Maximumの項目は飛ばす
                         text += $"\t{c.GetName()}: {c.GetString()}\n";
+                        if (c.GetBool() && c.Children != null)
+                            foreach (var d in c.Children)
+                            {
+                                text += $"\t\t{d.GetName()}: {d.GetString()}\n"; //子
+                                if (d.GetBool() && d.Children != null)
+                                    foreach (var e in d.Children)
+                                    {
+                                        text += $"\t\t\t{e.GetName()}: {e.GetString()}\n"; //孫？
+                                    }
+                            }
                     }
                     if (kvp.Key.IsMadmate()) //マッドメイトの時に追加する詳細設定
                     {
@@ -73,10 +83,6 @@ namespace TownOfHost
                     if (kvp.Key is CustomRoles.Shapeshifter/* or CustomRoles.ShapeMaster*/ or CustomRoles.BountyHunter or CustomRoles.SerialKiller) //シェイプシフター役職の時に追加する詳細設定
                     {
                         text += $"\t{Options.CanMakeMadmateCount.GetName()}: {Options.CanMakeMadmateCount.GetString()}\n";
-                    }
-                    if (kvp.Key == CustomRoles.Mayor && Options.MayorHasPortableButton.GetBool())
-                    {
-                        text += $"\t{Options.MayorNumOfUseButton.GetName()}: {Options.MayorNumOfUseButton.GetString()}\n";
                     }
                     text += "\n";
                 }
