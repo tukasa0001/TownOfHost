@@ -84,6 +84,8 @@ namespace TownOfHost
                         RPC.ExecutionerWin(kvp.Key);
                     }
                 }
+                if (Main.ExecutionerTarget.ContainsValue(exiled.PlayerId))
+                    exiled.Object.ChangeExecutionerRole();
                 if (exiled.Object.Is(CustomRoles.TimeThief))
                     exiled.Object.ResetVotingTime();
                 if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
