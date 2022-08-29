@@ -169,13 +169,10 @@ namespace TownOfHost
             Preset = newPreset;
             foreach (var option in Options)
             {
-                if (option.Id == 0)
-                {
-
-                }
                 if (option.Id <= 0) continue;
 
-                option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
+                if (AmongUsClient.Instance.AmHost)
+                    option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
@@ -268,6 +265,36 @@ namespace TownOfHost
                     }
                     ShareOptionSelections();
                 }
+            }
+        }
+        public void SetPresetName(StringOption stringOption)
+        {
+            switch (Preset + 1)
+            {
+                case 1:
+                    if (Main.Preset1.Value != Main.Preset1.DefaultValue.ToString())
+                        goto ShowRawText;
+                    break;
+                case 2:
+                    if (Main.Preset2.Value != Main.Preset2.DefaultValue.ToString())
+                        goto ShowRawText;
+                    break;
+                case 3:
+                    if (Main.Preset3.Value != Main.Preset3.DefaultValue.ToString())
+                        goto ShowRawText;
+                    break;
+                case 4:
+                    if (Main.Preset4.Value != Main.Preset4.DefaultValue.ToString())
+                        goto ShowRawText;
+                    break;
+                case 5:
+                    if (Main.Preset1.Value != Main.Preset5.DefaultValue.ToString())
+                        goto ShowRawText;
+                    break;
+
+                ShowRawText:
+                    stringOption.ValueText.text = Selections[Selection].ToString();
+                    break;
             }
         }
 
