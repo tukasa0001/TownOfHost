@@ -115,6 +115,8 @@ namespace TownOfHost
                 player?.RpcExileV2();
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
+                if (Main.ExecutionerTarget.ContainsValue(x.Key))
+                    player?.ChangeExecutionerRole();
             });
             Main.AfterMeetingDeathPlayers.Clear();
             FallFromLadder.Reset();
