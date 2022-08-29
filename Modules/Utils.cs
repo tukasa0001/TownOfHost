@@ -178,6 +178,7 @@ namespace TownOfHost
             }
             else
             {
+                if (p.IsDead && Options.GhostIgnoreTasks.GetBool()) hasTasks = false;
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
                 if (cRoleFound)
                 {
