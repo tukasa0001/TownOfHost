@@ -1,8 +1,6 @@
-
 /*
-Copyright :copyright: 2022 空き瓶/EmptyBottle
-This software is released under the GNU General Public License v3.0, see LICENSE.
-LICENSE: https://github.com/tukasa0001/TownOfHost/blob/main/LICENSE
+* This software is released under the GNU General Public License v3.0.
+* Copyright (c) 2022 空き瓶/EmptyBottle
 */
 
 using HarmonyLib;
