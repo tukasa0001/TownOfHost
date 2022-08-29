@@ -329,25 +329,19 @@ namespace TownOfHost
                     {
                         if (isFirst) { isFirst = false; continue; }
                         text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
-
-                        //タスク上書き設定用の処理
-                        if (c.Name == "doOverride" && c.GetBool() == true)
-                        {
+                        if (c.Children != null && c.GetBool())
                             foreach (var d in c.Children)
                             {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                                text += $"\n└{d.GetName(disableColor: true)}:{d.GetString()}";
+                                if (d.Children != null && d.GetBool())
+                                    foreach (var e in d.Children)
+                                    {
+                                        text += $"\n　└{e.GetName(disableColor: true)}:{e.GetString()}";
+                                    }
                             }
-                        }
-                        //メイヤーのポータブルボタン使用可能回数
-                        if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
-                        {
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
-                            }
-                        }
                         text = text.RemoveHtmlTags();
                     }
+                    text += "\n";
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.DisableDevices.GetBool())
