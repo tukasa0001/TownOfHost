@@ -90,7 +90,7 @@ namespace TownOfHost
                     exiled.Object.ExiledSchrodingerCatTeamChange();
 
 
-                PlayerState.SetDead(exiled.PlayerId);
+                if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             }
             if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                 Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
@@ -131,7 +131,12 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     AntiBlackout.SendGameData();
-                    exiled?.Object?.RpcExileV2();
+                    if (AntiBlackout.OverrideExiledPlayer && // 追放対象が上書きされる状態 (上書きされない状態なら実行不要)
+                        exiled != null && //exiledがnullでない
+                        exiled.Object != null) //exiled.Objectがnullでない
+                    {
+                        exiled.Object.RpcExileV2();
+                    }
                 }, 0.5f, "Restore IsDead Task");
             Logger.Info("タスクフェイズ開始", "Phase");
         }

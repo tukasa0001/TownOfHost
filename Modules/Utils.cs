@@ -14,9 +14,44 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
-            Logger.Info($"SystemTypes:{type}", "SwitchSystem");
-            return SwitchSystem != null && SwitchSystem.IsActive;
+            //Logger.Info($"SystemTypes:{type}", "IsActive");
+            int mapId = PlayerControl.GameOptions.MapId;
+            switch (type)
+            {
+                case SystemTypes.Electrical:
+                    {
+                        var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+                        return SwitchSystem != null && SwitchSystem.IsActive;
+                    }
+                case SystemTypes.Reactor:
+                    {
+                        if (mapId == 2) return false;
+                        else if (mapId == 4)
+                        {
+                            var HeliSabotageSystem = ShipStatus.Instance.Systems[type].Cast<HeliSabotageSystem>();
+                            return HeliSabotageSystem != null && HeliSabotageSystem.IsActive;
+                        }
+                        else
+                        {
+                            var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                            return ReactorSystemType != null && ReactorSystemType.IsActive;
+                        }
+                    }
+                case SystemTypes.Laboratory:
+                    {
+                        if (mapId != 2) return false;
+                        var ReactorSystemType = ShipStatus.Instance.Systems[type].Cast<ReactorSystemType>();
+                        return ReactorSystemType != null && ReactorSystemType.IsActive;
+                    }
+                case SystemTypes.LifeSupp:
+                    {
+                        if (mapId is 2 or 4) return false;
+                        var LifeSuppSystemType = ShipStatus.Instance.Systems[type].Cast<LifeSuppSystemType>();
+                        return LifeSuppSystemType != null && LifeSuppSystemType.IsActive;
+                    }
+                default:
+                    return false;
+            }
         }
         public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
         {
@@ -45,9 +80,12 @@ namespace TownOfHost
         }
         public static string GetRoleName(CustomRoles role)
         {
-            var lang = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) &&
-                Main.JapaneseRoleName.Value == true ? SupportedLangs.Japanese : SupportedLangs.English;
-
+            var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
+            var lang = CurrentLanguage;
+            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
+                lang = SupportedLangs.Japanese;
+            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
+                lang = SupportedLangs.English;
             return GetRoleName(role, lang);
         }
         public static string GetRoleName(CustomRoles role, SupportedLangs lang)
@@ -291,25 +329,19 @@ namespace TownOfHost
                     {
                         if (isFirst) { isFirst = false; continue; }
                         text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
-
-                        //タスク上書き設定用の処理
-                        if (c.Name == "doOverride" && c.GetBool() == true)
-                        {
+                        if (c.Children != null && c.GetBool())
                             foreach (var d in c.Children)
                             {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                                text += $"\n└{d.GetName(disableColor: true)}:{d.GetString()}";
+                                if (d.Children != null && d.GetBool())
+                                    foreach (var e in d.Children)
+                                    {
+                                        text += $"\n　└{e.GetName(disableColor: true)}:{e.GetString()}";
+                                    }
                             }
-                        }
-                        //メイヤーのポータブルボタン使用可能回数
-                        if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
-                        {
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
-                            }
-                        }
                         text = text.RemoveHtmlTags();
                     }
+                    text += "\n";
                 }
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.DisableDevices.GetBool())
@@ -459,7 +491,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + "</color>";
+                        name += "\r\n<color=" + Main.ModColor + ">TOH v" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n{GetString("SuffixMode.Streaming")}";

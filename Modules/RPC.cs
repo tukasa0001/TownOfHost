@@ -83,9 +83,10 @@ namespace TownOfHost
                 case CustomRPC.VersionCheck:
                     try
                     {
-                        string version = reader.ReadString();
+                        Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
                     {
@@ -229,8 +230,9 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.VersionCheck, SendOption.Reliable);
             writer.Write(Main.PluginVersion);
             writer.Write($"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            writer.Write(Main.ForkId);
             writer.EndMessage();
-            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})");
+            Main.playerVersion[PlayerControl.LocalPlayer.PlayerId] = new PlayerVersion(Main.PluginVersion, $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})", Main.ForkId);
         }
         public static void SendDeathReason(byte playerId, PlayerState.DeathReason deathReason)
         {
@@ -258,6 +260,9 @@ namespace TownOfHost
                 {
                     case CustomWinner.Draw:
                         ForceEndGame();
+                        break;
+                    case CustomWinner.None:
+                        EveryoneDied();
                         break;
                     case CustomWinner.Jester:
                         JesterExiled(winner[0]);
@@ -322,6 +327,11 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void EveryoneDied()
+        {
+            Main.currentWinner = CustomWinner.None;
             CustomWinTrigger(0);
         }
         public static void ForceEndGame()
@@ -455,6 +465,7 @@ namespace TownOfHost
         }
         public static void RemoveExecutionerKey(byte Key)
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);

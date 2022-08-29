@@ -147,7 +147,22 @@ namespace TownOfHost
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
+                    {
                         Main.AfterMeetingDeathPlayers.TryAdd(p.PlayerId, PlayerState.DeathReason.Spell);
+                        if (Main.ExecutionerTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId)
+                        {
+                            byte Executioner = 0x73;
+                            Main.ExecutionerTarget.Do(x =>
+                            {
+                                if (x.Value == p.PlayerId)
+                                    Executioner = x.Key;
+                            });
+                            Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
+                            Main.ExecutionerTarget.Remove(Executioner);
+                            RPC.RemoveExecutionerKey(Executioner);
+                            Utils.NotifyRoles();
+                        }
+                    }
                 }
                 Main.SpelledPlayer.Clear();
 
@@ -227,7 +242,7 @@ namespace TownOfHost
                 roleTextMeeting.enabled =
                     pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId ||
                     (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) ||
-                    Options.EnableGM.GetBool();
+                    (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM));
             }
             if (Options.SyncButtonMode.GetBool())
             {
@@ -364,7 +379,7 @@ namespace TownOfHost
         public static void Postfix()
         {
             Logger.Info("------------会議終了------------", "Phase");
-            if (AmongUsClient.Instance.AmHost && !AntiBlackout.IsCached)
+            if (AmongUsClient.Instance.AmHost)
                 AntiBlackout.SetIsDead();
         }
     }

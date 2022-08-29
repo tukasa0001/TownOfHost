@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -36,8 +35,18 @@ namespace TownOfHost
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.CoBegin))]
     class CoBeginPatch
     {
-        public static void Prefix(IntroCutscene __instance)
+        public static void Prefix()
         {
+            if (!AmongUsClient.Instance.AmHost)
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    switch (pc.GetCustomRole())
+                    {
+                        case CustomRoles.Egoist:
+                            Egoist.Add(pc.PlayerId);
+                            break;
+                    }
+                }
             Logger.Info("------------名前表示------------", "Info");
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -55,7 +64,7 @@ namespace TownOfHost
                 var text = pc.AmOwner ? "[*]" : "   ";
                 text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""),-11}";
                 if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                    text += $":Mod({pv.version}:{pv.tag})";
+                    text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                 else text += ":Vanilla";
                 Logger.Info(text, "Info");
             }
@@ -159,7 +168,7 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = "Town Of Host";
+                __instance.TeamTitle.text = Main.ModName;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
                     "\r\nOut Now on Github";
@@ -233,11 +242,13 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRole(RoleTypes.Shapeshifter)), 2f, "SetImpostorForServer");
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+                {
+                    PlayerControl.LocalPlayer.RpcExile();
+                    PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
                 }
-                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) PlayerControl.LocalPlayer.RpcExile();
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

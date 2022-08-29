@@ -30,6 +30,7 @@ namespace TownOfHost
                 {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
+                    if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
@@ -81,6 +82,20 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForEveryoneDied(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TotalAlive <= 0)
+            {
+                __instance.enabled = false;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((int)CustomWinner.None);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.EveryoneDied();
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&

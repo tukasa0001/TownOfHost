@@ -108,13 +108,22 @@ namespace TownOfHost
             }
             catch (Exception ex)
             {
+                Logger.Warn("AntiBlackout.TempRestore内で例外が発生しました", "AntiBlackout");
                 Logger.Error(ex.ToString(), "AntiBlackout.TempRestore");
             }
             finally
             {
                 if (before_IsCached) SetIsDead(doSend: false);
+                Logger.Info("==/Temp Restore==", "AntiBlackout");
             }
-            Logger.Info("==/Temp Restore==", "AntiBlackout");
+        }
+
+        public static void Reset()
+        {
+            Logger.Info("==Reset==", "AntiBlackout");
+            if (isDeadCache == null) isDeadCache = new();
+            isDeadCache.Clear();
+            IsCached = false;
         }
     }
 }
