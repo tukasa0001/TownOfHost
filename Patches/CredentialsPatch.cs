@@ -46,9 +46,9 @@ namespace TownOfHost
             private static TMPro.TextMeshPro ErrorText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host</color> v{Main.PluginVersion}";
+                Main.credentialsText = $"\r\n<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
                 if (ThisAssembly.Git.Branch != "main")
-                    Main.credentialsText += $"\r\n<color={Main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
+                    Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
                 var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
                 credentials.text = Main.credentialsText;
                 credentials.alignment = TMPro.TextAlignmentOptions.TopRight;

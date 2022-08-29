@@ -64,7 +64,7 @@ namespace TownOfHost
             Sniped,
             Execution,
             Disconnected,
-            Fell,
+            Fall,
             etc = -1
         }
     }
@@ -100,34 +100,32 @@ namespace TownOfHost
             if (AllTasksCount == -1) Init(player);
 
             //FIXME:SpeedBoostre class transplant
-            if (!player.Data.IsDead && player.Is(CustomRoles.SpeedBooster) && (CompletedTasksCount + 1) >= AllTasksCount)
-            {
-                Logger.Info("IsTaskFinished", "SpeedBooster");
-                if (!Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+            if (!player.Data.IsDead
+            && player.Is(CustomRoles.SpeedBooster)
+            && (((CompletedTasksCount + 1) >= AllTasksCount) || (CompletedTasksCount + 1) >= Options.SpeedBoosterTaskTrigger.GetInt())
+            && !Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
+            {   //ｽﾋﾟﾌﾞが生きていて、全タスク完了orトリガー数までタスクを完了していて、SppedBoostTargetに登録済みでない場合
+                var rand = new System.Random();
+                List<PlayerControl> targetplayers = new();
+                //切断者と死亡者を除外
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                 {
-                    var rand = new System.Random();
-                    List<PlayerControl> targetplayers = new();
-                    //切断者と死亡者を除外
-                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                    {
-                        if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
-                    }
-                    //ターゲットが0ならアップ先をプレイヤーをnullに
-                    if (targetplayers.Count >= 1)
-                    {
-                        PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
-                        Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
-                        Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
-                    }
-                    else
-                    {
-                        Main.SpeedBoostTarget.Add(player.PlayerId, 255);
-                        Logger.SendInGame("Error.SpeedBoosterNullException");
-                        Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-                    }
+                    if (!p.Data.Disconnected && !p.Data.IsDead && !Main.SpeedBoostTarget.ContainsValue(p.PlayerId)) targetplayers.Add(p);
                 }
-                if (Main.SpeedBoostTarget.ContainsKey(player.PlayerId))
-                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] = Options.SpeedBoosterUpSpeed.GetFloat();
+                //ターゲットが0ならアップ先をプレイヤーをnullに
+                if (targetplayers.Count >= 1)
+                {
+                    PlayerControl target = targetplayers[rand.Next(0, targetplayers.Count)];
+                    Logger.Info("スピードブースト先:" + target.cosmetics.nameText.text, "SpeedBooster");
+                    Main.SpeedBoostTarget.Add(player.PlayerId, target.PlayerId);
+                    Main.AllPlayerSpeed[Main.SpeedBoostTarget[player.PlayerId]] += Options.SpeedBoosterUpSpeed.GetFloat();
+                }
+                else
+                {
+                    Main.SpeedBoostTarget.Add(player.PlayerId, 255);
+                    Logger.SendInGame("Error.SpeedBoosterNullException");
+                    Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
+                }
             }
 
             //クリアしてたらカウントしない

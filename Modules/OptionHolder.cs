@@ -91,7 +91,8 @@ namespace TownOfHost
         public static CustomOption SnitchEnableTargetArrow;
         public static CustomOption SnitchCanGetArrowColor;
         public static CustomOption SnitchCanFindNeutralKiller;
-        public static CustomOption SpeedBoosterUpSpeed;
+        public static CustomOption SpeedBoosterUpSpeed; //加速値
+        public static CustomOption SpeedBoosterTaskTrigger; //効果を発動するタスク完了数
         public static CustomOption TrapperBlockMoveTime;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
@@ -278,7 +279,7 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
 
             DefaultShapeshiftCooldown = CustomOption.Create(5011, Color.white, "DefaultShapeshiftCooldown", 15, 5, 999, 5, null, true);
-            CanMakeMadmateCount = CustomOption.Create(5012, Color.white, "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
+            CanMakeMadmateCount = CustomOption.Create(5012, Utils.GetRoleColor(CustomRoles.Madmate), "CanMakeMadmateCount", 0, 0, 15, 1, null, true);
 
             // Madmate
             SetupRoleOptions(10000, CustomRoles.Madmate);
@@ -317,7 +318,8 @@ namespace TownOfHost
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
-            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
+            SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 0.3f, 0.1f, 0.5f, 0.1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
+            SpeedBoosterTaskTrigger = CustomOption.Create(20611, Color.white, "SpeedBoosterTaskTrigger", 5f, 1f, 99f, 1f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);
             DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             SetupRoleOptions(20800, CustomRoles.Trapper);
