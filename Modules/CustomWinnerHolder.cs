@@ -12,7 +12,7 @@ namespace TownOfHost
         public static CustomWinner WinnerTeam;
         // 勝者の役職が格納され、この変数に格納されている役職のプレイヤーは全員勝利となります。
         // チームとなる第三陣営の処理に最適です。
-        public static CustomRoles WinnerRoles;
+        public static List<CustomRoles> WinnerRoles;
         // 勝者のPlayerIDが格納され、このIDを持つプレイヤーは全員勝利します。
         // 単独勝利する第三陣営の処理に最適です。
         public static List<byte> WinnerIds;
