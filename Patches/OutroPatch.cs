@@ -199,6 +199,8 @@ namespace TownOfHost
             Main.winnerList = new();
             foreach (var pc in winner)
             {
+                if (Main.currentWinner is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
+
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
                 Main.winnerList.Add(pc.PlayerId);
             }
@@ -247,6 +249,12 @@ namespace TownOfHost
                 {
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
+            }
+            if (AmongUsClient.Instance.AmHost && Main.AllPlayerCustomRoles[0] == CustomRoles.GM)
+            {
+                __instance.WinText.text = "Game Over";
+                __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
+                __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.GM);
             }
             switch (Main.currentWinner)
             {

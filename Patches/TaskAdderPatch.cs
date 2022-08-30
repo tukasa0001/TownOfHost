@@ -24,7 +24,7 @@ namespace TownOfHost
                     __instance.transform
                 );
                 rolesFolder.gameObject.SetActive(false);
-                rolesFolder.FolderName = "Town Of Host";
+                rolesFolder.FolderName = Main.ModName;
                 CustomRolesFolder = rolesFolder;
                 __instance.Root.SubFolders.Add(rolesFolder);
             }

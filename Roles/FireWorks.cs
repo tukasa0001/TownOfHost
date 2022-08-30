@@ -132,7 +132,7 @@ namespace TownOfHost
                     }
                     if (suicide)
                     {
-                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Misfire);
                         pc.RpcMurderPlayer(pc);
                     }
                     state[pc.PlayerId] = FireWorksState.FireEnd;

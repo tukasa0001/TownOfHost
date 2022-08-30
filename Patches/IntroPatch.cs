@@ -69,7 +69,7 @@ namespace TownOfHost
                 var text = pc.AmOwner ? "[*]" : "   ";
                 text += $"{pc.PlayerId,-2}:{pc.Data?.PlayerName?.PadRightV2(20)}:{pc.GetClient().PlatformData.Platform.ToString().Replace("Standalone", ""),-11}";
                 if (Main.playerVersion.TryGetValue(pc.PlayerId, out PlayerVersion pv))
-                    text += $":Mod({pv.version}:{pv.tag})";
+                    text += $":Mod({pv.forkId}/{pv.version}:{pv.tag})";
                 else text += ":Vanilla";
                 Logger.Info(text, "Info");
             }
@@ -115,7 +115,12 @@ namespace TownOfHost
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.ImpostorText.text = role switch
+                    {
+                        CustomRoles.Egoist => GetString("TeamEgoist"),
+                        CustomRoles.Jackal => GetString("TeamJackal"),
+                        _ => GetString("NeutralInfo"),
+                    };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
@@ -173,7 +178,7 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = "Town Of Host";
+                __instance.TeamTitle.text = Main.ModName;
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
                     "\r\nOut Now on Github";
@@ -247,10 +252,8 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
-                }
+                new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcSetRole(RoleTypes.Shapeshifter)), 2f, "SetImpostorForServer");
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();
