@@ -171,7 +171,8 @@ namespace TownOfHost
             {
                 if (option.Id <= 0) continue;
 
-                option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
+                if (AmongUsClient.Instance.AmHost)
+                    option.Entry = Main.Instance.Config.Bind($"Preset{Preset}", option.Id.ToString(), option.DefaultSelection);
                 option.Selection = Mathf.Clamp(option.Entry.Value, 0, option.Selections.Length - 1);
                 if (option.OptionBehaviour is not null and StringOption stringOption)
                 {
@@ -265,6 +266,20 @@ namespace TownOfHost
                     ShareOptionSelections();
                 }
             }
+        }
+        public void SetPresetName(StringOption stringOption)
+        {
+            var nowPreset = (Preset + 1) switch
+            {
+                1 => Main.Preset1,
+                2 => Main.Preset2,
+                3 => Main.Preset3,
+                4 => Main.Preset4,
+                5 => Main.Preset5,
+                _ => null,
+            };
+            if (nowPreset != null && nowPreset.Value != nowPreset.DefaultValue.ToString())
+                stringOption.ValueText.text = Selections[Selection].ToString();
         }
 
         public void SetParent(CustomOption newParent)
