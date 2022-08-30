@@ -149,8 +149,11 @@ namespace TownOfHost
         {
             if (target == null) target = killer;
             // Host
-            killer.ProtectPlayer(target, colorId);
-            killer.MurderPlayer(target);
+            if (killer.AmOwner)
+            {
+                killer.ProtectPlayer(target, colorId);
+                killer.MurderPlayer(target);
+            }
             // Other Clients
             if (killer.PlayerId != 0)
             {
