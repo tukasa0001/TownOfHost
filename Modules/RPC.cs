@@ -371,14 +371,34 @@ namespace TownOfHost
             }
             switch (role)
             {
+                case CustomRoles.BountyHunter:
+                    BountyHunter.Add(targetId);
+                    break;
+                case CustomRoles.SerialKiller:
+                    SerialKiller.Add(targetId);
+                    break;
                 case CustomRoles.FireWorks:
                     FireWorks.Add(targetId);
+                    break;
+                case CustomRoles.TimeThief:
+                    TimeThief.Add(targetId);
                     break;
                 case CustomRoles.Sniper:
                     Sniper.Add(targetId);
                     break;
+                case CustomRoles.Mare:
+                    Mare.Add(targetId);
+                    break;
+
+                case CustomRoles.Egoist:
+                    Egoist.Add(targetId);
+                    break;
+
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
+                    break;
+                case CustomRoles.SabotageMaster:
+                    SabotageMaster.Add(targetId);
                     break;
             }
             HudManager.Instance.SetHudActive(true);

@@ -26,11 +26,11 @@ namespace TownOfHost
             TimeThiefKillCount = new();
             playerIdList = new();
         }
-        public static void Add(PlayerControl pc, byte playerId)
+        public static void Add(byte playerId)
         {
             playerIdList.Add(playerId);
             TimeThiefKillCount[playerId] = 0;
-            pc.RpcSetKillCount();
+            Utils.GetPlayerById(playerId)?.RpcSetKillCount();
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ReceiveRPC(MessageReader msg)
