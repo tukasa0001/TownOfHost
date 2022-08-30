@@ -26,6 +26,10 @@ namespace TownOfHost
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
         public static readonly string ForkId = "OriginalTOH";
+        // Discordボタンを表示するか / Show Discord Buttan (Default: true)
+        public static readonly bool ShowDiscordButton = true;
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         //Sorry for many Japanese comments.
@@ -76,7 +80,12 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
+
+        /// <summary>
+        /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
+        /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
+        public const float MinSpeed = 0.0001f;
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();

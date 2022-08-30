@@ -366,6 +366,17 @@ namespace TownOfHost
                             break;
                     }
                     pc.ResetKillCooldown();
+
+                    //通常モードでかくれんぼをする人用
+                    if (Options.IsStandardHAS)
+                    {
+                        foreach (var seer in PlayerControl.AllPlayerControls)
+                        {
+                            if (seer == pc) continue;
+                            if (pc.GetCustomRole().IsImpostor() || pc.IsNeutralKiller()) //変更対象がインポスター陣営orキル可能な第三陣営
+                                NameColorManager.Instance.RpcAdd(seer.PlayerId, pc.PlayerId, $"{pc.GetRoleColorCode()}");
+                        }
+                    }
                 }
 
                 //役職の人数を戻す
