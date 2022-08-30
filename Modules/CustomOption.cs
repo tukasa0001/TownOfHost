@@ -288,7 +288,7 @@ namespace TownOfHost
                         goto ShowRawText;
                     break;
                 case 5:
-                    if (Main.Preset1.Value != Main.Preset5.DefaultValue.ToString())
+                    if (Main.Preset5.Value != Main.Preset5.DefaultValue.ToString())
                         goto ShowRawText;
                     break;
 
