@@ -182,7 +182,7 @@ namespace TownOfHost
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
-
+            CustomWinnerHolder.Reset();
             Translator.Init();
 
             hasArgumentException = false;

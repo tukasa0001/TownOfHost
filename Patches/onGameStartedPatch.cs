@@ -99,6 +99,7 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Sheriff.Init();
+            CustomWinnerHolder.Reset();
             AntiBlackout.Reset();
         }
     }
