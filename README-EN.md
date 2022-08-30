@@ -601,7 +601,7 @@ To douse, you must stand next to a player after pressing kill until the orange t
 Create by そうくん<br>
 Original idea by しゅー<br>
 
-Team : Neutral<br>
+Team : Egoist<br>
 Basis : Shapeshifter<br>
 Victory Condition : Satisfy the Impostor victory condition after all the Impostors die.<br>
 

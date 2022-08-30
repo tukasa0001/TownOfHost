@@ -110,7 +110,12 @@ namespace TownOfHost
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.ImpostorText.text = role switch
+                    {
+                        CustomRoles.Egoist => GetString("TeamEgoist"),
+                        CustomRoles.Jackal => GetString("TeamJackal"),
+                        _ => GetString("NeutralInfo"),
+                    };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
