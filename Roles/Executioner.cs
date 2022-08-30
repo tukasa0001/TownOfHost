@@ -46,9 +46,8 @@ namespace TownOfHost
             playerIdList = new();
             Target = new();
         }
-        public static void Add(PlayerControl executioner)
+        public static void Add(byte playerId)
         {
-            var playerId = executioner.PlayerId;
             playerIdList.Add(playerId);
 
             List<PlayerControl> targetList = new();
@@ -63,33 +62,34 @@ namespace TownOfHost
             }
             var SelectedTarget = targetList[rand.Next(targetList.Count)];
             Target.Add(playerId, SelectedTarget.PlayerId);
-            SendRPC(playerId, SelectedTarget.PlayerId);
-            Logger.Info($"{executioner?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
+            SendRPC(playerId, SelectedTarget.PlayerId, "SetTarget");
+            Logger.Info($"{Utils.GetPlayerById(playerId)?.GetNameWithRole()}:{SelectedTarget.GetNameWithRole()}", "Executioner");
         }
         public static bool IsEnable() => playerIdList.Count > 0;
-        public static void SendRPC(byte executionerId, byte targetId = 0x73, bool IsCheckWin = false)
+        public static void SendRPC(byte executionerId, byte targetId = 0x73, string Progress = "")
         {
-            if (targetId != 0x73) //ターゲット共有
+            MessageWriter writer;
+            switch (Progress)
             {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, SendOption.Reliable);
-                writer.Write(executionerId);
-                writer.Write(targetId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-            else if (!IsCheckWin) //キー削除
-            {
-                if (!AmongUsClient.Instance.AmHost) return;
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, SendOption.Reliable);
-                writer.Write(executionerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-            }
-            else //試合終了通知
-            {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Executioner);
-                writer.Write(executionerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.ExecutionerWin(executionerId);
+                case "SetTarget":
+                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetExecutionerTarget, SendOption.Reliable);
+                    writer.Write(executionerId);
+                    writer.Write(targetId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    break;
+                case "":
+                    if (!AmongUsClient.Instance.AmHost) return;
+                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, SendOption.Reliable);
+                    writer.Write(executionerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    break;
+                case "WinCheck":
+                    writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, SendOption.Reliable, -1);
+                    writer.Write((byte)CustomWinner.Executioner);
+                    writer.Write(executionerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPC.ExecutionerWin(executionerId);
+                    break;
             }
         }
         public static void ReceiveRPC(MessageReader reader, bool SetTarget)
@@ -131,17 +131,17 @@ namespace TownOfHost
         }
         public static void CheckExileTarget(GameData.PlayerInfo exiled, bool DecidedWinner)
         {
-            byte Winner = 0x73;
             foreach (var kvp in Target)
             {
                 var executioner = Utils.GetPlayerById(kvp.Key);
                 if (executioner == null) continue;
                 if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
                 if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                    Winner = kvp.Key;
+                {
+                    SendRPC(kvp.Key, Progress: "WinCheck");
+                    break; //脱ループ
+                }
             }
-            if (Winner != 0x73)
-                SendRPC(Winner, IsCheckWin: true);
         }
     }
 }
