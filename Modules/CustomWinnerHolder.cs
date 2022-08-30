@@ -16,5 +16,12 @@ namespace TownOfHost
         // 勝者のPlayerIDが格納され、このIDを持つプレイヤーは全員勝利します。
         // 単独勝利する第三陣営の処理に最適です。
         public static List<byte> WinnerIds;
+
+        public static void Reset()
+        {
+            WinnerTeam = CustomWinner.Default;
+            WinnerRoles = new();
+            WinnerIds = new();
+        }
     }
 }
