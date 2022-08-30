@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InnerNet;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -22,6 +23,35 @@ namespace TownOfHost
             WinnerTeam = CustomWinner.Default;
             WinnerRoles = new();
             WinnerIds = new();
+        }
+
+        public static MessageWriter WriteTo(MessageWriter writer)
+        {
+            writer.Write((int)WinnerTeam);
+
+            writer.Write(WinnerRoles.Count);
+            foreach (var wr in WinnerRoles)
+                writer.Write((int)wr);
+
+            writer.Write(WinnerIds.Count);
+            foreach (var id in WinnerIds)
+                writer.Write(id);
+
+            return writer;
+        }
+        public static void ReadFrom(MessageReader reader)
+        {
+            WinnerTeam = (CustomWinner)reader.ReadInt32();
+
+            WinnerRoles = new();
+            int WinnerRolesCount = reader.ReadInt32();
+            for (int i = 0; i < WinnerRolesCount; i++)
+                WinnerRoles.Add((CustomRoles)reader.ReadInt32());
+
+            WinnerIds = new();
+            int WinnerIdsCount = reader.ReadInt32();
+            for (int i = 0; i < WinnerIdsCount; i++)
+                WinnerIds.Add(reader.ReadByte());
         }
     }
 }
