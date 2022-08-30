@@ -269,33 +269,17 @@ namespace TownOfHost
         }
         public void SetPresetName(StringOption stringOption)
         {
-            switch (Preset + 1)
+            var nowPreset = (Preset + 1) switch
             {
-                case 1:
-                    if (Main.Preset1.Value != Main.Preset1.DefaultValue.ToString())
-                        goto ShowRawText;
-                    break;
-                case 2:
-                    if (Main.Preset2.Value != Main.Preset2.DefaultValue.ToString())
-                        goto ShowRawText;
-                    break;
-                case 3:
-                    if (Main.Preset3.Value != Main.Preset3.DefaultValue.ToString())
-                        goto ShowRawText;
-                    break;
-                case 4:
-                    if (Main.Preset4.Value != Main.Preset4.DefaultValue.ToString())
-                        goto ShowRawText;
-                    break;
-                case 5:
-                    if (Main.Preset5.Value != Main.Preset5.DefaultValue.ToString())
-                        goto ShowRawText;
-                    break;
-
-                ShowRawText:
-                    stringOption.ValueText.text = Selections[Selection].ToString();
-                    break;
-            }
+                1 => Main.Preset1,
+                2 => Main.Preset2,
+                3 => Main.Preset3,
+                4 => Main.Preset4,
+                5 => Main.Preset5,
+                _ => null,
+            };
+            if (nowPreset != null && nowPreset.Value != nowPreset.DefaultValue.ToString())
+                stringOption.ValueText.text = Selections[Selection].ToString();
         }
 
         public void SetParent(CustomOption newParent)
