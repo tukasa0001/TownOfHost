@@ -147,22 +147,7 @@ namespace TownOfHost
                 if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Witch))
                 {
                     foreach (var p in Main.SpelledPlayer)
-                    {
                         Main.AfterMeetingDeathPlayers.TryAdd(p.PlayerId, PlayerState.DeathReason.Spell);
-                        if (Main.ExecutionerTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId)
-                        {
-                            byte Executioner = 0x73;
-                            Main.ExecutionerTarget.Do(x =>
-                            {
-                                if (x.Value == p.PlayerId)
-                                    Executioner = x.Key;
-                            });
-                            Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-                            Main.ExecutionerTarget.Remove(Executioner);
-                            RPC.RemoveExecutionerKey(Executioner);
-                            Utils.NotifyRoles();
-                        }
-                    }
                 }
                 Main.SpelledPlayer.Clear();
 
@@ -307,8 +292,7 @@ namespace TownOfHost
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
                         break;
                     case CustomRoles.Executioner:
-                        if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
+                        pva.NameText.text += Executioner.TargetMark(seer, target);
                         break;
                 }
 

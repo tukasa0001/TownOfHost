@@ -343,29 +343,12 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
-            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
+            if (Executioner.Target.ContainsValue(target.PlayerId))
+                Executioner.ChangeRoleByTarget(target);
+            if (target.Is(CustomRoles.Executioner) && Executioner.Target.ContainsKey(target.PlayerId))
             {
-                List<byte> RemoveExecutionerKey = new();
-                foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                {
-                    var executioner = Utils.GetPlayerById(ExecutionerTarget.Key);
-                    if (executioner == null) continue;
-                    if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
-                    {
-                        executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
-                        RemoveExecutionerKey.Add(ExecutionerTarget.Key);
-                    }
-                }
-                foreach (var RemoveKey in RemoveExecutionerKey)
-                {
-                    Main.ExecutionerTarget.Remove(RemoveKey);
-                    RPC.RemoveExecutionerKey(RemoveKey);
-                }
-            }
-            if (target.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(target.PlayerId))
-            {
-                Main.ExecutionerTarget.Remove(target.PlayerId);
-                RPC.RemoveExecutionerKey(target.PlayerId);
+                Executioner.Target.Remove(target.PlayerId);
+                Executioner.SendRPC(target.PlayerId);
             }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
@@ -856,12 +839,7 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
                     }
-                    foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                    {
-                        if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
-                        target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
-                    }
+                    Mark += Executioner.TargetMark(seer, target);
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
                         if (seer.Is(CustomRoles.Puppeteer) &&
