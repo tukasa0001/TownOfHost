@@ -54,6 +54,8 @@ namespace TownOfHost
                         Logger.Warn("プレイヤーがnullだよぉ！", "AirshipRandomSpawn");
                         return;
                     }
+                    if (player.Is(CustomRoles.GM)) return; //GMは対象外に
+
                     NumOfTP[player.PlayerId]++;
 
                     if (NumOfTP.TryGetValue(player.PlayerId, out var num) && num == 2)
