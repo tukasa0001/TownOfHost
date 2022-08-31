@@ -98,6 +98,7 @@ namespace TownOfHost
             TimeThief.Init();
             Mare.Init();
             Egoist.Init();
+            Jackal.Init();
             Sheriff.Init();
             AntiBlackout.Reset();
         }
