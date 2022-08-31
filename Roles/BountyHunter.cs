@@ -34,7 +34,8 @@ namespace TownOfHost
         {
             playerIdList.Add(playerId);
 
-            ResetTarget(Utils.GetPlayerById(playerId));
+            if (AmongUsClient.Instance.AmHost)
+                ResetTarget(Utils.GetPlayerById(playerId));
         }
         public static bool IsEnable()
         {
