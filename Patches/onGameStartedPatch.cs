@@ -350,6 +350,9 @@ namespace TownOfHost
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Jackal:
+                            Jackal.Add(pc.PlayerId);
+                            break;
 
                         case CustomRoles.Sheriff:
                             Sheriff.Add(pc.PlayerId);
