@@ -259,7 +259,8 @@ namespace TownOfHost
                         var pc = GetPlayerById(playerId);
                         var afterFinishingcolor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
                         var beforeFinishingcolor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        Color color = taskState.IsTaskFinished && !comms ? afterFinishingcolor : beforeFinishingcolor;
+                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingcolor : beforeFinishingcolor;
+                        Color color = comms ? Color.gray : nonCommsColor;
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = Helpers.ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
