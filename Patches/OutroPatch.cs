@@ -51,6 +51,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
+                    if (!Jackal.IsEnable) break;
                     if (p.Is(CustomRoles.Jackal) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
                 }
             }
