@@ -17,6 +17,21 @@ namespace TownOfHost
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
+        // == プログラム設定 / Program Config ==
+        // modの名前 / Mod Name (Default: Town Of Host)
+        public static readonly string ModName = "Town Of Host";
+        // modの色 / Mod Color (Default: #00bfff)
+        public static readonly string ModColor = "#00bfff";
+        // 公開ルームを許可する / Allow Public Room (Default: true)
+        public static readonly bool AllowPublicRoom = true;
+        // フォークID / ForkId (Default: OriginalTOH)
+        public static readonly string ForkId = "OriginalTOH";
+        // Discordボタンを表示するか / Show Discord Buttan (Default: true)
+        public static readonly bool ShowDiscordButton = true;
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
+        // ==========
+        public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "3.0.0";
@@ -38,6 +53,12 @@ namespace TownOfHost
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
+        //Preset Name Options
+        public static ConfigEntry<string> Preset1 { get; private set; }
+        public static ConfigEntry<string> Preset2 { get; private set; }
+        public static ConfigEntry<string> Preset3 { get; private set; }
+        public static ConfigEntry<string> Preset4 { get; private set; }
+        public static ConfigEntry<string> Preset5 { get; private set; }
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -52,8 +73,6 @@ namespace TownOfHost
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
-        //これ変えたらmod名とかの色が変わる
-        public static string modColor = "#00bfff";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -67,7 +86,12 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
+
+        /// <summary>
+        /// 基本的に速度の代入は禁止.スピードは増減で対応してください.
+        /// </summary>
         public static Dictionary<byte, float> AllPlayerSpeed = new();
+        public const float MinSpeed = 0.0001f;
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
         public static Dictionary<byte, float> WarlockTimer = new();
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
@@ -117,7 +141,7 @@ namespace TownOfHost
 
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
-            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
+            HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
@@ -147,6 +171,11 @@ namespace TownOfHost
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;
 
+            Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
+            Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
+            Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
+            Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
+            Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);
