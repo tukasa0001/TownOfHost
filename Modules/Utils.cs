@@ -256,8 +256,11 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
+                        var pc = GetPlayerById(playerId);
+                        Color color = taskState.IsTaskFinished && !comms ? (role.IsCrewmate() ? Color.green : Color.red) //タスク完了後の色
+                                                                        : (HasTasks(pc.Data) ? Color.yellow : Color.white); //カウントされない人外は白色
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
+                        ProgressText = Helpers.ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
                     break;
             }
