@@ -1,8 +1,3 @@
-/*
-* RandomSpawnPatch.cs created on Sat Aug 27 2022
-* This software is released under the GNU General Public License v3.0.
-*/
-
 using HarmonyLib;
 using UnityEngine;
 using System.Linq;
