@@ -223,10 +223,10 @@ namespace TownOfHost
                 }
                 Logger.Info($"守護対象: {ProtectTo.name}", "RpcResetAbilityCooldown");
 
-                /*MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
-                writer.Write(0); //writer.WriteNetObject(null); と同じ
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
+                writer.WriteNetObject(ProtectTo);
                 writer.Write(0);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);*/
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
             /*
                 プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
