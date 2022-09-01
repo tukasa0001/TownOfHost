@@ -83,7 +83,7 @@ namespace TownOfHost
                 Records,
                 MainHall
             };
-            if (!Options.AirshipAdditionalSpawn.GetBool()) //デフォルト位置のみじゃなかったら
+            if (Options.AirshipAdditionalSpawn.GetBool()) //追加位置がオンなら
             {
                 var AdditionalLocations = new Vector2[]
                 {
