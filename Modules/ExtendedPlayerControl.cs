@@ -209,9 +209,13 @@ namespace TownOfHost
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
-            /*  nullにバリアを張ろうとすると、アビリティーのクールダウンがリセットされてからnull参照で中断されます。
-                ホストに対しての場合、RPCを介さず直接クールダウンを書き換えています。
-                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。*/
+            /*
+                プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
+                ログの追加によりリセット前にnull参照が発生するようになったため、代わりに死んでいるプレイヤーにバリアを張る仕様にしました。
+                死んでいるプレイヤーがいない場合、一番遠くのプレイヤーにバリアを張ります。
+                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。
+                ホストのクールダウンは直接リセットします。
+            */
         }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
