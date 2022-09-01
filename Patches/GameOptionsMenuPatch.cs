@@ -222,6 +222,8 @@ namespace TownOfHost
             __instance.TitleText.text = option.GetName();
             __instance.Value = __instance.oldValue = option.Selection;
             __instance.ValueText.text = option.GetString();
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
 
             return false;
         }
@@ -236,6 +238,8 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection + 1);
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
             return false;
         }
     }
@@ -249,6 +253,8 @@ namespace TownOfHost
             if (option == null) return true;
 
             option.UpdateSelection(option.Selection - 1);
+            if (option.Id == Options.PresetId)
+                option.SetPresetName(__instance);
             return false;
         }
     }

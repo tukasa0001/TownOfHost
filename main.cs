@@ -53,6 +53,12 @@ namespace TownOfHost
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
+        //Preset Name Options
+        public static ConfigEntry<string> Preset1 { get; private set; }
+        public static ConfigEntry<string> Preset2 { get; private set; }
+        public static ConfigEntry<string> Preset3 { get; private set; }
+        public static ConfigEntry<string> Preset4 { get; private set; }
+        public static ConfigEntry<string> Preset5 { get; private set; }
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -163,6 +169,11 @@ namespace TownOfHost
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;
 
+            Preset1 = Config.Bind("Preset Name Options", "Preset1", "Preset_1");
+            Preset2 = Config.Bind("Preset Name Options", "Preset2", "Preset_2");
+            Preset3 = Config.Bind("Preset Name Options", "Preset3", "Preset_3");
+            Preset4 = Config.Bind("Preset Name Options", "Preset4", "Preset_4");
+            Preset5 = Config.Bind("Preset Name Options", "Preset5", "Preset_5");
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", false);

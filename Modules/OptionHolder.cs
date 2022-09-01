@@ -21,8 +21,8 @@ namespace TownOfHost
         // プリセット
         private static readonly string[] presets =
         {
-            "Preset_1", "Preset_2", "Preset_3",
-            "Preset_4", "Preset_5"
+            Main.Preset1.Value, Main.Preset2.Value, Main.Preset3.Value,
+            Main.Preset4.Value, Main.Preset5.Value
         };
 
         // ゲームモード
@@ -245,7 +245,7 @@ namespace TownOfHost
 
         public static float GetRoleChance(CustomRoles role)
         {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10f : roleSpawnChances[role];
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection()/* / 10f */ : roleSpawnChances[role];
         }
         public static void Load()
         {
