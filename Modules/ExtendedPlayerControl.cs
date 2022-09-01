@@ -227,6 +227,10 @@ namespace TownOfHost
                 writer.WriteNetObject(ProtectTo);
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
+                //TODO:
+                //  - 正常にリセットされるかどうか
+                //  - 誰も死んでいない場合の守護対象が適切かどうか
+                //  - SendOptionがReliableで動作するかどうか
             }
             /*
                 プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
