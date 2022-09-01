@@ -1,7 +1,6 @@
 /*
 * RandomSpawnPatch.cs created on Sat Aug 27 2022
 * This software is released under the GNU General Public License v3.0.
-* Copyright (c) 2022 空き瓶/EmptyBottle
 */
 
 using HarmonyLib;
