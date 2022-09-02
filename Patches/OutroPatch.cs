@@ -315,7 +315,7 @@ namespace TownOfHost
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                roleSummaryText += $"\n　 " + Utils.SummaryTexts(id, disableColor: false);
+                roleSummaryText += $"\n　 " + EndGamePatch.SummaryText[id];
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
