@@ -152,11 +152,11 @@ The target swaps after a configurable amount of time.<br>
 ### EvilTracker
 
 Team : Impostors<br>
-Decision : Shapeshifter<br>
+Basis : Shapeshifter<br>
 
-EvilTracker has ability to track players.<br>
-You can see arrows toward the other impostors and another player selected by shapeshift.<br>
-Depends in option, you can also see kill flash when other impostor kills.<br>
+EvilTrackers can track other players.<br>
+They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
+Depending on option, they can also see kill flash when other impostor kills.<br>
 
 #### Settings
 
