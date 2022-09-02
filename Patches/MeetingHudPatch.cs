@@ -135,7 +135,26 @@ namespace TownOfHost
                 }
 
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
-                exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
+
+                if (Options.VoteMode.GetBool() && Options.WhenTie.GetBool() && tie)
+                {
+                    switch ((TieMode)Options.WhenTie.GetSelection())
+                    {
+                        case TieMode.Default:
+                            exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => info.PlayerId == exileId);
+                            break;
+                        case TieMode.All:
+                            VotingData.DoIf(x => x.Key < 15 && x.Value == max, x => Main.AfterMeetingDeathPlayers.Add(x.Key, PlayerState.DeathReason.Vote));
+                            exiledPlayer = null;
+                            break;
+                        case TieMode.Random:
+                            exiledPlayer = GameData.Instance.AllPlayers.ToArray().OrderBy(_ => Guid.NewGuid()).FirstOrDefault(x => VotingData.TryGetValue(x.PlayerId, out int vote) && vote == max);
+                            tie = false;
+                            break;
+                    }
+                }
+                else
+                    exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 
                 //RPC
                 if (AntiBlackout.OverrideExiledPlayer)
