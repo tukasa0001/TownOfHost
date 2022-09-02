@@ -158,12 +158,12 @@ EvilTrackers can track other players.<br>
 They have arrows pointing to the other impostors and to another player selected by shapeshift.<br>
 Depending on option, they can also see kill flash when other impostor kills.<br>
 
-#### Settings
+#### Game Options
 
-| Settings Name                            |
-| ---------------------------------------- |
-| Can See Kill Flash (Only Impostor Kills) |
-| Reset Target After Meeting               |
+| Name                                            |
+| ----------------------------------------------- |
+| EvilTracker Can See The Flash Of Impostor Kills |
+| EvilTracker Can Reset Target After Meeting      |
 
 ### FireWorks
 
