@@ -37,7 +37,7 @@ namespace TownOfHost
             public static void Postfix(CustomNetworkTransform __instance, [HarmonyArgument(0)] Vector2 position)
             {
                 if (!AmongUsClient.Instance.AmHost) return;
-                if (!(Options.AirshipRandomSpawn.GetBool() || PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
+                if (!(Options.AirshipRandomSpawn.GetBool() && PlayerControl.GameOptions.MapId == 4)) return; //ランダムスポーンが無効か、マップがエアシップじゃなかったらreturn
                 if (position == new Vector2(-25f, 40f)) return; //最初の湧き地点ならreturn
 
                 if (GameStates.IsInTask)
