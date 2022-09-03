@@ -144,9 +144,14 @@ namespace TownOfHost
         public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
+        public static CustomOption WhenTie;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
+        };
+        public static readonly string[] tieModes =
+        {
+            "TieMode.Default", "TieMode.All", "TieMode.Random"
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
@@ -430,6 +435,8 @@ namespace TownOfHost
             WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenTie = CustomOption.Create(100503, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間

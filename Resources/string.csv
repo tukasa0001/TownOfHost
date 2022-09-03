@@ -247,6 +247,10 @@ Default,Default,デフォルト,默认,預設
 Suicide,Suicide,自殺,自杀,自殺
 SelfVote,SelfVote,自投票,自票,投自己
 Skip,Skip,スキップ,跳过,跳過
+WhenTie,When Tie,同数投票時,,
+TieMode.Default,Default,デフォルト,默认,預設
+TieMode.All,All,全員,,
+TieMode.Random,Random,ランダム,,
 DisableDevices,Disable Devices,デバイスを無効化,禁用设备,禁用裝置
 DisableAdmin,Disable Admin,アドミン無効化,禁用管理员,禁用管理室地圖
 WhichDisableAdmin,Unavailable Admins,無効なアドミン,禁用哪个管理员,管理室地圖分區禁用
