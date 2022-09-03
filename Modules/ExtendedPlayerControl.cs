@@ -209,11 +209,12 @@ namespace TownOfHost
                 // 死んでいるプレイヤーを取得
                 PlayerControl ProtectTo = AllPlayerControls.Where(pc => !pc.IsAlive()).FirstOrDefault();
                 if (ProtectTo == null)
-                {
+                    ProtectTo = target;
+                /*{
                     // 一番遠くのプレイヤーを取得
                     Vector2 center = target.transform.position;
                     ProtectTo = AllPlayerControls.OrderByDescending(pc => Vector2.Distance(center, pc.transform.position)).FirstOrDefault();
-                }
+                }*/
 
                 // 守護対象の最終確認
                 if (ProtectTo == null)
