@@ -343,30 +343,13 @@ namespace TownOfHost
             }
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
-            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
-            {
-                List<byte> RemoveExecutionerKey = new();
-                foreach (var ExecutionerTarget in Main.ExecutionerTarget)
-                {
-                    var executioner = Utils.GetPlayerById(ExecutionerTarget.Key);
-                    if (executioner == null) continue;
-                    if (target.PlayerId == ExecutionerTarget.Value && !executioner.Data.IsDead)
-                    {
-                        executioner.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
-                        RemoveExecutionerKey.Add(ExecutionerTarget.Key);
-                    }
-                }
-                foreach (var RemoveKey in RemoveExecutionerKey)
-                {
-                    Main.ExecutionerTarget.Remove(RemoveKey);
-                    RPC.RemoveExecutionerKey(RemoveKey);
-                }
-            }
             if (target.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(target.PlayerId))
             {
                 Main.ExecutionerTarget.Remove(target.PlayerId);
                 RPC.RemoveExecutionerKey(target.PlayerId);
             }
+            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
+                target.ChangeExecutionerRole();
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
