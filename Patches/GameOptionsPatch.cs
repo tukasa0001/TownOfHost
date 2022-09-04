@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -20,6 +21,9 @@ namespace TownOfHost
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
+                __instance.RoleChance = __instance.RoleMaxCount = 0;
+                __instance.ChanceText.text = "Disabled";
+                __instance.ChanceText.color = Color.red;
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
