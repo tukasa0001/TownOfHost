@@ -204,28 +204,17 @@ namespace TownOfHost
             else
             {
                 //targetがホスト以外だった場合
-                //LINQ用リスト
-                var AllPlayerControls = PlayerControl.AllPlayerControls.ToArray();
-                // 死んでいるプレイヤーを取得
-                PlayerControl ProtectTo = AllPlayerControls.Where(pc => !pc.IsAlive()).FirstOrDefault();
-                if (ProtectTo == null)
-                    ProtectTo = target;
-                /*{
-                    // 一番遠くのプレイヤーを取得
-                    Vector2 center = target.transform.position;
-                    ProtectTo = AllPlayerControls.OrderByDescending(pc => Vector2.Distance(center, pc.transform.position)).FirstOrDefault();
-                }*/
 
                 // 守護対象の最終確認
-                if (ProtectTo == null)
+                if (target == null)
                 {
                     Logger.Error("守護対象の取得に失敗しました", "RpcResetAbilityCooldown");
                     return;
                 }
-                Logger.Info($"守護対象: {ProtectTo.name}", "RpcResetAbilityCooldown");
+                Logger.Info($"守護対象: {target.name}", "RpcResetAbilityCooldown");
 
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
-                writer.WriteNetObject(ProtectTo);
+                writer.WriteNetObject(target);
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 //TODO:
