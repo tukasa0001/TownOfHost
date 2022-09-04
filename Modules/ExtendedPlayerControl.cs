@@ -205,15 +205,6 @@ namespace TownOfHost
             else
             {
                 //targetがホスト以外だった場合
-
-                // 守護対象の最終確認
-                if (target == null)
-                {
-                    Logger.Error("守護対象の取得に失敗しました", "RpcResetAbilityCooldown");
-                    return;
-                }
-                Logger.Info($"守護対象: {target.name}", "RpcResetAbilityCooldown");
-
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
                 writer.WriteNetObject(target);
                 writer.Write(0);
