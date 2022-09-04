@@ -22,8 +22,9 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
                 __instance.RoleChance = __instance.RoleMaxCount = 0;
-                __instance.ChanceText.text = "Disabled";
-                __instance.ChanceText.color = Color.red;
+                __instance.ChanceText.text = __instance.CountText.text = "-";
+                __instance.ChanceText.color = __instance.CountText.color = Color.red;
+                __instance.TitleText.text += " (Disabled)";
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
