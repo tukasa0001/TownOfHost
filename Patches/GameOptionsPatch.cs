@@ -21,9 +21,17 @@ namespace TownOfHost
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
-                __instance.RoleChance = __instance.RoleMaxCount = 0;
-                __instance.ChanceText.text = __instance.CountText.text = "-";
-                __instance.ChanceText.color = __instance.CountText.color = Color.red;
+                //+-ボタン, 設定値, 詳細設定ボタンを非表示
+                var tf = __instance.transform;
+                tf.Find("Count Minus_TMP").gameObject.active
+                    = tf.Find("Count Value_TMP").gameObject.active
+                    = tf.Find("Count Plus_TMP").gameObject.active
+                    = tf.Find("Chance Minus_TMP").gameObject.active
+                    = tf.Find("Chance Value_TMP").gameObject.active
+                    = tf.Find("Chance Plus_TMP").gameObject.active
+                    = tf.Find("More Options").gameObject.active
+                    = false;
+
                 __instance.TitleText.text += " (Disabled)";
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
