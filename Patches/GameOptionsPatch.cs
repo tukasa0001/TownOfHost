@@ -1,5 +1,5 @@
 using HarmonyLib;
-using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -32,7 +32,7 @@ namespace TownOfHost
                     = tf.Find("More Options").gameObject.active
                     = false;
 
-                __instance.TitleText.text += " (Disabled)";
+                __instance.TitleText.text += $" ({GetString("Disabled")})";
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.GuardianAngel);
             }
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
