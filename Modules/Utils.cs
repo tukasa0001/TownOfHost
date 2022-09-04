@@ -257,11 +257,15 @@ namespace TownOfHost
                     var taskState = PlayerState.taskState?[playerId];
                     if (taskState.hasTasks)
                     {
-                        var pc = GetPlayerById(playerId);
-                        var afterFinishingcolor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
-                        var beforeFinishingcolor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
-                        var nonCommsColor = taskState.IsTaskFinished ? afterFinishingcolor : beforeFinishingcolor;
-                        Color color = comms ? Color.gray : nonCommsColor;
+                        Color color = Color.yellow;
+                        if (GameStates.IsInGame)
+                        {
+                            var pc = GetPlayerById(playerId);
+                            var afterFinishingcolor = HasTasks(pc.Data) ? Color.green : Color.red; //タスク完了後の色
+                            var beforeFinishingcolor = HasTasks(pc.Data) ? Color.yellow : Color.white; //カウントされない人外は白色
+                            var nonCommsColor = taskState.IsTaskFinished ? afterFinishingcolor : beforeFinishingcolor;
+                            color = comms ? Color.gray : nonCommsColor;
+                        }
                         string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                         ProgressText = Helpers.ColorString(color, $"({Completed}/{taskState.AllTasksCount})");
                     }
@@ -405,13 +409,13 @@ namespace TownOfHost
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
             foreach (var id in Main.winnerList)
             {
-                text += $"\n★ " + SummaryTexts(id);
+                text += $"\n★ " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
                 cloneRoles.Remove(id);
             }
             foreach (var kvp in cloneRoles)
             {
                 var id = kvp.Key;
-                text += $"\n　 " + SummaryTexts(id);
+                text += $"\n　 " + EndGamePatch.SummaryText[id].RemoveHtmlTags();
             }
             SendMessage(text, PlayerId);
         }
