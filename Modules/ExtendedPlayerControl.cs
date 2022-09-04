@@ -181,6 +181,7 @@ namespace TownOfHost
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
+        [Obsolete]
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (AmongUsClient.Instance.AmClient)
