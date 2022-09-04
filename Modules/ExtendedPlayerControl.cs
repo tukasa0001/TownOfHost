@@ -384,6 +384,7 @@ namespace TownOfHost
             }
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
+            opt.RoleOptions.ProtectionDurationSeconds = 0f;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
