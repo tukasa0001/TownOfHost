@@ -85,6 +85,7 @@ namespace TownOfHost
             {
                 __instance.enabled = false;
                 CustomWinnerHolder.WinnerTeam = CustomWinner.None;
+                SetImpostorsToGA();
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
             }
@@ -124,7 +125,7 @@ namespace TownOfHost
 
                 CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
                 CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-
+                SetImpostorsToGA();
                 ResetRoleAndEndGame(endReason, false);
                 return true;
             }
@@ -163,6 +164,7 @@ namespace TownOfHost
                 {
                     CustomWinnerHolder.WinnerTeam = CustomWinner.HASTroll;
                     CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
+                    SetImpostorsToGA();
                     __instance.enabled = false;
                     ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                     return true;
@@ -177,6 +179,7 @@ namespace TownOfHost
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                SetImpostorsToGA();
                 return true;
             }
             return false;
@@ -227,6 +230,13 @@ namespace TownOfHost
                 }
                 writer.EndMessage();
             }, 0.5f, "EndGameTask");
+        }
+        private static void SetImpostorsToGA()
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Data.Role.IsImpostor) pc.RpcSetRole(RoleTypes.GuardianAngel);
+            }
         }
         //プレイヤー統計
         internal class PlayerStatistics

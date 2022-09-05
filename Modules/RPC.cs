@@ -335,28 +335,6 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
-        public static void CustomWinTrigger(byte winnerID)
-        {
-            List<PlayerControl> Impostors = new();
-            foreach (var p in PlayerControl.AllPlayerControls)
-            {
-                PlayerControl Winner = null;
-                if (p.PlayerId == winnerID) Winner = p;
-                if (p.Data.Role.IsImpostor)
-                {
-                    Impostors.Add(p);
-                }
-            }
-            if (AmongUsClient.Instance.AmHost)
-            {
-                foreach (var imp in Impostors)
-                {
-                    imp.RpcSetRole(RoleTypes.GuardianAngel);
-                }
-                new LateTask(() => Main.CustomWinTrigger = true,
-                0.2f, "Custom Win Trigger Task");
-            }
-        }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
             if (!Main.AmDebugger.Value) return;
