@@ -84,10 +84,7 @@ namespace TownOfHost
             if (statistics.TotalAlive <= 0)
             {
                 __instance.enabled = false;
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((int)CustomWinner.None);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.EveryoneDied();
+                CustomWinnerHolder.WinnerTeam = CustomWinner.None;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
             }
@@ -125,10 +122,8 @@ namespace TownOfHost
                     _ => GameOverReason.ImpostorByVote,
                 };
 
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Jackal);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.JackalWin();
+                CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
+                CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;
