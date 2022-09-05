@@ -209,7 +209,28 @@ namespace TownOfHost
             }
             new LateTask(() =>
             {
-                ShipStatus.RpcEndGame(reason, showAd);
+                MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+                // CustomWinnerHolderの情報送信
+                writer.StartMessage(5); //GameData
+                {
+                    writer.StartMessage(2); //RPC
+                    {
+                        writer.WritePacked(PlayerControl.LocalPlayer.NetId);
+                        writer.Write((byte)CustomRPC.EndGame);
+                        CustomWinnerHolder.WriteTo(writer);
+                    }
+                    writer.EndMessage();
+                }
+                writer.EndMessage();
+
+                // AmongUs側のゲーム終了RPC
+                writer.StartMessage(8);
+                {
+                    writer.Write(AmongUsClient.Instance.GameId); //ここまでStartEndGameの内容
+                    writer.Write((byte)reason);
+                    writer.Write(showAd);
+                }
+                writer.EndMessage();
             }, 0.5f, "EndGameTask");
         }
         //プレイヤー統計
