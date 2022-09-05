@@ -390,6 +390,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
                     break;
+                case CustomRoles.EvilTracker:
+                    EvilTracker.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
         }

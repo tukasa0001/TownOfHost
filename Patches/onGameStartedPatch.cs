@@ -366,7 +366,7 @@ namespace TownOfHost
                             SabotageMaster.Add(pc.PlayerId);
                             break;
                         case CustomRoles.EvilTracker:
-                            EvilTracker.Add(pc);
+                            EvilTracker.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();
