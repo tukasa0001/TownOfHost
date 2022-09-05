@@ -4,6 +4,7 @@ using System.Linq;
 using Hazel;
 using InnerNet;
 using UnityEngine;
+using HarmonyLib;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -181,6 +182,7 @@ namespace TownOfHost
             messageWriter.WriteNetObject(target);
             AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
+        [Obsolete]
         public static void RpcSpecificProtectPlayer(this PlayerControl killer, PlayerControl target = null, int colorId = 0)
         {
             if (AmongUsClient.Instance.AmClient)
@@ -205,13 +207,16 @@ namespace TownOfHost
             {
                 //targetがホスト以外だった場合
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
-                writer.Write(0); //writer.WriteNetObject(null); と同じ
+                writer.WriteNetObject(target);
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
-            /*  nullにバリアを張ろうとすると、アビリティーのクールダウンがリセットされてからnull参照で中断されます。
-                ホストに対しての場合、RPCを介さず直接クールダウンを書き換えています。
-                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。*/
+            /*
+                プレイヤーがバリアを張ったとき、そのプレイヤーの役職に関わらずアビリティーのクールダウンがリセットされます。
+                ログの追加により無にバリアを張ることができなくなったため、代わりに自身に0秒バリアを張るように変更しました。
+                この変更により、役職としての守護天使が無効化されます。
+                ホストのクールダウンは直接リセットします。
+            */
         }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
@@ -367,6 +372,7 @@ namespace TownOfHost
             }
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
+            opt.RoleOptions.ProtectionDurationSeconds = 0f;
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);
@@ -668,6 +674,19 @@ namespace TownOfHost
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
                 CustomRoles.Jackal;
+        }
+        public static void ChangeExecutionerRole(this PlayerControl target)
+        {
+            byte Executioner = 0x73;
+            Main.ExecutionerTarget.Do(x =>
+            {
+                if (x.Value == target.PlayerId)
+                    Executioner = x.Key;
+            });
+            Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
+            Main.ExecutionerTarget.Remove(Executioner);
+            RPC.RemoveExecutionerKey(Executioner);
+            Utils.NotifyRoles();
         }
 
         //汎用
