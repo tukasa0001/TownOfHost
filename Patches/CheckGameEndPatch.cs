@@ -229,6 +229,8 @@ namespace TownOfHost
                     writer.Write(showAd);
                 }
                 writer.EndMessage();
+
+                AmongUsClient.Instance.SendOrDisconnect(writer);
             }, 0.5f, "EndGameTask");
         }
         private static void SetImpostorsToGA()
