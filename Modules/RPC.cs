@@ -31,6 +31,8 @@ namespace TownOfHost
         RemoveExecutionerTarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
+        SetEvilTrackerTarget,
+        RemoveEvilTrackerTarget,
     }
     public enum Sounds
     {
@@ -185,6 +187,14 @@ namespace TownOfHost
                     byte dousingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == arsonistId)
                         Main.currentDousingTarget = dousingTargetId;
+                    break;
+                case CustomRPC.SetEvilTrackerTarget:
+                    byte TrackerId = reader.ReadByte();
+                    byte TargetId = reader.ReadByte();
+                    EvilTracker.RPCSetTarget(TrackerId, TargetId);
+                    break;
+                case CustomRPC.RemoveEvilTrackerTarget:
+                    EvilTracker.RPCRemoveTarget(reader);
                     break;
             }
         }
