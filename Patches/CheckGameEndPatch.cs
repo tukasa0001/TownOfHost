@@ -211,6 +211,7 @@ namespace TownOfHost
                 // CustomWinnerHolderの情報送信
                 writer.StartMessage(5); //GameData
                 {
+                    writer.Write(AmongUsClient.Instance.GameId);
                     writer.StartMessage(2); //RPC
                     {
                         writer.WritePacked(PlayerControl.LocalPlayer.NetId);
