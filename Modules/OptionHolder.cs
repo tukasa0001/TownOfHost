@@ -100,6 +100,7 @@ namespace TownOfHost
         public static CustomOption CanBeforeSchrodingerCatWinTheCrewmate;
         public static CustomOption SchrodingerCatExiledTeamChanges;
         public static CustomOption ExecutionerCanTargetImpostor;
+        public static CustomOption ExecutionerCanTargetNeutralKiller;
         public static CustomOption ExecutionerChangeRolesAfterTargetKilled;
         public static CustomOption JackalKillCooldown;
         public static CustomOption JackalCanVent;
@@ -350,6 +351,7 @@ namespace TownOfHost
             Egoist.SetupCustomOption();
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
+            ExecutionerCanTargetNeutralKiller = CustomOption.Create(50712, Color.white, "ExecutionerCanTargetNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
             //Jackalは1人固定
             SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1);
