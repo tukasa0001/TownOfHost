@@ -254,9 +254,9 @@ namespace TownOfHost
             try
             {
                 List<byte> winner = new();
-                Main.currentWinner = (CustomWinner)reader.ReadInt32();
+                CustomWinnerHolder.WinnerTeam = (CustomWinner)reader.ReadInt32();
                 while (reader.BytesRemaining > 0) winner.Add(reader.ReadByte());
-                switch (Main.currentWinner)
+                switch (CustomWinnerHolder.WinnerTeam)
                 {
                     case CustomWinner.Draw:
                         ForceEndGame();
@@ -284,8 +284,8 @@ namespace TownOfHost
                         break;
 
                     default:
-                        if (Main.currentWinner != CustomWinner.Default)
-                            Logger.Warn($"{Main.currentWinner}は無効なCustomWinnerです", "EndGame");
+                        if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
+                            Logger.Warn($"{CustomWinnerHolder.WinnerTeam}は無効なCustomWinnerです", "EndGame");
                         break;
                 }
             }
@@ -297,47 +297,47 @@ namespace TownOfHost
         public static void TrollWin(byte trollID)
         {
             Main.WonTrollID = trollID;
-            Main.currentWinner = CustomWinner.HASTroll;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.HASTroll;
             CustomWinTrigger(trollID);
         }
         public static void JesterExiled(byte jesterID)
         {
             Main.ExiledJesterID = jesterID;
-            Main.currentWinner = CustomWinner.Jester;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
             CustomWinTrigger(jesterID);
         }
         public static void TerroristWin(byte terroristID)
         {
             Main.WonTerroristID = terroristID;
-            Main.currentWinner = CustomWinner.Terrorist;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Terrorist;
             CustomWinTrigger(terroristID);
         }
         public static void ExecutionerWin(byte executionerID)
         {
             Main.WonExecutionerID = executionerID;
-            Main.currentWinner = CustomWinner.Executioner;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
             CustomWinTrigger(executionerID);
         }
         public static void ArsonistWin(byte arsonistID)
         {
             Main.WonArsonistID = arsonistID;
-            Main.currentWinner = CustomWinner.Arsonist;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
         }
         public static void JackalWin()
         {
-            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Jackal;
             CustomWinTrigger(0);
         }
         public static void EveryoneDied()
         {
-            Main.currentWinner = CustomWinner.None;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.None;
             CustomWinTrigger(0);
         }
         public static void ForceEndGame()
         {
             if (ShipStatus.Instance == null) return;
-            Main.currentWinner = CustomWinner.Draw;
+            CustomWinnerHolder.WinnerTeam = CustomWinner.Draw;
             if (AmongUsClient.Instance.AmHost)
             {
                 ShipStatus.Instance.enabled = false;

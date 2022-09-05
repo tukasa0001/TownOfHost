@@ -18,7 +18,7 @@ namespace TownOfHost
             if (CheckAndEndGameForTerrorist(__instance)) return false;
             if (CheckAndEndGameForExecutioner(__instance)) return false;
             if (CheckAndEndGameForArsonist(__instance)) return false;
-            if (Main.currentWinner == CustomWinner.Default)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
             {
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -184,7 +184,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForJester(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Jester && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Jester && Main.CustomWinTrigger)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -194,7 +194,7 @@ namespace TownOfHost
         }
         private static bool CheckAndEndGameForTerrorist(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Terrorist && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Terrorist && Main.CustomWinTrigger)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -204,7 +204,7 @@ namespace TownOfHost
         }
         private static bool CheckAndEndGameForExecutioner(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Executioner && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Executioner && Main.CustomWinTrigger)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -214,7 +214,7 @@ namespace TownOfHost
         }
         private static bool CheckAndEndGameForArsonist(ShipStatus __instance)
         {
-            if (Main.currentWinner == CustomWinner.Arsonist && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist && Main.CustomWinTrigger)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
@@ -236,8 +236,8 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
-                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
+                    (!(CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
+                    (CustomWinnerHolder.WinnerTeam != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) ||
                     LoseImpostorRole)
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
