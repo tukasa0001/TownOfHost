@@ -14,10 +14,7 @@ namespace TownOfHost
             var statistics = new PlayerStatistics(__instance);
             if (Options.NoGameEnd.GetBool()) return false;
 
-            if (CheckAndEndGameForJester(__instance)) return false;
-            if (CheckAndEndGameForTerrorist(__instance)) return false;
-            if (CheckAndEndGameForExecutioner(__instance)) return false;
-            if (CheckAndEndGameForArsonist(__instance)) return false;
+            if (CheckAndEndGameForSoloWin(__instance)) return false;
             if (CustomWinnerHolder.WinnerTeam == CustomWinner.Default)
             {
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -179,39 +176,9 @@ namespace TownOfHost
             return false;
         }
 
-        private static bool CheckAndEndGameForJester(ShipStatus __instance)
+        private static bool CheckAndEndGameForSoloWin(ShipStatus __instance)
         {
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Jester && Main.CustomWinTrigger)
-            {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                return true;
-            }
-            return false;
-        }
-        private static bool CheckAndEndGameForTerrorist(ShipStatus __instance)
-        {
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Terrorist && Main.CustomWinTrigger)
-            {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                return true;
-            }
-            return false;
-        }
-        private static bool CheckAndEndGameForExecutioner(ShipStatus __instance)
-        {
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Executioner && Main.CustomWinTrigger)
-            {
-                __instance.enabled = false;
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
-                return true;
-            }
-            return false;
-        }
-        private static bool CheckAndEndGameForArsonist(ShipStatus __instance)
-        {
-            if (CustomWinnerHolder.WinnerTeam == CustomWinner.Arsonist && Main.CustomWinTrigger)
+            if (CustomWinnerHolder.WinnerTeam != CustomWinner.Default)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
