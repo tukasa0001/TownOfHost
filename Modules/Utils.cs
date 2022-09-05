@@ -679,6 +679,8 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || seer.Is(CustomRoles.Egoist) //seerがエゴイスト
+                    || seer.Is(CustomRoles.Jackal) //seerがジャッカル
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
                     || ForceLoop
