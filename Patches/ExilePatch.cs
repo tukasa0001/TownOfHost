@@ -56,11 +56,8 @@ namespace TownOfHost
                 var role = exiled.GetCustomRole();
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Jester);
-                    writer.Write(exiled.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.JesterExiled(exiled.PlayerId);
+                    CustomWinnerHolder.WinnerTeam = CustomWinner.Jester;
+                    CustomWinnerHolder.WinnerIds.Add(exiled.PlayerId);
                     DecidedWinner = true;
                 }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
@@ -76,12 +73,8 @@ namespace TownOfHost
                     if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                     {
                         //RPC送信開始
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                        writer.Write((byte)CustomWinner.Executioner);
-                        writer.Write(kvp.Key);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
-
-                        RPC.ExecutionerWin(kvp.Key);
+                        CustomWinnerHolder.WinnerTeam = CustomWinner.Executioner;
+                        CustomWinnerHolder.WinnerIds.Add(kvp.Key);
                     }
                 }
                 if (exiled.Object.Is(CustomRoles.TimeThief))

@@ -464,11 +464,8 @@ namespace TownOfHost
                         PlayerState.SetDead(pc.PlayerId);
                     }
                 }
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Terrorist);
-                writer.Write(Terrorist.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.TerroristWin(Terrorist.PlayerId);
+                CustomWinnerHolder.WinnerTeam = CustomWinner.Terrorist;
+                CustomWinnerHolder.WinnerIds.Add(Terrorist.PlayerId);
             }
         }
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
