@@ -253,12 +253,10 @@ namespace TownOfHost
         {
             try
             {
-                Logger.SendInGame("EndGame受信");
                 CustomWinnerHolder.ReadFrom(reader);
             }
             catch (Exception ex)
             {
-                Logger.SendInGame($"正常にEndGameを行えませんでした。{ex}");
                 Logger.Error($"正常にEndGameを行えませんでした。{ex}", "EndGame");
             }
         }
