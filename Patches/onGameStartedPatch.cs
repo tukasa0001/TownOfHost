@@ -48,6 +48,8 @@ namespace TownOfHost
 
             Main.introDestroyed = false;
 
+            AirshipRandomSpawnPatch.NumOfTP = new();
+
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
             Main.DefaultCrewmateVision = Main.RealOptionsData.CrewLightMod;
@@ -77,6 +79,8 @@ namespace TownOfHost
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
+
+                AirshipRandomSpawnPatch.NumOfTP.Add(pc.PlayerId, 0);
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)

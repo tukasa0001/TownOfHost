@@ -443,6 +443,11 @@ namespace TownOfHost
                 text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
             }
             if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
+            if (Options.AirshipRandomSpawn.GetBool())
+            {
+                text += String.Format("\n{0}:{1}", GetString("AirshipRandomSpawn"), GetOnOff(Options.AirshipRandomSpawn.GetBool()));
+                text += String.Format("\n{0}:{1}", GetString("AirshipAdditionalSpawn"), GetOnOff(Options.AirshipAdditionalSpawn.GetBool()));
+            }
             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
             SendMessage(text, PlayerId);
         }
