@@ -510,15 +510,15 @@ Opening a door in Polus or The Airship will open all the linked doors.<br>
 ### Seer
 
 Team : Crewmates<br>
-Decision : Crewmate<br>
+Basis : Crewmate<br>
 
-Seer can see when someone dies.<br>
-For an instant, your vision turns total darkness and Reactor is alerted only to you unless on Reactor (named "Kill Flash").<br>
-There is a setting to slightly adjust Kill Flash duration.<br>
+Seers can see when someone dies.<br>
+For an instant, their vision turns totally dark and there goes Reactor alert only to them unless on Reactor (named "Kill Flash").<br>
+There is a option to slightly adjust Kill Flash duration.<br>
 
-#### Settings
+#### Game Options
 
-| Common Settings        |
+| Common Options         |
 | ---------------------- |
 | Kill Flash Duration(s) |
 
