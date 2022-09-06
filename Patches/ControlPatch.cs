@@ -160,6 +160,9 @@ namespace TownOfHost
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
+            //現在の座標を取得
+            if (Input.GetKeyDown(KeyCode.I))
+                Logger.Info(PlayerControl.LocalPlayer.GetTruePosition().ToString(), "GetLocalPlayerPos");
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
             {

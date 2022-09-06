@@ -47,6 +47,8 @@ namespace TownOfHost
 
             Main.introDestroyed = false;
 
+            AirshipRandomSpawnPatch.NumOfTP = new();
+
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
 
@@ -74,6 +76,8 @@ namespace TownOfHost
                 Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
                 Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
                 pc.cosmetics.nameText.text = pc.name;
+
+                AirshipRandomSpawnPatch.NumOfTP.Add(pc.PlayerId, 0);
             }
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
@@ -333,7 +337,7 @@ namespace TownOfHost
                                 Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Executioner:
-                            Executioner.Add(pc);
+                            Executioner.Add(pc.PlayerId);
                             break;
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
@@ -416,13 +420,9 @@ namespace TownOfHost
                         if (pc == player) continue;
                         sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
                     }
-                    //他視点でDesyncする人の役職を科学者にするループ
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
-                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
-                    }
+                    //他視点でDesyncする人の役職を科学者にする
+                    player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                    sender.RpcSetRole(player, RoleTypes.Scientist);
                 }
                 else
                 {

@@ -134,9 +134,14 @@ namespace TownOfHost
         public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
+        public static CustomOption WhenTie;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
+        };
+        public static readonly string[] tieModes =
+        {
+            "TieMode.Default", "TieMode.All", "TieMode.Random"
         };
         public static VoteMode GetWhenSkipVote() => (VoteMode)WhenSkipVote.GetSelection();
         public static VoteMode GetWhenNonVote() => (VoteMode)WhenNonVote.GetSelection();
@@ -174,6 +179,8 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption GhostIgnoreTasks;
         public static CustomOption HideGameSettings;
+        public static CustomOption AirshipRandomSpawn;
+        public static CustomOption AirshipAdditionalSpawn;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -233,7 +240,7 @@ namespace TownOfHost
 
         public static float GetRoleChance(CustomRoles role)
         {
-            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection() / 10f : roleSpawnChances[role];
+            return CustomRoleSpawnChances.TryGetValue(role, out var option) ? option.GetSelection()/* / 10f */ : roleSpawnChances[role];
         }
         public static void Load()
         {
@@ -412,12 +419,19 @@ namespace TownOfHost
             // MapDleks = CustomOption.Create(100405, Color.white, "AddedDleks", false, RandomMapMode)
             //     .SetGameMode(CustomGameMode.All);
 
+            AirshipRandomSpawn = CustomOption.Create(101300, Color.white, "AirshipRandomSpawn", false, isHeader: true)
+                .SetGameMode(CustomGameMode.All);
+            AirshipAdditionalSpawn = CustomOption.Create(101301, Color.white, "AirshipAdditionalSpawn", false, AirshipRandomSpawn)
+                .SetGameMode(CustomGameMode.All);
+
             // 投票モード
             VoteMode = CustomOption.Create(100500, Color.white, "VoteMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             WhenSkipVote = CustomOption.Create(100501, Color.white, "WhenSkipVote", voteModes[0..3], voteModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
             WhenNonVote = CustomOption.Create(100502, Color.white, "WhenNonVote", voteModes, voteModes[0], VoteMode)
+                .SetGameMode(CustomGameMode.Standard);
+            WhenTie = CustomOption.Create(100503, Color.white, "WhenTie", tieModes, tieModes[0], VoteMode)
                 .SetGameMode(CustomGameMode.Standard);
 
             // 全員生存時の会議時間

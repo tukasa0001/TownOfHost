@@ -408,4 +408,11 @@ namespace TownOfHost
         SelfVote,
         Skip
     }
+
+    public enum TieMode
+    {
+        Default,
+        All,
+        Random
+    }
 }
