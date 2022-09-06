@@ -101,7 +101,6 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
-        public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
         /// <summary>
         /// Key: ターゲットのPlayerId, Value: パペッティアのPlayerId
         /// </summary>
@@ -118,7 +117,6 @@ namespace TownOfHost
         public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
-        public static byte WonExecutionerID;
         public static byte WonArsonistID;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
@@ -162,7 +160,6 @@ namespace TownOfHost
             SpelledPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             winnerList = new();
             VisibleTasksCount = false;
