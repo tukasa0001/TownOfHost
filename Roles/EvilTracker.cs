@@ -37,17 +37,27 @@ namespace TownOfHost
         {
             return playerIdList.Count > 0;
         }
-        public static void RPCSetTarget(byte trackerId, byte targetId)
+        public static void RPCSetTarget(byte trackerId, int targetId)
         {
-            var target = Utils.GetPlayerById(targetId);
-            if (target != null) Target[trackerId] = target;
+            switch (targetId)
+            {
+                case -2:
+                    CanSetTarget[trackerId] = true;
+                    return;
+                case -1:
+                    Target.Remove(trackerId);
+                    return;
+                default:
+                    var target = Utils.GetPlayerById(targetId);
+                    if (target != null)
+                    {
+                        Target[trackerId] = target;
+                        CanSetTarget[trackerId] = false;
+                    }
+                    return;
+            }
         }
 
-        public static void RPCRemoveTarget(MessageReader reader)
-        {
-            byte TrackerId = reader.ReadByte();
-            Target.Remove(TrackerId);
-        }
         public static void ApplyGameOptions(GameOptionsData opt)
         {
             opt.RoleOptions.ShapeshifterCooldown = 5f;
@@ -62,8 +72,9 @@ namespace TownOfHost
         }
         public static void SendRemoveTarget(byte EvilTrackerId)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
             writer.Write(EvilTrackerId);
+            writer.Write(-1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static PlayerControl GetTarget(this PlayerControl player)
@@ -154,9 +165,15 @@ namespace TownOfHost
             }
             return Suffix;
         }
-        public static void SetMarker(PlayerControl pc)
+        public static void EnableResetTargetAfterMeeting(PlayerControl pc)
         {
-            if (CanResetTargetAfterMeeting.GetBool()) CanSetTarget[pc.PlayerId] = true;
+            if (!CanResetTargetAfterMeeting.GetBool()) return;
+            CanSetTarget[pc.PlayerId] = true;
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetEvilTrackerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(pc.PlayerId);
+            writer.Write(-2);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void Shapeshift(PlayerControl shapeshifter, PlayerControl target, bool shapeshifting)
         {
